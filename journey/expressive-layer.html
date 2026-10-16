@@ -17,9 +17,9 @@
 .jr-h3,.jr-stage-title b{letter-spacing:0;color:var(--x-ink)}
 /* Color-blocked stages: each stage keeps its own pastel, so the five steps read at a glance */
 .jr-stage{border:none;box-shadow:none}
-.jr-stage:nth-of-type(5n+1){background:var(--x-mint)}.jr-stage:nth-of-type(5n+2){background:var(--x-peach)}
-.jr-stage:nth-of-type(5n+3){background:var(--x-butter)}.jr-stage:nth-of-type(5n+4){background:var(--x-blush)}
-.jr-stage:nth-of-type(5n+5){background:var(--x-mint)}
+.jr-stage[data-i="0"]{background:var(--x-mint)}.jr-stage[data-i="1"]{background:var(--x-peach)}
+.jr-stage[data-i="2"]{background:var(--x-butter)}.jr-stage[data-i="3"]{background:var(--x-blush)}
+.jr-stage[data-i="4"]{background:var(--x-mint)}
 .jr-stage .jr-card{background:var(--surface)}
 .jr-stage-head{position:relative}
 .x-art{width:52px;height:52px;flex:0 0 auto;margin:-6px -4px -6px auto}
@@ -37,6 +37,13 @@
 /* Gold marks the moments worth celebrating: done steps and the progress you've made */
 .jr-stage.is-done .jr-num{background:var(--x-gold);color:#3D2A00}
 .jr-progress i.on{background:var(--x-gold)}
+/* Pages layout: gold for done steps and the line up to them, ink for where you are */
+.jr-stepper .is-done .jr-num{background:var(--x-gold);color:#3D2A00}
+.jr-stepper li.is-done+li::before{background:var(--x-gold)}
+.jr-stepper .is-current .jr-num{background:var(--x-ink);color:var(--bg)}
+.jr-stepper .is-viewing .jr-num{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--x-ink)}
+.jr-step-l{font-family:"Fredoka","Arial Rounded MT Bold",ui-rounded,sans-serif;font-weight:600;font-size:.75rem}
+.jr-pg{color:var(--x-ink)}
 /* Tab bar: white sheet, mint pill + ink icon on the active tab */
 .tabbar{border-radius:1.625rem 1.625rem 0 0;box-shadow:0 -8px 24px rgba(27,67,50,.08)}
 .tab[aria-current="page"]{color:var(--x-ink)}
@@ -53,8 +60,8 @@
   const ART = ["art-dog", "art-walk", "art-home", "art-camera", "art-ball"];
   fetch("redesign/art.svg").then((r) => r.text()).then((svg) => {
     document.body.insertAdjacentHTML("afterbegin", svg);
-    const add = () => document.querySelectorAll(".jr-stage").forEach((st, i) => {
-      const head = st.querySelector(".jr-stage-head");
+    const add = () => document.querySelectorAll(".jr-stage").forEach((st, k) => {
+      const head = st.querySelector(".jr-stage-head"), i = st.dataset.i != null ? Number(st.dataset.i) : k;
       if (!head || head.querySelector(".x-art")) return;
       head.insertAdjacentHTML("beforeend", `<svg class="x-art" aria-hidden="true"><use href="#${ART[i % ART.length]}"/></svg>`);
     });

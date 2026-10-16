@@ -38,6 +38,18 @@ const Journey = (() => {
 
   let A = null; // adapter
   let J = null; // journey state
+  // Stay layout, a variation to compare (not a replacement): "sections" stacks the five stages with the current one open;
+  // "pages" puts a stepper on top and shows one stage per page. ?stay=pages|sections wins, then this browser's last choice.
+  let LAYOUT = (() => {
+    const q = new URLSearchParams(location.search).get("stay");
+    if (q === "pages" || q === "sections") return q;
+    try { return localStorage.getItem("goldito-stay-layout") === "pages" ? "pages" : "sections"; } catch (e) { return "sections"; }
+  })();
+  function setLayout(l) {
+    LAYOUT = l === "pages" ? "pages" : "sections";
+    try { localStorage.setItem("goldito-stay-layout", LAYOUT); } catch (e) {}
+    if (J) { J.view = null; render(); }
+  }
   let tripTimer = null, codeTimer = null;
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
@@ -123,19 +135,50 @@ const Journey = (() => {
       <div class="jr-head">
         <span class="jr-eyebrow">${J.returning ? "Next stay · " : ""}Thanksgiving · ${range()}</span>
         <h1 class="jr-title">${esc(n)}'s stay with ${SITTER}</h1>
-        <p class="jr-sub">${done ? `Stay complete. Everything ${SITTER} learned is saved for next time.` : J.stage === 0 ? "Five steps from the first question to the ride home." : `Step ${J.stage + 1} of 5 · ${STAGES[J.stage].title}`}</p>
+        ${LAYOUT === "pages" && J.stage > 0 && !done ? "" : `<p class="jr-sub">${done ? `Stay complete. Everything ${SITTER} learned is saved for next time.` : J.stage === 0 ? "Five steps from the first question to the ride home." : `Step ${J.stage + 1} of 5 · ${STAGES[J.stage].title}`}</p>`}
       </div>
-      ${STAGES.map((s, i) => {
-        const cls = i < J.stage || (J.complete && i === 4) ? "is-done" : i === J.stage ? "is-current" : "is-future";
-        return `<section class="jr-stage ${cls}" data-testid="jr-stage-${s.key}" aria-current="${i === J.stage ? "step" : "false"}">
-          <div class="jr-stage-head"><span class="jr-num" aria-hidden="true">${cls === "is-done" ? "✓" : i + 1}</span>
-            <span class="jr-stage-title"><b>${s.title}</b><span>${cls === "is-done" ? esc(stageSummary(i)) : s.when}</span></span></div>
-          ${i === J.stage ? `<div class="jr-stage-body">${[inquiry, meet, booking, care, completion][i]()}</div>` : ""}
-        </section>`;
-      }).join("")}
+      ${LAYOUT === "pages" ? pages() : STAGES.map((s, i) => stageCard(i)).join("")}
     </div>`;
+    J.dir = null;
     renderGates();
     if (["driving", "arrived"].includes(J.trip.phase) || ["driving", "arrived"].includes(J.home.phase)) placeCar();
+  }
+
+  const stageCls = (i) => (i < J.stage || (J.complete && i === 4) ? "is-done" : i === J.stage ? "is-current" : "is-future");
+  // One stage as a card: header (number, title, when or summary) and, for the current stage, its body.
+  function stageCard(i, extra = "") {
+    const s = STAGES[i], cls = stageCls(i);
+    return `<section class="jr-stage ${cls}${extra}" data-i="${i}" data-testid="jr-stage-${s.key}" aria-current="${i === J.stage ? "step" : "false"}">
+      <div class="jr-stage-head"><span class="jr-num" aria-hidden="true">${cls === "is-done" ? "✓" : i + 1}</span>
+        <span class="jr-stage-title"><b>${s.title}</b><span>${cls === "is-done" ? esc(stageSummary(i)) : s.when}</span></span></div>
+      ${i === J.stage ? `<div class="jr-stage-body">${[inquiry, meet, booking, care, completion][i]()}</div>` : ""}
+    </section>`;
+  }
+  // "Pages" layout: a stepper on top (done steps open their page, future ones wait), then one stage per page.
+  // Done pages are read-only recaps; the current page is the live stage, as in the sections layout.
+  const SHORT = ["Inquiry", "Meet", "Booking", "Care", "Home"];
+  function pages() {
+    const cur = Math.min(J.stage, 4), v = J.view == null || J.view >= cur ? cur : J.view;
+    const anim = J.dir && !reduce() ? ` jr-in-${J.dir}` : "";
+    const steps = STAGES.map((s, i) => {
+      const cls = stageCls(i), inner = `<span class="jr-num" aria-hidden="true">${cls === "is-done" ? "✓" : i + 1}</span><span class="jr-step-l">${SHORT[i]}</span>`;
+      const label = `${s.title}, ${cls === "is-done" ? "done" : cls === "is-current" ? "now" : "not yet"}`;
+      return `<li class="${cls}${i === v ? " is-viewing" : ""}"><button type="button" class="jr-step" data-jr="view-stage" data-v="${i}" aria-label="${label}"${i === v ? ' aria-current="page"' : ""}${cls === "is-future" ? " disabled" : ""}>${inner}</button></li>`;
+    }).join("");
+    let page;
+    if (v === cur) page = stageCard(cur, ` jr-page${anim}`);
+    else {
+      const s = STAGES[v];
+      page = `<section class="jr-stage is-done jr-page jr-recap${anim}" data-i="${v}" data-testid="jr-recap-${s.key}">
+        <div class="jr-stage-head"><span class="jr-num" aria-hidden="true">✓</span><span class="jr-stage-title"><b>${s.title}</b><span>${s.when} · done</span></span></div>
+        <div class="jr-stage-body"><p class="jr-recap-line">${esc(stageSummary(v))}</p>
+          <button type="button" class="btn btn-primary" data-jr="view-stage" data-v="${cur}">Back to ${STAGES[cur].title}</button></div>
+      </section>`;
+    }
+    const pager = `<div class="jr-pager"><button type="button" class="jr-pg" data-jr="view-stage" data-v="${v - 1}"${v === 0 ? " disabled" : ""} aria-label="Previous step">‹ ${v > 0 ? SHORT[v - 1] : ""}</button>
+      <span class="jr-pg-n">${v + 1} of 5</span>
+      <button type="button" class="jr-pg" data-jr="view-stage" data-v="${v + 1}"${v >= cur ? " disabled" : ""} aria-label="Next step">${v < cur ? SHORT[v + 1] : ""} ›</button></div>`;
+    return `<nav class="jr-stepper" aria-label="Stay steps"><ol>${steps}</ol></nav>${page}${v < cur ? pager : ""}`;
   }
 
   // The other person's screen, shown inline so the owner sees what Chloe sees (README: "the sitter taps Send").
@@ -505,7 +548,7 @@ const Journey = (() => {
 
   // ---------- actions ----------
   function finishStage(kind) {
-    J.stage += 1;
+    J.stage += 1; J.view = null; J.dir = "fwd";
     render();
     const doneNums = A.stayMount.querySelectorAll(".is-done .jr-num");
     A.celebrate(kind, doneNums[doneNums.length - 1] || A.stayMount);
@@ -638,6 +681,15 @@ const Journey = (() => {
         }, reduce() ? 300 : 1500);
         return;
       case "again": J = Object.assign(fresh(true), {notes: J.notes, unlocked: false}); break;
+      case "view-stage": { // Pages layout: open a done step's recap, or go back to the live one
+        const cur = Math.min(J.stage, 4), to = Math.max(0, Math.min(cur, Number(v))), from = J.view == null ? cur : J.view;
+        if (to === from) return;
+        J.dir = to < from ? "back" : "fwd"; J.view = to >= cur ? null : to;
+        render();
+        const top = A.stayMount.querySelector(".jr-stepper");
+        if (top) top.scrollIntoView({block: "nearest", behavior: reduce() ? "auto" : "smooth"});
+        return;
+      }
       case "zoom": { const t = J.stage === 3 ? s.trip : s.home; t.zoom = Math.min(1.6, Math.max(1, t.zoom + Number(v) * 0.3));
         const svg = document.getElementById("jrMapSvg"); if (svg) svg.style.transform = `scale(${t.zoom})`; return; }
       case "close-sheet": document.getElementById("jrOverlay").hidden = true; return;
@@ -741,8 +793,18 @@ const Journey = (() => {
       const j = document.createElement("div");
       j.id = "jrJump"; j.className = "jr-jump jr";
       j.innerHTML = `<span class="jr-label">Testing: jump to a stage</span><div class="jr-chips">${["① Inquiry", "② Meet & Greet", "③ Booking", "④ Pick-up trip", "④ Care in progress", "⑤ Completion"]
-        .map((t, i) => `<button type="button" class="chip" data-jump="${[0, 1, 2, 3, "care", 4][i]}">${t}</button>`).join("")}</div>`;
+        .map((t, i) => `<button type="button" class="chip" data-jump="${[0, 1, 2, 3, "care", 4][i]}">${t}</button>`).join("")}</div>
+        <span class="jr-label">Stay layout</span><div class="jr-chips" id="jrLayout">${[["sections", "Sections"], ["pages", "Pages with stepper"]]
+        .map(([k, l]) => `<button type="button" class="chip${LAYOUT === k ? " active" : ""}" data-layout="${k}" aria-pressed="${LAYOUT === k}">${l}</button>`).join("")}</div>`;
       j.addEventListener("click", (e) => {
+        const l = e.target.closest("[data-layout]");
+        if (l) {
+          setLayout(l.dataset.layout);
+          j.querySelectorAll("[data-layout]").forEach((b) => { const on = b === l; b.classList.toggle("active", on); b.setAttribute("aria-pressed", String(on)); });
+          if (A.closeNotes) A.closeNotes();
+          A.goTab("stay");
+          return;
+        }
         const c = e.target.closest("[data-jump]");
         if (!c) return;
         jumpTo(c.dataset.jump);
@@ -798,5 +860,5 @@ const Journey = (() => {
 
   function reset() { clearInterval(tripTimer); clearTimeout(codeTimer); J = fresh(false); render(); }
 
-  return {init, reset, render, cat, feedFilter, configure, jump, isUnlocked: () => !!(J && J.unlocked), stage: () => (J ? J.stage : 0)};
+  return {init, reset, render, cat, feedFilter, configure, jump, setLayout, layout: () => LAYOUT, isUnlocked: () => !!(J && J.unlocked), stage: () => (J ? J.stage : 0)};
 })();

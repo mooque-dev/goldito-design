@@ -37,6 +37,7 @@
   .bar h1.followed{animation:followed 1.2s ease-out}
   @keyframes followed{0%{background:var(--color-accent)}100%{background:transparent}}
   @media (prefers-reduced-motion: reduce){.bar h1.followed{animation:none}}
+  .seg[hidden]{display:none}
   .seg{display:inline-flex;padding:3px;gap:2px;background:var(--color-track);border-radius:var(--radius-md)}
   .seg button{border:0;background:none;min-height:38px;padding:0 .75rem;border-radius:calc(var(--radius-md) - 3px);font-weight:600;color:var(--color-text-muted);cursor:pointer;white-space:nowrap}
   .seg button[aria-pressed="true"]{background:var(--color-surface);color:var(--color-text);box-shadow:0 0 0 1px var(--color-border)}
@@ -98,6 +99,7 @@
     <div class="bar">
       <h1 id="title">Owner · Home</h1>
       <div class="seg" id="looks" role="group" aria-label="Our look"></div>
+      <div class="seg" id="layout" role="group" aria-label="Stay layout" hidden></div>
       <button type="button" class="btn2" id="restart" data-tip="Reload the Draft from the start of this screen" data-tip-ko="이 화면 처음부터 초안을 다시 불러와요"><span class="en">↻ Restart</span><span class="ko">↻ 처음부터</span></button>
       <a class="btn2" id="full" target="_blank" rel="noopener" data-tip="Open this look on its own page, full size" data-tip-ko="이 룩을 단독 페이지에서 크게 열어요">Open full page ↗</a>
     </div>
@@ -126,6 +128,8 @@
   };
   let cur = S[0], look = PRIMARY, run = Date.now();
   const store = { get(k, d) { try { return localStorage.getItem(k) || d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  // The stay's layout variation (journey.js): sections (default) or pages with a stepper on top.
+  let layout = store.get("goldito-stay-layout", "sections") === "pages" ? "pages" : "sections";
 
   // ---------- list ----------
   function lists() {
@@ -143,7 +147,7 @@
     ? `steps.html${fresh ? `?embed=1&r=${run}` : ""}#${cur.ours.flow}`
     : cur.ours.kind === "tab"
     ? `redesign/app.html?skin=${l.k}${fresh ? `&r=${run}` : ""}#${cur.ours.id}`
-    : `${l.journey}${fresh ? `?r=${run}` : ""}${cur.ours.hash ? "#" + cur.ours.hash : ""}`;
+    : `${l.journey}?stay=${layout}${fresh ? `&r=${run}` : ""}${cur.ours.hash ? "#" + cur.ours.hash : ""}`;
   const ICON = {
     built: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
     none: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12h8M12 8v8"/></svg>',
@@ -219,6 +223,10 @@
     chrome();
     $("#looks").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.look === look)));
     $("#looks").hidden = cur.ours.kind === "steps" || LOOKS.length < 2;
+    $("#layout").hidden = cur.ours.kind === "steps" || cur.ours.kind === "tab";
+    $("#layout").innerHTML = [["sections", "Sections", "섹션", "The five stages stacked, the current one open", "다섯 단계를 쌓고 지금 단계만 펼침"],
+      ["pages", "Pages", "페이지", "A stepper on top and one stage per page", "위에 단계 표시, 한 페이지에 한 단계"]]
+      .map(([k, en, ko, ten, tko]) => `<button type="button" data-layout="${k}" aria-pressed="${layout === k}" data-tip="${ten}" data-tip-ko="${tko}">${t(en, ko)}</button>`).join("");
     // Step-by-step flows exist in one look (the design-system tokens), so they show once.
     const shown = cur.ours.kind === "steps" ? [{k: "c", label: "Step by step", ko: "단계별"}] : look === "all" ? LOOKS : LOOKS.filter((l) => l.k === look);
     $("#phones").innerHTML = liveSlot() + shown.map(oursSlot).join("");
@@ -246,6 +254,7 @@
   $("#list").addEventListener("click", (e) => { const b = e.target.closest(".item"); if (b) go(b.dataset.id); });
   $("#pickSel").addEventListener("change", (e) => go(e.target.value));
   $("#looks").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { look = b.dataset.look; render(); } });
+  $("#layout").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b && b.dataset.layout !== layout) { layout = b.dataset.layout; store.set("goldito-stay-layout", layout); run = Date.now(); render(); } });
   $("#restart").onclick = () => { run = Date.now(); render(); };
   new ResizeObserver(fit).observe($("#phones")); // refits when the site bar arrives or the window resizes
   addEventListener("keydown", (e) => {
