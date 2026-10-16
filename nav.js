@@ -56,7 +56,7 @@
     [data-tip]{cursor:help}
     a[data-tip],button[data-tip],[role="button"][data-tip],label[data-tip]{cursor:pointer}
     @media (max-width:900px){.site-brand b{display:none}}
-    @media (max-width:720px){.site-nav{grid-template-columns:auto 1fr;row-gap:.5rem}.site-end{grid-column:2;grid-row:1}.site-tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+    @media (max-width:720px){.site-nav{grid-template-columns:auto 1fr;row-gap:.5rem}.site-end{grid-column:2;grid-row:1}.site-tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
       .site-tabs a{padding:0 .25rem;justify-content:center;text-align:center;font-size:.8125rem;line-height:1.15;min-height:44px;white-space:normal}.site-lang button{min-width:40px;padding:0 .5rem}}`;
   document.head.appendChild(st);
 
@@ -100,6 +100,9 @@
     ["Plan", "계획", "plan.html", "Decisions waiting, the schedule to Oct 30, who does what", "기다리는 결정, 10/30까지 일정, 누가 무엇을",
       ["Decisions come first: each one unblocks work below it.", "The schedule is to scale; ticked, light-green bars are done.", "The design log lists what changed, newest first."],
       ["결정이 먼저: 하나씩 아래 작업을 풀어 줘요.", "일정은 실제 비율이고, 체크된 연한 초록 막대는 끝난 것이에요.", "디자인 기록은 바뀐 것을 최신순으로 보여 줘요."]],
+    ["Project", "프로젝트", "project.html", "The whole project, an audit, the design tickets and how to push to GitHub", "프로젝트 전체, 점검, 디자인 티켓, GitHub에 올리는 법",
+      ["Start with the map if you're new.", "The audit's last column shows what isn't on GitHub yet.", "Each design ticket has my take and a next step; section 4 walks you through a push."],
+      ["처음이라면 지도부터.", "점검 표의 마지막 열은 아직 GitHub에 없는 것을 보여 줘요.", "디자인 티켓마다 제 의견과 다음 단계가 있고, 4번이 푸시를 단계별로 안내해요."]],
   ];
   const here = location.pathname.replace(/\/$/, "/index.html");
   const page = pages.find(([, , href]) => new URL(href, base).pathname === here) || pages[0];

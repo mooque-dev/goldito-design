@@ -13,6 +13,7 @@ Live copy: https://mooque-dev.github.io/goldito-design/ (updated when Mook says 
 | `steps.html` · **Step by step** | Booking request, care request, Meet & Greet and checkout as one question per screen. Thumbnails, keys (← → 1–4 L D), deep links `#care-3` |
 | `brand.html` · **Brand** | Logo directions and icon set, diary decoration, color, type, decisions D2–D6, the rules for when things go wrong |
 | `plan.html` · **Plan** | Decisions waiting, where each area stands, the Oct 15–30 schedule, who does what, the design log |
+| `project.html` · **Project** | The project on one screen, an audit of what is (and isn't) on GitHub, the design tickets with a recommendation each, and how to push |
 
 ## How it's built
 

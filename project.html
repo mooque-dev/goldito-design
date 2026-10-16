@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goldito Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+  /* Project: the whole project on one page (map), an audit of what exists and whether it's on GitHub,
+     the design tickets with a recommendation for each, and a step-by-step guide to pushing work. */
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:70rem;margin:0 auto;display:flex;flex-direction:column;gap:3.25rem;padding-top:2.25rem}
+  .wrap>*,section{min-width:0}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  h1{font:700 clamp(2rem,4.6vw,2.75rem)/1.1 var(--font-display);letter-spacing:-.01em}
+  h2{font:600 1.5rem/1.2 var(--font-display)}
+  h3{font:600 1.0625rem/1.25 var(--font-display)}
+  p{margin:0}
+  a{color:var(--color-primary)}
+  code{font:600 .8125rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.0625rem .375rem;word-break:break-word}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  section{display:flex;flex-direction:column;gap:1rem;scroll-margin-top:5rem}
+  .head{display:flex;flex-direction:column;gap:.25rem;max-width:46rem}
+  .head p{color:var(--color-text-muted)}
+  .lede{font-size:1.0625rem;color:var(--color-text-muted);max-width:44rem;margin-top:.75rem}
+  .lede b{color:var(--color-text)}
+  .jump{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.25rem}
+  .jump a{display:inline-flex;align-items:center;gap:.5rem;min-height:40px;padding:0 .875rem;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text);text-decoration:none;font-weight:600;font-size:.875rem}
+  .jump a:hover{border-color:var(--color-primary)}
+  .jump b{font:600 .75rem/1 var(--font-ui);color:var(--color-text-muted)}
+  .pill{display:inline-flex;align-items:center;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;white-space:nowrap}
+  .pill.ok{background:var(--color-success-surface);color:var(--color-success)}
+  .pill.warn{background:var(--color-warning-surface);color:var(--color-warning)}
+  .pill.bad{background:var(--color-error-surface);color:var(--color-error)}
+  .pill.mute{background:var(--color-track);color:var(--color-text-muted)}
+  .pill.info{background:var(--color-track);color:var(--color-text)}
+  .panel{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.125rem}
+  /* map */
+  .map{display:grid;grid-template-columns:repeat(auto-fill,minmax(19rem,1fr));gap:.75rem}
+  .m{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:1rem;display:flex;flex-direction:column;gap:.5rem}
+  .m .k{font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .m ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.375rem;font-size:.875rem}
+  .m li{display:grid;grid-template-columns:7.5rem 1fr;gap:.5rem}
+  .m li>b{font-weight:600}
+  .m li>span{color:var(--color-text-muted);min-width:0}
+  .flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:.5rem}
+  .flow li{list-style:none;flex:1 1 9rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.25rem;font-size:.8125rem;color:var(--color-text-muted);position:relative}
+  .flow{margin:0;padding:0;counter-reset:f}
+  .flow li b{font:600 .9375rem/1.25 var(--font-display);color:var(--color-text)}
+  .flow li::before{counter-increment:f;content:counter(f);font:700 .6875rem/1 var(--font-ui);color:var(--color-primary)}
+  .dates{display:flex;flex-wrap:wrap;gap:.5rem}
+  .dates>span{display:inline-flex;gap:.375rem;align-items:baseline;padding:.375rem .75rem;border-radius:var(--radius-md);background:var(--color-track);font-size:.8125rem}
+  .dates b{font-variant-numeric:tabular-nums}
+  .dates>.hot{background:var(--color-warning-surface);color:var(--color-warning)}
+  .dates>.end{background:var(--color-error-surface);color:var(--color-error)}
+  /* audit table */
+  .tw{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-surface)}
+  .tw:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+  table.au{width:100%;border-collapse:collapse;font-size:.875rem;min-width:44rem}
+  .au th{text-align:left;font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:.625rem .875rem;border-bottom:1px solid var(--color-border)}
+  .au td{padding:.625rem .875rem;border-top:1px solid var(--color-border);vertical-align:top}
+  .au tr:first-child td{border-top:0}
+  .au td:first-child{font-weight:700;width:13rem}
+  .au td:nth-child(2){color:var(--color-text-muted);width:15rem}
+  .au td:last-child{width:1%;white-space:nowrap}
+  .au .grp td{background:var(--color-track);font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:.375rem .875rem}
+  /* tickets */
+  .order{display:flex;flex-wrap:wrap;gap:.375rem;counter-reset:o;margin:0;padding:0}
+  .order li{list-style:none;counter-increment:o;display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .625rem .25rem .375rem;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-border);font-size:.8125rem;font-weight:600}
+  .order li::before{content:counter(o);display:inline-grid;place-items:center;width:1.25rem;height:1.25rem;border-radius:50%;background:var(--color-primary);color:var(--color-primary-text);font-size:.6875rem}
+  .order a{color:inherit;text-decoration:none}
+  .tix{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.875rem}
+  .t{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem 1.125rem;display:flex;flex-direction:column;gap:.625rem;scroll-margin-top:5rem}
+  .t .top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .t .num{font:700 .8125rem/1 var(--font-ui);color:var(--color-text-muted)}
+  .t .num a{color:inherit}
+  .t .rank{display:inline-grid;place-items:center;min-width:1.5rem;height:1.5rem;border-radius:50%;background:var(--color-primary);color:var(--color-primary-text);font:700 .75rem/1 var(--font-ui)}
+  .t h3{font-size:1.0625rem}
+  .t dl{margin:0;display:grid;grid-template-columns:5.75rem 1fr;gap:.375rem .75rem;font-size:.8125rem}
+  .t dt{font-size:.6875rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted);padding-top:.125rem}
+  .t dd{margin:0;min-width:0}
+  .t .take{background:var(--color-track);border-radius:var(--radius-md);padding:.625rem .75rem;font-size:.875rem;display:flex;flex-direction:column;gap:.25rem}
+  .t .take>b{font-size:.6875rem;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .t .foot{display:flex;flex-wrap:wrap;gap:.375rem .75rem;font-size:.8125rem;color:var(--color-text-muted);margin-top:auto;padding-top:.5rem;border-top:1px solid var(--color-border)}
+  .t .foot b{color:var(--color-text)}
+  .t.dim{background:var(--color-background)}
+  .side{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
+  .side .panel{display:flex;flex-direction:column;gap:.625rem}
+  .side ul{margin:0;padding-left:1.125rem;display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}
+  .side li b{font-weight:700}
+  .side li span.m2{color:var(--color-text-muted)}
+  /* github */
+  .gloss{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.625rem}
+  @media (max-width:900px){.gloss{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .g{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.25rem;font-size:.8125rem;color:var(--color-text-muted)}
+  .g b{font:600 1rem/1.2 var(--font-display);color:var(--color-text)}
+  .g i{font-style:normal;color:var(--color-text)}
+  .ways{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.875rem}
+  .w{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1.125rem;display:flex;flex-direction:column;gap:.625rem;min-width:0}
+  .w .top{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+  .w p{font-size:.875rem;color:var(--color-text-muted)}
+  .w ol{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}
+  .w li{min-width:0}
+  .cmd{display:inline;font:600 .8125rem/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.125rem .375rem;cursor:copy;word-break:break-word}
+  .cmd.copied{background:var(--color-success-surface);color:var(--color-success)}
+  .say{background:var(--color-track);border-radius:var(--radius-md);padding:.5rem .75rem;font-size:.875rem;font-weight:600}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
+  .check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}
+  .check li{display:grid;grid-template-columns:1.25rem 1fr;gap:.5rem;align-items:start}
+  .check li::before{content:"";width:1.125rem;height:1.125rem;border-radius:5px;border:2px solid var(--color-border-strong);margin-top:.125rem}
+  .two .panel{display:flex;flex-direction:column;gap:.75rem}
+  .dots{margin:0;padding-left:1.125rem;display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}
+  .queue{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+  .queue li{display:grid;grid-template-columns:2rem 1fr auto;gap:.75rem;align-items:center;padding:.625rem 0;border-top:1px solid var(--color-border);font-size:.875rem}
+  .queue li:first-child{border-top:0}
+  .queue .n{font:700 1rem/1 var(--font-display);color:var(--color-primary);text-align:center}
+  .queue small{display:block;color:var(--color-text-muted);font-size:.8125rem}
+  footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem;display:flex;flex-direction:column;gap:.375rem}
+  @media (max-width:900px){.tix{grid-template-columns:1fr}.ways{grid-template-columns:1fr}.two,.side{grid-template-columns:1fr}}
+  /* Phones: each audit row becomes a small card (name + pill on top, where and state below). */
+  @media (max-width:600px){table.au,.au tbody{display:block;min-width:0}.au thead{display:none}
+    .au tr{display:grid;grid-template-columns:1fr auto;gap:.125rem .75rem;padding:.625rem .875rem;border-top:1px solid var(--color-border)}
+    .au tr:first-child{border-top:0}.au tr.grp{padding:0;border-top:0}.au tr.grp td{grid-column:1/-1;padding:.375rem .875rem!important}
+    .au td,.au tr:first-child td{border:0;padding:0;width:auto}.au td:first-child{width:auto}.au td:nth-child(2){width:auto;grid-column:1/-1;grid-row:2;font-size:.8125rem}
+    .au td:nth-child(3){grid-column:1/-1;grid-row:3}.au td:last-child{grid-column:2;grid-row:1;align-self:start}}
+  @media (max-width:520px){.m li{grid-template-columns:1fr;gap:0}.t dl{grid-template-columns:1fr;gap:.125rem}.t dd{margin-bottom:.375rem}.tix{grid-template-columns:1fr}.queue li{grid-template-columns:1.5rem 1fr}.queue li>.pill{grid-column:2;justify-self:start}}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow"><span class="en">Project · updated Oct 15, 2026</span><span class="ko">프로젝트 · 2026년 10월 15일 업데이트</span></span>
+    <h1><span class="en">The whole project, and how to ship your part</span><span class="ko">프로젝트 전체, 그리고 내 몫을 내보내는 법</span></h1>
+    <p class="lede"><span class="en">One page to get your bearings: what Goldito is made of, an audit of everything design has made and <b>whether it's on GitHub yet</b>, the ten design tickets with my take on each, and a step-by-step guide to pushing.</span><span class="ko">한 페이지로 전체 파악: Goldito가 무엇으로 이뤄졌는지, 디자인이 만든 모든 것과 <b>GitHub에 올라갔는지</b>, 디자인 티켓 열 개와 각각에 대한 제 의견, 그리고 푸시하는 법을 단계별로.</span></p>
+    <nav class="jump" aria-label="On this page">
+      <a href="#map"><b>1</b><span class="en">The map</span><span class="ko">지도</span></a>
+      <a href="#audit"><b>2</b><span class="en">Audit</span><span class="ko">점검</span></a>
+      <a href="#tickets"><b>3</b><span class="en">Design tickets</span><span class="ko">디자인 티켓</span></a>
+      <a href="#github"><b>4</b><span class="en">Pushing to GitHub</span><span class="ko">GitHub에 올리기</span></a>
+    </nav>
+  </header>
+
+  <!-- 1 · Map -->
+  <section aria-labelledby="h-map" id="map">
+    <div class="head"><h2 id="h-map"><span class="en">1 · The project on one screen</span><span class="ko">1 · 한 화면으로 보는 프로젝트</span></h2>
+      <p><span class="en">Six things to know. Everything else hangs off these.</span><span class="ko">알아야 할 여섯 가지. 나머지는 모두 여기에 붙어 있어요.</span></p></div>
+    <div class="map" id="mapCards"></div>
+    <h3><span class="en">How a piece of work moves</span><span class="ko">작업 하나가 흘러가는 길</span></h3>
+    <ol class="flow" id="flow"></ol>
+    <h3><span class="en">Dates that matter</span><span class="ko">중요한 날짜</span></h3>
+    <div class="dates" id="dates"></div>
+  </section>
+
+  <!-- 2 · Audit -->
+  <section aria-labelledby="h-audit" id="audit">
+    <div class="head"><h2 id="h-audit"><span class="en">2 · Audit: what we have, and where it lives</span><span class="ko">2 · 점검: 무엇이 있고 어디에 있나</span></h2>
+      <p><span class="en">Checked against GitHub and your Mac today. The last column is the one to watch: anything “Only on your Mac” can't be reviewed or used by the team.</span><span class="ko">오늘 GitHub과 맥 기준으로 확인했어요. 마지막 열이 중요해요: “맥에만 있음”은 팀이 보거나 쓸 수 없어요.</span></p></div>
+    <div class="tw" tabindex="0" aria-label="Audit table, scrolls sideways"><table class="au">
+      <thead><tr><th scope="col"><span class="en">What</span><span class="ko">무엇</span></th><th scope="col"><span class="en">Where</span><span class="ko">어디</span></th><th scope="col"><span class="en">State</span><span class="ko">상태</span></th><th scope="col"><span class="en">On GitHub?</span><span class="ko">GitHub에?</span></th></tr></thead>
+      <tbody id="auditRows"></tbody></table></div>
+  </section>
+
+  <!-- 3 · Tickets -->
+  <section aria-labelledby="h-tix" id="tickets">
+    <div class="head"><h2 id="h-tix"><span class="en">3 · Design tickets: what's asked, and my take</span><span class="ko">3 · 디자인 티켓: 요청 내용과 제 의견</span></h2>
+      <p><span class="en">Minsik opened #111 – #120 today (label <code>track:design</code>, all assigned to you). Seven are due by the Oct 28 freeze; three are P1. Here's the order I'd take them in.</span><span class="ko">민식 님이 오늘 #111 – #120을 열었어요 (라벨 <code>track:design</code>, 모두 묵 님 담당). 일곱 개는 10/28 동결까지, 세 개는 P1. 제가 추천하는 순서예요.</span></p></div>
+    <ol class="order" id="order" aria-label="Recommended order"></ol>
+    <div class="tix" id="tix"></div>
+    <div class="side">
+      <div class="panel"><h3><span class="en">Tickets I'd add</span><span class="ko">추가하면 좋을 티켓</span></h3>
+        <ul id="add"></ul></div>
+      <div class="panel"><h3><span class="en">Tickets to close</span><span class="ko">닫을 티켓</span></h3>
+        <ul id="close"></ul></div>
+    </div>
+  </section>
+
+  <!-- 4 · GitHub -->
+  <section aria-labelledby="h-gh" id="github">
+    <div class="head"><h2 id="h-gh"><span class="en">4 · Pushing to GitHub, step by step</span><span class="ko">4 · GitHub에 올리기, 단계별로</span></h2>
+      <p><span class="en">You can't break anything: <code>main</code> needs an approval before anything lands, and every step until the merge can be undone.</span><span class="ko">망가뜨릴 수 없어요: <code>main</code>에는 승인 없이 들어가지 않고, 머지 전까지 모든 단계는 되돌릴 수 있어요.</span></p></div>
+
+    <h3><span class="en">Eight words you'll see</span><span class="ko">자주 보게 될 여덟 단어</span></h3>
+    <div class="gloss" id="gloss"></div>
+
+    <h3><span class="en">Three ways to push</span><span class="ko">푸시하는 세 가지 방법</span></h3>
+    <div class="ways">
+      <div class="w"><div class="top"><h3><span class="en">A · Ask me</span><span class="ko">A · 저에게 부탁</span></h3><span class="pill ok"><span class="en">Safest</span><span class="ko">가장 안전</span></span></div>
+        <p><span class="en">Say what to push. I show you exactly what will go out first, then push and send the link.</span><span class="ko">무엇을 올릴지 말해 주세요. 나갈 내용을 먼저 보여 드리고, 푸시한 뒤 링크를 드려요.</span></p>
+        <div class="say"><span class="en">“Push the stickers as a PR for #114”</span><span class="ko">“스티커를 #114용 PR로 올려줘”</span></div>
+        <ol><li><span class="en">I list the files, sizes and the commit message.</span><span class="ko">파일, 크기, 커밋 메시지를 보여 드려요.</span></li>
+          <li><span class="en">I check for secrets (Minsik's keys never leave your Mac).</span><span class="ko">비밀값을 확인해요 (민식 님 키는 맥 밖으로 안 나가요).</span></li>
+          <li><span class="en">You say “push”. I push, open the PR and link the ticket.</span><span class="ko">“push”라고 하시면 푸시하고 PR을 열고 티켓을 연결해요.</span></li></ol></div>
+      <div class="w"><div class="top"><h3><span class="en">B · In the browser</span><span class="ko">B · 브라우저에서</span></h3><span class="pill info"><span class="en">Best for images</span><span class="ko">이미지에 최적</span></span></div>
+        <p><span class="en">No installs. Good for stickers, icons and photos: files you drop into one folder.</span><span class="ko">설치 없음. 스티커, 아이콘, 사진처럼 한 폴더에 넣는 파일에 좋아요.</span></p>
+        <ol><li><span class="en">Open the folder on github.com, e.g. <a href="https://github.com/minsikpaul92/Goldito/tree/main/frontend/assets/stickers" target="_blank" rel="noopener">frontend/assets/stickers ↗</a>.</span><span class="ko">github.com에서 폴더를 여세요. 예: <a href="https://github.com/minsikpaul92/Goldito/tree/main/frontend/assets/stickers" target="_blank" rel="noopener">frontend/assets/stickers ↗</a>.</span></li>
+          <li><span class="en"><b>Add file → Upload files</b>, drop the PNGs (same names replace the old ones).</span><span class="ko"><b>Add file → Upload files</b>, PNG를 끌어다 놓기 (같은 이름이면 기존 파일을 바꿔요).</span></li>
+          <li><span class="en">Message: <code>feat: add the Goldito sticker set</code>.</span><span class="ko">메시지: <code>feat: add the Goldito sticker set</code>.</span></li>
+          <li><span class="en">Pick <b>Create a new branch… and start a pull request</b>, name it <code>design/sticker-set</code>.</span><span class="ko"><b>Create a new branch… and start a pull request</b>를 고르고 이름은 <code>design/sticker-set</code>.</span></li>
+          <li><span class="en">In the PR text write <code>Closes #114</code>, add a screenshot, <b>Create pull request</b>.</span><span class="ko">PR 설명에 <code>Closes #114</code>, 스크린샷 추가, <b>Create pull request</b>.</span></li></ol></div>
+      <div class="w"><div class="top"><h3><span class="en">C · Terminal</span><span class="ko">C · 터미널</span></h3><span class="pill mute"><span class="en">When you're curious</span><span class="ko">궁금할 때</span></span></div>
+        <p><span class="en">The same sticker PR, by hand. Click a line to copy it. Uses your clean app folder.</span><span class="ko">같은 스티커 PR을 직접. 줄을 누르면 복사돼요. 깨끗한 앱 폴더를 써요.</span></p>
+        <ol><li><code class="cmd" data-tip="Click to copy" data-tip-ko="눌러서 복사">cd ~/Claude/pawnote-play</code></li>
+          <li><code class="cmd" data-tip="Click to copy" data-tip-ko="눌러서 복사">git fetch origin && git switch -c design/sticker-set origin/main</code></li>
+          <li><span class="en">Copy the 9 PNGs into <code>frontend/assets/stickers/</code>.</span><span class="ko">PNG 9개를 <code>frontend/assets/stickers/</code>에 복사.</span></li>
+          <li><code class="cmd" data-tip="Shows what changed; only the stickers should be listed" data-tip-ko="바뀐 것을 보여 줘요. 스티커만 보여야 해요">git status</code></li>
+          <li><code class="cmd" data-tip="Click to copy" data-tip-ko="눌러서 복사">git add frontend/assets/stickers && git commit -m "feat: add the Goldito sticker set"</code></li>
+          <li><code class="cmd" data-tip="Click to copy" data-tip-ko="눌러서 복사">git push -u origin design/sticker-set</code></li>
+          <li><code class="cmd" data-tip="Click to copy" data-tip-ko="눌러서 복사">gh pr create --title "feat: add the Goldito sticker set" --body "Closes #114"</code></li></ol></div>
+    </div>
+
+    <div class="two">
+      <div class="panel"><h3><span class="en">Before every push</span><span class="ko">푸시하기 전에 매번</span></h3>
+        <ul class="check" id="check"></ul></div>
+      <div class="panel"><h3><span class="en">If something goes wrong</span><span class="ko">문제가 생기면</span></h3>
+        <ul class="dots" id="undo"></ul></div>
+    </div>
+
+    <h3><span class="en">Your push queue, in order</span><span class="ko">푸시 순서</span></h3>
+    <div class="panel"><ol class="queue" id="queue"></ol></div>
+  </section>
+
+  <footer>
+    <span><span class="en">Sources: GitHub issues and PRs on minsikpaul92/Goldito, <code>docs/plan/TODO.md</code> and the phase docs on <code>main</code> (Oct 15), and the branches on Mook's Mac. Recommendations are mine (Claude); the tickets and decisions are the team's.</span><span class="ko">출처: minsikpaul92/Goldito의 이슈와 PR, <code>main</code>의 <code>docs/plan/TODO.md</code>와 단계 문서 (10/15), 묵 님 맥의 브랜치. 추천은 제(Claude) 의견이고, 티켓과 결정은 팀의 것이에요.</span></span>
+  </footer>
+</main>
+<script>
+(() => {
+  const both = (en, ko) => `<span class="en">${en}</span><span class="ko">${ko}</span>`;
+  const GH = "https://github.com/minsikpaul92/Goldito";
+  const iss = (n) => `<a href="${GH}/issues/${n}" target="_blank" rel="noopener">#${n}</a>`;
+  const pr = (n) => `<a href="${GH}/pull/${n}" target="_blank" rel="noopener">#${n}</a>`;
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- 1 · map: [title en, ko, rows [label en, ko, value en, ko]] ----------
+  const MAP = [
+    ["What we're building", "무엇을 만드나", [
+      ["Goldito", "Goldito", "A pet-sitting app for dogs and cats: owners learn without asking, sitters care, snap, tap.", "강아지·고양이 펫시팅 앱: 오너는 묻지 않아도 알고, 시터는 돌보고 찍고 누르면 끝."],
+      ["One stay", "스테이 하나", "① Inquiry → ② Meet &amp; Greet → ③ Booking → ④ Care &amp; Pet Transit → ⑤ Completion", "① 문의 → ② Meet &amp; Greet → ③ 예약 → ④ 돌봄 · 이동 → ⑤ 마무리"],
+      ["Demo cast", "데모 인물", "Robert (owner), Chloe (sitter), Max the dog, Mochi the cat", "Robert (오너), Chloe (시터), 강아지 Max, 고양이 Mochi"],
+      ["Hackathon", "해커톤", "Nebius × NVIDIA, Best Apps and Agents. Must run on Token Factory with a Nemotron model.", "Nebius × NVIDIA, Best Apps and Agents. Token Factory에서 Nemotron 모델로 돌아가야 해요."]]],
+    ["Who does what", "누가 무엇을", [
+      ["Minsik", "민식", "App and server, end to end. Owns <code>TODO.md</code> and opens the tickets.", "앱과 서버 전체. <code>TODO.md</code>를 관리하고 티켓을 열어요."],
+      ["Seulgi", "슬기", "AI wording, data and QA. Label <code>track:quality</code>, #99 – #110.", "AI 문구, 데이터, QA. 라벨 <code>track:quality</code>, #99 – #110."],
+      ["Mook (you)", "묵 (나)", "Design. Label <code>track:design</code>, #111 – #120.", "디자인. 라벨 <code>track:design</code>, #111 – #120."],
+      ["Claude (me)", "Claude (저)", "Builds the Draft, the plugin and this site; pushes only when you say so.", "초안, 플러그인, 이 사이트를 만들어요. 말씀하실 때만 푸시해요."]]],
+    ["The code", "코드", [
+      ["Repo", "저장소", `<a href="${GH}" target="_blank" rel="noopener">minsikpaul92/Goldito ↗</a> (public, MIT)`, `<a href="${GH}" target="_blank" rel="noopener">minsikpaul92/Goldito ↗</a> (공개, MIT)`],
+      ["frontend/", "frontend/", "The app: Expo (React Native) running on the web. Images live in <code>frontend/assets/</code>.", "앱: 웹에서 도는 Expo (React Native). 이미지는 <code>frontend/assets/</code>."],
+      ["backend/", "backend/", "FastAPI server: AI calls, photo signing.", "FastAPI 서버: AI 호출, 사진 서명."],
+      ["supabase/", "supabase/", "The database and its rules.", "데이터베이스와 규칙."],
+      ["docs/plan/", "docs/plan/", "<code>TODO.md</code> (the queue), phase docs, the 5-stage flow.", "<code>TODO.md</code> (작업 순서), 단계 문서, 5단계 흐름."],
+      ["DESIGN.md", "DESIGN.md", "The design guide the code follows.", "코드가 따르는 디자인 가이드."]]],
+    ["Where it runs", "어디서 돌아가나", [
+      ["App", "앱", `<a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a> (Vercel, redeploys on every merge)`, `<a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a> (Vercel, 머지마다 다시 배포)`],
+      ["Server", "서버", "Render", "Render"],
+      ["Data", "데이터", "Supabase (accounts, bookings, live updates)", "Supabase (계정, 예약, 실시간 알림)"],
+      ["Photos", "사진", "Cloudinary", "Cloudinary"],
+      ["AI", "AI", "Nebius Token Factory: Nemotron (text), MiniCPM-V (photos), Qwen3 (search)", "Nebius Token Factory: Nemotron (글), MiniCPM-V (사진), Qwen3 (검색)"]]],
+    ["Where design lives", "디자인은 어디에", [
+      ["Figma", "Figma", `<a href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Pawddy-Design ↗</a>, built by our plugin`, `<a href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Pawddy-Design ↗</a>, 플러그인이 만들어요`],
+      ["This site", "이 사이트", `<a href="https://mooque-dev.github.io/goldito-design/" target="_blank" rel="noopener">mooque-dev.github.io/goldito-design ↗</a> (your repo)`, `<a href="https://mooque-dev.github.io/goldito-design/" target="_blank" rel="noopener">mooque-dev.github.io/goldito-design ↗</a> (묵 님 저장소)`],
+      ["In the team repo", "팀 저장소", `<code>design/</code> and <code>DESIGN.md</code>, via PR ${pr(54)}`, `<code>design/</code>와 <code>DESIGN.md</code>, PR ${pr(54)}`],
+      ["Brand files", "브랜드 파일", "<code>design/brand/</code> on your Mac only (logos, icons, diary deco)", "<code>design/brand/</code>는 맥에만 (로고, 아이콘, 다이어리 꾸밈)"]]],
+    ["Where to look first", "먼저 볼 곳", [
+      ["The queue", "작업 순서", `<a href="${GH}/blob/main/docs/plan/TODO.md" target="_blank" rel="noopener">docs/plan/TODO.md ↗</a>: “Current focus” per person`, `<a href="${GH}/blob/main/docs/plan/TODO.md" target="_blank" rel="noopener">docs/plan/TODO.md ↗</a>: 사람별 “Current focus”`],
+      ["Your tickets", "내 티켓", `<a href="${GH}/issues?q=is%3Aopen+label%3Atrack%3Adesign" target="_blank" rel="noopener">label:track:design ↗</a>`, `<a href="${GH}/issues?q=is%3Aopen+label%3Atrack%3Adesign" target="_blank" rel="noopener">label:track:design ↗</a>`],
+      ["Your PRs", "내 PR", `<a href="${GH}/pulls/mooque-dev" target="_blank" rel="noopener">pulls by mooque-dev ↗</a>`, `<a href="${GH}/pulls/mooque-dev" target="_blank" rel="noopener">mooque-dev의 PR ↗</a>`],
+      ["Product flow", "제품 흐름", `<a href="${GH}/blob/main/docs/plan/full-process.ko.md" target="_blank" rel="noopener">full-process.ko.md ↗</a>`, `<a href="${GH}/blob/main/docs/plan/full-process.ko.md" target="_blank" rel="noopener">full-process.ko.md ↗</a>`]]],
+  ];
+  $("mapCards").innerHTML = MAP.map(([en, ko, rows]) => `<div class="m"><span class="k">${both(en, ko)}</span><ul>${rows.map(([l, lk, v, vk]) => `<li><b>${both(l, lk)}</b><span>${both(v, vk)}</span></li>`).join("")}</ul></div>`).join("");
+
+  const FLOW = [["Ticket", "티켓", "An issue says what to do: #114 stickers.", "이슈가 할 일을 말해요: #114 스티커."],
+    ["Branch", "브랜치", "Your own line of work: <code>design/sticker-set</code>.", "내 작업 줄기: <code>design/sticker-set</code>."],
+    ["Commit", "커밋", "A saved snapshot with one line: <code>feat: add …</code>", "한 줄 메시지가 붙은 저장: <code>feat: add …</code>"],
+    ["Push", "푸시", "Upload the branch to GitHub.", "브랜치를 GitHub에 올려요."],
+    ["Pull request", "PR", "Ask the team to take it. Minsik reviews.", "팀에 반영을 요청. 민식 님이 리뷰해요."],
+    ["Merge", "머지", "It joins <code>main</code>; the ticket closes; Vercel redeploys.", "<code>main</code>에 합쳐지고, 티켓이 닫히고, Vercel이 다시 배포해요."]];
+  $("flow").innerHTML = FLOW.map(([en, ko, d, dk]) => `<li><b>${both(en, ko)}</b>${both(d, dk)}</li>`).join("");
+
+  const DATES = [["Oct 15", "10/15", "today", "오늘", ""], ["Oct 17–23", "10/17–23", "Minsik's P1 window (11.8 Save image now)", "민식 님 P1 기간 (지금 11.8 이미지 저장)", ""],
+    ["Oct 20", "10/20", "side panel, stickers (my target)", "옆 패널, 스티커 (제 목표)", "hot"], ["Oct 22", "10/22", "large-text Figma ready", "큰 글씨 Figma 완성", "hot"],
+    ["Oct 24–27", "10/24–27", "11.15 onboarding build", "11.15 온보딩 개발", ""], ["Oct 27", "10/27", "record the demo video", "데모 영상 녹화", ""],
+    ["Oct 28", "10/28", "internal freeze", "내부 동결", "hot"], ["Oct 30", "10/30", "submit, 10 AM PT", "제출, 오전 10시 PT", "end"]];
+  $("dates").innerHTML = DATES.map(([d, dk, t, tk, c]) => `<span class="${c}"><b>${both(d, dk)}</b>${both(t, tk)}</span>`).join("");
+
+  // ---------- 2 · audit: groups of [what en, ko, where en, ko, state en, ko, github kind, label en, ko] ----------
+  const ON = {yes: "ok", pr: "info", no: "bad", na: "mute", old: "warn"};
+  const AUDIT = [["Design work", "디자인 작업", [
+      ["Design site (6 pages)", "디자인 사이트 (6페이지)", "GitHub Pages + PR #54", "GitHub Pages + PR #54", "Expressive as the look; checked: links, accessibility, the full stay", "익스프레시브 룩. 링크, 접근성, 스테이 전체 확인", "yes", "Live", "공개됨"],
+      ["DESIGN.md + tokens", "DESIGN.md + 토큰", "PR #54", "PR #54", "Design system v1; tokens are added only, so no screen changes", "디자인 시스템 v1. 토큰은 추가만이라 화면 변화 없음", "pr", "In review", "리뷰 중"],
+      ["Figma plugin", "Figma 플러그인", "PR #54", "PR #54", "65 components, every screen; no Expressive, Snap or large text yet", "컴포넌트 65개, 모든 화면. 익스프레시브, Snap, 큰 글씨는 아직", "pr", "In review", "리뷰 중"],
+      ["Figma file", "Figma 파일", "Pawddy-Design", "Pawddy-Design", "Behind the plugin: needs a run (you click Run)", "플러그인보다 뒤처짐: 한 번 실행 필요 (묵 님이 Run)", "na", "Not code", "코드 아님"],
+      ["Settings / What's New handoff", "설정 / What's New 핸드오프", "PR #54", "PR #54", "Shipped in the app as #98", "앱에 #98로 출시", "pr", "In review", "리뷰 중"]]],
+    ["Brand and assets", "브랜드와 에셋", [
+      ["Logo, icons, favicon files", "로고, 아이콘, 파비콘 파일", "design/brand/ (24 MB)", "design/brand/ (24 MB)", "Being worked on in another session today (pet options, bells); no final pick yet", "오늘 다른 세션에서 작업 중 (펫 옵션, 벨). 최종 선택 전", "no", "Only on your Mac", "맥에만"],
+      ["App icon, splash, favicon", "앱 아이콘, 스플래시, 파비콘", "frontend/assets/", "frontend/assets/", "Still Expo's placeholder; no ticket for it", "아직 Expo 기본 아이콘. 티켓도 없음", "no", "Placeholder", "임시"],
+      ["Stickers (9)", "스티커 (9개)", "frontend/assets/stickers/", "frontend/assets/stickers/", "Placeholders at 256 × 256; designed set is #114", "256 × 256 임시본. 디자인은 #114", "no", "Placeholder", "임시"],
+      ["Sample photos", "샘플 사진", "frontend/assets/demo/", "frontend/assets/demo/", "Handoff, treat labels, meal, walk, nap, mood photos are in; cat photos missing", "인계, 간식 라벨, 식사, 산책, 낮잠, 기분 사진은 있음. 고양이 사진 없음", "yes", "Mostly there", "대부분 있음"]]],
+    ["Branches and leftovers", "브랜치와 남은 것", [
+      ["PR #41 primitives", "PR #41 기본 컴포넌트", "feat/design-system", "feat/design-system", "Oct 6, 34 files, conflicts with main", "10/6, 파일 34개, main과 충돌", "old", "Stale PR", "오래된 PR"],
+      ["Uncommitted app edits", "커밋 안 된 앱 수정", "~/Claude/pawnote (31 files)", "~/Claude/pawnote (31개 파일)", "An older copy of the #41 work from Oct 1", "10/1의 #41 작업 사본", "no", "Only on your Mac", "맥에만"],
+      ["Old branches", "오래된 브랜치", "docs/gap-fill-competitor-research, claude/design-system-extraction…", "docs/gap-fill-competitor-research, claude/design-system-extraction…", "No PR; safe to delete after a look", "PR 없음. 확인 후 지워도 돼요", "old", "Clean up", "정리"],
+      ["Private artifact", "비공개 아티팩트", "claude.ai", "claude.ai", "A copy of this site; updated when you ask", "이 사이트의 사본. 말씀하시면 업데이트", "na", "Not GitHub", "GitHub 아님"]]]];
+  $("auditRows").innerHTML = AUDIT.map(([g, gk, rows]) => `<tr class="grp"><td colspan="4">${both(g, gk)}</td></tr>` + rows.map(([w, wk, wh, whk, s, sk, on, l, lk]) =>
+    `<tr><td>${both(w, wk)}</td><td>${both(wh, whk)}</td><td>${both(s, sk)}</td><td><span class="pill ${ON[on]}">${both(l, lk)}</span></td></tr>`).join("")).join("");
+
+  // ---------- 3 · tickets, in the order I'd take them ----------
+  // [n, title en, ko, milestone, due en, ko, verdict kind, verdict en, ko, asked en, ko, there en, ko, take en, ko, effort en, ko, next en, ko]
+  const T = [
+    [117, "Wrap up design PRs #41 and #54", "디자인 PR #41, #54 마무리", "P0", "This week", "이번 주", "ok", "Today", "오늘",
+      "Merge or close both open design PRs.", "열린 디자인 PR 두 개를 머지하거나 닫기.",
+      `${pr(54)} is ready for review, mergeable, Minsik requested. ${pr(41)} is a draft from Oct 6 that conflicts with main.`, `${pr(54)}는 리뷰 준비 완료, 머지 가능, 민식 님에게 요청됨. ${pr(41)}은 10/6 초안, main과 충돌.`,
+      "Close #41. Its tokens are already in #54, and redoing 15 shared files two weeks before the freeze is risk with nothing for the demo. Then answer Minsik's comments on #54 and let him squash-merge.", "#41은 닫기. 토큰은 이미 #54에 있고, 동결 2주 전에 공유 파일 15개를 다시 맞추는 건 데모에 도움 없이 위험만 커요. 그다음 #54 코멘트에 답하고 민식 님이 스쿼시 머지.",
+      "15 min", "15분", "I draft the closing comment for #41; you post it.", "#41 닫는 코멘트를 제가 쓰고 묵 님이 올려요."],
+    [115, "11.15 large-text onboarding + “at a glance” card", "11.15 큰 글씨 온보딩 + “at a glance” 카드", "P0", "By Oct 22", "10/22까지", "bad", "Most important", "가장 중요",
+      "Figma for the onboarding Minsik builds Oct 24: question 28 px, options 20 px, 64 px tall, the “Max at a glance” card with five axes, and safety chips for the sitter.", "민식 님이 10/24에 만드는 온보딩 Figma: 질문 28px, 선택지 20px, 높이 64px, 다섯 축의 “Max at a glance” 카드, 시터용 안전 칩.",
+      "The Step by step page already uses the same sizes. The spec names the axes: Sociability, Sensitivity, Energy, Appetite, Trainability.", "단계별 페이지가 이미 같은 크기를 써요. 스펙에 축 이름이 있어요: Sociability, Sensitivity, Energy, Appetite, Trainability.",
+      "The one ticket that blocks code. Don't draw 18 questions: one question template (with photo and voice states), the at-a-glance card and the chips are enough. Design the no-AI version first, because it's the part they keep if time runs out.", "코드를 막는 유일한 티켓. 질문 18개를 다 그리지 말고, 질문 템플릿 하나(사진·음성 상태 포함), at a glance 카드, 칩이면 충분해요. 시간이 모자라면 남는 부분인 AI 없는 버전부터.",
+      "1–2 days", "1–2일", "I build it as a fifth Step by step flow and in the plugin; you refine it in Figma.", "제가 단계별 다섯 번째 흐름과 플러그인으로 만들고, 묵 님이 Figma에서 다듬어요."],
+    [111, "Base frames 402 × 874 + desktop backdrop and side panel", "기본 프레임 402 × 874 + 데스크톱 배경과 옆 패널", "P0", "By Oct 20", "10/20까지", "warn", "Mostly done", "대부분 됨",
+      "Phone frames, the desktop backdrop and the side panel judges see next to the phone (Try demo, QR code, hint).", "폰 프레임, 데스크톱 배경, 심사위원이 폰 옆에서 보는 패널 (Try demo, QR, 힌트).",
+      "Frames are in Figma and the app already has the phone frame (1.7). The side panel isn't built yet (10.9).", "프레임은 Figma에 있고 앱에도 폰 프레임이 있어요 (1.7). 옆 패널은 아직 (10.9).",
+      "Small, but it's the first thing a judge sees on a laptop. Spend the time on the side panel: logo, one line, two big Try demo buttons, QR. Two widths (beside the phone, and below it under 1100 px).", "작지만 심사위원이 노트북에서 처음 보는 화면. 시간은 옆 패널에: 로고, 한 줄, 큰 Try demo 버튼 두 개, QR. 폭 두 가지 (폰 옆, 1100px 미만이면 아래).",
+      "Half a day", "반나절", "I mock the panel in the Draft; you pick a direction.", "제가 초안에 패널을 만들고 묵 님이 방향을 골라요."],
+    [112, "Scenario screens in Figma", "Figma의 시나리오 화면", "P0", "By Oct 22", "10/22까지", "warn", "Mostly done", "대부분 됨",
+      "Seven screens on the demo path, from the inquiry thread to the Life Record.", "데모 경로의 화면 일곱 개, 문의 대화부터 Life Record까지.",
+      "The plugin already builds all seven (53 screens in total) in the Balanced look.", "플러그인이 이미 일곱 개 모두 만들어요 (전체 53개), 밸런스드 룩으로.",
+      "Mostly a plugin run. The open question is the look: if Expressive is the direction, I add Expressive versions of just these seven, plus Snap and Settings. Close it with screenshots in the issue.", "대부분 플러그인 실행이에요. 남은 질문은 룩: 익스프레시브로 간다면 이 일곱 개와 Snap, 설정만 익스프레시브로 추가. 이슈에 스크린샷 달고 닫기.",
+      "Me 1 day, you 30 min", "저 1일, 묵 님 30분", "Plugin round 3; you click Run in Figma.", "플러그인 3차. Figma에서 Run은 묵 님이."],
+    [114, "Goldito sticker set", "Goldito 스티커 세트", "P0", "By Oct 20", "10/20까지", "warn", "Next", "다음",
+      "Nine designed PNGs that replace the placeholders, same file names.", "임시 스티커를 바꿀 디자인 PNG 9개, 같은 파일 이름.",
+      "Placeholders at 256 × 256: ball, best_day, bone, cloud, heart, paw, star, sun, zzz.", "256 × 256 임시본: ball, best_day, bone, cloud, heart, paw, star, sun, zzz.",
+      "Small and very visible: owners decorate the diary in the video. Draw them in the logo's style as one sheet. Perfect first PR to push yourself (way B below).", "작고 아주 잘 보여요: 영상에서 오너가 다이어리를 꾸며요. 로고 스타일로 한 장에. 직접 올리는 첫 PR로 딱 좋아요 (아래 B 방법).",
+      "Half a day", "반나절", "I draft SVG starters; you refine and export at 256 px.", "제가 SVG 초안을 만들고, 묵 님이 다듬어 256px로 내보내요."],
+    [118, "Report card themes and preset sticker set (11.8)", "알림장 카드 테마와 프리셋 스티커 (11.8)", "P1", "Before Oct 23", "10/23 전", "warn", "Sooner than P1 says", "P1보다 급함",
+      "Four themes for the decorated diary page (sunny, cozy, playful, calm) and the preset stickers.", "꾸민 다이어리 페이지 테마 네 개 (sunny, cozy, playful, calm)와 프리셋 스티커.",
+      "Minsik is building 11.8 “Save image” right now (Oct 17–23), so the themes are needed this week.", "민식 님이 지금 11.8 “이미지 저장”을 만들고 있어서 (10/17–23) 테마가 이번 주에 필요해요.",
+      "Pair it with #114: the preset set can be the same nine stickers, so it's one job. Give each theme as four tokens (background, border, accent, ink) so Minsik can code it from a table.", "#114와 묶기: 프리셋은 같은 9개 스티커로, 한 번의 작업. 테마마다 토큰 네 개(배경, 테두리, 강조, 글자)로 주면 민식 님이 표만 보고 코딩해요.",
+      "2–3 hours after #114", "#114 후 2–3시간", "Ask Minsik where the theme keys live in the code.", "민식 님께 테마 키가 코드 어디에 있는지 물어보기."],
+    [113, "Sample photo set (4.7)", "샘플 사진 세트 (4.7)", "P0", "By Oct 24", "10/24까지", "ok", "Mostly done", "대부분 됨",
+      "Photos the demo and AI tests use: meals, walks, naps, handoff shots, fictional treat labels. No people or real brands.", "데모와 AI 테스트용 사진: 식사, 산책, 낮잠, 인계, 가상 간식 라벨. 사람과 실제 브랜드 없이.",
+      "Already in the app: 4 handoff, 4 labels, meal, walk, nap, 10 mood photos, a fetch video.", "앱에 이미 있음: 인계 4, 라벨 4, 식사, 산책, 낮잠, 기분 사진 10, 공놀이 영상.",
+      "Mostly done by the team. What's missing is Mochi: no cat photos at all. Ask Seulgi what else she needs, add cat shots, then close it.", "팀이 대부분 했어요. 빠진 건 Mochi: 고양이 사진이 하나도 없어요. 슬기 님께 더 필요한 걸 물어보고 고양이 사진을 넣고 닫기.",
+      "2–3 hours", "2–3시간", "A short comment to Seulgi on the issue.", "이슈에 슬기 님께 짧은 코멘트."],
+    [116, "Demo video edit", "데모 영상 편집", "P0", "Oct 27–28", "10/27–28", "mute", "Prep now", "지금 준비",
+      "Under 3 minutes, follows the demo path, voice explains Token Factory and Nemotron, no copyrighted music, public on YouTube before Oct 28.", "3분 미만, 데모 경로, 음성으로 Token Factory와 Nemotron 설명, 저작권 음악 없이, 10/28 전 YouTube 공개.",
+      "Minsik records around Oct 27; you edit.", "민식 님이 10/27쯤 녹화하고 묵 님이 편집.",
+      "Recording lands one day before the freeze, so the edit has no slack. Get the storyboard, title cards and caption style done by Oct 25; then editing is a day of cutting.", "녹화가 동결 하루 전이라 편집에 여유가 없어요. 스토리보드, 타이틀 카드, 자막 스타일을 10/25까지 끝내면 편집은 자르기만 하면 돼요.",
+      "1 day + prep", "1일 + 준비", "I draft the storyboard and title cards.", "스토리보드와 타이틀 카드는 제가 초안."],
+    [120, "Sitter calendar UX pass (CAL-1 – CAL-4)", "시터 달력 UX (CAL-1 – CAL-4)", "P1", "If time", "시간 되면", "mute", "Split it", "나누기",
+      "Hide M·A·N marks, tapping the schedule rolls the calendar up to show slots, readable slot text, pull the calendar back down.", "M·A·N 표시 숨기기, 스케줄 누르면 달력이 올라가며 슬롯 표시, 읽기 쉬운 슬롯, 달력 다시 내리기.",
+      "Logged as IQ-13 on Oct 10; Minsik waits for your Figma.", "10/10에 IQ-13으로 기록. 민식 님이 Figma를 기다려요.",
+      "Real pain on stage ①, but the roll-up gesture is risky this close to the freeze. Ship CAL-1 and CAL-3 (hide marks, readable slots) now as a tiny spec; move the gesture after the hackathon.", "① 단계의 실제 불편이지만, 말아 올리는 제스처는 동결 직전엔 위험해요. CAL-1, CAL-3 (표시 숨기기, 읽기 쉬운 슬롯)은 작은 스펙으로 지금, 제스처는 해커톤 뒤로.",
+      "1–2 hours for the small part", "작은 부분 1–2시간", "Comment the split on the issue.", "이슈에 나누자는 코멘트."],
+    [119, "Coat-color skins and 8-bit pixel pet sprites (11.10 · 11.12)", "털 색 스킨과 8비트 픽셀 펫 (11.10 · 11.12)", "P1", "After the hackathon", "해커톤 뒤", "mute", "Skip for now", "지금은 보류",
+      "6–8 coat-color palettes, and pixel sprites for a Maltese and a cat with at least 3 states each.", "털 색 팔레트 6–8개, 몰티즈와 고양이 픽셀 스프라이트 각각 상태 3개 이상.",
+      "TODO says these wait for you and aren't planned before the freeze. Pixel pet options are being explored in the brand files today.", "TODO에 묵 님을 기다리며 동결 전 계획은 없다고 돼 있어요. 오늘 브랜드 파일에서 픽셀 펫 옵션을 탐색 중.",
+      "The biggest ticket with the least demo value, and a second visual style on top of Expressive. If you want one piece, do the palettes (each must keep text at 4.5 : 1).", "데모 가치에 비해 가장 큰 티켓이고, 익스프레시브 위에 두 번째 스타일이 생겨요. 하나만 한다면 팔레트 (글자 대비 4.5 : 1 유지).",
+      "2–3 days", "2–3일", "Say so on the issue so nobody waits.", "아무도 기다리지 않게 이슈에 남기기."]];
+  $("order").innerHTML = T.map(([n, en, ko]) => `<li><a href="#t${n}">#${n}</a></li>`).join("");
+  $("tix").innerHTML = T.map(([n, en, ko, ms, due, duek, vk, ven, vko, a, ak, h, hk, tk1, tk2, ef, efk, nx, nxk], i) =>
+    `<article class="t${vk === "mute" && ms === "P1" ? " dim" : ""}" id="t${n}"><div class="top"><span class="rank">${i + 1}</span><span class="num">${iss(n)}</span><span class="pill ${ms === "P0" ? "info" : "mute"}">${ms}</span><span class="pill ${vk}">${both(ven, vko)}</span></div>
+      <h3>${both(en, ko)}</h3>
+      <dl><dt>${both("Asked", "요청")}</dt><dd>${both(a, ak)}</dd><dt>${both("Already", "이미")}</dt><dd>${both(h, hk)}</dd></dl>
+      <div class="take"><b>${both("My take", "제 의견")}</b>${both(tk1, tk2)}</div>
+      <div class="foot"><span>${both("Due", "기한")} <b>${both(due, duek)}</b></span><span>${both("Effort", "작업량")} <b>${both(ef, efk)}</b></span><span>${both("Next:", "다음:")} ${both(nx, nxk)}</span></div></article>`).join("");
+
+  const ADD = [["Logo, app icon, splash and favicon", "로고, 앱 아이콘, 스플래시, 파비콘", "The app still shows Expo's placeholder icon, and the README, Devpost and video all need the logo. No ticket covers it. P0.", "앱은 아직 Expo 기본 아이콘이고, README, Devpost, 영상 모두 로고가 필요해요. 티켓이 없어요. P0."],
+    ["Devpost visuals", "Devpost 이미지", "Cover image and gallery shots for the submission page. P0, Oct 29.", "제출 페이지의 커버와 갤러리 이미지. P0, 10/29."],
+    ["One icon set", "아이콘 세트 통일", "The Draft uses Lucide; the app uses Ionicons plus emoji. A decision for Minsik, asked in #54.", "초안은 Lucide, 앱은 Ionicons와 이모지. 민식 님 결정 사항, #54에서 질문함."]];
+  $("add").innerHTML = ADD.map(([en, ko, d, dk]) => `<li><b>${both(en, ko)}</b>. <span class="m2">${both(d, dk)}</span></li>`).join("");
+  const CLOSE = [[`${iss(13)} Welcome and Login flows in Figma`, `${iss(13)} Figma의 Welcome, Login 흐름`, "From Sept 29. The plugin already builds Welcome and Login, and the app shipped them in phase 03. Close it with a link to the Figma page.", "9/29 티켓. 플러그인이 이미 Welcome과 Login을 만들고, 앱은 03단계에서 출시했어요. Figma 페이지 링크와 함께 닫기."],
+    [`${pr(41)} Design system primitives`, `${pr(41)} 디자인 시스템 기본 컴포넌트`, "See #117 above.", "위 #117 참고."]];
+  $("close").innerHTML = CLOSE.map(([en, ko, d, dk]) => `<li><b>${both(en, ko)}</b>. <span class="m2">${both(d, dk)}</span></li>`).join("");
+
+  // ---------- 4 · github ----------
+  const GLOSS = [["Repository", "저장소", "The project's folder on GitHub. Team: <i>minsikpaul92/Goldito</i>. Yours: <i>mooque-dev/goldito-design</i> (this site).", "GitHub의 프로젝트 폴더. 팀: <i>minsikpaul92/Goldito</i>. 묵 님: <i>mooque-dev/goldito-design</i> (이 사이트)."],
+    ["main", "main", "The version that's live. Nobody pushes to it directly; it needs an approved PR.", "실제로 배포되는 버전. 아무도 직접 푸시하지 않고, 승인된 PR이 필요해요."],
+    ["Branch", "브랜치", "Your copy to work on. Name it like <i>design/sticker-set</i>: lowercase, dashes, no tool names.", "작업용 사본. <i>design/sticker-set</i>처럼: 소문자, 대시, 도구 이름 없이."],
+    ["Commit", "커밋", "A save point with one line: <i>feat: add the Goldito sticker set</i>. Start with feat, fix, docs or chore. Never mention AI.", "한 줄이 붙은 저장 지점: <i>feat: add the Goldito sticker set</i>. feat, fix, docs, chore로 시작. AI 언급은 하지 않기."],
+    ["Push", "푸시", "Upload your commits to GitHub. Nothing changes for the team yet.", "커밋을 GitHub에 올리기. 아직 팀에는 바뀌는 게 없어요."],
+    ["Pull request (PR)", "PR", "“Please take this.” Minsik reviews and comments; you can push more fixes to the same PR.", "“이걸 반영해 주세요.” 민식 님이 리뷰하고, 같은 PR에 수정을 더 올릴 수 있어요."],
+    ["Merge", "머지", "The PR joins <i>main</i>. The team squash-merges, so all your commits become one. Only then does anything go live.", "PR이 <i>main</i>에 합쳐져요. 팀은 스쿼시 머지라 커밋이 하나로 묶여요. 이때 비로소 배포돼요."],
+    ["Closes #114", "Closes #114", "Write this in a PR description and the ticket closes itself when the PR merges.", "PR 설명에 쓰면 머지될 때 티켓이 저절로 닫혀요."]];
+  $("gloss").innerHTML = GLOSS.map(([en, ko, d, dk]) => `<div class="g"><b>${both(en, ko)}</b>${both(d, dk)}</div>`).join("");
+
+  const CHECK = [["You're on a branch, not <code>main</code>.", "<code>main</code>이 아닌 브랜치에 있어요."],
+    ["Only the files you meant are listed (look at the file list).", "의도한 파일만 있어요 (파일 목록 확인)."],
+    ["No <code>.env</code> file and none of Minsik's keys.", "<code>.env</code> 파일이나 민식 님 키가 없어요."],
+    ["One-line message starting with feat, fix, docs or chore. No AI mention.", "feat, fix, docs, chore로 시작하는 한 줄 메시지. AI 언급 없이."],
+    ["Images under about 1 MB each. Brand masters (24 MB) stay out of the app repo.", "이미지 하나당 약 1MB 이하. 브랜드 원본(24MB)은 앱 저장소에 넣지 않기."],
+    ["The PR says what and why, has a screenshot, and links the ticket.", "PR에 무엇을, 왜, 스크린샷, 티켓 연결."]];
+  $("check").innerHTML = CHECK.map(([en, ko]) => `<li>${both(en, ko)}</li>`).join("");
+  const UNDO = [["Wrong file in a PR? Push another commit that removes it. The PR updates itself.", "PR에 잘못된 파일? 지우는 커밋을 하나 더 올리면 PR이 저절로 바뀌어요."],
+    ["Changed your mind? <b>Close pull request</b>. Nothing reaches main.", "마음이 바뀌면? <b>Close pull request</b>. main에는 아무것도 안 들어가요."],
+    ["Already merged? The PR page has a <b>Revert</b> button that makes an undo PR.", "이미 머지됐으면? PR 페이지의 <b>Revert</b> 버튼이 되돌리는 PR을 만들어요."],
+    ["Pushed a secret by mistake? Tell Minsik right away so he can change the key; deleting the file isn't enough.", "실수로 비밀값을 올렸으면? 바로 민식 님께 알려 키를 바꾸게 하세요. 파일 삭제로는 부족해요."],
+    ["“This repository moved” when pushing is harmless: GitHub forwards it.", "푸시할 때 “This repository moved”는 문제없어요: GitHub이 전달해 줘요."]];
+  $("undo").innerHTML = UNDO.map(([en, ko]) => `<li>${both(en, ko)}</li>`).join("");
+
+  const QUEUE = [["ok", "Done", "완료", `PR ${pr(54)} pushed and ready for review`, `PR ${pr(54)} 푸시, 리뷰 준비 완료`, "Answer Minsik's comments when they come; he squash-merges.", "민식 님 코멘트에 답하기. 머지는 민식 님이 스쿼시로."],
+    ["warn", "You · 2 min", "묵 님 · 2분", `Close ${pr(41)} and ${iss(13)}`, `${pr(41)}과 ${iss(13)} 닫기`, "I draft both comments; you post them on github.com.", "코멘트 두 개는 제가 쓰고, 묵 님이 github.com에 올려요."],
+    ["warn", "You · 5 min", "묵 님 · 5분", "Open the missing tickets (logo + app icon, Devpost visuals)", "빠진 티켓 열기 (로고 + 앱 아이콘, Devpost 이미지)", "Or say “open them” and I will.", "또는 “열어줘”라고 하시면 제가 열어요."],
+    ["mute", "Oct 16–20", "10/16–20", `Stickers PR for ${iss(114)}, your first solo push`, `${iss(114)} 스티커 PR, 첫 직접 푸시`, "Way B above. I'll be on hand.", "위 B 방법. 옆에서 도와드릴게요."],
+    ["mute", "After your pick", "선택 후", "Logo, app icon, splash, favicon PR", "로고, 앱 아이콘, 스플래시, 파비콘 PR", "From design/brand; only the final sizes go in, not the 24 MB of masters.", "design/brand에서 최종 크기만, 24MB 원본은 빼고."],
+    ["mute", "Oct 18–22", "10/18–22", "Figma plugin round 3 (Expressive, Snap, large text)", "Figma 플러그인 3차 (익스프레시브, Snap, 큰 글씨)", "A follow-up PR after #54 merges; you run it in Figma.", "#54 머지 후 후속 PR. Figma에서 실행은 묵 님."],
+    ["mute", "Any time", "언제든", "This site", "이 사이트", "Say “push the site”. It's your repo, so it goes live without a review.", "“사이트 푸시”라고 하세요. 묵 님 저장소라 리뷰 없이 바로 공개돼요."]];
+  $("queue").innerHTML = QUEUE.map(([k, l, lk, t, tk, d, dk], i) => `<li><span class="n">${i + 1}</span><span>${both(t, tk)}<small>${both(d, dk)}</small></span><span class="pill ${k}">${both(l, lk)}</span></li>`).join("");
+
+  // Commands copy on click (falls back to selecting the text where the clipboard is blocked).
+  document.addEventListener("click", (e) => {
+    const c = e.target.closest(".cmd"); if (!c) return;
+    const done = () => { c.classList.add("copied"); setTimeout(() => c.classList.remove("copied"), 1200); };
+    const select = () => { const r = document.createRange(); r.selectNodeContents(c); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); };
+    if (navigator.clipboard) navigator.clipboard.writeText(c.textContent).then(done, select); else select();
+  });
+})();
+</script>
+</body>
+</html>
