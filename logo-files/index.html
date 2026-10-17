@@ -102,13 +102,42 @@ img{width:100%;height:auto;display:block;border-radius:10px}
 .sw-face svg{width:100%;height:100%;display:block}
 .set{display:flex;flex-direction:column;gap:14px} .note{margin:0;color:var(--muted);font-size:.9rem;max-width:75ch}
 .po-img svg{width:100%;height:auto;display:block}
+
+.cz{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+.cz-stage{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px;position:sticky;top:76px}
+.cz-big{border-radius:16px;overflow:hidden;aspect-ratio:1;max-width:100%} .cz-big svg{width:100%;height:100%;display:block}
+.cz-minis{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap} .cz-minis figure{margin:0;display:flex;flex-direction:column;gap:4px;align-items:center}
+.cz-minis figcaption{font-size:.74rem;color:var(--muted)} #cz-64 svg{width:64px;height:64px;display:block;border-radius:12px} #cz-32 svg{width:32px;height:32px;display:block;border-radius:7px}
+.cz-pet{width:96px;height:96px;border-radius:16px;background:#F4EFE6;padding:6px} .cz-pet svg{width:100%;height:100%;display:block}
+.cz-warn{margin:0;font-size:.85rem;color:var(--ink);background:var(--bg);border-radius:10px;padding:8px 10px}
+.cz-acts{display:flex;gap:8px;flex-wrap:wrap}
+.cz-btn{font:600 .85rem var(--sans);padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.cz-btn:hover{border-color:var(--accent)} .cz-btn:focus-visible,.cz-sw:focus-visible,.cz-pre:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+#cz-shuffle{background:var(--accent);border-color:var(--accent);color:#2B1F12}
+.cz-code{margin:0;font:500 .78rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);word-break:break-word}
+.cz-ctl{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.cz-row{display:flex;flex-direction:column;gap:6px} .cz-lab{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cz-sws{display:flex;gap:8px;flex-wrap:wrap}
+.cz-sw{width:34px;height:34px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);background:var(--c);cursor:pointer;padding:0}
+.cz-sw[aria-pressed=true]{box-shadow:0 0 0 2px var(--ink)}
+.cz-custom{width:34px;height:34px;border-radius:50%;position:relative;display:grid;place-items:center;cursor:pointer;background:conic-gradient(#EE7D5E,#F4C35A,#7FD3B0,#4F9FE0,#9A7FD1,#EE7D5E);box-shadow:0 0 0 1px var(--line)}
+.cz-custom input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.cz-custom span{width:20px;height:20px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-weight:700;font-size:.9rem;color:var(--ink);pointer-events:none}
+.cz-custom.on{box-shadow:0 0 0 2px var(--ink)}
+#cz-petsel{font:500 .9rem var(--sans);padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);max-width:260px}
+.cz-presets{display:flex;gap:8px;flex-wrap:wrap}
+.cz-pre{display:flex;align-items:center;gap:7px;font:600 .82rem var(--sans);padding:4px 12px 4px 5px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.cz-pre i{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--a) 0 50%,var(--b) 50% 100%);box-shadow:0 0 0 3px var(--g)}
+.cz-notes{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:16px} .cz-notes h4{margin:0 0 8px;font-size:1.05rem}
+.cz-notes ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:.9rem;max-width:80ch} .cz-notes b{color:var(--ink)}
+@media (max-width:860px){.cz{grid-template-columns:1fr}.cz-stage{position:static}}
 </style>
 </head>
 <body>
 <main class="wrap">
 <h1>Goldito logo files</h1>
-<div class="spec"><b>Every version has the same three files.</b> Devpost 1500×1000 PNG with the name · Icon master 1024 PNG + SVG, opaque, square, no lettering, art inside the centre 66% · Symbol master 1024 PNG + SVG, transparent. Click a button to download the file.</div>
-<div role="tablist" aria-label="Versions"><button role="tab" id="t-original" aria-controls="p-original" aria-selected="true" data-t="original">Original<span>1</span></button><button role="tab" id="t-pixel" aria-controls="p-pixel" aria-selected="false" data-t="pixel">Pixel bell<span>30</span></button><button role="tab" id="t-bellvar" aria-controls="p-bellvar" aria-selected="false" data-t="bellvar">Pixel bell var<span>30</span></button><button role="tab" id="t-deco" aria-controls="p-deco" aria-selected="false" data-t="deco">Diary deco<span>85</span></button><span class="sep">Ideas</span><button role="tab" id="t-petopts" aria-controls="p-petopts" aria-selected="false" data-t="petopts">Pet · options</button><button role="tab" id="t-sketch" aria-controls="p-sketch" aria-selected="false" data-t="sketch">Pixel sketches</button><button role="tab" id="t-costumes" aria-controls="p-costumes" aria-selected="false" data-t="costumes">Idea · Costumes</button></div>
+<div class="spec"><b>Every version has the same three files.</b> Devpost 1500×1000 PNG with the name · Icon master 1024 PNG + SVG, opaque, square, no lettering, art inside the centre 66% · Symbol master 1024 PNG + SVG, transparent. Click a button to save the file.</div>
+<div role="tablist" aria-label="Versions"><button role="tab" id="t-original" aria-controls="p-original" aria-selected="true" data-t="original">Original<span>1</span></button><button role="tab" id="t-pixel" aria-controls="p-pixel" aria-selected="false" data-t="pixel">Pixel bell<span>30</span></button><button role="tab" id="t-bellvar" aria-controls="p-bellvar" aria-selected="false" data-t="bellvar">Pixel bell var<span>30</span></button><button role="tab" id="t-custom" aria-controls="p-custom" aria-selected="false" data-t="custom">Customize</button><button role="tab" id="t-deco" aria-controls="p-deco" aria-selected="false" data-t="deco">Diary deco<span>85</span></button><span class="sep">Ideas</span><button role="tab" id="t-petopts" aria-controls="p-petopts" aria-selected="false" data-t="petopts">Pet · options</button><button role="tab" id="t-sketch" aria-controls="p-sketch" aria-selected="false" data-t="sketch">Pixel sketches</button><button role="tab" id="t-costumes" aria-controls="p-costumes" aria-selected="false" data-t="costumes">Idea · Costumes</button></div>
 <section role="tabpanel" id="p-original" aria-labelledby="t-original"><p class="lead">The v2.1 bell + g in gold and green, unchanged.</p><article class="v"><h3>Bell + g · v2.1</h3>
 <div class="row"><figure class="dp"><img loading="lazy" src="goldito-original-devpost.png" alt="Bell + g · v2.1 Devpost logo" width="1500" height="1000"><figcaption>Devpost · 1500×1000</figcaption></figure>
 <figure><div class="safe"><img loading="lazy" src="goldito-original-icon-master.png" alt="Bell + g · v2.1 icon master" width="1024" height="1024"></div><figcaption>Icon master · opaque</figcaption></figure>
@@ -356,6 +385,38 @@ img{width:100%;height:auto;display:block;border-radius:10px}
 <figure><div class="safe"><img loading="lazy" src="goldito-pixel-plate-plum-icon-master.png" alt="Plum on peach icon master" width="1024" height="1024"></div><figcaption>Icon master · opaque</figcaption></figure>
 <figure><div class="chk"><img loading="lazy" src="goldito-pixel-plate-plum-symbol-master.png" alt="Plum on peach symbol master" width="1024" height="1024"></div><figcaption>Symbol master · transparent</figcaption></figure></div>
 <div class="files"><a href="goldito-pixel-plate-plum-devpost.png" download="goldito-pixel-plate-plum-devpost.png">Devpost PNG</a><a href="goldito-pixel-plate-plum-icon-master.png" download="goldito-pixel-plate-plum-icon-master.png">Icon PNG</a><a href="goldito-pixel-plate-plum-icon-master.svg" download="goldito-pixel-plate-plum-icon-master.svg">Icon SVG</a><a href="goldito-pixel-plate-plum-symbol-master.png" download="goldito-pixel-plate-plum-symbol-master.png">Symbol PNG</a><a href="goldito-pixel-plate-plum-symbol-master.svg" download="goldito-pixel-plate-plum-symbol-master.svg">Symbol SVG</a></div></article></div></section>
+<section role="tabpanel" id="p-custom" aria-labelledby="t-custom" hidden>
+<p class="lead">Play with the tag's colours instead of picking a preset. Choose a shape and three colours; the shading, the shine and the collar's shadow are worked out from each colour, so every combination keeps the same pixel quality. This is also how a pet owner could make the tag their own in the app.</p>
+<div class="cz">
+ <div class="cz-stage">
+  <div class="cz-big" id="cz-big" aria-live="polite"></div>
+  <div class="cz-minis"><figure><div id="cz-64"></div><figcaption>64 px</figcaption></figure><figure><div id="cz-32"></div><figcaption>32 px</figcaption></figure><figure><div id="cz-pet" class="cz-pet"></div><figcaption>On the pet</figcaption></figure></div>
+  <p class="cz-warn" id="cz-warn" hidden></p>
+  <div class="cz-acts"><button type="button" class="cz-btn" id="cz-shuffle">Shuffle</button><button type="button" class="cz-btn" id="cz-svg">Download SVG</button><button type="button" class="cz-btn" id="cz-png">Download PNG</button><button type="button" class="cz-btn" id="cz-copy">Copy colours</button></div>
+  <p class="cz-code" id="cz-code"></p>
+ </div>
+ <div class="cz-ctl">
+  <div class="cz-row"><span class="cz-lab">Shape</span><div class="sw" role="group" aria-label="Shape" data-cz="shape"><button type="button" data-v="bell" aria-pressed="true">Bell</button><button type="button" data-v="heart" aria-pressed="false">Heart tag</button><button type="button" data-v="plate" aria-pressed="false">Name plate</button></div></div>
+  <div class="cz-row"><span class="cz-lab">Tag</span><div class="cz-sws" role="group" aria-label="Tag"><button type="button" class="cz-sw" data-g="tag" data-c="#F4C35A" aria-label="Gold" title="Gold #F4C35A" style="--c:#F4C35A"></button><button type="button" class="cz-sw" data-g="tag" data-c="#F2A65A" aria-label="Apricot" title="Apricot #F2A65A" style="--c:#F2A65A"></button><button type="button" class="cz-sw" data-g="tag" data-c="#EE7D5E" aria-label="Coral" title="Coral #EE7D5E" style="--c:#EE7D5E"></button><button type="button" class="cz-sw" data-g="tag" data-c="#E5533D" aria-label="Tomato" title="Tomato #E5533D" style="--c:#E5533D"></button><button type="button" class="cz-sw" data-g="tag" data-c="#D9466F" aria-label="Berry" title="Berry #D9466F" style="--c:#D9466F"></button><button type="button" class="cz-sw" data-g="tag" data-c="#F4A6B8" aria-label="Blush" title="Blush #F4A6B8" style="--c:#F4A6B8"></button><button type="button" class="cz-sw" data-g="tag" data-c="#9A7FD1" aria-label="Lilac" title="Lilac #9A7FD1" style="--c:#9A7FD1"></button><button type="button" class="cz-sw" data-g="tag" data-c="#7C3F6E" aria-label="Plum" title="Plum #7C3F6E" style="--c:#7C3F6E"></button><button type="button" class="cz-sw" data-g="tag" data-c="#4F9FE0" aria-label="Sky" title="Sky #4F9FE0" style="--c:#4F9FE0"></button><button type="button" class="cz-sw" data-g="tag" data-c="#7FD3B0" aria-label="Mint" title="Mint #7FD3B0" style="--c:#7FD3B0"></button><button type="button" class="cz-sw" data-g="tag" data-c="#8DB580" aria-label="Sage" title="Sage #8DB580" style="--c:#8DB580"></button><button type="button" class="cz-sw" data-g="tag" data-c="#B8BEC6" aria-label="Silver" title="Silver #B8BEC6" style="--c:#B8BEC6"></button><button type="button" class="cz-sw" data-g="tag" data-c="#7A4E36" aria-label="Cocoa" title="Cocoa #7A4E36" style="--c:#7A4E36"></button><button type="button" class="cz-sw" data-g="tag" data-c="#3A3A40" aria-label="Charcoal" title="Charcoal #3A3A40" style="--c:#3A3A40"></button><label class="cz-custom" title="Any colour"><input type="color" data-g="tag" aria-label="Custom tag"><span>+</span></label></div></div>
+  <div class="cz-row"><span class="cz-lab">Collar</span><div class="cz-sws" role="group" aria-label="Collar"><button type="button" class="cz-sw" data-g="collar" data-c="#2F6B57" aria-label="Forest" title="Forest #2F6B57" style="--c:#2F6B57"></button><button type="button" class="cz-sw" data-g="collar" data-c="#2F3E57" aria-label="Navy" title="Navy #2F3E57" style="--c:#2F3E57"></button><button type="button" class="cz-sw" data-g="collar" data-c="#2E8A8A" aria-label="Teal" title="Teal #2E8A8A" style="--c:#2E8A8A"></button><button type="button" class="cz-sw" data-g="collar" data-c="#D8443C" aria-label="Red" title="Red #D8443C" style="--c:#D8443C"></button><button type="button" class="cz-sw" data-g="collar" data-c="#F28CA8" aria-label="Pink" title="Pink #F28CA8" style="--c:#F28CA8"></button><button type="button" class="cz-sw" data-g="collar" data-c="#F2A65A" aria-label="Orange" title="Orange #F2A65A" style="--c:#F2A65A"></button><button type="button" class="cz-sw" data-g="collar" data-c="#7B5BB5" aria-label="Purple" title="Purple #7B5BB5" style="--c:#7B5BB5"></button><button type="button" class="cz-sw" data-g="collar" data-c="#4F9FE0" aria-label="Sky" title="Sky #4F9FE0" style="--c:#4F9FE0"></button><button type="button" class="cz-sw" data-g="collar" data-c="#58B08E" aria-label="Mint" title="Mint #58B08E" style="--c:#58B08E"></button><button type="button" class="cz-sw" data-g="collar" data-c="#C9A06A" aria-label="Tan" title="Tan #C9A06A" style="--c:#C9A06A"></button><button type="button" class="cz-sw" data-g="collar" data-c="#7A4E36" aria-label="Brown" title="Brown #7A4E36" style="--c:#7A4E36"></button><button type="button" class="cz-sw" data-g="collar" data-c="#2B2522" aria-label="Black" title="Black #2B2522" style="--c:#2B2522"></button><button type="button" class="cz-sw" data-g="collar" data-c="#F2E4C8" aria-label="Cream" title="Cream #F2E4C8" style="--c:#F2E4C8"></button><label class="cz-custom" title="Any colour"><input type="color" data-g="collar" aria-label="Custom collar"><span>+</span></label></div></div>
+  <div class="cz-row"><span class="cz-lab">Background</span><div class="cz-sws" role="group" aria-label="Background"><button type="button" class="cz-sw" data-g="bg" data-c="#FFF6E3" aria-label="Cream" title="Cream #FFF6E3" style="--c:#FFF6E3"></button><button type="button" class="cz-sw" data-g="bg" data-c="#FCE3D6" aria-label="Peach" title="Peach #FCE3D6" style="--c:#FCE3D6"></button><button type="button" class="cz-sw" data-g="bg" data-c="#FDE8EC" aria-label="Blush" title="Blush #FDE8EC" style="--c:#FDE8EC"></button><button type="button" class="cz-sw" data-g="bg" data-c="#FFF6DA" aria-label="Butter" title="Butter #FFF6DA" style="--c:#FFF6DA"></button><button type="button" class="cz-sw" data-g="bg" data-c="#DDEFE4" aria-label="Mint" title="Mint #DDEFE4" style="--c:#DDEFE4"></button><button type="button" class="cz-sw" data-g="bg" data-c="#DCE8F2" aria-label="Sky" title="Sky #DCE8F2" style="--c:#DCE8F2"></button><button type="button" class="cz-sw" data-g="bg" data-c="#F4EFFA" aria-label="Lilac" title="Lilac #F4EFFA" style="--c:#F4EFFA"></button><button type="button" class="cz-sw" data-g="bg" data-c="#FFFFFF" aria-label="White" title="White #FFFFFF" style="--c:#FFFFFF"></button><button type="button" class="cz-sw" data-g="bg" data-c="#1F2A3A" aria-label="Navy" title="Navy #1F2A3A" style="--c:#1F2A3A"></button><button type="button" class="cz-sw" data-g="bg" data-c="#22201E" aria-label="Charcoal" title="Charcoal #22201E" style="--c:#22201E"></button><label class="cz-custom" title="Any colour"><input type="color" data-g="bg" aria-label="Custom background"><span>+</span></label></div></div>
+  <div class="cz-row"><span class="cz-lab">Paw</span><div class="sw" role="group" aria-label="Paw" data-cz="paw"><button type="button" data-v="dark" aria-pressed="true">Dark</button><button type="button" data-v="light" aria-pressed="false">Light</button><button type="button" data-v="cut" aria-pressed="false">Cut out</button></div></div>
+  <div class="cz-row"><span class="cz-lab">Pet</span><select id="cz-petsel" aria-label="Pet for the preview"></select></div>
+  <div class="cz-row"><span class="cz-lab">Start from</span><div class="cz-presets"><button type="button" class="cz-pre" data-p="0"><i style="--a:#F4C35A;--b:#2F6B57;--g:#FFF6E3"></i>Gold</button><button type="button" class="cz-pre" data-p="1"><i style="--a:#EE7D5E;--b:#3E6E8E;--g:#FFF4EA"></i>Coral</button><button type="button" class="cz-pre" data-p="2"><i style="--a:#7FD3B0;--b:#F2A65A;--g:#1F2A3A"></i>Mint night</button><button type="button" class="cz-pre" data-p="3"><i style="--a:#9A7FD1;--b:#F2A65A;--g:#F4EFFA"></i>Lilac</button><button type="button" class="cz-pre" data-p="4"><i style="--a:#7A4E36;--b:#E58A6B;--g:#FCE3D6"></i>Cocoa</button><button type="button" class="cz-pre" data-p="5"><i style="--a:#4F9FE0;--b:#E5533D;--g:#FFF6DA"></i>Sky</button></div></div>
+ </div>
+</div>
+<div class="cz-notes">
+ <h4>For customization in the app</h4>
+ <ul>
+  <li><b>Curated swatches first, any colour second.</b> Owners pick from a short palette that always looks good; a custom colour is there for anyone who wants an exact match with their pet's real collar.</li>
+  <li><b>Pick one colour, get three.</b> Each colour you choose becomes a base, a darker shade and a lighter shine, shifted warm and cool like the rest of our pixel art, so a custom tag never looks flat.</li>
+  <li><b>Guardrails, not rules.</b> If the tag disappears into the background or the paw gets hard to see, a note suggests a fix, such as switching to a light paw, but nothing is blocked.</li>
+  <li><b>It travels with the pet.</b> The same colours dress the pet's collar and tag in the feed, the diary and the live trip, so the tag a family picks shows up everywhere.</li>
+ </ul>
+</div>
+</section>
+
+
 
 
 
@@ -819,6 +880,138 @@ img{width:100%;height:auto;display:block;border-radius:10px}
   var h = location.hash.slice(1);
   if (old[h]) { pick(old[h][1], old[h][2]); show(old[h][0]); }
   else if (h && document.getElementById("p-" + h)) show(h);
+})();
+</script>
+<script>
+(function () {
+  var DL = null;
+  if (window.claude && window.claude.use) window.claude.use("downloads").then(function (d) { DL = d; }, function () {});
+  window.gSave = function (name, blob, fallback) {
+    if (!DL) return fallback();
+    DL.save({ filename: name, data: blob }).catch(function (e) { if (!e || e.code !== "declined") fallback(); });
+  };
+  document.addEventListener("click", function (e) {   // every file button on the page
+    var a = e.target.closest(".files a"); if (!a || !DL) return;
+    e.preventDefault();
+    var href = a.getAttribute("href"), name = href.split("/").pop();
+    fetch(href).then(function (r) { if (!r.ok) throw 0; return r.blob(); })
+      .then(function (b) { window.gSave(name, b, function () { window.open(href, "_blank", "noopener"); }); })
+      .catch(function () { window.open(href, "_blank", "noopener"); });
+  });
+})();
+(function () {
+  var ART = {"bell": ["c..........................c", "dccc....................cccd", ".dddcccc....httt....ccccddd.", "....ddddcccttcccccccdddd....", "........dddttddddddd........", "............tttt............", "...........tttttt...........", ".........tttttttttt.........", "........tttttttttttt........", ".......ttthtttttttttt.......", "......ttthtttttttttttt......", "......tthttkktkkttttts......", ".....ttttttkktkktttttss.....", ".....ttttkktttttkktttts.....", ".....ttttkktkkktkktttts.....", ".....ttttttkkkkktttttts.....", ".....tttttkkkkkkkttttts.....", ".....tttttkkkkkkkttttss.....", "......tttttkkkkkttttts......", "......ttttttttttttttss......", ".......ttttttttttttss.......", "........ttttttttttss........", ".........tssttttsss.........", "...........ssssss..........."], "heart": ["c..........................c", "dccc....................cccd", ".dddcccc....httt....ccccddd.", "....ddddcccttcccccccdddd....", "........dddttddddddd........", "............tttt............", ".......tttt..tt..ttts.......", ".....tthhttt.tt.tttttts.....", "....tthtttttttttttttttts....", "....ttttttttttttttttttts....", "....tttttttkktkkttttttts....", "....tttttttkktkkttttttts....", "....tttttkktttttkkttttts....", ".....ttttkktkkktkktttts.....", "......tttttkkkkkttttts......", ".......sttkkkkkkkttts.......", "........stkkkkkkktts........", ".........stkkkkktts.........", "..........stttttts..........", "...........stttts...........", "............stts............", ".............ss............."], "plate": ["c..........................c", "dccc....................cccd", ".dddcccc....httt....ccccddd.", "....ddddcccttcccccccdddd....", "........dddttddddddd........", "............tttt............", ".............tt.............", "......ttttttttttttttts......", ".....tthhttttttttttttts.....", "....tthtkktkktttttttttts....", "....ttttkktkktttttttttts....", "....ttkktttttkktssssssts....", "....ttkktkkktkktssssssts....", "....ttttkkkkktttttttttts....", "....tttkkkkkkkttssssttts....", "....tttkkkkkkkttssssttts....", "....ttttkkkkktttttttttts....", "....stttttttttttttttttts....", ".....stttttttttttttttts.....", "......ssssssssssssssss......"]}, PRESETS = [["Gold", "bell", "#F4C35A", "#2F6B57", "#FFF6E3", "dark"], ["Coral", "heart", "#EE7D5E", "#3E6E8E", "#FFF4EA", "dark"], ["Mint night", "plate", "#7FD3B0", "#F2A65A", "#1F2A3A", "dark"], ["Lilac", "heart", "#9A7FD1", "#F2A65A", "#F4EFFA", "dark"], ["Cocoa", "bell", "#7A4E36", "#E58A6B", "#FCE3D6", "light"], ["Sky", "plate", "#4F9FE0", "#E5533D", "#FFF6DA", "dark"]];
+  var PD = JSON.parse(document.getElementById("pet-data").textContent);
+  var NAMES = {"dog": "Golden pup", "tabby": "Orange tabby", "tuxedo": "Tuxedo cat", "blacklab": "Black lab", "shiba": "Shiba", "corgi": "Corgi", "beagle": "Beagle", "pug": "Pug", "siamese": "Siamese", "persian": "Persian", "calico": "Calico", "fold": "Scottish fold", "jindo": "Jindo", "husky": "Husky", "maltese": "Maltese", "dalmatian": "Dalmatian", "frenchie": "French bulldog"};
+  var NECK = { bell: "neck:bell", heart: "neck:heart", plate: "neck:snug" };
+  function hx(h) { h = h.replace("#", ""); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+  function toHsl(c) { var r = c[0] / 255, g = c[1] / 255, b = c[2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, h = 0, s = 0;
+    if (mx !== mn) { var d = mx - mn; s = l > .5 ? d / (2 - mx - mn) : d / (mx + mn);
+      h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+    return [h, s * 100, l * 100]; }
+  function toHex(h, s, l) { h = ((h % 360) + 360) % 360; s = Math.max(0, Math.min(100, s)) / 100; l = Math.max(0, Math.min(100, l)) / 100;
+    var a = s * Math.min(l, 1 - l), f = function (n) { var k = (n + h / 30) % 12; return Math.round(255 * (l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1)))).toString(16).padStart(2, "0"); };
+    return "#" + f(0) + f(8) + f(4); }
+  // a darker shade leans cool/red, a lighter shine leans warm/yellow, like the rest of the pixel art
+  function towards(h, target, k) { var d = ((target - h + 540) % 360) - 180; return h + d * k; }
+  // shading in HSV, tuned on the hand-made colourways (gold #F4C35A -> shade #D49A2A, shine #FFE29A; lilac #9A7FD1 -> #7A5FB4)
+  function toHsv(c) { var r = c[0] / 255, g = c[1] / 255, b = c[2] / 255, mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, h = 0;
+    if (d) { h = mx === r ? (g - b) / d + (g < b ? 6 : 0) : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; }
+    return [h, mx ? d / mx : 0, mx]; }
+  function hsvHex(h, s, v) { h = ((h % 360) + 360) % 360; s = Math.max(0, Math.min(1, s)); v = Math.max(0, Math.min(1, v));
+    var f = function (n) { var k = (n + h / 60) % 6; return Math.round(255 * (v - v * s * Math.max(0, Math.min(k, 4 - k, 1)))).toString(16).padStart(2, "0"); };
+    return "#" + f(5) + f(3) + f(1); }
+  function shade(c) { var q = toHsv(hx(c)); return hsvHex(towards(q[0], 340, .04), q[1] * 1.12 + .02, q[2] * .82); }
+  function shine(c) { var q = toHsv(hx(c)); return hsvHex(towards(q[0], 50, .08), q[1] * .6, q[2] * 1.08 + (q[2] < .4 ? .14 : .06)); }
+  function lum(c) { var v = hx(c).map(function (x) { x /= 255; return x <= .03928 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4); }); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2]; }
+  function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+
+  var st = { shape: "bell", tag: "#F4C35A", collar: "#2F6B57", bg: "#FFF6E3", paw: "dark", pet: "dog" };
+  try { var sv = JSON.parse(localStorage.getItem("goldito-custom") || "null"); if (sv && sv.tag) st = Object.assign(st, sv); } catch (e) {}
+
+  function colours() {
+    return { t: st.tag, s: shade(st.tag), h: shine(st.tag), c: st.collar, d: shade(st.collar),
+             k: st.paw === "dark" ? "#211B17" : st.paw === "light" ? "#FFF8EC" : null };
+  }
+  function art(size, frac, withBg) {
+    var rows = ART[st.shape], H = rows.length, W = rows[0].length, col = colours(), paths = {};
+    var far = 0, cx = W / 2, cy = H / 2;
+    for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) if (rows[y][x] !== ".") {
+      far = Math.max(far, Math.hypot(Math.max(Math.abs(x - cx), Math.abs(x + 1 - cx)), Math.max(Math.abs(y - cy), Math.abs(y + 1 - cy)))); }
+    var cell = size * frac / far, ox = size / 2 - cx * cell, oy = size / 2 - cy * cell;
+    for (y = 0; y < H; y++) { var x0 = 0;
+      while (x0 < W) { var r = rows[y][x0], x1 = x0 + 1;
+        if (r === "." || (r === "k" && !col.k)) { x0++; continue; }
+        while (x1 < W && rows[y][x1] === r) x1++;
+        var fill = col[r];
+        paths[fill] = (paths[fill] || "") + '<rect x="' + (ox + x0 * cell).toFixed(2) + '" y="' + (oy + y * cell).toFixed(2) + '" width="' + ((x1 - x0) * cell + .3).toFixed(2) + '" height="' + (cell + .3).toFixed(2) + '"/>';
+        x0 = x1; } }
+    var out = withBg ? '<rect width="' + size + '" height="' + size + '" fill="' + st.bg + '"/>' : "";
+    for (var f in paths) out += '<g fill="' + f + '">' + paths[f] + "</g>";
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + " " + size + '" shape-rendering="crispEdges" role="img" aria-label="' + st.shape + ' tag">' + out + "</svg>";
+  }
+  function pet() {
+    var d = PD[st.pet] || PD.dog, s = d.g[NECK[st.shape]], n = Math.round(Math.sqrt(s.length)), col = colours();
+    var pal = Object.assign({}, d.pal, { C: st.collar, G: st.tag, D: col.s, Y: st.tag, y: col.s, Q: col.h }), out = "";
+    for (var y = 0; y < n; y++) { var x = 0;
+      while (x < n) { var c = s[y * n + x], x1 = x + 1; if (c === ".") { x++; continue; }
+        while (x1 < n && s[y * n + x1] === c) x1++;
+        out += '<rect x="' + x + '" y="' + y + '" width="' + (x1 - x) + '" height="1" fill="' + pal[c] + '"/>'; x = x1; } }
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + n + " " + n + '" shape-rendering="crispEdges" role="img" aria-label="Pet wearing the tag">' + out + "</svg>";
+  }
+  function code() { return st.shape + " · tag " + st.tag + " · collar " + st.collar + " · background " + st.bg + " · paw " + st.paw; }
+  function draw() {
+    document.getElementById("cz-big").innerHTML = art(1024, 300 / 1024, true);
+    document.getElementById("cz-64").innerHTML = art(64, .4, true);
+    document.getElementById("cz-32").innerHTML = art(32, .44, true);
+    document.getElementById("cz-pet").innerHTML = pet();
+    document.getElementById("cz-code").textContent = code();
+    var w = [];
+    if (ratio(st.tag, st.bg) < 1.5) w.push("The tag blends into the background. Try a darker or lighter background.");
+    if (st.paw !== "cut" && ratio(st.paw === "dark" ? "#211B17" : "#FFF8EC", st.tag) < 3) w.push("The paw is hard to see on this tag. Try the " + (st.paw === "dark" ? "light" : "dark") + " paw.");
+    if (ratio(st.collar, st.bg) < 1.3) w.push("The collar fades into the background.");
+    var el = document.getElementById("cz-warn"); el.hidden = !w.length; el.textContent = w.join(" ");
+    document.querySelectorAll(".cz-sw").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-c").toLowerCase() === st[b.getAttribute("data-g")].toLowerCase())); });
+    document.querySelectorAll(".cz-custom").forEach(function (l) { var i = l.querySelector("input"), g = i.getAttribute("data-g");
+      var listed = [].some.call(document.querySelectorAll('.cz-sw[data-g="' + g + '"]'), function (b) { return b.getAttribute("data-c").toLowerCase() === st[g].toLowerCase(); });
+      l.classList.toggle("on", !listed); i.value = st[g]; });
+    document.querySelectorAll("[data-cz]").forEach(function (g) { var k = g.getAttribute("data-cz");
+      g.querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.getAttribute("data-v") === st[k])); }); });
+    document.getElementById("cz-petsel").value = st.pet;
+    try { localStorage.setItem("goldito-custom", JSON.stringify(st)); } catch (e) {}
+  }
+  var sel = document.getElementById("cz-petsel");
+  Object.keys(PD).forEach(function (k) { var o = document.createElement("option"); o.value = k; o.textContent = NAMES[k] || k; sel.appendChild(o); });
+  sel.addEventListener("change", function () { st.pet = sel.value; draw(); });
+  document.querySelectorAll(".cz-sw").forEach(function (b) { b.addEventListener("click", function () { st[b.getAttribute("data-g")] = b.getAttribute("data-c"); draw(); }); });
+  document.querySelectorAll(".cz-custom input").forEach(function (i) { i.addEventListener("input", function () { st[i.getAttribute("data-g")] = i.value.toUpperCase(); draw(); }); });
+  document.querySelectorAll("[data-cz]").forEach(function (g) { g.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) { st[g.getAttribute("data-cz")] = b.getAttribute("data-v"); draw(); } }); });
+  document.querySelectorAll(".cz-pre").forEach(function (b) { b.addEventListener("click", function () { var p = PRESETS[+b.getAttribute("data-p")];
+    st.shape = p[1]; st.tag = p[2]; st.collar = p[3]; st.bg = p[4]; st.paw = p[5]; draw(); }); });
+  function pick(g) { var bs = document.querySelectorAll('.cz-sw[data-g="' + g + '"]'); return bs[Math.floor(Math.random() * bs.length)].getAttribute("data-c"); }
+  function hue(c) { return toHsl(hx(c))[0]; }
+  document.getElementById("cz-shuffle").addEventListener("click", function () {
+    for (var n = 0; n < 60; n++) {   // keep trying until the combination is readable and the collar contrasts with the tag
+      var t = pick("tag"), c = pick("collar"), g = pick("bg"), dh = Math.abs(((hue(t) - hue(c) + 540) % 360) - 180);
+      if (ratio(t, g) >= 1.6 && ratio(c, g) >= 1.4 && dh > 50 && ratio(t, c) > 1.3) break;
+    }
+    st.tag = t; st.collar = c; st.bg = g; st.paw = ratio("#211B17", t) >= ratio("#FFF8EC", t) ? "dark" : "light";
+    st.shape = ["bell", "heart", "plate"][Math.floor(Math.random() * 3)]; draw();
+  });
+  function save(name, blob) { window.gSave(name, blob, function () { var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000); }); }
+  var base = function () { return "goldito-" + st.shape + "-" + st.tag.slice(1) + "-" + st.collar.slice(1); };
+  document.getElementById("cz-svg").addEventListener("click", function () { save(base() + ".svg", new Blob([art(1024, 300 / 1024, true)], { type: "image/svg+xml" })); });
+  document.getElementById("cz-png").addEventListener("click", function () {
+    var img = new Image(), url = URL.createObjectURL(new Blob([art(1024, 300 / 1024, true)], { type: "image/svg+xml" }));
+    img.onload = function () { var cv = document.createElement("canvas"); cv.width = cv.height = 1024; cv.getContext("2d").drawImage(img, 0, 0); URL.revokeObjectURL(url);
+      cv.toBlob(function (b) { save(base() + ".png", b); }, "image/png"); };
+    img.src = url; });
+  document.getElementById("cz-copy").addEventListener("click", function () {
+    var b = this, t = code();
+    var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy colours"; }, 1400); };
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () { var r = document.createRange(); r.selectNodeContents(document.getElementById("cz-code")); getSelection().removeAllRanges(); getSelection().addRange(r); });
+  });
+  draw();
 })();
 </script>
 
