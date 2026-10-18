@@ -1,6 +1,6 @@
 # Goldito design site
 
-One site for all of Goldito's design work: the Draft (the design target, playable in three looks), the step-by-step flows for older owners, the brand, and the plan to the Oct 30 submission. Prototype only: no real accounts, AI, payments or locations.
+One site for all of Goldito's design work (search every page with <kbd>/</kbd> or ⌘K): the Draft (the design target, playable in three looks), the step-by-step flows for older owners, the brand, and the plan to the Oct 30 submission. Prototype only: no real accounts, AI, payments or locations.
 
 Live copy: https://mooque-dev.github.io/goldito-design/ (updated when Mook says "push").
 
@@ -14,6 +14,7 @@ Live copy: https://mooque-dev.github.io/goldito-design/ (updated when Mook says 
 | `brand.html` · **Brand** | Logo directions and icon set, diary decoration, color, type, decisions D2–D6, the rules for when things go wrong |
 | `plan.html` · **Plan** | Decisions waiting, where each area stands, the Oct 15–30 schedule, who does what, the design log |
 | `project.html` · **Project** | The project on one screen, an audit of what is (and isn't) on GitHub, the design tickets with a recommendation each, and how to push |
+| `sketches.html` · **Sketches** | Every design ticket sketched as screens, with why now, what was decided and questions; the chat booking (03D) |
 
 ## How it's built
 
@@ -41,3 +42,10 @@ Playwright scripts in `~/Claude/pawnote/.claude/tools/proto-tests/` (need the se
 - Stage names are the README's: Inquiry · Meet & Greet · Booking · Care & Pet Transit · Completion. Dates read "Oct 9–12".
 - Product copy is English (D1); notes and site text are EN + KO.
 - Anything the sitter does in the Draft is a dashed **DEMO** control or a "Chloe's phone" panel.
+
+
+## Keeping pages in step
+
+- **Status facts** (dates, PR states, Figma counts, what's live) live in one place: `window.GOLDITO_FACTS` in `screens.js`. The Overview tiles, the Project audit, tickets and queue read from it; update it first, then the words on Plan.
+- **Search**: `search-index.js` is generated. After content changes, with the site on :4001: `node .claude/tools/proto-tests/search-index.mjs`.
+- **Publishing to GitHub Pages**: copy this folder into the `goldito-design` clone **without deleting `logo-files/`** (the brand session publishes that page there).

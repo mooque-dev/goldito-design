@@ -855,6 +855,7 @@ const Journey = (() => {
   }
   function jump(target) {
     if (target === "check") { jumpTo("care"); J.check.status = "open"; render(); A.goTab("stay"); return; }
+    if (target === "treat") { jumpTo("care"); A.goTab("home"); showDanger(); return; } // ④ Treat Guard: the DANGER alert over care
     jumpTo(target); A.goTab(target === "care" ? "home" : "stay");
   }
 

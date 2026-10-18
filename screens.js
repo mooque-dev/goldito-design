@@ -4,6 +4,18 @@
    readme: README.md heading anchor on GitHub · docs: [label, repo path] pairs. App status matches main @ 7877079 (Oct 15). */
 window.GOLDITO_REPO = "https://github.com/minsikpaul92/Goldito/blob/main/";
 window.GOLDITO_FIGMA = "https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design?node-id=";
+// Status facts every page reads (Overview tiles, Plan, Project audit), so they can't drift apart. Update here first.
+window.GOLDITO_FACTS = {
+  updated: "Oct 18, 2026", updatedKo: "2026년 10월 18일",
+  mainAt: "3c64c6d", mainDate: "Oct 18",
+  pages: 7, // Overview · Prototype · Step by step · Brand · Plan · Project · Sketches
+  figma: { expressiveComponents: 15, expressiveVariants: 55, expressiveScreens: 40, balancedComponents: 65, linked: 321, logos: 27,
+    // node ids in the design file (sections keep their ids across plugin runs)
+    nodes: { components: "6-2", screens: "0-1", xTabs: "1113-11222", xStay: "1113-12134", xOnboarding: "1113-17054" } },
+  prs: { 54: "merged Oct 16", 129: "open, CI green", 41: "open, stale (Oct 6)", 127: "closed, replaced by #129" },
+  site: { live: "Oct 18", pending: "" }, // set pending to what's waiting whenever the site is behind
+  logoFiles: "https://mooque-dev.github.io/goldito-design/logo-files/",
+};
 // Expressive is the look we're building (Oct 15). Balanced and Playful are paused, not deleted:
 // to bring them back, set GOLDITO_SHOW_ALL_LOOKS = true (their files and screens are all still here).
 window.GOLDITO_PRIMARY_LOOK = "d";

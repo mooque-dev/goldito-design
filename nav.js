@@ -1,4 +1,5 @@
-/* One site bar for every page of the design site: brand · five tabs · guide (?) · language.
+/* One site bar for every page of the design site: brand · page tabs · search · guide (?) · language.
+   Search: the button, "/" or ⌘K / Ctrl+K opens it; results come from search-index.js (built by search-index.mjs).
    Include with <script src="nav.js" defer></script> (or ../nav.js); links resolve relative to this file.
    Language: EN / 한국어, remembered per browser. Pages mark text with class "en" / "ko",
    or listen for the "goldito-lang" event and read document.documentElement.dataset.lang.
@@ -51,12 +52,33 @@
     .site-guide .site-pages small{color:${C("text-muted", "GrayText")};font-size:.8125rem}
     .site-guide kbd{font:600 .6875rem/1 ui-monospace,monospace;border:1px solid ${C("border-strong", "#999")};border-bottom-width:2px;border-radius:4px;padding:1px 4px}
     .site-guide .x{align-self:flex-end;margin-top:-.25rem;border:0;background:none;color:${C("text-muted", "GrayText")};font:inherit;font-weight:600;cursor:pointer;min-height:32px}
+    /* Search */
+    .site-search-btn{display:inline-flex;align-items:center;gap:.5rem;height:40px;padding:0 .75rem 0 .625rem;border-radius:999px;border:1px solid ${C("border-strong", "rgba(127,127,127,.5)")};background:none;color:${C("text", "var(--text,CanvasText)")};font:inherit;font-size:.875rem;cursor:pointer}
+    .site-search-btn svg{width:18px;height:18px;flex:0 0 auto}
+    .site-search-btn kbd{font:600 .6875rem/1 ui-monospace,monospace;border:1px solid ${C("border-strong", "#999")};border-radius:4px;padding:2px 5px}
+    .site-search{position:fixed;inset:0;z-index:80;background:rgba(10,12,10,.45);display:flex;justify-content:center;align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 8vh) 1rem 1rem}
+    .site-search[hidden]{display:none}
+    .site-search .box{width:min(40rem,100%);max-height:78vh;display:flex;flex-direction:column;background:${C("surface", "Canvas")};color:${C("text", "CanvasText")};border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;font:400 .9375rem/1.45 var(--font-ui,system-ui,sans-serif)}
+    .site-search .field{display:flex;align-items:center;gap:.625rem;padding:.875rem 1rem;border-bottom:1px solid ${C("border", "rgba(127,127,127,.3)")}}
+    .site-search .field svg{width:20px;height:20px;color:${C("text-muted", "GrayText")};flex:0 0 auto}
+    .site-search input{flex:1;min-width:0;border:0;outline:0;background:none;color:inherit;font:inherit;font-size:1.0625rem}
+    .site-search .esc{border:1px solid ${C("border-strong", "#999")};border-radius:6px;background:none;color:${C("text-muted", "GrayText")};font:600 .75rem/1 inherit;padding:4px 7px;cursor:pointer}
+    .site-search ul{list-style:none;margin:0;padding:.375rem;overflow:auto}
+    .site-search li a{display:flex;flex-direction:column;gap:.125rem;padding:.625rem .75rem;border-radius:12px;text-decoration:none;color:inherit}
+    .site-search li[aria-selected="true"] a{background:${C("track", "rgba(127,127,127,.14)")}}
+    .site-search li small{font-size:.6875rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:${C("text-muted", "GrayText")}}
+    .site-search li b{font-weight:700}
+    .site-search li span{font-size:.8125rem;color:${C("text-muted", "GrayText")};display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .site-search mark{background:${C("warning-surface", "#FFF3C4")};color:inherit;border-radius:3px;padding:0 1px}
+    .site-search .empty{padding:1rem 1.125rem;color:${C("text-muted", "GrayText")};font-size:.875rem}
+    .site-search .hint{display:flex;gap:1rem;padding:.5rem 1rem;border-top:1px solid ${C("border", "rgba(127,127,127,.3)")};font-size:.75rem;color:${C("text-muted", "GrayText")}}
+    @media (max-width:900px){.site-search-btn .lbl,.site-search-btn kbd{display:none}.site-search-btn{width:40px;padding:0;justify-content:center}}
     /* Tooltip */
     .site-tip{position:fixed;z-index:70;max-width:16rem;padding:.4rem .6rem;border-radius:8px;background:${C("text", "#1A1A1A")};color:${C("surface", "#fff")};font:500 .8125rem/1.35 var(--font-ui,system-ui,sans-serif);pointer-events:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
     [data-tip]{cursor:help}
     a[data-tip],button[data-tip],[role="button"][data-tip],label[data-tip]{cursor:pointer}
     @media (max-width:900px){.site-brand b{display:none}}
-    @media (max-width:720px){.site-nav{grid-template-columns:auto 1fr;row-gap:.5rem}.site-end{grid-column:2;grid-row:1}.site-tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+    @media (max-width:720px){.site-nav{grid-template-columns:auto 1fr;row-gap:.5rem}.site-end{grid-column:2;grid-row:1}.site-tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
       .site-tabs a{padding:0 .25rem;justify-content:center;text-align:center;font-size:.8125rem;line-height:1.15;min-height:44px;white-space:normal}.site-lang button{min-width:40px;padding:0 .5rem}}`;
   document.head.appendChild(st);
 
@@ -103,6 +125,9 @@
     ["Project", "프로젝트", "project.html", "The whole project, an audit, the design tickets and how to push to GitHub", "프로젝트 전체, 점검, 디자인 티켓, GitHub에 올리는 법",
       ["Start with the map if you're new.", "The audit's last column shows what isn't on GitHub yet.", "Each design ticket has my take and a next step; section 4 walks you through a push."],
       ["처음이라면 지도부터.", "점검 표의 마지막 열은 아직 GitHub에 없는 것을 보여 줘요.", "디자인 티켓마다 제 의견과 다음 단계가 있고, 4번이 푸시를 단계별로 안내해요."]],
+    ["Sketches", "스케치", "sketches.html", "Design tickets sketched as screens, with why, and the ones to skip", "화면으로 그린 디자인 티켓과 이유, 건너뛸 티켓",
+      ["The table at the top says what I did with each ticket.", "Each sketch has why now, what I decided, and a question for you.", "Phone rows scroll sideways (drag, wheel or arrow keys)."],
+      ["맨 위 표가 티켓마다 한 일을 보여 줘요.", "스케치마다 왜 지금, 정한 것, 묵 님께 질문이 있어요.", "폰 줄은 옆으로 스크롤돼요 (드래그, 휠, 화살표 키)."]],
   ];
   const here = location.pathname.replace(/\/$/, "/index.html");
   const page = pages.find(([, , href]) => new URL(href, base).pathname === here) || pages[0];
@@ -115,7 +140,7 @@
       const url = new URL(href, base);
       return `<a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""} data-tip="${ten}" data-tip-ko="${tko}">${both(en, k)}</a>`;
     }).join("")}</span>
-    <span class="site-end"><button type="button" class="site-help" aria-expanded="false" aria-controls="site-guide" aria-label="Guide: how to use this page" data-tip="How to use this page" data-tip-ko="이 페이지 사용법">?</button>
+    <span class="site-end"><button type="button" class="site-search-btn" aria-haspopup="dialog" aria-controls="site-search" data-tip="Search the whole site (/ or ⌘K)" data-tip-ko="사이트 전체 검색 (/ 또는 ⌘K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">${both("Search", "검색")}</span><kbd>/</kbd><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">${both("Search", "검색")}</span></button><button type="button" class="site-help" aria-expanded="false" aria-controls="site-guide" aria-label="Guide: how to use this page" data-tip="How to use this page" data-tip-ko="이 페이지 사용법">?</button>
       <span class="site-lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></span></span>`;
   document.body.prepend(nav);
   const sync = () => nav.querySelectorAll(".site-lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.l === root.dataset.lang)));
@@ -147,6 +172,73 @@
   guide.querySelector(".x").addEventListener("click", () => { setGuide(false); help.focus(); });
   document.addEventListener("click", (e) => { if (!guide.hidden && !guide.contains(e.target) && e.target !== help) setGuide(false); });
   addEventListener("keydown", (e) => { if (e.key === "Escape" && !guide.hidden) { setGuide(false); help.focus(); } });
+
+  // ---------- search ----------
+  const sbtn = nav.querySelector(".site-search-btn");
+  const sdlg = document.createElement("div");
+  sdlg.className = "site-search"; sdlg.id = "site-search"; sdlg.hidden = true;
+  sdlg.setAttribute("role", "dialog"); sdlg.setAttribute("aria-modal", "true"); sdlg.setAttribute("aria-label", "Search the site");
+  sdlg.innerHTML = `<div class="box"><div class="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input type="search" role="combobox" aria-expanded="true" aria-controls="site-search-list" aria-autocomplete="list" autocomplete="off" spellcheck="false">
+      <button type="button" class="esc">Esc</button></div>
+    <ul id="site-search-list" role="listbox"></ul>
+    <div class="hint">${both("↑ ↓ to move · Enter to open · Esc to close", "↑ ↓ 이동 · Enter 열기 · Esc 닫기")}</div></div>`;
+  document.body.appendChild(sdlg);
+  const sinput = sdlg.querySelector("input"), slist = sdlg.querySelector("ul");
+  let INDEX = null, hits = [], sel = 0, lastFocus = null;
+  const loadIndex = () => INDEX ? Promise.resolve(INDEX) : new Promise((res) => {
+    if (window.GOLDITO_SEARCH) { INDEX = window.GOLDITO_SEARCH; res(INDEX); return; }
+    const s = document.createElement("script"); s.src = new URL("search-index.js", base).href;
+    s.onload = () => { INDEX = window.GOLDITO_SEARCH || []; res(INDEX); }; s.onerror = () => { INDEX = []; res(INDEX); };
+    document.head.appendChild(s);
+  });
+  const norm = (s) => (s || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const mark = (s, terms) => { let h = esc(s); for (const q of terms) if (q) h = h.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi"), "<mark>$1</mark>"); return h; };
+  const run = () => {
+    const L = ko() ? 1 : 0, q = norm(sinput.value).trim(), terms = q.split(/\s+/).filter(Boolean);
+    if (!terms.length) { slist.innerHTML = `<li class="empty">${both("Type to search every page, sketch, ticket and Prototype screen.", "모든 페이지, 스케치, 티켓, 프로토타입 화면을 검색해요.")}</li>`; hits = []; return; }
+    hits = (INDEX || []).map((it) => {
+      const title = norm(it.t[L] + " " + it.t[1 - L]), body = norm(it.x[L] + " " + it.x[1 - L] + " " + it.p.join(" "));
+      let score = 0;
+      for (const w of terms) { if (title.includes(w)) score += title.startsWith(w) ? 14 : 10; else if (body.includes(w)) score += 3; else return null; }
+      if (!it.h.includes("#")) score += 2; // whole pages first among equals
+      return { it, score };
+    }).filter(Boolean).sort((a, b) => b.score - a.score).slice(0, 40);
+    sel = 0;
+    slist.innerHTML = hits.length ? hits.map(({ it }, i) => {
+      const href = /^https?:/.test(it.h) ? it.h : new URL(it.h, base).href;
+      const body = it.x[L] || "", lower = norm(body), at = Math.max(0, lower.indexOf(terms.find((w) => lower.includes(w)) || "") - 50);
+      const snip = (at > 0 ? "…" : "") + body.slice(at, at + 180);
+      return `<li role="option" id="ss-${i}" aria-selected="${i === sel}"><a href="${href}"${/^https?:/.test(it.h) && !it.h.includes(location.host) ? ' target="_blank" rel="noopener"' : ""} tabindex="-1"><small>${esc(it.p[L])}</small><b>${mark(it.t[L], terms)}</b>${snip ? `<span>${mark(snip, terms)}</span>` : ""}</a></li>`;
+    }).join("") : `<li class="empty">${both("Nothing found. Try another word, or switch the language.", "찾은 게 없어요. 다른 단어로, 또는 언어를 바꿔 보세요.")}</li>`;
+    sinput.setAttribute("aria-activedescendant", hits.length ? "ss-0" : "");
+  };
+  const move = (d) => { if (!hits.length) return; sel = (sel + d + hits.length) % hits.length;
+    slist.querySelectorAll("li[role=option]").forEach((li, i) => li.setAttribute("aria-selected", String(i === sel)));
+    const cur = slist.querySelector(`#ss-${sel}`); if (cur) { cur.scrollIntoView({ block: "nearest" }); sinput.setAttribute("aria-activedescendant", cur.id); } };
+  const openSearch = async () => { lastFocus = document.activeElement; hideTip(); if (!guide.hidden) setGuide(false); sdlg.hidden = false; sinput.placeholder = ko() ? "검색: 페이지, 스케치, 티켓, 화면…" : "Search pages, sketches, tickets, screens…";
+    sinput.focus(); sinput.select(); await loadIndex(); run(); };
+  const closeSearch = () => { sdlg.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus(); };
+  sbtn.addEventListener("click", openSearch);
+  sdlg.querySelector(".esc").addEventListener("click", closeSearch);
+  sdlg.addEventListener("click", (e) => { if (e.target === sdlg) closeSearch(); });
+  sinput.addEventListener("input", run);
+  sinput.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); move(1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); move(-1); }
+    else if (e.key === "Enter") { const a = slist.querySelector(`#ss-${sel} a`); if (a) { e.preventDefault(); closeSearch(); a.click(); } }
+    else if (e.key === "Escape") { e.preventDefault(); closeSearch(); }
+  });
+  sdlg.addEventListener("keydown", (e) => { if (e.key === "Tab") { e.preventDefault(); sinput.focus(); } }); // focus stays in the dialog
+  slist.addEventListener("click", (e) => { const a = e.target.closest("a"); if (a && !a.target) closeSearch(); });
+  addEventListener("keydown", (e) => {
+    const typing = e.target.closest && e.target.closest("input, textarea, select, [contenteditable]");
+    if (!sdlg.hidden) return;
+    if ((e.key === "k" || e.key === "K") && (e.metaKey || e.ctrlKey)) { e.preventDefault(); openSearch(); }
+    else if (e.key === "/" && !typing && !e.metaKey && !e.ctrlKey) { e.preventDefault(); openSearch(); }
+  });
+  addEventListener("goldito-lang", () => { if (!sdlg.hidden) run(); });
 
   // Run edge to edge even when the page pads its body; tell the guide how tall the bar is.
   const cs = getComputedStyle(document.body);

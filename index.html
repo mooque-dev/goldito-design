@@ -81,7 +81,7 @@
   .shot img{width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover;object-position:top;background:var(--color-track)}
   .shot>span{padding:.75rem 1rem .875rem;display:flex;flex-direction:column;gap:.125rem;font-size:.8125rem;color:var(--color-text-muted)}
   .shot>span b{font:600 1rem/1.25 var(--font-display);color:var(--color-text)}
-  .chapters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem}
+  .chapters{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.75rem}
   .ch{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem;min-width:0}
   .ch .when{font-size:.75rem;font-weight:700;color:var(--color-primary)}
   .ch h3{font:600 1rem/1.2 var(--font-display)}
@@ -112,7 +112,7 @@
   .warn{margin-top:.5rem;font-size:.8125rem;background:var(--color-error-surface);border-radius:var(--radius-md);padding:.625rem .875rem}
   footer{font-size:.8125rem;color:var(--color-text-muted);display:flex;gap:.5rem 1.25rem;flex-wrap:wrap;align-items:center;border-top:1px solid var(--color-border);padding-top:1rem}
   footer a{min-height:32px;display:inline-flex;align-items:center}
-  @media (max-width:820px){.steps3{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.chapters{grid-template-columns:repeat(2,minmax(0,1fr))}.gallery{grid-template-columns:1fr}}
+  @media (max-width:820px){.steps3{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.chapters{grid-template-columns:repeat(2,minmax(0,1fr))}.ch:last-child:nth-child(odd){grid-column:1/-1}.gallery{grid-template-columns:1fr}}
   @media (max-width:460px){.chapters{grid-template-columns:1fr}.count{width:100%}.cd{flex:1;min-width:0}.tiles{grid-template-columns:1fr 1fr}.tile:last-child:nth-child(odd){grid-column:1/-1}}
 </style>
 <script src="nav.js" defer></script>
@@ -122,7 +122,7 @@
 <main class="wrap">
   <header class="hero">
     <div>
-      <span class="eyebrow"><span class="en">Goldito design · updated Oct 15, 2026</span><span class="ko">Goldito 디자인 · 2026년 10월 15일 업데이트</span></span>
+      <span class="eyebrow"><span class="en">Goldito design · updated <span data-fact="updated">Oct 18, 2026</span></span><span class="ko">Goldito 디자인 · <span data-fact="updatedKo">2026년 10월 18일</span> 업데이트</span></span>
       <h1><span class="en">Everything we've designed, in one place</span><span class="ko">우리가 디자인한 모든 것, 한곳에</span></h1>
       <p class="lede"><span class="en">Goldito is a pet-sitting app for <b>dogs and cats</b>: one stay in five stages, from the first question to the ride home, with an AI that answers, plans and writes so the sitter can just care. This site holds the Draft (the design target, playable in three looks), the step-by-step flows for older owners, the brand, and the plan to the <b>Oct 30</b> submission.</span><span class="ko">Goldito는 <b>강아지와 고양이</b>를 위한 펫시팅 앱이에요. 첫 질문부터 집에 오는 길까지 한 번의 스테이를 다섯 단계로, AI가 답하고 계획하고 써 줘서 시터는 돌봄에만 집중해요. 이 사이트에는 초안(디자인 목표, 세 가지 룩으로 체험), 어르신을 위한 단계별 흐름, 브랜드, 그리고 <b>10/30</b> 제출까지의 계획이 있어요.</span></p>
       <div class="actions">
@@ -198,7 +198,7 @@
 
   <section aria-labelledby="h-where" id="where">
     <div class="head"><h2 id="h-where"><span class="en">Where each stage is</span><span class="ko">단계별 현황</span></h2>
-      <p><span class="en">In the app on main (Oct 15), and in the Draft.</span><span class="ko">main의 앱(10/15)과 초안 기준.</span></p></div>
+      <p><span class="en">In the app on main (app status as of Oct 15), and in the Draft.</span><span class="ko">main의 앱(10/15)과 초안 기준.</span></p></div>
     <ul class="stages" id="stages"></ul>
   </section>
 
@@ -213,7 +213,7 @@
   </section>
 
   <section aria-labelledby="h-built" id="built">
-    <div class="head"><h2 id="h-built"><span class="en">What we've built, Oct 1 – 15</span><span class="ko">우리가 만든 것, 10/1 – 15</span></h2>
+    <div class="head"><h2 id="h-built"><span class="en">What we've built, Oct 1 – 18</span><span class="ko">우리가 만든 것, 10/1 – 18</span></h2>
       <p><span class="en">Four stretches of work. Each picture opens the real thing.</span><span class="ko">네 묶음의 작업. 그림을 누르면 실제 화면이 열려요.</span></p></div>
     <div class="gallery">
       <a class="shot" href="prototype.html#stage-1/d"><img src="assets/overview/draft-three-looks.jpg" alt="The Draft's stay in Balanced, Playful and Expressive" loading="lazy" width="1200" height="805"><span><b><span class="en">The Draft: the whole stay in three looks</span><span class="ko">초안: 세 가지 룩으로 보는 스테이 전체</span></b><span class="en">① to ⑤ playable, with Chloe's side shown along the way</span><span class="ko">①부터 ⑤까지 체험, 중간중간 Chloe 쪽 화면도</span></span></a>
@@ -226,6 +226,7 @@
       <div class="ch"><span class="when">Oct 5 – 7</span><h3><span class="en">Design system v1</span><span class="ko">디자인 시스템 v1</span></h3><ul><li><span class="en">Tokens, AA contrast, 44 px targets</span><span class="ko">토큰, AA 대비, 44px 터치 영역</span></li><li><span class="en">65 Figma components, DESIGN.md, PR #54</span><span class="ko">Figma 컴포넌트 65개, DESIGN.md, PR #54</span></li></ul></div>
       <div class="ch"><span class="when">Oct 9 – 13</span><h3><span class="en">The Draft follows the README</span><span class="ko">README를 따르는 초안</span></h3><ul><li><span class="en">Full stay, README promise map</span><span class="ko">스테이 전체, README 약속 지도</span></li><li><span class="en">Step-by-step flows for older owners</span><span class="ko">어르신을 위한 단계별 흐름</span></li></ul></div>
       <div class="ch"><span class="when">Oct 13 – 15</span><h3><span class="en">Brand and the newest screens</span><span class="ko">브랜드와 최신 화면</span></h3><ul><li><span class="en">Logo directions, diary decoration</span><span class="ko">로고 방향, 다이어리 꾸미기</span></li><li><span class="en">Expressive polish, Snap, Settings</span><span class="ko">익스프레시브 다듬기, Snap, 설정</span></li></ul></div>
+      <div class="ch"><span class="when">Oct 16 – 18</span><h3><span class="en">Expressive in Figma, sketches, search</span><span class="ko">Figma의 익스프레시브, 스케치, 검색</span></h3><ul><li><span class="en"><a href="sketches.html">Sketches</a> for every design ticket and the chat booking</span><span class="ko">모든 디자인 티켓과 채팅 예약 <a href="sketches.html">스케치</a></span></li><li><span class="en">Every Expressive screen in Figma, built from Expressive components</span><span class="ko">모든 익스프레시브 화면을 익스프레시브 컴포넌트로 Figma에</span></li><li><span class="en">A Pages layout for the stay, site search, the <a href="project.html">Project</a> page</span><span class="ko">스테이의 Pages 레이아웃, 사이트 검색, <a href="project.html">프로젝트</a> 페이지</span></li></ul></div>
     </div>
   </section>
 
@@ -247,11 +248,13 @@
   document.getElementById("dFreeze").textContent = left("2026-10-28T17:00:00Z");
   // At a glance
   const rows = F.flatMap((g) => g[1]), built = rows.filter((r) => r[3] === "built").length, inDraft = rows.filter((r) => r[5] !== "no").length;
+  const FX = window.GOLDITO_FACTS;
+  document.querySelectorAll("[data-fact]").forEach((n) => { const v = FX[n.dataset.fact]; if (v) n.textContent = v; });
   const tiles = [[`${built} / ${rows.length}`, "README promises built in the app", "README 약속 중 앱에 구현", "From the team's test guide on main", "main의 팀 테스트 가이드 기준"],
     [`${inDraft} / ${rows.length}`, "playable in the Draft", "초안에서 체험 가능", "The rest are marked “Not in the Draft yet” in the table below", "나머지는 아래 표에 “아직 초안에 없음”으로 표시돼요"],
     [S.length, "screens in the Prototype", "프로토타입 화면 수", "Every screen in the Prototype list", "프로토타입 목록의 모든 화면"], ...(window.GOLDITO_SHOW_ALL_LOOKS ? [["3", "looks: Balanced, Playful, Expressive", "룩: 밸런스드, 플레이풀, 익스프레시브", "Picking one is decision D1 on the Plan", "하나를 고르는 것이 계획 탭의 결정 D1"]]
       : [["1", "look: Expressive", "룩: 익스프레시브", "Decided Oct 15 (D1). Balanced and Playful are paused", "10/15 결정(D1). 밸런스드와 플레이풀은 잠시 쉬는 중"]]),
-    ["65", "Figma components from our plugin", "플러그인이 만든 Figma 컴포넌트", "Rebuilt with the screens on every plugin run", "플러그인을 돌릴 때마다 화면과 함께 다시 만들어요"]];
+    [`${FX.figma.expressiveComponents}`, `Expressive components in Figma (${FX.figma.expressiveVariants} variants)`, `Figma의 익스프레시브 컴포넌트 (변형 ${FX.figma.expressiveVariants}개)`, `The ${FX.figma.expressiveScreens} Expressive screens in Figma are built from them`, `Figma의 익스프레시브 화면 ${FX.figma.expressiveScreens}개가 이것으로 만들어져요`]];
   document.getElementById("tiles").innerHTML = tiles.map(([n, en, ko, ten, tko]) => `<div class="tile" tabindex="0" data-tip="${ten}" data-tip-ko="${tko}"><b>${n}</b><span>${both(en, ko)}</span></div>`).join("");
   // Stage cards: app status and Draft coverage per stage, from the README map
   const ST = [["①", "Inquiry", "문의", "stage-1"], ["②", "Meet & Greet", "Meet & Greet", "stage-2"], ["③", "Booking", "예약", "stage-3"], ["④", "Care & Pet Transit", "돌봄 · 이동", "stage-4"], ["⑤", "Completion", "마무리", "stage-5"]];

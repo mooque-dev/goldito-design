@@ -66,8 +66,9 @@
   .au tr:first-child td{border-top:0}
   .au td:first-child{font-weight:700;width:13rem}
   .au td:nth-child(2){color:var(--color-text-muted);width:15rem}
-  .au td:last-child{width:1%;white-space:nowrap}
-  .au .grp td{background:var(--color-track);font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:.375rem .875rem}
+  .au td:nth-child(4),.au td:last-child{width:1%;white-space:nowrap}
+  .au td:last-child a{font-weight:600}
+  .au .grp td[colspan]{background:var(--color-track);font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:.375rem .875rem}
   /* tickets */
   .order{display:flex;flex-wrap:wrap;gap:.375rem;counter-reset:o;margin:0;padding:0}
   .order li{list-style:none;counter-increment:o;display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .625rem .25rem .375rem;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-border);font-size:.8125rem;font-weight:600}
@@ -88,6 +89,7 @@
   .t .foot{display:flex;flex-wrap:wrap;gap:.375rem .75rem;font-size:.8125rem;color:var(--color-text-muted);margin-top:auto;padding-top:.5rem;border-top:1px solid var(--color-border)}
   .t .foot b{color:var(--color-text)}
   .t.dim{background:var(--color-background)}
+  .t .foot .see{flex-basis:100%;font-weight:600}
   .side{display:grid;grid-template-columns:1fr 1fr;gap:.875rem}
   .side .panel{display:flex;flex-direction:column;gap:.625rem}
   .side ul{margin:0;padding-left:1.125rem;display:flex;flex-direction:column;gap:.5rem;font-size:.875rem}
@@ -126,15 +128,16 @@
     .au tr{display:grid;grid-template-columns:1fr auto;gap:.125rem .75rem;padding:.625rem .875rem;border-top:1px solid var(--color-border)}
     .au tr:first-child{border-top:0}.au tr.grp{padding:0;border-top:0}.au tr.grp td{grid-column:1/-1;padding:.375rem .875rem!important}
     .au td,.au tr:first-child td{border:0;padding:0;width:auto}.au td:first-child{width:auto}.au td:nth-child(2){width:auto;grid-column:1/-1;grid-row:2;font-size:.8125rem}
-    .au td:nth-child(3){grid-column:1/-1;grid-row:3}.au td:last-child{grid-column:2;grid-row:1;align-self:start}}
+    .au td:nth-child(3){grid-column:1/-1;grid-row:3}.au td:nth-child(4){grid-column:2;grid-row:1;align-self:start}.au td:nth-child(5){grid-column:1/-1;grid-row:4;font-size:.8125rem}}
   @media (max-width:520px){.m li{grid-template-columns:1fr;gap:0}.t dl{grid-template-columns:1fr;gap:.125rem}.t dd{margin-bottom:.375rem}.tix{grid-template-columns:1fr}.queue li{grid-template-columns:1.5rem 1fr}.queue li>.pill{grid-column:2;justify-self:start}}
 </style>
+<script src="screens.js"></script>
 <script src="nav.js" defer></script>
 </head>
 <body>
 <main class="wrap">
   <header>
-    <span class="eyebrow"><span class="en">Project · updated Oct 15, 2026</span><span class="ko">프로젝트 · 2026년 10월 15일 업데이트</span></span>
+    <span class="eyebrow"><span class="en">Project · updated <span data-fact="updated">Oct 18, 2026</span></span><span class="ko">프로젝트 · <span data-fact="updatedKo">2026년 10월 18일</span> 업데이트</span></span>
     <h1><span class="en">The whole project, and how to ship your part</span><span class="ko">프로젝트 전체, 그리고 내 몫을 내보내는 법</span></h1>
     <p class="lede"><span class="en">One page to get your bearings: what Goldito is made of, an audit of everything design has made and <b>whether it's on GitHub yet</b>, the ten design tickets with my take on each, and a step-by-step guide to pushing.</span><span class="ko">한 페이지로 전체 파악: Goldito가 무엇으로 이뤄졌는지, 디자인이 만든 모든 것과 <b>GitHub에 올라갔는지</b>, 디자인 티켓 열 개와 각각에 대한 제 의견, 그리고 푸시하는 법을 단계별로.</span></p>
     <nav class="jump" aria-label="On this page">
@@ -161,14 +164,14 @@
     <div class="head"><h2 id="h-audit"><span class="en">2 · Audit: what we have, and where it lives</span><span class="ko">2 · 점검: 무엇이 있고 어디에 있나</span></h2>
       <p><span class="en">Checked against GitHub and your Mac today. The last column is the one to watch: anything “Only on your Mac” can't be reviewed or used by the team.</span><span class="ko">오늘 GitHub과 맥 기준으로 확인했어요. 마지막 열이 중요해요: “맥에만 있음”은 팀이 보거나 쓸 수 없어요.</span></p></div>
     <div class="tw" tabindex="0" aria-label="Audit table, scrolls sideways"><table class="au">
-      <thead><tr><th scope="col"><span class="en">What</span><span class="ko">무엇</span></th><th scope="col"><span class="en">Where</span><span class="ko">어디</span></th><th scope="col"><span class="en">State</span><span class="ko">상태</span></th><th scope="col"><span class="en">On GitHub?</span><span class="ko">GitHub에?</span></th></tr></thead>
+      <thead><tr><th scope="col"><span class="en">What</span><span class="ko">무엇</span></th><th scope="col"><span class="en">Where</span><span class="ko">어디</span></th><th scope="col"><span class="en">State</span><span class="ko">상태</span></th><th scope="col"><span class="en">On GitHub?</span><span class="ko">GitHub에?</span></th><th scope="col"><span class="en">See it</span><span class="ko">보기</span></th></tr></thead>
       <tbody id="auditRows"></tbody></table></div>
   </section>
 
   <!-- 3 · Tickets -->
   <section aria-labelledby="h-tix" id="tickets">
     <div class="head"><h2 id="h-tix"><span class="en">3 · Design tickets: what's asked, and my take</span><span class="ko">3 · 디자인 티켓: 요청 내용과 제 의견</span></h2>
-      <p><span class="en">Minsik opened #111 – #120 today (label <code>track:design</code>, all assigned to you). Seven are due by the Oct 28 freeze; three are P1. Here's the order I'd take them in.</span><span class="ko">민식 님이 오늘 #111 – #120을 열었어요 (라벨 <code>track:design</code>, 모두 묵 님 담당). 일곱 개는 10/28 동결까지, 세 개는 P1. 제가 추천하는 순서예요.</span></p></div>
+      <p><span class="en">Minsik opened #111 – #120 on Oct 15 and #147 on Oct 17 (label <code>track:design</code>, all assigned to you). Every card links to its sketch on the <a href="sketches.html">Sketches</a> page and, where there is one, to the screen in the Prototype or Figma. Here's the order I'd take them in.</span><span class="ko">민식 님이 10/15에 #111 – #120을, 10/17에 #147을 열었어요 (라벨 <code>track:design</code>, 모두 묵 님 담당). 카드마다 <a href="sketches.html">스케치</a> 페이지의 스케치와, 있으면 프로토타입이나 Figma 화면으로 연결돼요. 제가 추천하는 순서예요.</span></p></div>
     <ol class="order" id="order" aria-label="Recommended order"></ol>
     <div class="tix" id="tix"></div>
     <div class="side">
@@ -225,7 +228,7 @@
   </section>
 
   <footer>
-    <span><span class="en">Sources: GitHub issues and PRs on minsikpaul92/Goldito, <code>docs/plan/TODO.md</code> and the phase docs on <code>main</code> (Oct 15), and the branches on Mook's Mac. Recommendations are mine (Claude); the tickets and decisions are the team's.</span><span class="ko">출처: minsikpaul92/Goldito의 이슈와 PR, <code>main</code>의 <code>docs/plan/TODO.md</code>와 단계 문서 (10/15), 묵 님 맥의 브랜치. 추천은 제(Claude) 의견이고, 티켓과 결정은 팀의 것이에요.</span></span>
+    <span><span class="en">Sources: GitHub issues and PRs on minsikpaul92/Goldito, <code>docs/plan/TODO.md</code> and the phase docs on <code>main</code> (Oct 18, @ 3c64c6d), and the branches on Mook's Mac. Status facts live in one list (<code>screens.js</code>, GOLDITO_FACTS), so every page shows the same. Recommendations are mine (Claude); the tickets and decisions are the team's.</span><span class="ko">출처: minsikpaul92/Goldito의 이슈와 PR, <code>main</code>의 <code>docs/plan/TODO.md</code>와 단계 문서 (10/18, @ 3c64c6d), 묵 님 맥의 브랜치. 상태 정보는 한 목록(<code>screens.js</code>, GOLDITO_FACTS)에 있어서 모든 페이지가 같게 보여요. 추천은 제(Claude) 의견이고, 티켓과 결정은 팀의 것이에요.</span></span>
   </footer>
 </main>
 <script>
@@ -234,6 +237,11 @@
   const GH = "https://github.com/minsikpaul92/Goldito";
   const iss = (n) => `<a href="${GH}/issues/${n}" target="_blank" rel="noopener">#${n}</a>`;
   const pr = (n) => `<a href="${GH}/pull/${n}" target="_blank" rel="noopener">#${n}</a>`;
+  const F = window.GOLDITO_FACTS, FIG = "https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design?node-id=";
+  document.querySelectorAll("[data-fact]").forEach((n) => { const v = F[n.dataset.fact]; if (v) n.textContent = v; });
+  // Links to the site's own pages and to Figma, used across the audit, tickets and queue.
+  const L = (href, en, ko) => both(`<a href="${href}">${en}</a>`, `<a href="${href}">${ko}</a>`);
+  const LX = (href, en, ko) => both(`<a href="${href}" target="_blank" rel="noopener">${en} ↗</a>`, `<a href="${href}" target="_blank" rel="noopener">${ko} ↗</a>`);
   const $ = (id) => document.getElementById(id);
 
   // ---------- 1 · map: [title en, ko, rows [label en, ko, value en, ko]] ----------
@@ -262,10 +270,11 @@
       ["Photos", "사진", "Cloudinary", "Cloudinary"],
       ["AI", "AI", "Nebius Token Factory: Nemotron (text), MiniCPM-V (photos), Qwen3 (search)", "Nebius Token Factory: Nemotron (글), MiniCPM-V (사진), Qwen3 (검색)"]]],
     ["Where design lives", "디자인은 어디에", [
-      ["Figma", "Figma", `<a href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Pawddy-Design ↗</a>, built by our plugin`, `<a href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Pawddy-Design ↗</a>, 플러그인이 만들어요`],
-      ["This site", "이 사이트", `<a href="https://mooque-dev.github.io/goldito-design/" target="_blank" rel="noopener">mooque-dev.github.io/goldito-design ↗</a> (your repo)`, `<a href="https://mooque-dev.github.io/goldito-design/" target="_blank" rel="noopener">mooque-dev.github.io/goldito-design ↗</a> (묵 님 저장소)`],
-      ["In the team repo", "팀 저장소", `<code>design/</code> and <code>DESIGN.md</code>, via PR ${pr(54)}`, `<code>design/</code>와 <code>DESIGN.md</code>, PR ${pr(54)}`],
-      ["Brand files", "브랜드 파일", "<code>design/brand/</code> on your Mac only (logos, icons, diary deco)", "<code>design/brand/</code>는 맥에만 (로고, 아이콘, 다이어리 꾸밈)"]]],
+      ["Figma", "Figma", `<a href="${FIG}${F.figma.nodes.screens}" target="_blank" rel="noopener">Pawddy-Design ↗</a>: ${F.figma.expressiveScreens} Expressive screens built from ${F.figma.expressiveComponents} Expressive components (<a href="${FIG}${F.figma.nodes.components}" target="_blank" rel="noopener">Components ↗</a>)`,
+        `<a href="${FIG}${F.figma.nodes.screens}" target="_blank" rel="noopener">Pawddy-Design ↗</a>: 익스프레시브 컴포넌트 ${F.figma.expressiveComponents}개로 만든 화면 ${F.figma.expressiveScreens}개 (<a href="${FIG}${F.figma.nodes.components}" target="_blank" rel="noopener">컴포넌트 ↗</a>)`],
+      ["This site", "이 사이트", `<a href="https://mooque-dev.github.io/goldito-design/" target="_blank" rel="noopener">mooque-dev.github.io/goldito-design ↗</a>, ${F.pages} pages; search with <kbd>/</kbd>`, `<a href="https://mooque-dev.github.io/goldito-design/" target="_blank" rel="noopener">mooque-dev.github.io/goldito-design ↗</a>, ${F.pages}페이지. <kbd>/</kbd>로 검색`],
+      ["In the team repo", "팀 저장소", `<code>design/</code> and <code>DESIGN.md</code>, merged in ${pr(54)} (${F.prs[54].replace("merged ", "")})`, `<code>design/</code>와 <code>DESIGN.md</code>, ${pr(54)}로 머지 (10/16)`],
+      ["Logo files", "로고 파일", `<a href="${F.logoFiles}" target="_blank" rel="noopener">Logo files page ↗</a> on your site (every version, with Customize); masters in <code>design/brand/</code> on your Mac`, `묵 님 사이트의 <a href="${F.logoFiles}" target="_blank" rel="noopener">로고 파일 페이지 ↗</a> (모든 버전, Customize 포함). 원본은 맥의 <code>design/brand/</code>`]]],
     ["Where to look first", "먼저 볼 곳", [
       ["The queue", "작업 순서", `<a href="${GH}/blob/main/docs/plan/TODO.md" target="_blank" rel="noopener">docs/plan/TODO.md ↗</a>: “Current focus” per person`, `<a href="${GH}/blob/main/docs/plan/TODO.md" target="_blank" rel="noopener">docs/plan/TODO.md ↗</a>: 사람별 “Current focus”`],
       ["Your tickets", "내 티켓", `<a href="${GH}/issues?q=is%3Aopen+label%3Atrack%3Adesign" target="_blank" rel="noopener">label:track:design ↗</a>`, `<a href="${GH}/issues?q=is%3Aopen+label%3Atrack%3Adesign" target="_blank" rel="noopener">label:track:design ↗</a>`],
@@ -282,7 +291,7 @@
     ["Merge", "머지", "It joins <code>main</code>; the ticket closes; Vercel redeploys.", "<code>main</code>에 합쳐지고, 티켓이 닫히고, Vercel이 다시 배포해요."]];
   $("flow").innerHTML = FLOW.map(([en, ko, d, dk]) => `<li><b>${both(en, ko)}</b>${both(d, dk)}</li>`).join("");
 
-  const DATES = [["Oct 15", "10/15", "today", "오늘", ""], ["Oct 17–23", "10/17–23", "Minsik's P1 window (11.8 Save image now)", "민식 님 P1 기간 (지금 11.8 이미지 저장)", ""],
+  const DATES = [["Oct 18", "10/18", "today", "오늘", ""], ["Oct 18–24", "10/18–24", "Minsik: chat booking (03D, #138 – #146)", "민식: 채팅 예약 (03D, #138 – #146)", ""],
     ["Oct 20", "10/20", "side panel, stickers (my target)", "옆 패널, 스티커 (제 목표)", "hot"], ["Oct 22", "10/22", "large-text Figma ready", "큰 글씨 Figma 완성", "hot"],
     ["Oct 24–27", "10/24–27", "11.15 onboarding build", "11.15 온보딩 개발", ""], ["Oct 27", "10/27", "record the demo video", "데모 영상 녹화", ""],
     ["Oct 28", "10/28", "internal freeze", "내부 동결", "hot"], ["Oct 30", "10/30", "submit, 10 AM PT", "제출, 오전 10시 PT", "end"]];
@@ -290,33 +299,34 @@
 
   // ---------- 2 · audit: groups of [what en, ko, where en, ko, state en, ko, github kind, label en, ko] ----------
   const ON = {yes: "ok", pr: "info", no: "bad", na: "mute", old: "warn"};
+  // [what en, ko, where en, ko, state en, ko, github kind, label en, ko, see (html)]
   const AUDIT = [["Design work", "디자인 작업", [
-      ["Design site (6 pages)", "디자인 사이트 (6페이지)", "GitHub Pages + PR #54", "GitHub Pages + PR #54", "Expressive as the look; checked: links, accessibility, the full stay", "익스프레시브 룩. 링크, 접근성, 스테이 전체 확인", "yes", "Live", "공개됨"],
-      ["DESIGN.md + tokens", "DESIGN.md + 토큰", "PR #54", "PR #54", "Design system v1; tokens are added only, so no screen changes", "디자인 시스템 v1. 토큰은 추가만이라 화면 변화 없음", "pr", "In review", "리뷰 중"],
-      ["Figma plugin", "Figma 플러그인", "PR #54", "PR #54", "65 components, every screen; no Expressive, Snap or large text yet", "컴포넌트 65개, 모든 화면. 익스프레시브, Snap, 큰 글씨는 아직", "pr", "In review", "리뷰 중"],
-      ["Figma file", "Figma 파일", "Pawddy-Design", "Pawddy-Design", "Behind the plugin: needs a run (you click Run)", "플러그인보다 뒤처짐: 한 번 실행 필요 (묵 님이 Run)", "na", "Not code", "코드 아님"],
-      ["Settings / What's New handoff", "설정 / What's New 핸드오프", "PR #54", "PR #54", "Shipped in the app as #98", "앱에 #98로 출시", "pr", "In review", "리뷰 중"]]],
+      [`Design site (${F.pages} pages)`, `디자인 사이트 (${F.pages}페이지)`, "GitHub Pages · your repo", "GitHub Pages · 묵 님 저장소", F.site.pending ? `Expressive as the look; waiting to go live: ${F.site.pending}` : `Expressive as the look, with Sketches, the Pages layout and search; live since ${F.site.live}`, F.site.pending ? `익스프레시브 룩. 공개 대기: ${F.site.pending}` : `익스프레시브 룩, 스케치·Pages 레이아웃·검색 포함. ${F.site.live}부터 공개`, F.site.pending ? "old" : "yes", F.site.pending ? "Behind" : "Live", F.site.pending ? "뒤처짐" : "공개됨", L("index.html", "Overview", "개요")],
+      ["DESIGN.md + tokens", "DESIGN.md + 토큰", "main", "main", `Design system v1, merged with Minsik's Figma sync (#125); tokens identical to main`, `디자인 시스템 v1, 민식 님의 Figma 동기화(#125)와 합쳐서 머지. 토큰은 main과 같음`, "yes", `Merged ${F.prs[54].replace("merged ", "")}`, "10/16 머지", LX("https://github.com/minsikpaul92/Goldito/blob/main/DESIGN.md", "DESIGN.md", "DESIGN.md")],
+      ["Figma plugin", "Figma 플러그인", "main (#54) + your Mac", "main (#54) + 맥", `On main: the Balanced library. On your Mac (Oct 17–18): ${F.figma.expressiveScreens} Expressive screens from ${F.figma.expressiveComponents} components, SVG logos`, `main: 밸런스드 라이브러리. 맥(10/17–18): 컴포넌트 ${F.figma.expressiveComponents}개로 만든 익스프레시브 화면 ${F.figma.expressiveScreens}개, SVG 로고`, "old", "Newer on your Mac", "맥이 더 최신", L("#t112", "#112 below", "아래 #112")],
+      ["Figma file", "Figma 파일", "Pawddy-Design", "Pawddy-Design", "Expressive screens are in (Oct 17); run the plugin once more for the components version", "익스프레시브 화면 있음(10/17). 컴포넌트 버전은 플러그인 한 번 더 실행", "na", "Run again", "다시 실행", LX(`${FIG}${F.figma.nodes.xStay}`, "The stay in Figma", "Figma의 스테이")],
+      ["Tag + calendar key", "태그 + 달력 키", "PR #129", "PR #129", "Flat read-only Tag for allergies; Minsik dropped the key line (#134 removed the letters)", "알레르기용 평평한 읽기 전용 태그. 키 줄은 민식 님이 뺌(#134가 글자를 없앰)", "pr", "In review", "리뷰 중", LX("https://github.com/minsikpaul92/Goldito/pull/129", "#129", "#129")]]],
     ["Brand and assets", "브랜드와 에셋", [
-      ["Logo, icons, favicon files", "로고, 아이콘, 파비콘 파일", "design/brand/ (24 MB)", "design/brand/ (24 MB)", "Being worked on in another session today (pet options, bells); no final pick yet", "오늘 다른 세션에서 작업 중 (펫 옵션, 벨). 최종 선택 전", "no", "Only on your Mac", "맥에만"],
-      ["App icon, splash, favicon", "앱 아이콘, 스플래시, 파비콘", "frontend/assets/", "frontend/assets/", "Still Expo's placeholder; no ticket for it", "아직 Expo 기본 아이콘. 티켓도 없음", "no", "Placeholder", "임시"],
-      ["Stickers (9)", "스티커 (9개)", "frontend/assets/stickers/", "frontend/assets/stickers/", "Placeholders at 256 × 256; designed set is #114", "256 × 256 임시본. 디자인은 #114", "no", "Placeholder", "임시"],
-      ["Sample photos", "샘플 사진", "frontend/assets/demo/", "frontend/assets/demo/", "Handoff, treat labels, meal, walk, nap, mood photos are in; cat photos missing", "인계, 간식 라벨, 식사, 산책, 낮잠, 기분 사진은 있음. 고양이 사진 없음", "yes", "Mostly there", "대부분 있음"]]],
+      ["Logo files", "로고 파일", "Your site · design/brand/", "묵 님 사이트 · design/brand/", "Every version with Customize, on the logo files page; no final pick yet", "로고 파일 페이지에 모든 버전과 Customize. 아직 최종 선택 전", "na", "On your site", "묵 님 사이트", LX(F.logoFiles, "Logo files", "로고 파일")],
+      ["Logo in the app", "앱 속 로고", "frontend/assets/", "frontend/assets/", "Gold tag on Welcome and Login, plus the favicon (#125). The app icon and splash are still Expo's", "Welcome과 Login에 골드 태그, 파비콘도(#125). 앱 아이콘과 스플래시는 아직 Expo 기본", "old", "Partly", "일부", L("brand.html", "Brand", "브랜드")],
+      ["Stickers (9)", "스티커 (9개)", "frontend/assets/stickers/", "frontend/assets/stickers/", "Placeholders at 256 × 256; designed set is #114", "256 × 256 임시본. 디자인은 #114", "no", "Placeholder", "임시", L("sketches.html#stickers", "Sketch", "스케치")],
+      ["Sample photos", "샘플 사진", "frontend/assets/demo/", "frontend/assets/demo/", "Handoff, treat labels, meal, walk, nap, mood photos are in; cat photos missing", "인계, 간식 라벨, 식사, 산책, 낮잠, 기분 사진은 있음. 고양이 사진 없음", "yes", "Mostly there", "대부분 있음", L("sketches.html#photos", "Photo list", "사진 목록")]]],
     ["Branches and leftovers", "브랜치와 남은 것", [
-      ["PR #41 primitives", "PR #41 기본 컴포넌트", "feat/design-system", "feat/design-system", "Oct 6, 34 files, conflicts with main", "10/6, 파일 34개, main과 충돌", "old", "Stale PR", "오래된 PR"],
-      ["Uncommitted app edits", "커밋 안 된 앱 수정", "~/Claude/pawnote (31 files)", "~/Claude/pawnote (31개 파일)", "An older copy of the #41 work from Oct 1", "10/1의 #41 작업 사본", "no", "Only on your Mac", "맥에만"],
-      ["Old branches", "오래된 브랜치", "docs/gap-fill-competitor-research, claude/design-system-extraction…", "docs/gap-fill-competitor-research, claude/design-system-extraction…", "No PR; safe to delete after a look", "PR 없음. 확인 후 지워도 돼요", "old", "Clean up", "정리"],
-      ["Private artifact", "비공개 아티팩트", "claude.ai", "claude.ai", "A copy of this site; updated when you ask", "이 사이트의 사본. 말씀하시면 업데이트", "na", "Not GitHub", "GitHub 아님"]]]];
-  $("auditRows").innerHTML = AUDIT.map(([g, gk, rows]) => `<tr class="grp"><td colspan="4">${both(g, gk)}</td></tr>` + rows.map(([w, wk, wh, whk, s, sk, on, l, lk]) =>
-    `<tr><td>${both(w, wk)}</td><td>${both(wh, whk)}</td><td>${both(s, sk)}</td><td><span class="pill ${ON[on]}">${both(l, lk)}</span></td></tr>`).join("")).join("");
+      ["PR #41 primitives", "PR #41 기본 컴포넌트", "feat/design-system", "feat/design-system", "Oct 6, conflicts with main; #125 shipped the shared pieces it aimed at", "10/6, main과 충돌. #125가 목표했던 공용 부품을 이미 출시", "old", "Close it", "닫기", L("sketches.html#close41", "Comment to post", "올릴 코멘트")],
+      ["Uncommitted app edits", "커밋 안 된 앱 수정", "~/Claude/pawnote (31 files)", "~/Claude/pawnote (31개 파일)", "An older copy of the #41 work from Oct 1", "10/1의 #41 작업 사본", "no", "Only on your Mac", "맥에만", ""],
+      ["Old branches", "오래된 브랜치", "docs/gap-fill-competitor-research, claude/design-system-extraction…", "docs/gap-fill-competitor-research, claude/design-system-extraction…", "No PR; safe to delete after a look", "PR 없음. 확인 후 지워도 돼요", "old", "Clean up", "정리", ""],
+      ["Private artifact", "비공개 아티팩트", "claude.ai", "claude.ai", "A copy of this site; updated with every publish", "이 사이트의 사본. 게시할 때마다 업데이트", "na", "Not GitHub", "GitHub 아님", ""]]]];
+  $("auditRows").innerHTML = AUDIT.map(([g, gk, rows]) => `<tr class="grp"><td colspan="5">${both(g, gk)}</td></tr>` + rows.map(([w, wk, wh, whk, s, sk, on, l, lk, see]) =>
+    `<tr><td>${both(w, wk)}</td><td>${both(wh, whk)}</td><td>${both(s, sk)}</td><td><span class="pill ${ON[on]}">${both(l, lk)}</span></td><td>${see || ""}</td></tr>`).join("")).join("");
 
   // ---------- 3 · tickets, in the order I'd take them ----------
   // [n, title en, ko, milestone, due en, ko, verdict kind, verdict en, ko, asked en, ko, there en, ko, take en, ko, effort en, ko, next en, ko]
   const T = [
-    [117, "Wrap up design PRs #41 and #54", "디자인 PR #41, #54 마무리", "P0", "This week", "이번 주", "ok", "Today", "오늘",
+    [117, "Wrap up design PRs #41 and #54", "디자인 PR #41, #54 마무리", "P0", "This week", "이번 주", "warn", "One click left", "클릭 하나 남음",
       "Merge or close both open design PRs.", "열린 디자인 PR 두 개를 머지하거나 닫기.",
-      `${pr(54)} is ready for review, mergeable, Minsik requested. ${pr(41)} is a draft from Oct 6 that conflicts with main.`, `${pr(54)}는 리뷰 준비 완료, 머지 가능, 민식 님에게 요청됨. ${pr(41)}은 10/6 초안, main과 충돌.`,
-      "Close #41. Its tokens are already in #54, and redoing 15 shared files two weeks before the freeze is risk with nothing for the demo. Then answer Minsik's comments on #54 and let him squash-merge.", "#41은 닫기. 토큰은 이미 #54에 있고, 동결 2주 전에 공유 파일 15개를 다시 맞추는 건 데모에 도움 없이 위험만 커요. 그다음 #54 코멘트에 답하고 민식 님이 스쿼시 머지.",
-      "15 min", "15분", "I draft the closing comment for #41; you post it.", "#41 닫는 코멘트를 제가 쓰고 묵 님이 올려요."],
+      `${pr(54)} merged Oct 16, together with Minsik's Figma sync (#125). ${pr(41)} is still open, from Oct 6, and conflicts with main.`, `${pr(54)}는 10/16에 민식 님의 Figma 동기화(#125)와 함께 머지됐어요. ${pr(41)}은 10/6부터 열려 있고 main과 충돌해요.`,
+      "Close #41: #125 already shipped the shared pieces it aimed at (Tag, Avatar, Banner, press feel). Then close #117.", "#41은 닫기: 목표했던 공용 부품(Tag, Avatar, Banner, 누름 효과)을 #125가 이미 출시했어요. 그다음 #117도 닫기.",
+      "2 min", "2분", "Post the comment from the Sketches page.", "스케치 페이지의 코멘트를 올리기."],
     [115, "11.15 large-text onboarding + “at a glance” card", "11.15 큰 글씨 온보딩 + “at a glance” 카드", "P0", "By Oct 22", "10/22까지", "bad", "Most important", "가장 중요",
       "Figma for the onboarding Minsik builds Oct 24: question 28 px, options 20 px, 64 px tall, the “Max at a glance” card with five axes, and safety chips for the sitter.", "민식 님이 10/24에 만드는 온보딩 Figma: 질문 28px, 선택지 20px, 높이 64px, 다섯 축의 “Max at a glance” 카드, 시터용 안전 칩.",
       "The Step by step page already uses the same sizes. The spec names the axes: Sociability, Sensitivity, Energy, Appetite, Trainability.", "단계별 페이지가 이미 같은 크기를 써요. 스펙에 축 이름이 있어요: Sociability, Sensitivity, Energy, Appetite, Trainability.",
@@ -327,11 +337,16 @@
       "Frames are in Figma and the app already has the phone frame (1.7). The side panel isn't built yet (10.9).", "프레임은 Figma에 있고 앱에도 폰 프레임이 있어요 (1.7). 옆 패널은 아직 (10.9).",
       "Small, but it's the first thing a judge sees on a laptop. Spend the time on the side panel: logo, one line, two big Try demo buttons, QR. Two widths (beside the phone, and below it under 1100 px).", "작지만 심사위원이 노트북에서 처음 보는 화면. 시간은 옆 패널에: 로고, 한 줄, 큰 Try demo 버튼 두 개, QR. 폭 두 가지 (폰 옆, 1100px 미만이면 아래).",
       "Half a day", "반나절", "I mock the panel in the Draft; you pick a direction.", "제가 초안에 패널을 만들고 묵 님이 방향을 골라요."],
-    [112, "Scenario screens in Figma", "Figma의 시나리오 화면", "P0", "By Oct 22", "10/22까지", "warn", "Mostly done", "대부분 됨",
+    [147, "Tidy the Owner Home header and use icons", "오너 홈 헤더 정리와 아이콘", "P0", "This week", "이번 주", "warn", "Pick A or B", "A 또는 B 고르기",
+      "No text-only “Log out” in the header; every icon labelled with a 44 px target; owner and sitter consistent.", "헤더에 텍스트 “Log out” 없애기, 모든 아이콘에 이름과 44px 영역, 오너와 시터 일관되게.",
+      "Sketched two ways: my bell-and-avatar header, and the team's menu idea (Home + Owner, ≡ with the alert count), plus a middle version.", "두 가지로 스케치: 제 종과 아바타 헤더, 팀의 메뉴 아이디어(Home + Owner, 알림 수가 있는 ≡), 그리고 중간 안.",
+      "I'd take the middle version: the team's menu for everything else, but the bell stays out so a new alert is one tap away.", "중간 안 추천: 나머지는 팀의 메뉴로, 하지만 종은 밖에 둬서 새 알림까지 한 번이면 돼요.",
+      "Half a day", "반나절", "Pick one with the team; Minsik builds it.", "팀과 하나 고르면 민식 님이 만들어요."],
+    [112, "Scenario screens in Figma", "Figma의 시나리오 화면", "P0", "By Oct 22", "10/22까지", "ok", "Ready to close", "닫을 준비",
       "Seven screens on the demo path, from the inquiry thread to the Life Record.", "데모 경로의 화면 일곱 개, 문의 대화부터 Life Record까지.",
-      "The plugin already builds all seven (53 screens in total) in the Balanced look.", "플러그인이 이미 일곱 개 모두 만들어요 (전체 53개), 밸런스드 룩으로.",
-      "Mostly a plugin run. The open question is the look: if Expressive is the direction, I add Expressive versions of just these seven, plus Snap and Settings. Close it with screenshots in the issue.", "대부분 플러그인 실행이에요. 남은 질문은 룩: 익스프레시브로 간다면 이 일곱 개와 Snap, 설정만 익스프레시브로 추가. 이슈에 스크린샷 달고 닫기.",
-      "Me 1 day, you 30 min", "저 1일, 묵 님 30분", "Plugin round 3; you click Run in Figma.", "플러그인 3차. Figma에서 Run은 묵 님이."],
+      `Since Oct 17 – 18 the plugin builds all ${F.figma.expressiveScreens} Expressive screens of the Prototype tab, the whole stay ① – ⑤ at full length, from ${F.figma.expressiveComponents} Expressive components (${F.figma.linked} linked instances).`, `10/17 – 18부터 플러그인이 프로토타입 탭의 익스프레시브 화면 ${F.figma.expressiveScreens}개(스테이 ① – ⑤ 전체 길이)를 익스프레시브 컴포넌트 ${F.figma.expressiveComponents}개로 만들어요 (연결된 인스턴스 ${F.figma.linked}개).`,
+      "Done in Figma once you run the plugin. The chat booking (03D) will change these screens; that's a new ticket, not this one.", "플러그인을 한 번 실행하면 Figma에서 끝나요. 채팅 예약(03D)이 이 화면들을 바꿀 텐데, 그건 이 티켓이 아닌 새 티켓이에요.",
+      "You 10 min", "묵 님 10분", "Run the plugin, attach two screenshots, close.", "플러그인 실행, 스크린샷 두 장 첨부, 닫기."],
     [114, "Goldito sticker set", "Goldito 스티커 세트", "P0", "By Oct 20", "10/20까지", "warn", "Next", "다음",
       "Nine designed PNGs that replace the placeholders, same file names.", "임시 스티커를 바꿀 디자인 PNG 9개, 같은 파일 이름.",
       "Placeholders at 256 × 256: ball, best_day, bone, cloud, heart, paw, star, sun, zzz.", "256 × 256 임시본: ball, best_day, bone, cloud, heart, paw, star, sun, zzz.",
@@ -352,30 +367,45 @@
       "Minsik records around Oct 27; you edit.", "민식 님이 10/27쯤 녹화하고 묵 님이 편집.",
       "Recording lands one day before the freeze, so the edit has no slack. Get the storyboard, title cards and caption style done by Oct 25; then editing is a day of cutting.", "녹화가 동결 하루 전이라 편집에 여유가 없어요. 스토리보드, 타이틀 카드, 자막 스타일을 10/25까지 끝내면 편집은 자르기만 하면 돼요.",
       "1 day + prep", "1일 + 준비", "I draft the storyboard and title cards.", "스토리보드와 타이틀 카드는 제가 초안."],
-    [120, "Sitter calendar UX pass (CAL-1 – CAL-4)", "시터 달력 UX (CAL-1 – CAL-4)", "P1", "If time", "시간 되면", "mute", "Split it", "나누기",
+    [120, "Sitter calendar UX pass (CAL-1 – CAL-4)", "시터 달력 UX (CAL-1 – CAL-4)", "P1", "If time", "시간 되면", "ok", "Mostly shipped", "대부분 출시",
       "Hide M·A·N marks, tapping the schedule rolls the calendar up to show slots, readable slot text, pull the calendar back down.", "M·A·N 표시 숨기기, 스케줄 누르면 달력이 올라가며 슬롯 표시, 읽기 쉬운 슬롯, 달력 다시 내리기.",
-      "Logged as IQ-13 on Oct 10; Minsik waits for your Figma.", "10/10에 IQ-13으로 기록. 민식 님이 Figma를 기다려요.",
-      "Real pain on stage ①, but the roll-up gesture is risky this close to the freeze. Ship CAL-1 and CAL-3 (hide marks, readable slots) now as a tiny spec; move the gesture after the hackathon.", "① 단계의 실제 불편이지만, 말아 올리는 제스처는 동결 직전엔 위험해요. CAL-1, CAL-3 (표시 숨기기, 읽기 쉬운 슬롯)은 작은 스펙으로 지금, 제스처는 해커톤 뒤로.",
-      "1–2 hours for the small part", "작은 부분 1–2시간", "Comment the split on the issue.", "이슈에 나누자는 코멘트."],
+      "Minsik shipped the hatched calendar without letters and range dragging (#134, PR #150, Oct 18). That covers CAL-1 and CAL-3.", "민식 님이 글자 없는 빗금 달력과 기간 드래그를 출시했어요 (#134, PR #150, 10/18). CAL-1, CAL-3이 해결됐어요.",
+      "Only the roll-up gesture (CAL-2/4) is left; I'd move it after the hackathon and close this.", "남은 건 말아 올리기 제스처(CAL-2/4)뿐. 해커톤 뒤로 미루고 이건 닫기를 추천해요.",
+      "Comment only", "코멘트만", "Say CAL-1/3 shipped in #150; the gesture waits.", "CAL-1/3은 #150으로 출시, 제스처는 대기라고 남기기."],
     [119, "Coat-color skins and 8-bit pixel pet sprites (11.10 · 11.12)", "털 색 스킨과 8비트 픽셀 펫 (11.10 · 11.12)", "P1", "After the hackathon", "해커톤 뒤", "mute", "Skip for now", "지금은 보류",
       "6–8 coat-color palettes, and pixel sprites for a Maltese and a cat with at least 3 states each.", "털 색 팔레트 6–8개, 몰티즈와 고양이 픽셀 스프라이트 각각 상태 3개 이상.",
       "TODO says these wait for you and aren't planned before the freeze. Pixel pet options are being explored in the brand files today.", "TODO에 묵 님을 기다리며 동결 전 계획은 없다고 돼 있어요. 오늘 브랜드 파일에서 픽셀 펫 옵션을 탐색 중.",
       "The biggest ticket with the least demo value, and a second visual style on top of Expressive. If you want one piece, do the palettes (each must keep text at 4.5 : 1).", "데모 가치에 비해 가장 큰 티켓이고, 익스프레시브 위에 두 번째 스타일이 생겨요. 하나만 한다면 팔레트 (글자 대비 4.5 : 1 유지).",
       "2–3 days", "2–3일", "Say so on the issue so nobody waits.", "아무도 기다리지 않게 이슈에 남기기."]];
+  const SEE = {
+    117: [["sketches.html#close41", "Comment to post", "올릴 코멘트"]],
+    115: [["sketches.html#onb", "Sketch", "스케치"], ["steps.html#book", "Large-text pattern", "큰 글씨 패턴"]],
+    111: [["sketches.html#panel", "Sketch", "스케치"]],
+    147: [["sketches.html#header", "Sketch", "스케치"], ["sketches.html#hd-team", "Team's menu idea", "팀 메뉴 아이디어"]],
+    112: [["prototype.html#stage-1/d", "Prototype", "프로토타입"], ["X:xStay", "In Figma", "Figma에서"]],
+    114: [["sketches.html#stickers", "Sketch", "스케치"]],
+    118: [["sketches.html#themes", "Sketch", "스케치"]],
+    113: [["sketches.html#photos", "Photo list", "사진 목록"]],
+    116: [["sketches.html#video", "Storyboard", "스토리보드"]],
+    120: [["sketches.html#cal", "Sketch", "스케치"], ["prototype.html#stage-1/d", "Prototype", "프로토타입"]],
+    119: [["sketches.html#skins", "Sketch", "스케치"], [F.logoFiles + "#petopts", "Pixel pets", "픽셀 펫"]],
+  };
+  const seeLinks = (n) => (SEE[n] || []).map(([h, en, ko]) => h.startsWith("X:") ? LX(`${FIG}${F.figma.nodes[h.slice(2)]}`, en, ko) : /^https?:/.test(h) ? LX(h, en, ko) : L(h, `${en} ›`, `${ko} ›`)).join(" · ");
   $("order").innerHTML = T.map(([n, en, ko]) => `<li><a href="#t${n}">#${n}</a></li>`).join("");
   $("tix").innerHTML = T.map(([n, en, ko, ms, due, duek, vk, ven, vko, a, ak, h, hk, tk1, tk2, ef, efk, nx, nxk], i) =>
     `<article class="t${vk === "mute" && ms === "P1" ? " dim" : ""}" id="t${n}"><div class="top"><span class="rank">${i + 1}</span><span class="num">${iss(n)}</span><span class="pill ${ms === "P0" ? "info" : "mute"}">${ms}</span><span class="pill ${vk}">${both(ven, vko)}</span></div>
       <h3>${both(en, ko)}</h3>
       <dl><dt>${both("Asked", "요청")}</dt><dd>${both(a, ak)}</dd><dt>${both("Already", "이미")}</dt><dd>${both(h, hk)}</dd></dl>
       <div class="take"><b>${both("My take", "제 의견")}</b>${both(tk1, tk2)}</div>
-      <div class="foot"><span>${both("Due", "기한")} <b>${both(due, duek)}</b></span><span>${both("Effort", "작업량")} <b>${both(ef, efk)}</b></span><span>${both("Next:", "다음:")} ${both(nx, nxk)}</span></div></article>`).join("");
+      <div class="foot"><span>${both("Due", "기한")} <b>${both(due, duek)}</b></span><span>${both("Effort", "작업량")} <b>${both(ef, efk)}</b></span><span>${both("Next:", "다음:")} ${both(nx, nxk)}</span>${SEE[n] ? `<span class="see">${seeLinks(n)}</span>` : ""}</div></article>`).join("");
 
-  const ADD = [["Logo, app icon, splash and favicon", "로고, 앱 아이콘, 스플래시, 파비콘", "The app still shows Expo's placeholder icon, and the README, Devpost and video all need the logo. No ticket covers it. P0.", "앱은 아직 Expo 기본 아이콘이고, README, Devpost, 영상 모두 로고가 필요해요. 티켓이 없어요. P0."],
+  const ADD = [["App icon and splash", "앱 아이콘과 스플래시", "The gold tag is on Welcome, Login and the favicon since #125, but the app icon and splash are still Expo's, and no ticket covers them. P0 once you pick the logo.", "#125부터 Welcome, Login, 파비콘에 골드 태그가 있지만, 앱 아이콘과 스플래시는 아직 Expo 기본이고 티켓도 없어요. 로고를 고르면 P0."],
     ["Devpost visuals", "Devpost 이미지", "Cover image and gallery shots for the submission page. P0, Oct 29.", "제출 페이지의 커버와 갤러리 이미지. P0, 10/29."],
-    ["One icon set", "아이콘 세트 통일", "The Draft uses Lucide; the app uses Ionicons plus emoji. A decision for Minsik, asked in #54.", "초안은 Lucide, 앱은 Ionicons와 이모지. 민식 님 결정 사항, #54에서 질문함."]];
+    ["Chat booking design (03D)", "채팅 예약 디자인 (03D)", "Booking is moving into one chat per pair (#130 – #146) with no design ticket. Sketched on the Sketches page; worth a ticket so it's tracked.", "예약이 쌍마다 채팅 하나로 옮겨 가요(#130 – #146). 디자인 티켓이 없어요. 스케치 페이지에 그렸고, 추적되게 티켓으로 남길 만해요."],
+    ["One icon set", "아이콘 세트 통일", "The Draft uses Lucide; the app uses Ionicons plus emoji. Still open with Minsik.", "초안은 Lucide, 앱은 Ionicons와 이모지. 민식 님과 아직 미정."]];
   $("add").innerHTML = ADD.map(([en, ko, d, dk]) => `<li><b>${both(en, ko)}</b>. <span class="m2">${both(d, dk)}</span></li>`).join("");
   const CLOSE = [[`${iss(13)} Welcome and Login flows in Figma`, `${iss(13)} Figma의 Welcome, Login 흐름`, "From Sept 29. The plugin already builds Welcome and Login, and the app shipped them in phase 03. Close it with a link to the Figma page.", "9/29 티켓. 플러그인이 이미 Welcome과 Login을 만들고, 앱은 03단계에서 출시했어요. Figma 페이지 링크와 함께 닫기."],
-    [`${pr(41)} Design system primitives`, `${pr(41)} 디자인 시스템 기본 컴포넌트`, "See #117 above.", "위 #117 참고."]];
+    [`${pr(41)} Design system primitives`, `${pr(41)} 디자인 시스템 기본 컴포넌트`, "See #117 above; the comment is on the Sketches page.", "위 #117 참고. 코멘트는 스케치 페이지에."]];
   $("close").innerHTML = CLOSE.map(([en, ko, d, dk]) => `<li><b>${both(en, ko)}</b>. <span class="m2">${both(d, dk)}</span></li>`).join("");
 
   // ---------- 4 · github ----------
@@ -403,13 +433,14 @@
     ["“This repository moved” when pushing is harmless: GitHub forwards it.", "푸시할 때 “This repository moved”는 문제없어요: GitHub이 전달해 줘요."]];
   $("undo").innerHTML = UNDO.map(([en, ko]) => `<li>${both(en, ko)}</li>`).join("");
 
-  const QUEUE = [["ok", "Done", "완료", `PR ${pr(54)} pushed and ready for review`, `PR ${pr(54)} 푸시, 리뷰 준비 완료`, "Answer Minsik's comments when they come; he squash-merges.", "민식 님 코멘트에 답하기. 머지는 민식 님이 스쿼시로."],
-    ["warn", "You · 2 min", "묵 님 · 2분", `Close ${pr(41)} and ${iss(13)}`, `${pr(41)}과 ${iss(13)} 닫기`, "I draft both comments; you post them on github.com.", "코멘트 두 개는 제가 쓰고, 묵 님이 github.com에 올려요."],
-    ["warn", "You · 5 min", "묵 님 · 5분", "Open the missing tickets (logo + app icon, Devpost visuals)", "빠진 티켓 열기 (로고 + 앱 아이콘, Devpost 이미지)", "Or say “open them” and I will.", "또는 “열어줘”라고 하시면 제가 열어요."],
-    ["mute", "Oct 16–20", "10/16–20", `Stickers PR for ${iss(114)}, your first solo push`, `${iss(114)} 스티커 PR, 첫 직접 푸시`, "Way B above. I'll be on hand.", "위 B 방법. 옆에서 도와드릴게요."],
-    ["mute", "After your pick", "선택 후", "Logo, app icon, splash, favicon PR", "로고, 앱 아이콘, 스플래시, 파비콘 PR", "From design/brand; only the final sizes go in, not the 24 MB of masters.", "design/brand에서 최종 크기만, 24MB 원본은 빼고."],
-    ["mute", "Oct 18–22", "10/18–22", "Figma plugin round 3 (Expressive, Snap, large text)", "Figma 플러그인 3차 (익스프레시브, Snap, 큰 글씨)", "A follow-up PR after #54 merges; you run it in Figma.", "#54 머지 후 후속 PR. Figma에서 실행은 묵 님."],
-    ["mute", "Any time", "언제든", "This site", "이 사이트", "Say “push the site”. It's your repo, so it goes live without a review.", "“사이트 푸시”라고 하세요. 묵 님 저장소라 리뷰 없이 바로 공개돼요."]];
+  const QUEUE = [["ok", "Done Oct 16", "10/16 완료", `PR ${pr(54)} merged`, `PR ${pr(54)} 머지`, "DESIGN.md, tokens, the design site and the plugin are on main.", "DESIGN.md, 토큰, 디자인 사이트, 플러그인이 main에 있어요."],
+    ["info", "In review", "리뷰 중", `PR ${pr(129)}: flat Tag for allergies`, `PR ${pr(129)}: 알레르기용 평평한 태그`, "CI is green; Minsik merges when he reviews.", "CI 통과. 민식 님이 리뷰하면 머지해요."],
+    ["warn", "You · 2 min", "묵 님 · 2분", `Close ${pr(41)} and ${iss(13)}`, `${pr(41)}과 ${iss(13)} 닫기`, `The comment is ready on the <a href="sketches.html#close41">Sketches page</a>.`, `코멘트는 <a href="sketches.html#close41">스케치 페이지</a>에 준비돼 있어요.`],
+    ["warn", "You · 10 min", "묵 님 · 10분", "Run the Figma plugin once more", "Figma 플러그인 한 번 더 실행", `Builds the ${F.figma.expressiveComponents} Expressive components and links the screens to them; then #112 can close.`, `익스프레시브 컴포넌트 ${F.figma.expressiveComponents}개를 만들고 화면을 연결해요. 그러면 #112를 닫을 수 있어요.`],
+    ["warn", "You · 5 min", "묵 님 · 5분", "Open the missing tickets (app icon + splash, chat booking design, Devpost visuals)", "빠진 티켓 열기 (앱 아이콘 + 스플래시, 채팅 예약 디자인, Devpost 이미지)", "Or say “open them” and I will.", "또는 “열어줘”라고 하시면 제가 열어요."],
+    ["mute", "Next", "다음", "Plugin PR: Expressive components and SVG logos", "플러그인 PR: 익스프레시브 컴포넌트와 SVG 로고", "The newer plugin is only on your Mac; one small PR puts it on main.", "새 플러그인은 맥에만 있어요. 작은 PR 하나로 main에 올려요."],
+    ["mute", "Oct 18–20", "10/18–20", `Stickers PR for ${iss(114)}, your first solo push`, `${iss(114)} 스티커 PR, 첫 직접 푸시`, "Way B above. I'll be on hand.", "위 B 방법. 옆에서 도와드릴게요."],
+    ["mute", "Any time", "언제든", "This site", "이 사이트", "Say “push the site”. It's your repo, so it goes live without a review; the logo files page stays as it is.", "“사이트 푸시”라고 하세요. 묵 님 저장소라 리뷰 없이 바로 공개되고, 로고 파일 페이지는 그대로 둬요."]];
   $("queue").innerHTML = QUEUE.map(([k, l, lk, t, tk, d, dk], i) => `<li><span class="n">${i + 1}</span><span>${both(t, tk)}<small>${both(d, dk)}</small></span><span class="pill ${k}">${both(l, lk)}</span></li>`).join("");
 
   // Commands copy on click (falls back to selecting the text where the clipboard is blocked).
