@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paw Drawer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<!-- Concept: the header menu drawer (#147) is pulled in by a pet paw. Prototype only, not in the app.
+     The arm is SVG in the pet-avatar style (2 px ink #1B4332 outline, pastel fills). One timeline engine drives
+     three values (drawer x, paw x, grip) per variant, so each variant maps 1:1 to an Animated.sequence later. -->
+<style>
+:root{--page:#E8E8E3;--panel:#FFFFFF;--text:#1A1A1A;--muted:#4F5B53;--line:#D9DED6;--ink:#1B4332;--on:#FFFFFF;--soft:#D8F3DC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#0E0F0E;--panel:#1C1E1C;--text:#EDEDEA;--muted:#A8ADA6;--line:#2C2D2B;--ink:#D8F3DC;--on:#0E1210;--soft:#1E3128}}
+:root[data-theme="dark"]{--page:#0E0F0E;--panel:#1C1E1C;--text:#EDEDEA;--muted:#A8ADA6;--line:#2C2D2B;--ink:#D8F3DC;--on:#0E1210;--soft:#1E3128}
+body{margin:0;background:var(--page);color:var(--text);font:14px/1.4 "Plus Jakarta Sans",Inter,system-ui,sans-serif}
+.stage{display:flex;flex-wrap:wrap;gap:32px;justify-content:center;align-items:flex-start;padding:28px 16px 48px}
+.panel{width:320px;max-width:100%;background:var(--panel);border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:18px}
+.panel h1{margin:0;font:600 26px/1.1 Fredoka,ui-rounded,sans-serif;color:var(--ink)}
+.panel p{margin:0;color:var(--muted)}
+.grp{display:flex;flex-direction:column;gap:8px}
+.grp>span{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-height:44px;border:0;border-radius:999px;background:var(--soft);color:var(--ink);font:700 14px/1 inherit;font-family:inherit;cursor:pointer;padding:0 12px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--on)}
+.seg.coats{display:grid;grid-template-columns:1fr 1fr}
+.seg.coats button{display:flex;align-items:center;justify-content:center;gap:8px}
+.seg.coats i{width:16px;height:16px;border-radius:50%;box-shadow:0 0 0 2px #1B4332;flex:0 0 auto}
+.seg button small{display:block;font-weight:600;font-size:11px;opacity:.8;margin-top:3px}
+.tog{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer;font-weight:700}
+.tog input{width:20px;height:20px;accent-color:#2D6A4F}
+.play{min-height:48px;border:0;border-radius:999px;background:#2D6A4F;color:#fff;font:800 15px/1 inherit;font-family:inherit;cursor:pointer}
+.stat{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px}
+.stat b{color:var(--text)}
+
+/* Phone: Expressive tokens (copied from redesign/expressive.html) */
+.xp{--ink:#1B4332;--green:#2D6A4F;--mint:#D8F3DC;--gold:#F4C35A;--gold-ink:#8A5A00;--card:#FFFFFF;--terra:#E76F51;--cream:#FBF6EA;--peach:#FDE2CC;--butter:#FBEFC8;--blush:#FAD6CB;
+  --text:#1A1A1A;--muted:#4F5B53;--line:#E3EADF;--warn-ink:#9A3412;--display:"Fredoka","Arial Rounded MT Bold",ui-rounded,sans-serif;--scrim:27,67,50;
+  width:402px;height:874px;background:var(--cream);color:var(--text);font:14px/1.4 "Plus Jakarta Sans",Inter,system-ui,sans-serif;
+  display:flex;flex-direction:column;overflow:hidden;position:relative;border-radius:44px;box-shadow:0 0 0 10px #1A1A1A,0 24px 60px rgba(0,0,0,.25);flex:0 0 auto;-webkit-font-smoothing:antialiased}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .xp{--ink:#D8F3DC;--mint:#1E3128;--peach:#3A2A1F;--butter:#36301A;--blush:#3A2421;--cream:#121312;--card:#1C1E1C;--text:#EDEDEA;--muted:#A8ADA6;--line:#2C2D2B;--gold-ink:#F4C35A;--warn-ink:#FDBA74;--scrim:0,0,0}}
+:root[data-theme="dark"] .xp{--ink:#D8F3DC;--mint:#1E3128;--peach:#3A2A1F;--butter:#36301A;--blush:#3A2421;--cream:#121312;--card:#1C1E1C;--text:#EDEDEA;--muted:#A8ADA6;--line:#2C2D2B;--gold-ink:#F4C35A;--warn-ink:#FDBA74;--scrim:0,0,0}
+.xp *{box-sizing:border-box}
+.xp svg.art{display:block}
+.xp .top{display:flex;align-items:flex-start;justify-content:space-between;padding:54px 20px 8px}
+.xp .hello{font:700 34px/1.05 var(--display);color:var(--ink);letter-spacing:-.01em;margin:0}
+.xp .hello em{font-style:normal;color:var(--gold-ink)}
+.xp .sub{margin:6px 0 0;color:var(--muted);font-weight:600}
+.xp .ic{width:44px;height:44px;border-radius:50%;background:var(--card);display:grid;place-items:center;position:relative;color:var(--ink);border:0;cursor:pointer;flex:0 0 auto}
+.xp .ic svg{width:22px;height:22px}
+.xp .ic .dot{position:absolute;top:9px;right:9px;width:8px;height:8px;border-radius:50%;background:var(--terra);box-shadow:0 0 0 2px var(--card)}
+.xp .body{flex:1;overflow:hidden;padding:8px 20px 12px;display:flex;flex-direction:column;gap:14px}
+.xp .block{border-radius:28px;padding:18px}
+.xp .g{background:var(--green);color:#fff}
+.xp .m{background:var(--mint)} .xp .p{background:var(--peach)} .xp .y{background:var(--butter)} .xp .r{background:var(--blush)} .xp .w{background:var(--card)}
+.xp .mid{font:600 25px/1.05 var(--display)}
+.xp .big{font:700 30px/1 var(--display);color:var(--ink)}
+.xp .sm{font-size:12.5px} .xp .b{font-weight:700} .xp .h{font-weight:800;font-size:17px} .xp .muted{color:var(--muted)}
+.xp .row{display:flex;align-items:center;gap:10px}
+.xp .between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.xp .live{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.22);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700}
+.xp .live::before{content:"";width:7px;height:7px;border-radius:50%;background:#95D5B2}
+.xp .care-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}.xp .care-bar i{height:8px;border-radius:4px;background:rgba(255,255,255,.22)}.xp .care-bar i.on{background:var(--gold)}
+.xp .photo{background-size:cover;background-position:center;border-radius:22px}
+.xp .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.xp .tile{border-radius:24px;padding:12px;display:flex;flex-direction:column;gap:2px;min-height:118px}
+.xp .tile svg{width:46px;height:46px;margin-bottom:4px}
+.xp .tile span{font-size:12px;font-weight:700;color:var(--muted)}
+.xp .sec{display:flex;align-items:baseline;justify-content:space-between}
+.xp .sec h3{margin:0;font:600 21px/1 var(--display);color:var(--ink)}
+.xp .link{color:#2D6A4F;font-weight:800;font-size:13px}
+.xp .pets{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.xp .pet{border-radius:24px;padding:12px;display:flex;align-items:center;gap:8px}
+.xp .pet svg{width:52px;height:52px;flex:0 0 auto}
+.xp .pin{padding:6px 20px 10px}
+.xp .btn{display:flex;align-items:center;justify-content:center;min-height:52px;border-radius:999px;background:var(--green);color:#fff;font-weight:800;font-size:16px}
+.xp .tabs{display:flex;justify-content:space-around;padding:10px 8px 22px;background:var(--card);border-radius:26px 26px 0 0}
+.xp .tab{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11.5px;font-weight:700;color:var(--muted);width:66px}
+.xp .tab .pp{width:54px;height:30px;border-radius:15px;display:grid;place-items:center}
+.xp .tab svg{width:22px;height:22px}
+.xp .tab.on{color:var(--ink)} .xp .tab.on .pp{background:var(--mint)}
+
+/* Menu: scrim + full-width cream drawer. 40 px of extra width on the right hides a gap when the playful pull overshoots. */
+.scrim{position:absolute;inset:0;background:rgb(var(--scrim));opacity:0;pointer-events:none}
+.drawer{position:absolute;top:0;bottom:0;left:0;width:calc(100% + 40px);padding:54px 60px 34px 20px;background:var(--cream);display:flex;flex-direction:column;transform:translateX(442px);will-change:transform}
+.drawer[hidden]{display:none}
+.drawer .close{align-self:flex-end;background:transparent}
+.drawer .you{display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
+.drawer .ava{width:56px;height:56px;border-radius:50%;background:var(--mint);color:var(--ink);display:grid;place-items:center;font:600 24px/1 var(--display)}
+.drawer .nm{font-size:20px;font-weight:800;color:var(--text)}
+.drawer .list{flex:1;padding-top:8px}
+.drawer .mi{display:flex;align-items:center;gap:16px;min-height:56px;font-size:18px;font-weight:700;color:var(--ink);cursor:pointer}
+.drawer .mi svg{width:24px;height:24px;flex:0 0 auto}
+.drawer .mi .chev{width:18px;height:18px;margin-left:auto;color:var(--muted)}
+.drawer .mi.out{color:var(--muted)}
+.drawer .badge{margin-left:auto;min-width:28px;height:24px;padding:0 8px;border-radius:12px;background:#B42318;color:#fff;font-size:12.5px;font-weight:800;display:grid;place-items:center}
+/* Arm layer: on top of the drawer so the toes can hook its edge. */
+.arm{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="x-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="x-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="x-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="x-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></symbol>
+  <symbol id="x-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="x-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="x-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="x-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="x-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="x-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 9"/></symbol>
+  <symbol id="x-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-9-2v15c4 0 7 .5 9 2 2-1.5 5-2 9-2V4c-4 0-7 .5-9 2zM12 6v15"/></symbol>
+  <symbol id="x-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+</svg>
+<div id="art" hidden></div>
+
+<main class="stage">
+  <section class="panel" aria-label="Controls">
+    <div><h1>Paw pulls the drawer</h1><p style="margin-top:6px">Tap ≡ in the phone, then the ✕ to close.</p></div>
+    <div class="grp"><span>Dog</span>
+      <div class="seg coats" data-key="coat">
+        <button data-v="golden" aria-pressed="true"><i style="background:#F4A261"></i>Golden</button>
+        <button data-v="cream" aria-pressed="false"><i style="background:#FFFFFF"></i>Fluffy</button>
+        <button data-v="patch" aria-pressed="false"><i style="background:linear-gradient(90deg,#FFF 50%,#B5652E 50%)"></i>Patch</button>
+        <button data-v="shiba" aria-pressed="false"><i style="background:#E9894A"></i>Shiba</button></div>
+      <span style="margin-top:6px">Cat</span>
+      <div class="seg coats" data-key="coat">
+        <button data-v="gray" aria-pressed="false"><i style="background:#B7B0A4"></i>Tabby</button>
+        <button data-v="black" aria-pressed="false"><i style="background:#2C3A33"></i>Tux</button>
+        <button data-v="calico" aria-pressed="false"><i style="background:linear-gradient(90deg,#F4A261 33%,#FFF 33% 66%,#B5652E 66%)"></i>Calico</button>
+        <button data-v="orange" aria-pressed="false"><i style="background:#F4A261"></i>Orange</button></div></div>
+    <div class="grp"><span>Timing</span>
+      <div class="seg" data-key="variant">
+        <button data-v="fast" aria-pressed="true">Fast<small>520 ms</small></button>
+        <button data-v="playful" aria-pressed="false">Playful<small>640 ms</small></button>
+        <button data-v="slow" aria-pressed="false">Slow<small>700 ms</small></button>
+        <button data-v="tap" aria-pressed="false">Tap tap<small>680 ms</small></button></div></div>
+    <div class="grp">
+      <label class="tog"><input type="checkbox" id="slowmo"> Slow motion (4x)</label>
+      <label class="tog"><input type="checkbox" id="reduced"> Reduced motion</label>
+    </div>
+    <button class="play" id="replay">Play open + close</button>
+    <div class="stat" id="stat">Drawer open in <b>520 ms</b></div>
+  </section>
+
+  <div class="xp" id="phone">
+    <div class="top"><div><h1 class="hello">Good morning, <em>Robert</em></h1><p class="sub">Here's today for Max &amp; Mochi</p></div>
+      <button class="ic" id="open" aria-label="Menu"><svg><use href="#x-menu"/></svg><span class="dot"></span></button></div>
+    <div class="body">
+      <div class="block g">
+        <div class="between"><span class="live">With Chloe now</span><span class="sm b" style="color:#D8F3DC">Day 2 of 3</span></div>
+        <div class="row" style="margin-top:14px;align-items:flex-end">
+          <div style="flex:1"><div class="mid">Max &amp; Mochi are with Chloe</div><div class="sm" style="margin-top:6px;color:#D8F3DC">Picked up Fri 7:30 AM · photo verified</div></div>
+          <div class="photo" style="width:96px;height:96px;background-image:url(redesign/img/pet0.jpg);background-position:50% 35%;border:3px solid #fff"></div>
+        </div>
+        <div class="between sm b" style="margin-top:16px"><span>Today's care</span><span>3 of 5 done</span></div>
+        <div class="care-bar"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
+      </div>
+      <div class="tiles">
+        <div class="tile m"><svg class="art"><use href="#art-bowl"/></svg><b class="big">3/5</b><span>care done</span></div>
+        <div class="tile p"><svg class="art"><use href="#art-camera"/></svg><b class="big">12</b><span>photos today</span></div>
+        <div class="tile y"><svg class="art"><use href="#art-walk"/></svg><b class="big">40m</b><span>of walks</span></div>
+      </div>
+      <div class="block w row" style="padding:12px;gap:12px">
+        <div class="photo" style="width:64px;height:64px;flex:0 0 auto;border-radius:18px;background-image:url(redesign/img/pet1.jpg)"></div>
+        <div><div class="sm muted b">Latest from Chloe · 9:02 AM</div><div class="sm" style="margin-top:2px"><b>Breakfast done.</b> Max finished every bit.</div></div>
+      </div>
+      <div class="sec"><h3>Your pets</h3><span class="link">+ Add pet</span></div>
+      <div class="pets">
+        <div class="pet r">
+          <svg viewBox="0 0 64 64"><g fill="none" stroke="#1B4332" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="32" cy="32" r="32" fill="#D8F3DC" stroke="none"/><path fill="#C9773A" d="M18.32 15.97c-7.98 1.14-11.4 11.4-9.69 20.52.91 4.56 5.7 5.7 8.55 1.71L20.6 27.37z"/><path fill="#C9773A" d="M45.68 15.97c7.98 1.14 11.4 11.4 9.69 20.52-.91 4.56-5.7 5.7-8.55 1.71L43.4 27.37z"/><path fill="#F4A261" d="M32 10.27c-10.83 0-17.1 7.41-17.1 17.67 0 6.84 1.71 11.4 3.99 15.39C21.74 49.03 26.3 54.73 32 54.73s10.26-5.7 13.11-11.4c2.28-3.99 3.99-8.55 3.99-15.39C49.1 17.68 42.83 10.27 32 10.27z"/><ellipse cx="32" cy="43.33" rx="9.12" ry="7.41" fill="#FFF9F0"/><path fill="#1B4332" d="M28.01 39.11h7.98l-3.99 3.88z"/><path d="M32 42.99v1.82m-3.99.68c1.82 2.05 6.16 2.05 7.98 0"/></g><circle cx="24.02" cy="30.79" r="3.08" fill="#1B4332"/><circle cx="39.98" cy="30.79" r="3.08" fill="#1B4332"/><circle cx="25.05" cy="29.76" r="1.03" fill="#fff"/><circle cx="41.01" cy="29.76" r="1.03" fill="#fff"/></svg>
+          <div><div class="h">Max</div><div class="sm muted">Maltese · 4 yrs</div><div class="sm b" style="color:var(--warn-ink)">No chicken</div></div></div>
+        <div class="pet p"><svg class="art"><use href="#art-cat"/></svg><div><div class="h">Mochi</div><div class="sm muted">Shorthair · 3 yrs</div></div></div>
+      </div>
+    </div>
+    <div class="pin"><div class="btn">See today's updates</div></div>
+    <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+
+    <div class="scrim" id="scrim"></div>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+      <button class="ic close" id="close" aria-label="Close menu"><svg style="width:26px;height:26px"><use href="#x-close"/></svg></button>
+      <div class="you"><span class="ava">R</span><div style="flex:1"><div class="nm">Robert</div><div class="sm muted">Owner</div></div><svg class="chev" style="width:18px;height:18px;color:var(--muted)"><use href="#x-chev"/></svg></div>
+      <div class="list">
+        <div class="mi" data-close><svg><use href="#x-bell"/></svg>Notifications<span class="badge">2</span></div>
+        <div class="mi" data-close><svg><use href="#x-spark"/></svg>What's new<svg class="chev"><use href="#x-chev"/></svg></div>
+        <div class="mi" data-close><svg><use href="#x-gear"/></svg>Settings<svg class="chev"><use href="#x-chev"/></svg></div>
+      </div>
+      <div class="mi out" data-close><svg><use href="#x-out"/></svg>Log out</div>
+    </div>
+
+    <!-- The arm. Local coords: paw center at 0,0, pointing right; the arm runs off to the left. -->
+    <svg class="arm" aria-hidden="true">
+      <g id="armPos" transform="translate(-200 430)">
+        <g id="armTilt">
+          <g id="paw" transform="scale(1.15)"></g>
+        </g>
+      </g>
+    </svg>
+  </div>
+</main>
+
+<script>
+(() => {
+  const W = 402, PEEK = 378, OFF = -200, GRAB = 16; // paw center sits GRAB px left of the drawer edge, so the toes hook it
+  const $ = (s) => document.querySelector(s);
+  const drawer = $("#drawer"), scrim = $("#scrim"), armPos = $("#armPos"), armTilt = $("#armTilt");
+  const state = { coat: "golden", variant: "fast", open: false, busy: false };
+
+  // Easing. outBack overshoots; s is how far.
+  const E = {
+    lin: (t) => t,
+    out: (t) => 1 - Math.pow(1 - t, 3),
+    in: (t) => t * t * t,
+    inOut: (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+    outBack: (t, s = 1.2) => 1 + (s + 1) * Math.pow(t - 1, 3) + s * Math.pow(t - 1, 2),
+    outBackSoft: (t) => E.outBack(t, .8),
+  };
+
+  // Keyframes per value: [timeMs, value, easeIntoThisKey]. Paw value "d" = follow the drawer edge.
+  // Drawer x: W = closed, 0 = open. Grip 0..1. Tilt in degrees. Lift = y offset in px.
+  const V = {
+    fast: {
+      open: {
+        drawer: [[0, W], [200, PEEK, "out"], [250, PEEK], [520, 0, "inOut"]],
+        paw: [[0, OFF], [200, PEEK - GRAB, "out"], [250, "d"], [520, "d"], [620, OFF, "in"]],
+        grip: [[0, 0], [200, 0], [250, 1, "out"], [520, 1], [560, 0, "out"]],
+      },
+      close: {
+        drawer: [[0, 0], [120, 0], [400, W, "in"]],
+        paw: [[0, OFF], [120, -GRAB, "out"], [120, "d"], [400, "d"], [520, OFF, "in"]],
+      },
+    },
+    playful: {
+      open: {
+        drawer: [[0, W], [230, PEEK, "out"], [320, PEEK + 8, "inOut"], [640, 0, "outBackSoft"]],
+        paw: [[0, OFF], [230, PEEK - GRAB, "outBack"], [320, "d"], [640, "d"], [710, OFF, "in"]],
+        grip: [[0, 0], [230, 0], [290, 1, "out"], [640, 1], [670, 0, "out"]],
+        tilt: [[0, -4], [230, 0, "out"], [320, 3, "out"], [560, -1.5, "inOut"], [640, 0, "out"]],
+        lift: [[0, 30], [230, 0, "outBack"]],
+      },
+      close: {
+        drawer: [[0, 0], [260, 0], [480, W, "in"]],
+        paw: [[0, OFF], [140, -10, "outBack"], [200, -36, "inOut"], [260, "d", "in"], [480, "d"], [600, OFF, "in"]],
+        tilt: [[0, 0], [200, -3, "out"], [260, 2, "in"], [480, 0, "out"]],
+      },
+    },
+    slow: {
+      open: {
+        drawer: [[0, W], [300, PEEK, "inOut"], [400, PEEK], [700, 0, "inOut"]],
+        paw: [[0, OFF], [300, PEEK - GRAB, "inOut"], [400, "d"], [700, "d"], [820, OFF, "in"]],
+        grip: [[0, 0], [300, 0], [400, 1, "inOut"], [700, 1], [760, 0, "out"]],
+      },
+      close: {
+        drawer: [[0, 0], [180, 0], [520, W, "inOut"]],
+        paw: [[0, OFF], [180, -GRAB, "inOut"], [180, "d"], [520, "d"], [640, OFF, "in"]],
+      },
+    },
+    // Bats the edge twice (the drawer wobbles), then grabs and pulls.
+    tap: {
+      open: {
+        drawer: [[0, W], [170, PEEK, "out"], [210, PEEK], [235, PEEK + 6, "out"], [280, PEEK, "out"], [300, PEEK], [325, PEEK + 6, "out"], [370, PEEK, "out"], [400, PEEK], [680, 0, "inOut"]],
+        paw: [[0, OFF], [170, PEEK - GRAB - 14, "out"], [210, "d", "in"], [235, "d"], [270, PEEK - GRAB - 14, "out"], [300, "d", "in"], [325, "d"], [400, "d"], [680, "d"], [780, OFF, "in"]],
+        grip: [[0, 0], [360, 0], [400, 1, "out"], [680, 1], [720, 0, "out"]],
+        tilt: [[0, 0], [210, 2, "in"], [270, -1, "out"], [300, 2, "in"], [360, 0, "out"]],
+      },
+      close: {
+        drawer: [[0, 0], [200, 0], [460, W, "in"]],
+        paw: [[0, OFF], [110, -GRAB, "out"], [150, -GRAB - 14, "out"], [200, "d", "in"], [460, "d"], [580, OFF, "in"]],
+      },
+    },
+    // prefers-reduced-motion: the plain slide from HeaderMenu.tsx, no paw.
+    reduced: {
+      open: { drawer: [[0, W], [260, 0, "out"]] },
+      close: { drawer: [[0, 0], [200, W, "in"]] },
+    },
+  };
+
+  const at = (keys, t, follow) => {
+    if (!keys) return 0;
+    const val = (k) => (k[1] === "d" ? follow() : k[1]);
+    if (t <= keys[0][0]) return val(keys[0]);
+    for (let i = 1; i < keys.length; i++) {
+      const a = keys[i - 1], b = keys[i];
+      if (t <= b[0]) {
+        const span = b[0] - a[0];
+        const p = span ? (t - a[0]) / span : 1;
+        const e = (E[b[2]] || E.lin)(p);
+        return val(a) + (val(b) - val(a)) * e;
+      }
+    }
+    return val(keys[keys.length - 1]);
+  };
+  const end = (tl) => Math.max(...Object.values(tl).map((k) => k[k.length - 1][0]));
+  const doneAt = (tl) => tl.drawer[tl.drawer.length - 1][0];
+
+  // Coats match the pet avatars. Top-down view: the back of the paw, toe creases, no beans.
+  const COATS = {
+    golden: { kind: "dog", arm: "#F4A261", sock: "#FFF9F0" },
+    cream: { kind: "dog", arm: "#FFFFFF", fluffy: true },
+    patch: { kind: "dog", arm: "#FFFFFF", patches: ["#B5652E"] },
+    shiba: { kind: "dog", arm: "#E9894A", sock: "#FFF9F0" },
+    gray: { kind: "cat", arm: "#B7B0A4", stripes: "#8E877C" },
+    black: { kind: "cat", arm: "#2C3A33", sock: "#FFFFFF" },
+    calico: { kind: "cat", arm: "#FFFFFF", patches: ["#F4A261", "#B5652E"] },
+    orange: { kind: "cat", arm: "#F4A261", stripes: "#D9783A" },
+  };
+  const SHAPE = {
+    dog: { aw: 15, rx: 19, ry: 21, tr: 8, tR: 22, A: [-66, -22, 22, 66] },
+    cat: { aw: 12, rx: 16, ry: 17, tr: 6.5, tR: 18.5, A: [-64, -21, 21, 64] },
+  };
+  const pol = (r, a) => [r * Math.cos(a * Math.PI / 180), r * Math.sin(a * Math.PI / 180)];
+  const buildPaw = (coat) => {
+    const c = COATS[coat], k = SHAPE[c.kind], ink = "#1B4332";
+    let arm = `<rect x="-700" y="${-k.aw}" width="692" height="${2 * k.aw}"/>`;
+    if (c.fluffy) {
+      let top = "", bot = "";
+      for (let x = -700; x < -8; x += 12) top += "q6 -3.5 12 0";
+      for (let x = -700; x < -8; x += 12) bot += "q-6 3.5 -12 0";
+      arm = `<path d="M-700 ${-k.aw}${top}L-8 ${k.aw}${bot}z"/>`;
+    }
+    const body = `<ellipse cx="-2" cy="0" rx="${k.rx}" ry="${k.ry}"/>`;
+    const toes = k.A.map((a) => { const [x, y] = pol(k.tR, a); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${k.tr}"/>`; }).join("");
+    const creases = k.A.slice(1).map((a, i) => {
+      const m = (a + k.A[i]) / 2, [x0, y0] = pol(k.tR - 7, m), [x1, y1] = pol(k.tR + 1, m);
+      return `<path d="M${x0.toFixed(1)} ${y0.toFixed(1)}L${x1.toFixed(1)} ${y1.toFixed(1)}"/>`;
+    }).join("");
+    const claws = c.kind === "cat" ? `<g class="claws" fill="#FFFFFF" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round">${k.A.map((a) => `<g transform="rotate(${a})"><path d="M20 -2.6q5.5 .6 8.5 2.6q-3 2 -8.5 2.6z"/></g>`).join("")}</g>` : "";
+    const pawFill = c.sock || c.arm;
+    let marks = "", pawMarks = "";
+    if (c.stripes) {
+      for (let i = 0; i < 6; i++) marks += `<rect x="${-46 - 24 * i}" y="${-k.aw}" width="7" height="${2 * k.aw}" rx="2"/>`;
+      pawMarks = `<rect x="-19" y="-20" width="5" height="40" rx="2.5"/><rect x="-11" y="-20" width="5" height="40" rx="2.5"/>`;
+      marks = `<g fill="${c.stripes}">${marks}</g>`; pawMarks = `<g fill="${c.stripes}">${pawMarks}</g>`;
+    }
+    if (c.patches) {
+      const P = [[-64, -5, 16, 9], [-150, 6, 22, 10], [-236, -5, 14, 8], [-320, 4, 18, 9]];
+      marks = P.map(([x, y, rx, ry], i) => `<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${c.patches[i % c.patches.length]}"/>`).join("");
+      pawMarks = `<ellipse cx="-10" cy="-11" rx="9" ry="8" fill="${c.patches[c.patches.length - 1]}"/>`;
+    }
+    const cuff = c.sock ? `<path d="M-8 ${-k.aw}H-27q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}H-8z" fill="${c.sock}"/>
+      <path d="M-27 ${-k.aw}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>` : "";
+    return `${claws}
+      <defs><clipPath id="armClip">${arm}</clipPath><clipPath id="bodyClip">${body}</clipPath></defs>
+      <g stroke="${ink}" stroke-width="4" stroke-linejoin="round" fill="${ink}">${arm}${body}<g class="toes">${toes}</g></g>
+      <g fill="${c.arm}">${arm}</g>
+      <g clip-path="url(#armClip)">${marks}</g>
+      ${cuff}
+      <g fill="${pawFill}">${body}<g class="toes">${toes}</g></g>
+      <g clip-path="url(#bodyClip)">${c.sock ? "" : pawMarks}</g>
+      <g class="toes" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round">${creases}</g>`;
+  };
+  const paw = $("#paw");
+  const setCoat = (coat) => { paw.innerHTML = buildPaw(coat); };
+  setCoat("golden");
+
+  const render = (d, pawX, grip, tilt, lift) => {
+    drawer.style.transform = `translateX(${d}px)`;
+    scrim.style.opacity = String((1 - d / W) * 0.35);
+    // Grip: the toes curl over the edge (shorter from above); cat claws slide out.
+    const g = paw;
+    armPos.setAttribute("transform", `translate(${pawX} ${430 + lift})`);
+    armTilt.setAttribute("transform", `rotate(${tilt})`);
+    g.querySelectorAll(".toes").forEach((el) => el.setAttribute("transform", `translate(${-3 * grip} 0) scale(${1 - 0.12 * grip} ${1 - 0.06 * grip})`));
+    g.querySelectorAll(".claws path").forEach((el) => {
+      el.setAttribute("transform", `translate(${-7 + 7 * grip} 0)`);
+      el.style.opacity = grip > 0.05 ? "1" : "0";
+    });
+  };
+
+  const reduced = () => $("#reduced").checked;
+  const play = (dir) => new Promise((resolve) => {
+    if (state.busy) return resolve();
+    state.busy = true;
+    const tl = V[reduced() ? "reduced" : state.variant][dir];
+    const slow = $("#slowmo").checked ? 4 : 1;
+    const total = end(tl);
+    if (dir === "open") drawer.hidden = false;
+    const t0 = performance.now();
+    const frame = (now) => {
+      const t = Math.min((now - t0) / slow, total);
+      const d = at(tl.drawer, t);
+      render(d, tl.paw ? at(tl.paw, t, () => d - GRAB) : OFF, at(tl.grip, t), at(tl.tilt, t), at(tl.lift, t));
+      if (t < total) return requestAnimationFrame(frame);
+      state.busy = false;
+      state.open = dir === "open";
+      if (!state.open) drawer.hidden = true;
+      resolve();
+    };
+    requestAnimationFrame(frame);
+  });
+
+  const updateStat = () => {
+    const tl = V[reduced() ? "reduced" : state.variant];
+    $("#stat").innerHTML = `Drawer open in <b>${doneAt(tl.open)} ms</b>, closed in <b>${doneAt(tl.close)} ms</b>`;
+  };
+
+  $("#open").addEventListener("click", () => !state.open && play("open"));
+  $("#close").addEventListener("click", () => state.open && play("close"));
+  document.querySelectorAll("[data-close]").forEach((el) => el.addEventListener("click", () => state.open && play("close")));
+  $("#replay").addEventListener("click", async () => {
+    if (state.busy) return;
+    if (state.open) await play("close");
+    await play("open");
+    await new Promise((r) => setTimeout(r, 700));
+    await play("close");
+  });
+  document.querySelectorAll(".seg").forEach((seg) => seg.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b || state.busy) return;
+    document.querySelectorAll(`[data-key=${seg.dataset.key}] button`).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+    state[seg.dataset.key] = b.dataset.v;
+    if (seg.dataset.key === "coat") setCoat(b.dataset.v);
+    updateStat();
+  }));
+  const mq = matchMedia("(prefers-reduced-motion: reduce)");
+  $("#reduced").checked = mq.matches;
+  mq.addEventListener("change", () => { $("#reduced").checked = mq.matches; updateStat(); });
+  $("#reduced").addEventListener("change", updateStat);
+  updateStat();
+
+  // Frame-by-frame preview for review: pawDrawer.seek("open", 300) draws that moment of the current variant.
+  window.pawDrawer = {
+    seek(dir, t) {
+      const tl = V[reduced() ? "reduced" : state.variant][dir];
+      drawer.hidden = false;
+      const d = at(tl.drawer, t);
+      render(d, tl.paw ? at(tl.paw, t, () => d - GRAB) : OFF, at(tl.grip, t), at(tl.tilt, t), at(tl.lift, t));
+    },
+  };
+
+  // Illustrations for the Home tiles (same set as redesign/).
+  fetch("redesign/art.svg").then((r) => r.text()).then((t) => { $("#art").innerHTML = t; }).catch(() => {});
+})();
+</script>
+</body>
+</html>
