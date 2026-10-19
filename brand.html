@@ -70,6 +70,9 @@
   .rules{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:.75rem}
   footer{font-size:.8125rem;color:var(--color-text-muted);display:flex;gap:.5rem 1.25rem;flex-wrap:wrap;border-top:1px solid var(--color-border);padding-top:1rem}
   footer a{min-height:32px;display:inline-flex;align-items:center}
+  .coin .coin-row{display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap}.coin .coin-row>div:last-child{flex:1;min-width:14rem;display:flex;flex-direction:column;gap:.5rem}
+  .coin .art{width:10rem;flex:none;aspect-ratio:1;height:auto;display:grid;place-items:center;padding:.75rem}.coin .art img{width:100%;height:100%;object-fit:contain}.art.cream{background:#FBF6EA}.coin img.px{image-rendering:pixelated;width:100%;height:auto}
+  .ref{font:600 1rem/1.3 var(--font-display);color:var(--color-text-muted);margin-top:.5rem}.muted{color:var(--color-text-muted)}
   @media (max-width:900px){.dirs,.types{grid-template-columns:1fr}.deco{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <script src="nav.js" defer></script>
@@ -83,10 +86,17 @@
   </header>
 
   <section aria-labelledby="h-logo" id="logo">
-    <div class="head"><h2 id="h-logo"><span class="en">The logo: three directions</span><span class="ko">로고: 세 가지 방향</span></h2>
-      <p><span class="en">Picking one unblocks the app icon, the README logo, the Devpost image and the sticker set. The decision is on the Plan.</span><span class="ko">하나를 고르면 앱 아이콘, README 로고, Devpost 이미지, 스티커 세트가 풀려요. 결정은 계획 탭에 있어요.</span> <span class="en">Every version, with a Customize tab: <a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener">logo files page ↗</a>.</span><span class="ko">모든 버전과 Customize 탭: <a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener">로고 파일 페이지 ↗</a>.</span></p></div>
+    <div class="head"><h2 id="h-logo"><span class="en">The logo: the gold coin</span><span class="ko">로고: 골드 코인</span></h2>
+      <p><span class="en">Decided Oct 19. The coin is in the app with Expressive (PR #177). The app icon, splash, README logo and Devpost image follow from it.</span><span class="ko">10/19 결정. 코인은 익스프레시브와 함께 앱에 들어갔어요(PR #177). 앱 아이콘, 스플래시, README 로고, Devpost 이미지가 이것을 따라가요.</span> <span class="en">Every version, with a Customize tab: <a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener">logo files page ↗</a>.</span><span class="ko">모든 버전과 Customize 탭: <a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener">로고 파일 페이지 ↗</a>.</span></p></div>
+    <div class="coin card"><span class="pill ok"><span class="en">The logo · Oct 19</span><span class="ko">로고 · 10/19</span></span>
+      <div class="coin-row"><div class="art cream"><img class="px" src="assets/brand/goldito-coin.svg" width="160" height="160" alt="The Goldito logo: a pixel gold coin with a dark paw print"></div>
+        <div><h3><span class="en">The gold coin</span><span class="ko">골드 코인</span></h3>
+        <p><span class="en">A pixel gold coin stamped with a paw: <i>goldito</i>, the little gold one, as something small and precious. Pixel edges match the pet sprites and stickers; tag gold and ink match Expressive.</span><span class="ko">발바닥이 찍힌 픽셀 금화: 작고 소중한 <i>goldito</i>. 픽셀 테두리는 펫 스프라이트·스티커와, 태그 골드와 잉크는 익스프레시브와 맞아요.</span></p>
+        <p class="muted"><span class="en">On Welcome and Login in #177. Next: the app icon and splash (still Expo's).</span><span class="ko">#177에서 Welcome과 Login에. 다음: 앱 아이콘과 스플래시(아직 Expo 기본).</span></p></div></div>
+    </div>
+    <h3 class="ref"><span class="en">Other directions, kept for reference</span><span class="ko">다른 방향, 참고용으로 보관</span></h3>
     <div class="dirs">
-      <div class="card"><span class="pill ok"><span class="en">Ready to ship · v2.1</span><span class="ko">출시 가능 · v2.1</span></span>
+      <div class="card"><span class="pill new"><span class="en">Reference · v2.1</span><span class="ko">참고 · v2.1</span></span>
         <div class="art green"><img src="assets/brand/goldito-devpost-logo.svg" alt="The gold tag logo: a round gold pet tag engraved with g, next to the lowercase goldito wordmark, on brand green"></div>
         <h3><span class="en">The gold tag</span><span class="ko">골드 태그</span></h3>
         <p><span class="en">A round gold tag swinging from its ring, engraved with a lowercase g; the i's dot is a gold heart. A tag says “someone loves this pet, and it has a home to go back to”, which is the Life Record and “home safe”. Dogs and cats both wear one.</span><span class="ko">고리에 매달려 살짝 흔들리는 둥근 금색 태그에 소문자 g, i의 점은 금색 하트. 태그는 “사랑받고, 돌아갈 집이 있다”는 표시예요. Life Record와 “home safe”와 이어지고, 강아지 고양이 모두 태그를 해요.</span></p>
@@ -98,12 +108,12 @@
           <figure><img class="px" src="assets/brand/goldito-favicon-16.png" width="16" height="16" alt="Favicon 16, drawn by hand"><span>16</span></figure>
         </div>
       </div>
-      <div class="card"><span class="pill new"><span class="en">Direction · Oct 15</span><span class="ko">방향 · 10/15</span></span>
+      <div class="card"><span class="pill new"><span class="en">Reference · Oct 15</span><span class="ko">참고 · 10/15</span></span>
         <div class="art"><img src="assets/brand/goldito-notebook-lockup.svg" alt="Notebook direction: handwritten goldito on lined paper with masking tape and a heart sticker"></div>
         <h3><span class="en">Notebook</span><span class="ko">노트북</span></h3>
         <p><span class="en">A handwritten wordmark, masking tape and a heart sticker: the daily note as a keepsake. Closest to the new picture-diary page.</span><span class="ko">손글씨 워드마크, 마스킹테이프, 하트 스티커: 알림장을 간직하고 싶은 기록으로. 새 그림일기 페이지와 가장 가까워요.</span></p>
       </div>
-      <div class="card"><span class="pill new"><span class="en">Direction · Oct 15</span><span class="ko">방향 · 10/15</span></span>
+      <div class="card"><span class="pill new"><span class="en">Reference · Oct 15</span><span class="ko">참고 · 10/15</span></span>
         <div class="art green"><img src="assets/brand/goldito-pixel-lockup.svg" alt="Pixel direction: a pixel golden pup next to the goldito wordmark"></div>
         <h3><span class="en">Pixel</span><span class="ko">픽셀</span></h3>
         <p><span class="en">A pixel golden pup with six expressions and small movements. Fits Playful and the planned 8-bit pet room (11.12).</span><span class="ko">표정 여섯 가지와 작은 움직임이 있는 픽셀 강아지. 플레이풀과 계획 중인 8비트 펫 룸(11.12)과 어울려요.</span></p>

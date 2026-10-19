@@ -42,6 +42,9 @@
   .sum td:nth-child(2){white-space:nowrap}
   .sum a{font-weight:600}
   /* a sketch block: why + decisions + questions, then the screens */
+  details.past{border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem 1rem;background:var(--color-surface)}
+  details.past>summary{cursor:pointer;font-weight:600;color:var(--color-text-muted)}
+  details.past[open]>summary{margin-bottom:1rem}
   .sk-head{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem .75rem}
   .why{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
   .why>div{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem;font-size:.875rem;min-width:0}
@@ -357,7 +360,7 @@
 
   <!-- 1 · chat -->
   <section id="chat" aria-labelledby="h-chat">
-    <div class="sk-head"><h2 id="h-chat"><span class="en">1 · Booking in one chat</span><span class="ko">1 · 채팅 하나로 예약</span></h2><span class="pill ok"><span class="en">Sketched · most important</span><span class="ko">스케치 · 가장 중요</span></span>
+    <div class="sk-head"><h2 id="h-chat"><span class="en">1 · Booking in one chat</span><span class="ko">1 · 채팅 하나로 예약</span></h2><span class="pill ok"><span class="en">Playable · most important</span><span class="ko">체험 가능 · 가장 중요</span></span><a href="chat.html"><span class="en">Play it ▸</span><span class="ko">체험하기 ▸</span></a>
       <span class="muted"><a href="https://github.com/minsikpaul92/Goldito/issues/140" target="_blank" rel="noopener">#140</a> – <a href="https://github.com/minsikpaul92/Goldito/issues/146" target="_blank" rel="noopener">#146</a></span></div>
     <div class="why">
       <div><b class="k"><span class="en">Why now</span><span class="ko">왜 지금</span></b><span class="en">It's the new spine of the demo video, Minsik starts it after the search follow-ups (#138 – #140), and it has no design yet. Seven card types designed once means seven consistent cards instead of seven guesses.</span><span class="ko">데모 영상의 새 뼈대이고, 민식 님이 검색 후속 작업(#138 – #140) 다음에 시작해요. 아직 디자인이 없어요. 카드 일곱 종류를 한 번에 정하면 일곱 번 추측하지 않아도 돼요.</span></div>
@@ -376,8 +379,10 @@
 
   <!-- 2 · calendar -->
   <section id="cal" aria-labelledby="h-cal">
-    <div class="sk-head"><h2 id="h-cal"><span class="en">2 · Calendar without letters</span><span class="ko">2 · 글자 없는 달력</span></h2><span class="pill ok"><span class="en">Sketched · small</span><span class="ko">스케치 · 작음</span></span>
+    <div class="sk-head"><h2 id="h-cal"><span class="en">2 · Calendar without letters</span><span class="ko">2 · 글자 없는 달력</span></h2><span class="pill mute"><span class="en">Decided · B + D in #183</span><span class="ko">결정 · #183의 B + D</span></span>
       <span class="muted"><a href="https://github.com/minsikpaul92/Goldito/issues/134" target="_blank" rel="noopener">#134</a> (<span class="en">replaces most of</span><span class="ko">대부분 대체</span> <a href="https://github.com/minsikpaul92/Goldito/issues/120" target="_blank" rel="noopener">#120</a>)</span></div>
+    <div class="upd" data-upd="cal"><b class="k"><span class="en">Update</span><span class="ko">업데이트</span></b><span><span class="en"><b>Oct 18:</b> #134 shipped in <a href="https://github.com/minsikpaul92/Goldito/pull/150" target="_blank" rel="noopener">#150</a> with <b>stacked bands</b> (morning at the bottom, night on top) instead of the thirds sketched here; the new sketches below follow the shipped bands. PR <a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">#129</a> still adds a spelled-out M·A·N key: close it.<br><b>Oct 19:</b> #129 merged without the key. For #120 Mook picked <b>B + D</b> from <a href="ticket-120-options.html">five options</a>: next openings on the profile, the month and each day on their own pages, no roll-up. Built in <a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a>; the roll-up sketches below are no longer the plan.</span><span class="ko"><b>10/18:</b> #134가 <a href="https://github.com/minsikpaul92/Goldito/pull/150" target="_blank" rel="noopener">#150</a>에서 여기 3등분 대신 <b>가로 띠</b>(아래 아침, 위 밤)로 출시됐어요. 아래 새 스케치는 출시된 띠를 따라요. PR <a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">#129</a>은 아직 M·A·N 설명을 추가해요: 닫기.<br><b>10/19:</b> #129는 키 없이 머지됐어요. #120은 묵 님이 <a href="ticket-120-options.html">다섯 가지 안</a> 중 <b>B + D</b>를 골랐어요: 프로필에 다음 빈 시간, 달과 하루는 각자 페이지, 말아 올리기 없음. <a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a>으로 만들었고, 아래 말아 올리기 스케치는 더 이상 계획이 아니에요.</span></span></div>
+    <details class="past"><summary><span class="en">The original sketches (decided, kept for reference)</span><span class="ko">처음 스케치 (결정됨, 참고용)</span></summary>
     <div class="why">
       <div><b class="k"><span class="en">Why now</span><span class="ko">왜 지금</span></b><span class="en">The sitter detail screen in the chat flow (#140) shows this calendar, and #134 is Minsik's next batch. The ticket is specific; what it needs from design is the hatch itself, today, and a selected range.</span><span class="ko">채팅 흐름의 시터 상세(#140)가 이 달력을 보여 주고, #134는 민식 님의 다음 묶음이에요. 티켓은 구체적이라 디자인이 줄 것은 빗금 자체, 오늘 표시, 선택한 기간이에요.</span></div>
       <div><b class="k"><span class="en">What I decided</span><span class="ko">정한 것</span></b><ul>
@@ -387,14 +392,16 @@
       <div class="q"><b class="k"><span class="en">For you</span><span class="ko">묵 님께</span></b><ul>
         <li><span class="en">#120 can close once #134 lands; only CAL-2 (the roll-up gesture) is left, and I'd move it after the hackathon.</span><span class="ko">#134가 들어가면 #120은 닫아도 돼요. 남은 건 CAL-2 (말아 올리기 제스처)뿐이고, 해커톤 뒤로 미루길 추천해요.</span></li></ul></div>
     </div>
-    <div class="upd" data-upd="cal"><b class="k"><span class="en">Update</span><span class="ko">업데이트</span></b><span><span class="en"><b>Oct 18:</b> #134 shipped in <a href="https://github.com/minsikpaul92/Goldito/pull/150" target="_blank" rel="noopener">#150</a> with <b>stacked bands</b> (morning at the bottom, night on top) instead of the thirds sketched here; the new sketches below follow the shipped bands. PR <a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">#129</a> still adds a spelled-out M·A·N key: close it.<br><b>Oct 19:</b> #129 merged without the key. For #120 Mook picked <b>B + D</b> from <a href="ticket-120-options.html">five options</a>: next openings on the profile, the month and each day on their own pages, no roll-up. Built in <a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a>; the roll-up sketches below are no longer the plan.</span><span class="ko"><b>10/18:</b> #134가 <a href="https://github.com/minsikpaul92/Goldito/pull/150" target="_blank" rel="noopener">#150</a>에서 여기 3등분 대신 <b>가로 띠</b>(아래 아침, 위 밤)로 출시됐어요. 아래 새 스케치는 출시된 띠를 따라요. PR <a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">#129</a>은 아직 M·A·N 설명을 추가해요: 닫기.<br><b>10/19:</b> #129는 키 없이 머지됐어요. #120은 묵 님이 <a href="ticket-120-options.html">다섯 가지 안</a> 중 <b>B + D</b>를 골랐어요: 프로필에 다음 빈 시간, 달과 하루는 각자 페이지, 말아 올리기 없음. <a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a>으로 만들었고, 아래 말아 올리기 스케치는 더 이상 계획이 아니에요.</span></span></div>
     <div class="screens" tabindex="0" aria-label="Calendar sketch" id="calScreens"></div>
+    </details>
   </section>
 
   <!-- 3 · header -->
   <section id="header" aria-labelledby="h-hd">
-    <div class="sk-head"><h2 id="h-hd"><span class="en">3 · A tidy Home header</span><span class="ko">3 · 홈 헤더 정리</span></h2><span class="pill ok"><span class="en">Sketched · small</span><span class="ko">스케치 · 작음</span></span>
+    <div class="sk-head"><h2 id="h-hd"><span class="en">3 · A tidy Home header</span><span class="ko">3 · 홈 헤더 정리</span></h2><span class="pill mute"><span class="en">Built · in #178</span><span class="ko">만듦 · #178</span></span>
       <span class="muted"><a href="https://github.com/minsikpaul92/Goldito/issues/147" target="_blank" rel="noopener">#147</a></span></div>
+    <div class="upd" data-upd="header"><b class="k"><span class="en">Update</span><span class="ko">업데이트</span></b><span><span class="en"><b>Oct 18:</b> today the bell is 22 px grey and the profile icon 28 px green: make both 24 px in ink. DESIGN §6.1 says the badge is an 8 px dot, the app shows a count; I'd keep the count (it says how many). Keep the test ids <code>notification-bell</code>, <code>open-profile</code> and <code>log-out</code> (25 e2e hits) when Log out moves.<br><b>Oct 19:</b> built in <a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a> as the middle version: Fredoka title (“Home”, “Today” for sitters), Owner or Sitter chip for everyone, a bigger bell with a count, and ≡ as a full-width drawer from the right with Log out at the bottom (with a confirm). Log out is also in Settings. A <a href="paw-drawer.html">paw that pulls the drawer</a> is an idea to try.</span><span class="ko"><b>10/18:</b> 지금 종은 22px 회색, 프로필은 28px 초록: 둘 다 24px 잉크로. DESIGN §6.1은 배지를 8px 점이라 하고 앱은 숫자를 보여요. 숫자 유지 추천(몇 개인지 말해 줘요). 로그아웃을 옮길 때 테스트 id <code>notification-bell</code>, <code>open-profile</code>, <code>log-out</code>(e2e 25곳) 유지.<br><b>10/19:</b> <a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a>로 가운데 안을 만들었어요: Fredoka 제목(“Home”, 시터는 “Today”), 모두에게 Owner 또는 Sitter 칩, 숫자가 있는 더 큰 벨, 오른쪽에서 나오는 전체 폭 ≡ 서랍과 맨 아래 확인이 있는 로그아웃. 로그아웃은 설정에도 있어요. <a href="paw-drawer.html">발이 서랍을 당기는 안</a>은 해 볼 아이디어.</span></span></div>
+    <details class="past"><summary><span class="en">The original sketches (decided, kept for reference)</span><span class="ko">처음 스케치 (결정됨, 참고용)</span></summary>
     <div class="why">
       <div><b class="k"><span class="en">Why now</span><span class="ko">왜 지금</span></b><span class="en">It's on every Home screen in the video, it's assigned to you, and it's half a day of code. Text “Log out” next to icons is the loudest thing on the screen.</span><span class="ko">영상의 모든 홈 화면에 나오고, 묵 님 담당이고, 코드는 반나절. 아이콘 옆 텍스트 “Log out”이 화면에서 가장 시끄러워요.</span></div>
       <div><b class="k"><span class="en">What I decided</span><span class="ko">정한 것</span></b><ul>
@@ -404,7 +411,6 @@
       <div class="q"><b class="k"><span class="en">For you</span><span class="ko">묵 님께</span></b><ul>
         <li><span class="en">Avatar = your photo when there is one (#135 adds profile photos), initials otherwise. OK?</span><span class="ko">아바타 = 사진이 있으면 사진 (#135가 프로필 사진을 추가), 없으면 이니셜. 괜찮을까요?</span></li></ul></div>
     </div>
-    <div class="upd" data-upd="header"><b class="k"><span class="en">Update</span><span class="ko">업데이트</span></b><span><span class="en"><b>Oct 18:</b> today the bell is 22 px grey and the profile icon 28 px green: make both 24 px in ink. DESIGN §6.1 says the badge is an 8 px dot, the app shows a count; I'd keep the count (it says how many). Keep the test ids <code>notification-bell</code>, <code>open-profile</code> and <code>log-out</code> (25 e2e hits) when Log out moves.<br><b>Oct 19:</b> built in <a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a> as the middle version: Fredoka title (“Home”, “Today” for sitters), Owner or Sitter chip for everyone, a bigger bell with a count, and ≡ as a full-width drawer from the right with Log out at the bottom (with a confirm). Log out is also in Settings. A <a href="paw-drawer.html">paw that pulls the drawer</a> is an idea to try.</span><span class="ko"><b>10/18:</b> 지금 종은 22px 회색, 프로필은 28px 초록: 둘 다 24px 잉크로. DESIGN §6.1은 배지를 8px 점이라 하고 앱은 숫자를 보여요. 숫자 유지 추천(몇 개인지 말해 줘요). 로그아웃을 옮길 때 테스트 id <code>notification-bell</code>, <code>open-profile</code>, <code>log-out</code>(e2e 25곳) 유지.<br><b>10/19:</b> <a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a>로 가운데 안을 만들었어요: Fredoka 제목(“Home”, 시터는 “Today”), 모두에게 Owner 또는 Sitter 칩, 숫자가 있는 더 큰 벨, 오른쪽에서 나오는 전체 폭 ≡ 서랍과 맨 아래 확인이 있는 로그아웃. 로그아웃은 설정에도 있어요. <a href="paw-drawer.html">발이 서랍을 당기는 안</a>은 해 볼 아이디어.</span></span></div>
     <div class="screens" tabindex="0" aria-label="Header sketches" id="hdScreens"></div>
     <h3 id="hd-team"><span class="en">Team idea: keep “Home” and “Owner”, put everything else behind a menu (≡) with the alert count on it</span><span class="ko">팀 아이디어: “Home”과 “Owner”는 두고, 나머지는 햄버거 메뉴(≡) 안으로, 알림 개수는 메뉴에</span></h3>
     <div class="screens" tabindex="0" aria-label="Menu idea sketches, scrolls sideways" id="hdTeam"></div>
@@ -418,6 +424,7 @@
         <li><span class="en">The Owner chip is dev-only today; showing it to everyone is a small code change.</span><span class="ko">Owner 칩은 지금 개발용에서만 보여요. 모두에게 보이려면 코드 수정이 조금 필요해요.</span></li></ul></div>
       <div class="q"><b class="k"><span class="en">My pick</span><span class="ko">제 추천</span></b><span class="en"><b>The middle version (B)</b>: the team's menu for everything else, but the bell stays out, so a new alert is one tap away. The badge then sits on the bell, where its meaning is obvious. If the team prefers the pure menu (A), it still works: the badge says “3 new” inside the menu.</span><span class="ko"><b>가운데 안(B)</b>: 나머지는 팀의 메뉴로, 하지만 종은 밖에 둬서 새 알림까지 한 번이면 돼요. 배지는 뜻이 분명한 종 위에. 팀이 메뉴만 있는 안(A)을 원하면 그것도 괜찮아요: 메뉴 안에서 “3 new”로 보여 줘요.</span></div>
     </div>
+    </details>
   </section>
 
   <!-- 4 · onboarding -->
@@ -567,7 +574,8 @@
   </section>
   <!-- 12 · PRs -->
   <section id="prs" aria-labelledby="h-prs">
-    <div class="sk-head"><h2 id="h-prs"><span class="en">12 · Wrapping up the design PRs</span><span class="ko">12 · 디자인 PR 마무리</span></h2><span class="pill ok"><span class="en">Done</span><span class="ko">끝</span></span><span class="muted"><a href="https://github.com/minsikpaul92/Goldito/issues/117" target="_blank" rel="noopener">#117</a></span></div>
+    <div class="sk-head"><h2 id="h-prs"><span class="en">12 · Wrapping up the design PRs</span><span class="ko">12 · 디자인 PR 마무리</span></h2><span class="pill mute"><span class="en">Done</span><span class="ko">끝</span></span><span class="muted"><a href="https://github.com/minsikpaul92/Goldito/issues/117" target="_blank" rel="noopener">#117</a></span></div>
+    <details class="past"><summary><span class="en">The original sketches (decided, kept for reference)</span><span class="ko">처음 스케치 (결정됨, 참고용)</span></summary>
     <div class="prs">
       <div class="prc"><div class="top"><a href="https://github.com/minsikpaul92/Goldito/pull/54" target="_blank" rel="noopener">#54</a><span class="pill ok"><span class="en">Merged Oct 16</span><span class="ko">10/16 머지</span></span></div><p><span class="en">Design system v1, the design site and the Figma plugin. Done; nothing to do.</span><span class="ko">디자인 시스템 v1, 디자인 사이트, Figma 플러그인. 끝, 할 일 없음.</span></p></div>
       <div class="prc"><div class="top"><a href="https://github.com/minsikpaul92/Goldito/pull/41" target="_blank" rel="noopener">#41</a><span class="pill mute"><span class="en">Closed</span><span class="ko">닫힘</span></span></div><p><span class="en">Primitives and motion, Oct 3. Closed, and #117 with it. Its Log out move is now in the #147 header (#178).</span><span class="ko">프리미티브와 모션, 10/3. 닫혔고 #117도 함께 닫혔어요. 로그아웃 이동은 이제 #147 헤더(#178)에.</span></p>
@@ -579,6 +587,7 @@
 
 Rebasing 34 files onto main two weeks before the freeze isn't worth the risk for the demo.</div><button type="button" class="cp" data-copy="close41"><span class="en">Copy</span><span class="ko">복사</span></button></div>
     </div>
+    </details>
   </section>
 
   <footer><span class="en">Sketches, not specs: once you pick a direction, it goes into the Figma plugin and the ticket gets the frames. Sources: issues #111 – #147, main on Oct 18 (PRs #150, #129, #41, #54), PRs #177, #178 and #183 (checked Oct 19), and the Logo files page.</span><span class="ko">스펙이 아니라 스케치: 방향을 정하시면 Figma 플러그인으로 가고 티켓에 프레임이 붙어요. 출처: 이슈 #111 – #147, 10/18 main (PR #150, #129, #41, #54), Logo files 페이지.</span></footer>

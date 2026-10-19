@@ -41,3 +41,4 @@
 .ds-tag.warning{background:var(--color-warning-surface);color:var(--color-warning);border-color:transparent}
 .ds-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);box-shadow:var(--shadow-xs)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+[hidden]{display:none !important}
