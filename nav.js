@@ -107,7 +107,7 @@
   if (ours) return;
 
   const pages = [
-    ["Overview", "개요", "index.html", "Start here: status, the three looks, every README promise", "여기서 시작: 현황, 세 가지 룩, README의 모든 약속",
+    ["Overview", "개요", "index.html", "Start here: status, the look, every README promise", "여기서 시작: 현황, 룩, README의 모든 약속",
       ["Tap “Play the Draft” to try the design.", "The README table shows, for every promise, whether the app has it and where to play it.", "New to the project? “Get started” has the 3 steps and how to run the app."],
       ["“초안 체험하기”로 디자인을 눌러 보세요.", "README 표는 약속마다 앱에 있는지와 어디서 체험하는지 보여 줘요.", "처음이라면 “시작하기”에 3단계와 앱 실행 방법이 있어요."]],
     ["Prototype", "프로토타입", "prototype.html", "Every screen: today's app next to the Draft, with notes and links", "모든 화면: 지금 앱과 초안을 나란히, 노트와 링크",
@@ -116,9 +116,9 @@
     ["Step by step", "단계별", "steps.html", "Booking, care request, Meet & Greet and checkout, one question per screen", "예약, 케어 의뢰서, Meet & Greet, 결제를 한 화면에 질문 하나로",
       ["Tap through the phone, or jump with the thumbnails.", "Keys: <kbd>←</kbd> <kbd>→</kbd> back · next, <kbd>1</kbd>–<kbd>4</kbd> flows, <kbd>L</kbd> larger text, <kbd>D</kbd> dark.", "Reset answers puts the demo data back."],
       ["폰을 누르거나 썸네일로 바로 이동하세요.", "단축키: <kbd>←</kbd> <kbd>→</kbd> 뒤로 · 다음, <kbd>1</kbd>–<kbd>4</kbd> 흐름, <kbd>L</kbd> 글자 크게, <kbd>D</kbd> 다크.", "답 초기화는 데모 데이터로 되돌려요."]],
-    ["Brand", "브랜드", "brand.html", "Logo directions, color, type and the design rules", "로고 방향, 색, 서체, 디자인 규칙",
-      ["Three logo directions are waiting on one pick (see Plan).", "Swatches show light · dark values of the app's tokens.", "The rules at the bottom apply to every screen."],
-      ["로고 세 방향이 하나의 선택을 기다려요 (계획 탭).", "색 견본은 앱 토큰의 라이트 · 다크 값이에요.", "아래 규칙은 모든 화면에 적용돼요."]],
+    ["Brand", "브랜드", "brand.html", "The gold coin logo, the logo files, color, type and the design rules", "골드 코인 로고, 로고 파일, 색, 서체, 디자인 규칙",
+      ["The gold coin is the logo; Logo files has every file to download, and the other directions stay for reference.", "Swatches show light · dark values of the app's tokens.", "The rules at the bottom apply to every screen."],
+      ["골드 코인이 로고예요. 로고 파일에서 모든 파일을 받을 수 있고, 다른 방향은 참고용으로 남아요.", "색 견본은 앱 토큰의 라이트 · 다크 값이에요.", "아래 규칙은 모든 화면에 적용돼요."]],
     ["Plan", "계획", "plan.html", "Decisions waiting, the schedule to Oct 30, who does what", "기다리는 결정, 10/30까지 일정, 누가 무엇을",
       ["Decisions come first: each one unblocks work below it.", "The schedule is to scale; ticked, light-green bars are done.", "The design log lists what changed, newest first."],
       ["결정이 먼저: 하나씩 아래 작업을 풀어 줘요.", "일정은 실제 비율이고, 체크된 연한 초록 막대는 끝난 것이에요.", "디자인 기록은 바뀐 것을 최신순으로 보여 줘요."]],
@@ -165,6 +165,8 @@
     <h3>${both("All pages", "모든 페이지")}</h3>
     <ul class="site-pages">${pages.map(([en, k, href, ten, tko]) => { const url = new URL(href, base);
       return `<li><a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""}><b>${both(en, k)}</b><small>${both(ten, tko)}</small></a></li>`; }).join("")}</ul>
+    <h3>${both("Also", "그 밖에")}</h3>
+    <ul class="site-pages"><li><a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><b>${both("Logo files ↗", "로고 파일 ↗")}</b><small>${both("Every logo, icon and pixel pet to download, with Customize", "모든 로고, 아이콘, 픽셀 펫 다운로드와 Customize")}</small></a></li></ul>
     <button type="button" class="x">${both("Close", "닫기")}</button>`;
   document.body.appendChild(guide);
   const setGuide = (open) => { guide.hidden = !open; help.setAttribute("aria-expanded", String(open)); hideTip(); if (open) guide.querySelector("a,button").focus(); };

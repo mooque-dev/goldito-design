@@ -72,6 +72,13 @@
   footer a{min-height:32px;display:inline-flex;align-items:center}
   .coin .coin-row{display:flex;gap:1.25rem;align-items:center;flex-wrap:wrap}.coin .coin-row>div:last-child{flex:1;min-width:14rem;display:flex;flex-direction:column;gap:.5rem}
   .coin .art{width:10rem;flex:none;aspect-ratio:1;height:auto;display:grid;place-items:center;padding:.75rem}.coin .art img{width:100%;height:100%;object-fit:contain}.art.cream{background:#FBF6EA}.coin img.px{image-rendering:pixelated;width:100%;height:auto}
+  .lf{display:grid;grid-template-columns:minmax(0,18rem) minmax(0,1fr);gap:1.25rem;align-items:center;margin-top:.75rem}
+  .lf-art{display:block;border-radius:var(--radius-md);overflow:hidden;border:1px solid var(--color-border)}.lf-art img{display:block;width:100%;height:auto}
+  .lf-body{display:flex;flex-direction:column;gap:.625rem;min-width:0}.lf .chips{display:flex;flex-wrap:wrap;gap:.375rem}
+  .lf .chip{font-size:.8125rem;font-weight:600;text-decoration:none;color:var(--color-text);border:1px solid var(--color-border);border-radius:999px;padding:.25rem .75rem;min-height:32px;display:inline-flex;align-items:center}
+  .lf .chip:hover{border-color:var(--color-primary);color:var(--color-primary)}
+  .lf-open{align-self:flex-start;font-weight:700;text-decoration:none;background:var(--color-primary);color:var(--color-primary-text);border-radius:999px;padding:.5rem 1.125rem;min-height:40px;display:inline-flex;align-items:center}
+  @media (max-width:700px){.lf{grid-template-columns:1fr}}
   .ref{font:600 1rem/1.3 var(--font-display);color:var(--color-text-muted);margin-top:.5rem}.muted{color:var(--color-text-muted)}
   @media (max-width:900px){.dirs,.types{grid-template-columns:1fr}.deco{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
@@ -93,6 +100,13 @@
         <div><h3><span class="en">The gold coin</span><span class="ko">골드 코인</span></h3>
         <p><span class="en">A pixel gold coin stamped with a paw: <i>goldito</i>, the little gold one, as something small and precious. Pixel edges match the pet sprites and stickers; tag gold and ink match Expressive.</span><span class="ko">발바닥이 찍힌 픽셀 금화: 작고 소중한 <i>goldito</i>. 픽셀 테두리는 펫 스프라이트·스티커와, 태그 골드와 잉크는 익스프레시브와 맞아요.</span></p>
         <p class="muted"><span class="en">On Welcome and Login in #177. Next: the app icon and splash (still Expo's).</span><span class="ko">#177에서 Welcome과 Login에. 다음: 앱 아이콘과 스플래시(아직 Expo 기본).</span></p></div></div>
+    </div>
+    <div class="card lf" id="logofiles">
+      <a class="lf-art" href="https://mooque-dev.github.io/goldito-design/logo-files/#petopts" target="_blank" rel="noopener"><img src="assets/brand/logo-files-preview.jpg" width="720" height="420" alt="The logo files page: tabs for every version and pixel pets with necklace options" loading="lazy"></a>
+      <div class="lf-body"><h3><span class="en">Logo files</span><span class="ko">로고 파일</span></h3>
+        <p><span class="en">Every logo, icon and pixel pet as ready files: Devpost 1500 × 1000, icon and symbol masters in PNG and SVG. Customize builds your own; Pet options dresses all 17 breeds.</span><span class="ko">모든 로고, 아이콘, 픽셀 펫을 바로 쓰는 파일로: Devpost 1500 × 1000, 아이콘·심볼 마스터 PNG와 SVG. Customize로 직접 만들고, 펫 옵션으로 17종 모두 꾸며요.</span></p>
+        <div class="chips"><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#original" target="_blank" rel="noopener"><span class="en">Original</span><span class="ko">오리지널</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#pixel" target="_blank" rel="noopener"><span class="en">Pixel bell</span><span class="ko">픽셀 벨</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#bellvar" target="_blank" rel="noopener"><span class="en">Bell variations</span><span class="ko">벨 변형</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#custom" target="_blank" rel="noopener"><span class="en">Customize</span><span class="ko">직접 만들기</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#deco" target="_blank" rel="noopener"><span class="en">Diary deco</span><span class="ko">다이어리 꾸미기</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#petopts" target="_blank" rel="noopener"><span class="en">Pet options</span><span class="ko">펫 옵션</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#sketch" target="_blank" rel="noopener"><span class="en">Pixel sketches</span><span class="ko">픽셀 스케치</span></a><a class="chip" href="https://mooque-dev.github.io/goldito-design/logo-files/#costumes" target="_blank" rel="noopener"><span class="en">Costumes</span><span class="ko">코스튬</span></a></div>
+        <a class="lf-open" href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><span class="en">Open logo files ↗</span><span class="ko">로고 파일 열기 ↗</span></a></div>
     </div>
     <h3 class="ref"><span class="en">Other directions, kept for reference</span><span class="ko">다른 방향, 참고용으로 보관</span></h3>
     <div class="dirs">
