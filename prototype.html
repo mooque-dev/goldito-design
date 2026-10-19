@@ -147,6 +147,8 @@
     ? `steps.html${fresh ? `?embed=1&r=${run}` : ""}#${cur.ours.flow}`
     : cur.ours.kind === "tab"
     ? `redesign/app.html?skin=${l.k}${fresh ? `&r=${run}` : ""}#${cur.ours.id}`
+    : cur.ours.kind === "page"
+    ? `${cur.ours.src}${fresh ? `?r=${run}` : ""}#${cur.ours.hash}`
     : `${l.journey}?stay=${layout}${fresh ? `&r=${run}` : ""}${cur.ours.hash ? "#" + cur.ours.hash : ""}`;
   const ICON = {
     built: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>',
@@ -223,7 +225,7 @@
     chrome();
     $("#looks").querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.look === look)));
     $("#looks").hidden = cur.ours.kind === "steps" || LOOKS.length < 2;
-    $("#layout").hidden = cur.ours.kind === "steps" || cur.ours.kind === "tab";
+    $("#layout").hidden = cur.ours.kind !== "journey";
     $("#layout").innerHTML = [["sections", "Sections", "섹션", "The five stages stacked, the current one open", "다섯 단계를 쌓고 지금 단계만 펼침"],
       ["pages", "Pages", "페이지", "A stepper on top and one stage per page", "위에 단계 표시, 한 페이지에 한 단계"]]
       .map(([k, en, ko, ten, tko]) => `<button type="button" data-layout="${k}" aria-pressed="${layout === k}" data-tip="${ten}" data-tip-ko="${tko}">${t(en, ko)}</button>`).join("");

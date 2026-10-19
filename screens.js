@@ -6,14 +6,15 @@ window.GOLDITO_REPO = "https://github.com/minsikpaul92/Goldito/blob/main/";
 window.GOLDITO_FIGMA = "https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design?node-id=";
 // Status facts every page reads (Overview tiles, Plan, Project audit), so they can't drift apart. Update here first.
 window.GOLDITO_FACTS = {
-  updated: "Oct 18, 2026", updatedKo: "2026년 10월 18일",
+  updated: "Oct 19, 2026", updatedKo: "2026년 10월 19일",
   mainAt: "3c64c6d", mainDate: "Oct 18",
   pages: 7, // Overview · Prototype · Step by step · Brand · Plan · Project · Sketches
   figma: { expressiveComponents: 15, expressiveVariants: 55, expressiveScreens: 40, balancedComponents: 65, linked: 321, logos: 27,
     // node ids in the design file (sections keep their ids across plugin runs)
     nodes: { components: "6-2", screens: "0-1", xTabs: "1113-11222", xStay: "1113-12134", xOnboarding: "1113-17054" } },
-  prs: { 54: "merged Oct 16", 129: "open, CI green", 41: "open, stale (Oct 6)", 127: "closed, replaced by #129" },
-  site: { live: "Oct 18", pending: "" }, // set pending to what's waiting whenever the site is behind
+  prs: { 54: "merged Oct 16", 129: "merged Oct 18", 41: "closed, replaced by #178", 127: "closed, replaced by #129",
+    177: "open, waiting for Minsik's review", 178: "open, stacked on #177", 183: "open, stacked on #178" },
+  site: { live: "Oct 19", pending: "" }, // set pending to what's waiting whenever the site is behind
   logoFiles: "https://mooque-dev.github.io/goldito-design/logo-files/",
 };
 // Expressive is the look we're building (Oct 15). Balanced and Playful are paused, not deleted:
@@ -25,7 +26,7 @@ window.GOLDITO_LOOKS = [
   {k: "b", label: "Playful", ko: "플레이풀", journey: "pawnote-concept-b-full-tamagotchi.html"},
   {k: "d", label: "Expressive", ko: "익스프레시브", journey: "pawnote-concept-d-expressive.html"},
 ];
-window.GOLDITO_GROUPS = [["today", "Today's app · tabs", "지금 앱 · 탭"], ["stay", "The stay · 5 stages", "스테이 · 5단계"], ["next", "Being built now (P1)", "지금 만드는 중 (P1)"], ["onboarding", "Onboarding (exploration)", "온보딩 (탐색)"], ["steps", "Step by step (older users)", "단계별 (어르신 친화)"]];
+window.GOLDITO_GROUPS = [["today", "Today's app · tabs", "지금 앱 · 탭"], ["stay", "The stay · 5 stages", "스테이 · 5단계"], ["chat", "Booking in one chat · 03D", "채팅 하나로 예약 · 03D"], ["next", "Being built now (P1)", "지금 만드는 중 (P1)"], ["onboarding", "Onboarding (exploration)", "온보딩 (탐색)"], ["steps", "Step by step (older users)", "단계별 (어르신 친화)"]];
 window.GOLDITO_SCREENS = [
  {
   "id": "owner-home",
@@ -44,7 +45,7 @@ window.GOLDITO_SCREENS = [
    "<b>One stay card replaces two “In care” cards.</b> Photo, “With Chloe now”, day 2 of 3, and today's care progress: the README's “learn without asking” at a glance.",
    "<b>Latest update right on Home</b> (photo + AI caption), so the owner doesn't have to open Diary to feel reassured.",
    "<b>The one primary action matches the moment:</b> “See today's updates” during a stay. “Add pet” becomes a text link (DESIGN.md §7.1).",
-   "<b>Log out leaves the header</b> (D47: settings live in Profile). Bell + avatar only.",
+   "<b>Log out leaves the header</b> (D47). Built in #147 (PR #178): Fredoka title, Owner chip, bell with a count, and a ≡ menu that holds Profile, Settings and Log out.",
    "Allergy stays visible as a <b>Heads-up tag</b>, warning tone, not a status chip."
   ],
   "components": [
@@ -65,7 +66,7 @@ window.GOLDITO_SCREENS = [
    "<b>‘돌봄 중’ 카드 두 개를 스테이 카드 하나로.</b> 사진, “Chloe와 함께”, 3일 중 2일째, 오늘 돌봄 진행도까지 한눈에 — README의 “묻지 않아도 아는” 경험.",
    "<b>최신 소식을 홈에서 바로</b> (사진 + AI 캡션). 다이어리를 열지 않아도 안심돼요.",
    "<b>그 순간에 맞는 메인 버튼 하나:</b> 돌봄 중엔 “오늘 소식 보기”. “펫 추가”는 텍스트 링크로 (DESIGN.md §7.1).",
-   "<b>로그아웃은 헤더에서 빠져요</b> (D47: 설정은 프로필에). 벨 + 아바타만.",
+   "<b>로그아웃은 헤더에서 빠져요</b> (D47). #147(PR #178)로 만들었어요: Fredoka 제목, Owner 칩, 숫자가 있는 벨, 프로필 · 설정 · 로그아웃이 든 ≡ 메뉴.",
    "알레르기는 <b>주의 태그</b>로 계속 보여요 (경고 톤, 상태 칩 아님)."
   ],
   "name_ko": "보호자 · 홈",
@@ -690,7 +691,15 @@ window.GOLDITO_SCREENS = [
    ]
   ]
  },
- {
+ {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-search", "name": "Search results", "name_ko": "검색 결과", "ours": {"kind": "page", "src": "chat.html", "hash": "search"}, "why": "Find by dates, pets and distance", "why_ko": "날짜, 펫, 거리로 찾기", "changes": ["The search (#128, shipped) leads here: dates, pets and radius as pills on top.", "Each sitter shows if they're free for your dates, and the nightly rate.", "Only Chloe is set up in this demo."], "changes_ko": ["검색(#128, 출시)이 여기로 이어져요: 날짜, 펫, 반경이 위에 알약으로.", "시터마다 내 날짜에 비는지와 1박 요금.", "이 데모는 Chloe만 준비돼 있어요."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-sitter", "name": "Sitter detail · Start chat", "name_ko": "시터 상세 · 채팅 시작", "ours": {"kind": "page", "src": "chat.html", "hash": "sitter"}, "why": "One way out: Start chat", "why_ko": "출구는 하나: 채팅 시작", "changes": ["#140: photos with a heart, intro, reviews, and the hatched calendar (#134).", "Replaces “Ask before booking” and “Book” with one <b>Start chat</b>.", "Your dates are outlined; hatched thirds are not bookable."], "changes_ko": ["#140: 하트가 있는 사진, 소개, 후기, 빗금 달력(#134).", "“Ask before booking”과 “Book”을 <b>Start chat</b> 하나로.", "내 날짜는 테두리, 빗금 3등분은 예약 불가."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-ask", "name": "Chat · ask and quote", "name_ko": "채팅 · 문의와 견적", "ours": {"kind": "page", "src": "chat.html", "hash": "chat"}, "why": "The search becomes the first card", "why_ko": "검색이 첫 카드가 돼요", "changes": ["#141: one thread per owner and sitter, with the stepper on top (Ask · Meet · Book · Care · Home).", "#142: suggested replies fill a draft you edit; nothing sends itself.", "#143: the quote, an extra with a fee, and the final quote, all computed by Goldito."], "changes_ko": ["#141: 오너–시터 쌍마다 대화 하나, 위에 단계 표시(Ask · Meet · Book · Care · Home).", "#142: 추천 답장은 초안만 채우고, 고쳐서 보내요. 저절로 보내지 않아요.", "#143: 견적, 추가 요금, 최종 견적. 모두 Goldito가 계산."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-meet", "name": "Chat · Meet & Greet", "name_ko": "채팅 · Meet & Greet", "ours": {"kind": "page", "src": "chat.html", "hash": "chat-meet"}, "why": "Ask to meet, by video or in person", "why_ko": "영상 또는 직접 만남 요청", "changes": ["#144: the request card updates in place when Chloe accepts.", "Video gets a Google Meet link; in person shares the address after booking.", "Repeat pairs skip this step."], "changes_ko": ["#144: Chloe가 수락하면 요청 카드가 그 자리에서 바뀌어요.", "영상은 Google Meet 링크, 직접 만남은 예약 후 주소 공유.", "재방문 쌍은 이 단계를 건너뛰어요."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-book", "name": "Chat · both agree, then pay", "name_ko": "채팅 · 둘 다 동의 후 결제", "ours": {"kind": "page", "src": "chat.html", "hash": "chat-book"}, "why": "Pay appears only when both said yes", "why_ko": "둘 다 예라고 해야 결제가 나와요", "changes": ["#144: one booking card shows both sides; it updates when Chloe accepts.", "Pay opens a short sheet: the total, one checkbox for the 5 consents, Pay (demo).", "After paying: booked, entry info timing, and the agreed handoff."], "changes_ko": ["#144: 예약 카드 하나에 양쪽이 보이고, Chloe가 수락하면 바뀌어요.", "결제는 짧은 시트: 합계, 동의 5개를 한 체크박스로, 결제(데모).", "결제 후: 예약 완료, 출입 정보 시간, 합의된 인계."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-care", "name": "Chat · trip, photos, diary", "name_ko": "채팅 · 이동, 사진, 다이어리", "ours": {"kind": "page", "src": "chat.html", "hash": "chat-care"}, "why": "The stay arrives as cards", "why_ko": "스테이가 카드로 와요", "changes": ["#145: trip, pick-up check, a photo on request, and the evening diary, as cards.", "Cards open the screens we already have (trip 06B, diary 07); nothing is rebuilt.", "Care tasks still live on Home; the chat carries the moments."], "changes_ko": ["#145: 이동, 픽업 확인, 요청한 사진, 저녁 다이어리가 카드로.", "카드는 이미 있는 화면(이동 06B, 다이어리 07)을 열어요. 다시 만들지 않아요.", "돌봄 할 일은 여전히 홈에, 채팅은 순간들을."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-home", "name": "Chat · home safe and review", "name_ko": "채팅 · 귀가와 후기", "ours": {"kind": "page", "src": "chat.html", "hash": "chat-home"}, "why": "End with a review", "why_ko": "후기로 마무리", "changes": ["#146: home safe, a short summary, and the review right in the chat.", "Your review is public; Chloe's review of you is only for her.", "The stepper finishes; the thread stays for next time."], "changes_ko": ["#146: 귀가, 짧은 요약, 그리고 채팅 안의 후기.", "내 후기는 공개, Chloe가 쓴 내 후기는 Chloe만.", "단계 표시가 끝나고, 대화는 다음을 위해 남아요."]},
+  {"group": "chat", "live": "none", "shot": "", "captured": "", "task": "03D · #138 to #146 · being built Oct 18 to 24", "components": ["Stepper", "Message Bubble", "Chip", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Phase 03D", "docs/plan/phases/phase-03d-booking-chat.md"]], "id": "chat-list", "name": "Chats", "name_ko": "채팅 목록", "ours": {"kind": "page", "src": "chat.html", "hash": "chats"}, "why": "Back from a chat shows every chat", "why_ko": "채팅에서 뒤로 가면 모든 채팅", "changes": ["#141: one row per sitter with the last message and a small stage bar.", "The tab is called Chats in this draft (question: keep Bookings?).", "Unread counts come from the thread."], "changes_ko": ["#141: 시터마다 한 줄, 마지막 메시지와 작은 단계 막대.", "이 초안에서 탭 이름은 Chats (질문: Bookings 유지?).", "안 읽은 수는 대화에서."]},
+  {
   "id": "owner-settings",
   "group": "next",
   "name": "Profile → Settings",

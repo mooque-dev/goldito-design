@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* Ticket #120: five ways an owner reads a sitter's calendar. Expressive look, as in the app. */
+  :root {
+    --ink:#1B4332; --cream:#FBF6EA; --surface:#FFFFFF; --muted:#6B5D4A; --line:#E8DCC4; --mint:#D8F3DC;
+    --peach:#FDE2CC; --butter:#FBEFC8; --blush:#FAD6CB; --gold:#F4C35A; --busy:#B54708; --busy-bg:#FFFAEB;
+    --page:#EFEAE0; --text:#1B4332;
+    --display:"Fredoka",ui-rounded,system-ui,sans-serif; --ui:"Inter",system-ui,-apple-system,sans-serif;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --page:#141613; --text:#EDEDEA; } }
+  :root[data-theme="dark"] { --page:#141613; --text:#EDEDEA; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--page); color:var(--text); font-family:var(--ui); }
+  main { max-width:1100px; margin:0 auto; padding:24px 16px 64px; display:grid; gap:24px; grid-template-columns:minmax(0,1fr) 402px; align-items:start; }
+  @media (max-width: 900px) { main { grid-template-columns:1fr; } .phone-wrap { justify-self:center; } }
+  h1 { font-family:var(--display); font-weight:600; font-size:32px; margin:0 0 4px; }
+  .lede { margin:0 0 16px; line-height:1.5; opacity:.85; }
+  .opts { display:grid; gap:8px; }
+  .opt { text-align:left; border:2px solid transparent; background:rgba(127,127,127,.1); color:inherit; border-radius:16px; padding:12px 14px; cursor:pointer; font:inherit; }
+  .opt[aria-pressed="true"] { border-color:var(--gold); background:rgba(244,195,90,.16); }
+  .opt b { font-family:var(--display); font-weight:600; font-size:18px; }
+  .opt span { display:block; font-size:14px; opacity:.8; margin-top:2px; line-height:1.4; }
+  .opt i { font-style:normal; font-size:13px; }
+  .scenario { display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 0; }
+  .scenario button { font:inherit; font-size:14px; border-radius:999px; padding:8px 14px; border:1.5px solid currentColor; background:transparent; color:inherit; cursor:pointer; min-height:40px; }
+  .scenario button[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); }
+  .rules { margin-top:20px; font-size:14px; line-height:1.55; opacity:.85; }
+  .rules li { margin-bottom:4px; }
+
+  /* Phone */
+  .phone-wrap { position:sticky; top:16px; }
+  .phone { width:402px; max-width:100%; height:874px; max-height:calc(100vh - 32px); background:var(--cream); color:var(--ink); border-radius:44px; border:10px solid #1A1A1A; overflow:hidden; display:flex; flex-direction:column; position:relative; }
+  .bar { display:flex; align-items:center; gap:8px; padding:18px 16px 8px; }
+  .bar .back { font:inherit; font-weight:600; font-size:16px; color:var(--ink); background:none; border:0; min-height:48px; padding:0 8px 0 0; cursor:pointer; }
+  .bar h2 { font-family:var(--display); font-weight:600; font-size:20px; margin:0; }
+  .scroll { flex:1; overflow-y:auto; padding:0 16px 24px; }
+  .who { display:flex; gap:12px; align-items:center; margin:4px 0 16px; }
+  .ava { width:56px; height:56px; border-radius:50%; background:var(--peach); display:grid; place-items:center; font-family:var(--display); font-size:24px; font-weight:600; }
+  .who h3 { font-family:var(--display); font-weight:600; font-size:24px; margin:0; }
+  .who p { margin:2px 0 0; color:var(--muted); font-size:15px; }
+  .sec { font-family:var(--display); font-weight:600; font-size:20px; margin:20px 0 10px; }
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:20px; padding:16px; }
+  .block { border-radius:24px; padding:18px; }
+  .mint { background:var(--mint); } .butter { background:var(--butter); } .peach { background:var(--peach); }
+  .big { font-family:var(--display); font-weight:600; font-size:24px; margin:0 0 4px; }
+  .sub { margin:0; font-size:16px; line-height:1.45; }
+  .btn { display:flex; align-items:center; justify-content:center; width:100%; min-height:52px; border-radius:999px; border:0; background:var(--ink); color:#fff; font:inherit; font-weight:700; font-size:17px; cursor:pointer; margin-top:12px; }
+  .btn.sec2 { background:var(--surface); color:var(--ink); border:2px solid var(--ink); }
+  .link { background:none; border:0; font:inherit; font-weight:600; font-size:16px; color:var(--ink); text-decoration:underline; min-height:48px; cursor:pointer; padding:0; }
+  .row { display:flex; align-items:center; gap:12px; width:100%; min-height:64px; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-radius:18px; font:inherit; color:var(--ink); text-align:left; cursor:pointer; margin-bottom:8px; }
+  .row .t { flex:1; } .row .t b { display:block; font-size:17px; } .row .t span { color:var(--muted); font-size:15px; }
+  .row .chev { font-size:22px; color:var(--muted); }
+  .tag { display:inline-block; font-size:14px; font-weight:700; border-radius:999px; padding:4px 10px; }
+  .tag.free { background:var(--mint); color:var(--ink); } .tag.part { background:var(--butter); color:#7A5A00; } .tag.busy { background:var(--busy-bg); color:var(--busy); }
+  .slot { display:flex; align-items:center; gap:12px; min-height:64px; padding:12px 14px; background:var(--surface); border:1px solid var(--line); border-radius:18px; margin-bottom:8px; }
+  .slot .t { flex:1; } .slot b { display:block; font-size:17px; } .slot span { color:var(--muted); font-size:15px; }
+  .slot.off { opacity:.6; }
+  /* Month grid */
+  .mhead { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .mhead b { font-family:var(--display); font-weight:600; font-size:20px; }
+  .arrow { width:48px; height:48px; border-radius:50%; border:1.5px solid var(--line); background:var(--surface); font-size:20px; color:var(--ink); cursor:pointer; }
+  .grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .dow { text-align:center; font-size:13px; color:var(--muted); font-weight:600; padding:4px 0; }
+  .day { aspect-ratio:1/1.15; border-radius:12px; border:1.5px solid transparent; background:var(--surface); font:inherit; color:var(--ink); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:0; }
+  .day b { font-size:17px; } .day small { font-size:11px; font-weight:700; }
+  .day.free small { color:#2D6A4F; } .day.part small { color:#7A5A00; } .day.busy { background:transparent; color:#A99A82; cursor:default; } .day.busy small { color:#A99A82; }
+  .day.past { visibility:hidden; }
+  .day.today { border-color:var(--ink); }
+  .day[aria-pressed="true"] { background:var(--ink); color:#fff; } .day[aria-pressed="true"] small { color:#fff; }
+  .legend { display:flex; gap:12px; flex-wrap:wrap; font-size:14px; color:var(--muted); margin:10px 0 0; }
+  /* Week strip */
+  .strip { display:flex; align-items:center; gap:6px; }
+  .chips { display:flex; gap:6px; flex:1; }
+  .chip { flex:1; min-height:72px; border-radius:16px; border:1.5px solid var(--line); background:var(--surface); font:inherit; color:var(--ink); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:0; }
+  .chip small { font-size:12px; color:var(--muted); font-weight:600; } .chip b { font-size:18px; }
+  .chip.busy { opacity:.45; cursor:default; }
+  .chip[aria-pressed="true"] { background:var(--ink); color:#fff; border-color:var(--ink); } .chip[aria-pressed="true"] small { color:#fff; }
+  .strip .arrow { width:40px; height:72px; border-radius:14px; flex:none; }
+  .note { font-size:14px; color:var(--muted); margin:8px 0 0; }
+</style>
+</head>
+<body>
+<main>
+  <section>
+    <h1>#120 Calendar options</h1>
+    <p class="lede">How an owner reads Chloe's calendar on her profile. Pick an option, then tap through the phone. Every option avoids moving layouts and hidden gestures.</p>
+    <div class="opts" id="opts"></div>
+    <div class="scenario" id="scenario" aria-label="Owner's situation">
+      <button data-s="dates" aria-pressed="true">Owner has dates (Oct 9 to 12)</button>
+      <button data-s="nodates" aria-pressed="false">No dates yet</button>
+    </div>
+    <ul class="rules">
+      <li>Words, not letters: Morning · Afternoon · Night with their hours.</li>
+      <li>Every action is a big labelled button (48 px or more). No drag, no pull, no long press.</li>
+      <li>Nothing slides or collapses under the finger.</li>
+      <li>Busy days look different without relying on color: they say "Busy" and can't be tapped.</li>
+    </ul>
+  </section>
+  <div class="phone-wrap"><div class="phone" id="phone"></div></div>
+</main>
+<script>
+const OPTIONS = [
+  { k: "A", t: "Answer card", d: "Says if Chloe is free for your dates. The calendar is one tap away.", r: "Rover search, Airbnb" },
+  { k: "B", t: "Next openings", d: "A plain list of the next free days. No grid.", r: "Doctor and salon booking" },
+  { k: "C", t: "Month, slots below", d: "The month stays still; tap a day and its slots show under it.", r: "Calendly" },
+  { k: "D", t: "Month, then day page", d: "Tap a day to open a page with its slots and a clear Back.", r: "Hospital and government booking" },
+  { k: "E", t: "Week strip", d: "Seven big day chips with arrows; slots below.", r: "OpenTable, Doctolib" },
+];
+const SLOTS = [["Morning", "8 AM to 12 PM"], ["Afternoon", "12 PM to 5 PM"], ["Night", "5 PM to 8 AM"]];
+// Chloe's October 2026: per day, which slots are free. Today is Oct 7.
+const TODAY = 7;
+const FREE = {};
+for (let d = 1; d <= 31; d++) FREE[d] = [true, true, true];
+[11, 18, 25].forEach((d) => (FREE[d] = [false, false, false]));
+[10, 17, 24].forEach((d) => (FREE[d] = [true, true, false]));
+[14, 21, 28].forEach((d) => (FREE[d] = [false, true, true]));
+FREE[15] = FREE[16] = [false, false, false];
+const DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const dow = (d) => DOW[(d + 3) % 7]; // Oct 1, 2026 is a Thursday.
+const status = (d) => { const n = FREE[d].filter(Boolean).length; return n === 3 ? "free" : n === 0 ? "busy" : "part"; };
+const word = { free: "Free", part: "Part", busy: "Busy" };
+const longWord = { free: "Free all day", part: "Partly free", busy: "Busy" };
+const freeNames = (d) => SLOTS.filter((_, i) => FREE[d][i]).map((s) => s[0]).join(", ");
+
+const st = { opt: "A", scenario: "dates", view: "home", day: null, week: 0 };
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+function drawOpts() {
+  $("opts").innerHTML = OPTIONS.map((o) => `<button class="opt" aria-pressed="${o.k === st.opt}" data-k="${o.k}"><b>${o.k}. ${o.t}</b><span>${o.d}</span><i>Like: ${o.r}</i></button>`).join("");
+}
+
+function header(title, back) {
+  return `<div class="bar">${back ? `<button class="back" data-go="${back}">‹ Back</button>` : ""}<h2>${esc(title)}</h2></div>`;
+}
+function who() {
+  return `<div class="who"><div class="ava">C</div><div><h3>Chloe</h3><p>Sitter · 2 km away · ★ 4.9</p></div></div>`;
+}
+function slotRows(d) {
+  return SLOTS.map(([n, h], i) => `<div class="slot ${FREE[d][i] ? "" : "off"}"><div class="t"><b>${n}</b><span>${h}</span></div><span class="tag ${FREE[d][i] ? "free" : "busy"}">${FREE[d][i] ? "Free" : "Busy"}</span></div>`).join("");
+}
+function actions(d) {
+  const label = d ? `Oct ${d}` : "Oct 9 to 12";
+  return `<button class="btn">Book from ${label}</button><button class="btn sec2">Ask Chloe</button>`;
+}
+function month(selectable) {
+  let cells = DOW.map((x) => `<div class="dow">${x[0]}${x[1]}</div>`).join("");
+  for (let i = 0; i < 4; i++) cells += `<div></div>`; // Oct 1 is a Thursday.
+  for (let d = 1; d <= 31; d++) {
+    const s = status(d);
+    if (d < TODAY) { cells += `<div class="day past"></div>`; continue; }
+    const pressed = st.day === d;
+    cells += `<button class="day ${s} ${d === TODAY ? "today" : ""}" ${s === "busy" ? "disabled" : `data-day="${d}"`} aria-pressed="${pressed}" aria-label="October ${d}, ${longWord[s]}"><b>${d}</b><small>${word[s]}</small></button>`;
+  }
+  return `<div class="card"><div class="mhead"><button class="arrow" aria-label="Previous month" disabled>‹</button><b>October 2026</b><button class="arrow" aria-label="Next month">›</button></div><div class="grid">${cells}</div>
+    <div class="legend"><span><b style="color:#2D6A4F">Free</b> all day</span><span><b style="color:#7A5A00">Part</b> some slots</span><span><b style="color:#A99A82">Busy</b> can't book</span></div></div>`;
+}
+
+function render() {
+  const p = $("phone");
+  const o = st.opt;
+  let html = "";
+  if (st.view === "day" && st.day) {
+    // D's day page (also reached from A, B).
+    html = header(`${dow(st.day)}, Oct ${st.day}`, "back") + `<div class="scroll"><p class="sub" style="margin:4px 0 12px">${longWord[status(st.day)]}</p>${slotRows(st.day)}${actions(st.day)}</div>`;
+  } else if (st.view === "month") {
+    html = header("Chloe's calendar", "home") + `<div class="scroll">${month()}<p class="note">Tap a day to see its times.</p></div>`;
+  } else {
+    html = header("Sitter") + `<div class="scroll">${who()}`;
+    if (o === "A") {
+      if (st.scenario === "dates") {
+        html += `<div class="block mint"><p class="big">✓ Free Oct 9 to 12</p><p class="sub">Chloe is free for your whole stay.</p>${actions()}</div>`;
+      } else {
+        html += `<div class="block butter"><p class="big">When do you need care?</p><p class="sub">Pick your dates and we'll tell you if Chloe is free.</p><button class="btn">Pick dates</button></div>`;
+      }
+      html += `<button class="link" data-go="month" style="margin-top:12px">See Chloe's calendar ›</button>`;
+    } else if (o === "B") {
+      if (st.scenario === "dates") html += `<div class="block mint" style="margin-bottom:8px"><p class="big" style="font-size:20px">✓ Free Oct 9 to 12</p></div>`;
+      html += `<p class="sec">Next openings</p>`;
+      let n = 0;
+      for (let d = TODAY; d <= 31 && n < 5; d++) {
+        if (status(d) === "busy") continue;
+        n++;
+        html += `<button class="row" data-day="${d}" data-go="day"><div class="t"><b>${dow(d)}, Oct ${d}</b><span>${status(d) === "free" ? "All day" : freeNames(d)}</span></div><span class="chev">›</span></button>`;
+      }
+      html += `<button class="btn sec2" data-go="month">See full month</button>`;
+    } else if (o === "C") {
+      html += `<p class="sec">Availability</p>${month()}`;
+      if (st.day) html += `<p class="sec" id="slots">${dow(st.day)}, Oct ${st.day}</p>${slotRows(st.day)}${actions(st.day)}`;
+      else html += `<p class="note">Tap a day to see its times below.</p>`;
+    } else if (o === "D") {
+      html += `<p class="sec">Availability</p>${month()}<p class="note">Tap a day to open its times.</p>`;
+    } else if (o === "E") {
+      const start = TODAY + st.week * 7;
+      const sel = st.day ?? start;
+      let chips = "";
+      for (let d = start; d < start + 7 && d <= 31; d++) {
+        const s = status(d);
+        chips += `<button class="chip ${s === "busy" ? "busy" : ""}" ${s === "busy" ? "disabled" : `data-day="${d}"`} aria-pressed="${d === sel}"><small>${dow(d)}</small><b>${d}</b><small>${word[s]}</small></button>`;
+      }
+      html += `<p class="sec">Availability</p><div class="strip"><button class="arrow" data-week="-1" aria-label="Earlier week" ${st.week === 0 ? "disabled" : ""}>‹</button><div class="chips">${chips}</div><button class="arrow" data-week="1" aria-label="Later week" ${start + 7 > 31 ? "disabled" : ""}>›</button></div>`;
+      html += `<p class="sec">${dow(sel)}, Oct ${sel}</p>${slotRows(sel)}${actions(sel)}<button class="link" data-go="month">Pick a date from the month</button>`;
+    }
+    html += `</div>`;
+  }
+  p.innerHTML = html;
+  if (st.opt === "C" && st.day && st.view === "home") $("slots")?.scrollIntoView({ block: "start" });
+}
+
+document.addEventListener("click", (e) => {
+  const opt = e.target.closest(".opt");
+  if (opt) { st.opt = opt.dataset.k; st.view = "home"; st.day = null; st.week = 0; drawOpts(); render(); return; }
+  const sc = e.target.closest("#scenario button");
+  if (sc) { st.scenario = sc.dataset.s; document.querySelectorAll("#scenario button").forEach((b) => b.setAttribute("aria-pressed", b === sc)); st.view = "home"; st.day = null; render(); return; }
+  const wk = e.target.closest("[data-week]");
+  if (wk) { st.week = Math.max(0, st.week + Number(wk.dataset.week)); st.day = null; render(); return; }
+  const dayBtn = e.target.closest("[data-day]");
+  if (dayBtn) {
+    st.day = Number(dayBtn.dataset.day);
+    // Month taps open the day page except in C and E, where the slots stay on the same screen.
+    if (st.view === "month" || st.opt === "D" || dayBtn.dataset.go === "day") st.view = "day";
+    render(); return;
+  }
+  const go = e.target.closest("[data-go]");
+  if (go) {
+    const to = go.dataset.go;
+    if (to === "back") st.view = st.backTo || "home";
+    else { st.view = to; if (to !== "day") st.day = null; }
+    render();
+  }
+});
+// Remember where a day page came from, so Back returns there.
+const origRender = render;
+render = function () { if (st.view !== "day") st.backTo = st.view; origRender(); };
+drawOpts();
+render();
+</script>
+</body>
+</html>

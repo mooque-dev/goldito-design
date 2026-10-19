@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goldito Chat Booking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Booking in one chat (Phase 03D, #140 to #146), playable, in the Expressive look.
+   Owner's phone. Anything Chloe does is a "Demo · as Chloe" button. Prices are computed, never typed.
+   Hash routes: #search #sitter #chat #chats, and #chat-meet #chat-book #chat-care #chat-home jump ahead. */
+:root{--bg:#FBF6EA;--surface:#FFFFFF;--text:#1A1A1A;--muted:#4F5B53;--line:#E3EADF;--strong:#86867F;--primary:#2D6A4F;--ink:#1B4332;--mint:#D8F3DC;
+  --peach:#FDE2CC;--butter:#FBEFC8;--blush:#FAD6CB;--gold:#F4C35A;--goldink:#8A5A00;--track:#ECEAE3;--warn:#B54708;--warnbg:#FFFAEB;--ok:#067647;--okbg:#ECFDF3;--danger:#B42318;
+  --display:"Fredoka","Arial Rounded MT Bold",ui-rounded,sans-serif;--ui:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#E9E4D8;font:15px/1.4 var(--ui);color:var(--text);display:flex;align-items:center;justify-content:center;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer}
+.phone{width:402px;height:874px;background:var(--bg);border-radius:44px;border:10px solid #1A1A1A;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(27,67,50,.25)}
+@media (max-width:440px),(max-height:900px){body{background:var(--bg);display:block}.phone{width:100%;height:100%;border:0;border-radius:0;box-shadow:none}}
+.sb{display:flex;justify-content:space-between;padding:12px 24px 4px;font-size:14px;font-weight:700;flex:0 0 auto}
+.screen{flex:1;min-height:0;display:flex;flex-direction:column}
+.screen[hidden]{display:none}
+.scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}
+.bar{display:flex;align-items:center;gap:6px;padding:4px 12px 8px 8px;min-height:52px;flex:0 0 auto}
+.bar .t{flex:1;font:600 24px/1.1 var(--display);color:var(--ink);padding-left:8px}
+.ib{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:0;background:none;color:var(--ink);flex:0 0 auto;position:relative}
+.ib:hover{background:rgba(27,67,50,.06)}
+svg{width:22px;height:22px;flex:0 0 auto}
+.av{width:36px;height:36px;border-radius:50%;background:var(--peach) center/cover;display:grid;place-items:center;font-weight:800;font-size:14px;color:var(--ink);flex:0 0 auto}
+.av.lg{width:44px;height:44px;font-size:16px}
+.av.xl{width:72px;height:72px;font-size:26px}
+.pad{padding:4px 16px 20px;display:flex;flex-direction:column;gap:12px}
+.card{background:var(--surface);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.cap{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h2{margin:0;font:600 26px/1.15 var(--display);color:var(--ink)}
+h3{margin:0;font:600 17px/1.25 var(--display);color:var(--ink)}
+.muted{color:var(--muted);font-size:14px}
+.row{display:flex;align-items:center;gap:10px}
+.sp{justify-content:space-between}
+.tag{display:inline-flex;align-items:center;gap:4px;border-radius:6px;padding:2px 8px;font-size:13px;font-weight:600;background:var(--track);color:var(--muted);width:max-content}
+.tag.ok{background:var(--okbg);color:var(--ok)}.tag.w{background:var(--warnbg);color:var(--warn)}.tag.b{background:var(--mint);color:var(--primary)}
+.btn{min-height:48px;border-radius:999px;border:0;background:var(--primary);color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:0 18px}
+.btn:hover{filter:brightness(1.08)}
+.btn.sec{background:var(--surface);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.sm{min-height:40px;font-size:14px;width:auto}
+.btn:disabled{background:var(--track);color:var(--muted);cursor:default;filter:none}
+.lnk{border:0;background:none;color:var(--primary);font-weight:700;font-size:14px;min-height:40px;padding:0;text-align:left}
+.pill{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;background:var(--surface);font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap}
+/* search */
+.sitter{display:flex;gap:12px;align-items:center;text-align:left;border:0;width:100%}
+.sitter:hover{box-shadow:0 0 0 2px var(--mint)}
+.sitter .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.sitter b{font-size:16px}
+/* sitter detail */
+.photos{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:6px;height:190px;border-radius:20px;overflow:hidden}
+.photos i{background:center/cover;display:block}
+.photos i:first-child{grid-row:1/3}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
+.cal .dow{font-size:11px;font-weight:700;color:var(--muted)}
+.cal .c{position:relative;height:38px;border-radius:9px;background:var(--surface);display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden;box-shadow:inset 0 0 0 1px var(--line)}
+.cal .c i.x{background:repeating-linear-gradient(135deg,rgba(27,67,50,.38) 0 1.5px,transparent 1.5px 6px)}
+.cal .c b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--ink)}
+.cal .c.past{background:transparent;box-shadow:none}.cal .c.past b{color:#B5B5AD;font-weight:500}
+.cal .c.sel{box-shadow:inset 0 0 0 2.5px var(--primary)}
+.foot{padding:10px 16px 20px;background:linear-gradient(transparent,var(--bg) 30%);flex:0 0 auto}
+/* chats list */
+.it{display:flex;gap:12px;align-items:center;padding:12px 8px;border:0;background:none;width:100%;text-align:left;border-bottom:1px solid var(--line)}
+.it:hover{background:rgba(27,67,50,.04)}
+.it .tx{flex:1;min-width:0}
+.it .tx b{display:block;font-size:16px}
+.it .tx span{display:block;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.it .meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:12px;color:var(--muted)}
+.unread{min-width:22px;height:22px;border-radius:11px;background:var(--primary);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;padding:0 6px}
+.mini{display:flex;gap:3px}.mini i{width:14px;height:5px;border-radius:3px;background:var(--line)}.mini i.on{background:var(--gold)}
+/* thread */
+.who{display:flex;align-items:center;gap:10px;padding:2px 12px 6px 4px;flex:0 0 auto}
+.who .n{flex:1;min-width:0}.who .n b{display:block;font-size:16px}
+.stepper{display:grid;grid-template-columns:repeat(5,1fr);padding:2px 8px 10px;flex:0 0 auto;border-bottom:1px solid var(--line)}
+.stepper span{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 12px/1 var(--display);color:var(--muted)}
+.stepper span+span::before{content:"";position:absolute;top:13px;right:50%;width:100%;height:3px;border-radius:2px;background:var(--line);z-index:0}
+.stepper span.d+span::before{background:var(--gold)}
+.stepper b{position:relative;z-index:1;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface);box-shadow:0 0 0 2px var(--line);font:700 13px/1 var(--display);color:var(--muted)}
+.stepper .d b{background:var(--gold);color:#3D2A00;box-shadow:none}
+.stepper .n b{background:var(--ink);color:var(--bg);box-shadow:none}
+.stepper .n{color:var(--ink)}
+.msgs{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px}
+.day{align-self:center;font-size:12px;color:var(--muted);font-weight:700;padding:6px 0 2px}
+.bub{max-width:82%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.4;animation:in .25s ease}
+.bub.them{background:var(--surface);align-self:flex-start;border-bottom-left-radius:6px}
+.bub.me{background:var(--ink);color:#fff;align-self:flex-end;border-bottom-right-radius:6px}
+.bub small{display:block;font-size:11px;opacity:.7;margin-top:4px}
+.bub.photo{padding:6px;max-width:70%}.bub.photo img{display:block;width:100%;border-radius:14px}.bub.photo span{display:block;padding:6px 8px 2px}
+.cc{background:var(--surface);border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;animation:in .25s ease}
+.cc.mint{background:var(--mint)}.cc.peach{background:var(--peach)}.cc.butter{background:var(--butter)}.cc.blush{background:var(--blush)}
+.cc .top{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.05em}
+.cc .top svg{width:16px;height:16px}
+.cc .top .by{margin-left:auto;text-transform:none;letter-spacing:0;font-weight:600;color:var(--muted)}
+.facts{display:flex;flex-direction:column;gap:4px;font-size:14px}
+.facts div{display:flex;justify-content:space-between;gap:12px}
+.facts div span:first-child{color:var(--muted)}
+.facts .tot{border-top:1.5px dashed rgba(27,67,50,.25);padding-top:6px;margin-top:2px;font-weight:800;font-size:16px}
+.src{font-size:12px;color:var(--muted)}
+.acts{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.both{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.both div{display:flex;align-items:center;gap:8px}
+.both i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:0 0 auto;box-shadow:inset 0 0 0 2px var(--strong)}
+.both .y i{background:var(--primary);color:#fff;box-shadow:none}
+.both svg{width:14px;height:14px}
+.stars{display:flex;gap:2px}
+.stars button{border:0;background:none;padding:4px;color:#D7D2C3}.stars button.on{color:#C9962E}
+.stars svg{width:30px;height:30px;fill:currentColor}
+.demo{display:flex;align-items:center;gap:10px;margin:0 12px 6px;padding:8px 8px 8px 14px;border-radius:16px;background:var(--surface);box-shadow:inset 0 0 0 2px var(--line);flex:0 0 auto}
+.demo .lab{flex:1;font-size:12px;color:var(--muted);font-weight:700}
+.demo .lab b{display:block;color:var(--ink);font-size:14px}
+.demo[hidden],.aichips[hidden]{display:none}
+.aichips{display:flex;gap:8px;padding:6px 12px 0;overflow-x:auto;scrollbar-width:none;flex:0 0 auto}
+.aichips button{border:0;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;background:var(--mint);color:var(--ink);font-weight:700;font-size:14px;white-space:nowrap}
+.aichips button:hover{box-shadow:inset 0 0 0 2px var(--primary)}
+.aichips svg{width:16px;height:16px}
+.inputbar{display:flex;align-items:flex-end;gap:8px;padding:8px 12px 18px;flex:0 0 auto}
+.field{flex:1;min-width:0;border-radius:22px;background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--strong);padding:8px 16px;display:flex;flex-direction:column}
+.field.draft{box-shadow:inset 0 0 0 2px var(--primary)}
+.field .dl{font-size:11px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.05em}
+.field .dl[hidden]{display:none}
+.field textarea{border:0;outline:0;resize:none;background:none;font:inherit;font-size:15px;line-height:1.35;min-height:24px;max-height:96px;padding:2px 0}
+.send{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;border:0;flex:0 0 auto}
+.send:disabled{background:var(--track);color:var(--muted)}
+.tabs{display:flex;justify-content:space-around;background:var(--surface);padding:6px 4px 18px;border-radius:26px 26px 0 0;flex:0 0 auto}
+.tabs button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--muted);min-width:60px}
+.tabs i{width:52px;height:28px;border-radius:14px;display:grid;place-items:center}
+.tabs .on{color:var(--ink)}.tabs .on i{background:var(--mint)}
+.tabs svg{width:20px;height:20px}
+.sheet{position:absolute;inset:0;background:rgba(26,26,26,.4);display:flex;align-items:flex-end;z-index:5}
+.sheet[hidden]{display:none}
+.sheet .box{background:var(--bg);width:100%;border-radius:26px 26px 0 0;padding:18px 16px 24px;display:flex;flex-direction:column;gap:12px;animation:up .25s ease}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px}
+.check input{width:22px;height:22px;accent-color:var(--primary);margin:0;flex:0 0 auto}
+.toast{position:absolute;left:12px;right:12px;bottom:96px;background:var(--ink);color:#fff;border-radius:16px;padding:12px 14px;font-size:14px;font-weight:600;z-index:6;animation:in .2s ease}
+.toast[hidden]{display:none}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="phone" id="phone">
+  <div class="sb" aria-hidden="true"><span>9:41</span><span>●●● ▮</span></div>
+
+  <!-- Search results -->
+  <section class="screen" id="s-search" aria-label="Find a sitter">
+    <div class="bar"><span class="t">Find a sitter</span><button class="ib" aria-label="Filters" data-go="noop" data-i="sliders"></button></div>
+    <div class="scroll"><div class="pad">
+      <div class="row" style="gap:8px;flex-wrap:wrap"><span class="pill" data-i-l="cal">Oct 9 to 12</span><span class="pill" data-i-l="paw">Max, Mochi</span><span class="pill" data-i-l="pin">5 km</span></div>
+      <button class="card sitter" data-go="sitter"><span class="av lg" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="tx"><b>Chloe M.</b><span class="muted">★ 4.9 · 38 stays · 2 km</span><span class="row" style="gap:6px"><span class="tag ok">Free on your dates</span><span class="tag">$55 / night</span></span></span><span data-i="chev"></span></button>
+      <button class="card sitter" data-go="noop"><span class="av lg">J</span><span class="tx"><b>Jun P.</b><span class="muted">★ 4.8 · 21 stays · 3 km</span><span class="row" style="gap:6px"><span class="tag ok">Free on your dates</span><span class="tag">$60 / night</span></span></span><span data-i="chev"></span></button>
+      <button class="card sitter" data-go="noop"><span class="av lg">A</span><span class="tx"><b>Ari S.</b><span class="muted">★ 5.0 · 9 stays · 4 km</span><span class="row" style="gap:6px"><span class="tag w">Full on Oct 11</span><span class="tag">$50 / night</span></span></span><span data-i="chev"></span></button>
+    </div></div>
+    <nav class="tabs" data-tabs="Home"></nav>
+  </section>
+
+  <!-- Sitter detail -->
+  <section class="screen" id="s-sitter" hidden aria-label="Chloe's profile">
+    <div class="bar"><button class="ib" aria-label="Back" data-go="search" data-i="back"></button><span class="t"></span><button class="ib" aria-label="Save Chloe" aria-pressed="false" id="heart" data-i="heart"></button></div>
+    <div class="scroll"><div class="pad">
+      <div class="photos" aria-label="Chloe's home"><i style="background-image:url(redesign/img/pet1.jpg)"></i><i style="background-image:url(redesign/img/pet0.jpg)"></i><i style="background-image:url(redesign/img/pet2.jpg)"></i></div>
+      <div class="row"><span class="av xl" style="background-image:url(redesign/img/pet1.jpg)"></span><div><h2>Chloe M.</h2><span class="muted">★ 4.9 · 38 stays · 2 km</span></div></div>
+      <div class="row" style="gap:6px;flex-wrap:wrap"><span class="tag b">Dogs and cats</span><span class="tag">Yard</span><span class="tag">Meds OK</span></div>
+      <div class="card"><span class="cap">About</span><span>Vet tech, works from home. Two calm cats. A photo with every meal.</span></div>
+      <div class="card"><div class="row sp"><span class="cap">October</span><span class="tag ok">Free Oct 9 to 12</span></div><div class="cal" id="cal"></div></div>
+      <div class="card"><span class="cap">Reviews</span><span>“Mochi came home calmer than she left.”</span><span class="muted">Jae · Sept</span></div>
+    </div></div>
+    <div class="foot"><button class="btn" data-go="chat" data-i-l="chat">Start chat</button></div>
+  </section>
+
+  <!-- Chats list -->
+  <section class="screen" id="s-chats" hidden aria-label="Chats">
+    <div class="bar"><span class="t">Chats</span><button class="ib" aria-label="Notifications" data-i="bell"></button></div>
+    <div class="scroll"><div class="pad" style="gap:0" id="chatList"></div></div>
+    <nav class="tabs" data-tabs="Chats"></nav>
+  </section>
+
+  <!-- Thread -->
+  <section class="screen" id="s-chat" hidden aria-label="Chat with Chloe">
+    <div class="who"><button class="ib" aria-label="All chats" data-go="chats" data-i="back"></button><span class="av lg" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="n"><b>Chloe M.</b><span class="muted" id="whoSub">Usually replies in minutes</span></span><button class="ib" aria-label="Chloe's profile" data-go="sitter" data-i="info"></button></div>
+    <div class="stepper" id="stepper" aria-label="Booking progress"></div>
+    <div class="scroll" id="thread"><div class="msgs" id="msgs" aria-live="polite"></div></div>
+    <div class="demo" id="demo" hidden><span class="lab">Demo · as Chloe<b id="demoLabel"></b></span><button class="btn sm" id="demoBtn">Do it</button></div>
+    <div class="aichips" id="chips" aria-label="Suggested replies" hidden></div>
+    <div class="inputbar"><div class="field" id="field"><span class="dl" id="dl" hidden>Draft · edit before sending</span><textarea id="input" rows="1" aria-label="Message Chloe" placeholder="Message Chloe"></textarea></div><button class="send" id="send" aria-label="Send" data-i="send" disabled></button></div>
+  </section>
+
+  <div class="sheet" id="paySheet" hidden role="dialog" aria-modal="true" aria-labelledby="payTitle"><div class="box">
+    <h2 id="payTitle">Pay <span data-total></span></h2>
+    <div class="facts" id="payFacts"></div>
+    <label class="check"><input type="checkbox" id="consent"><span>I agree to the 5 stay consents (vet, entry, other pets, handoff, safe return). <button class="lnk" style="min-height:0" type="button">Read</button></span></label>
+    <button class="btn" id="payBtn" disabled>Pay (demo)</button>
+    <button class="lnk" style="align-self:center" id="payCancel" type="button">Not now</button>
+  </div></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</div>
+<script>
+(() => {
+  // ---------- icons (Lucide, ISC) ----------
+  const P = {
+    back: '<path d="m15 18-6-6 6-6"/>', chev: '<path d="m9 18 6-6-6-6"/>', send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+    spark: '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>',
+    heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+    star: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    cal: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>', pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+    video: '<path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/>', check: '<path d="M20 6 9 17l-5-5"/>', chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+    car: '<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>',
+    book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    tag: '<path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/>',
+    home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>', img: '<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
+    cam: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>',
+    bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>', info: '<circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>',
+    sliders: '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>', paw: '<circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/>',
+  };
+  const ic = (n) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+  const $ = (s, r = document) => r.querySelector(s);
+  document.querySelectorAll("[data-i]").forEach((n) => (n.innerHTML = ic(n.dataset.i) + n.innerHTML));
+  document.querySelectorAll("[data-i-l]").forEach((n) => (n.innerHTML = ic(n.dataset.iL) + n.innerHTML));
+  const TABS = [["home", "Home"], ["chat", "Chats"], ["img", "Feed"], ["book", "Diary"], ["cam", "Snap"]];
+  document.querySelectorAll("[data-tabs]").forEach((n) => (n.innerHTML = TABS.map(([i, l]) => `<button class="${l === n.dataset.tabs ? "on" : ""}" ${l === "Chats" ? 'data-go="chats"' : l === "Home" ? 'data-go="search"' : ""}${l === n.dataset.tabs ? ' aria-current="page"' : ""}><i>${ic(i)}</i>${l}</button>`).join("")));
+  const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ---------- money (computed, never typed): 03C formula ----------
+  const RATE = 55, NIGHTS = 3, money = (n) => `$${n.toFixed(2)}`;
+  const stay = RATE * NIGHTS, extraPet = stay * 0.5, holiday = Math.round(RATE * 1.5 * 0.25 * 100) / 100, quote = stay + extraPet + holiday;
+  const BRUSH = 5 * NIGHTS;
+  const S = { stage: 0, step: 0, items: [], extra: false, agree: { me: false, her: false }, paid: false, stars: 0, done: false, mg: null };
+  const total = () => quote + (S.extra ? BRUSH : 0);
+
+  // ---------- calendar (hatched thirds = not bookable) ----------
+  const X = { 8: [0, 0, 1], 16: [1, 0, 0], 17: [1, 1, 0], 20: [1, 1, 1], 21: [1, 1, 1], 22: [1, 1, 1], 23: [1, 1, 1], 25: [0, 1, 1] };
+  $("#cal").innerHTML = ["S", "M", "T", "W", "T", "F", "S"].map((d) => `<span class="dow">${d}</span>`).join("") + "<span></span>".repeat(4) +
+    Array.from({ length: 31 }, (_, k) => { const d = k + 1, x = X[d] || [0, 0, 0];
+      return `<span class="c${d < 7 ? " past" : ""}${d >= 9 && d <= 12 ? " sel" : ""}" aria-label="Oct ${d}${x.some(Boolean) ? ", partly not available" : ""}">${d < 7 ? "" : x.map((h) => `<i class="${h ? "x" : ""}"></i>`).join("")}<b>${d}</b></span>`; }).join("");
+  $("#heart").addEventListener("click", (e) => { const on = e.currentTarget.getAttribute("aria-pressed") !== "true"; e.currentTarget.setAttribute("aria-pressed", String(on)); e.currentTarget.style.color = on ? "#B42318" : ""; toast(on ? "Saved Chloe" : "Removed from saved"); });
+
+  // ---------- screens ----------
+  const show = (id) => {
+    document.querySelectorAll(".screen").forEach((s) => (s.hidden = s.id !== `s-${id}`));
+    if (id === "chats") renderList();
+    if (id === "chat") { renderThread(); scrollEnd(); }
+    try { parent.postMessage({ goldito: "at", id: `chat-${id === "chat" ? ["ask", "meet", "book", "care", "home"][Math.min(S.stage, 4)] : id === "chats" ? "list" : id}` }, "*"); } catch (e) {}
+  };
+  document.addEventListener("click", (e) => { const g = e.target.closest("[data-go]"); if (!g) return; if (g.dataset.go === "noop") { toast("Only Chloe is set up in this demo"); return; } show(g.dataset.go); });
+
+  // ---------- thread content ----------
+  const card = (bg, icon, kind, by, body) => ({ t: "card", html: `<div class="cc ${bg}"><div class="top">${ic(icon)}${kind}<span class="by">${by}</span></div>${body}</div>` });
+  const me = (text) => ({ t: "html", html: `<div class="bub me">${esc(text)}<small>${now()}</small></div>` });
+  const her = (text) => ({ t: "html", html: `<div class="bub them">${esc(text)}<small>${now()}</small></div>` });
+  const day = (text) => ({ t: "html", html: `<span class="day">${text}</span>` });
+  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+  let clock = 9 * 60 + 4;
+  const now = () => { clock += 3; const h = Math.floor(clock / 60) % 24, m = clock % 60; return `${(h + 11) % 12 + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`; };
+  const facts = (rows, tot) => `<div class="facts">${rows.map(([a, b]) => `<div><span>${a}</span><span>${b}</span></div>`).join("")}${tot ? `<div class="tot"><span>Total</span><span>${tot}</span></div>` : ""}</div>`;
+  const quoteRows = () => [[`${NIGHTS} nights × ${money(RATE)}`, money(stay)], ["Second pet (+50%)", money(extraPet)], ["Thanksgiving (+25%, 1 day)", money(holiday)]];
+
+  // Each step: whose turn, the owner's suggested replies (chips → draft), or Chloe's demo action. "on" adds to the thread.
+  const STEPS = [
+    { who: "me", stage: 0, chips: [["Introduce us", "Hi Chloe! We're away for Thanksgiving. Max takes a skin pill at 2 PM, in a treat."], ["Ask if she's free", "Hi Chloe! Are you free Oct 9 to 12 for Max and Mochi?"]] },
+    { who: "her", stage: 0, demo: "Reply with a quote", on: () => [her("Hi Robert! I can host both. Pills in a treat are fine."), card("", "tag", "Quote", "Chloe", `${facts(quoteRows(), money(quote))}<span class="src">Calculated by Goldito from Chloe's rates</span>`)] },
+    { who: "me", stage: 0, chips: [["Ask for evening brushing", "Could you also brush Max every evening?"], ["Looks good", "Looks good, thank you!", 6]] },
+    { who: "her", stage: 0, demo: "Offer brushing for a fee", on: () => [card("butter", "tag", "Extra", "Chloe", `<h3>Evening brushing · +${money(5)} / day</h3><div class="acts"><button class="btn sm" data-act="extra-yes">Accept +${money(BRUSH)}</button><button class="lnk" data-act="extra-no">No thanks</button></div>`)] },
+    { who: "me", stage: 0, wait: "Accept or decline the extra" },
+    { who: "me", stage: 0, wait: "Confirm the final quote" },
+    { who: "me", stage: 1, chips: [["Meet by video", "Could we meet by video first? Tue 7 PM works.", null, "video"], ["Meet at her place", "Could we visit you first? Tue 6:30 PM works.", null, "place"]] },
+    { who: "her", stage: 1, demo: "Accept the Meet & Greet", on: () => { if (S.mgAt != null) S.items.splice(S.mgAt, 1); return [card("peach", S.mg === "video" ? "video" : "pin", "Meet & Greet", "Accepted", `<h3>${S.mg === "video" ? "Video call · Tue 7:00 PM" : "At Chloe's · Tue 6:30 PM"}</h3><span class="tag ok">${ic("check")} Chloe accepted</span>${S.mg === "video" ? `<button class="lnk" data-act="meet">Join Google Meet ›</button>` : `<span class="src">Address shared after the booking</span>`}`)]; } },
+    { who: "her", stage: 1, demo: "After the meeting", on: () => [day("Tue"), her("Lovely to meet Max and Mochi! Happy to host.")], doneStage: 1 },
+    { who: "me", stage: 2, chips: [["I'd like to book", "I'd like to book Oct 9 to 12."]], on: () => { S.agree.me = true; S.agreeAt = S.items.length; return [agreeCard()]; } },
+    { who: "her", stage: 2, demo: "Accept the booking", on: () => { S.agree.her = true; S.items.splice(S.agreeAt, 1); return [agreeCard(true)]; } },
+    { who: "me", stage: 2, wait: "Pay to confirm" },
+    { who: "her", stage: 3, demo: "Fri 7:21 AM · Start the drive", on: () => [day("Fri"), card("blush", "car", "Trip", "Chloe", `<h3>Chloe is on her way</h3><span class="muted">About 9 min · picking up Max and Mochi</span><button class="lnk" data-act="map">Open the live map ›</button>`)] },
+    { who: "her", stage: 3, demo: "Arrive and check the handoff", on: () => [card("mint", "check", "Picked up", "7:31 AM", `<h3>Max and Mochi are with Chloe</h3><span class="tag ok">${ic("check")} Photo checked: both in the crate</span>`)] },
+    { who: "me", stage: 3, chips: [["Ask for a photo", "Could you send a photo of Max?"], ["Say thanks", "Thank you, have fun!", 16]] },
+    { who: "her", stage: 3, demo: "Send a photo", on: () => [{ t: "html", html: `<div class="bub them photo"><img src="redesign/img/pet0.jpg" alt="Max napping on a blanket"><span>Nap after the walk.</span></div>` }] },
+    { who: "her", stage: 3, demo: "6:04 PM · Send the diary", on: () => [card("butter", "book", "Diary", "6:04 PM", `<h3>Max's day: two walks, one zoomie</h3><button class="lnk" data-act="diary">Read the diary page ›</button>`)], doneStage: 3 },
+    { who: "her", stage: 4, demo: "Mon 5:02 PM · Back home", on: () => [day("Mon"), card("mint", "home", "Home safe", "5:02 PM", `<h3>Max and Mochi are home</h3><span class="muted">3 nights · 6 walks · every pill given</span>`), reviewCard()] },
+    { who: "me", stage: 4, wait: "Rate your stay" },
+  ];
+  const agreeCard = (both) => card("mint", "check", "Booking", both ? "Both agreed" : "Waiting for Chloe", `<h3>Book Oct 9 to 12 for ${money(total())}?</h3><div class="both"><div class="y"><i>${ic("check")}</i>You: “I'd like to book”</div><div class="${S.agree.her ? "y" : ""}"><i>${S.agree.her ? ic("check") : ""}</i>Chloe: ${S.agree.her ? "“I accept”" : "not yet"}</div></div>${both ? `<button class="btn" data-act="pay">Pay ${money(total())} (demo)</button>` : ""}`);
+  const reviewCard = () => card("", "star", "Review", "Optional", `<h3>How was Chloe?</h3><div class="stars" role="group" aria-label="Rating">${[1, 2, 3, 4, 5].map((n) => `<button data-act="star" data-v="${n}" aria-label="${n} star${n > 1 ? "s" : ""}" aria-pressed="false">${ic("star")}</button>`).join("")}</div><button class="btn" data-act="review" disabled>Send review</button><span class="src">Public on Chloe's profile</span>`);
+
+  // ---------- engine ----------
+  const msgs = $("#msgs"), chips = $("#chips"), input = $("#input"), send = $("#send"), demo = $("#demo");
+  let draftNext = null, draftMg = null, isDraft = false;
+  const push = (arr) => { for (const it of arr) S.items.push(it.html); renderThread(); scrollEnd(); };
+  const scrollEnd = () => { const t = $("#thread"); t.scrollTo({ top: t.scrollHeight, behavior: reduce() ? "auto" : "smooth" }); };
+  const renderThread = () => { msgs.innerHTML = S.items.join(""); renderStepper(); renderTurn(); };
+  const renderStepper = () => { $("#stepper").innerHTML = ["Ask", "Meet", "Book", "Care", "Home"].map((l, i) => `<span class="${i < S.stage || (S.done && i === 4) ? "d" : i === S.stage ? "n" : ""}" aria-current="${i === S.stage ? "step" : "false"}"><b>${i < S.stage || (S.done && i === 4) ? "✓" : i + 1}</b>${l}</span>`).join("");
+    $("#whoSub").textContent = S.done ? "Stay finished" : S.paid ? "Booked · Oct 9 to 12" : "Usually replies in minutes"; };
+  const renderTurn = () => {
+    const st = STEPS[S.step];
+    demo.hidden = !st || st.who !== "her"; chips.hidden = !st || !st.chips || isDraft;
+    if (st && st.who === "her") $("#demoLabel").textContent = st.demo;
+    chips.innerHTML = st && st.chips ? st.chips.map(([l], i) => `<button data-chip="${i}">${i === 0 ? ic("spark") : ""}${l}</button>`).join("") : "";
+  };
+  const advance = (to) => { S.step = to != null ? to : S.step + 1; const st = STEPS[S.step]; if (st) S.stage = Math.max(S.stage, st.stage); renderThread(); };
+  const runStep = () => { const st = STEPS[S.step]; if (!st) return; const out = st.on ? st.on() : []; if (st.doneStage != null) S.stage = Math.max(S.stage, st.doneStage + 1); push(out); advance(); };
+  chips.addEventListener("click", (e) => { const b = e.target.closest("[data-chip]"); if (!b) return; const [, text, next, mg] = STEPS[S.step].chips[b.dataset.chip];
+    input.value = text; grow(); draftNext = next; draftMg = mg || null; isDraft = true; $("#field").classList.add("draft"); $("#dl").hidden = false; chips.hidden = true; send.disabled = false; input.focus(); });
+  const grow = () => { input.style.height = "auto"; input.style.height = `${Math.min(96, input.scrollHeight)}px`; };
+  input.addEventListener("input", () => { grow(); send.disabled = !input.value.trim(); if (!input.value.trim()) clearDraft(); });
+  const clearDraft = () => { isDraft = false; $("#field").classList.remove("draft"); $("#dl").hidden = true; renderTurn(); };
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); if (!send.disabled) send.click(); } });
+  send.addEventListener("click", () => {
+    const text = input.value.trim(); if (!text) return;
+    const st = STEPS[S.step], wasDraft = isDraft; input.value = ""; grow(); send.disabled = true; clearDraft();
+    push([me(text)]);
+    if (wasDraft && st && st.who === "me" && st.chips) {
+      if (draftMg) S.mg = draftMg;
+      if (st.on) push(st.on());
+      if (draftMg) S.mgAt = S.items.length;
+      if (draftMg) push([card("peach", draftMg === "video" ? "video" : "pin", "Meet & Greet", "You", `<h3>${draftMg === "video" ? "Video call · Tue 7:00 PM" : "At Chloe's · Tue 6:30 PM"}</h3><span class="src">Waiting for Chloe</span>`)]);
+      advance(draftNext);
+    }
+  });
+  $("#demoBtn").addEventListener("click", runStep);
+  msgs.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-act]"); if (!b) return; const a = b.dataset.act;
+    if (a === "extra-yes" || a === "extra-no") { if (S.step !== 4) return; S.extra = a === "extra-yes"; b.closest(".acts").innerHTML = `<span class="tag ${S.extra ? "ok" : ""}">${S.extra ? "Accepted" : "Declined"}</span>`;
+      S.items[S.items.length - 1] = msgs.lastElementChild.outerHTML;
+      push([card("", "check", "Final quote", "Goldito", `${facts([...quoteRows(), ...(S.extra ? [[`Evening brushing × ${NIGHTS}`, money(BRUSH)]] : [])], money(total()))}<button class="btn" data-act="read">I've read it</button>`)]); advance(5); }
+    else if (a === "read") { if (S.step !== 5) return; b.outerHTML = `<span class="tag ok">${ic("check")} Read</span>`; S.items[S.items.length - 1] = msgs.lastElementChild.outerHTML; S.stage = 1; advance(6); }
+    else if (a === "pay") openPay();
+    else if (a === "star") { S.stars = Number(b.dataset.v); b.parentElement.querySelectorAll("button").forEach((x, i) => { x.classList.toggle("on", i < S.stars); x.setAttribute("aria-pressed", String(i < S.stars)); }); b.closest(".cc").querySelector('[data-act="review"]').disabled = false; }
+    else if (a === "review") { if (!S.stars) return; S.done = true; const c = b.closest(".cc"); c.innerHTML = `<div class="top">${ic("star")}Review<span class="by">Sent</span></div><h3>${"★".repeat(S.stars)} for Chloe</h3><span class="src">Public on her profile. Her review of you is only for her.</span>`;
+      S.items[S.items.length - 1] = c.outerHTML; push([her("Thank you! Max and Mochi are welcome back any time.")]); S.step = STEPS.length; renderThread(); toast("Stay complete"); }
+    else if (a === "map") toast("Opens the live trip screen (built in 06B)");
+    else if (a === "diary") toast("Opens the diary page (built in 07)");
+    else if (a === "meet") toast("Opens Google Meet");
+  });
+  // Pay sheet
+  const openPay = () => { if (S.paid) return; $("#paySheet").hidden = false; document.querySelectorAll("[data-total]").forEach((n) => (n.textContent = money(total())));
+    $("#payFacts").innerHTML = facts([["Oct 9 to 12 · Boarding", money(quote)], ...(S.extra ? [["Evening brushing", money(BRUSH)]] : [])], money(total())); $("#consent").focus(); };
+  $("#consent").addEventListener("change", (e) => ($("#payBtn").disabled = !e.target.checked));
+  $("#payCancel").addEventListener("click", () => ($("#paySheet").hidden = true));
+  $("#payBtn").addEventListener("click", () => { $("#paySheet").hidden = true; S.paid = true; S.stage = 3;
+    const last = [...msgs.querySelectorAll('[data-act="pay"]')].pop(); if (last) { last.outerHTML = `<span class="tag ok">${ic("check")} Paid ${money(total())}</span>`; S.items[S.items.length - 1] = msgs.lastElementChild.outerHTML; }
+    push([card("mint", "check", "Booked", "Goldito", `<h3>You're all set for Oct 9 to 12</h3><span class="muted">Entry info unlocks for Chloe Fri 5:30 AM.</span>`), card("", "pin", "Handoff", "Agreed", `<h3>Chloe picks up · Fri 7:30 AM</h3><span class="src">You both chose “sitter drives”</span>`)]);
+    advance(12); toast("Paid (demo)"); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("#paySheet").hidden) $("#paySheet").hidden = true; });
+
+  // Chats list
+  const renderList = () => { const mini = (n) => `<span class="mini">${[0, 1, 2, 3, 4].map((k) => `<i class="${k < n ? "on" : ""}"></i>`).join("")}</span>`;
+    $("#chatList").innerHTML = [[`<span class="av lg" style="background-image:url(redesign/img/pet1.jpg)"></span>`, "Chloe M.", S.items.length > 1 ? msgs.lastElementChild?.innerText?.split("\n")[0] || "Chat" : "Oct 9 to 12 · Max, Mochi", "9:12", S.done ? 5 : S.stage, "chat"],
+      [`<span class="av lg">J</span>`, "Jun P.", "Thanks again! Mochi was a star.", "Sep 30", 5, "noop"], [`<span class="av lg">A</span>`, "Ari S.", "You: Is Thanksgiving still free?", "Sep 12", 0, "noop"]]
+      .map(([av, n, m, t, st, go]) => `<button class="it" data-go="${go}">${av}<span class="tx"><b>${n}</b><span>${esc(m)}</span></span><span class="meta">${t}${mini(st)}</span></button>`).join(""); };
+
+  const toast = (t) => { const n = $("#toast"); n.textContent = t; n.hidden = false; clearTimeout(n._t); n._t = setTimeout(() => (n.hidden = true), 1800); };
+
+  // Start: the search posts the first card.
+  S.items.push(day("Today").html, card("mint", "cal", "Stay request", "You", facts([["Dates", "Oct 9 to 12 · Boarding"], ["Drop-off", "Fri 7:30 AM"], ["Pick-up", "Mon 5:00 PM"], ["Pets", "Max (dog), Mochi (cat)"]])).html);
+
+  // Jump ahead (Prototype list and testing): play every step up to a stage.
+  const fastTo = (stepIdx) => { renderThread(); while (S.step < stepIdx) { const st = STEPS[S.step];
+    if (st.who === "her") runStep();
+    else if (st.chips) { chips.querySelector("[data-chip]").click(); send.click(); }
+    else if (S.step === 4) msgs.querySelector('[data-act="extra-yes"]').click();
+    else if (S.step === 5) msgs.querySelector('[data-act="read"]').click();
+    else if (S.step === 11) { openPay(); $("#consent").click(); $("#payBtn").click(); }
+    else break; } };
+  const route = () => { const h = location.hash.slice(1) || "search", J = { "chat-meet": 6, "chat-book": 9, "chat-care": 12, "chat-home": 17 };
+    if (J[h] != null) { fastTo(J[h]); show("chat"); } else show(["search", "sitter", "chat", "chats"].includes(h) ? h : "search"); };
+  route();
+})();
+</script>
+</body>
+</html>
