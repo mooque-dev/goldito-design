@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design Update Oct 19</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+  /* Design update, Oct 19: what Mook said she'd do today, what shipped, what Minsik reviews next. */
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:52rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem;padding-top:2.25rem}
+  .wrap>*,section{min-width:0}
+  h1,h2{margin:0;text-wrap:balance}
+  h1{font:700 clamp(2rem,4.6vw,2.6rem)/1.1 var(--font-display);letter-spacing:-.01em}
+  h2{font:600 1.375rem/1.2 var(--font-display)}
+  p{margin:0}
+  a{color:var(--color-primary);font-weight:600}
+  code{font:600 .8125rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.0625rem .375rem}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .lede{font-size:1.0625rem;color:var(--color-text-muted);margin-top:.5rem}
+  section{display:flex;flex-direction:column;gap:.75rem}
+  .items{display:flex;flex-direction:column;gap:.625rem;margin:0;padding:0;list-style:none}
+  .item{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem}
+  .top{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .top b{font:600 1.0625rem/1.25 var(--font-display)}
+  .pill{font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem}
+  .pill.done{background:var(--color-success-surface);color:var(--color-success)}
+  .pill.review{background:var(--color-accent);color:var(--color-primary)}
+  .pill.later{background:var(--color-track);color:var(--color-text-muted)}
+  .item p{color:var(--color-text-muted);font-size:.9375rem}
+  .links{display:flex;gap:.25rem 1rem;flex-wrap:wrap;font-size:.875rem}
+  .links a{min-height:32px;display:inline-flex;align-items:center}
+  ol.order{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem}
+  .ask{background:var(--color-warning-surface);border-radius:var(--radius-lg);padding:.875rem 1rem;font-size:.9375rem}
+  footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow"><span class="en">Design update · Oct 19, 2026 · Mook</span><span class="ko">디자인 업데이트 · 2026년 10월 19일 · 묵</span></span>
+    <h1><span class="en">Today's design work</span><span class="ko">오늘의 디자인 작업</span></h1>
+    <p class="lede"><span class="en">What I said I'd do, what shipped, and what needs Minsik next. Every item links to its PR, issue or page.</span><span class="ko">하기로 한 것, 완료한 것, 민식 님이 다음에 볼 것. 모든 항목에 PR, 이슈, 페이지 링크가 있어요.</span></p>
+  </header>
+
+  <section aria-labelledby="h-list">
+    <h2 id="h-list"><span class="en">Today's list</span><span class="ko">오늘 할 일</span></h2>
+    <ul class="items">
+      <li class="item"><div class="top"><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b>#147 Home header</b></div>
+        <p><span class="en">Title, role chip, bell with a count, and a ≡ menu that slides in full width from the right. Log out is in the menu and in Settings, with a confirm.</span><span class="ko">제목, 역할 칩, 숫자가 있는 벨, 오른쪽에서 전체 너비로 들어오는 ≡ 메뉴. 로그아웃은 메뉴와 설정에, 확인 후에.</span></p>
+        <div class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">PR #178 ↗</a><a href="https://github.com/minsikpaul92/Goldito/issues/147" target="_blank" rel="noopener">Issue #147 ↗</a><a href="https://mooque-dev.github.io/goldito-design/paw-drawer.html" target="_blank" rel="noopener"><span class="en">Paw drawer idea ↗</span><span class="ko">발 서랍 아이디어 ↗</span></a></div></li>
+      <li class="item"><div class="top"><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b>#120 Sitter calendar</b></div>
+        <p><span class="en">B + D, picked from five layouts with older owners in mind: the profile lists the next openings, and the month and each day open as their own pages. No drag, no folding.</span><span class="ko">어르신을 생각해 다섯 가지 중 B + D로: 프로필에 다음 빈 날, 달력과 하루는 각자 페이지로. 드래그도 접기도 없어요.</span></p>
+        <div class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">PR #183 ↗</a><a href="https://github.com/minsikpaul92/Goldito/issues/120" target="_blank" rel="noopener">Issue #120 ↗</a><a href="ticket-120-options.html"><span class="en">The five options</span><span class="ko">다섯 가지 안</span></a></div></li>
+      <li class="item"><div class="top"><span class="pill later"><span class="en">Later</span><span class="ko">나중에</span></span><b>#119 Skins and pixel pets</b></div>
+        <p><span class="en">Not a priority now. Seven questions are open on its workbench.</span><span class="ko">지금은 우선순위가 아니에요. 워크벤치에 질문 일곱 개가 열려 있어요.</span></p>
+        <div class="links"><a href="https://github.com/minsikpaul92/Goldito/issues/119" target="_blank" rel="noopener">Issue #119 ↗</a></div></li>
+      <li class="item"><div class="top"><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b>#117 Wrap up #41 and #54</b></div>
+        <p><span class="en">Closed. #54 is merged and #41 is replaced by #178.</span><span class="ko">닫음. #54는 머지됐고 #41은 #178로 대체.</span></p>
+        <div class="links"><a href="https://github.com/minsikpaul92/Goldito/issues/117" target="_blank" rel="noopener">Issue #117 ↗</a><a href="https://github.com/minsikpaul92/Goldito/pull/41" target="_blank" rel="noopener">PR #41 ↗</a></div></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-also">
+    <h2 id="h-also"><span class="en">Also shipped</span><span class="ko">그 밖에 완료</span></h2>
+    <ul class="items">
+      <li class="item"><div class="top"><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b><span class="en">Expressive look in the app</span><span class="ko">앱에 익스프레시브 룩</span></b></div>
+        <p><span class="en">Cream and ink, Fredoka titles, pill buttons, tinted cards, the new tab bar, stage dots on bookings, and the pixel coin logo. <code>?skin=default</code> shows the old look.</span><span class="ko">크림과 잉크, Fredoka 제목, 알약 버튼, 색 카드, 새 탭 바, 예약의 단계 점, 픽셀 코인 로고. <code>?skin=default</code>로 예전 룩.</span></p>
+        <div class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/177" target="_blank" rel="noopener">PR #177 ↗</a><a href="https://github.com/minsikpaul92/Goldito/issues/176" target="_blank" rel="noopener">Issue #176 ↗</a></div></li>
+      <li class="item"><div class="top"><span class="pill done"><span class="en">Merged</span><span class="ko">머지됨</span></span><b><span class="en">Flat read-only Tag</span><span class="ko">평평한 읽기 전용 태그</span></b></div>
+        <div class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">PR #129 ↗</a></div></li>
+      <li class="item"><div class="top"><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">Figma cleanup</span><span class="ko">Figma 정리</span></b></div>
+        <p><span class="en">A new “In the app · Oct 19” section on Screens; Balanced and Live screens moved to the Archive page; the pixel coin on Brand and in the App Bar; fixes to buttons, steppers, chips, fields and checklist rows. The Goldito plugin now makes these on its own, so a re-run keeps them (rules in <code>design/figma-plugin/README.md</code>).</span><span class="ko">Screens에 “In the app · Oct 19” 섹션, Balanced와 Live 화면은 Archive 페이지로, Brand와 App Bar에 픽셀 코인, 버튼 · 스테퍼 · 칩 · 입력칸 · 체크리스트 줄 수정. Goldito 플러그인이 이제 스스로 이렇게 만들어서 다시 돌려도 유지돼요(규칙은 <code>design/figma-plugin/README.md</code>).</span></p>
+        <div class="links"><a href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design?node-id=1302-5882" target="_blank" rel="noopener"><span class="en">Figma · In the app ↗</span><span class="ko">Figma · 앱 화면 ↗</span></a><a href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design?node-id=1305-6235" target="_blank" rel="noopener"><span class="en">Figma · Pixel coin ↗</span><span class="ko">Figma · 픽셀 코인 ↗</span></a></div></li>
+      <li class="item"><div class="top"><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">This site, up to Oct 19</span><span class="ko">이 사이트, 10/19까지</span></b></div>
+        <div class="links"><a href="index.html"><span class="en">Overview</span><span class="ko">개요</span></a><a href="plan.html"><span class="en">Plan</span><span class="ko">계획</span></a><a href="project.html"><span class="en">Project</span><span class="ko">프로젝트</span></a></div></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-minsik">
+    <h2 id="h-minsik"><span class="en">For Minsik</span><span class="ko">민식 님께</span></h2>
+    <p><span class="en">Please review in this order. They're stacked, so each merges after the one before:</span><span class="ko">이 순서로 리뷰해 주세요. 쌓여 있어서 앞의 것이 머지된 뒤에 머지돼요:</span></p>
+    <ol class="order">
+      <li><a href="https://github.com/minsikpaul92/Goldito/pull/177" target="_blank" rel="noopener">#177 Expressive look ↗</a></li>
+      <li><a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178 Home header ↗</a></li>
+      <li><a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183 Sitter calendar ↗</a></li>
+    </ol>
+    <p class="ask"><span class="en"><b>One backend question (#183):</b> a “Free for your dates” card on the sitter profile needs the owner's dates passed from sitter search. Can search pass them?</span><span class="ko"><b>백엔드 질문 하나 (#183):</b> 시터 프로필의 “Free for your dates” 카드는 시터 검색에서 오너의 날짜를 넘겨받아야 해요. 검색에서 넘겨줄 수 있을까요?</span></p>
+  </section>
+
+  <section aria-labelledby="h-next">
+    <h2 id="h-next"><span class="en">Next for me</span><span class="ko">다음 할 일</span></h2>
+    <ul class="items">
+      <li class="item"><div class="links"><a href="https://github.com/minsikpaul92/Goldito/issues/119" target="_blank" rel="noopener">#119 Skins and pixel pets ↗</a><a href="https://github.com/minsikpaul92/Goldito/issues/118" target="_blank" rel="noopener">#118 Report themes ↗</a></div>
+        <p><span class="en">Then the new owner Home from the prototype (stay card, stat tiles). It's still a draft.</span><span class="ko">그다음 프로토타입의 새 오너 홈(스테이 카드, 숫자 타일). 아직 초안이에요.</span></p></li>
+    </ul>
+  </section>
+
+  <footer><span class="en">Live app: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a> (the PRs above aren't on it until they merge).</span><span class="ko">실제 앱: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a> (위 PR은 머지된 뒤에 반영돼요).</span></footer>
+</main>
+</body>
+</html>
