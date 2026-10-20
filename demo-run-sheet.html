@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goldito Demo Run Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* A run sheet for showing Goldito live (webinar, Oct 20, 2026): what to open, what to click, what to say,
+     and what to avoid. Checked against the live app on Oct 20 at 1 AM. */
+  :root{
+    --bg:#f7f3ea; --surface:#fffdf8; --fg:#1f2a24; --muted:#5b665f; --border:#e4ddcc; --track:#efe9dc;
+    --primary:#2d6a4f; --primary-fg:#ffffff; --gold:#f4c35a; --gold-ink:#7a5a10; --gold-bg:#fdf1d4;
+    --warn:#8a4b00; --warn-bg:#fdecd6; --ok:#1f7a4a; --ok-bg:#e1f3e8; --red:#b42318;
+    --ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; --display:Fredoka,Inter,system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --bg:#131813; --surface:#1b211c; --fg:#e9eee9; --muted:#a3ada5; --border:#2d362f; --track:#252c26;
+    --primary:#7ccba2; --primary-fg:#0e1a13; --gold:#f4c35a; --gold-ink:#f4d58e; --gold-bg:#3a3018;
+    --warn:#f2bf73; --warn-bg:#3a2a14; --ok:#8fdcb0; --ok-bg:#1c3326; --red:#ff8a7e; color-scheme:dark } }
+  :root[data-theme="dark"]{
+    --bg:#131813; --surface:#1b211c; --fg:#e9eee9; --muted:#a3ada5; --border:#2d362f; --track:#252c26;
+    --primary:#7ccba2; --primary-fg:#0e1a13; --gold:#f4c35a; --gold-ink:#f4d58e; --gold-bg:#3a3018;
+    --warn:#f2bf73; --warn-bg:#3a2a14; --ok:#8fdcb0; --ok-bg:#1c3326; --red:#ff8a7e; color-scheme:dark }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 var(--ui);padding-inline:16px;padding-block:0 64px}
+  .wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:32px;padding-top:32px}
+  .wrap>*{min-width:0}
+  h1,h2,h3{margin:0;font-family:var(--display);text-wrap:balance}
+  h1{font-size:clamp(1.8rem,4.4vw,2.4rem);line-height:1.1}
+  h2{font-size:1.3rem}
+  h3{font-size:1.02rem}
+  p{margin:0}
+  a{color:var(--primary);font-weight:600}
+  .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .lede{color:var(--muted);margin-top:8px;max-width:44rem}
+  .pitch{font:600 1.15rem/1.45 var(--display);background:var(--gold-bg);color:var(--fg);border-radius:16px;padding:16px 18px}
+  section{display:flex;flex-direction:column;gap:12px}
+  ul.check{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:8px}
+  ul.check li{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:10px 12px;display:flex;gap:10px}
+  ul.check input{width:18px;height:18px;margin-top:2px;accent-color:var(--primary);flex:none}
+  .steps{display:flex;flex-direction:column;gap:10px}
+  .step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:14px;align-items:start}
+  .step img{width:100%;height:auto;border-radius:12px;border:1px solid var(--border);display:block}
+  .step .t{font:700 .78rem/1 var(--ui);color:var(--muted);font-variant-numeric:tabular-nums}
+  .step .body{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .do{font-weight:600}
+  .say{background:var(--track);border-radius:10px;padding:8px 10px}
+  .say::before{content:"Say  ";font:700 .7rem/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .tag{display:inline-block;font:700 .72rem/1 var(--ui);border-radius:999px;padding:4px 9px;white-space:nowrap}
+  .tag.live{background:var(--ok-bg);color:var(--ok)} .tag.draft{background:var(--gold-bg);color:var(--gold-ink)} .tag.slow{background:var(--warn-bg);color:var(--warn)}
+  .ph{width:100%;aspect-ratio:3/5;border-radius:12px;border:1px dashed var(--border);display:grid;place-items:center;text-align:center;font-size:.8rem;color:var(--muted);padding:8px}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr));gap:10px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+  .card.avoid{background:var(--warn-bg);border-color:transparent}
+  .card ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px}
+  code{font:600 12.5px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--track);border-radius:5px;padding:1px 5px;overflow-wrap:anywhere}
+  .note{font-size:.85rem;color:var(--muted)}
+  @media (max-width:520px){.step{grid-template-columns:5.5rem minmax(0,1fr)}}
+</style>
+
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Goldito · demo run sheet · checked on the live app Oct 20</span>
+    <h1>Show Goldito in three minutes</h1>
+    <p class="lede">The live app for search, chat and the treat check; the design Draft for care and the ride home, because the demo accounts have no stay running today.</p>
+  </header>
+
+  <p class="pitch">“Goldito runs a whole pet-sitting stay in one app. An AI agent on NVIDIA Nemotron answers, plans and writes, so the sitter can just care, and the owner never has to ask.”</p>
+
+  <section>
+    <h2>Ten minutes before</h2>
+    <ul class="check" id="pre">
+      <li><input type="checkbox"><span>Open <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app</a> and run one treat check. The server sleeps on the free plan; the first call can take 30 to 50 s.</span></li>
+      <li><input type="checkbox"><span>Tab 1: <b>Try demo → Owner</b> (Robert). On a computer it runs in a phone frame; click = tap.</span></li>
+      <li><input type="checkbox"><span>Tab 2: the Draft at <a href="https://mooque-dev.github.io/goldito-design/prototype.html#care/d" target="_blank" rel="noopener">④ Care in progress</a>, for the part the demo data can't show.</span></li>
+      <li><input type="checkbox"><span>Zoom the browser so the phone fills the shared window; hide bookmarks and other tabs.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The path</h2>
+    <div class="steps">
+      <div class="step"><div class="ph">Your face or the title slide</div>
+        <div class="body"><span class="t">0:00 · 20 s</span><h3>The problem</h3>
+          <p class="say">Sitter apps connect people, but the stay itself, replies, house rules, daily notes, is still typed by hand. We've done dozens of stays; Goldito's AI does the typing and people approve.</p></div></div>
+      <div class="step"><img src="demo-shots/1-search.jpg" alt="Bookings tab: search bar, sitters nearby, chats" width="300" height="631">
+        <div class="body"><span class="t">0:20 · 25 s</span><h3>① Find a sitter <span class="tag live">Live</span></h3>
+          <p class="do">Bookings tab. Point at the search line: home, Oct 21 to 23, 2 pets, within 5 km.</p>
+          <p class="say">Only sitters free for the whole stay show up, favorites first.</p></div></div>
+      <div class="step"><img src="demo-shots/2-profile.jpg" alt="Chloe's profile with See schedule and Start chat" width="300" height="631">
+        <div class="body"><span class="t">0:45 · 20 s</span><h3>Chloe's profile and schedule <span class="tag live">Live</span></h3>
+          <p class="do">Tap <b>Chloe</b> → <b>See schedule</b> → tap a day → back.</p>
+          <p class="say">Big pages instead of gestures: we design for older owners and sitters too.</p></div></div>
+      <div class="step"><img src="demo-shots/4-chat.jpg" alt="Chat with a pinned stay card and Request booking" width="300" height="631">
+        <div class="body"><span class="t">1:05 · 35 s</span><h3>One chat per owner and sitter <span class="tag live">Live</span> <span class="tag slow">Chips can take a few seconds</span></h3>
+          <p class="do">Back → <b>Start chat</b> (or the Chloe row under Chats). Wait for “Writing replies…” to turn into chips; tap one to fill the box. <b>Don't press Send.</b></p>
+          <p class="say">The stay is pinned on top. Nemotron drafts the reply in your own voice, but nothing is sent until you press Send. Prices and dates come from our server, never from the model, and every amount in a draft is checked against the quote.</p></div></div>
+      <div class="step"><div class="ph">Switch to the Draft tab</div>
+        <div class="body"><span class="t">1:40 · 45 s</span><h3>④ Care and ⑤ the ride home <span class="tag draft">Design Draft</span></h3>
+          <p class="do">Tab 2: <a href="https://mooque-dev.github.io/goldito-design/prototype.html#care/d" target="_blank" rel="noopener">④ Care</a> (checklist, check-ins, the evening daily note), then <a href="https://mooque-dev.github.io/goldito-design/prototype.html#stage-5/d" target="_blank" rel="noopener">stage ⑤</a> (home safe, review, Life Record).</p>
+          <p class="say">During the stay the sitter just taps: meals, walks, photos. In the evening Nemotron turns those taps into a warm daily note she approves. When the pets are home safe, it writes their Life Record, so the next sitter, even a new one, starts informed.</p>
+          <p class="note">Say it plainly if asked: this part runs in the app; today's demo accounts just don't have a stay in progress.</p></div></div>
+      <div class="step"><img src="demo-shots/5-treat.jpg" alt="Red full-screen warning: Don't give this to Max" width="300" height="631">
+        <div class="body"><span class="t">2:25 · 25 s</span><h3>Treat check <span class="tag live">Live</span> <span class="tag slow">10 to 20 s</span></h3>
+          <p class="do">Tab 1 → <b>Snap</b> → <b>Treat check</b> → <b>Max</b> → <b>Snap a label</b> → sample <b>Chicken jerky</b> → <b>Check for Max</b>.</p>
+          <p class="say">Max is allergic to chicken. A vision model reads the label, Nemotron Ultra reasons over the ingredients, our rule table and trusted vet pages, and danger is loud: only “I understand” closes it.</p></div></div>
+      <div class="step"><div class="ph">Back to your face</div>
+        <div class="body"><span class="t">2:50 · 10 s</span><h3>Close</h3>
+          <p class="say">Every AI call runs on Nebius Token Factory, from our backend only. The agent drafts; a person approves anything that reaches the other side.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>If they ask</h2>
+    <div class="two">
+      <div class="card"><h3>Which models</h3><ul>
+        <li>Replies and drafts: <code>Nemotron-3-Nano-30B</code>, about 3 s.</li>
+        <li>Checklists, daily notes, Life Records: <code>nemotron-3-super-120b</code>.</li>
+        <li>Treat check reasoning: <code>Nemotron-3-Ultra-550b</code>, safety first.</li>
+        <li>Photos: <code>MiniCPM-V-4.5</code>; search: <code>Qwen3-Embedding-8B</code> in pgvector.</li></ul></div>
+      <div class="card"><h3>Privacy</h3><ul>
+        <li>Entry codes open 2 hours before a visit and never enter a prompt.</li>
+        <li>Location is shared only while moving; no route history.</li>
+        <li>Demo people, pets and addresses are fictional; real messages used for tone are anonymized.</li></ul></div>
+      <div class="card"><h3>What's next</h3><ul>
+        <li>Booking steps as cards in the chat (quote, Meet &amp; Greet, pay).</li>
+        <li>A pet profile from a photo, your voice and big one-question screens.</li>
+        <li>An 8-bit pet on Home that the sitter's care keeps happy.</li></ul></div>
+      <div class="card avoid"><h3>Avoid live</h3><ul>
+        <li><b>Request booking</b> and <b>Send</b>: they write to the shared demo data.</li>
+        <li>Feed and Diary: empty today.</li>
+        <li>The Bookings list below Chats: old test bookings.</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>If something breaks</h2>
+    <div class="two">
+      <div class="card"><p><b>App slow or down:</b> play the whole stay in the Draft: <a href="https://mooque-dev.github.io/goldito-design/prototype.html#stage-1/d" target="_blank" rel="noopener">stage ①</a> → ⑤, and the chat booking at <a href="https://mooque-dev.github.io/goldito-design/chat.html" target="_blank" rel="noopener">chat.html</a>.</p></div>
+      <div class="card"><p><b>Chips don't appear:</b> say the AI drafts appear here, type a short line instead, and move on. Don't wait more than 10 s.</p></div>
+    </div>
+  </section>
+</main>
+<script>
+  // Remember the pre-flight ticks in this browser only.
+  const boxes = [...document.querySelectorAll("#pre input")];
+  let saved = []; try { saved = JSON.parse(localStorage.getItem("goldito-runsheet") || "[]"); } catch (e) {}
+  boxes.forEach((b, i) => { b.checked = !!saved[i]; b.addEventListener("change", () => { try { localStorage.setItem("goldito-runsheet", JSON.stringify(boxes.map((x) => x.checked))); } catch (e) {} }); });
+</script>
+
+</body>
+</html>
