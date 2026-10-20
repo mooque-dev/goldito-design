@@ -1029,7 +1029,17 @@ window.GOLDITO_SCREENS = [
     "docs/plan/phases/phase-03c.md"
    ]
   ]
- }
+ },
+ {"group": "steps", "live": "none", "shot": "", "captured": "", "task": "11.15 · #115 · #185 · Minsik builds from Oct 24", "components": ["Choice Card", "Chip", "Text Field", "Button", "Tag"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Pet profile onboarding", "docs/plan/pet-profile-onboarding.ko.md"]],
+  "id": "onb-owner", "name": "Pet profile · large text", "name_ko": "펫 프로필 · 큰 글씨", "ours": {"kind": "page", "src": "onboarding.html", "hash": "s1-1"},
+  "why": "One question per screen, in big type", "why_ko": "한 화면에 질문 하나, 큰 글씨로",
+  "changes": ["Question 28 px, options 20 px in 64 px rows; one tap picks and moves on, Skip on every screen.", "Photo first. One template, three states: no AI (S1), the photo suggests species, breed and coat on the same screen (S2), voice fills answers you confirm (S3).", "Safety questions are tagged and never filled in for you; the last screen shows the sitter's card before you save."],
+  "changes_ko": ["질문 28px, 선택지 20px · 64px 줄. 한 번 누르면 넘어가고, 모든 화면에 Skip.", "사진 먼저. 템플릿 하나, 상태 셋: AI 없이(S1), 사진이 같은 화면에서 종 · 품종 · 털 제안(S2), 음성이 답을 채우고 오너가 확인(S3).", "안전 질문은 태그가 붙고 절대 자동으로 채우지 않아요. 마지막 화면에서 저장 전에 시터 카드를 보여 줘요."]},
+ {"group": "steps", "live": "none", "shot": "", "captured": "", "task": "11.15 · #115 · the sitter's request card", "components": ["Card", "Tag", "Axis Bar"], "figma": "0-1", "figmaScreens": [], "readme": "how-goldito-works", "docs": [["Pet profile onboarding", "docs/plan/pet-profile-onboarding.ko.md"]],
+  "id": "onb-glance", "name": "Max at a glance · sitter", "name_ko": "Max at a glance · 시터", "ours": {"kind": "page", "src": "onboarding.html", "hash": "sitter"},
+  "why": "Know Max before you meet him", "why_ko": "만나기 전에 Max 알기",
+  "changes": ["Safety first as chips: warnings, “Owner isn't sure” and “Not shared yet” look different.", "Five axes as four-step bars with a word each; no numbers. The spec's pentagon is one switch away for comparison.", "Follows the owner's answers in the flow; empty axes say “Not shared yet”."],
+  "changes_ko": ["안전이 먼저 칩으로: 경고, “Owner isn't sure”, “Not shared yet”이 다르게 보여요.", "다섯 축은 단어가 붙은 4칸 막대, 숫자 없음. 비교용으로 스펙의 오각형도 전환 한 번.", "흐름의 오너 답을 따라가고, 빈 축은 “Not shared yet”."]}
 ];
 // Every README promise → where to play it in the Draft, its Figma section, and its status in the app (test-guide.ko.md §2, main @ 1a7be5a, Oct 15). Optional 6th field: "no" = not in the Draft yet, "related" = a related Draft screen.
 // app: "built" · "part" · "none". screen: an id above (Play opens that screen in the Prototype).
@@ -1077,6 +1087,6 @@ window.GOLDITO_FEATURES = [
   ["Settings and What's New, in plain words", "설정과 What's New, 쉬운 말로", "owner-whatsnew", "built", "11.11 · #98"],
   ["Split view: owner and sitter phones side by side", "분할 화면: 보호자와 시터 폰을 나란히", "owner-home", "built", "10.10 · #97", "no"]]],
  ["New pet profile (11.15, built last)", [
-  ["One question per screen, large text, photo and voice", "한 화면 한 질문, 큰 글씨, 사진과 음성", "steps-care", "none", "11.15", "related"],
-  ["“Max at a glance” card for the sitter", "시터가 보는 “Max at a glance” 카드", "stage-2", "none", "11.15", "no"]]],
+  ["One question per screen, large text, photo and voice", "한 화면 한 질문, 큰 글씨, 사진과 음성", "onb-owner", "none", "11.15"],
+  ["“Max at a glance” card for the sitter", "시터가 보는 “Max at a glance” 카드", "onb-glance", "none", "11.15"]]],
 ];
