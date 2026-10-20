@@ -14,9 +14,10 @@
    Flows: S1 no AI · S2 photo · S3 voice (one template, three states) · the sitter's card. Hash: #s1-3, #s2-1, #s3-5, #sitter.
    Light only: the Expressive skin has no dark mode yet (DESIGN.md). */
 :root{
-  --bg:#FBF6EA; --surface:#FFFFFF; --text:#1A1A1A; --ink:#1B4332; --muted:#4F5B53; --line:#E3EADF; --strong:#86867F;
-  --primary:#2D6A4F; --on-primary:#FFFFFF; --mint:#D8F3DC; --peach:#FDE2CC; --butter:#FBEFC8; --blush:#FAD6CB;
-  --gold:#F4C35A; --goldink:#7A4F00; --track:#ECEAE3; --warn:#B54708; --warnbg:#FFFAEB; --ok:#067647; --okbg:#ECFDF3;
+  /* Expressive skin, same values as frontend/theme/themes.ts on main (round 4: no clash with the app) */
+  --bg:#FBF6EA; --surface:#FFFFFF; --text:#1B4332; --ink:#1B4332; --muted:#6B5D4A; --line:#E8DCC4; --strong:#7F6F58;
+  --primary:#1B4332; --on-primary:#FFFFFF; --mint:#D8F3DC; --peach:#FDE2CC; --butter:#FBEFC8; --blush:#FAD6CB;
+  --gold:#F4C35A; --goldink:#7A4F00; --track:#E8DCC4; --warn:#B54708; --warnbg:#FFFAEB; --ok:#067647; --okbg:#ECFDF3;
   --page:#F3EEE2; --frame:#1A1A1A;
   /* the site bar (nav.js) reads these */
   --color-text:var(--text); --color-text-muted:var(--muted); --color-surface:var(--surface); --color-border:var(--line); --color-border-strong:var(--strong);
@@ -24,7 +25,8 @@
   --display:"Fredoka","Arial Rounded MT Bold",ui-rounded,system-ui,sans-serif;
   --ui:"Plus Jakarta Sans","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   --font-ui:var(--ui); --font-display:var(--display);
-  /* large-text flow (pet-profile-onboarding.ko.md §7.1): question 28, options 20 in 64 px rows, helper 18 */
+  /* large-text flow (spec §7.1). Question = ScreenHeader title (fontSize.title + 4 = 28) in fontWeight.bold;
+     proposed tokens: fontSize.large 20 (--opt), fontSize.subtitle 18 (--help), layout.largeRow 64 (--row), layout.largeButton 60 (--btn) */
   --q:28px; --font-question-weight:700; --opt:20px; --row:64px; --help:18px; --btn:60px; --small:16px;
   --nav-h:0px; --top-h:64px; color-scheme:light;
 }
@@ -301,6 +303,10 @@ details.pcard[open]>summary::after{content:"\2212"}
 .qtable th{font-size:12px;color:var(--muted);font-weight:800;border-top:0}
 .qtable td:first-child{font-variant-numeric:tabular-nums;color:var(--muted);width:2.4rem}
 .qtable tr.play td{background:#FFFBEF}
+.mapwrap{overflow-x:auto;border-radius:12px}
+.map4{min-width:860px}.map4 td:first-child{min-width:170px}.map4 td:nth-child(3){min-width:200px}.map4 td{font-size:13px}.map4 code{font-size:12px;background:var(--track);padding:0 4px;border-radius:4px;color:var(--text)}
+.dec{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.d-r{background:var(--okbg);color:var(--ok)}.d-e{background:var(--mint);color:var(--primary)}.d-n{background:var(--warnbg);color:var(--warn)}
 .links{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;font-weight:700}
 .links a{color:var(--primary);min-height:36px;display:inline-flex;align-items:center}
 .small{font-size:12.5px;color:var(--muted);margin:0}
@@ -335,6 +341,59 @@ details.pcard[open]>summary::after{content:"\2212"}
   .ax{grid-template-columns:6.6rem 1fr 6rem}
 }
 @media (prefers-reduced-motion: reduce){.screen.fwd,.screen.bwd,.mic.rec,.wave i,.spin{animation:none}.prog-fill,.opt{transition:none}.spin{border-right-color:var(--gold)}}
+
+/* ---------- Round 4: drawn like the app's components (onboarding-components.md) ---------- */
+/* Top bar, onboarding variant + BackLink + TextButton + Progress Bar */
+.bar{flex-direction:column;align-items:stretch;gap:6px;padding:10px 16px 6px 8px}
+.bar-row{display:flex;align-items:center;justify-content:space-between;min-height:44px}
+.back{width:auto;height:auto;min-height:44px;border-radius:12px;display:inline-flex;align-items:center;gap:4px;padding:0 10px 0 4px;color:var(--primary);font-weight:600;font-size:17px}
+.back svg{width:22px;height:22px}
+.prog{padding-left:8px}
+.prog-fill{background:var(--primary)}
+/* TextButton: primary label, semibold, no outline, no underline */
+.skip,.textlink,.finish,.change{text-decoration:none;font-weight:600;color:var(--primary)}
+.skip:hover,.textlink:hover,.finish:hover,.change:hover{background:rgba(27,67,50,.07)}
+/* Button primary (large): pill in Expressive; disabled = border fill + muted label */
+.cta{font-weight:600}
+.cta[disabled]{background:var(--line);color:var(--muted)}
+/* Button secondary: surface + 1 px borderStrong + primary label */
+.sec,.more,.inl{box-shadow:inset 0 0 0 1px var(--strong);color:var(--primary);font-weight:600}
+.more b{font-weight:600}
+/* CheckRow, card variant (large): 1 px borderStrong, radius.lg; checked = 2 px primary + accent */
+.opt,.fact{border:1px solid var(--strong);border-radius:16px}
+.opt[aria-pressed="true"],.fact[aria-pressed="true"]{border:2px solid var(--primary);background:var(--mint);padding:9px 15px 9px 19px}
+.fact[aria-pressed="true"]{padding:9px 15px}
+.opt .tick{border:1.5px solid var(--strong)}
+.opts.big .opt{border-radius:16px}
+/* RoleCard / Choice Card (species): same outline and selected look */
+.opt .ico{background:var(--mint);color:var(--primary);border-radius:50%}
+/* ChoiceChips, large: 1 px borderStrong, on = primary fill */
+.chip{border:1px solid var(--strong)}
+/* Tag brand (+ icon) for Suggested; Tag neutral (+ icon) for the safety label */
+.sug{background:var(--mint);color:var(--primary) !important;border-radius:999px;padding:4px 10px;font-size:14px !important;font-weight:600}
+.chip .dot,.tile .dot{background:var(--mint);color:var(--primary)}
+.stag{background:var(--track);color:var(--muted);font-weight:600;font-size:14px;padding:4px 12px}
+/* Banner info: accent surface, 1 px border, radius.md; title in primary */
+.aihint{background:var(--mint);border:1px solid var(--line);border-radius:12px;padding:10px 16px}
+.aihint svg{color:var(--primary)}
+.guess.ok{background:var(--mint);border:1px solid var(--line);border-radius:12px;padding:10px 16px}
+/* Card: surface, 1 px border, radius.lg */
+.guess,.said,.glance,.rows,.ptile,.g-mini{border:1px solid var(--line);border-radius:16px}
+/* TextField (large): 1 px borderStrong, radius.md, focus = primary border */
+.field{border:1px solid var(--strong);border-radius:12px}
+.field:focus{border:2px solid var(--primary);box-shadow:none}
+/* Tag tones on the card */
+.gt.u{background:var(--track);color:var(--muted)}
+/* Avatar (photo), round, 56 in cards */
+.g-pic,.ptile .g-pic,.g-mini .g-pic{width:56px;height:56px;border-radius:50%}
+/* Banner info, extended for the reminder: Start (Button) + Not now (TextButton) + Progress Bar */
+.remind{background:var(--mint);border:1px solid var(--line);border-radius:12px;padding:12px 16px;grid-template-columns:auto 1fr}
+.remind .r-ico{width:auto;height:auto;background:none;color:var(--primary)}
+.remind .r-tx b{font:600 17px/1.3 var(--ui);color:var(--primary)}
+.remind .r-bar{background:var(--surface)}.remind .r-bar i{background:var(--primary)}
+.remind .acts{grid-column:1/-1;display:flex;align-items:center;gap:8px}
+.remind .acts .cta{width:auto;min-height:44px;padding:0 22px;font-size:16px}
+.remind .acts .skip{min-height:44px;font-size:16px;padding:0 12px}
 </style>
 
 <header class="top" id="top">
@@ -397,7 +456,7 @@ details.pcard[open]>summary::after{content:"\2212"}
           <tr><td><span class="en">S3, after voice</span><span class="ko">S3, 음성 후</span></td><td>11</td><td>16</td><td>23</td></tr>
           <tr><td><span class="en">Round 2, one flow</span><span class="ko">2차, 한 흐름</span></td><td colspan="3"><span class="en">S1 15 · S2 13 · S3 13 (demo); 25 and 23 with all 18 questions, all before “saved”</span><span class="ko">S1 15 · S2 13 · S3 13 (데모), 18문항이면 25와 23, 모두 저장 전</span></td></tr>
         </tbody></table>
-      <p class="small"><span class="en">Dog, counted on this page. Part 1 includes the “ready to book” screen; Part 2 is 12 personality questions plus other animals and guarding (Oct 20), then the check screen. What an owner must do before booking drops from 23 to 25 screens to 8 to 11, and Part 1 can be done in about a minute; the rest is optional and comes back as a reminder.</span><span class="ko">개 기준, 이 페이지에서 센 값. 1부는 “ready to book” 화면 포함, 2부는 성격 12문항과 다른 동물 · 지키기(10/20), 그리고 확인 화면. 예약 전에 꼭 해야 하는 화면이 23~25개에서 8~11개로 줄고, 1부는 1분 남짓. 나머지는 선택이고 알림으로 돌아와요.</span></p>
+      <p class="small"><span class="en">Dog, counted on this page. Part 1 includes the “ready to book” screen; Part 2 is 12 personality questions plus other animals and guarding (Oct 20), then the check screen. What an owner must do before booking drops from 23 to 25 screens to 8 to 11, and Part 1 can be done in about a minute; the rest is optional and comes back as a reminder. <b>Taps:</b> with Next on every screen, each one-tap screen costs one more tap (S1 Part 1: 6 more; Part 2: 14 more). Worth it: people can look before moving on, a mis-tap costs nothing, and pre-selected answers (Suggested, heard by voice, answered before) still get a clear way forward instead of a screen with nothing to tap.</span><span class="ko">개 기준, 이 페이지에서 센 값. 1부는 “ready to book” 화면 포함, 2부는 성격 12문항과 다른 동물 · 지키기(10/20), 그리고 확인 화면. 예약 전에 꼭 해야 하는 화면이 23~25개에서 8~11개로 줄고, 1부는 1분 남짓. 나머지는 선택이고 알림으로 돌아와요. <b>탭 수:</b> 모든 화면에 Next가 생겨 한 번 탭하던 화면마다 한 번 더(S1 1부: 6번, 2부: 14번). 그래도 좋은 이유: 넘어가기 전에 둘러볼 수 있고, 잘못 눌러도 손해가 없고, 미리 골라진 답에도 분명한 다음 단계가 생겨요.</span></p>
     </details>
 
     <details class="pcard notes decide" open>
@@ -409,38 +468,26 @@ details.pcard[open]>summary::after{content:"\2212"}
         <li><span class="en"><b>Voice keeps one review screen.</b> Answers you confirm there skip their questions; safety answers only show as a “We heard” hint and still need your tap. Asking again on each question would add steps back.</span><span class="ko"><b>음성은 확인 화면 하나.</b> 거기서 확인한 답은 질문을 건너뛰고, 안전 답은 “We heard” 힌트만 보이고 직접 눌러야 해요. 질문마다 다시 물으면 단계가 다시 늘어나요.</span></li>
         <li><span class="en"><b>Question in Fredoka 700</b>, as the spec says. Checked at 402 px with Larger text on (34 px) against all 18 questions: the longest (“In a new place or a change of routine, Mochi…” and “Has Mochi ever bitten or snapped at a person?”) take 3 lines, and the options stay above the fold. The weight is a token, <code>--font-question-weight</code>.</span><span class="ko"><b>질문은 스펙대로 Fredoka 700.</b> 402px, 글자 크게(34px)로 18문항 모두 확인: 가장 긴 두 질문이 3줄, 선택지는 화면 안에 남아요. 굵기는 토큰 <code>--font-question-weight</code>.</span></li>
         <li><span class="en"><b>Bars or pentagon</b> is still open. Bars are the default and need no new library; the spec's pentagon needs <code>react-native-svg</code>. Switch “Axes” above to compare.</span><span class="ko"><b>막대냐 오각형이냐</b>는 아직 열려 있어요. 기본은 막대, 새 라이브러리가 필요 없어요. 스펙의 오각형은 <code>react-native-svg</code>가 필요해요. 위의 “축”으로 비교.</span></li>
-        <li><span class="en"><b>Tap feedback 200 ms, then slide</b> (§3.1, §7.1); the DoD's 100 ms disagrees. Cat Handling words approved.</span><span class="ko"><b>누름 표시 200ms 후 넘김</b>(§3.1, §7.1). DoD의 100ms와 달라요. 고양이 Handling 단어는 승인됨.</span></li>
+        <li><span class="en"><b>Next on every screen</b> (round 4) replaces the spec's one-tap advance (§2, §3.1). The DoD's “next question within 100 ms of the tap” becomes “within 100 ms of Next”. Cat Handling words approved.</span><span class="ko"><b>모든 화면에 Next</b>(4차)가 스펙의 한 번 탭 넘김(§2, §3.1)을 대신해요. DoD의 “탭 후 100ms 안에 다음 질문”은 “Next 후 100ms 안에”로. 고양이 Handling 단어는 승인됨.</span></li>
       </ol>
     </details>
 
-    <details class="pcard notes" open>
-      <summary><span class="en">New components (not in DESIGN.md yet)</span><span class="ko">새 컴포넌트 (아직 DESIGN.md에 없음)</span></summary>
-      <ul>
-        <li><span class="en"><b>Token</b> <code>--font-question-weight</code> (700) and the large-text set: question 28, option 20, row 64, helper 18, button 60.</span><span class="ko"><b>토큰</b> <code>--font-question-weight</code>(700)과 큰 글씨 세트: 질문 28, 선택지 20, 줄 64, 보조 18, 버튼 60.</span></li>
-        <li><span class="en"><b>Question header:</b> progress bar in gold with a “Getting started · 2 of 3” or “Question 4 of 18” label, a 48 px Back, the question, an optional helper line.</span><span class="ko"><b>질문 헤더:</b> 골드 진행 막대와 라벨, 48px Back, 질문, 선택 보조 문장.</span></li>
-        <li><span class="en"><b>Answer row</b> (64 px, radio tick; selected = mint and a 3 px green outline) and the <b>big choice card</b> (112 px, icon tile; Dog or Cat).</span><span class="ko"><b>답 줄</b>(64px, 원형 체크, 선택 시 민트와 3px 초록 테두리)과 <b>큰 선택 카드</b>(112px, 아이콘 타일, 개 · 고양이).</span></li>
-        <li><span class="en"><b>Large chip</b> (64 px pill, multi-pick; foods). The round 2 age and size tiles are gone: age and weight are answer rows now, one tap each.</span><span class="ko"><b>큰 칩</b>(64px 알약, 여러 개, 음식). 2차의 나이 · 크기 타일은 없어지고, 나이와 몸무게는 한 번 탭하는 답 줄이에요.</span></li>
-        <li><span class="en"><b>Part progress</b> (round 3): one bar per part, “Basics · 3 of 7” reaching 100% at the end of Part 1, then “Personality · 4 of 12” from 0, with <b>Finish later</b> (text button) on the right of the bar.</span><span class="ko"><b>파트 진행</b>(3차): 파트마다 막대 하나, 1부 끝에서 100%인 “Basics · 3 of 7”, 0부터 다시 “Personality · 4 of 12”, 막대 오른쪽에 <b>Finish later</b>(텍스트 버튼).</span></li>
-        <li><span class="en"><b>Done screen with a choice:</b> badge, “Max is ready to book”, primary Done, and a <b>two-line secondary button</b> (“Tell sitters more about Max” over “About 3 min · 14 quick questions”).</span><span class="ko"><b>선택이 있는 완료 화면:</b> 배지, “Max is ready to book”, 기본 Done, 그리고 <b>두 줄 보조 버튼</b>(“Tell sitters more about Max” 아래 “About 3 min · 12 quick questions”).</span></li>
-        <li><span class="en"><b>Home reminder card</b> (peach, icon tile, title, one line, optional progress bar, Start or Continue and Not now) and the <b>pet tile</b> with its quiet “No personality yet · Add” line or a “Profile complete” chip.</span><span class="ko"><b>홈 알림 카드</b>(피치, 아이콘 타일, 제목, 한 줄, 선택 진행 막대, Start 또는 Continue와 Not now)와 <b>펫 타일</b>의 조용한 “No personality yet · Add” 줄 또는 “Profile complete” 칩.</span></li>
-        <li><span class="en"><b>Weight rows</b> (the answer row with a hint line, kg ranges per species) and the <b>exact weight field</b> (numeric field with a kg unit, opened by a text link).</span><span class="ko"><b>몸무게 줄</b>(힌트 줄이 있는 답 줄, 종별 kg 범위)과 <b>정확한 몸무게 칸</b>(kg 단위 숫자 칸, 텍스트 링크로 열림).</span></li>
-        <li><span class="en"><b>“Not shared yet” line</b> on the card: one line with a dashed circle instead of empty bars.</span><span class="ko">카드의 <b>“Not shared yet” 줄</b>: 빈 막대 대신 점선 원과 한 줄.</span></li>
-        <li><span class="en"><b>Skip link</b> (underlined text button, 52 px tall) at the bottom of every screen.</span><span class="ko"><b>Skip 링크</b>(밑줄 텍스트 버튼, 높이 52px), 모든 화면 아래.</span></li>
-        <li><span class="en"><b>Suggested tag</b> (butter pill, sparkle, gold ink) and the <b>Suggested dot</b> on a chip.</span><span class="ko"><b>Suggested 태그</b>(버터 알약, 반짝이, 골드 글자)와 칩 위의 <b>Suggested 점</b>.</span></li>
-        <li><span class="en"><b>Photo guess card</b> (“Looks like a Maltese. Right?”, Yes and Pick another) and its confirmed state (mint, with Change).</span><span class="ko"><b>사진 추측 카드</b>(“Looks like a Maltese. Right?”, Yes · Pick another)와 확인된 상태(민트, Change).</span></li>
-        <li><span class="en"><b>“We heard” hint</b> (butter surface with an icon, used for photo and voice hints) and the <b>safety tag</b> (“For your sitter's safety”).</span><span class="ko"><b>“We heard” 힌트</b>(아이콘이 있는 버터 면, 사진 · 음성 힌트)와 <b>안전 태그</b>(“For your sitter's safety”).</span></li>
-        <li><span class="en"><b>Mic button</b> (88 px) with idle, listening (pulse, wave, timer), reading (spinner) states; the <b>quote card</b> (“You said”) and <b>fact row</b> (checkbox, answer, “From …”).</span><span class="ko"><b>마이크 버튼</b>(88px)과 대기 · 듣는 중(펄스, 파형, 타이머) · 읽는 중(스피너) 상태, <b>인용 카드</b>(“You said”)와 <b>사실 줄</b>(체크, 답, “From …”).</span></li>
-        <li><span class="en"><b>Photo picker</b> (dashed 4:3 box) and the <b>answers list</b> with Change on each line.</span><span class="ko"><b>사진 선택</b>(점선 4:3 상자)과 줄마다 Change가 있는 <b>답 목록</b>.</span></li>
-        <li><span class="en"><b>At-a-glance card</b>, with the <b>axis bar row</b> (name, four steps, level word, or “Not shared yet”), the <b>pentagon</b> option, the <b>breed needs</b> box, and four <b>safety chips</b>: warning, owner isn't sure, not shared yet, nothing to flag. Plus the <b>request summary</b> card and the <b>compact pet card</b>.</span><span class="ko"><b>At-a-glance 카드</b>: <b>축 막대 줄</b>(이름, 4칸, 단계 말 또는 “Not shared yet”), <b>오각형</b> 옵션, <b>품종 필요</b> 상자, <b>안전 칩</b> 넷(경고, 오너가 모름, 아직 공유 안 함, 문제 없음). 그리고 <b>요청 요약</b> 카드와 <b>작은 펫 카드</b>.</span></li>
-      </ul>
+    <!-- components:start (generated from the same list as onboarding-components.md) -->
+    <details class="pcard notes" open id="dsmap">
+      <summary><span class="en">Design-system mapping</span><span class="ko">디자인 시스템 매핑</span></summary>
+      <p class="small"><span class="en"><b>16 reuse, 12 extend (10 components), 2 new</b> (<code>VoiceRecorder</code>, <code>TraitChart</code>). The page is now drawn like those components. Paste-ready for DESIGN.md: <a href="onboarding-components.md">onboarding-components.md</a>.</span><span class="ko"><b>재사용 16, 확장 12(컴포넌트 10개), 새로 2</b>(<code>VoiceRecorder</code>, <code>TraitChart</code>). 페이지도 그 컴포넌트 모양으로 맞췄어요. DESIGN.md에 붙일 글: <a href="onboarding-components.md">onboarding-components.md</a>.</span></p>
+      <div class="mapwrap" tabindex="0" role="region" aria-label="Design-system mapping table"><table class="qtable map4"><thead><tr><th><span class="en">Part</span><span class="ko">부분</span></th><th><span class="en">Decision</span><span class="ko">결정</span></th><th><span class="en">Component</span><span class="ko">컴포넌트</span></th><th><span class="en">Tokens</span><span class="ko">토큰</span></th><th><span class="en">Aligned on the page</span><span class="ko">페이지에서 맞춘 것</span></th></tr></thead><tbody><tr><td>Next (pinned, every answer screen); Save at the end of Part 1, Done on the last Part 2 question</td><td><span class="dec d-e">Extend</span></td><td><code>Button</code> primary, the proposed <code>large</code> size (DESIGN §6) at 60 tall in this flow</td><td><code>primary</code>, <code>primaryText</code>, <code>ui.radius.button</code> (pill); new <code>layout.largeButton</code> 60</td><td>Disabled = <code>border</code> fill + <code>textMuted</code> label, like Button; semibold label</td></tr><tr><td>Pick another, Use 3.2 kg</td><td><span class="dec d-r">Reuse</span></td><td><code>Button</code> secondary</td><td><code>surface</code>, <code>borderStrong</code>, <code>primary</code></td><td>1 px <code>borderStrong</code> outline and <code>primary</code> label (was a 2 px ink outline)</td></tr><tr><td>Tell sitters more about Max + About 3 min · 14 quick questions</td><td><span class="dec d-e">Extend</span></td><td><code>Button</code> secondary + new <code>hint</code> prop (second line)</td><td><code>fontSize.small</code>, <code>textMuted</code> for the hint</td><td>Same outline as secondary</td></tr><tr><td>Skip, I'm not sure · Finish later · I know the exact weight · Something else · Fix the words · Remove photo · Change · Add · Not now</td><td><span class="dec d-r">Reuse</span></td><td><code>TextButton</code></td><td><code>primary</code>, <code>fontWeight.semibold</code></td><td>No underline now, 44+ tall</td></tr><tr><td>Back</td><td><span class="dec d-r">Reuse</span></td><td><code>BackLink</code></td><td><code>primary</code></td><td>Was an icon-only chevron</td></tr><tr><td>Top bar with progress</td><td><span class="dec d-e">Extend</span></td><td>Top bar, Onboarding variant (DESIGN §6.1: Back + step dots): a progress bar with its label instead of the dots, and an optional right <code>TextButton</code> (Finish later)</td><td><code>track</code>, <code>primary</code></td><td>Fill is <code>primary</code> (was gold, which is under 3:1 on <code>track</code>)</td></tr><tr><td>Progress bars (top bar, Home reminder)</td><td><span class="dec d-r">Reuse</span></td><td>Figma <code>Progress Bar</code> (not in code yet; add to <code>ui/</code>)</td><td><code>track</code>, <code>primary</code></td><td></td></tr><tr><td>Question and helper line</td><td><span class="dec d-e">Extend</span></td><td><code>ScreenHeader</code> + <code>size="large"</code>: title 28 (already <code>fontSize.title</code> + 4) in <code>fontWeight.bold</code>, subtitle 18, optional Tag above</td><td><code>fontFamily.display</code>, <code>fontWeight.bold</code>; new <code>fontSize.subtitle</code> 18</td><td>Title weight 700 needs Fredoka 700 loaded next to the skin's 600</td></tr><tr><td>Answer rows: the questions, breed, age, weight (with hint line and a trailing Tag)</td><td><span class="dec d-e">Extend</span></td><td><code>CheckRow</code> + <code>variant="card"</code> + <code>size="large"</code> (radio)</td><td><code>borderStrong</code>, <code>primary</code>, <code>accent</code>, <code>radius.lg</code>; new <code>layout.largeRow</code> 64, <code>fontSize.large</code> 20</td><td>1 px <code>borderStrong</code>; checked = 2 px <code>primary</code> + <code>accent</code> (was 2 px and 3 px)</td></tr><tr><td>Fact rows on the voice review (checkbox, answer, From “quote”)</td><td><span class="dec d-r">Reuse</span></td><td><code>CheckRow</code> card large (the same extension, checkbox)</td><td>as above</td><td>Same look as the answer rows</td></tr><tr><td>Dog or Cat</td><td><span class="dec d-r">Reuse</span></td><td><code>RoleCard</code> (Figma <code>Choice Card</code>), description optional</td><td><code>accent</code>, <code>primary</code>, <code>radius.lg</code></td><td>Icon on a round <code>accent</code> tile</td></tr><tr><td>Foods to avoid (pick several)</td><td><span class="dec d-e">Extend</span></td><td><code>ChoiceChips</code> + <code>size="large"</code> (64 tall, 20 px)</td><td><code>borderStrong</code>, <code>primary</code>, <code>ui.radius.chip</code>; <code>layout.largeRow</code>, <code>fontSize.large</code></td><td>1 px outline; on = <code>primary</code> fill</td></tr><tr><td>Suggested (on rows) and the Suggested dot (on chips)</td><td><span class="dec d-e">Extend</span></td><td><code>Tag</code> tone <code>brand</code> + new <code>icon</code> prop; icon-only form for the dot (with an accessibility label)</td><td><code>accent</code>, <code>primary</code>, <code>ui.radius.tag</code></td><td>Was butter and gold; now brand, like other AI and source labels</td></tr><tr><td>For your sitter's safety</td><td><span class="dec d-e">Extend</span></td><td><code>Tag</code> tone <code>neutral</code> + <code>icon</code> (the same extension)</td><td><code>track</code>, <code>textMuted</code></td><td>Was butter and gold</td></tr><tr><td>We heard … · From your photo … · photo confirmed with Change</td><td><span class="dec d-r">Reuse</span></td><td><code>Banner</code> info (+ its action: Change, Use 3.2 kg)</td><td><code>accent</code>, <code>border</code>, <code>primary</code>, <code>radius.md</code></td><td>Was butter with an 18 px corner</td></tr><tr><td>Photo slot</td><td><span class="dec d-r">Reuse</span></td><td><code>MediaPicker</code> (Take photo · Choose from library) + Figma <code>Photo Tile</code> Upload state</td><td><code>borderStrong</code> dashed, <code>radius.lg</code></td><td>In the app the button opens MediaPicker; the demo picks the sample</td></tr><tr><td>Looks like a Maltese. Right?</td><td><span class="dec d-r">Reuse</span></td><td><code>Card</code> + <code>Tag</code> brand + two <code>Button</code> secondary (Yes, Pick another)</td><td><code>surface</code>, <code>border</code>, <code>radius.lg</code></td><td>Card gets its 1 px <code>border</code>; Yes is secondary now, so Next stays the one filled button</td></tr><tr><td>You said “…”</td><td><span class="dec d-r">Reuse</span></td><td><code>Card</code> with a Caption eyebrow</td><td><code>surface</code>, <code>border</code></td><td>Not called Quote Card: that name is the price card</td></tr><tr><td>Name, exact weight (kg), typed words</td><td><span class="dec d-e">Extend</span></td><td><code>TextField</code> + <code>size="large"</code> + <code>unit</code> suffix</td><td><code>borderStrong</code>, <code>primary</code>, <code>radius.md</code>; <code>fontSize.large</code></td><td>1 px outline, focus = <code>primary</code> border (no glow)</td></tr><tr><td>Mic button and its states</td><td><span class="dec d-n">New</span></td><td><code>VoiceRecorder</code></td><td><code>primary</code>, <code>primaryText</code>, <code>accent</code> (halo), <code>motion.base</code>; 88 px is the component's own size</td><td></td></tr><tr><td>Personality: bars, pentagon option, “Not shared yet” line</td><td><span class="dec d-n">New</span></td><td><code>TraitChart</code></td><td><code>primary</code>, <code>track</code>, <code>borderStrong</code>, <code>textMuted</code>, <code>fontSize.small</code></td><td>Bars are <code>primary</code> on <code>track</code>; no numbers</td></tr><tr><td>Max at a glance card</td><td><span class="dec d-e">Extend</span></td><td><code>PetCard</code> + <code>variant="glance"</code>: Avatar photo 56, name, “Dog · Maltese · Adult · 3.2 kg”, safety Tags, <code>TraitChart</code>, breed needs</td><td><code>surface</code>, <code>border</code>, <code>radius.lg</code></td><td>Round Avatar like PetCard (was a rounded square)</td></tr><tr><td>Safety chips on the card</td><td><span class="dec d-r">Reuse</span></td><td><code>Tag</code> warning · neutral (+ icon) · success</td><td><code>warningSurface</code>, <code>warning</code>, <code>track</code>, <code>textMuted</code>, <code>successSurface</code>, <code>success</code></td><td>“Owner isn't sure” is neutral (was butter); “not shared yet” is a line, not a tag</td></tr><tr><td>Breed needs</td><td><span class="dec d-r">Reuse</span></td><td><code>Card</code> tone <code>mint</code></td><td><code>blockMint</code>, <code>radius.xl</code></td><td></td></tr><tr><td>Request summary, booking on Home</td><td><span class="dec d-r">Reuse</span></td><td><code>Card</code> tone <code>butter</code> (<code>BookingCard</code> in the app)</td><td><code>blockButter</code></td><td></td></tr><tr><td>Home reminder (Help Chloe get to know Max)</td><td><span class="dec d-e">Extend</span></td><td><code>Banner</code> info + <code>secondaryAction</code> (Not now) + optional <code>progress</code>; the main action shown as a 44 px <code>Button</code></td><td><code>accent</code>, <code>border</code>, <code>primary</code>, <code>radius.md</code></td><td>Was a peach block with two big buttons</td></tr><tr><td>Pet tile on Home, Mochi's compact card</td><td><span class="dec d-r">Reuse</span></td><td><code>PetCard</code> (+ a quiet No personality yet · Add line, or Tag success Profile complete)</td><td></td><td></td></tr><tr><td>Your answers with Change</td><td><span class="dec d-e">Extend</span></td><td>Figma <code>List Row</code> (Lines = 2) + Trailing = Text button</td><td></td><td></td></tr><tr><td>Max is ready to book</td><td><span class="dec d-r">Reuse</span></td><td><code>EmptyState</code> layout (icon, title, one line) with Button primary + Button secondary with hint</td><td><code>accent</code></td><td></td></tr><tr><td>Toast, Home and New request headers</td><td><span class="dec d-r">Reuse</span></td><td><code>Toast</code>, App Bar / Top bar (title in the display face)</td><td></td><td></td></tr></tbody></table></div>
+      <p class="small"><b><span class="en">New tokens</span><span class="ko">새 토큰</span></b></p><ul><li><code>fontSize.large</code> 20: Answer labels, chips, Next in the large-text flow</li><li><code>fontSize.subtitle</code> 18: Helper line under a question (also closes the open 18 px subtitle question, DESIGN §0.7)</li><li><code>layout.largeRow</code> 64: Answer rows and chips in the large-text flow</li><li><code>layout.largeButton</code> 60: The pinned Next</li></ul>
+      <p class="small"><span class="en">Not new: the question weight is <code>fontWeight.bold</code> (700) and the size is <code>fontSize.title</code> + 4, as in <code>ScreenHeader</code>.</span><span class="ko">새것 아님: 질문 굵기는 <code>fontWeight.bold</code>(700), 크기는 <code>ScreenHeader</code>처럼 <code>fontSize.title</code> + 4.</span></p>
     </details>
+    <!-- components:end -->
 
     <details class="pcard notes">
       <summary><span class="en">The template's rules</span><span class="ko">템플릿 규칙</span></summary>
       <ul>
         <li><span class="en">One question per screen. Question 28 px, options 20 px in 64 px rows with 12 px gaps, helper text 18 px, nothing under 15 px on the owner's screens.</span><span class="ko">한 화면에 질문 하나. 질문 28px, 선택지 20px · 64px 줄 · 간격 12px, 보조 문장 18px, 오너 화면엔 15px 미만 글자 없음.</span></li>
-        <li><span class="en">One-tap answers move on. Screens where you type or pick several (name, exact weight, foods) have one Next button.</span><span class="ko">한 번 탭하는 답은 바로 넘어가요. 입력하거나 여러 개 고르는 화면(이름, 정확한 몸무게, 음식)만 Next 버튼 하나.</span></li>
-        <li><span class="en">Back is top left (48 px). Skip is a text link at the bottom of every screen.</span><span class="ko">Back은 왼쪽 위(48px). Skip은 모든 화면 아래의 텍스트 링크.</span></li>
+        <li><span class="en"><b>Tapping an answer only selects it</b> (round 4). A pinned 60 px Next sits at the bottom of every screen: disabled until an answer is picked, enabled at once when one is pre-selected (Suggested, heard by voice, or answered before). Skip stays as the text link under it. The last screen of Part 1 says Save; the last Part 2 question says Done.</span><span class="ko"><b>답을 누르면 고르기만 해요</b>(4차). 모든 화면 아래에 60px Next 고정: 답을 고르기 전엔 꺼져 있고, 미리 골라진 답(Suggested, 음성으로 들은 것, 전에 답한 것)이 있으면 바로 켜져요. Skip은 그 아래 텍스트 링크. 1부 마지막은 Save, 2부 마지막 질문은 Done.</span></li>
+        <li><span class="en">Back (BackLink: chevron + “Back”) is top left; Finish later (TextButton) top right in Part 2.</span><span class="ko">Back(BackLink: 꺾쇠 + “Back”)은 왼쪽 위, 2부에선 오른쪽 위에 Finish later(TextButton).</span></li>
         <li><span class="en">AI only suggests (a gold “Suggested” tag); the owner confirms. Safety questions carry a “For your sitter's safety” tag and are never filled in.</span><span class="ko">AI는 제안만(골드 “Suggested” 태그), 확정은 오너. 안전 질문엔 “For your sitter's safety” 태그, 절대 자동으로 채우지 않아요.</span></li>
         <li><span class="en">The card never shows numbers or scores, and says “Not a behavior assessment”.</span><span class="ko">카드에 숫자나 점수가 없고, “Not a behavior assessment”라고 적어요.</span></li>
       </ul>
@@ -604,6 +651,7 @@ details.pcard[open]>summary::after{content:"\2212"}
   const sug = (why) => `<span class="sug">${ic("spark")}Suggested${why ? ` · ${why}` : ""}</span>`;
   const safeTag = `<span class="stag">${ic("shield")}For your sitter's safety</span>`;
   const skip = (label = "Skip, I'm not sure") => ({act: "skip", label});
+  const nextCta = (disabled, label = "Next") => ({label, disabled});
 
   function axisVals() {
     return AXES(S.species).map((ax) => {
@@ -626,8 +674,8 @@ details.pcard[open]>summary::after{content:"\2212"}
     if (a.s2 === "unsure") c.push(["u", "help", "Owner isn't sure: other animals"]);
     if (a.s4 === "unsure") c.push(["u", "help", "Owner isn't sure: guarding"]);
     const blank = [!a.s1 && "biting", !a.s3 && "doors", !S.foodsDone && "foods", !a.s2 && "other animals", !a.s4 && "guarding"].filter(Boolean);
-    if (blank.length) c.push(["n", "dash", `Not shared yet: ${blank.join(", ")}`]);
-    if (!c.length) c.push(["ok", "check", "Nothing to flag"]);
+    if (!c.length && !blank.length) c.push(["ok", "check", "Nothing to flag"]);
+    c.blank = blank;
     return c;
   }
   function pentagon(vals) {
@@ -656,7 +704,8 @@ details.pcard[open]>summary::after{content:"\2212"}
     const needs = sp === "dog" && NEEDS[S.breed] ? `<p class="g-needs"><b>${esc(S.breed)} needs:</b> ${NEEDS[S.breed]}. <span style="color:var(--muted)">Source: akc.org</span></p>` : "";
     return `<article class="glance" aria-label="${esc(name)} at a glance">
       <div class="g-head">${pic}<div><h2>${esc(name)} at a glance</h2><p>${esc(meta)}</p></div></div>
-      <div class="g-chips">${safetyChips().map(([t, i2, l]) => `<span class="gt ${t}">${ic(i2)}${esc(l)}</span>`).join("")}</div>
+      ${(() => { const c = safetyChips(); return (c.length ? `<div class="g-chips">${c.map(([t, i2, l]) => `<span class="gt ${t}">${ic(i2)}${esc(l)}</span>`).join("")}</div>` : "")
+        + (c.blank.length ? `<p class="g-none">${ic("dash")}<span>Safety not shared yet: ${c.blank.join(", ")}</span></p>` : ""); })()}
       <div class="g-sec"><h3>Personality</h3>${shown ? `<span>${shown} of 5 shared</span>` : ""}</div>
       ${axes}${needs}
       <p class="g-foot">From ${owner ? "your" : "Robert's"} answers. Not a behavior assessment.</p></article>`;
@@ -667,14 +716,14 @@ details.pcard[open]>summary::after{content:"\2212"}
     const first = QS[S.species][0].id === q.id || (flow === "s3" && steps().find(isQ) === q.id);
     return {part: 2, n: q.n, q: fill(q.q),
       sub: q.sub || (first ? "Based on what you tell us. Not a behavior assessment." : ""),
-      body: `<div class="opts">${q.o.map((t, k) => opt("ans", `${q.id}:${k + 1}`, S.ans[q.id] === k + 1, esc(t))).join("")}</div>`, skip: skip()};
+      body: `<div class="opts">${q.o.map((t, k) => opt("ans", `${q.id}:${k + 1}`, S.ans[q.id] === k + 1, esc(t))).join("")}</div>`, cta: nextCta(!S.ans[q.id]), skip: skip()};
   }
   function safety(id) {
     const s = SAFE[id], h = flow === "s3" && S.heard[id];
     return {pre: safeTag, q: fill(s.q), ...(s.p2 ? {part: 2, n: s.p2[S.species]} : {}),
       body: (h ? `<p class="aihint">${ic("spark")}<span>We heard <q>${esc(h.quote)}</q>. Please pick the answer yourself.</span></p>` : "")
         + `<div class="opts">${s.o.map(([v, t]) => opt("safe", `${id}:${v}`, S.ans[id] === v, esc(t))).join("")}</div>`
-        + `<p class="fine">We never fill in safety answers for you.</p>`, skip: skip()};
+        + `<p class="fine">We never fill in safety answers for you.</p>`, cta: nextCta(!S.ans[id], id === "s4" ? "Done" : "Next"), skip: skip()};
   }
   function voiceScreen() {
     const v = S.voice, name = esc(N());
@@ -716,7 +765,7 @@ details.pcard[open]>summary::after{content:"\2212"}
         <span class="r-ico">${ic("spark")}</span>
         <div class="r-tx"><b>Help Chloe get to know ${name}</b><span>${done ? `You're partway there. About ${Math.max(1, 3 - Math.round(done / tot * 3))} min left.` : `${P2_TOTAL[sp]} quick questions, about 3 min.`}</span>
         ${done ? `<span class="r-bar" role="img" aria-label="${done} of ${tot} answered"><i style="width:${done / tot * 100}%"></i></span>` : ""}</div>
-        <div class="yn"><button type="button" class="cta" data-a="p2">${done ? "Continue" : "Start"}</button><button type="button" class="sec" data-a="notnow">Not now</button></div></section>`;
+        <div class="acts"><button type="button" class="cta" data-a="p2">${done ? "Continue" : "Start"}</button><button type="button" class="skip" data-a="notnow">Not now</button></div></section>`;
     const pline = all ? `<span class="gt ok">${ic("check")}Profile complete</span>`
       : `<span class="p-line">No personality yet <button type="button" class="change" data-a="p2" aria-label="Add ${name}'s personality">Add</button></span>`;
     return {title: "Home", q: dismissed ? "Home after Not now" : "Home with the reminder",
@@ -726,7 +775,7 @@ details.pcard[open]>summary::after{content:"\2212"}
   }
   const SCREENS = {
     species: () => ({label: "", q: "Is your pet a dog or a cat?",
-      body: `<div class="opts big">${opt("species", "dog", S.species === "dog", "Dog", "", ic("dog"))}${opt("species", "cat", S.species === "cat", "Cat", "", ic("cat"))}</div>`}),
+      body: `<div class="opts big">${opt("species", "dog", S.species === "dog", "Dog", "", ic("dog"))}${opt("species", "cat", S.species === "cat", "Cat", "", ic("cat"))}</div>`, cta: nextCta(!S.species)}),
     name: () => ({label: "", q: `What's your ${S.species}'s name?`,
       body: `<label class="sr" for="nameIn">Name</label><input class="field" id="nameIn" data-in="name" value="${esc(S.name)}" autocomplete="off" spellcheck="false">`,
       cta: {label: "Next", disabled: !S.name.trim()}}),
@@ -743,10 +792,10 @@ details.pcard[open]>summary::after{content:"\2212"}
         cta: {label: "Next"}};
       if (S.photoAlt) return {...base, body: `${pic}<div class="guess"><p class="gq">Which one is it?</p>
           <div class="opts">${opt("photobreed", second, false, esc(second), sug())}${opt("photobreed", "Mixed breed", false, "Mixed breed")}</div>
-          <button type="button" class="textlink" data-a="photoself">Something else</button></div>`, skip: skip("Skip, I'll fill it in")};
+          <button type="button" class="textlink" data-a="photoself">Something else</button></div>`, cta: nextCta(true), skip: skip("Skip, I'll fill it in")};
       return {...base, body: `${pic}<div class="guess">${sug("from your photo")}<p class="gq">Looks like a ${esc(top)}. Right?</p><p class="gm">A dog with a ${coat} coat.</p>
-          <div class="yn"><button type="button" class="cta" data-a="photoyes">Yes</button><button type="button" class="sec" data-a="photoalt">Pick another</button></div></div>`,
-        skip: skip("Skip, I'll fill it in")};
+          <div class="yn"><button type="button" class="sec" data-a="photoyes">Yes</button><button type="button" class="sec" data-a="photoalt">Pick another</button></div></div>`,
+        cta: nextCta(true), skip: skip("Skip, I'll fill it in")};
     },
     breed: () => {
       const sp = S.species, list = BREEDS[sp];
@@ -754,13 +803,13 @@ details.pcard[open]>summary::after{content:"\2212"}
         body: `<div class="opts">${list.map((b) => opt("breed", b, S.breed === b, esc(b))).join("")}</div>`
           + (S.typing ? `<label class="label" for="breedIn">Breed</label><input class="field" id="breedIn" data-in="breed" value="${esc(S.breedOther)}" autocomplete="off">`
             : `<button type="button" class="textlink" data-a="typebreed">Something else? Type it</button>`),
-        cta: S.typing ? {label: "Next", act: "breednext", disabled: !S.breedOther.trim()} : null, skip: skip()};
+        cta: S.typing ? {label: "Next", act: "breednext", disabled: !S.breedOther.trim()} : nextCta(!S.breed), skip: skip()};
     },
     age: () => {
       const ha = flow === "s3" && S.ageHeard;
       return {q: `How old is ${esc(N())}?`,
         body: (ha ? `<p class="aihint">${ic("spark")}<span>We heard <q>${esc(ha.quote)}</q>.</span></p>` : "")
-          + `<div class="opts">${AGES[S.species].map(([a, h]) => opt("age", a, S.age === a, a, `<span>${h}</span>${ha && ha.age === a && S.age !== a ? sug() : ""}`)).join("")}</div>`, skip: skip()};
+          + `<div class="opts">${AGES[S.species].map(([a, h]) => opt("age", a, S.age === a, a, `<span>${h}</span>${ha && ha.age === a && S.age !== a ? sug() : ""}`)).join("")}</div>`, cta: nextCta(!S.age), skip: skip()};
     },
     weight: () => {
       const hk = flow === "s3" && S.kgHeard, hp = photoOK() ? PHOTO_AI.wt : null;
@@ -769,7 +818,7 @@ details.pcard[open]>summary::after{content:"\2212"}
           + `<div class="opts">${WEIGHTS[S.species].map(([w, h]) => opt("wt", w, S.wt === w, w, `<span>${h}</span>${(hp === w || (hk && rangeOf(hk.kg) === w)) && S.wt !== w ? sug(hp === w ? "from your photo" : "") : ""}`)).join("")}</div>`
           + (S.kgOpen || S.kg ? `<label class="label" for="kgIn">Exact weight</label><span class="kgrow"><input class="field" id="kgIn" data-in="kg" inputmode="decimal" value="${esc(S.kg)}" autocomplete="off"><b aria-hidden="true">kg</b></span>`
             : `<button type="button" class="textlink" data-a="kgopen">I know the exact weight</button>`),
-        cta: S.kgOpen || S.kg ? {label: "Next", act: "kgnext", disabled: !rangeOf(S.kg)} : null, skip: skip()};
+        cta: S.kgOpen ? {label: "Next", act: "kgnext", disabled: !rangeOf(S.kg)} : nextCta(!S.wt), skip: skip()};
     },
     ready: () => ({center: true, q: `${esc(N())} is ready to book`, sub: `Sitters will see ${esc(N())}'s photo, age, weight and safety notes.`,
       body: `<span class="badge">${ic("check")}</span>`, cta: {label: "Done", act: "later"}, more: {label: `Tell sitters more about ${esc(N())}`, hint: `About 3 min · ${P2_TOTAL[S.species]} quick questions`, act: "next"}}),
@@ -786,7 +835,7 @@ details.pcard[open]>summary::after{content:"\2212"}
           + `<div class="chips">${FOODS.map((f) => { const on = S.foods.has(f); return `<button type="button" class="chip" data-a="food" data-v="${f}" aria-pressed="${on}">${on ? ic("check") : ""}${f}${h && h.food === f && !on ? `<span class="dot" role="img" aria-label="Suggested">${ic("spark")}</span>` : ""}</button>`; }).join("")}</div>`
           + (S.foodTyping ? `<label class="label" for="foodIn">Something else</label><input class="field" id="foodIn" data-in="food" value="${esc(S.foodOther)}" autocomplete="off">`
             : `<button type="button" class="textlink" data-a="typefood">Something else? Type it</button>`),
-        cta: {label: "Next", act: "foodnext", disabled: !S.foods.size && !S.foodOther.trim()}, skip: skip()};
+        cta: {label: "Save", act: "foodnext", disabled: !S.foods.size && !S.foodOther.trim()}, skip: skip()};
     },
     review: () => {
       const r = (k, v, jump, from) => `<div class="row"><span class="k"><small>${k}</small><b>${v}</b>${from ? `<i>From your voice</i>` : ""}</span>${jump ? `<button type="button" class="change" data-a="jump" data-v="${jump}" aria-label="Change ${k}">Change</button>` : ""}</div>`;
@@ -826,9 +875,15 @@ details.pcard[open]>summary::after{content:"\2212"}
     return {q: plain(sc.q), screen, foot, hasFoot: !!(sc.cta || sc.cta2 || sc.skip || sc.more), title: sc.title,
       fill, label, later: sc.part === 2, backOff: k === 0 || !!sc.title};
   }
-  const barHTML = (v, live) => v.title
-    ? `<span class="title">${v.title}</span>`
-    : `<${live ? 'button type="button" id="back" aria-label="Back"' : "span"} class="back"${v.backOff ? (live ? " disabled" : ' style="visibility:hidden"') : ""}>${ic("chev")}</${live ? "button" : "span"}><div class="prog"><div class="prog-track"><div class="prog-fill" style="width:${v.fill}%"></div></div><span class="prog-label">${v.label}</span></div>${v.later ? `<${live ? 'button type="button" data-a="finish"' : "span"} class="finish">Finish later</${live ? "button" : "span"}>` : ""}`;
+  // Top bar, onboarding variant: BackLink (chevron + "Back") on the left, Finish later (TextButton) on the right in Part 2,
+  // and the Progress Bar with its label under them.
+  const barHTML = (v, live) => {
+    if (v.title) return `<span class="title">${v.title}</span>`;
+    const back = live ? `<button type="button" id="back" class="back"${v.backOff ? " disabled" : ""}>${ic("chev")}<span>Back</span></button>`
+      : `<span class="back"${v.backOff ? ' style="visibility:hidden"' : ""}>${ic("chev")}<span>Back</span></span>`;
+    const fin = v.later ? (live ? `<button type="button" data-a="finish" class="finish">Finish later</button>` : `<span class="finish">Finish later</span>`) : "";
+    return `<div class="bar-row">${back}${fin}</div><div class="prog"><div class="prog-track"><div class="prog-fill" style="width:${v.fill}%"></div></div><span class="prog-label">${v.label}</span></div>`;
+  };
   const quiet = (h) => h.replace(/\s(id|for)="[^"]*"/g, "").replace(/<h1\b/g, "<div").replace(/<\/h1>/g, "</div>").replace(/<h2\b/g, "<div").replace(/<\/h2>/g, "</div>").replace(/<h3\b/g, "<div").replace(/<\/h3>/g, "</div>")
     .replace(/<(button|input|textarea)\b/g, '<$1 tabindex="-1"').replace(/\srole="(status|img)"/g, "").replace(/\saria-label="[^"]*"/g, "").replace(/<article\b/g, "<div").replace(/<\/article>/g, "</div>");
   function thumb(v, k) {
@@ -873,8 +928,8 @@ details.pcard[open]>summary::after{content:"\2212"}
     const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); t.textContent = msg;
     $("#phone").appendChild(t); toastT = setTimeout(() => t.remove(), 3200);
   }
-  // One tap: show the pick for ~200 ms, then slide to the next question.
-  function pickThenNext() { render(); lock = true; setTimeout(() => { if (lock) next(); }, reduce() ? 60 : 200); }
+  // Round 4: tapping an answer only selects it. The pinned Next moves on, so people can look before they leave.
+  function pickThenNext() { render(); }
   function act(a, v) {
     const vo = S.voice;
     switch (a) {
@@ -910,7 +965,7 @@ details.pcard[open]>summary::after{content:"\2212"}
       case "photoself": S.photoOK = false; S.photoAlt = false; S.coat = null; return next();
       case "age": S.age = v; return pickThenNext();
       case "wt": S.wt = v; S.kg = ""; S.kgOpen = false; return pickThenNext();
-      case "usekg": S.kg = v; S.wt = rangeOf(v); S.kgOpen = true; return pickThenNext();
+      case "usekg": S.kg = v; S.wt = rangeOf(v); S.kgOpen = false; return pickThenNext();
       case "kgopen": S.kgOpen = true; render(); setTimeout(() => { const f = $("#kgIn"); if (f) f.focus(); }); return;
       case "kgnext": S.wt = rangeOf(S.kg); return next();
       case "ans": { const [id, n] = v.split(":"); S.ans[id] = +n; return pickThenNext(); }
@@ -949,8 +1004,7 @@ details.pcard[open]>summary::after{content:"\2212"}
   function applyPhoto(b) {
     S.species = PHOTO_AI.species; if (S.name === "Mochi") S.name = "Max";
     S.breed = b; S.breedOther = ""; S.coat = PHOTO_AI.coat; S.photoOK = true; S.photoAlt = false;
-    render(); lock = true;
-    setTimeout(() => { if (!lock) return; if (back2review) { back2review = false; return go(steps().indexOf("review")); } go(steps().indexOf("name")); }, reduce() ? 60 : 200);
+    render();
   }
   function read() {
     const vo = S.voice; vo.st = "reading"; render();
@@ -972,7 +1026,7 @@ details.pcard[open]>summary::after{content:"\2212"}
     if (k === "breed") { S.breedOther = val; ctaOn(val.trim()); }
     if (k === "food") { S.foodOther = val; ctaOn(S.foods.size || val.trim()); }
     if (k === "vtext") { S.voice.text = val; ctaOn(val.trim()); }
-    if (k === "kg") { S.kg = val.trim(); ctaOn(rangeOf(S.kg)); }
+    if (k === "kg") { S.kg = val.trim(); if (rangeOf(S.kg)) S.wt = rangeOf(S.kg); ctaOn(rangeOf(S.kg)); }
   });
   $("#phone").addEventListener("keydown", (e) => {
     if (e.key !== "Enter" || !e.target.dataset.in || e.target.tagName === "TEXTAREA") return;
@@ -1013,9 +1067,9 @@ details.pcard[open]>summary::after{content:"\2212"}
   const WHY = {
     s1: [["<b>Two parts.</b> Part 1, Basics (required, fast): photo, species, name, breed, age, weight, and the three safety questions a sitter truly needs. It ends on “Max is ready to book”.", "<b>두 부분.</b> 1부 기본(필수, 빠름): 사진, 종, 이름, 품종, 나이, 몸무게, 시터에게 꼭 필요한 안전 질문 셋. “Max is ready to book”으로 끝나요."],
       ["<b>Part 2, Personality, is optional</b>, with its own bar from 0. “Finish later” in the top bar saves and goes Home, where a reminder brings you back.", "<b>2부 성격은 선택</b>, 진행 막대가 0부터 다시. 위쪽 “Finish later”는 저장하고 홈으로, 홈의 알림이 다시 데려와요."],
-      ["<b>Tap an answer and it moves on.</b> Next only where you type or pick several (name, exact weight, foods).", "<b>답을 누르면 넘어가요.</b> Next는 입력하거나 여러 개 고르는 곳(이름, 정확한 몸무게, 음식)에만."],
+      ["<b>Tap to pick, Next to move on</b> (round 4). Next stays disabled until something is picked; a pre-selected answer turns it on at once.", "<b>탭으로 고르고 Next로 넘어가요</b>(4차). 고르기 전엔 Next가 꺼져 있고, 미리 골라진 답이 있으면 바로 켜져요."],
       ["<b>Weight instead of size:</b> pets have no size standard, so kg ranges with a hint, or the exact weight.", "<b>크기 대신 몸무게:</b> 펫 크기 기준이 없어서 힌트가 붙은 kg 범위, 또는 정확한 몸무게."]],
-    s2: [["<b>The photo does the setup.</b> “Looks like a Maltese. Right?” with species and coat; Yes drops the species and breed screens from Part 1 (watch the thumbnails shrink).", "<b>사진이 설정을 대신해요.</b> 종과 털을 담은 “Looks like a Maltese. Right?” Yes면 1부에서 종 · 품종 화면이 빠져요."],
+    s2: [["<b>The photo does the setup.</b> “Looks like a Maltese. Right?” with species and coat; Yes confirms it (the species and breed screens drop out of Part 1; watch the thumbnails shrink), then Next.", "<b>사진이 설정을 대신해요.</b> 종과 털을 담은 “Looks like a Maltese. Right?” Yes로 확인하면 1부에서 종 · 품종 화면이 빠지고, 그다음 Next."],
       ["<b>Pick another</b> shows the second guess and Mixed breed; “Something else” or “Skip, I'll fill it in” brings the two screens back.", "<b>Pick another</b>는 두 번째 후보와 Mixed breed. “Something else”나 “Skip, I'll fill it in”이면 두 화면이 돌아와요."],
       ["<b>The photo suggests a weight range</b> (Suggested tag); the owner taps it.", "<b>사진은 몸무게 범위를 제안</b>(Suggested 태그), 오너가 탭해요."]],
     s3: [["<b>One voice screen in Part 1:</b> talk (88 px mic, up to a minute) or type.", "<b>1부에 음성 화면 하나:</b> 말하기(88px 마이크, 최대 1분) 또는 입력."],
