@@ -1877,7 +1877,7 @@ const Journey = (() => {
       <div class="jr-danger-body jr"><p class="jr-p" style="font-size:1rem;color:var(--text)">"Chewy Chompers" contains <b>${esc(bad)}</b> — ${ALLERGY ? `${esc(n)} is allergic (from ${esc(n)}'s profile)` : `toxic to ${isDog() ? "dogs" : "cats"}`}.</p>
         <div class="tags"><span>${esc(bad)}</span>${ALLERGY === "chicken" ? "<span>animal fat (may contain chicken)</span>" : ""}</div>
         <p class="jr-p">Read from the label photo by MiniCPM-V, checked by Nemotron Ultra. ${OWNER} has been notified.</p></div>
-      <div class="jr-danger-foot"><button type="button" class="btn btn-primary btn-danger" data-jr="danger-ok">I understand — don't feed</button></div>`;
+      <div class="jr-danger-foot"><button type="button" class="btn btn-primary btn-danger" data-jr="danger-ok">I understand, don't feed</button></div>`;
     d.hidden = false;
     notify(`Blocked a risky treat for ${n} ⚠️`, "Sat 3:10 PM");
     d.querySelector("button").focus();

@@ -166,7 +166,7 @@
     <ul class="site-pages">${pages.map(([en, k, href, ten, tko]) => { const url = new URL(href, base);
       return `<li><a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""}><b>${both(en, k)}</b><small>${both(ten, tko)}</small></a></li>`; }).join("")}</ul>
     <h3>${both("Also", "그 밖에")}</h3>
-    <ul class="site-pages"><li><a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><b>${both("Logo files ↗", "로고 파일 ↗")}</b><small>${both("Every logo, icon and pixel pet to download, with Customize", "모든 로고, 아이콘, 픽셀 펫 다운로드와 Customize")}</small></a></li></ul>
+    <ul class="site-pages"><li><a href="${new URL("judge-panel.html", base).pathname}"><b>${both("Judge panel", "심사위원 패널")}</b><small>${both("Goldito in two minutes, with the model behind each step", "2분 안에 보는 Goldito, 단계마다 모델 표시")}</small></a></li><li><a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><b>${both("Logo files ↗", "로고 파일 ↗")}</b><small>${both("Every logo, icon and pixel pet to download, with Customize", "모든 로고, 아이콘, 픽셀 펫 다운로드와 Customize")}</small></a></li></ul>
     <button type="button" class="x">${both("Close", "닫기")}</button>`;
   document.body.appendChild(guide);
   const setGuide = (open) => { guide.hidden = !open; help.setAttribute("aria-expanded", String(open)); hideTip(); if (open) guide.querySelector("a,button").focus(); };
