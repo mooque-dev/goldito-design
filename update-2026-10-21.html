@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design Update Oct 21</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<script>
+  // No site bar here; the language follows the rest of the site (same saved choice).
+  (() => { let v = "en"; try { v = localStorage.getItem("goldito-lang") === "ko" ? "ko" : "en"; } catch (e) {}
+    document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
+</script>
+<style>
+  /* Design update, Oct 21: what we did on Oct 20 to 21 and what is left. */
+  *{box-sizing:border-box}
+  html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:54rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+  .wrap>*,section{min-width:0}
+  h1,h2{margin:0;text-wrap:balance}
+  h1{font:700 clamp(1.875rem,4.4vw,2.4rem)/1.1 var(--font-display);letter-spacing:-.01em}
+  h2{font:600 1.25rem/1.2 var(--font-display)}
+  p{margin:0}
+  a{color:var(--color-primary);font-weight:600}
+  code{font:600 .8125rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.0625rem .375rem}
+  section{display:flex;flex-direction:column;gap:.625rem}
+  .bar{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .lang{display:flex;border:1px solid var(--color-border);border-radius:999px;padding:3px;background:var(--color-surface)}
+  .lang button{font:600 .8125rem var(--font-ui);border:0;background:none;color:var(--color-text);border-radius:999px;min-height:32px;padding:0 .75rem;cursor:pointer}
+  .lang button[aria-pressed=true]{background:var(--color-primary);color:var(--color-primary-text)}
+  /* rows: status · what · links */
+  .rows{margin:0;padding:0;list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+  .rows li{display:grid;grid-template-columns:5.5rem minmax(0,1fr) auto;gap:.75rem;align-items:baseline;padding:.625rem 1rem;border-top:1px solid var(--color-border)}
+  .rows li:first-child{border-top:0}
+  .rows b{font-weight:600}
+  .rows .what span.sub{display:block;color:var(--color-text-muted);font-size:.875rem}
+  .rows .links{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:flex-end;font-size:.875rem;white-space:nowrap}
+  @media (max-width:640px){.rows li{grid-template-columns:1fr}.rows .links{justify-content:flex-start}}
+  .pill{justify-self:start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;white-space:nowrap}
+  .pill.done{background:var(--color-success-surface);color:var(--color-success)}
+  .pill.review{background:var(--color-accent);color:var(--color-primary)}
+  .pill.later{background:var(--color-track);color:var(--color-text-muted)}
+  /* visual notes */
+  .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+  @media (max-width:640px){.gallery{grid-template-columns:1fr}}
+  .card{margin:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+  .card:hover{border-color:var(--color-primary)}
+  .card img{width:100%;height:12.5rem;object-fit:contain;display:block;background:var(--color-background);padding:.5rem}
+  .card.tall img{object-fit:cover;object-position:center 50%;padding:0}
+  .card{position:relative}
+  .wip{position:absolute;top:.625rem;left:.625rem;right:.625rem;background:var(--color-warning);color:#fff;font:700 .9375rem/1.3 var(--font-ui);border-radius:var(--radius-md);padding:.5rem .75rem;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .card figcaption{padding:.625rem .875rem;font-size:.875rem;display:flex;justify-content:space-between;gap:.5rem}
+  .card figcaption b{font-weight:600}
+  .card figcaption span.n{color:var(--color-text-muted)}
+  .ask{background:var(--color-warning-surface);border-radius:var(--radius-lg);padding:.75rem 1rem;font-size:.9375rem}
+  ol.order{margin:0;padding-left:1.25rem;display:flex;gap:.25rem 1.5rem;flex-wrap:wrap}
+  html[data-lang="ko"] :is(p,span,li,b){word-break:keep-all}
+  .specs{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15.5rem),1fr));gap:.625rem}
+  .sc{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .sc>b{font:600 1rem/1.25 var(--font-display)}
+  .vs{display:flex;flex-wrap:wrap;align-items:center;gap:.375rem;font-size:.875rem}
+  .side{background:var(--color-track);border-radius:999px;padding:.1875rem .625rem;font-weight:600}
+  .side small{font-weight:500;font-size:.75rem;color:var(--color-text-muted)}
+  .side small a{font-weight:600}
+  .or{font-size:.75rem;color:var(--color-text-muted)}
+  .pick{align-self:flex-start;font-size:.8125rem;font-weight:600;background:var(--color-success-surface);color:var(--color-success);border-radius:999px;padding:.1875rem .625rem}
+  .pick a{color:inherit;white-space:nowrap}
+  .pick.open{background:var(--color-warning-surface);color:var(--color-warning)}
+  .calls{display:flex;flex-wrap:wrap;align-items:center;gap:.375rem;font-size:.875rem}
+  .calls>b{margin-right:.25rem}
+  .chip{background:var(--color-accent);color:var(--color-primary);border-radius:999px;padding:.1875rem .625rem;font-weight:600}
+  ul.q{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem}
+  .note{color:var(--color-text-muted);font-size:.875rem}
+  footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="bar"><span class="eyebrow">Goldito · <span class="en">Design update</span><span class="ko">디자인 업데이트</span> · Oct 21</span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
+  <h1><span class="en">What we did, what's left</span><span class="ko">한 일, 남은 일</span></h1>
+  <section><h2><span class="en">Done Oct 20 to 21</span><span class="ko">10월 20~21일 완료</span></h2><ul class="rows"><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>UI audit of the live app</b><span class="sub">74 issues (15 high), each with screenshots, the rule and a fix</span></span><span class="ko"><b>라이브 앱 UI 감사</b><span class="sub">이슈 74개 (높음 15개), 스크린샷·근거·수정안 포함</span></span></span><span class="links"><a href="audit-2026-10-21.html" target="_blank" rel="noopener">Report</a></span></li><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>PR #215 demo polish</b><span class="sub">chat AI label, bubbles, owner Home tiles, og-image, loading screen</span></span><span class="ko"><b>PR #215 데모 다듬기</b><span class="sub">채팅 AI 라벨, 말풍선, 오너 홈 타일, og 이미지, 로딩 화면</span></span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/215" target="_blank" rel="noopener">PR</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>Judge panel (B) playable</b>, on the Overview page; C goes in the video</span><span class="ko"><b>심사위원 패널(B)</b> 플레이 가능, 개요 페이지에 통합; C는 영상으로</span></span><span class="links"><a href="judge-panel.html" target="_blank" rel="noopener">Judge panel</a> <a href="video.html" target="_blank" rel="noopener">Video plan</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>Pixel pet presets #184</b><span class="sub">4 coats × 5 moods, pushed as a branch</span></span><span class="ko"><b>픽셀 펫 프리셋 #184</b><span class="sub">털색 4종 × 기분 5종, 브랜치 푸시</span></span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/tree/feat/pixel-pet-presets" target="_blank" rel="noopener">Branch</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>README sections</b>: where the AI can be wrong, accessibility</span><span class="ko"><b>README 섹션</b>: AI가 틀릴 수 있는 곳, 접근성</span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/tree/docs/readme-ai-limits-accessibility" target="_blank" rel="noopener">Branch</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>#116 video shot list</b> and the demo run sheet</span><span class="ko"><b>#116 영상 샷 리스트</b>와 데모 진행표</span></span><span class="links"><a href="video.html" target="_blank" rel="noopener">Shot list</a> <a href="demo-run-sheet.html" target="_blank" rel="noopener">Run sheet</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>#115 onboarding hand-off</b> posted</span><span class="ko"><b>#115 온보딩 핸드오프</b> 게시</span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/issues/115" target="_blank" rel="noopener">#115</a></span></li></ul></section>
+  <section><h2><span class="en">Left, when usage is back</span><span class="ko">남은 일 (사용량 복구 후)</span></h2><ul class="rows"><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>Audit fixes, first batch</b><span class="sub">one header style, focus ring, placeholder contrast</span></span><span class="ko"><b>감사 수정 1차</b><span class="sub">헤더 통일, 포커스 링, 플레이스홀더 대비</span></span></span><span class="links"><a href="audit-2026-10-21.html" target="_blank" rel="noopener">Report</a></span></li><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>Judge-facing fixes</b><span class="sub">tour placeholders, Try demo, split view, hide team tools</span></span><span class="ko"><b>심사위원 첫인상 수정</b><span class="sub">투어 플레이스홀더, 데모 체험, 분할 화면, 팀 도구 숨김</span></span></span><span class="links"></span></li><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>PR #215 rebase</b> onto main (conflicts) so CI runs</span><span class="ko"><b>PR #215 리베이스</b> (충돌 해결) 후 CI 실행</span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/215" target="_blank" rel="noopener">PR</a></span></li><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>Open PRs</b> for the pixel-pet and README branches</span><span class="ko">픽셀 펫·README 브랜치 <b>PR 열기</b></span></span><span class="links"></span></li><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>Tamagotchi rooms A/B/C</b>, after OK to download the Kenney packs</span><span class="ko"><b>다마고치 방 A/B/C</b>, Kenney 팩 다운로드 승인 후</span></span><span class="links"><a href="https://claude.ai/artifact/9hKJdJFVmvSSHKV5qDnWpj" target="_blank" rel="noopener">Pixel tools</a></span></li><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>Demo stay seed</b>: sitter has no bookings, stages ② to ⑤ are empty (Minsik)</span><span class="ko"><b>데모 숙박 시드</b>: 시터 예약 없음, ②~⑤ 단계 비어 있음 (민식)</span></span><span class="links"></span></li></ul></section>
+  <footer><span class="en">Earlier: <a href="update-2026-10-20.html">Oct 20</a> · Live app: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a></span><span class="ko">이전: <a href="update-2026-10-20.html">10월 20일</a> · 라이브 앱: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a></span></footer>
+<script>
+  const sync = () => document.querySelectorAll(".lang button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.l === document.documentElement.dataset.lang)));
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+    document.documentElement.dataset.lang = document.documentElement.lang = b.dataset.l;
+    try { localStorage.setItem("goldito-lang", b.dataset.l); } catch (e) {}
+    sync();
+  }));
+  sync();
+</script>
+</body>
+</html>
