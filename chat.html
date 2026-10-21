@@ -49,7 +49,10 @@ h3{margin:0;font:600 17px/1.25 var(--display);color:var(--ink)}
 .lnk{border:0;background:none;color:var(--primary);font-weight:700;font-size:14px;min-height:40px;padding:0;text-align:left}
 .pill{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border-radius:999px;background:var(--surface);font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap}
 /* search */
-.sitter{display:flex;gap:12px;align-items:center;text-align:left;border:0;width:100%}
+.sitter{display:flex;flex-direction:row;gap:12px;align-items:center;text-align:left;border:0;width:100%}
+.sitter .pr{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0}
+.sitter .pr b{font:700 20px/1.1 var(--display, inherit);color:var(--ink, #1B4332)}
+.sitter .pr small{font-size:12px;color:var(--muted)}
 .sitter:hover{box-shadow:0 0 0 2px var(--mint)}
 .sitter .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .sitter b{font-size:16px}
@@ -155,9 +158,9 @@ h3{margin:0;font:600 17px/1.25 var(--display);color:var(--ink)}
     <div class="bar"><span class="t">Find a sitter</span><button class="ib" aria-label="Filters" data-go="noop" data-i="sliders"></button></div>
     <div class="scroll"><div class="pad">
       <div class="row" style="gap:8px;flex-wrap:wrap"><span class="pill" data-i-l="cal">Oct 9 to 12</span><span class="pill" data-i-l="paw">Max, Mochi</span><span class="pill" data-i-l="pin">5 km</span></div>
-      <button class="card sitter" data-go="sitter"><span class="av lg" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="tx"><b>Chloe M.</b><span class="muted">★ 4.9 · 38 stays · 2 km</span><span class="row" style="gap:6px"><span class="tag ok">Free on your dates</span><span class="tag">$55 / night</span></span></span><span data-i="chev"></span></button>
-      <button class="card sitter" data-go="noop"><span class="av lg">J</span><span class="tx"><b>Jun P.</b><span class="muted">★ 4.8 · 21 stays · 3 km</span><span class="row" style="gap:6px"><span class="tag ok">Free on your dates</span><span class="tag">$60 / night</span></span></span><span data-i="chev"></span></button>
-      <button class="card sitter" data-go="noop"><span class="av lg">A</span><span class="tx"><b>Ari S.</b><span class="muted">★ 5.0 · 9 stays · 4 km</span><span class="row" style="gap:6px"><span class="tag w">Full on Oct 11</span><span class="tag">$50 / night</span></span></span><span data-i="chev"></span></button>
+      <button class="card sitter" data-go="sitter"><span class="av lg" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="tx"><b>Chloe M.</b><span class="muted">★ 4.9 · 38 stays · 2 km</span><span class="row" style="gap:6px"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$55</b><small>per night</small></span></button>
+      <button class="card sitter" data-go="noop"><span class="av lg">J</span><span class="tx"><b>Jun P.</b><span class="muted">★ 4.8 · 21 stays · 3 km</span><span class="row" style="gap:6px"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$60</b><small>per night</small></span></button>
+      <button class="card sitter" data-go="noop"><span class="av lg">A</span><span class="tx"><b>Ari S.</b><span class="muted">★ 5.0 · 9 stays · 4 km</span><span class="row" style="gap:6px"><span class="tag w">Full on Oct 11</span></span></span><span class="pr"><b>$50</b><small>per night</small></span></button>
     </div></div>
     <nav class="tabs" data-tabs="Home"></nav>
   </section>

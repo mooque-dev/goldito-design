@@ -1,0 +1,273 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UI Fixes QA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.35rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.pair{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.75rem} .pair figcaption{grid-column:1/-1;color:var(--color-text-muted);font-size:.875rem}
+.pair div{display:flex;flex-direction:column;gap:.375rem;min-width:0} .pair img,.shot img{width:100%;border:1px solid var(--color-border);border-radius:12px;display:block}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem} .tag.b{background:var(--color-track);color:var(--color-text-muted)} .tag.a{background:var(--color-success-surface);color:var(--color-success)}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,10rem),1fr));gap:.75rem} .shot{margin:0} .shot figcaption{font-size:.8125rem;color:var(--color-text-muted);margin-top:.25rem}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:.75rem}
+.opt{background:#FBF6EA;color:#1B4332;border:1px solid var(--color-border);border-radius:16px;padding:1rem;display:flex;flex-direction:column;gap:.625rem;min-width:0}
+.opt b.t{font:700 1rem var(--font-display)} .opt small{color:#6B5D4A}
+.lab{font:600 .875rem 'Inter',sans-serif;color:#6B5D4A}
+.inp{background:#fff;border:1px solid #7F6F58;border-radius:12px;height:44px;padding:0 14px;font:16px 'Inter',sans-serif;width:100%;color:#1B4332}
+.row{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{font:700 13px 'Inter',sans-serif;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #7F6F58;background:#fff;color:#1B4332;display:inline-flex;align-items:center;cursor:pointer}
+.A .chip[aria-pressed=true]{background:#D8F3DC;border:2px solid #1B4332}
+.B .chip[aria-pressed=true]{background:#1B4332;border-color:#1B4332;color:#fff}
+.rec{font-size:.8125rem;font-weight:700;color:var(--color-success);background:var(--color-success-surface);border-radius:999px;padding:.125rem .625rem;align-self:flex-start}
+details{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem} pre{overflow-x:auto;font-size:.75rem;line-height:1.45;margin:.75rem 0 0}
+ul.files{margin:0;padding-left:1.25rem} code{font:600 .8125rem ui-monospace,Menlo,monospace}
+@media (max-width:560px){.pair{grid-template-columns:1fr}}
+.phone{max-width:402px;background:#FBF6EA;border:1px solid var(--color-border);border-radius:28px;padding:20px 16px}
+.pf{display:flex;flex-direction:column;gap:6px;color:#1B4332}.pf .lab{margin-top:8px}
+.fw{display:flex;flex-direction:column;gap:4px}
+.stag{align-self:flex-start;font:700 11px 'Inter',sans-serif;color:#1B4332;background:#D8F3DC;border-radius:999px;padding:2px 8px}
+.pf .inp::placeholder{font-style:italic;color:#807160}
+.pf :focus{outline:none}.pf :focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.cta{margin-top:16px;height:52px;border:0;border-radius:999px;background:#1B4332;color:#fff;font:800 16px 'Inter',sans-serif}
+</style></head><body><main class="wrap">
+<header style="display:flex;flex-direction:column;gap:.5rem"><span class="eyebrow">Design QA · branch fix/ui-headers-focus-contrast · not pushed</span><h1>Audit fixes 1 to 4</h1>
+<p>Before is the live app (main). After is the fresh branch from today's main, running locally on <a href="http://localhost:8084/login?demo=owner">localhost:8084</a>. Nothing is committed or pushed yet.</p></header>
+
+<section><h2>1 · One header on every screen (F01, high)</h2><p>Settings, Profile, Chat, What's new, Privacy and Your answers now use the same cream bar and Fredoka title as the tabs. One change in <code>app/_layout.tsx</code>, reusing the existing <code>headerOptions(theme)</code>.</p>
+<figure class="pair"><div><span class="tag b">Before · live main</span><img src="assets/qa-fix/before__settings.jpg" alt="before settings"></div><div><span class="tag a">After · local :8084</span><img src="assets/qa-fix/after__settings.jpg" alt="after settings"></div><figcaption>Settings</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live main</span><img src="assets/qa-fix/before__profile.jpg" alt="before profile"></div><div><span class="tag a">After · local :8084</span><img src="assets/qa-fix/after__profile.jpg" alt="after profile"></div><figcaption>Profile</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live main</span><img src="assets/qa-fix/before__chat.jpg" alt="before chat"></div><div><span class="tag a">After · local :8084</span><img src="assets/qa-fix/after__chat.jpg" alt="after chat"></div><figcaption>Chat (the chat sets its own green title; the bar is now cream)</figcaption></figure></section>
+
+<section><h2>2 · Keyboard focus ring (F51, high)</h2><p>Press Tab: the browser's thin blue ring becomes a 2 px ring in our primary green with a 2 px gap. Mouse and touch never show it. One CSS rule in <code>public/index.html</code>; the colour follows the theme.</p><figure class="pair"><div><span class="tag b">Before · live main</span><img src="assets/qa-fix/before__focus.jpg" alt="before focus"></div><div><span class="tag a">After · local :8084</span><img src="assets/qa-fix/after__focus.jpg" alt="after focus"></div><figcaption>Home, Tab pressed 4 times, focus on Add pet</figcaption></figure></section>
+
+<section><h2>3 · Back button name (F54, high)</h2><p>No visual change. Screen readers said <code>"index, back"</code> or <code>"(tabs), back"</code>; they now say <code>"Go back"</code> on every stacked screen (checked on Settings, Profile, Chat, Add a pet, pet page).</p></section>
+
+<section><h2>4 · Placeholder text: your call (F52, high)</h2><p>Placeholders were 50% opacity, 2.2:1 on white (WCAG asks 4.5:1). Going full <code>textMuted</code> passes easily but, as the right screen shows, the hints start to look like filled-in answers.</p>
+<figure class="pair"><div><span class="tag b">Before · live main</span><img src="assets/qa-fix/before__owner-pets-new.jpg" alt="before owner-pets-new"></div><div><span class="tag a">After · local :8084</span><img src="assets/qa-fix/after__owner-pets-new.jpg" alt="after owner-pets-new"></div><figcaption>Add a pet: hints at 50% (left) vs full textMuted (right)</figcaption></figure>
+<div class="opts">
+<div class="opt"><b class="t">A · Today</b><small>#B5AEA4 · 2.2:1 · fails</small><span class="lab">Name</span><input class="inp" placeholder="Max" style="--p:#B5AEA4"><span class="lab">Weight in kg</span><input class="inp" value="3.2"></div>
+<div class="opt"><b class="t">B · textMuted</b><small>#6B5D4A · 6.4:1 · reads like a value</small><span class="lab">Name</span><input class="inp" placeholder="Max" style="--p:#6B5D4A"><span class="lab">Weight in kg</span><input class="inp" value="3.2"></div>
+<div class="opt"><b class="t">C · Lighter brown</b><span class="rec">Recommended</span><small>#807160 · 4.7:1 · passes, still reads as a hint</small><span class="lab">Name</span><input class="inp" placeholder="Max" style="--p:#807160"><span class="lab">Weight in kg</span><input class="inp" value="3.2"></div>
+</div><p style="font-size:.875rem;color:var(--color-text-muted)">Each card shows an empty field (placeholder) above a filled one (value), so you can judge how distinct they are. The branch currently has B; C would be one new token, <code>placeholder</code>, in the theme.</p></section>
+
+<section><h2>4b · Placeholder, applied: C + italic</h2><p>New theme token <code>placeholder</code> (#807160, 4.7:1) and italic hints on web. Typed text stays upright and ink green.</p><figure class="pair"><div><span class="tag b">Before · live main</span><img src="assets/qa-fix/before__owner-pets-new.jpg" alt=""></div><div><span class="tag a">After · local :8084</span><img src="assets/qa-fix/after2__owner-pets-new.jpg" alt=""></div></figure></section>
+
+<section id="fields"><h2>Text fields in action</h2><p>Try it: click a field, or press Tab to move through it with the keyboard. Empty fields show the italic hint. Pre-filled answers (from the photo guess in onboarding) carry a small <b>Suggested</b> tag that disappears once you change them. The focus ring appears only for the field you're on.</p>
+<div class="phone"><div class="pf">
+<span class="lab">Name</span><div class="fw"><input class="inp sug" value="Max"><span class="stag">✦ Suggested from your photo</span></div>
+<span class="lab">Breed (optional)</span><div class="fw"><input class="inp sug" value="Maltese"><span class="stag">✦ Suggested from your photo</span></div>
+<span class="lab">Weight in kg (optional)</span><div class="fw"><input class="inp" placeholder="3.2"></div>
+<span class="lab">Size</span><div class="row A"><button class="chip" aria-pressed="false">Small</button><button class="chip sugc" aria-pressed="true">Medium</button><button class="chip" aria-pressed="false">Large</button></div><span class="stag" id="chiptag">✦ Suggested from your photo</span>
+<span class="lab">Notes (optional)</span><div class="fw"><textarea class="inp" style="height:72px;padding-top:10px" placeholder="Shy with strangers, loves belly rubs"></textarea></div>
+<button class="cta">Next</button>
+</div></div></section>
+
+<section><h2>Chips: your call (F21, next batch)</h2><p>The same job, picking one of a few, has six looks live today:</p><div class="shots"><figure class="shot"><img src="assets/audit/2026-10-21/live-owner__owner-feed.jpg" alt=""><figcaption>Feed pet filter: 44 tall pill, mint + border</figcaption></figure><figure class="shot"><img src="assets/audit/2026-10-21/live-owner__state-pet-care-sheet.jpg" alt=""><figcaption>Care type: 40 tall pill, mint + border</figcaption></figure><figure class="shot"><img src="assets/audit/2026-10-21/live-sitter__sitter-onboarding.jpg" alt=""><figcaption>Sitter answers: 44 tall, rounded 12, solid green</figcaption></figure><figure class="shot"><img src="assets/audit/2026-10-21/live-sitter__state-schedule-rules.jpg" alt=""><figcaption>Weekdays: 36 tall, rounded 12, solid green</figcaption></figure><figure class="shot"><img src="assets/audit/2026-10-21/live-owner__state-chat-chips.jpg" alt=""><figcaption>Chat replies: 30 tall, outline</figcaption></figure><figure class="shot"><img src="assets/audit/2026-10-21/live-owner__state-pet-detail-end.jpg" alt=""><figcaption>Allergy: 28 tall, thin border</figcaption></figure></div>
+<p>Two ways to make it one chip (40 tall per Figma with a 44 hit area, pill, Bold 13). Click them:</p>
+<div class="opts">
+<div class="opt A"><b class="t">A · Mint + ink border</b><span class="rec">Chosen</span><small>Today's Feed and care-type look. Softer, matches the mint tab highlight.</small><div class="row"><button class="chip" aria-pressed="true">All</button><button class="chip" aria-pressed="false">Meals</button><button class="chip" aria-pressed="false">Walks</button><button class="chip" aria-pressed="false">Naps</button></div></div>
+<div class="opt B"><b class="t">B · Ink fill</b><span class="rec" style="background:var(--color-track);color:var(--color-text-muted)">Kept for CTAs only</span><small>Figma Expressive Chip 1673:31711 and the Feed frame. Stronger contrast, clearer selected state.</small><div class="row"><button class="chip" aria-pressed="true">All</button><button class="chip" aria-pressed="false">Meals</button><button class="chip" aria-pressed="false">Walks</button><button class="chip" aria-pressed="false">Naps</button></div></div>
+</div></section>
+
+<section><h2>What changed in code</h2><ul class="files">
+<li><code>frontend/app/_layout.tsx</code>: the root Stack moved into <code>RootStack</code>, which spreads <code>headerOptions(theme)</code> and sets the focus ring colour.</li>
+<li><code>frontend/components/RoleTabs.tsx</code>: <code>headerBackTitle: "Back"</code> + minimal display mode (names the back button).</li>
+<li><code>frontend/public/index.html</code>: one <code>:focus-visible</code> rule.</li>
+<li><code>TextField.tsx</code>, <code>BigInput.tsx</code>, <code>chat/[threadId].tsx</code>: placeholder colour (pending your pick).</li></ul>
+<details><summary>Full diff (7 files)</summary><pre>diff --git a/frontend/app/_layout.tsx b/frontend/app/_layout.tsx
+index 5158a2e..6fb8da1 100644
+--- a/frontend/app/_layout.tsx
++++ b/frontend/app/_layout.tsx
+@@ -1,4 +1,6 @@
+ import { Stack } from &quot;expo-router&quot;;
++import { useEffect } from &quot;react&quot;;
++import { Platform } from &quot;react-native&quot;;
+ import { StatusBar } from &quot;expo-status-bar&quot;;
+ 
+ import { AppShell } from &quot;../components/shell/AppShell&quot;;
+@@ -7,7 +9,8 @@ import { NotificationsProvider } from &quot;../providers/NotificationsProvider&quot;;
+ import { SessionProvider } from &quot;../providers/SessionProvider&quot;;
+ import { TripProvider } from &quot;../providers/TripProvider&quot;;
+ import { ErrorDialogProvider } from &quot;../providers/ErrorDialogProvider&quot;;
+-import { ThemeProvider } from &quot;../providers/ThemeProvider&quot;;
++import { headerOptions } from &quot;../components/RoleTabs&quot;;
++import { ThemeProvider, useTheme } from &quot;../providers/ThemeProvider&quot;;
+ import { ToastProvider } from &quot;../providers/ToastProvider&quot;;
+ 
+ // Opening /profile directly still has &quot;/&quot; underneath, so Back returns to the app.
+@@ -26,16 +29,7 @@ export default function RootLayout() {
+                   &lt;MediaPickerProvider&gt;
+                     &lt;StatusBar style=&quot;dark&quot; /&gt;
+                     {/* Role areas draw their own headers; only shared screens use this stack header. */}
+-                    &lt;Stack screenOptions={{ headerShown: false, headerShadowVisible: false }}&gt;
+-                      &lt;Stack.Screen name=&quot;profile&quot; options={{ headerShown: true, title: &quot;Profile&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;settings&quot; options={{ headerShown: true, title: &quot;Settings&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;sitter-onboarding&quot; options={{ headerShown: true, title: &quot;Your answers&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;whats-new&quot; options={{ headerShown: true, title: &quot;What&#x27;s new&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;chat/[threadId]&quot; options={{ headerShown: true, title: &quot;Chat&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;privacy&quot; options={{ headerShown: true, title: &quot;Privacy&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;dev/gestures&quot; options={{ headerShown: true, title: &quot;Gesture lab&quot; }} /&gt;
+-                      &lt;Stack.Screen name=&quot;dev/health&quot; options={{ headerShown: true, title: &quot;API health&quot; }} /&gt;
+-                    &lt;/Stack&gt;
++                    &lt;RootStack /&gt;
+                   &lt;/MediaPickerProvider&gt;
+                 &lt;/TripProvider&gt;
+               &lt;/NotificationsProvider&gt;
+@@ -46,3 +40,32 @@ export default function RootLayout() {
+     &lt;/AppShell&gt;
+   );
+ }
++
++/** Shared screens (profile, settings, chat, ...) get the same header as the role stacks. */
++function RootStack() {
++  const theme = useTheme();
++
++  // Keyboard focus ring colour for public/index.html&#x27;s :focus-visible rule.
++  useEffect(() =&gt; {
++    if (Platform.OS === &quot;web&quot;) document.documentElement.style.setProperty(&quot;--focus-ring&quot;, theme.color.primary);
++  }, [theme.color.primary]);
++
++  return (
++    &lt;Stack
++      screenOptions={{
++        ...headerOptions(theme),
++        headerShown: false,
++        contentStyle: { backgroundColor: theme.color.background },
++      }}
++    &gt;
++      &lt;Stack.Screen name=&quot;profile&quot; options={{ headerShown: true, title: &quot;Profile&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;settings&quot; options={{ headerShown: true, title: &quot;Settings&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;sitter-onboarding&quot; options={{ headerShown: true, title: &quot;Your answers&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;whats-new&quot; options={{ headerShown: true, title: &quot;What&#x27;s new&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;chat/[threadId]&quot; options={{ headerShown: true, title: &quot;Chat&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;privacy&quot; options={{ headerShown: true, title: &quot;Privacy&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;dev/gestures&quot; options={{ headerShown: true, title: &quot;Gesture lab&quot; }} /&gt;
++      &lt;Stack.Screen name=&quot;dev/health&quot; options={{ headerShown: true, title: &quot;API health&quot; }} /&gt;
++    &lt;/Stack&gt;
++  );
++}
+diff --git a/frontend/app/chat/[threadId].tsx b/frontend/app/chat/[threadId].tsx
+index 6e13f5b..7d0a6d3 100644
+--- a/frontend/app/chat/[threadId].tsx
++++ b/frontend/app/chat/[threadId].tsx
+@@ -645,7 +645,7 @@ export default function Chat() {
+           value={text}
+           onChangeText={setText}
+           placeholder={`Message ${header.otherName}`}
+-          placeholderTextColor={`${theme.color.textMuted}80`}
++          placeholderTextColor={theme.color.placeholder}
+           maxLength={2000}
+           multiline
+           numberOfLines={1}
+diff --git a/frontend/components/RoleTabs.tsx b/frontend/components/RoleTabs.tsx
+index a2aa58d..e8903d9 100644
+--- a/frontend/components/RoleTabs.tsx
++++ b/frontend/components/RoleTabs.tsx
+@@ -82,6 +82,9 @@ export function headerOptions(theme: Theme) {
+     headerShadowVisible: false,
+     headerStyle: { backgroundColor: theme.ui.chrome },
+     headerTintColor: theme.color.primary,
++    // Screen readers say &quot;Go back&quot;, not the route segment (&quot;(tabs), back&quot;); minimal mode keeps the label hidden.
++    headerBackTitle: &quot;Back&quot;,
++    headerBackButtonDisplayMode: &quot;minimal&quot; as const,
+     headerTitleStyle: {
+       color: theme.color.text,
+       fontSize: display ? theme.fontSize.title : theme.fontSize.body,
+diff --git a/frontend/components/ownerOnboarding/BigInput.tsx b/frontend/components/ownerOnboarding/BigInput.tsx
+index 306c0ef..b034cad 100644
+--- a/frontend/components/ownerOnboarding/BigInput.tsx
++++ b/frontend/components/ownerOnboarding/BigInput.tsx
+@@ -9,7 +9,7 @@ export function BigInput(props: Omit&lt;TextInputProps, &quot;style&quot;&gt;) {
+   const styles = useThemedStyles(makeStyles);
+   return (
+     &lt;TextInput
+-      placeholderTextColor={`${theme.color.textMuted}80`}
++      placeholderTextColor={theme.color.placeholder}
+       style={[styles.input, props.multiline &amp;&amp; styles.multiline]}
+       {...props}
+     /&gt;
+diff --git a/frontend/components/ui/TextField.tsx b/frontend/components/ui/TextField.tsx
+index 8d5cdf1..0945cb4 100644
+--- a/frontend/components/ui/TextField.tsx
++++ b/frontend/components/ui/TextField.tsx
+@@ -20,7 +20,7 @@ export function TextField({ label, error, onFocus, onBlur, ...inputProps }: Prop
+       &lt;TextInput
+         accessibilityLabel={label}
+         // A hint, not a value: lighter than typed text.
+-        placeholderTextColor={`${theme.color.textMuted}80`}
++        placeholderTextColor={theme.color.placeholder}
+         onFocus={(e) =&gt; {
+           setFocused(true);
+           onFocus?.(e);
+diff --git a/frontend/public/index.html b/frontend/public/index.html
+index f60f8e1..78dd5f1 100644
+--- a/frontend/public/index.html
++++ b/frontend/public/index.html
+@@ -24,6 +24,21 @@
+         flex: 1;
+       }
+     &lt;/style&gt;
++    &lt;style id=&quot;focus-ring&quot;&gt;
++      /* One keyboard focus ring (DESIGN.md): 2 px primary, 2 px offset. The app sets --focus-ring from the theme. */
++      :focus-visible {
++        outline: 2px solid var(--focus-ring, #1b4332) !important;
++        outline-offset: 2px;
++      }
++      :focus:not(:focus-visible) {
++        outline: none;
++      }
++      /* Hints read as hints, never as typed answers. */
++      input::placeholder,
++      textarea::placeholder {
++        font-style: italic;
++      }
++    &lt;/style&gt;
+   &lt;/head&gt;
+   &lt;body&gt;
+     &lt;noscript&gt;Goldito needs JavaScript to run.&lt;/noscript&gt;
+diff --git a/frontend/theme/themes.ts b/frontend/theme/themes.ts
+index 8a66f09..6301ff4 100644
+--- a/frontend/theme/themes.ts
++++ b/frontend/theme/themes.ts
+@@ -18,6 +18,8 @@ export type SkinColors = {
+   track: string;
+   text: string;
+   textMuted: string;
++  /** Input hints: lighter than textMuted so they never read as typed values, still 4.5:1 on white. */
++  placeholder: string;
+ };
+ 
+ /** Theme presets = the modes of the Figma Color collection. Coat-color skins (6–8, from the designer) are added here in 11.10. */
+@@ -33,6 +35,7 @@ export const themes = {
+     track: tokens.color.track,
+     text: tokens.color.text,
+     textMuted: tokens.color.textMuted,
++    placeholder: tokens.color.textMuted,
+   },
+   /** Warmer neutrals, same green (Figma mode `Balanced`). */
+   balanced: {
+@@ -46,6 +49,7 @@ export const themes = {
+     track: &quot;#E6E1D9&quot;,
+     text: &quot;#1F1B16&quot;,
+     textMuted: &quot;#5E5850&quot;,
++    placeholder: &quot;#7A746B&quot;,
+   },
+   /** The app&#x27;s look (Mook&#x27;s Expressive): ink on cream, mint accent, warm tan lines. `default` is the earlier look. */
+   expressive: {
+@@ -61,6 +65,8 @@ export const themes = {
+     text: &quot;#1B4332&quot;,
+     // 5.9:1 on cream.
+     textMuted: &quot;#6B5D4A&quot;,
++    // 4.7:1 on white.
++    placeholder: &quot;#807160&quot;,
+   },
+ } satisfies Record&lt;string, SkinColors&gt;;
+ 
+</pre></details></section>
+</main><script>
+document.querySelectorAll(".inp.sug").forEach(i=>{const v=i.value;i.addEventListener("input",()=>{i.nextElementSibling.hidden=i.value!==v})});
+document.querySelector("#fields .row").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;b.parentNode.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b));document.getElementById("chiptag").hidden=!b.classList.contains("sugc")});
+document.querySelectorAll(".opt .row").forEach(r=>r.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;r.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",x===b))}));</script>
+<style>.inp::placeholder{color:var(--p)}</style></body></html>
