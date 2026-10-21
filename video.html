@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goldito Video Shot List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+  /* #116 · The 3-minute submission video: the opening story cards (direction C), the shot list on the
+     chat-era demo path, captions with the model names, and the recording checklist. */
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:64rem;margin:0 auto;display:flex;flex-direction:column;gap:2.75rem;padding-top:2.25rem}
+  .wrap>*,section{min-width:0}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  h1{font:700 clamp(1.9rem,4.4vw,2.5rem)/1.1 var(--font-display)}
+  h2{font:600 1.4rem/1.2 var(--font-display)}
+  h3{font:600 1.05rem/1.25 var(--font-display)}
+  p{margin:0}
+  a{color:var(--color-primary);font-weight:600}
+  html[data-lang="ko"] :is(h1,h2,h3,p,span,li,td){word-break:keep-all}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .lede{color:var(--color-text-muted);margin-top:.625rem;max-width:46rem;font-size:1.02rem}
+  section{display:flex;flex-direction:column;gap:1rem;scroll-margin-top:5rem}
+  .sub{color:var(--color-text-muted);max-width:46rem}
+  /* 16:9 story cards */
+  .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.875rem}
+  .card16{aspect-ratio:16/9;border-radius:14px;overflow:hidden;position:relative;display:flex;align-items:center;gap:6%;padding:6%;color:#1B4332;container-type:inline-size}
+  .card16 .t{position:absolute;top:6%;left:6%;font:700 3.6cqw/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;opacity:.7}
+  .card16 .big{font:700 7.2cqw/1.1 Fredoka,sans-serif}
+  .card16 .small{font:500 3.8cqw/1.3 Inter,sans-serif;margin-top:2.5cqw}
+  .mini{flex:none;width:24cqw;aspect-ratio:9/16;border-radius:3cqw;background:#1a1a1a;padding:1.2cqw;display:flex}
+  .mini>div{flex:1;border-radius:2cqw;background:#FBF6EA;display:flex;flex-direction:column;justify-content:flex-end;gap:1.4cqw;padding:2cqw;font:600 2.3cqw/1.25 Inter,sans-serif}
+  .bub{background:#fff;border:1px solid #E8DCC4;border-radius:2cqw;padding:1.6cqw}
+  .chip{align-self:flex-start;border:1px solid #1B4332;border-radius:9cqw;padding:.8cqw 1.8cqw;background:#fff}
+  .draft{color:#1B4332;font-weight:700}
+  .danger{flex:1;border-radius:2cqw;background:#B42318;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1.4cqw;padding:2cqw;font:700 3cqw/1.2 Fredoka,sans-serif}
+  .model{display:inline-block;margin-top:2.5cqw;font:700 3cqw/1 Inter,sans-serif;background:#1B4332;color:#fff;border-radius:9cqw;padding:1.4cqw 2.6cqw}
+  .cap{font-size:.85rem;color:var(--color-text-muted);margin-top:.375rem}
+  /* shot list */
+  .tw{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-surface)}
+  table{width:100%;border-collapse:collapse;font-size:.9rem;min-width:52rem}
+  th{text-align:left;font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:.625rem .75rem;border-bottom:1px solid var(--color-border)}
+  td{padding:.625rem .75rem;border-top:1px solid var(--color-border);vertical-align:top}
+  tr:first-child td{border-top:0}
+  td.time{white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:700;color:var(--color-primary)}
+  td.vo{font-style:italic}
+  .m{display:inline-block;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .5rem;background:var(--color-accent);color:var(--color-primary);margin:0 .25rem .25rem 0;white-space:nowrap}
+  .bar{display:flex;height:12px;border-radius:999px;overflow:hidden;gap:2px}
+  .bar i{display:block}
+  .legend{display:flex;flex-wrap:wrap;gap:.5rem 1rem;font-size:.8rem;color:var(--color-text-muted)}
+  .legend b{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:.375rem;vertical-align:middle}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:.875rem}
+  .box{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.5rem}
+  .box ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.3rem}
+  @media (max-width:760px){.cards{grid-template-columns:1fr}}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow"><span class="en">#116 · submission video · draft Oct 21</span><span class="ko">#116 · 제출 영상 · 10/21 초안</span></span>
+    <h1><span class="en">The 3-minute video, shot by shot</span><span class="ko">3분 영상, 장면별로</span></h1>
+    <p class="lede"><span class="en">Judges may score from the video alone, so the video is the demo. It opens with three story cards so the “aha” lands in 20 seconds, then walks the live app in split view with the model on screen at every AI moment. Minsik records around Oct 27; Mook edits; public on YouTube before the Oct 28 freeze.</span><span class="ko">심사위원은 영상만 보고 평가할 수도 있어서, 영상이 곧 데모예요. 20초 안에 “아하”가 오도록 스토리 카드 세 장으로 시작하고, 그다음 split view로 실제 앱을 보여 주며 AI가 움직일 때마다 모델 이름을 화면에 띄워요. 민식 님이 10/27쯤 녹화, 묵 님 편집, 10/28 동결 전에 YouTube 공개.</span></p>
+  </header>
+
+  <section id="open">
+    <h2><span class="en">Opening: three story cards (0:00 to 0:20)</span><span class="ko">오프닝: 스토리 카드 세 장 (0:00 ~ 0:20)</span></h2>
+    <p class="sub"><span class="en">Direction C from the judge-path sketches, used where it costs the app nothing. Full-screen 16:9 frames, about 6 seconds each, the voice-over line under each.</span><span class="ko">심사위원 경로 스케치의 C안을, 앱에 부담 없는 영상에 써요. 16:9 전체 화면, 장당 약 6초, 내레이션은 각 카드 아래.</span></p>
+    <div class="cards">
+      <div><div class="card16" style="background:#FBEFC8"><span class="t">Goldito</span><div><div class="big">Pet sitting runs on chat.</div><div class="small">Pill times, allergies, house rules: lost in a thread.</div></div></div>
+        <p class="cap"><span class="en">VO: “Every pet-sitting stay runs on chat and memory, and the details get lost.”</span><span class="ko">내레이션: “펫시팅은 채팅과 기억에 의존해서, 중요한 게 묻혀요.”</span></p></div>
+      <div><div class="card16" style="background:#D8F3DC"><span class="t">The AI does the typing</span><div class="mini"><div><span class="bub">Can I host Max on Oct 22?</span><span class="chip">✦ Oct 22 works</span><span class="draft">✦ AI draft · edit before sending</span></div></div><div><div class="big" style="font-size:6cqw">People approve.</div><span class="model">Nemotron 3 Nano</span></div></div>
+        <p class="cap"><span class="en">VO: “Goldito's AI drafts the reply in your voice. Nothing goes out until you press Send.”</span><span class="ko">내레이션: “Goldito의 AI가 내 말투로 답을 써요. 보내기를 누르기 전엔 아무것도 안 나가요.”</span></p></div>
+      <div><div class="card16" style="background:#FDE2CC"><span class="t">Safety is loud</span><div class="mini"><div><div class="danger"><span style="font-size:5cqw">⚠️</span>Don't give this to Max<span style="font:500 2.3cqw Inter,sans-serif">Contains chicken</span></div></div></div><div><div class="big" style="font-size:6cqw">Max is allergic to chicken.</div><span class="model">MiniCPM-V → Nemotron 3 Ultra</span></div></div>
+        <p class="cap"><span class="en">VO: “And it catches what a tired sitter might miss.”</span><span class="ko">내레이션: “지친 시터가 놓칠 수 있는 것도 잡아내요.”</span></p></div>
+    </div>
+  </section>
+
+  <section id="shots">
+    <h2><span class="en">Shot list (about 2:55)</span><span class="ko">장면 목록 (약 2:55)</span></h2>
+    <div class="bar" aria-hidden="true"><i style="flex:20;background:#F4C35A"></i><i style="flex:20;background:#1B4332"></i><i style="flex:45;background:#2D6A4F"></i><i style="flex:20;background:#52B788"></i><i style="flex:25;background:#B42318"></i><i style="flex:25;background:#C9962E"></i><i style="flex:20;background:#1B4332"></i></div>
+    <div class="legend"><span><b style="background:#F4C35A"></b><span class="en">Story cards</span><span class="ko">스토리 카드</span></span><span><b style="background:#2D6A4F"></b><span class="en">Live app, split view</span><span class="ko">실제 앱, split view</span></span><span><b style="background:#B42318"></b><span class="en">Treat check</span><span class="ko">간식 체크</span></span><span><b style="background:#C9962E"></b><span class="en">Draft (care, home)</span><span class="ko">초안 (돌봄, 귀가)</span></span></div>
+    <div class="tw" tabindex="0"><table>
+      <thead><tr><th scope="col">Time</th><th scope="col">On screen</th><th scope="col">Voice-over</th><th scope="col">Caption</th></tr></thead>
+      <tbody>
+        <tr><td class="time">0:00</td><td>The three story cards above</td><td class="vo">Lines under each card</td><td><span class="m">Nemotron 3 Nano</span><span class="m">Nemotron 3 Ultra</span></td></tr>
+        <tr><td class="time">0:20</td><td>Who we are: a photo of us with real pets, or the coin logo on cream</td><td class="vo">“We've been pet sitters for three years. Goldito runs the whole stay in one app, so owners never have to ask.”</td><td>Built on Nebius Token Factory</td></tr>
+        <tr><td class="time">0:40</td><td>Split view: Robert left, Chloe right. Bookings → Chloe → See schedule → Start chat. Tap a chip, edit a word, Send; it arrives on Chloe's phone; she taps her own chip and replies</td><td class="vo">“Search shows sitters free for the whole stay. In the chat, Nemotron drafts each side's reply from real calendars and rates. Prices never come from the model.”</td><td><span class="m">Nemotron 3 Nano</span><span class="m">Qwen3 Embedding</span></td></tr>
+        <tr><td class="time">1:25</td><td>Request booking → the card lands in Chloe's chat</td><td class="vo">“Booking happens inside the conversation.”</td><td>Server rules · no model</td></tr>
+        <tr><td class="time">1:45</td><td>Snap → Treat check → Max → Chicken jerky → DANGER → “I understand, don't feed”</td><td class="vo">“A vision model reads the label; Nemotron Ultra reasons over our allergy rules and trusted vet sources. Danger is loud.”</td><td><span class="m">MiniCPM-V</span><span class="m">Nemotron 3 Ultra</span><span class="m">Tavily</span></td></tr>
+        <tr><td class="time">2:10</td><td>The Draft: the sitter's quick taps → the daily note; home safe → Life Record (or the live app, if a seeded stay exists by then)</td><td class="vo">“Each evening, the sitter's taps become a warm daily note she approves. When the pets go home, the stay becomes their Life Record for the next sitter.”</td><td><span class="m">Nemotron 3 Super</span></td></tr>
+        <tr><td class="time">2:35</td><td>The judge panel beside the phone, ticking through its four steps; end card with the URL and QR</td><td class="vo">“The AI drafts, people approve, and owners never have to ask. Try it at goldito-petcare.vercel.app.”</td><td>goldito-petcare.vercel.app</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section id="prep">
+    <h2><span class="en">Recording and edit checklist</span><span class="ko">녹화와 편집 체크리스트</span></h2>
+    <div class="two">
+      <div class="box"><h3><span class="en">Before recording (Minsik)</span><span class="ko">녹화 전 (민식 님)</span></h3><ul>
+        <li><span class="en">Reset the demo data, then wake the server with one treat check.</span><span class="ko">데모 데이터를 초기화하고, 간식 체크 한 번으로 서버를 깨우기.</span></li>
+        <li><span class="en">Browser at 1920 × 1080, zoomed so both phones fill the frame; hide bookmarks and notifications.</span><span class="ko">브라우저 1920 × 1080, 두 폰이 꽉 차게 확대, 북마크와 알림 숨기기.</span></li>
+        <li><span class="en">Record each shot separately; slow, deliberate clicks.</span><span class="ko">장면마다 따로 녹화, 천천히 또박또박 클릭.</span></li>
+        <li><span class="en">If PR #215 is merged, the chat shows “AI draft · edit before sending”: keep it in frame.</span><span class="ko">PR #215가 머지되면 채팅에 “AI draft · edit before sending”이 보여요. 화면에 꼭 담기.</span></li></ul></div>
+      <div class="box"><h3><span class="en">Edit (Mook)</span><span class="ko">편집 (묵 님)</span></h3><ul>
+        <li><span class="en">Under 3:00, English voice-over, captions on.</span><span class="ko">3:00 이내, 영어 내레이션, 자막 켜기.</span></li>
+        <li><span class="en">Model name as a caption at every AI moment (judges asked to see the routing).</span><span class="ko">AI가 움직일 때마다 모델 이름 자막 (심사위원이 모델 분업을 보고 싶어 했어요).</span></li>
+        <li><span class="en">Speed up waits (chips loading, the treat check) with a small “fast forward” tag.</span><span class="ko">기다리는 구간(칩 로딩, 간식 체크)은 “빨리 감기” 표시와 함께 배속.</span></li>
+        <li><span class="en">No copyrighted music; public on YouTube before Oct 28; link in Devpost and the README.</span><span class="ko">저작권 음악 금지, 10/28 전 YouTube 공개, Devpost와 README에 링크.</span></li></ul></div>
+    </div>
+  </section>
+
+  <footer style="font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem"><span class="en">Related: <a href="judge-path.html">judge-path sketches</a> · <a href="judge-panel.html">judge panel</a> · <a href="demo-run-sheet.html">demo run sheet</a> · <a href="https://github.com/minsikpaul92/Goldito/issues/116" target="_blank" rel="noopener">#116 ↗</a></span><span class="ko">관련: <a href="judge-path.html">심사위원 경로 스케치</a> · <a href="judge-panel.html">심사위원 패널</a> · <a href="demo-run-sheet.html">데모 진행표</a> · <a href="https://github.com/minsikpaul92/Goldito/issues/116" target="_blank" rel="noopener">#116 ↗</a></span></footer>
+</main>
+</body>
+</html>
