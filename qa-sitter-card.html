@@ -27,6 +27,37 @@ section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0}
 .phone:not(.s-num) .x-num,.phone:not(.s-tagline) .x-tagline,.phone:not(.s-rep) .x-rep,.phone:not(.s-upd) .x-upd,.phone:not(.s-fees) .fees{display:none}
 .phone:not(.s-total) .x-total{display:none} 
 table{border-collapse:collapse;width:100%;font-size:.875rem} td,th{text-align:left;padding:.5rem .625rem;border-top:1px solid var(--color-border);vertical-align:top} .tw{overflow-x:auto}
+.phone:not(.s-b) .x-b,.phone.s-b .x-a{display:none}
+.sbar{display:flex;background:#fff;border-radius:999px;box-shadow:0 2px 10px rgba(27,67,50,.08);padding:4px}
+.seg{flex:1;min-width:0;display:flex;align-items:center;gap:8px;border:0;background:none;border-radius:999px;padding:8px 10px;font:inherit;color:#1B4332;text-align:left;cursor:pointer;position:relative}
+.seg+.seg::before{content:"";position:absolute;left:0;top:25%;bottom:25%;border-left:1px solid #E8DCC4}
+.seg:hover{background:#F3EFE4}.seg:focus-visible{outline:2px solid #1B4332;outline-offset:-2px}
+.seg span{display:flex;flex-direction:column;min-width:0}.seg small{font-size:11px;font-weight:600;color:#6B5D4A}.seg b{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg svg{flex-shrink:0}
+.sheet{position:absolute;inset:0;background:rgba(27,67,50,.25);border-radius:28px;display:flex;align-items:flex-end}
+.sh-in{background:#FBF6EA;width:100%;border-radius:24px 24px 28px 28px;padding:18px 16px;display:flex;flex-direction:column;gap:12px}
+.sh-in>b{font:700 20px Fredoka,sans-serif}.sh-body{display:flex;flex-direction:column;gap:8px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px 0;text-align:center}.dw{font-size:11px;font-weight:700;color:#6B5D4A;padding:4px 0}
+.dd{height:38px;border:0;background:none;font:700 13px 'Plus Jakarta Sans',sans-serif;color:#1B4332;cursor:pointer;border-radius:999px}
+.dd.past{color:#C9BFAE;cursor:default}.dd.full{text-decoration:line-through;color:#B4531A}
+.dd.mid{background:#D8F3DC;border-radius:0}.dd.end{background:#1B4332;color:#fff}
+.dd:focus-visible{outline:2px solid #1B4332;outline-offset:1px}
+.hint{font-size:12px;color:#6B5D4A}.mon{font-size:14px;font-weight:800}
+.rng{display:flex;flex-direction:column;gap:6px}.rng output{font:700 28px Fredoka,sans-serif}
+.rng input{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:999px;background:linear-gradient(#1B4332,#1B4332) 0/var(--p,20%) 100% no-repeat,#E8DCC4;margin:10px 0}
+.rng input::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid #1B4332;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.rng input::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid #1B4332}
+.rng input:focus-visible{outline:2px solid #1B4332;outline-offset:4px}
+.ticks{display:flex;justify-content:space-between;font-size:11px;color:#6B5D4A}
+.chips{display:flex;gap:8px;flex-wrap:wrap}.chips button{font:700 13px 'Plus Jakarta Sans',sans-serif;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid #7F6F58;background:#fff;color:#1B4332;cursor:pointer}
+.chips button[aria-pressed=true]{background:#D8F3DC;border:2px solid #1B4332}
+.sh-done{height:48px;border:0;border-radius:999px;background:#1B4332;color:#fff;font:800 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.sw{display:flex;flex-direction:column;gap:.375rem}.sw>span{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.seg2{display:flex;background:var(--color-track);border-radius:999px;padding:4px;gap:4px}
+.seg2 button{flex:1;min-height:40px;border:0;border-radius:999px;background:none;color:var(--color-text-muted);font:700 .875rem var(--font-ui);cursor:pointer;padding:0 .75rem}
+.seg2 button:hover{color:var(--color-text)}
+.seg2 button[aria-pressed=true]{background:var(--color-surface);color:var(--color-text);box-shadow:0 1px 4px rgba(0,0,0,.18)}
+.seg2 button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 </style></head><body><main class="wrap">
 <header style="display:flex;flex-direction:column;gap:.5rem"><span class="eyebrow">Design QA · Find a sitter · sitter card</span><h1>Sitter card: simpler, with price</h1>
 <p>Keep only what matters, keep our filters, add price (Seulgi). Toggle Rover's extras to compare; the default is the recommendation.</p></header>
@@ -38,8 +69,16 @@ table{border-collapse:collapse;width:100%;font-size:.875rem} td,th{text-align:le
 </div></section>
 
 <section><h2>Playground</h2>
-<div class="play"><div class="phone s-total s-fees" id="ph"><h3>Find a sitter</h3><div class="flt"><span>📅 Oct 9 to 12</span><span>🐾 Max, Mochi</span><span>📍 5 km</span></div><div class="fees">🏷 Prices include all fees.</div><button class="sc" type="button"><span class="av" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="tx"><b><span class="x-num">1. </span>Chloe M.</b><span class="x-tagline muted">Dog walks twice a day, big fenced yard</span><span class="muted">★ 4.9 · 38 stays · 2 km</span><span class="x-rep muted">↻ 3 repeat clients</span><span class="x-upd muted">▢ Calendar updated 2 days ago</span><span class="row"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$55</b><small><span class="x-total">total </span>per night</small></span></button><button class="sc" type="button"><span class="av">J</span><span class="tx"><b><span class="x-num">2. </span>Jun P.</b><span class="x-tagline muted">Cat-savvy, works from home</span><span class="muted">★ 4.8 · 21 stays · 3 km</span><span class="x-rep muted">↻ 1 repeat client</span><span class="x-upd muted">▢ Calendar updated 5 days ago</span><span class="row"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$60</b><small><span class="x-total">total </span>per night</small></span></button><button class="sc" type="button"><span class="av">A</span><span class="tx"><b><span class="x-num">3. </span>Ari S.</b><span class="x-tagline muted">Former vet tech</span><span class="muted">★ 5.0 · 9 stays · 4 km</span><span class="x-rep muted">↻ No repeat clients yet</span><span class="x-upd muted">▢ Calendar updated 3 weeks ago</span><span class="row"><span class="tag full">Full on Oct 11</span></span></span><span class="pr"><b>$50</b><small><span class="x-total">total </span>per night</small></span></button></div>
-<div class="tgs"><label class="tg"><input type="checkbox" data-t="num" ><span><b>Numbering (1. 2. 3.)</b><small>Rover</small></span></label><label class="tg"><input type="checkbox" data-t="tagline" ><span><b>Tagline</b><small>Rover</small></span></label><label class="tg"><input type="checkbox" data-t="rep" ><span><b>Repeat clients 단골</b><small>Rover · Seulgi: drop</small></span></label><label class="tg"><input type="checkbox" data-t="upd" ><span><b>Calendar updated</b><small>Rover · Seulgi: drop</small></span></label><label class="tg"><input type="checkbox" data-t="total" checked><span><b>"total" per night</b><small>if fees are included</small></span></label><label class="tg"><input type="checkbox" data-t="fees" checked><span><b>"Prices include all fees" note</b><small>Rover</small></span></label><div class="rec"><b>Recommended</b><br>Name, ★ · stays · km, availability, price as "total per night", fees note. Rest off.</div></div></div></section>
+<div class="play"><div class="phone s-total s-fees s-b" id="ph" style="position:relative"><h3>Find a sitter</h3><div class="flt x-a"><span>📅 Oct 9 to 12</span><span>🐾 Max, Mochi</span><span>📍 5 km</span></div>
+<div class="sbar x-b" role="group" aria-label="Search">
+<button type="button" class="seg" data-sheet="when"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span><small>When</small><b id="v-when">Oct 9 to 12</b></span></button>
+<button type="button" class="seg" data-sheet="pets"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="9" r="2"/><circle cx="10" cy="5" r="2"/><circle cx="14" cy="5" r="2"/><circle cx="18" cy="9" r="2"/><path d="M8 17c0-3 2-5 4-5s4 2 4 5-2 3-4 3-4 0-4-3z"/></svg><span><small>Pets</small><b id="v-pets">Max, Mochi</b></span></button>
+<button type="button" class="seg" data-sheet="where"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span><small>Within</small><b id="v-where">5 km</b></span></button>
+</div>
+<div class="sheet" id="sheet" hidden><div class="sh-in"><b id="sh-t"></b><div class="sh-body" id="sh-b"></div><button type="button" class="sh-done">Done</button></div></div><div class="fees">🏷 Prices include all fees.</div><button class="sc" type="button"><span class="av" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="tx"><b><span class="x-num">1. </span>Chloe M.</b><span class="x-tagline muted">Dog walks twice a day, big fenced yard</span><span class="muted">★ 4.9 · 38 stays · 2 km</span><span class="x-rep muted">↻ 3 repeat clients</span><span class="x-upd muted">▢ Calendar updated 2 days ago</span><span class="row"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$55</b><small><span class="x-total">total </span>per night</small></span></button><button class="sc" type="button"><span class="av">J</span><span class="tx"><b><span class="x-num">2. </span>Jun P.</b><span class="x-tagline muted">Cat-savvy, works from home</span><span class="muted">★ 4.8 · 21 stays · 3 km</span><span class="x-rep muted">↻ 1 repeat client</span><span class="x-upd muted">▢ Calendar updated 5 days ago</span><span class="row"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$60</b><small><span class="x-total">total </span>per night</small></span></button><button class="sc" type="button"><span class="av">A</span><span class="tx"><b><span class="x-num">3. </span>Ari S.</b><span class="x-tagline muted">Former vet tech</span><span class="muted">★ 5.0 · 9 stays · 4 km</span><span class="x-rep muted">↻ No repeat clients yet</span><span class="x-upd muted">▢ Calendar updated 3 weeks ago</span><span class="row"><span class="tag full">Full on Oct 11</span></span></span><span class="pr"><b>$50</b><small><span class="x-total">total </span>per night</small></span></button></div>
+<div class="tgs"><div class="sw"><span>Search bar</span><div class="seg2" role="group" aria-label="Search bar style"><button type="button" data-bar="a" aria-pressed="false">Chips (today)</button><button type="button" data-bar="b" aria-pressed="true">Adjustable pill</button></div><span>Card extras</span></div><label class="tg"><input type="checkbox" data-t="num" ><span><b>Numbering (1. 2. 3.)</b><small>Rover</small></span></label><label class="tg"><input type="checkbox" data-t="tagline" ><span><b>Tagline</b><small>Rover</small></span></label><label class="tg"><input type="checkbox" data-t="rep" ><span><b>Repeat clients 단골</b><small>Rover · Seulgi: drop</small></span></label><label class="tg"><input type="checkbox" data-t="upd" ><span><b>Calendar updated</b><small>Rover · Seulgi: drop</small></span></label><label class="tg"><input type="checkbox" data-t="total" checked><span><b>"total" per night</b><small>if fees are included</small></span></label><label class="tg"><input type="checkbox" data-t="fees" checked><span><b>"Prices include all fees" note</b><small>Rover</small></span></label><div class="rec"><b>Recommended</b><br>Name, ★ · stays · km, availability, price as "total per night", fees note. Rest off.</div></div></div></section>
+
+<section><h2>Search bar</h2><p>Today's emoji chips read like disabled filters. B is one adjustable pill, Airbnb or flight style: line icons, a small label over each value, tap a part to change it: a calendar for When, chips for Pets, a slider for Within. Results update as you go, so no search button. New component <code>SearchPill</code>, replacing the app's <code>SitterSearchBar</code>.</p></section>
 
 <section><h2>Why</h2><div class="tw"><table><thead><tr><th>Piece</th><th>Keep?</th><th>Why</th></tr></thead><tbody><tr><td>Price, large, right</td><td><b>Add</b></td><td>What people compare first.</td></tr>
 <tr><td>"total" + fees note</td><td><b>Add</b>*</td><td>Trust in one line. *Only if the quote includes all fees.</td></tr>
@@ -53,4 +92,27 @@ table{border-collapse:collapse;width:100%;font-size:.875rem} td,th{text-align:le
 </main><script>
 const ph=document.getElementById("ph");
 document.querySelectorAll(".tg input").forEach(i=>i.addEventListener("change",()=>ph.classList.toggle("s-"+i.dataset.t,i.checked)));
+
+document.querySelectorAll(".seg2 button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".seg2 button").forEach(x=>x.setAttribute("aria-pressed",x===b));ph.classList.toggle("s-b",b.dataset.bar==="b")}));
+const sheet=document.getElementById("sheet"),body=document.getElementById("sh-b");let cur=null,apply=null;
+const MON=["Oct"];let r0=9,r1=12;
+function cal(){body.innerHTML="<b class=\"mon\">October 2026</b>";const g=document.createElement("div");g.className="cal";
+["S","M","T","W","T","F","S"].forEach(d=>{const h=document.createElement("span");h.className="dw";h.textContent=d;g.appendChild(h)});
+for(let i=0;i<4;i++)g.appendChild(document.createElement("span")); // Oct 1, 2026 is a Thursday
+for(let d=1;d<=31;d++){const x=document.createElement("button");x.type="button";x.textContent=d;x.className="dd"+(d<9?" past":"")+(d===11?" full":"");
+ x.disabled=d<9; const inR=r1&&d>r0&&d<r1;if(d===r0||d===r1)x.classList.add("end");if(inR)x.classList.add("mid");
+ x.setAttribute("aria-pressed",d===r0||d===r1||inR);x.onclick=()=>{if(!r0||r1){r0=d;r1=null}else if(d<r0){r0=d}else r1=d;cal()};g.appendChild(x)}
+body.appendChild(g);const n=document.createElement("small");n.className="hint";n.textContent=r1?`${r1-r0} nights · Oct ${r0} to ${r1}`:"Pick the last night";body.appendChild(n);
+apply=()=>{if(r1)document.getElementById("v-when").textContent=`Oct ${r0} to ${r1}`}}
+function pets(){body.innerHTML="";const v=document.getElementById("v-pets").textContent.split(", ");const w=document.createElement("div");w.className="chips";
+["Max","Mochi"].forEach(o=>{const x=document.createElement("button");x.type="button";x.textContent=o;x.setAttribute("aria-pressed",v.includes(o));x.onclick=()=>x.setAttribute("aria-pressed",x.getAttribute("aria-pressed")!=="true");w.appendChild(x)});body.appendChild(w);
+apply=()=>{const on=[...w.querySelectorAll("[aria-pressed=true]")].map(x=>x.textContent);if(on.length)document.getElementById("v-pets").textContent=on.join(", ")}}
+function where(){body.innerHTML="";const km=parseInt(document.getElementById("v-where").textContent);
+body.insertAdjacentHTML("beforeend",`<div class="rng"><output id="kmv">${km} km</output><input type="range" min="1" max="25" value="${km}" aria-label="Distance in km" id="km"><div class="ticks"><span>1 km</span><span>25 km</span></div><small class="hint" id="kmn"></small></div>`);
+const r=document.getElementById("km"),o=document.getElementById("kmv"),n=document.getElementById("kmn");const upd=()=>{o.textContent=r.value+" km";n.textContent=(r.value>=4?3:r.value>=3?2:r.value>=2?1:0)+" sitters within "+r.value+" km";r.style.setProperty("--p",((r.value-1)/24*100)+"%")};r.oninput=upd;upd();
+apply=()=>{document.getElementById("v-where").textContent=r.value+" km"}}
+const SH={when:["When",cal],pets:["Pets",pets],where:["Within",where]};
+document.querySelectorAll(".seg").forEach(b=>b.addEventListener("click",()=>{cur=b.dataset.sheet;document.getElementById("sh-t").textContent=SH[cur][0];SH[cur][1]();sheet.hidden=false;const f=body.querySelector("button:not(:disabled),input");f&&f.focus()}));
+sheet.querySelector(".sh-done").onclick=()=>{apply&&apply();sheet.hidden=true};
+sheet.addEventListener("click",e=>{if(e.target===sheet)sheet.hidden=true});
 </script></body></html>
