@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sitter Card QA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.35rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.75rem} .refs figure{margin:0} .refs img{width:100%;border:1px solid var(--color-border);border-radius:12px;display:block} .refs figcaption{font-size:.8125rem;color:var(--color-text-muted);margin-top:.25rem}
+.tag2{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;background:var(--color-track);color:var(--color-text-muted)}
+.play{display:grid;grid-template-columns:minmax(0,402px) minmax(0,1fr);gap:1.5rem;align-items:start} @media (max-width:760px){.play{grid-template-columns:1fr}}
+.phone{background:#FBF6EA;border:1px solid var(--color-border);border-radius:28px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332}
+.phone h3{font:700 26px/1.1 Fredoka,sans-serif;margin:4px 0}
+.flt{display:flex;gap:8px;flex-wrap:wrap} .flt span{background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px}
+.fees{background:#D8F3DC;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:600}
+.sc{display:flex;gap:12px;align-items:center;background:#fff;border:0;border-radius:20px;padding:14px 16px;text-align:left;font:inherit;color:inherit;cursor:pointer;width:100%}
+.sc:hover{box-shadow:0 0 0 2px #D8F3DC} .sc:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.av{width:48px;height:48px;border-radius:50%;flex-shrink:0;background:#F7DCC8 center/cover;display:grid;place-items:center;font:700 18px Fredoka,sans-serif}
+.tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px} .tx b{font-size:16px;font-weight:800} .muted{font-size:13px;color:#6B5D4A}
+.row{display:flex;gap:6px;margin-top:2px} .tag{font-size:12px;font-weight:700;border-radius:999px;padding:2px 8px} .tag.ok{background:#E6F4EA;color:#1E7A43} .tag.full{background:#FDEBD8;color:#B4531A}
+.pr{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0} .pr b{font:700 22px/1.1 Fredoka,sans-serif} .pr small{font-size:12px;color:#6B5D4A;line-height:1.2}
+.tgs{display:flex;flex-direction:column;gap:.5rem} .tg{display:flex;gap:.625rem;align-items:center;background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.5rem .75rem;cursor:pointer} .tg span{display:flex;flex-direction:column} .tg small{color:var(--color-text-muted);font-size:.75rem} .tg input{width:18px;height:18px;accent-color:var(--color-primary)}
+.rec{background:var(--color-success-surface);border-radius:12px;padding:.75rem 1rem}
+.phone:not(.s-num) .x-num,.phone:not(.s-tagline) .x-tagline,.phone:not(.s-rep) .x-rep,.phone:not(.s-upd) .x-upd,.phone:not(.s-fees) .fees{display:none}
+.phone:not(.s-total) .x-total{display:none} 
+table{border-collapse:collapse;width:100%;font-size:.875rem} td,th{text-align:left;padding:.5rem .625rem;border-top:1px solid var(--color-border);vertical-align:top} .tw{overflow-x:auto}
+</style></head><body><main class="wrap">
+<header style="display:flex;flex-direction:column;gap:.5rem"><span class="eyebrow">Design QA · Find a sitter · sitter card</span><h1>Sitter card: simpler, with price</h1>
+<p>Keep only what matters, keep our filters, add price (Seulgi). Toggle Rover's extras to compare; the default is the recommendation.</p></header>
+
+<section><h2>Where we are</h2><div class="refs">
+<figure><span class="tag2">Prototype before</span><img src="assets/qa-sitter/proto-before.jpg" alt=""><figcaption>Broken layout, price as a grey tag.</figcaption></figure>
+<figure><span class="tag2">Live app</span><img src="assets/qa-sitter/live-bookings.jpg" alt=""><figcaption>No card: a bare name row.</figcaption></figure>
+<figure><span class="tag2">Rover reference</span><img src="assets/qa-sitter/rover.jpg" alt=""><figcaption>Price on the right, plus extras.</figcaption></figure>
+</div></section>
+
+<section><h2>Playground</h2>
+<div class="play"><div class="phone s-total s-fees" id="ph"><h3>Find a sitter</h3><div class="flt"><span>📅 Oct 9 to 12</span><span>🐾 Max, Mochi</span><span>📍 5 km</span></div><div class="fees">🏷 Prices include all fees.</div><button class="sc" type="button"><span class="av" style="background-image:url(redesign/img/pet1.jpg)"></span><span class="tx"><b><span class="x-num">1. </span>Chloe M.</b><span class="x-tagline muted">Dog walks twice a day, big fenced yard</span><span class="muted">★ 4.9 · 38 stays · 2 km</span><span class="x-rep muted">↻ 3 repeat clients</span><span class="x-upd muted">▢ Calendar updated 2 days ago</span><span class="row"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$55</b><small><span class="x-total">total </span>per night</small></span></button><button class="sc" type="button"><span class="av">J</span><span class="tx"><b><span class="x-num">2. </span>Jun P.</b><span class="x-tagline muted">Cat-savvy, works from home</span><span class="muted">★ 4.8 · 21 stays · 3 km</span><span class="x-rep muted">↻ 1 repeat client</span><span class="x-upd muted">▢ Calendar updated 5 days ago</span><span class="row"><span class="tag ok">Free on your dates</span></span></span><span class="pr"><b>$60</b><small><span class="x-total">total </span>per night</small></span></button><button class="sc" type="button"><span class="av">A</span><span class="tx"><b><span class="x-num">3. </span>Ari S.</b><span class="x-tagline muted">Former vet tech</span><span class="muted">★ 5.0 · 9 stays · 4 km</span><span class="x-rep muted">↻ No repeat clients yet</span><span class="x-upd muted">▢ Calendar updated 3 weeks ago</span><span class="row"><span class="tag full">Full on Oct 11</span></span></span><span class="pr"><b>$50</b><small><span class="x-total">total </span>per night</small></span></button></div>
+<div class="tgs"><label class="tg"><input type="checkbox" data-t="num" ><span><b>Numbering (1. 2. 3.)</b><small>Rover</small></span></label><label class="tg"><input type="checkbox" data-t="tagline" ><span><b>Tagline</b><small>Rover</small></span></label><label class="tg"><input type="checkbox" data-t="rep" ><span><b>Repeat clients 단골</b><small>Rover · Seulgi: drop</small></span></label><label class="tg"><input type="checkbox" data-t="upd" ><span><b>Calendar updated</b><small>Rover · Seulgi: drop</small></span></label><label class="tg"><input type="checkbox" data-t="total" checked><span><b>"total" per night</b><small>if fees are included</small></span></label><label class="tg"><input type="checkbox" data-t="fees" checked><span><b>"Prices include all fees" note</b><small>Rover</small></span></label><div class="rec"><b>Recommended</b><br>Name, ★ · stays · km, availability, price as "total per night", fees note. Rest off.</div></div></div></section>
+
+<section><h2>Why</h2><div class="tw"><table><thead><tr><th>Piece</th><th>Keep?</th><th>Why</th></tr></thead><tbody><tr><td>Price, large, right</td><td><b>Add</b></td><td>What people compare first.</td></tr>
+<tr><td>"total" + fees note</td><td><b>Add</b>*</td><td>Trust in one line. *Only if the quote includes all fees.</td></tr>
+<tr><td>Availability tag</td><td><b>Keep</b></td><td>Live from the calendar.</td></tr>
+<tr><td>★ · stays · km</td><td><b>Keep</b></td><td>Trust and distance in one line.</td></tr>
+<tr><td>Calendar updated</td><td>Drop</td><td>Our availability is already live.</td></tr>
+<tr><td>Repeat clients</td><td>Drop</td><td>No real history in the demo; profile later.</td></tr>
+<tr><td>Numbering, tagline, chevron</td><td>Drop</td><td>Noise; the whole card is tappable.</td></tr></tbody></table></div></section>
+
+<section><h2>Next</h2><p>Agree here, then build <code>SitterCard</code> in the app and update Figma via the plugin.</p></section>
+</main><script>
+const ph=document.getElementById("ph");
+document.querySelectorAll(".tg input").forEach(i=>i.addEventListener("change",()=>ph.classList.toggle("s-"+i.dataset.t,i.checked)));
+</script></body></html>
