@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design PRs Wrap-up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<link rel="stylesheet" href="tickets/wb.css">
+<style>
+  /* Ticket #117 workbench: land or close the open design PRs. No screens; what each PR holds against main, the
+     options, the GitHub comments they produce, and the decisions. */
+  .prs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+  @media (max-width:980px){.prs{grid-template-columns:minmax(0,1fr)}}
+  .pr{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .pr .top{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+  .pr .top a{font:600 1.125rem/1.2 var(--font-display);text-decoration:none}
+  .pr .t{font-weight:600}
+  .pr dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.25rem .75rem;margin:0;font-size:.8125rem}
+  .pr dt{color:var(--color-text-muted)} .pr dd{margin:0}
+  .st{display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem;font-weight:700;white-space:nowrap}
+  .st i{width:.625rem;height:.625rem;border-radius:50%}
+  .st.y{color:var(--color-success)} .st.y i{background:var(--color-success)}
+  .st.n{color:var(--color-error)} .st.n i{background:var(--color-error)}
+  .st.s{color:var(--color-warning)} .st.s i{background:var(--color-warning)}
+  td .sub{display:block;font-size:.8125rem}
+  .opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+  @media (max-width:980px){.opts{grid-template-columns:minmax(0,1fr)}}
+  .opt{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.5rem}
+  .opt h3 .pick{margin-left:.5rem}
+  .opt .cost{font-size:.8125rem;color:var(--color-text-muted)}
+  .comments{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+  @media (max-width:860px){.comments{grid-template-columns:minmax(0,1fr)}}
+  .warn-box{background:var(--color-warning-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.375rem}
+  .warn-box .k{color:var(--color-warning)}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Ticket workbench · #117</span>
+    <h1>Wrap up the design PRs</h1>
+    <p class="lede">Two design PRs were open when this ticket was written. <b>#54</b> (design system v1, the site and the Figma plugin) merged on Oct 16. <b>#41</b> (UI primitives and motion) is still a draft from Oct 3, with conflicts against main. This page shows what #41 holds that main doesn't, the ways to finish it, and the GitHub comments each choice produces. Nothing gets posted or closed until you say so in chat.</p>
+    <div class="meta"><span><a href="https://github.com/minsikpaul92/Goldito/issues/117" target="_blank" rel="noopener">Issue #117</a></span><span>Owner: Mook</span><span>Checked against main on Oct 18</span></div>
+  </header>
+
+  <section aria-labelledby="h-done">
+    <h2 id="h-done">Done when</h2>
+    <div class="grid2">
+      <div class="box"><span class="k">From the issue</span><ul class="done-list">
+        <li><span class="pill todo">Not yet</span> #41 primitives: merged or closed <span class="sub">(draft, conflicts, no reviews)</span></li>
+        <li><span class="pill done">Done</span> #54 design system v1: merged or closed <span class="sub">(merged Oct 16)</span></li></ul></div>
+      <div class="box"><span class="k">Verify</span><ol>
+        <li>#41 shows Closed (or Merged) with a comment that says where each part went.</li>
+        <li>Anything we still want from #41 has its own small issue, so nothing is lost with the branch.</li>
+        <li>#117 closes with a one-line summary.</li></ol></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-prs">
+    <h2 id="h-prs">The PRs today</h2>
+    <div class="prs">
+      <div class="pr"><div class="top"><a href="https://github.com/minsikpaul92/Goldito/pull/54" target="_blank" rel="noopener">#54</a><span class="pill done">Merged Oct 16</span></div>
+        <span class="t">Design system v1, the design site, the Figma plugin</span>
+        <dl><dt>Size</dt><dd>76 files, +20,794 (mostly design files)</dd><dt>Landed</dt><dd>DESIGN.md decisions (incl. D7 motion), tokens (touchTarget, contentMaxWidth, motion), the site, the plugin</dd><dt>Left open</dt><dd>Its four questions for Minsik (look, icons, #41, type scale)</dd></dl></div>
+      <div class="pr"><div class="top"><a href="https://github.com/minsikpaul92/Goldito/pull/41" target="_blank" rel="noopener">#41</a><span class="pill todo">Draft · conflicts</span></div>
+        <span class="t">Primitives, motion tokens, shared press feel</span>
+        <dl><dt>Size</dt><dd>34 files, +793 −389 (app code)</dd><dt>Branch</dt><dd><code>feat/design-system</code>, last push Oct 6</dd><dt>Since then</dt><dd>69 commits on main; 26 of its 34 files have changed there too</dd></dl></div>
+      <div class="pr"><div class="top"><a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">#129</a><span class="pill part">Open · conflicts</span></div>
+        <span class="t">Flat read-only Tag for allergies</span>
+        <dl><dt>Size</dt><dd>7 files (Tag, PetCard, sitter booking, DESIGN.md, plugin)</dd><dt>CI</dt><dd>Passed on Oct 17; conflicts with main since</dd><dt>Note</dt><dd>Not part of #117, but it's the other open design PR, and #120's slot tags use it.</dd></dl></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-parts">
+    <h2 id="h-parts">What #41 holds, against main</h2>
+    <p class="sub">Each part of #41's description, checked in main's code on Oct 18.</p>
+    <div class="tw" tabindex="0" aria-label="PR #41 parts, scrolls sideways" data-spec><table><thead><tr><th scope="col">Part of #41</th><th scope="col">On main?</th><th scope="col">Where it is now</th><th scope="col">Files in #41</th><th scope="col">Worth bringing back?</th></tr></thead><tbody>
+      <tr><td>Tokens: touchTarget, contentMaxWidth, motion</td><td><span class="st y"><i></i>Yes</span></td><td>Landed with #54 (<code>tokens.ts</code>: 44, 480, 120 · 240 · 420 ms, press 0.97 / 0.85)</td><td><code>theme/tokens.ts</code></td><td>Done.</td></tr>
+      <tr><td>Motion and press-feel rules</td><td><span class="st s"><i></i>Docs only</span></td><td>DESIGN.md D7 and §5.1 say “decorative motion stops under Reduce motion”, but the app has no Reduce Motion handling yet</td><td><code>DESIGN.md</code></td><td>Yes: the docs promise it.</td></tr>
+      <tr><td><code>PressableScale</code>: one press feel</td><td><span class="st n"><i></i>No</span></td><td>Each component has its own pressed style</td><td><code>ui/PressableScale.tsx</code> + the 03B cards that use it</td><td>Yes, small.</td></tr>
+      <tr><td><code>motion.ts</code>: Reduce Motion helper</td><td><span class="st n"><i></i>No</span></td><td>—</td><td><code>ui/motion.ts</code></td><td>Yes, with the above.</td></tr>
+      <tr><td><code>Button</code> loading spinner</td><td><span class="st n"><i></i>No</span></td><td>Screens disable the button and swap the label</td><td><code>ui/Button.tsx</code></td><td>Yes, small.</td></tr>
+      <tr><td><code>Screen</code> footer: pinned primary action</td><td><span class="st n"><i></i>No</span></td><td>Screens pin their own footers (e.g. the sitter profile)</td><td><code>ui/Screen.tsx</code></td><td>Maybe.</td></tr>
+      <tr><td><code>TextField</code> hint + shake on error</td><td><span class="st n"><i></i>No</span></td><td>—</td><td><code>ui/TextField.tsx</code></td><td>Maybe.</td></tr>
+      <tr><td><code>Stack</code>, <code>Field</code>, <code>AppearIn</code></td><td><span class="st n"><i></i>No</span></td><td>Screens use View + gap</td><td><code>ui/Stack.tsx</code> · <code>Field.tsx</code> · <code>AppearIn.tsx</code></td><td>Low; nice to have.</td></tr>
+      <tr><td>Animated toast above the footer</td><td><span class="st n"><i></i>No</span></td><td>—</td><td><code>providers/ToastProvider.tsx</code></td><td>Maybe.</td></tr>
+      <tr><td>Log out moves into Profile</td><td><span class="st s"><i></i>Superseded</span></td><td>#147 moves it to the menu and Settings, with a confirm</td><td><code>HeaderActions.tsx</code> · <code>profile.tsx</code></td><td>No: #147 replaces it.</td></tr>
+      <tr><td>“e.g.” placeholders, top-aligned login</td><td><span class="st n"><i></i>No</span></td><td>Pet form still shows “Max”, “Maltese”; login is centred</td><td><code>PetForm.tsx</code> · <code>login.tsx</code> · <code>signup.tsx</code></td><td>Yes, tiny.</td></tr>
+    </tbody></table></div>
+    <div class="warn-box"><span class="k">Also: an unsaved copy of #41 on this Mac</span><p>Your <code>~/Claude/pawnote</code> folder is on a local branch, <code>feat/ui-primitives-motion</code>, with 24 changed files and 5 new ones that aren't committed: the same work as #41, about 90 commits behind main. Nothing there is lost yet, but switching branches or pulling main there would trip over it (decision 3).</p></div>
+  </section>
+
+  <section aria-labelledby="h-opts">
+    <h2 id="h-opts">Ways to finish #41</h2>
+    <div class="opts">
+      <div class="opt"><h3>A · Close it, with a note<span class="pick">My pick</span></h3><p>Close #41 with a comment that says where each part went, and open one small issue for the parts worth bringing back after the hackathon.</p><span class="cost">5 minutes. No risk to the demo.</span></div>
+      <div class="opt"><h3>B · Close it, redo one small PR now</h3><p>Close #41, then a fresh PR from main with just the press feel, Reduce Motion and the Button spinner (about 5 files), after #147 lands.</p><span class="cost">Half a day of code and review, before the Oct 30 submission.</span></div>
+      <div class="opt"><h3>C · Rebase and land it</h3><p>Bring the 34 files up to today's main and merge.</p><span class="cost">26 of its 34 files have changed on main since; a day of conflicts and re-testing, for polish judges won't notice.</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-comments">
+    <h2 id="h-comments">The comments these produce</h2>
+    <p class="sub">They follow your answers below. I post them only when you say so in chat (or copy and post them yourself).</p>
+    <div class="comments">
+      <div class="box"><span class="k">On PR #41</span><div class="quote" id="c41"></div><button type="button" class="ds-btn secondary cp" data-copy="c41">Copy</button></div>
+      <div class="box"><span class="k">Closing #117</span><div class="quote" id="c117"></div><button type="button" class="ds-btn secondary cp" data-copy="c117">Copy</button></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-dec">
+    <h2 id="h-dec">Decisions</h2>
+    <p class="sub">Pick an answer and it saves for both of us. <b>✓</b> marks my recommendation; overrule anything.</p>
+    <p class="dbstate" id="dbstate">Connecting…</p>
+    <div class="dec" id="dec"></div>
+    <div class="q"><b class="qt">Anything else? Notes for me or Minsik</b><textarea class="notes" id="notes" placeholder="e.g. keep the shake on the password field"></textarea><button type="button" class="ds-btn secondary savebtn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
+  </section>
+
+  <footer>Sources: issue #117, PRs #41, #54 and #129 on GitHub, and main's <code>frontend/</code> and <code>DESIGN.md</code> on Oct 18 (each “No” above is a file or prop that isn't there). The local-folder note is from <code>git status</code> in <code>~/Claude/pawnote</code>.</footer>
+</main>
+<script src="tickets/wb.js"></script>
+<script>
+(() => {
+  const { $ } = WB;
+  const LATER = { feel: "the shared press feel (PressableScale), the Reduce Motion helper, the Button spinner and the “e.g.” placeholders",
+    all: "every part that isn't on main yet (PressableScale, motion.ts, Button loading, Screen footer, TextField hint and shake, Stack, Field, AppearIn, the animated toast, “e.g.” placeholders)" };
+  function comments(d) {
+    const head = d.pr41 === "rebase" ? "Rebasing this onto main to land it." : "Closing this in favour of what's on main now.";
+    const where = ["- The tokens (touch target, content width, motion) landed with #54, and DESIGN.md D7 / §5.1 records the motion rules.",
+      "- Moving Log out is now part of #147 (menu + Settings, with a confirm)."];
+    const rest = d.pr41 === "rebase" ? "- The rest comes along in the rebase; I'll re-run the e2e suite before asking for review."
+      : d.later === "none" ? "- The other primitives aren't on main, and we're not bringing them back for now."
+      : d.pr41 === "small" ? `- A fresh, small PR from main brings back ${LATER[d.later]}, after #147 lands.`
+      : `- ${LATER[d.later][0].toUpperCase() + LATER[d.later].slice(1)} aren't on main; they're listed in a follow-up issue for after the hackathon.`;
+    const why = d.pr41 === "rebase" ? "" : "\n\n26 of its 34 files have changed on main since (69 commits), and rebasing them isn't worth the risk to the demo this close to submission.";
+    const c41 = `${head}\n\n${where.join("\n")}\n${rest}${why}`;
+    const c117 = d.pr41 === "rebase" ? "#54 merged on Oct 16; #41 is being rebased to land (see the PR). Closing once it merges."
+      : `Done: #54 merged on Oct 16, and #41 is closed with a note on where each part went${d.later === "none" ? "" : " (follow-ups in their own issue)"}.${d.pr129 === "rebase" ? " #129 (flat Tag) is separate and getting rebased." : ""}`;
+    $("c41").textContent = c41; $("c117").textContent = c117;
+    return { c41, c117 };
+  }
+  document.querySelectorAll(".cp").forEach((b) => b.addEventListener("click", () => WB.copy(b, $(b.dataset.copy).textContent)));
+
+  const DECIDED = { pr41: "close", later: "feel", local: "save", pr129: "rebase", close117: "now" };   // my recommendations until Mook decides
+  const Q = [
+    ["pr41", "What happens to #41", "See the three options above.", [["close", "A · Close with a note"], ["small", "B · Close, redo one small PR now"], ["rebase", "C · Rebase and land it"]], "close"],
+    ["later", "What we bring back (A or B)", "The parts that aren't on main.", [["feel", "Press feel, Reduce Motion, spinner, “e.g.”"], ["all", "Everything not on main"], ["none", "Nothing for now"]], "feel"],
+    ["local", "The unsaved copy in ~/Claude/pawnote", "Same work as #41, not committed.", [["save", "Commit it there on its branch, then switch the folder to main"], ["leave", "Leave it as it is"], ["discard", "Throw it away"]], "save"],
+    ["pr129", "PR #129, the flat Tag", "Small, CI passed, conflicts since Oct 17.", [["rebase", "Rebase it and ask Minsik to review"], ["later", "Leave it for now"], ["close", "Close it"]], "rebase"],
+    ["close117", "When #117 closes", "Its scope is #41 and #54 only.", [["now", "As soon as #41 is closed"], ["after129", "After #129 is settled too"]], "now"],
+  ];
+  WB.decisions({ Q, DECIDED, onChange: comments, ticket: (d, decisions) => {
+    const c = comments(d);
+    return { id: 117, title: "Wrap up the design PRs", issue: "https://github.com/minsikpaul92/Goldito/issues/117",
+      workbench: "https://claude.ai/artifact/KTwD1no13M7yaWvjgdFGVX", design: "Mook", code: "Mook", decisions,
+      specHead: ["Part of #41", "On main?", "Where it is now", "Files in #41", "Worth bringing back?"], spec: WB.specRows(),
+      notes: [["Comment for PR #41", c.c41], ["Closing #117", c.c117]] };
+  } });
+})();
+</script>
+</body>
+</html>

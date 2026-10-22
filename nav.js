@@ -58,6 +58,10 @@
     .site-search-btn kbd{font:600 .6875rem/1 ui-monospace,monospace;border:1px solid ${C("border-strong", "#999")};border-radius:4px;padding:2px 5px}
     .site-search{position:fixed;inset:0;z-index:80;background:rgba(10,12,10,.45);display:flex;justify-content:center;align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 8vh) 1rem 1rem}
     .site-search[hidden]{display:none}
+    .site-search li.cat{list-style:none;margin:.75rem .25rem .25rem;font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:${C("text-muted", "GrayText")}}
+    .site-search li.pick{display:inline-block;margin:.125rem}
+    .site-search li.pick a{display:inline-flex!important;flex-direction:row!important;min-height:36px;align-items:center!important;justify-content:center;padding:0 .875rem!important;gap:0!important;border-radius:999px;border:1.5px solid ${C("border-strong", "rgba(127,127,127,.5)")}}
+    .site-search li.pick[aria-selected="true"] a{background:${C("accent", "#D8F3DC")};border:2px solid ${C("primary", "#1B4332")}}
     .site-search .box{width:min(40rem,100%);max-height:78vh;display:flex;flex-direction:column;background:${C("surface", "Canvas")};color:${C("text", "CanvasText")};border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.3);overflow:hidden;font:400 .9375rem/1.45 var(--font-ui,system-ui,sans-serif)}
     .site-search .field{display:flex;align-items:center;gap:.625rem;padding:.875rem 1rem;border-bottom:1px solid ${C("border", "rgba(127,127,127,.3)")}}
     .site-search .field svg{width:20px;height:20px;color:${C("text-muted", "GrayText")};flex:0 0 auto}
@@ -106,6 +110,39 @@
   try { ours = window.parent !== window && !!window.parent.document.querySelector('script[src*="nav.js"]'); } catch (e) { ours = false; }
   if (ours) return;
 
+
+  // Pages outside the tabs, grouped for the empty search and the guide (and searchable by title and line).
+  const PRESETS = [
+    ["Design system", "디자인 시스템", [
+      ["kit.html", "Design kit", "디자인 키트", "Every component, live, with states and code", "모든 컴포넌트를 상태와 코드와 함께"],
+      ["qa-ds-kit.html", "Kit QA", "키트 QA", "Before and after for the kit, checks, what's open", "키트 전후 비교, 점검, 남은 일"],
+      ["status.html", "Design status", "디자인 현황", "Work in progress and the design system table", "진행 중인 일과 디자인 시스템 표"],
+      ["decisions.html", "Open decisions", "결정 사항", "Icons, pet chips, what got pushed", "아이콘, 펫 칩, 푸시된 것"],
+      ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
+      ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
+    ["Updates", "업데이트", [
+      ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Worked on, to do", "작업한 일, 할 일"],
+      ["update-2026-10-21.html", "Oct 21 update", "10월 21일 업데이트", "Worked on, to do", "작업한 일, 할 일"],
+      ["update-2026-10-20.html", "Oct 20 update", "10월 20일 업데이트", "Specs and the #115 onboarding", "스펙과 #115 온보딩"],
+      ["update-2026-10-19.html", "Oct 19 update", "10월 19일 업데이트", "What landed", "반영된 것"]]],
+    ["QA and reviews", "QA와 리뷰", [
+      ["audit-2026-10-21.html", "UI audit", "UI 감사", "74 issues with reasons", "근거와 함께 74개 이슈"],
+      ["qa-ui-fixes.html", "UI fixes QA", "UI 수정 QA", "Header, focus ring, Back, placeholders", "헤더, 포커스 링, 뒤로, 플레이스홀더"],
+      ["qa-copy-batch.html", "Copy batch QA", "문구 QA", "Sign out, Weekly rules, dates, labels", "Sign out, Weekly rules, 날짜, 레이블"],
+      ["qa-expressive.html", "Patterns QA", "패턴 QA", "Illustrations in content, section titles", "콘텐츠 일러스트, 섹션 제목"],
+      ["qa-sitter-card.html", "Sitter card", "시터 카드", "The card and the search pill, playable", "카드와 검색 필, 체험 가능"]]],
+    ["Demo and judges", "데모와 심사", [
+      ["judge-panel.html", "Judge panel", "심사위원 패널", "Goldito in two minutes", "2분 안에 보는 Goldito"],
+      ["demo-run-sheet.html", "Demo run sheet", "데모 진행표", "What to click, in order", "순서대로 누를 것"],
+      ["video.html", "Video plan", "영상 계획", "The #116 shot list", "#116 샷 리스트"],
+      ["chat.html", "Chat booking", "채팅 예약", "The booking chat prototype", "예약 채팅 프로토타입"]]],
+    ["Tickets", "티켓", [
+      ["ticket-147.html", "#147 Home header", "#147 홈 헤더", "Workbench", "워크벤치"],
+      ["ticket-120.html", "#120 Sitter calendar", "#120 시터 달력", "Workbench", "워크벤치"],
+      ["ticket-119.html", "#119 Skins and pixel pets", "#119 스킨과 픽셀 펫", "Workbench", "워크벤치"],
+      ["ticket-117.html", "#117 Wrap up", "#117 마무리", "Workbench", "워크벤치"]]],
+  ];
+  const presetItems = PRESETS.flatMap(([cen, cko, list]) => list.map(([h, ten, tko, xen, xko]) => ({ p: [cen, cko], h, t: [ten, tko], x: [xen, xko] })));
   const pages = [
     ["Overview", "개요", "index.html", "Start here: status, the look, every README promise", "여기서 시작: 현황, 룩, README의 모든 약속",
       ["Tap “Play the Draft” to try the design.", "The README table shows, for every promise, whether the app has it and where to play it.", "New to the project? “Get started” has the 3 steps and how to run the app."],
@@ -165,8 +202,10 @@
     <h3>${both("All pages", "모든 페이지")}</h3>
     <ul class="site-pages">${pages.map(([en, k, href, ten, tko]) => { const url = new URL(href, base);
       return `<li><a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""}><b>${both(en, k)}</b><small>${both(ten, tko)}</small></a></li>`; }).join("")}</ul>
-    <h3>${both("Also", "그 밖에")}</h3>
-    <ul class="site-pages"><li><a href="${new URL("judge-panel.html", base).pathname}"><b>${both("Judge panel", "심사위원 패널")}</b><small>${both("Goldito in two minutes, with the model behind each step", "2분 안에 보는 Goldito, 단계마다 모델 표시")}</small></a></li><li><a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><b>${both("Logo files ↗", "로고 파일 ↗")}</b><small>${both("Every logo, icon and pixel pet to download, with Customize", "모든 로고, 아이콘, 픽셀 펫 다운로드와 Customize")}</small></a></li></ul>
+    ${PRESETS.map(([cen, cko, list]) => `<h3>${both(cen, cko)}</h3><ul class="site-pages">${list.map(([h, ten, tko, xen, xko]) => { const url = new URL(h, base);
+      return `<li><a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""}><b>${both(ten, tko)}</b><small>${both(xen, xko)}</small></a></li>`; }).join("")}</ul>`).join("")}
+    <h3>${both("Elsewhere", "외부")}</h3>
+    <ul class="site-pages"><li><a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><b>${both("Logo files ↗", "로고 파일 ↗")}</b><small>${both("Every logo, icon and pixel pet to download, with Customize", "모든 로고, 아이콘, 픽셀 펫 다운로드와 Customize")}</small></a></li></ul>
     <button type="button" class="x">${both("Close", "닫기")}</button>`;
   document.body.appendChild(guide);
   const setGuide = (open) => { guide.hidden = !open; help.setAttribute("aria-expanded", String(open)); hideTip(); if (open) guide.querySelector("a,button").focus(); };
@@ -189,9 +228,9 @@
   const sinput = sdlg.querySelector("input"), slist = sdlg.querySelector("ul");
   let INDEX = null, hits = [], sel = 0, lastFocus = null;
   const loadIndex = () => INDEX ? Promise.resolve(INDEX) : new Promise((res) => {
-    if (window.GOLDITO_SEARCH) { INDEX = window.GOLDITO_SEARCH; res(INDEX); return; }
+    if (window.GOLDITO_SEARCH) { INDEX = presetItems.concat(window.GOLDITO_SEARCH); res(INDEX); return; }
     const s = document.createElement("script"); s.src = new URL("search-index.js", base).href;
-    s.onload = () => { INDEX = window.GOLDITO_SEARCH || []; res(INDEX); }; s.onerror = () => { INDEX = []; res(INDEX); };
+    s.onload = () => { INDEX = presetItems.concat(window.GOLDITO_SEARCH || []); res(INDEX); }; s.onerror = () => { INDEX = presetItems; res(INDEX); };
     document.head.appendChild(s);
   });
   const norm = (s) => (s || "").toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "");
@@ -199,7 +238,15 @@
   const mark = (s, terms) => { let h = esc(s); for (const q of terms) if (q) h = h.replace(new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi"), "<mark>$1</mark>"); return h; };
   const run = () => {
     const L = ko() ? 1 : 0, q = norm(sinput.value).trim(), terms = q.split(/\s+/).filter(Boolean);
-    if (!terms.length) { slist.innerHTML = `<li class="empty">${both("Type to search every page, sketch, ticket and Prototype screen.", "모든 페이지, 스케치, 티켓, 프로토타입 화면을 검색해요.")}</li>`; hits = []; return; }
+    if (!terms.length) {
+      // Empty search = a map of the site: every page outside the tabs, by category, as quick picks.
+      hits = presetItems.map((it) => ({ it }));
+      let i = -1;
+      slist.innerHTML = `<li class="empty">${both("Type to search every page, sketch, ticket and Prototype screen, or pick a page:", "모든 페이지, 스케치, 티켓, 화면을 검색하거나 페이지를 고르세요:")}</li>` +
+        PRESETS.map(([cen, cko, list]) => `<li class="cat" role="presentation">${both(cen, cko)}</li>` + list.map(([h, ten, tko]) => { i++;
+          const url = new URL(h, base); return `<li role="option" id="ss-${i}" aria-selected="${i === 0}" class="pick"><a href="${url.href}" tabindex="-1"><b>${both(ten, tko)}</b></a></li>`; }).join("")).join("");
+      sel = 0; sinput.setAttribute("aria-activedescendant", "ss-0"); return;
+    }
     hits = (INDEX || []).map((it) => {
       const title = norm(it.t[L] + " " + it.t[1 - L]), body = norm(it.x[L] + " " + it.x[1 - L] + " " + it.p.join(" "));
       let score = 0;

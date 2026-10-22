@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pet Skins Workbench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<link rel="stylesheet" href="tickets/wb.css">
+<style>
+  /* Ticket #119 workbench: coat-color skins (11.10) and the 8-bit status room (11.12). Sprites and skins come from
+     design/pixel-pets/build.py (the brand's pixel pets), injected below as PIXELDATA; the same build writes the PNGs. */
+  .ph{--bg:#F7F7F5;--surface:#FFFFFF;--text:#1A1A1A;--muted:#5C5C5C;--primary:#2D6A4F;--ptext:#FFFFFF;--accent:#D8F3DC;--line:#E5E5E0;--strong:#86867F;
+    --wall:#D8F3DC;--frame:#173B2C;--warn:#B54708;--warn-s:#FFFAEB;
+    width:402px;max-width:100%;height:874px;background:var(--bg);color:var(--text);border-radius:28px;border:8px solid #1A1A1A;overflow:hidden;position:relative;
+    display:flex;flex-direction:column;font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color-scheme:light;flex:0 0 auto}
+  .ph.comp{height:auto;border-radius:0;border-width:0;box-shadow:0 0 0 1px var(--color-border)}
+  .ph .sb{display:flex;justify-content:space-between;padding:10px 22px 2px;font-size:13px;font-weight:600}
+  .ph .bar{height:56px;display:flex;align-items:center;gap:4px;padding:0 8px 0 16px;flex:0 0 auto}
+  .ph .bar .title{flex:1;font:600 24px/1.2 "Fredoka","Arial Rounded MT Bold",ui-rounded,sans-serif;color:var(--text)}
+  .ph .rchip{font-weight:600;font-size:12px;line-height:1;color:var(--primary);background:var(--accent);border-radius:8px;padding:5px 8px;margin-right:4px}
+  .ph .ib{position:relative;width:44px;height:44px;display:grid;place-items:center;color:var(--text)} .ph .ib svg{width:24px;height:24px}
+  .ph .badge{position:absolute;top:4px;right:2px;min-width:18px;height:18px;border-radius:9px;background:#B42318;color:#fff;font-weight:700;font-size:11px;line-height:18px;text-align:center;padding:0 5px;box-shadow:0 0 0 2px var(--bg)}
+  .ph .scroll{flex:1;min-height:0;overflow:hidden;padding:4px 16px 16px;display:flex;flex-direction:column;gap:12px}
+  .ph .cap{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .ph .stay{background:var(--accent);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .ph .stay b{font-weight:700} .ph .stay span{font-size:14px;color:var(--muted)}
+  .ph .pets{display:flex;gap:8px}
+  .ph .pc{display:flex;align-items:center;gap:6px;min-height:36px;padding:0 12px 0 6px;border-radius:999px;border:1px solid var(--strong);font-weight:600;font-size:14px;background:var(--surface)}
+  .ph .pc.on{background:var(--primary);border-color:var(--primary);color:var(--ptext)}
+  .ph .pc svg{width:26px;height:26px}
+  /* the room */
+  .room{background:var(--frame);border-radius:20px;padding:10px;display:flex;flex-direction:column;gap:8px}
+  .room .scr{position:relative;height:160px;border-radius:12px;overflow:hidden;background:var(--wall)}
+  .room .win{position:absolute;left:18px;top:16px;width:58px;height:46px;background:#BFE3F5;box-shadow:inset 0 0 0 4px #FFF8EC,0 0 0 2px #8A6A4A}
+  .room .win::after{content:"";position:absolute;left:27px;top:0;width:4px;height:100%;background:#FFF8EC}
+  .room .win.night{background:#2C3E66}
+  .room .floor{position:absolute;inset:auto 0 0 0;height:40px;background:repeating-linear-gradient(90deg,#C99E6E 0 22px,#B98C5C 22px 24px)}
+  .room .bed{position:absolute;right:22px;bottom:26px;width:78px;height:22px;border-radius:12px 12px 4px 4px;background:#E58A6B;box-shadow:inset 0 -6px 0 #C26A4E}
+  .room .bowl{position:absolute;left:44px;bottom:28px;width:30px;height:12px;border-radius:0 0 14px 14px;background:#3E6E8E}
+  .room .bowl.empty::after{content:"";position:absolute;left:4px;right:4px;top:-3px;height:3px;background:#3E6E8E;opacity:.4}
+  .room .pet{position:absolute;left:50%;bottom:14px;width:96px;height:96px;margin-left:-48px}
+  .room .say{position:absolute;right:10px;top:10px;max-width:150px;background:#FFF8EC;color:#1B4332;border-radius:10px;padding:6px 9px;font:600 12px/1.3 var(--font-ui);box-shadow:0 2px 0 rgba(0,0,0,.15)}
+  .room .hud{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+  .room .hud span{display:flex;align-items:center;gap:6px;min-height:30px;padding:0 8px;border-radius:8px;background:#FFF8EC;color:#1B4332;font:600 12px/1.2 var(--font-ui);min-width:0}
+  .room .hud span.w{background:var(--warn-s);color:var(--warn);box-shadow:inset 0 0 0 1.5px var(--warn)}
+  .room .hud svg{width:16px;height:16px;flex:0 0 auto}
+  .room.icons .hud{grid-template-columns:repeat(4,minmax(0,1fr))} .room.icons .hud span{justify-content:center} .room.icons .hud em{display:none}
+  .room .hud em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  svg.px{image-rendering:pixelated;display:block;width:100%;height:100%}
+  .anim{position:relative;display:block;width:100%;height:100%}
+  .anim .fb{position:absolute;inset:0;opacity:0;animation:fb var(--ms2,1.2s) steps(1) infinite}
+  .anim .fa{animation:fa var(--ms2,1.2s) steps(1) infinite}
+  @keyframes fb{0%{opacity:0}50%{opacity:1}} @keyframes fa{0%{opacity:1}50%{opacity:0}}
+  .still .fb{display:none} .still .fa{animation:none}
+  @media (prefers-reduced-motion:reduce){.anim .fb{display:none}.anim .fa{animation:none}}
+  .ph .today{background:var(--surface);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+  .ph .today b{font-size:15px} .ph .today span{color:var(--muted)}
+  .ph .tabs{display:flex;justify-content:space-around;padding:6px 4px 14px;border-top:1px solid var(--line);background:var(--surface);flex:0 0 auto}
+  .ph .tabs span{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:600;color:var(--muted);min-width:56px}
+  .ph .tabs span.on{color:var(--primary)} .ph .tabs svg{width:22px;height:22px}
+  /* page: skins, coats, sprites */
+  .skins{display:grid;grid-template-columns:repeat(auto-fill,minmax(15rem,1fr));gap:1rem}
+  .sk{margin:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.875rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .sk .top{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+  .sk .top b{font:600 1.0625rem/1.2 var(--font-display)} .sk .top code{font-size:.6875rem}
+  .sk .note{font-size:.8125rem;color:var(--color-text-muted)}
+  .sw10{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px}
+  .sw10 i{aspect-ratio:1;border-radius:5px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+  .mini{border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:6px;color-scheme:light}
+  .mini .r{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .mini .b{border-radius:9px;padding:6px 10px;font:700 12px/1 var(--font-ui)} .mini .c{border-radius:999px;padding:4px 9px;font:600 11px/1 var(--font-ui)}
+  .mini .t{font:600 13px/1.3 var(--font-ui)} .mini .m{font:500 12px/1.3 var(--font-ui)}
+  .ck{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;font-size:.75rem;color:var(--color-text-muted)}
+  .ck b{font-variant-numeric:tabular-nums;color:var(--color-success);font-weight:700}
+  .coats{display:flex;flex-wrap:wrap;gap:.5rem}
+  .coats button{display:flex;align-items:center;gap:.5rem;font:600 .875rem var(--font-ui);min-height:40px;padding:0 .875rem 0 .375rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);cursor:pointer}
+  .coats button i{width:28px;height:28px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)}
+  .coats button[aria-pressed=true]{border-color:var(--color-primary);box-shadow:0 0 0 1px var(--color-primary)}
+  .box.coat-out{flex-direction:row;gap:1rem;align-items:center;flex-wrap:wrap}
+  .coat-out .chipk{display:inline-flex;align-items:center;gap:.5rem;font-weight:700}
+  .coat-out .chipk i{width:22px;height:22px;border-radius:6px}
+  .sheet{display:grid;grid-template-columns:auto repeat(5,minmax(0,1fr));gap:.5rem;align-items:center;max-width:46rem}
+  .sheet .h{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);text-align:center}
+  .sheet .n{font-weight:700;font-size:.875rem;padding-right:.5rem}
+  .sheet .t{aspect-ratio:1;border-radius:12px;background:#FBF6EA;display:grid;place-items:center;padding:12%;color-scheme:light}
+  .files{columns:2 16rem;font-size:.8125rem;color:var(--color-text-muted);margin:0;padding-left:1.125rem}
+  .files code{font-size:.75rem}
+  .ph .rows5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .ph .rows5 figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;font:600 12px/1.2 var(--font-ui);color:var(--muted)}
+  .ph .rows5 .t{width:100%;aspect-ratio:1;border-radius:10px;background:var(--wall);padding:8%}
+  .ph .pal{display:grid;grid-template-columns:4.5rem repeat(10,minmax(0,1fr));gap:3px;align-items:center;font:600 12px/1.2 var(--font-ui)}
+  .ph .pal i{aspect-ratio:1;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Ticket workbench · #119</span>
+    <h1>Coat-color skins and pixel pets</h1>
+    <p class="lede">Two P1 features that share one idea: the app looks like <b>your</b> pet. A coat photo picks one of seven skins (11.10), and Owner Home gets a small 8-bit room where Max or Mochi shows how the day is going (11.12). The art comes from the brand's pixel pets, so it matches the logo. Both assets are drawn and exported; try them below, then pick answers at the bottom.</p>
+    <div class="meta"><span><a href="https://github.com/minsikpaul92/Goldito/issues/119" target="_blank" rel="noopener">Issue #119</a></span><span>11.10 · 11.12 · P1</span><span>Design: Mook · Code: Minsik</span><span>Files: <code>design/pixel-pets/out/</code></span></div>
+  </header>
+
+  <section aria-labelledby="h-done">
+    <h2 id="h-done">Done when</h2>
+    <div class="grid2">
+      <div class="box"><span class="k">From the issue</span><ul class="done-list">
+        <li><span class="pill part">Drafted</span> 6–8 coat-color palettes <span class="sub">(Forest + 6 coat skins, every text pair checked at 4.5 : 1 or better; <code>skins.ts</code> ready to paste)</span></li>
+        <li><span class="pill part">Drafted</span> Pixel sprites: Maltese + generic cat, ≥ 3 states each <span class="sub">(5 states × 2 frames for Max, the cat, and a generic dog; 20 PNG strips + a manifest)</span></li></ul>
+        <p class="sub">“Drafted” turns into done when you approve them here.</p></div>
+      <div class="box"><span class="k">Verify (phase 11 DoD 6 and 8)</span><ol>
+        <li>Four coat photos (white, golden, ginger, black) land on the right skin, 3 of 4 or better.</li>
+        <li>Every skin keeps text at 4.5 : 1; the DANGER modal looks the same in all of them.</li>
+        <li>After the sitter logs a meal or a mood, the room's sprite and HUD change on the next refresh.</li>
+        <li>Switching from Max to Mochi switches the skin too.</li></ol></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-today">
+    <h2 id="h-today">Today, in the app</h2>
+    <div class="grid2">
+      <div class="box"><span class="k">Skins: the contract is ready, the skins aren't</span><p><a href="https://github.com/minsikpaul92/Goldito/blob/main/frontend/theme/themes.ts" target="_blank" rel="noopener"><code>theme/themes.ts</code></a> defines <code>SkinColors</code>: the <b>10 colours a skin may change</b> (primary, primaryText, background, accent, surface, border, borderStrong, track, text, textMuted). Error, warning and success are left out on purpose, so a DANGER warning never blends into a skin. Only <code>default</code> and <code>balanced</code> exist; the comment says “Coat-color skins (6–8, from the designer) are added here in 11.10.”</p></div>
+      <div class="box"><span class="k">Room: specced, not built</span><p><a href="https://github.com/minsikpaul92/Goldito/blob/main/docs/plan/pet-status-room.ko.md" target="_blank" rel="noopener"><code>pet-status-room.ko.md</code></a> asks for a room card on Owner Home: an 8-bit pet in five moods (happy, calm, tired, hungry, sleepy), a 2–4 frame idle, a HUD (fed, potty, mood, next task), tap → Activity. Sprites go in <code>frontend/assets/pixel-pets/</code>, which doesn't exist yet. Mochi has no breed in the demo data, so she uses the generic cat.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-try">
+    <h2 id="h-try">Try it</h2>
+    <p class="sub">Owner Home with the room, in the #147 header. Pick a pet and a mood; the skin follows the coat unless you choose one.</p>
+    <div class="lab">
+      <div class="ctl" id="ctl">
+        <div class="row"><span class="k">Pet</span><div class="seg" data-k="pet"><button data-v="max">Max · Maltese</button><button data-v="cat">Mochi · cat</button><button data-v="dog">Bori · another dog</button></div></div>
+        <div class="row"><span class="k">Mood (from today's check-ins)</span><div class="seg" data-k="state"><button data-v="happy">Happy</button><button data-v="calm">Calm</button><button data-v="tired">Tired</button><button data-v="hungry">Hungry</button><button data-v="sleepy">Sleepy</button></div></div>
+        <div class="row"><span class="k">Skin</span><div class="seg" data-k="skin" id="skinSeg"></div></div>
+        <div class="row"><span class="k">Generic cat</span><div class="seg" data-k="catKind"><button data-v="tabby">Orange tabby</button><button data-v="tuxedo">Tuxedo</button></div></div>
+        <div class="row"><span class="k">HUD</span><div class="seg" data-k="hud"><button data-v="words">Words + icons</button><button data-v="icons">Icons only</button></div></div>
+        <div class="row"><span class="k">Idle</span><div class="seg" data-k="motion"><button data-v="two">Two frames</button><button data-v="still">Still</button></div></div>
+      </div>
+      <figure class="phone-col" style="margin:0"><div id="live"></div><figcaption class="sub" id="liveCap" style="max-width:402px"></figcaption></figure>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-coat">
+    <h2 id="h-coat">Which skin does a coat get?</h2>
+    <p class="sub">The vision model only names the coat (<code>{coat_colors[], pattern, confidence}</code>); a fixed server rule picks the skin, so a photo's lighting can never produce an unreadable colour. Tap a coat.</p>
+    <div class="coats" id="coats"></div>
+    <div class="box coat-out" id="coatOut"></div>
+  </section>
+
+  <section aria-labelledby="h-skins">
+    <h2 id="h-skins">The seven skins</h2>
+    <p class="sub">Each coat skin is the coat's hue, darkened until text and buttons pass 4.5 : 1 on its own background. The 10 swatches are the <code>SkinColors</code> keys in order; the numbers are measured, not targets.</p>
+    <div class="skins" id="skins"></div>
+  </section>
+
+  <section aria-labelledby="h-sprites">
+    <h2 id="h-sprites">Sprites: five moods, two frames each</h2>
+    <p class="sub">24 × 24 cells, the brand's faces with the gold bell tag. Each mood is a slow two-step idle: a blink, a breath, the Z of a sleeping pet coming and going. Reduce Motion shows the first frame only.</p>
+    <div class="sheet" id="sheet"></div>
+    <div class="box"><span class="k">Exported for <code>frontend/assets/pixel-pets/</code></span>
+      <ul class="files"><li><code>&lt;pet&gt;-&lt;mood&gt;.png</code> × 20: two frames side by side, drawn at 8× (384 × 192), transparent</li><li>The same at 1× in <code>src/</code> (48 × 24) for the web with <code>image-rendering: pixelated</code></li><li><code>pixel-pets.json</code>: pets, moods, frame size 24, scale 8, 600 ms per frame</li><li>Pets: <code>max</code> (Maltese), <code>dog</code> (any other dog), <code>cat</code> (any cat; tabby), <code>cat-tuxedo</code> (if you pick it)</li><li><code>skins.ts</code>: the six coat skins as <code>SkinColors</code>, to paste into <code>themes.ts</code></li><li><code>sheet.png</code>: the contact sheet</li></ul></div>
+  </section>
+
+  <section aria-labelledby="h-decided">
+    <h2 id="h-decided">Decided</h2>
+    <p class="sub" id="decidedSub"></p>
+    <div class="stage" id="decided"></div>
+  </section>
+
+  <section aria-labelledby="h-spec">
+    <h2 id="h-spec">The spec Minsik codes from</h2>
+    <div class="tw" tabindex="0" aria-label="Skins and room spec, scrolls sideways" data-spec><table><thead><tr><th scope="col">Element</th><th scope="col">Size · motion</th><th scope="col">Colour (token)</th><th scope="col">Label · testID</th><th scope="col">Notes</th></tr></thead><tbody>
+      <tr><td>Skins</td><td>7 themes: <code>default</code> (Forest) + amber, clay, umber, slate, plum, rose</td><td>the 10 <code>SkinColors</code> each</td><td>—</td><td>Paste <code>skins.ts</code> into <code>themes.ts</code>. Status colours and the DANGER modal never change.</td></tr>
+      <tr><td>Coat → skin</td><td>Server rule after <code>POST /api/ai/pet-theme</code></td><td>—</td><td><code>pets.theme</code></td><td>golden · fawn · apricot · tan → amber; red · orange · ginger → clay; brown · chocolate → umber; white · cream → umber (decision 2); grey · blue · black → slate; mixed → the largest colour; low confidence → default. Plum and Rose: owner's pick only.</td></tr>
+      <tr><td>Skin in use</td><td>The selected pet's skin, whole app</td><td>—</td><td>—</td><td>Switching pets (PetSwitcher) switches the skin; the sitter sees the skin of the pet in their care.</td></tr>
+      <tr data-comp="Room"><td>Room card</td><td>Full width · radius 20 · padding 10 · gap 8</td><td>frame: skin primary at 22 % lightness · wall: skin <code>accent</code></td><td><code>pet-room</code> · “Max's room. Max looks calm. Fed at 8 AM, potty once, walk at 4 PM.”</td><td>Under the stay card on Owner Home. Tap → Activity.</td></tr>
+      <tr data-comp="Room"><td>Screen</td><td>160 tall · radius 12 · window, bowl, bed, floor</td><td>fixed room colours; window turns night blue when sleepy</td><td>—</td><td>Only the wall takes the skin (decision 6); the sprite is never recoloured.</td></tr>
+      <tr data-comp="Mood tile"><td>Sprite</td><td>24 × 24 cells at 4× = 96 pt, centred on the floor</td><td>—</td><td><code>pet-room-sprite</code></td><td><code>&lt;pet&gt;-&lt;mood&gt;.png</code>: Maltese → <code>max</code>, other dogs → <code>dog</code>, cats → <code>cat</code>. Web: <code>image-rendering: pixelated</code>.</td></tr>
+      <tr><td>Idle</td><td>2 frames, 600 ms each, steps (no tween)</td><td>—</td><td>—</td><td>Reduce Motion: frame 1 only.</td></tr>
+      <tr data-comp="Room"><td>HUD</td><td>2 × 2 chips, 30 tall, radius 8, 12 / 600 · 16 px pixel icons</td><td>chip <code>#FFF8EC</code> · text ink · hungry: <code>warning</code> on <code>warningSurface</code></td><td>part of <code>pet-room</code>'s label</td><td>Fed · potty · mood · next task, in words (decision 7). Same facts as the label.</td></tr>
+      <tr><td>Mood rule</td><td><code>lib/petStatus.ts</code></td><td>—</td><td>—</td><td>hungry: no meal check-in in 6 h · otherwise the latest mood check-in (happy, calm, tired) · sleepy: a nap check-in in the last hour (proposal) · nothing logged: calm.</td></tr>
+    </tbody></table></div>
+    <div class="grid2">
+      <div class="box"><span class="k">Files</span><ul>
+        <li><code>frontend/theme/themes.ts</code>: six presets from <code>skins.ts</code>.</li>
+        <li><code>frontend/assets/pixel-pets/</code>: the 20 strips (8×) + <code>pixel-pets.json</code>.</li>
+        <li>New <code>frontend/lib/petStatus.ts</code> · <code>frontend/components/PetStatusRoom.tsx</code> · Owner Home.</li>
+        <li>11.10 backend: <code>ai_pet_theme.py</code> + <code>prompts/pet_theme/system.md</code> (vision → coat JSON → the rule above).</li></ul></div>
+      <div class="box"><span class="k">Figma</span><ul>
+        <li>Each skin can be a mode of the Color collection, next to Default, Balanced and Expressive (themes.ts says skins = Color modes).</li>
+        <li>The decided frames go to the Tickets page with the plugin; the sprites come in as pixel layers.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-dec">
+    <h2 id="h-dec">Decisions</h2>
+    <p class="sub">Pick an answer and it saves for both of us. <b>✓</b> marks my recommendation; overrule anything.</p>
+    <p class="dbstate" id="dbstate">Connecting…</p>
+    <div class="dec" id="dec"></div>
+    <div class="q"><b class="qt">Anything else? Notes for me or Minsik</b><textarea class="notes" id="notes" placeholder="e.g. Max should look happier when calm"></textarea><button type="button" class="ds-btn secondary savebtn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
+  </section>
+
+  <footer>Sketch, not spec until the decisions are in. Sources: issue #119, phase-11-p1 (11.10, 11.12, DoD 6 and 8), pet-status-room.ko.md, <code>theme/themes.ts</code> on main (Oct 18), the brand's pixel pets (Logo files). Contrast ratios are WCAG 2 relative luminance, measured by <code>design/pixel-pets/build.py</code>.</footer>
+</main>
+<script src="tickets/wb.js"></script>
+<script>
+(() => {
+  const { $, ic } = WB;
+  const DATA = /*PIXELDATA*/{"pets":{"max":{"kind":"maltese","pal":{"3":"#F2C230","4":"#E9772E","5":"#C45A1C","6":"#4E9A4A","7":"#2F6E35","8":"#D8443C","B":"#F6B8B4","C":"#2D6A4F","D":"#C9962E","F":"#FFFFFF","G":"#F4C35A","H":"#FFFFFF","K":"#2B1A0C","L":"#8CC8F0","M":"#FFFFFF","O":"#9A8676","P":"#F28CA8","Q":"#FFE29A","R":"#D8443C","S":"#F0E6D8","T":"#E9776A","W":"#2B1A0C","X":"#EE7D5E","Y":"#F4C35A","Z":"#FBF6EA","a":"#FFFFFF","h":"#E86D8C","p":"#D9567A","r":"#A92E2A","x":"#D4603F","y":"#C9962E"},"faces":{"excited":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO.........OOOFFHHHHHHHHFFOOO.....OSSOFFFFFFFFFFFFOSSO....OSSYFFFFFFFFFFFFYSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKWFMMMMFKWFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSOFFMMMMKKMMMMFFOSSO..OSSOOOFMMKTTKMMFOOOSSO...OO...OFMMTTMMFO...OO..........OFFTTFFO...............OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","content":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFKFFFFFFKFFOSSSO..OSSSOFKFKMMMMKFKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","calm":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","idle":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKTTKMMFOOOSSO..OSSO..OFMMTTMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","shy":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOKKFFMMMMKKFFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSBBBMMKKKKMMBBBSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","teary":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFLMMMMMMMMFFOSSSO..OSSSOBLMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMMKKMMMFOOOSSO..OSSO..OFMKMMKMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","surprised":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFWKFFFFFFWKFOSSO...OSSSOFKKFFFFFFKKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMMKKMMMFOOOSSO..OSSO..OFMMKKMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep":"...................ZZZ......................Z............OOOOOO....ZZZ.........OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep-z0":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO..........."}},"dog":{"kind":"dog","pal":{"3":"#F2C230","4":"#E9772E","5":"#C45A1C","6":"#4E9A4A","7":"#2F6E35","8":"#D8443C","B":"#F4A48C","C":"#2D6A4F","D":"#C9962E","F":"#E8A63F","G":"#F4C35A","H":"#F6C766","K":"#2B1A0C","L":"#8CC8F0","M":"#FCE9C4","O":"#4A2E12","P":"#F28CA8","Q":"#FFE29A","R":"#D8443C","S":"#B97A2A","T":"#E9776A","W":"#FFFFFF","X":"#EE7D5E","Y":"#F4C35A","Z":"#FBF6EA","a":"#FFFFFF","h":"#E86D8C","p":"#D9567A","r":"#A92E2A","x":"#D4603F","y":"#C9962E"},"faces":{"excited":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO.........OOOFFHHHHHHHHFFOOO.....OSSOFFFFFFFFFFFFOSSO....OSSYFFFFFFFFFFFFYSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKWFMMMMFKWFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSOFFMMMMKKMMMMFFOSSO..OSSOOOFMMKTTKMMFOOOSSO...OO...OFMMTTMMFO...OO..........OFFTTFFO...............OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","content":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFKFFFFFFKFFOSSSO..OSSSOFKFKMMMMKFKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","calm":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","idle":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKTTKMMFOOOSSO..OSSO..OFMMTTMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","shy":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOKKFFMMMMKKFFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSBBBMMKKKKMMBBBSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","teary":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFWKFFFFFFWKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFLMMMMMMMMFFOSSSO..OSSSOBLMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMMKKMMMFOOOSSO..OSSO..OFMKMMKMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","surprised":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFWKFFFFFFWKFOSSO...OSSSOFKKFFFFFFKKFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMMKKMMMFOOOSSO..OSSO..OFMMKKMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep":"...................ZZZ......................Z............OOOOOO....ZZZ.........OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep-z0":".........................................................OOOOOO................OOHHHHHHOO.............OHHHHHHHHHHO...........OFFHHHHHHHHFFO........OOFFFFFFFFFFFFFFOO.....OSSOFFFFFFFFFFFFOSSO....OSSOFFFFFFFFFFFFOSSO...OSSSOFFFFFFFFFFFFOSSSO..OSSSOFKKFMMMMFKKFOSSSO..OSSSOFFMMMMMMMMFFOSSSO..OSSSOBBMMKKKKMMBBOSSSO..OSSSOFMMMMKKMMMMFOSSSO..OSSOOOFMMKMMKMMFOOOSSO..OSSO..OFMMMMMMFO..OSSO...OO....OFFFFFFO....OO.........OCCCCCCCCO...............OOOOOOOO...................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO..........."}},"cat":{"kind":"tabby","pal":{"3":"#F2C230","4":"#E9772E","5":"#C45A1C","6":"#4E9A4A","7":"#2F6E35","8":"#D8443C","B":"#F4A48C","C":"#2D6A4F","D":"#C9962E","F":"#F0A04B","G":"#F4C35A","H":"#F8C27A","K":"#2B1A0C","L":"#8CC8F0","M":"#FFF1DE","N":"#F08A8A","O":"#4A2E12","P":"#F28CA8","Q":"#FFE29A","R":"#D8443C","S":"#C9762E","T":"#E9776A","W":"#FFFFFF","X":"#EE7D5E","Y":"#F4C35A","Z":"#FBF6EA","a":"#FFFFFF","h":"#E86D8C","p":"#D9567A","r":"#A92E2A","x":"#D4603F","y":"#C9962E"},"faces":{"excited":".....O............O..........OO..........OO..........OFO........OFO.........OBBFO..OO..OFBBO........OBBBHOOSSOOHBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OYFFFFFFFFFFFFYO........OFFFFFFFFFFFFFFO.......OFFFWKFFFFFFWKFFFO......OFFFKWFFFFFFKWFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKTTKMMFFFO.....KK..OFFFMMTTMMFFFO..KK.......OOFFMTTMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","content":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFFKFFFFFFKFFFFO......OFFFKFKFFFFKFKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMKKMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","calm":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFWKFFFFFFWKFFFO......OFFFKKFFFFFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMKKMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","idle":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFWKFFFFFFWKFFFO......OFFFKKFFFFFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","shy":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFFFFFFFFFFFFFFO......OFFKKFFFFFFKKFFFFO......OFFFFFFMMMMFFFFFFO....KK.OBBBFMMNNMMFBBBO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","teary":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFWKFFFFFFWKFFFO......OFFFKKFFFFFFKKFFFO......OFFFLFFMMMMFFFFFFO....KK.OFBLFMMNNMMFBBFO.KK.....OFFFMMMKKMMMFFFO.....KK..OFFFMKMMKMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","surprised":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFWKFFFFFFWKFFO.......OFFFKKFFFFFFKKFFFO......OFFFKKFFFFFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMMKKMMMFFFO.....KK..OFFFMMKKMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep":"...................ZZZ.......O............O.Z........OO..........OOZZZ......OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFFFFFFFFFFFFFFO......OFFFKKFFFFFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep-z0":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOSSOOOBBBO........OBBFHHSHHSHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO.......OFFFFFFFFFFFFFFFFO......OFFFKKFFFFFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO..........."}},"cat-tuxedo":{"kind":"tuxedo","pal":{"3":"#F2C230","4":"#E9772E","5":"#C45A1C","6":"#4E9A4A","7":"#2F6E35","8":"#D8443C","B":"#F2A0A6","C":"#2D6A4F","D":"#C9962E","F":"#2E2B31","G":"#F4C35A","H":"#45414A","K":"#2B1A0C","L":"#8CC8F0","M":"#FFFFFF","N":"#F2A0A6","O":"#141216","P":"#F28CA8","Q":"#FFE29A","R":"#D8443C","T":"#E9776A","W":"#FFFFFF","X":"#EE7D5E","Y":"#F4C35A","Z":"#FBF6EA","a":"#FFFFFF","h":"#E86D8C","p":"#D9567A","r":"#A92E2A","x":"#D4603F","y":"#C9962E"},"faces":{"excited":".....O............O..........OO..........OO..........OFO........OFO.........OBBFO..OO..OFBBO........OBBBHOOHHOOHBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OYFFFFFFFFFFFFYO........OFFFFFFMMFFFFFFO.......OFFFWKFFMMFFWKFFFO......OFFFKWFFMMFFKWFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKTTKMMFFFO.....KK..OFFFMMTTMMFFFO..KK.......OOFFMTTMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","content":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFFKFFMMFFKFFFFO......OFFFKFKFMMFKFKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMKKMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","calm":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFWKFFMMFFWKFFFO......OFFFKKFFMMFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMKKMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","idle":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFWKFFMMFFWKFFFO......OFFFKKFFMMFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","shy":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFFFFFMMFFFFFFFO......OFFKKFFFMMFKKFFFFO......OFFFFFFMMMMFFFFFFO....KK.OBBBFMMNNMMFBBBO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","teary":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFWKFFMMFFWKFFFO......OFFFKKFFMMFFKKFFFO......OFFFLFFMMMMFFFFFFO....KK.OFBLFMMNNMMFBBFO.KK.....OFFFMMMKKMMMFFFO.....KK..OFFFMKMMKMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","surprised":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFWKFFMMFFWKFFO.......OFFFKKFFMMFFKKFFFO......OFFFKKFFMMFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMMKKMMMFFFO.....KK..OFFFMMKKMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep":"...................ZZZ.......O............O.Z........OO..........OOZZZ......OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFFFFFMMFFFFFFFO......OFFFKKFFMMFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO...........","sleep-z0":".............................O............O..........OO..........OO.........OBBO...OO...OBBO........OBBBOOOHHOOOBBBO........OBBFHHHHHHHHFBBO........OFFFFFFFFFFFFFFO........OFFFFFFFFFFFFFFO........OFFFFFFMMFFFFFFO.......OFFFFFFFMMFFFFFFFO......OFFFKKFFMMFFKKFFFO......OFFFFFFMMMMFFFFFFO....KK.OFBBFMMNNMMFBBFO.KK.....OFFFMMKMMKMMFFFO.....KK..OFFFMMMMMMFFFO..KK.......OOFFMMMMFFOO..............OFFFFFFO...............OCCCCCCCCO..........................................OO....................OGGGGO..................OGGGDO...................OGDO.....................OO..........."}}},"states":{"happy":["excited","content"],"calm":["calm","idle"],"tired":["shy","calm"],"hungry":["teary","surprised"],"sleepy":["sleep","sleep-z0"]},"skins":[{"key":"default","name":"Forest","hue":153,"note":"The brand default for every pet","colors":{"primary":"#2D6A4F","primaryText":"#FFFFFF","background":"#F7F7F5","accent":"#D8F3DC","surface":"#FFFFFF","border":"#E5E5E0","borderStrong":"#86867F","track":"#E5E5E0","text":"#1A1A1A","textMuted":"#5C5C5C"},"checks":{"text / background":16.23,"textMuted / background":6.23,"textMuted / surface":6.69,"primary / background":5.96,"primaryText / primary":6.39,"text / accent":14.73,"borderStrong / surface":3.66},"room":{"wall":"#D8F3DC","frame":"#214F3B"}},{"key":"amber","name":"Amber","hue":40,"note":"Golden, fawn, apricot and tan coats","colors":{"primary":"#8C6921","primaryText":"#FFFFFF","background":"#F7F6F3","accent":"#F0E9DB","surface":"#FFFFFF","border":"#E1DDD6","borderStrong":"#968C78","track":"#E1DDD6","text":"#221E16","textMuted":"#6F6758"},"checks":{"text / background":15.36,"textMuted / background":5.17,"textMuted / surface":5.59,"primary / background":4.67,"primaryText / primary":5.05,"text / accent":13.74,"borderStrong / surface":3.32},"room":{"wall":"#F0E9DB","frame":"#5B4415"}},{"key":"clay","name":"Clay","hue":16,"note":"Red, orange and ginger coats","colors":{"primary":"#B1522F","primaryText":"#FFFFFF","background":"#F7F4F3","accent":"#F0E1DB","surface":"#FFFFFF","border":"#E0D9D6","borderStrong":"#9C8982","track":"#E0D9D6","text":"#221916","textMuted":"#72605A"},"checks":{"text / background":15.75,"textMuted / background":5.43,"textMuted / surface":5.94,"primary / background":4.66,"primaryText / primary":5.1,"text / accent":13.54,"borderStrong / surface":3.33},"room":{"wall":"#F0E1DB","frame":"#592918"}},{"key":"umber","name":"Umber","hue":26,"note":"Brown and chocolate coats; white and cream fall back here","colors":{"primary":"#89674D","primaryText":"#FFFFFF","background":"#F6F5F4","accent":"#EBE5E0","surface":"#FFFFFF","border":"#DEDBD9","borderStrong":"#938B86","track":"#DEDBD9","text":"#221B16","textMuted":"#72645A"},"checks":{"text / background":15.6,"textMuted / background":5.23,"textMuted / surface":5.7,"primary / background":4.69,"primaryText / primary":5.11,"text / accent":13.6,"borderStrong / surface":3.35},"room":{"wall":"#EBE5E0","frame":"#483628"}},{"key":"slate","name":"Slate","hue":210,"note":"Grey, blue and black coats","colors":{"primary":"#557391","primaryText":"#FFFFFF","background":"#F4F5F6","accent":"#E0E6EB","surface":"#FFFFFF","border":"#D9DBDE","borderStrong":"#868C92","track":"#D9DBDE","text":"#161C22","textMuted":"#5A6672"},"checks":{"text / background":15.73,"textMuted / background":5.38,"textMuted / surface":5.87,"primary / background":4.53,"primaryText / primary":4.94,"text / accent":13.64,"borderStrong / surface":3.4},"room":{"wall":"#E0E6EB","frame":"#293847"}},{"key":"plum","name":"Plum","hue":280,"note":"Owner's pick only","colors":{"primary":"#834D9D","primaryText":"#FFFFFF","background":"#F5F4F6","accent":"#E8DFEC","surface":"#FFFFFF","border":"#DCD8DE","borderStrong":"#948A99","track":"#DCD8DE","text":"#1E1622","textMuted":"#6F5E78"},"checks":{"text / background":16.05,"textMuted / background":5.4,"textMuted / surface":5.92,"primary / background":5.45,"primaryText / primary":5.98,"text / accent":13.58,"borderStrong / surface":3.3},"room":{"wall":"#E8DFEC","frame":"#3F254B"}},{"key":"rose","name":"Rose","hue":350,"note":"Owner's pick only","colors":{"primary":"#AE3D50","primaryText":"#FFFFFF","background":"#F7F3F4","accent":"#EFDCDF","surface":"#FFFFFF","border":"#E0D7D8","borderStrong":"#9C878A","track":"#E0D7D8","text":"#221618","textMuted":"#755C60"},"checks":{"text / background":15.95,"textMuted / background":5.52,"textMuted / surface":6.08,"primary / background":5.33,"primaryText / primary":5.86,"text / accent":13.36,"borderStrong / surface":3.36},"room":{"wall":"#EFDCDF","frame":"#531D26"}}],"frameMs":600,"icons":{"bowl":["................","................","................","................","......####......","....##....##....",".##############.",".#............#.","..#..........#..","...#........#...","....########....","................","................","................","................","................"],"drop":["................",".......##.......","......#..#......",".....#....#.....","....#......#....","...#........#...","...#........#...","...#..#.....#...","...#...#....#...","....#......#....",".....######.....","................","................","................","................","................"],"heart":["................","................","................","....###..###....","...#...##...#...","..#..........#..","..#..........#..","...#........#...","....#......#....",".....#....#.....","......#..#......",".......##.......","................","................","................","................"],"paw":["................","................","................",".....##..##.....",".....##..##.....","................","..##........##..","..##..####..##..",".....######.....","....########....","....########....",".....##..##.....","................","................","................","................"],"zzz":["................","................",".........####...","...........#....","..........#.....",".........####...","................","....###.........",".....#..........","....###.........","................","................","................","................","................","................"]}}/*END*/;
+  const SK = Object.fromEntries(DATA.skins.map((k) => [k.key, k]));
+  const STATES = Object.keys(DATA.states), MOOD = { happy: "Happy", calm: "Calm", tired: "Tired", hungry: "Hungry", sleepy: "Sleepy" };
+  const PETS = { max: { name: "Max", coat: "white", kind: "Maltese" }, cat: { name: "Mochi", coat: "ginger", kind: "cat" }, dog: { name: "Bori", coat: "golden", kind: "dog" } };
+  const COATS = [["white", "White", "#F7F4EE"], ["cream", "Cream", "#EFE3C8"], ["golden", "Golden · fawn", "#E2A84B"], ["ginger", "Red · ginger", "#C8682F"], ["brown", "Brown", "#7A5233"],
+    ["grey", "Grey · blue", "#8A8F98"], ["black", "Black", "#2B2A2E"], ["mixed", "Mixed", "conic-gradient(#2B2A2E 0 33%,#C8682F 0 66%,#F7F4EE 0)"]];
+  const coatSkin = (coat, white) => ({ white: white, cream: white, golden: "amber", ginger: "clay", brown: "umber", grey: "slate", black: "slate", mixed: "default" })[coat];
+
+  // ---------- pixels ----------
+  function svg(rows, pal, cls = "") {
+    const n = rows.length, out = [];
+    rows.forEach((r, y) => { let x = 0; while (x < r.length) { const c = r[x]; if (c === ".") { x++; continue; } let x1 = x + 1; while (x1 < r.length && r[x1] === c) x1++;
+      out.push(`<rect x="${x}" y="${y}" width="${x1 - x}" height="1" fill="${pal ? pal[c] : "currentColor"}"/>`); x = x1; } });
+    return `<svg class="px ${cls}" viewBox="0 0 ${r0(rows)} ${n}" shape-rendering="crispEdges" aria-hidden="true">${out.join("")}</svg>`;
+  }
+  const r0 = (rows) => rows[0].length;
+  const rowsOf = (s) => { const n = Math.round(Math.sqrt(s.length)); return Array.from({ length: n }, (_, y) => s.slice(y * n, (y + 1) * n)); };
+  const petKey = (pet, catKind) => pet === "cat" && catKind === "tuxedo" ? "cat-tuxedo" : pet;
+  function sprite(pet, state, animate) {
+    const p = DATA.pets[pet], [a, b] = DATA.states[state];
+    const A = svg(rowsOf(p.faces[a]), p.pal, "fa"), B = svg(rowsOf(p.faces[b]), p.pal, "fb");
+    return animate ? `<span class="anim" style="--ms2:${DATA.frameMs * 2}ms">${A}${B}</span>` : `<span class="anim still">${A}</span>`;
+  }
+  const icon = (n, col) => `<span style="color:${col || "#1B4332"};display:contents">${svg(DATA.icons[n], null)}</span>`;
+
+  // ---------- the phone ----------
+  const HUD = { happy: [["bowl", "Fed 8 AM"], ["drop", "Potty 2×"], ["heart", "Happy"], ["paw", "Walk 4 PM"]],
+    calm: [["bowl", "Fed 8 AM"], ["drop", "Potty 1×"], ["heart", "Calm"], ["paw", "Walk 4 PM"]],
+    tired: [["bowl", "Fed 8 AM"], ["drop", "Potty 2×"], ["heart", "Tired"], ["paw", "Nap next"]],
+    hungry: [["bowl", "Hungry · 7 AM", "w"], ["drop", "Potty 1×"], ["heart", "Restless"], ["paw", "Dinner 6 PM"]],
+    sleepy: [["bowl", "Fed 6 PM"], ["drop", "Potty 3×"], ["zzz", "Sleepy"], ["paw", "Bed 9 PM"]] };
+  const SAY = { happy: "Played fetch for 20 min!", calm: "Napping since 1 PM", tired: "Long walk this morning", hungry: "Dinner's at 6", sleepy: "Out like a light" };
+  const vars = (k) => { const c = k.colors; return `--bg:${c.background};--surface:${c.surface};--text:${c.text};--muted:${c.textMuted};--primary:${c.primary};--ptext:${c.primaryText};--accent:${c.accent};--line:${c.border};--strong:${c.borderStrong};--wall:${k.room.wall};--frame:${k.room.frame}`; };
+  const sb = `<div class="sb"><span>9:41</span><span>●●● ▮</span></div>`;
+  const tabs = `<div class="tabs" data-comp="Tab bar">${[["home", "Home"], ["chat", "Chats"], ["img", "Feed"], ["book", "Diary"], ["cam", "Snap"]].map(([i, l]) => `<span class="${l === "Home" ? "on" : ""}">${ic(i)}${l}</span>`).join("")}</div>`;
+  function room(o, animate) {
+    const p = PETS[o.pet], tint = o.tint !== "none";
+    const hud = HUD[o.state].map(([i, t, w]) => `<span class="${w || ""}">${icon(i, w ? "#B54708" : null)}<em>${t}</em></span>`).join("");
+    const style = tint ? "" : "--wall:#D8F3DC;--frame:#173B2C";
+    return `<div class="room ${o.hud === "icons" ? "icons" : ""}" style="${style}" aria-label="${p.name}'s room. ${p.name} looks ${MOOD[o.state].toLowerCase()}."><div class="scr"><i class="floor"></i><i class="win ${o.state === "sleepy" ? "night" : ""}"></i><i class="bed"></i><i class="bowl ${o.state === "hungry" ? "empty" : ""}"></i>
+      <span class="say">${SAY[o.state]}</span><div class="pet">${sprite(petKey(o.pet, o.catKind), o.state, animate)}</div></div><div class="hud">${hud}</div></div>`;
+  }
+  function home(o, animate) {
+    const k = SK[o.skinKey], pk = (id) => svg(rowsOf(DATA.pets[petKey(id, o.catKind)].faces.calm), DATA.pets[petKey(id, o.catKind)].pal);
+    const sv = `Skin=${k.name}`;
+    const inner = `${sb}<div class="bar" data-comp="Top bar" data-variant="${sv}"><span class="title">Home</span><span class="rchip">Owner</span><span class="ib">${ic("bell")}<span class="badge">3</span></span><span class="ib">${ic("menu")}</span></div>
+      <div class="scroll"><span class="cap">Thanksgiving · Oct 9 – 12</span><div class="stay" data-comp="Stay card" data-variant="${sv}"><b>Max and Mochi are with Chloe</b><span>Day 2 of 4 · next update by 4 PM</span></div>
+      <div class="pets">${["max", "cat"].map((id) => `<span class="pc ${o.pet === id ? "on" : ""}">${pk(id)}${PETS[id].name}</span>`).join("")}${o.pet === "dog" ? `<span class="pc on">${pk("dog")}Bori</span>` : ""}</div>
+      ${room(o, animate).replace('<div class="room', `<div data-comp="Room" data-variant="${sv}" class="room`)}
+      <div class="today" data-comp="Today card" data-variant="${sv}"><b>Today</b><span>8:02 AM · Breakfast, ate it all</span><span>12:40 PM · Walk, 30 min</span><span>1:05 PM · Photo: napping in the sun</span></div></div>${tabs.replace('data-comp="Tab bar"', `data-comp="Tab bar" data-variant="${sv}"`)}`;
+    return `<div class="ph" style="${vars(k)}" role="img" aria-label="Owner Home sketch">${inner}</div>`;
+  }
+
+  // ---------- live ----------
+  const st = { pet: "max", state: "calm", skin: "auto", catKind: "tabby", hud: "words", motion: "two" };
+  try { Object.assign(st, JSON.parse(sessionStorage.getItem("t119") || "{}")); } catch (e) {}
+  $("skinSeg").innerHTML = `<button data-v="auto">Auto (coat)</button>` + DATA.skins.map((k) => `<button data-v="${k.key}">${k.name}</button>`).join("");
+  let dec = null;
+  const autoSkin = (pet, d, catKind) => coatSkin(pet === "cat" && catKind === "tuxedo" ? "black" : PETS[pet].coat, d.white);
+  function drawLive() {
+    const d = dec || DECIDED, skinKey = st.skin === "auto" ? autoSkin(st.pet, d, st.catKind) : st.skin;
+    $("live").innerHTML = home({ ...st, skinKey, tint: d.tint }, st.motion === "two");
+    $("liveCap").textContent = `${PETS[st.pet].name} looks ${MOOD[st.state].toLowerCase()}. Skin: ${SK[skinKey].name}${st.skin === "auto" ? ` (from a ${st.pet === "cat" && st.catKind === "tuxedo" ? "black" : PETS[st.pet].coat} coat)` : ""}.`;
+    document.querySelectorAll("#ctl .seg").forEach((g) => g.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === st[g.dataset.k]))));
+    try { sessionStorage.setItem("t119", JSON.stringify(st)); } catch (e) {}
+  }
+  document.querySelectorAll("#ctl .seg").forEach((g) => g.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; st[g.dataset.k] = b.dataset.v; drawLive(); drawSheet(); }));
+
+  // ---------- coats ----------
+  let coat = "white";
+  function drawCoats() {
+    const d = dec || DECIDED;
+    $("coats").innerHTML = COATS.map(([id, l, c]) => `<button type="button" data-c="${id}" aria-pressed="${id === coat}"><i style="background:${c}"></i>${l}</button>`).join("");
+    const k = SK[coatSkin(coat, d.white)];
+    const why = { white: `White coats have no hue to borrow, so they fall back to ${k.name} (decision 2). Max lands here.`, cream: `Cream reads as white with warmth: same fallback as white, ${k.name}.`,
+      golden: "Golden, fawn, apricot and tan share Amber.", ginger: "Red, orange and ginger share Clay. Mochi, an orange tabby, lands here.", brown: "Brown and chocolate take Umber.",
+      grey: "Grey, blue and silver take Slate, the cool skin.", black: "Black has no hue either; it takes the cool fallback, Slate.", mixed: "Mixed coats take their largest colour; when the model isn't sure, the brand default." }[coat];
+    $("coatOut").innerHTML = `<span class="chipk"><i style="background:${k.colors.primary}"></i>${k.name}</span><span class="sub">${why}</span>`;
+  }
+  $("coats").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; coat = b.dataset.c; drawCoats(); });
+
+  // ---------- skins + sprite sheet ----------
+  const KEYS = ["primary", "primaryText", "background", "accent", "surface", "border", "borderStrong", "track", "text", "textMuted"];
+  function drawSkins() {
+    $("skins").innerHTML = DATA.skins.map((k) => { const c = k.colors;
+      return `<figure class="sk"><div class="top"><b>${k.name}</b><code>${k.key}</code></div><span class="note">${k.note}</span>
+        <div class="sw10">${KEYS.map((n) => `<i style="background:${c[n]}" title="${n} ${c[n]}"></i>`).join("")}</div>
+        <div class="mini" style="background:${c.background}"><div class="r"><span class="b" style="background:${c.primary};color:${c.primaryText}">Book</span><span class="c" style="background:${c.accent};color:${c.text}">Boarding</span><span class="c" style="border:1px solid ${c.borderStrong};color:${c.text};background:${c.surface}">Walks</span></div>
+          <span class="t" style="color:${c.text}">Max is with Chloe</span><span class="m" style="color:${c.textMuted}">Breakfast done · walk at 4 PM</span></div>
+        <div class="ck">${Object.entries(k.checks).map(([n, v]) => `<span>${n}</span><b>${v.toFixed(1)} : 1</b>`).join("")}</div></figure>`; }).join("");
+  }
+  function drawSheet() {
+    const pets = [["max", "Max"], [petKey("cat", st.catKind), "Mochi"], ["dog", "Bori"]];
+    $("sheet").innerHTML = `<span></span>${STATES.map((s) => `<span class="h">${MOOD[s]}</span>`).join("")}` +
+      pets.map(([id, n]) => `<span class="n">${n}</span>${STATES.map((s) => `<span class="t" title="${n} · ${MOOD[s]}">${sprite(id, s, true)}</span>`).join("")}`).join("");
+  }
+
+  // ---------- decided ----------
+  const DECIDED = { skins: "seven", white: "umber", cat: "tabby", states: "five", motion: "two", tint: "wall", hud: "words" };   // my recommendations until Mook decides
+  const Q = [
+    ["skins", "Skins to ship", "The issue asks for 6–8.", [["seven", "Forest + 6 coat skins"], ["five", "Forest + Amber, Clay, Umber, Slate"]], "seven"],
+    ["white", "White and cream coats (Max is white)", "White has no hue to borrow.", [["umber", "Umber, warm"], ["default", "Forest, the default"], ["slate", "Slate, cool"]], "umber"],
+    ["cat", "Mochi and every other cat", "The demo cat has no breed, so she's the generic cat.", [["tabby", "Orange tabby"], ["tuxedo", "Tuxedo"]], "tabby"],
+    ["states", "Mood states", "The spec lists five; the DoD needs three.", [["five", "All five"], ["three", "Happy, calm, hungry"]], "five"],
+    ["motion", "Idle animation", "Spec: 2–4 frames. Reduce Motion always shows frame 1.", [["two", "Two frames, 0.6 s each"], ["still", "Still"]], "two"],
+    ["tint", "What the skin changes in the room", "Spec v1: the room's background, never the sprite.", [["wall", "Wall and frame"], ["none", "Nothing (brand green)"]], "wall"],
+    ["hud", "HUD", "Words make the state readable without guessing an icon.", [["words", "Words with icons"], ["icons", "Icons only"]], "words"],
+  ];
+  function drawDecided(d) {
+    dec = d;
+    const states = d.states === "three" ? ["happy", "calm", "hungry"] : STATES;
+    const sheetFrame = (id, title, pet) => { const k = SK[autoSkin(pet, d, d.cat)];
+      return `<figure><div class="ph comp" style="${vars(k)}" data-cap="${id}" data-title="${title}" role="img" aria-label="${title}"><div class="scroll" style="padding:16px"><span class="cap">${title}</span><div class="rows5" style="grid-template-columns:repeat(${states.length},minmax(0,1fr))">${states.map((s) => `<figure data-comp="Mood tile" data-variant="Skin=${k.name}"><span class="t">${sprite(petKey(pet, d.cat), s, false)}</span>${MOOD[s]}</figure>`).join("")}</div></div></div><figcaption><b>${title}</b>Frame 1 of each mood, on the skin's wall</figcaption></figure>`; };
+    const skins = (d.skins === "five" ? DATA.skins.filter((k) => ["default", "amber", "clay", "umber", "slate"].includes(k.key)) : DATA.skins);
+    $("decided").innerHTML = [
+      `<figure>${home({ pet: "max", state: "calm", skinKey: autoSkin("max", d, d.cat), catKind: d.cat, hud: d.hud, tint: d.tint }, false).replace('class="ph"', 'class="ph" data-cap="home-max" data-title="Owner Home · Max, calm"')}<figcaption><b>Owner Home · Max, calm</b>${SK[autoSkin("max", d, d.cat)].name} skin from his white coat</figcaption></figure>`,
+      `<figure>${home({ pet: "cat", state: "happy", skinKey: autoSkin("cat", d, d.cat), catKind: d.cat, hud: d.hud, tint: d.tint }, false).replace('class="ph"', 'class="ph" data-cap="home-mochi" data-title="Owner Home · Mochi, happy"')}<figcaption><b>Owner Home · Mochi, happy</b>Switching pets switches the skin</figcaption></figure>`,
+      sheetFrame("moods-max", "Max · moods", "max"), sheetFrame("moods-cat", "Mochi · moods", "cat"),
+      `<figure><div class="ph comp" data-cap="skins" data-title="Skins · SkinColors" role="img" aria-label="Skins"><div class="scroll" style="padding:16px;gap:8px"><span class="cap">Skins · the 10 SkinColors in order</span>${skins.map((k) => `<div class="pal"><span>${k.name}</span>${KEYS.map((n) => `<i style="background:${k.colors[n]}"></i>`).join("")}</div>`).join("")}</div></div><figcaption><b>Skins · SkinColors</b>primary → textMuted, left to right</figcaption></figure>`,
+    ].join("");
+    $("decidedSub").textContent = `With the answers below: ${d.skins === "seven" ? "seven skins" : "five skins"}, white coats → ${SK[d.white].name}, the ${d.cat === "tabby" ? "orange tabby" : "tuxedo"} as the generic cat, ${d.states === "five" ? "five moods" : "three moods"}. These are the frames the Figma plugin builds on the Tickets page.`;
+    drawLive(); drawCoats();
+  }
+  drawSkins(); drawSheet();
+  WB.decisions({ Q, DECIDED, onChange: drawDecided, ticket: (d, decisions) => ({
+    id: 119, title: "Coat-color skins and pixel pets", issue: "https://github.com/minsikpaul92/Goldito/issues/119",
+    workbench: "https://claude.ai/artifact/LhNvkbvK7abKwc4b3eJQzW", design: "Mook", code: "Minsik", decisions, spec: WB.specRows(), specLinks: WB.specLinks() }) });
+})();
+</script>
+</body>
+</html>

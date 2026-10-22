@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Home Header Workbench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+  /* Ticket #147 workbench: today's header, three options to try live, where Log out goes, the spec for code,
+     and a decisions panel that saves to the artifact's database (read back by Claude). Merges into the design
+     site as-is: same ds.css tokens; add it to nav.js and publish-site.py FILES. */
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:72rem;margin:0 auto;display:flex;flex-direction:column;gap:3rem;padding-top:2.25rem}
+  .wrap>*,section{min-width:0}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  h1{font:700 clamp(2rem,4.6vw,2.6rem)/1.1 var(--font-display);letter-spacing:-.01em}
+  h2{font:600 1.5rem/1.2 var(--font-display)}
+  h3{font:600 1.0625rem/1.25 var(--font-display)}
+  p{margin:0}
+  a{color:var(--color-primary)}
+  code{font:600 .8125rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.0625rem .375rem}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .lede{font-size:1.0625rem;color:var(--color-text-muted);max-width:46rem;margin-top:.75rem}
+  .lede b{color:var(--color-text)}
+  section{display:flex;flex-direction:column;gap:1rem;scroll-margin-top:1rem}
+  .sub{color:var(--color-text-muted);max-width:46rem}
+  .meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+  .meta span{font-size:.8125rem;font-weight:600;background:var(--color-surface);border:1px solid var(--color-border);border-radius:999px;padding:.25rem .75rem}
+  .grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1rem}
+  @media (max-width:860px){.grid2{grid-template-columns:minmax(0,1fr)}}
+  .box{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .box ul,.box ol{margin:0;padding-left:1.125rem;display:flex;flex-direction:column;gap:.375rem;font-size:.9rem}
+  .k{font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .ok{color:var(--color-success);font-weight:700} .no{color:var(--color-error);font-weight:700}
+
+  /* ---------- the phone header mock (402 wide, shown at 1:1 when it fits) ---------- */
+  .ph{--bg:#F7F7F5;--surface:#FFFFFF;--text:#1A1A1A;--muted:#5C5C5C;--primary:#2D6A4F;--ink:#1A1A1A;--accent:#D8F3DC;--line:#E5E5E0;--error:#B42318;
+    --title-font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--title-size:16px;--title-weight:600;
+    width:402px;max-width:100%;background:var(--bg);color:var(--text);border-radius:28px;border:8px solid #1A1A1A;overflow:hidden;position:relative;
+    font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color-scheme:light;flex:0 0 auto}
+  .ph.tall{min-height:660px}
+  .ph.exp{--bg:#FBF6EA;--ink:#1B4332;--title-font:"Fredoka","Arial Rounded MT Bold",ui-rounded,sans-serif;--title-size:24px;--title-weight:600}
+  .ph .sb{display:flex;justify-content:space-between;padding:10px 22px 2px;font-size:13px;font-weight:600}
+  .ph .bar{height:56px;display:flex;align-items:center;gap:4px;padding:0 8px 0 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+  .ph.exp .bar{background:var(--bg);border-bottom:0}
+  .ph .title{flex:1;min-width:0;font:var(--title-weight) var(--title-size)/1.2 var(--title-font);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ph .chip{font-weight:600;font-size:12px;line-height:1;color:var(--primary);background:var(--accent);border-radius:8px;padding:5px 8px;margin-right:4px;white-space:nowrap}
+  .ph .ib{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--ink);flex:0 0 auto}
+  .ph .ib svg{width:24px;height:24px}
+  .ph .ib.today-bell{color:var(--muted)} .ph .ib.today-bell svg{width:22px;height:22px}
+  .ph .ib.today-green{color:var(--primary)} .ph .ib.today-green svg.lg{width:28px;height:28px} .ph .ib.today-green svg.sm{width:22px;height:22px}
+  .ph .logout{font-weight:600;font-size:14px;line-height:1;color:var(--primary);padding:0 4px;min-height:44px;display:grid;place-items:center;white-space:nowrap}
+  .ph .av{width:32px;height:32px;border-radius:50%;background:#FDE2CC;color:var(--ink);display:grid;place-items:center;font-weight:700;font-size:13px;line-height:1;background-size:cover;background-position:center}
+  .ph .badge{position:absolute;top:4px;right:2px;min-width:18px;height:18px;border-radius:9px;background:var(--error);color:#fff;font-weight:700;font-size:11px;line-height:18px;text-align:center;padding:0 5px;box-shadow:0 0 0 2px var(--surface)}
+  .ph.exp .badge{box-shadow:0 0 0 2px var(--bg)}
+  .ph .badge.dot{min-width:10px;width:10px;height:10px;padding:0;top:9px;right:9px}
+  .ph .body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:10px}
+  .ph .cap{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .ph .card{background:var(--accent);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+  .ph .card b{font-weight:700;color:var(--ink)} .ph .card span{font-size:14px;color:var(--muted)}
+  .ph .card.w{background:var(--surface);border:1px solid var(--line)}
+  .num{position:absolute;width:20px;height:20px;border-radius:50%;background:#B54708;color:#fff;font:700 11px/20px var(--font-ui);text-align:center;box-shadow:0 0 0 2px #fff;z-index:2}
+  /* menu sheet */
+  .ph .scrim{position:absolute;inset:0;background:rgba(26,26,26,.4);display:flex;justify-content:flex-end}
+  .ph .drawer{width:78%;height:100%;background:var(--bg);display:flex;flex-direction:column;padding:48px 10px 16px;gap:2px}
+  .ph .me{display:flex;align-items:center;gap:12px;padding:8px 8px 14px;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .ph .me b{display:block;font-size:16px} .ph .me span{font-size:13px;color:var(--muted)}
+  .ph .mi{display:flex;align-items:center;gap:14px;min-height:48px;padding:0 10px;border-radius:12px;font-size:16px;font-weight:600;color:var(--ink)}
+  .ph .mi svg{width:22px;height:22px}
+  .ph .mi .cnt{margin-left:auto;min-width:22px;height:22px;border-radius:11px;background:var(--error);color:#fff;font-weight:700;font-size:12px;line-height:22px;text-align:center;padding:0 6px}
+  .ph .mi .gt{margin-left:auto;color:var(--muted)}
+  .ph .mi.out{margin-top:auto;color:var(--muted)}
+  /* as built in PR #178: the drawer slides in from the right and covers the whole phone */
+  .ph .drawer.full{position:absolute;inset:0;width:100%;padding:44px 16px 20px;gap:0}
+  .ph .drawer.full .close{align-self:flex-end;width:44px;height:44px;display:grid;place-items:center;color:var(--ink)}
+  .ph .drawer.full .close svg{width:24px;height:24px}
+  .ph .drawer.full .me{padding:12px 0 16px;margin-bottom:8px;gap:16px}
+  .ph .drawer.full .me .av{width:56px!important;height:56px!important;font-size:20px!important}
+  .ph .drawer.full .me b{font-size:20px}
+  .ph .drawer.full .me .gt{margin-left:auto;color:var(--muted)}
+  .ph .drawer.full .mi{min-height:56px;padding:0;font-size:18px}
+  /* settings + confirm */
+  .ph .list{background:var(--surface);border-radius:14px;padding:4px 14px}
+  .ph .li{display:flex;justify-content:space-between;align-items:center;min-height:48px;border-bottom:1px solid var(--line);font-size:15px}
+  .ph .li:last-child{border-bottom:0}
+  .ph .li span{color:var(--muted);font-size:14px}
+  .ph .out-link{align-self:center;display:flex;align-items:center;gap:8px;min-height:44px;color:var(--error);font-weight:700;font-size:15px}
+  .ph .out-link svg{width:20px;height:20px}
+  .ph .sheet{position:absolute;inset:auto 0 0 0;background:var(--surface);border-radius:20px 20px 0 0;padding:10px 16px 22px;display:flex;flex-direction:column;gap:10px;box-shadow:0 -8px 24px rgba(0,0,0,.12)}
+  .ph .sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--line);align-self:center}
+  .ph .sheet b{font-size:18px}
+  .ph .btn{min-height:48px;border-radius:12px;display:grid;place-items:center;font-weight:700}
+  .ph .btn.danger{background:var(--error);color:#fff} .ph .btn.sec{background:var(--surface);box-shadow:inset 0 0 0 1.5px #86867F;color:var(--ink)}
+
+  /* ---------- try it ---------- */
+  .lab{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.5rem;align-items:start}
+  @media (max-width:900px){.lab{grid-template-columns:minmax(0,1fr)}}
+  .ctl{display:flex;flex-direction:column;gap:.875rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:1rem 1.125rem;min-width:0}
+  .row{display:flex;flex-direction:column;gap:.375rem}
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg button{font:600 .875rem var(--font-ui);min-height:36px;padding:0 .875rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-background);color:var(--color-text);cursor:pointer}
+  .seg button[aria-pressed=true]{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-primary-text)}
+  .seg button:hover{border-color:var(--color-primary)}
+  .stage{display:flex;gap:1rem;flex-wrap:wrap;align-items:flex-start}
+  .stage figure{margin:0;display:flex;flex-direction:column;gap:.375rem;min-width:0;max-width:100%}
+  .stage figcaption{font-size:.8125rem;color:var(--color-text-muted);max-width:402px}
+  .stage figcaption b{color:var(--color-text);display:block}
+  .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+  @media (max-width:1180px){.three{grid-template-columns:minmax(0,1fr)}}
+  .three .ph{width:100%}
+  .three figure{margin:0;display:flex;flex-direction:column;gap:.375rem;min-width:0}
+  .three figcaption{font-size:.8125rem;color:var(--color-text-muted)} .three figcaption b{color:var(--color-text);display:block;font-size:.9375rem}
+  .pick{font-size:.6875rem;font-weight:700;color:var(--color-success);background:var(--color-success-surface);border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+
+  /* ---------- spec table ---------- */
+  .tw{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-surface)}
+  .tw:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+  table{width:100%;border-collapse:collapse;font-size:.875rem;min-width:44rem}
+  th{text-align:left;font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:.625rem .875rem;border-bottom:1px solid var(--color-border)}
+  td{padding:.625rem .875rem;border-top:1px solid var(--color-border);vertical-align:top}
+  tr:first-child td{border-top:0}
+  td:first-child{font-weight:700;white-space:nowrap}
+
+  /* ---------- decisions ---------- */
+  .dec{display:flex;flex-direction:column;gap:.75rem}
+  .q{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem}
+  .q .top{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;flex-wrap:wrap}
+  .q b.qt{font-size:.9375rem}
+  .q .why{font-size:.8125rem;color:var(--color-text-muted)}
+  .q .saved{font-size:.75rem;color:var(--color-text-muted)}
+  .q .saved.mine{color:var(--color-success);font-weight:600}
+  .notes{width:100%;min-height:5.5rem;font:inherit;font-size:.9rem;border:1px solid var(--color-border-strong);border-radius:var(--radius-md);padding:.625rem .75rem;background:var(--color-surface);color:var(--color-text);resize:vertical}
+  .dbstate{font-size:.8125rem;color:var(--color-text-muted);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:.625rem .875rem}
+  .savebtn{align-self:flex-start}
+  footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Ticket workbench · #147</span>
+    <h1>A tidy Home header</h1>
+    <p class="lede">The Owner Home header mixes a title, an <b>Owner</b> chip, a bell, a profile icon and the words <b>“Log out”</b> in one row, all at different sizes and colours. Seulgi asked to tidy it. Below: what's there today, three options to try live, where Log out goes, the spec Minsik codes from, and the decisions we need. Pick answers at the bottom; they save here and I read them back.</p>
+    <div class="meta"><span><a href="https://github.com/minsikpaul92/Goldito/issues/147" target="_blank" rel="noopener">Issue #147</a></span><span>Design: Mook · Code: Minsik</span><span>0.5 day design + 0.5 day code</span><span>Labels: qa-feedback · owner · ui-polish</span></div>
+  </header>
+
+  <section aria-labelledby="h-done">
+    <h2 id="h-done">Done when</h2>
+    <div class="grid2">
+      <div class="box"><span class="k">Acceptance criteria (from the issue)</span><ul>
+        <li><span class="no">Not yet</span> · No text-only “Log out” in the header</li>
+        <li><span class="no">Not yet</span> · Every header icon has an accessible label and a 44 px target <span class="sub">(targets are 44 already; Log out has no label)</span></li>
+        <li><span class="no">Not yet</span> · Owner and Sitter Home look consistent <span class="sub">(the sitter has an extra icon, sizes differ)</span></li></ul></div>
+      <div class="box"><span class="k">Verify</span><ol>
+        <li>Owner and Sitter Home at 402 × 874 and on desktop; click every icon.</li>
+        <li>e2e specs that use the bell, <code>open-profile</code> and <code>log-out</code> (26 references) still pass.</li></ol></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-today">
+    <h2 id="h-today">Today, in the app</h2>
+    <p class="sub">Drawn from <a href="https://github.com/minsikpaul92/Goldito/blob/main/frontend/components/HeaderActions.tsx" target="_blank" rel="noopener"><code>HeaderActions.tsx</code></a> and <code>RoleTabs.tsx</code> on main. Numbers mark what's off.</p>
+    <div class="stage" id="today"></div>
+    <div class="box"><ol>
+      <li><b>Owner chip</b>: shows only in dev builds, so judges never see it, but it eats space while we test.</li>
+      <li><b>Bell</b>: 22 px in grey (<code>textMuted</code>), with a red count pill.</li>
+      <li><b>Profile</b>: 28 px in green (<code>primary</code>): a different size and colour from the bell right next to it.</li>
+      <li><b>“Log out”</b>: 14 px green text, the loudest thing in the row, and the only way to sign out in the app.</li>
+      <li><b>Sitter only</b>: a 22 px green calendar for Schedule, so the two roles don't match.</li></ol></div>
+  </section>
+
+  <section aria-labelledby="h-try">
+    <h2 id="h-try">Try the options</h2>
+    <p class="sub">Change anything; the phone redraws. All three move Log out off the header. They differ in what stays one tap away.</p>
+    <div class="lab">
+      <div class="ctl" id="ctl">
+        <div class="row"><span class="k">Option</span><div class="seg" data-k="v"><button data-v="A">A · Menu only</button><button data-v="B">B · Bell + menu</button><button data-v="C">C · Bell + avatar</button></div></div>
+        <div class="row"><span class="k">Role</span><div class="seg" data-k="role"><button data-v="owner">Owner</button><button data-v="sitter">Sitter</button></div></div>
+        <div class="row"><span class="k">Title</span><div class="seg" data-k="title"><button data-v="home">“Home”</button><button data-v="hi">“Hi, Robert”</button><button data-v="long">A long name</button></div></div>
+        <div class="row"><span class="k">New alerts</span><div class="seg" data-k="n"><button data-v="0">0</button><button data-v="3">3</button><button data-v="12">12</button></div></div>
+        <div class="row"><span class="k">Badge</span><div class="seg" data-k="badge"><button data-v="count">Count</button><button data-v="dot">8 px dot (DESIGN §6.1)</button></div></div>
+        <div class="row"><span class="k">Role chip</span><div class="seg" data-k="chip"><button data-v="on">Show</button><button data-v="off">Hide</button></div></div>
+        <div class="row"><span class="k">Avatar (C)</span><div class="seg" data-k="av"><button data-v="initials">Initials</button><button data-v="photo">Photo</button></div></div>
+        <div class="row"><span class="k">Look</span><div class="seg" data-k="look"><button data-v="app">The app today</button><button data-v="exp">Expressive (D1)</button></div></div>
+        <div class="row"><span class="k">Show</span><div class="seg" data-k="open"><button data-v="home">Home</button><button data-v="menu">Menu open</button></div></div>
+      </div>
+      <div class="stage" id="live"></div>
+    </div>
+    <h3>Side by side</h3>
+    <div class="three" id="three"></div>
+    <div class="grid2">
+      <div class="box"><span class="k">What each one costs</span><ul>
+        <li><b>A</b>: the calmest row, and one place for everything else. But alerts are the product (“learn without asking”), and they move one tap away behind ≡, where a number doesn't say what it counts.</li>
+        <li><b>B</b>: the team's menu for everything else, with the bell kept out. A new alert stays one tap away and the badge sits where its meaning is obvious.</li>
+        <li><b>C</b>: no menu at all; the avatar opens Profile and Log out lives at the bottom of Settings. Fewest new parts to build, but Schedule and What's new stay two taps deep.</li></ul></div>
+      <div class="box"><span class="k">My pick: B</span><p>It keeps the team's idea (a menu that can grow: Settings, What's new, Help, Log out) without hiding the one thing owners open the app for. Same header for both roles: the sitter's Schedule moves into the menu, so the rows finally match.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-out">
+    <h2 id="h-out">Where Log out goes</h2>
+    <p class="sub">Settings already exists (Profile → “Settings · What's New”) with the account, notifications, What's new, the version and Privacy, but no Log out. Put it at the bottom there as an outlined button, behind a “Log out?” sheet (as built in PR #178). In A and B it's also the last row of the menu.</p>
+    <div class="stage" id="settings"></div>
+  </section>
+
+  <section aria-labelledby="h-decided" id="decided-sec">
+    <h2 id="h-decided">Decided</h2>
+    <p class="sub" id="decidedSub">Option B with your answers below. These are the frames the Figma plugin builds on the Tickets page.</p>
+    <div class="stage" id="decided"></div>
+  </section>
+
+  <section aria-labelledby="h-spec">
+    <h2 id="h-spec">The spec Minsik codes from (option B)</h2>
+    <div class="tw" tabindex="0" aria-label="Header spec, scrolls sideways"><table><thead><tr><th scope="col">Element</th><th scope="col">Size</th><th scope="col">Colour (token)</th><th scope="col">Label · testID</th><th scope="col">Notes</th></tr></thead><tbody>
+      <tr data-comp="Top bar"><td>Top bar</td><td>56 tall · padding 16 / 8</td><td>Expressive: page cream #FBF6EA, no line</td><td>—</td><td>Same on every tab, both roles (DESIGN §6.1 “App” variant).</td></tr>
+      <tr data-comp="Top bar"><td>Title</td><td>24 / 600 Fredoka (Expressive, decision 7)</td><td><code>ink</code> #1B4332</td><td>header role</td><td>“Home” on Home, “Today” for sitters (decision 2); the tab name elsewhere. One line, ellipsis.</td></tr>
+      <tr data-comp="Top bar"><td>Role chip</td><td>Caption 12 / 600 · radius 8</td><td><code>accent</code> / <code>primary</code></td><td>“Owner” / “Sitter”</td><td><b>Shown to everyone</b> (decision 4): drop the <code>__DEV__</code> check in <code>HeaderActions.tsx</code>.</td></tr>
+      <tr data-comp="Top bar"><td>Bell</td><td>44 × 44 target · 24 glyph</td><td><code>text</code></td><td>“Notifications, 3 new” · <code>notification-bell</code></td><td>Opens Notifications. Was 22 px grey.</td></tr>
+      <tr data-comp="Top bar"><td>Badge</td><td>18 tall pill, 2 px ring · or 8 px dot</td><td><code>error</code> on white</td><td>in the bell's label</td><td>“9+” over nine (decision 3).</td></tr>
+      <tr data-comp="Top bar"><td>Menu ≡</td><td>44 × 44 · 24 glyph</td><td><code>text</code></td><td>“Menu” · <code>open-menu</code> (new)</td><td>Opens the menu drawer (below).</td></tr>
+      <tr data-comp="Menu drawer"><td>Menu drawer</td><td>Full width, slides in from the right (260 ms ease-out, out in 200 ms); page dims behind</td><td><code>background</code> · scrim <code>overlay</code></td><td><code>header-menu</code> · ✕ <code>header-menu-close</code></td><td>Built in PR #178 (<code>HeaderMenu.tsx</code>). Rows: Notifications (count), Schedule (sitters), What's new, Settings; Log out pinned at the bottom.</td></tr>
+      <tr data-comp="Menu drawer"><td>Menu: you</td><td>56 avatar + name 20 / 700 + role, ›</td><td><code>text</code> / <code>textMuted</code></td><td><code>open-profile</code> (moved here)</td><td>Tap → Profile. The e2e “open-profile” step becomes menu → you.</td></tr>
+      <tr data-comp="Menu drawer"><td>Menu rows</td><td>56 tall · 24 icon · label 18 / 600</td><td><code>primary</code>; count on <code>error</code></td><td><code>menu-notifications</code> · <code>open-schedule</code> · <code>menu-whats-new</code> · <code>open-settings</code></td><td>Whole row tappable; › on the right, the count badge instead on Notifications.</td></tr>
+      <tr data-comp="Menu drawer"><td>Menu: Log out</td><td>56 row, pinned to the bottom</td><td><code>textMuted</code></td><td>“Log out” · <code>log-out</code> (moved)</td><td>Asks “Log out?” in the drawer first (<code>log-out-confirm</code>, <code>log-out-cancel</code>); the specs add one tap.</td></tr>
+      <tr><td>Icons</td><td>24 outline, 2 px stroke</td><td>—</td><td>—</td><td>Ionicons <code>notifications-outline</code>, <code>menu-outline</code>, <code>calendar-outline</code>, <code>log-out-outline</code> (the app's set until Figma picks one).</td></tr>
+    </tbody></table></div>
+    <div class="grid2">
+      <div class="box"><span class="k">Files</span><ul>
+        <li><code>frontend/components/HeaderActions.tsx</code>: bell + menu; drop the text button and the sitter's calendar.</li>
+        <li><code>frontend/components/NotificationBell.tsx</code>: 24 px, <code>text</code> colour, label with the count.</li>
+        <li>New <code>HeaderMenu.tsx</code> (full-width drawer from the right, Animated) · <code>app/settings.tsx</code>: Log out at the bottom with a confirm.</li>
+        <li><code>DESIGN.md</code> §0 / §6.1: the header row and the badge rule.</li></ul></div>
+      <div class="box"><span class="k">Tests to update</span><ul>
+        <li><code>auth.spec.ts</code> (log out), <code>split.spec.ts</code> (both phones), plus the profile, feed, demo-tools, privacy, sitter-search and home-location specs that open Profile.</li>
+        <li>Keep the three ids; only the path to them gains a tap. PR #41 had already moved Log out into Profile; close it in favour of this.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-dec">
+    <h2 id="h-dec">Decisions</h2>
+    <p class="sub">Pick an answer and it saves for both of us. <b>✓</b> marks my recommendation; overrule anything.</p>
+    <p class="dbstate" id="dbstate">Connecting…</p>
+    <div class="dec" id="dec"></div>
+    <div class="q"><b class="qt">Anything else? Notes for me or Minsik</b><textarea class="notes" id="notes" placeholder="e.g. try the menu as a bottom sheet instead"></textarea><button type="button" class="ds-btn secondary savebtn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
+  </section>
+
+  <footer>Sketch, not spec until the decisions are in. Sources: issue #147, <code>HeaderActions.tsx</code> · <code>NotificationBell.tsx</code> · <code>settings.tsx</code> on main (Oct 18), DESIGN.md §6.1, the Oct 17 Sketches page. Icons are drawn here as Lucide outlines; the app uses Ionicons.</footer>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  // Lucide outlines (ISC), inline
+  const P = {
+    bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+    menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    cal: '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    user: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>',
+    out: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/>',
+    spark: '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/>',
+    gear: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+    help: '<circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/>',
+    back: '<path d="m15 18-6-6 6-6"/>',
+    x: '<path d="M18 6 6 18M6 6l12 12"/>',
+  };
+  const ic = (n, cls = "") => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[n]}</svg>`;
+  const st = { v: "B", role: "owner", title: "home", n: "3", badge: "count", chip: "on", av: "initials", look: "app", open: "home" };
+  try { Object.assign(st, JSON.parse(sessionStorage.getItem("t147") || "{}")); } catch (e) {}
+
+  const sb = `<div class="sb"><span>9:41</span><span>●●● ▮</span></div>`;
+  const name = (s) => s.role === "owner" ? "Robert" : "Chloe";
+  const titleText = (s) => s.title === "home" ? (s.role === "owner" ? "Home" : "Today") : s.title === "hi" ? `Hi, ${name(s)}` : `Hi, ${name(s)} Montgomery-Okonkwo`;
+  const badge = (s) => +s.n === 0 ? "" : s.badge === "dot" ? `<span class="badge dot" aria-hidden="true"></span>` : `<span class="badge" aria-hidden="true">${+s.n > 9 ? "9+" : s.n}</span>`;
+  const chip = (s) => s.chip === "on" ? `<span class="chip">${s.role === "owner" ? "Owner" : "Sitter"}</span>` : "";
+  const avatar = (s) => `<span class="av" style="${s.av === "photo" ? "background-image:url(assets/tickets/photos/nap.jpg);color:transparent" : ""}">${name(s)[0]}</span>`;
+  const body = (s) => s.role === "owner"
+    ? `<div class="body"><span class="cap">Thanksgiving · Oct 9 – 12</span><div class="card" data-comp="Card" data-variant="Tone=Accent"><b>Max is with Chloe</b><span>Breakfast done · walk at 4 PM</span></div><div class="card w" data-comp="Card" data-variant="Tone=White"><b>Mochi</b><span>Napping since 1 PM</span></div></div>`
+    : `<div class="body"><span class="cap">In your care</span><div class="card" data-comp="Card" data-variant="Tone=Accent"><b>Max and Mochi</b><span>Next: 2 PM skin pill in a treat</span></div><div class="card w" data-comp="Card" data-variant="Tone=White"><b>Today's tasks</b><span>3 of 5 done</span></div></div>`;
+  const bellLabel = (s) => `Notifications${+s.n ? `, ${s.n} new` : ""}`;
+  function header(s) {
+    const t = `<span class="title">${titleText(s)}</span>${chip(s)}`;
+    if (s.v === "A") return `<div class="bar" data-comp="Top bar" data-variant="Layout=A">${t}<span class="ib" role="img" aria-label="Menu${+s.n ? `, ${s.n} new alerts` : ""}">${ic("menu")}${badge(s)}</span></div>`;
+    if (s.v === "B") return `<div class="bar" data-comp="Top bar" data-variant="Layout=B">${t}<span class="ib" role="img" aria-label="${bellLabel(s)}">${ic("bell")}${badge(s)}</span><span class="ib" role="img" aria-label="Menu">${ic("menu")}</span></div>`;
+    return `<div class="bar" data-comp="Top bar" data-variant="Layout=C${s.role === "sitter" ? " · Schedule" : ""}">${t}<span class="ib" role="img" aria-label="${bellLabel(s)}">${ic("bell")}${badge(s)}</span>${s.role === "sitter" ? `<span class="ib" role="img" aria-label="Schedule">${ic("cal")}</span>` : ""}<span class="ib" role="img" aria-label="Profile">${avatar(s)}</span></div>`;
+  }
+  function menu(s) {
+    const items = [s.v === "A" ? `<span class="mi">${ic("bell")}Notifications${+s.n ? `<span class="cnt">${s.n}</span>` : ""}</span>` : "",
+      s.role === "sitter" ? `<span class="mi">${ic("cal")}Schedule<span class="gt">›</span></span>` : "",
+      `<span class="mi">${ic("spark")}What's new<span class="gt">›</span></span>`, `<span class="mi">${ic("gear")}Settings<span class="gt">›</span></span>`, `<span class="mi">${ic("help")}Help<span class="gt">›</span></span>`];
+    return `<div class="scrim"><div class="drawer"><div class="me"><span class="av" style="width:44px;height:44px;font-size:16px">${name(s)[0]}</span><div><b>${name(s)}</b><span>${s.role === "owner" ? "Owner · Max and Mochi" : "Sitter · Toronto"}</span></div></div>${items.join("")}<span class="mi out">${ic("out")}Log out</span></div></div>`;
+  }
+  const phone = (s, inner, cls = "") => `<div class="ph ${s.look === "exp" ? "exp" : ""} ${cls}" role="img" aria-label="Phone sketch">${inner}</div>`;
+  const CAP = { A: ["A · Menu only", "The team's idea: Home and the chip on the left, one ≡ with the alert count."],
+    B: ["B · Bell + menu", "The menu for everything else; the bell stays out so alerts are one tap away."],
+    C: ["C · Bell + avatar", "No menu. The avatar opens Profile; Log out sits at the bottom of Settings."] };
+
+  function drawToday() {
+    const s = { role: "owner", n: "3" };
+    const bar = (role) => `<div class="bar"><span class="title">Home</span><span class="chip" data-n="1">${role === "owner" ? "Owner" : "Sitter"}</span>
+      <span class="ib today-bell" data-n="2">${ic("bell")}<span class="badge">3</span></span>${role === "sitter" ? `<span class="ib today-green" data-n="5">${ic("cal", "sm")}</span>` : ""}<span class="ib today-green" data-n="3">${ic("user", "lg")}</span><span class="logout" data-n="4">Log out</span></div>`;
+    $("today").innerHTML = ["owner", "sitter"].map((role) => `<figure>${phone({}, `${sb}${bar(role)}${body({ role })}`)}<figcaption><b>${role === "owner" ? "Owner Home" : "Sitter Home"}</b>${role === "owner" ? "Title, chip, bell, profile and the words “Log out”." : "The same, plus a calendar: one more icon than the owner."}</figcaption></figure>`).join("");
+    // a number under each element, measured so it never covers what it points at
+    const place = () => document.querySelectorAll("#today .ph").forEach((ph) => {
+      ph.querySelectorAll(".num").forEach((n) => n.remove());
+      const box = ph.getBoundingClientRect(), bar = ph.querySelector(".bar").getBoundingClientRect();
+      ph.querySelectorAll("[data-n]").forEach((el) => { const r = el.getBoundingClientRect(), n = document.createElement("span");
+        n.className = "num"; n.textContent = el.dataset.n; n.setAttribute("aria-hidden", "true");
+        n.style.left = `${r.left + r.width / 2 - box.left - 10 - 8}px`; n.style.top = `${bar.bottom - box.top - 10 - 8}px`; ph.appendChild(n); });
+    });
+    place(); addEventListener("resize", place); document.fonts && document.fonts.ready.then(place);
+  }
+  function drawLive() {
+    const s = st;
+    $("live").innerHTML = `<figure>${phone(s, `${sb}${header(s)}${body(s)}${s.open === "menu" && s.v !== "C" ? menu(s) : ""}`, s.open === "menu" && s.v !== "C" ? "tall" : "")}<figcaption><b>${CAP[s.v][0]}${s.v === "B" ? '<span class="pick">My pick</span>' : ""}</b>${CAP[s.v][1]}${s.open === "menu" && s.v === "C" ? " (C has no menu: the avatar opens Profile.)" : ""}</figcaption></figure>`;
+    $("three").innerHTML = ["A", "B", "C"].map((v) => { const t = { ...s, v, open: "home" };
+      return `<figure>${phone(t, `${sb}${header(t)}${body(t)}`)}<figcaption><b>${CAP[v][0]}${v === "B" ? '<span class="pick">My pick</span>' : ""}</b>${CAP[v][1]}</figcaption></figure>`; }).join("");
+    document.querySelectorAll("#ctl .seg").forEach((g) => g.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === st[g.dataset.k]))));
+    try { sessionStorage.setItem("t147", JSON.stringify(st)); } catch (e) {}
+  }
+  function drawSettings() {
+    const s = { ...st, role: "owner" };
+    const scr = `${sb}<div class="bar"><span class="ib">${ic("back")}</span><span class="title">Settings</span></div>
+      <div class="body"><span class="cap">Account</span><div class="list"><div class="li">Robert<span>Edit profile ›</span></div></div>
+      <span class="cap">Notifications</span><div class="list"><div class="li">Phone notifications<span>Not yet</span></div></div>
+      <span class="cap">About</span><div class="list"><div class="li">What's new<span>›</span></div><div class="li">Privacy<span>›</span></div><div class="li">Version<span>1.4</span></div></div>
+      <div class="btn sec" style="border-radius:999px">Log out</div></div>`;
+    $("settings").innerHTML = `<figure>${phone(s, scr)}<figcaption><b>Settings, bottom</b>An outlined Log out button under Privacy, as built in PR #178 (<code>settings-log-out</code>).</figcaption></figure>
+      <figure>${phone(s, scr + `<div class="scrim" style="align-items:flex-end;justify-content:stretch"></div><div class="sheet" data-comp="Log out sheet"><span class="grab"></span><b>Log out?</b><div class="btn danger" style="border-radius:999px">Log out</div><div class="btn sec" style="border-radius:999px">Cancel</div></div>`)}<figcaption><b>Confirm</b>“Log out?” with a red Log out and Cancel, so a stray tap can't sign anyone out (<code>settings-log-out-confirm</code>).</figcaption></figure>`;
+  }
+  document.querySelectorAll("#ctl .seg").forEach((g) => g.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; st[g.dataset.k] = b.dataset.v; drawLive(); }));
+
+  // ---------- decided: the answers from the decisions panel (built-in copy, refreshed from the database when it loads) ----------
+  const DECIDED = { layout: "B", title: "home", badge: "count", chip: "all", logout: "both", schedule: "menu", look: "exp" };   // Mook, Oct 18
+  const dec = { ...DECIDED };
+  function decidedState(role) {
+    return { v: dec.layout, role, title: dec.title, n: "3", badge: dec.badge, chip: dec.chip === "never" ? "off" : "on", av: "initials", look: dec.look, open: "home" };
+  }
+  function menuDecided(s) {
+    // As built in PR #178 (HeaderMenu.tsx): full width from the right, ✕ to close, you → Profile, then the rows, Log out pinned last.
+    const items = [`<span class="mi">${ic("bell")}Notifications${+s.n && dec.badge === "count" ? `<span class="cnt">${s.n}</span>` : `<span class="gt">›</span>`}</span>`,
+      s.role === "sitter" && dec.schedule === "menu" ? `<span class="mi">${ic("cal")}Schedule<span class="gt">›</span></span>` : "",
+      `<span class="mi">${ic("spark")}What's new<span class="gt">›</span></span>`, `<span class="mi">${ic("gear")}Settings<span class="gt">›</span></span>`,
+      dec.logout !== "settings" ? `<span class="mi out">${ic("out")}Log out</span>` : ""];
+    return `<div class="scrim"><div class="drawer full" data-comp="Menu drawer" data-variant="Role=${s.role === "owner" ? "Owner" : "Sitter"}${s.role === "sitter" && dec.schedule === "menu" ? " · Schedule" : ""}${dec.logout === "settings" ? " · No log out" : ""}"><span class="close" role="img" aria-label="Close menu">${ic("x")}</span><div class="me"><span class="av" style="width:44px;height:44px;font-size:16px">${name(s)[0]}</span><div><b>${name(s)}</b><span>${s.role === "owner" ? "Owner" : "Sitter"}</span></div><span class="gt">›</span></div>${items.join("")}</div></div>`;
+  }
+  function headerDecided(s) {
+    if (s.v === "B" && s.role === "sitter" && dec.schedule === "header")
+      return header(s).replace(`<span class="ib" role="img" aria-label="Menu">`, `<span class="ib" role="img" aria-label="Schedule">${ic("cal")}</span><span class="ib" role="img" aria-label="Menu">`).replace('data-variant="Layout=B"', 'data-variant="Layout=B · Schedule"');
+    return header(s);
+  }
+  function drawDecided() {
+    const o = decidedState("owner"), si = decidedState("sitter");
+    const cap = (id, title, html, cls = "") => `<figure>${phone(o, html, cls).replace('class="ph', `data-cap="${id}" data-title="${title}" class="ph`)}<figcaption><b>${title}</b></figcaption></figure>`;
+    const settings = $("settings").querySelectorAll(".ph");
+    $("decided").innerHTML = [
+      cap("owner-home", "Owner Home", `${sb}${headerDecided(o)}${body(o)}`),
+      cap("sitter-home", "Sitter Home", `${sb}${headerDecided(si)}${body(si)}`),
+      o.v !== "C" ? cap("owner-menu", "Owner · menu open", `${sb}${headerDecided(o)}${body(o)}${menuDecided(o)}`, "tall") : "",
+      si.v !== "C" ? cap("sitter-menu", "Sitter · menu open", `${sb}${headerDecided(si)}${body(si)}${menuDecided(si)}`, "tall") : "",
+      dec.logout !== "menu" ? cap("settings", "Settings · Log out", settings[0].innerHTML) : "",
+      cap("confirm", "Log out · confirm", settings[1].innerHTML),
+    ].join("");
+    $("decidedSub").textContent = `Option ${dec.layout} with the answers below (look: ${dec.look === "exp" ? "Expressive" : "the app today"}; role chip: ${dec.chip === "all" ? "everyone" : dec.chip === "dev" ? "dev builds" : "never"}). These are the frames the Figma plugin builds on the Tickets page.`;
+    window.__ticket = {
+      id: 147, title: "A tidy Home header", issue: "https://github.com/minsikpaul92/Goldito/issues/147",
+      workbench: "https://claude.ai/artifact/TABjKA2XkutaSDrvNBerLn", design: "Mook", code: "Minsik",
+      decisions: Q.map(([id, q, , opts]) => ({ q, a: (opts.find(([v]) => v === dec[id]) || [, "—"])[1] })),
+      spec: [...document.querySelectorAll("#h-spec ~ .tw tbody tr")].map((tr) => [...tr.children].map((td) => { const c = td.cloneNode(true); c.querySelectorAll("code").forEach((k) => k.replaceWith("`" + k.textContent + "`")); return c.textContent.trim().replace(/\s+/g, " "); })),
+      specLinks: [...document.querySelectorAll("#h-spec ~ .tw tbody tr")].map((tr) => tr.dataset.comp || null),
+    };
+  }
+  drawToday(); drawLive(); drawSettings();
+
+  // ---------- decisions: saved in the artifact's database, one document per question ----------
+  const Q = [
+    ["layout", "Header layout", "What stays in the header, what moves into a menu.", [["A", "A · Menu only"], ["B", "B · Bell + menu"], ["C", "C · Bell + avatar"]], "B"],
+    ["title", "Title on Home", "“Hi, Robert” is warmer; “Home” matches the tab name.", [["home", "“Home” / “Today”"], ["hi", "“Hi, Robert”"]], "home"],
+    ["badge", "Alert badge", "DESIGN §6.1 says an 8 px dot; the app shows a count.", [["count", "Count (9+ over nine)"], ["dot", "8 px dot"]], "count"],
+    ["chip", "Role chip", "Today it's dev-only. Showing it helps judges in split view.", [["dev", "Dev builds only"], ["all", "Everyone"], ["never", "Never"]], "dev"],
+    ["logout", "Where Log out lives", "Never on the header; one tap further, with a confirm.", [["settings", "Settings bottom only"], ["menu", "Menu bottom only"], ["both", "Both"]], "both"],
+    ["schedule", "Sitter's Schedule icon", "Matching rows means moving it, but sitters open it daily.", [["menu", "Into the menu"], ["header", "Keep in the header"]], "menu"],
+    ["look", "Which look the frame uses", "The Figma frame for this ticket.", [["app", "The app today"], ["exp", "Expressive (D1)"]], "app"],
+  ];
+  let db = null, me = null, canWrite = false;
+  const saved = {};
+  const when = (t) => { try { return new Date(t).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" }); } catch (e) { return ""; } };
+  function drawDec() {
+    $("dec").innerHTML = Q.map(([id, q, why, opts, rec]) => {
+      const cur = saved[id];
+      return `<div class="q" data-q="${id}"><div class="top"><b class="qt">${q}</b><span class="saved ${cur ? "mine" : ""}">${cur ? `Saved · ${when(cur.at)}` : "Not decided"}</span></div>
+        <span class="why">${why}</span><div class="seg" role="group" aria-label="${q}">${opts.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="${String(cur ? cur.value === v : false)}" ${canWrite ? "" : "disabled"}>${l}${v === rec ? " ✓" : ""}</button>`).join("")}</div>
+</div>`;
+    }).join("");
+    if (saved.notes && document.activeElement !== $("notes")) { $("notes").value = saved.notes.text || ""; $("notesSaved").textContent = `Saved · ${when(saved.notes.at)}`; }
+    $("notes").disabled = !canWrite; $("saveNotes").disabled = !canWrite;
+  }
+  $("dec").addEventListener("click", async (e) => {
+    const b = e.target.closest("button"); const q = e.target.closest(".q"); if (!b || !q || !db || !canWrite) return;
+    const id = q.dataset.q, body = { value: b.dataset.v, at: Date.now(), by: me };
+    saved[id] = body; drawDec();
+    try { await db.doc(`decisions/${id}`).set(body); } catch (err) { $("dbstate").textContent = "Couldn't save that answer. Try again in a moment."; }
+  });
+  $("saveNotes").addEventListener("click", async () => {
+    if (!db || !canWrite) return;
+    const body = { text: $("notes").value.slice(0, 4000), at: Date.now(), by: me };
+    try { await db.doc("decisions/notes").set(body); saved.notes = body; $("notesSaved").textContent = `Saved · ${when(body.at)}`; }
+    catch (err) { $("notesSaved").textContent = "Couldn't save. Try again."; }
+  });
+  drawDec(); drawDecided();
+  (async () => {
+    const c = window.claude;
+    if (!c || !c.use) { $("dbstate").textContent = "Answers save only in the claude.ai artifact. Here you can still try the options above."; return; }
+    db = await c.use("db"); const user = await c.use("user");
+    if (!db) { $("dbstate").textContent = "Saving isn't available in this view. Open the artifact signed in to answer."; return; }
+    try { me = user ? await user.id() : null; } catch (e) {}
+    canWrite = true; $("dbstate").textContent = "Answers save as you click, for both of us.";
+    db.collection("decisions").onSnapshot((snap) => {
+      snap.docs.forEach((d) => { if (d.exists) saved[d.id] = d.data(); });
+      for (const k of Object.keys(DECIDED)) if (saved[k] && saved[k].value) dec[k] = saved[k].value;
+      drawDec(); drawDecided();
+    }, () => { $("dbstate").textContent = "Lost the connection to saved answers. Reload to try again."; });
+    drawDec();
+  })();
+})();
+</script>
+</body>
+</html>

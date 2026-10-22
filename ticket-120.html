@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Calendar Workbench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<link rel="stylesheet" href="tickets/wb.css">
+<style>
+  /* Ticket #120 workbench: the sitter profile calendar an owner sees (SlotCalendar on main, after #150's hatch).
+     Tap a day and the month rolls up into that week with readable slot rows; pull it back down. */
+  .ph{--bg:#F7F7F5;--surface:#FFFFFF;--text:#1A1A1A;--muted:#5C5C5C;--primary:#2D6A4F;--ink:#1A1A1A;--accent:#D8F3DC;--line:#E5E5E0;--strong:#86867F;--track:#E5E5E0;
+    --ok:#067647;--ok-s:#ECFDF3;--title:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;--title-size:17px;
+    --hatch:repeating-linear-gradient(135deg,rgba(134,134,127,.45) 0 1px,transparent 1px 4px);
+    width:402px;max-width:100%;height:874px;background:var(--bg);color:var(--text);border-radius:28px;border:8px solid #1A1A1A;overflow:hidden;position:relative;
+    display:flex;flex-direction:column;font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color-scheme:light;flex:0 0 auto}
+  .ph.exp{--bg:#FBF6EA;--ink:#1B4332;--title:"Fredoka","Arial Rounded MT Bold",ui-rounded,sans-serif;--title-size:22px}
+  .ph.tall{height:auto}
+  .ph.comp{height:auto;border-radius:0;border-width:0;box-shadow:0 0 0 1px var(--color-border)}
+  .ph .sb{display:flex;justify-content:space-between;padding:10px 22px 2px;font-size:13px;font-weight:600;flex:0 0 auto}
+  .ph .bar{height:56px;display:flex;align-items:center;gap:4px;padding:0 8px;background:var(--surface);border-bottom:1px solid var(--line);flex:0 0 auto}
+  .ph.exp .bar{background:var(--bg);border-bottom:0}
+  .ph .bar .title{flex:1;min-width:0;font:600 var(--title-size)/1.2 var(--title);color:var(--ink)}
+  .ph .ib{width:44px;height:44px;display:grid;place-items:center;color:var(--ink);flex:0 0 auto}
+  .ph .ib svg{width:24px;height:24px}
+  .ph .scroll{flex:1 1 auto;min-height:0;overflow:hidden;padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px}
+  .ph.live .scroll{overflow-y:auto;scrollbar-width:thin}
+  .ph .foot{flex:0 0 auto;padding:12px 16px 18px;background:var(--bg);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px;position:relative;z-index:3}
+  .ph .acts{display:flex;gap:8px}
+  .ph .btn{flex:1;min-height:48px;border-radius:12px;display:grid;place-items:center;font-weight:700;font-size:15px;background:var(--primary);color:#fff}
+  .ph .btn.sec{background:var(--surface);color:var(--primary);box-shadow:inset 0 0 0 1.5px var(--strong)}
+  .ph .hint{font-size:12px;line-height:1.35;color:var(--muted);text-align:center}
+  .ph .card{background:var(--surface);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px}
+  .ph .name{font:700 24px/1.2 var(--title);color:var(--ink)}
+  .ph .meta{font-size:13px;color:var(--muted)}
+  .ph .fav{font-size:14px;font-weight:600;color:var(--primary)}
+  .ph .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .ph .chip{font-size:12px;font-weight:600;border:1px solid var(--strong);border-radius:8px;padding:4px 8px}
+  .ph .body{font-size:15px}
+  .ph .lbl{font-weight:600;font-size:16px;color:var(--ink)}
+  /* calendar, as SlotCalendar draws it after #150 */
+  .ph .cal{background:var(--surface);border-radius:16px;padding:8px;display:flex;flex-direction:column;gap:4px;flex:0 0 auto}
+  .ph .calhd{display:flex;align-items:center;justify-content:space-between}
+  .ph .calhd b{font-weight:600;font-size:16px;color:var(--text)}
+  .ph .calhd .lab{display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:0 6px;border-radius:10px;cursor:pointer}
+  .ph .calhd .lab svg{width:18px;height:18px;color:var(--primary)}
+  .ph .nav{width:44px;height:44px;display:grid;place-items:center;color:var(--primary);cursor:pointer;border-radius:50%}
+  .ph .nav svg{width:20px;height:20px}
+  .ph .nav.off{opacity:.3;cursor:default}
+  .ph .dows,.ph .wk{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:2px}
+  .ph .dows span{text-align:center;font-size:12px;color:var(--muted)}
+  .ph .grid{overflow:hidden;transition:height .24s cubic-bezier(.2,.8,.2,1)}
+  .ph .rows{display:flex;flex-direction:column;gap:4px;transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+  .ph .wk{transition:opacity .2s}
+  .ph .grid.folded .wk:not(.cur){opacity:0}
+  .ph .d{position:relative;min-height:52px;border-radius:8px;border:2px solid transparent;display:grid;place-items:center;overflow:hidden;cursor:pointer}
+  .ph .d .bands{position:absolute;inset:0;display:flex;flex-direction:column-reverse;background-color:var(--surface);background-image:var(--hatch)}
+  .ph .d .bands i{flex:1;background:var(--surface)} .ph .d .bands i.x{background:transparent}
+  .ph .d b{position:relative;font-size:12px;font-weight:400;color:var(--text)}
+  .ph .d.today b{font-weight:700;color:var(--primary);text-decoration:underline}
+  .ph .d.sel{border-color:var(--primary)}
+  .ph .d.past{opacity:.35;cursor:default} .ph .d.past .bands{background-image:none}
+  .ph .d.empty{cursor:default;visibility:hidden}
+  .ph .leg{display:flex;gap:16px;padding:8px 4px 2px;font-size:12px;color:var(--muted)}
+  .ph .leg span{display:flex;align-items:center;gap:4px}
+  .ph .leg i{width:24px;height:12px;border-radius:4px;border:1px solid var(--line);background:var(--surface)} .ph .leg i.x{background-image:var(--hatch)}
+  /* the handle that brings the month back (CAL-4) */
+  .ph .handle{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:44px;cursor:grab;touch-action:none;user-select:none;border-radius:10px}
+  .ph .handle i{width:36px;height:4px;border-radius:2px;background:var(--strong)}
+  .ph .handle span{font-size:12px;font-weight:600;color:var(--primary)}
+  /* slot details (CAL-3) */
+  .ph .slots{display:flex;flex-direction:column;gap:8px}
+  .ph .dayt{font-weight:700;font-size:16px;color:var(--ink)}
+  .ph .slot{display:flex;align-items:center;gap:12px;min-height:56px;padding:0 14px;background:var(--surface);border-radius:12px}
+  .ph .slot .st{display:flex;flex-direction:column;min-width:0;flex:1}
+  .ph .slot .st b{font-size:16px;font-weight:600;color:var(--text)} .ph .slot .st span{font-size:14px;color:var(--muted)}
+  .ph .sw{width:12px;height:26px;display:flex;flex-direction:column-reverse;gap:2px;flex:0 0 auto}
+  .ph .sw i{flex:1;border-radius:2px;background:var(--track)} .ph .sw i.on{background:var(--primary)} .ph .sw i.on.x{background:var(--surface);background-image:var(--hatch);box-shadow:inset 0 0 0 1px var(--strong)}
+  .ph .tg{font-size:12px;font-weight:600;border-radius:8px;padding:4px 8px;white-space:nowrap}
+  .ph .tg.ok{background:var(--ok-s);color:var(--ok)} .ph .tg.na{background:var(--track);color:var(--muted)}
+  .ph .lines{background:var(--surface);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:4px;font-size:16px}
+  .ph .lines .dayt{font-weight:600;font-size:16px;color:var(--text)}
+  .ph .tbar{background:var(--surface);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px}
+  .ph .tbar .segs{display:flex;gap:2px;height:44px}
+  .ph .tbar .seg{border-radius:6px;display:flex;flex-direction:column;justify-content:center;padding:0 6px;font-size:11px;line-height:1.2;overflow:hidden;min-width:0}
+  .ph .tbar .seg b{font-size:12px} .ph .tbar .seg.ok{background:var(--accent);color:var(--ink)} .ph .tbar .seg.na{background:var(--surface);background-image:var(--hatch);box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+  .ph .tbar .ticks{display:flex;font-size:11px;color:var(--muted)} .ph .tbar .ticks span{flex:var(--f);min-width:0}
+  .ph .tapcard{background:var(--surface);border-radius:16px;padding:14px;font-size:13px;color:var(--muted)}
+  /* sheet variant */
+  .ph .scrim{position:absolute;inset:0;background:rgba(26,26,26,.32);z-index:2}
+  .ph .sheet{position:absolute;left:0;right:0;bottom:0;background:var(--bg);border-radius:20px 20px 0 0;padding:8px 16px 128px;display:flex;flex-direction:column;gap:8px;z-index:2;box-shadow:0 -8px 24px rgba(0,0,0,.14);transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+  .ph .sheet .grab{width:40px;height:5px;border-radius:3px;background:var(--line);align-self:center;margin:4px 0}
+  @media (prefers-reduced-motion:reduce){.ph .grid,.ph .rows,.ph .wk,.ph .sheet{transition:none}}
+  /* page bits */
+  .num{position:absolute;width:20px;height:20px;border-radius:50%;background:#B54708;color:#fff;font:700 11px/20px var(--font-ui);text-align:center;box-shadow:0 0 0 2px #fff;z-index:5}
+  .fold{position:absolute;left:0;right:0;border-top:2px dashed #B42318;z-index:4}
+  .fold span{position:absolute;right:8px;top:-22px;background:#B42318;color:#fff;font:600 11px/1 var(--font-ui);padding:4px 8px;border-radius:999px}
+  .live-cap{max-width:402px}
+  /* B + D: next openings on the profile, the month and each day on their own pages */
+  .ph .open{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 14px;background:var(--surface);border-radius:16px;cursor:pointer;flex:0 0 auto}
+  .ph .open .st{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+  .ph .open b{font-size:16px;font-weight:700;color:var(--ink)}
+  .ph .open .st span{font-size:14px;color:var(--muted)}
+  .ph .open .chev{color:var(--muted);display:grid;place-items:center}
+  .ph .open .chev svg{width:20px;height:20px}
+  .ph .wide{min-height:48px;border-radius:999px;display:grid;place-items:center;font-weight:700;font-size:15px;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink);cursor:pointer;flex:0 0 auto}
+  .ph .answer{background:var(--accent);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;flex:0 0 auto}
+  .ph .answer b{font:600 20px/1.2 var(--title);color:var(--ink)}
+  .ph .answer span{font-size:14px;color:var(--ink)}
+  .ph .note{font-size:14px;color:var(--muted)}
+  .ph .bar .ib[data-act]{cursor:pointer}
+  .ph .bdday .dayt{display:none}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header>
+    <span class="eyebrow">Ticket workbench · #120</span>
+    <h1>Sitter calendar: next openings and a day page</h1>
+    <p class="lede">When an owner looks at a sitter's profile, the month calendar fills the screen and a tapped day's hours land below the fold as one long sentence. Minsik's <b>#150</b> already removed the M · A · N letters. <b>Decided (Oct 18): B + D.</b> The profile lists Chloe's <b>next openings</b> in plain words; the month opens as <b>its own page</b>; tapping a day opens <b>a day page</b> with big slot rows and a clear Back. Nothing slides or folds under the finger, and there are no hidden gestures, so it works for older owners and with a mouse. Options compared: <a href="ticket-120-options.html">ticket-120-options.html</a>.</p>
+    <div class="meta"><span><a href="https://github.com/minsikpaul92/Goldito/issues/120" target="_blank" rel="noopener">Issue #120</a></span><span>CAL-1 – CAL-4 · IQ-13</span><span>Design: Mook · Code: Minsik</span><span>Builds on <a href="https://github.com/minsikpaul92/Goldito/pull/150" target="_blank" rel="noopener">#150</a> (closed <a href="https://github.com/minsikpaul92/Goldito/issues/134" target="_blank" rel="noopener">#134</a>)</span></div>
+  </header>
+
+  <section aria-labelledby="h-done">
+    <h2 id="h-done">Done when</h2>
+    <div class="grid2">
+      <div class="box"><span class="k">From the issue</span><ul class="done-list">
+        <li><span class="pill done">Shipped</span> No M · A · N marks <span class="sub">(CAL-1, in #150 on Oct 17: hatched bands instead)</span></li>
+        <li><span class="pill todo">Not yet</span> Tap schedule shows the slots <span class="sub">(CAL-2: tap an opening or a day → its day page, no scroll)</span></li>
+        <li><span class="pill todo">Not yet</span> Readable slot text <span class="sub">(CAL-3: rows with the hours and a tag in words)</span></li>
+        <li><span class="pill todo">Not yet</span> Back to the month <span class="sub">(CAL-4: a labelled ‹ Back, instead of pulling the calendar down)</span></li></ul></div>
+      <div class="box"><span class="k">Verify</span><ol>
+        <li>Owner opens Chloe's profile at 402 × 874 and on desktop: the next openings read without scrolling past the intro.</li>
+        <li>Tap an opening → that day's page with three slot rows; ‹ Back returns to the profile.</li>
+        <li>See full month → the month page; tap a day → its day page; ‹ Back returns to the month.</li>
+        <li>Mouse only (desktop frame, D25): every step is a click. No drag, no long press.</li>
+        <li><code>sitters.spec.ts</code> (the three <code>sitter-day-*</code> lines) and <code>booking.spec.ts</code> pass with the new text.</li></ol></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-today">
+    <h2 id="h-today">Today, in the app</h2>
+    <p class="sub">Drawn from <a href="https://github.com/minsikpaul92/Goldito/blob/main/frontend/app/owner/sitters/%5BsitterId%5D.tsx" target="_blank" rel="noopener"><code>owner/sitters/[sitterId].tsx</code></a> and <a href="https://github.com/minsikpaul92/Goldito/blob/main/frontend/components/SlotCalendar.tsx" target="_blank" rel="noopener"><code>SlotCalendar.tsx</code></a> on main (Oct 18), drawn full length. The red line is the bottom of a 402 × 874 phone, above the Ask / Book bar.</p>
+    <div class="stage" id="today"></div>
+    <div class="box"><ol>
+      <li><b>The details land below the fold.</b> The month is about 450 px tall, so after a tap the only visible change is the green outline; the hours are a scroll away.</li>
+      <li><b>Each slot is one sentence</b>: “Afternoon: Open · 12:00 PM–6:00 PM · 1 spot left”. The state, the hours and the spots run together.</li>
+      <li><b>Nothing folds.</b> There's no way to put the month away while reading a day, or to get it back (CAL-2, CAL-4).</li></ol></div>
+  </section>
+
+  <section aria-labelledby="h-try">
+    <h2 id="h-try">Try it</h2>
+    <p class="sub">The phone works: <b>tap any day</b> from Oct 7 on, step through weeks with ‹ ›, then bring the month back with the handle (click it, or drag it down). Change the options and it redraws.</p>
+    <div class="lab">
+      <div class="ctl" id="ctl">
+        <div class="row"><span class="k">When a day is tapped</span><div class="seg" data-k="collapse"><button data-v="bd">B + D · Openings, then a day page</button><button data-v="week">A · Roll up to the week</button><button data-v="sheet">B · Slots in a sheet</button><button data-v="stay">C · Month stays (today)</button></div></div>
+        <div class="row"><span class="k">Owner's dates</span><div class="seg" data-k="dates"><button data-v="yes">Has dates (Oct 9 to 12)</button><button data-v="no">No dates yet</button></div></div>
+        <div class="row"><span class="k">Slot text</span><div class="seg" data-k="rows"><button data-v="rows">Rows with a tag</button><button data-v="bar">Time bar</button><button data-v="line">One line (today)</button></div></div>
+        <div class="row"><span class="k">Month back</span><div class="seg" data-k="back"><button data-v="handle">Handle + “Show month”</button><button data-v="header">“Oct 11 – 17 ▾”</button><button data-v="drag">Handle only</button></div></div>
+        <div class="row"><span class="k">Hours</span><div class="seg" data-k="hours"><button data-v="short">8 AM to 12 PM</button><button data-v="long">8:00 AM–12:00 PM</button></div></div>
+        <div class="row"><span class="k">Ask / Book</span><div class="seg" data-k="prefill"><button data-v="day">Start from the day</button><button data-v="none">As today</button></div></div>
+        <div class="row"><span class="k">Look</span><div class="seg" data-k="look"><button data-v="exp">Expressive</button><button data-v="app">The app today</button></div></div>
+        <button type="button" class="ds-btn secondary" id="reset">Start over</button>
+      </div>
+      <figure class="phone-col" style="margin:0"><div id="live"></div><figcaption class="sub live-cap" id="liveCap"></figcaption></figure>
+    </div>
+    <h3>Side by side, after tapping Fri, Oct 16</h3>
+    <div class="three" id="three"></div>
+    <div class="grid2">
+      <div class="box"><span class="k">What each one costs</span><ul>
+        <li><b>A · Roll up</b>: the week keeps the hatch in view next to the words, and the slots sit right under it with no scroll. One new state in <code>SlotCalendar</code> plus a handle.</li>
+        <li><b>B · Sheet</b>: the month never moves, but the sheet covers the very days you're comparing, and it's a second layer to close.</li>
+        <li><b>C · Month stays</b>: no new behaviour; only the rows change. The fold problem stays.</li></ul></div>
+      <div class="box"><span class="k">My pick: A, with rows and the handle</span><p>It answers IQ-13 as written (roll up, readable slots, pull back down) and fits the one-column phone. The handle carries a text button, so it works with a mouse in the desktop frame, and it isn't a hidden gesture. Only the owner's view of a sitter rolls up; the sitter's own Schedule keeps the full month, where range dragging (#150) needs it.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-decided">
+    <h2 id="h-decided">Decided</h2>
+    <p class="sub" id="decidedSub"></p>
+    <div class="stage" id="decided"></div>
+  </section>
+
+  <section aria-labelledby="h-spec">
+    <h2 id="h-spec">The spec Minsik codes from</h2>
+    <div class="tw" tabindex="0" aria-label="Calendar spec, scrolls sideways" data-spec><table><thead><tr><th scope="col">Element</th><th scope="col">Size · motion</th><th scope="col">Colour (token)</th><th scope="col">Label · testID</th><th scope="col">Notes</th></tr></thead><tbody>
+      <tr data-comp="Opening row"><td>Next openings</td><td>Up to 5 rows · 64 tall · padding 12 × 14 · radius 16 · gap 8</td><td><code>surface</code> · day <code>text</code> 16 / 700 · slots <code>textMuted</code> 14</td><td>“Fri, Oct 16” + “Morning, Afternoon” or “All day” · <code>sitter-opening-YYYY-MM-DD</code> (new)</td><td>Only days from today with at least one open slot, soonest first. The whole row is the button; › on the right. Owner's view of a sitter only (decision 4).</td></tr>
+      <tr data-comp="Answer"><td>Answer card</td><td>Radius 20 · padding 14 × 16 · title 20 display face</td><td><code>accent</code> / <code>text</code></td><td><code>sitter-fit</code> (new)</td><td>Only when the owner came with dates (search or a draft): “✓ Free Oct 9 to 12”, or “Busy Oct 10 · free Oct 11 to 14”. Above the openings.</td></tr>
+      <tr><td>See full month</td><td>48 tall, full width, pill, 2 px outline</td><td><code>text</code></td><td>“See full month” · <code>sitter-see-month</code> (new)</td><td>Under the openings. Opens the month page.</td></tr>
+      <tr><td>Month page</td><td>New stack screen <code>/owner/sitters/[id]/calendar</code></td><td>As #150</td><td>Title “Chloe's calendar” · <code>sitter-calendar</code></td><td>The #150 month with its hatch and legend, unchanged, plus “Tap a day to see its hours.” No slots on this page. ‹ › change month.</td></tr>
+      <tr><td>Day page</td><td>New stack screen <code>/owner/sitters/[id]/day/[date]</code></td><td>—</td><td>Title “Fri, Oct 16” · <code>sitter-day</code> (kept)</td><td>Reached from an opening or a month day. ‹ Back returns where it came from. Three slot rows, then Ask · Book.</td></tr>
+      <tr data-comp="Slot row"><td>Slot row</td><td>56 tall · padding 14 · gap 12 · radius 12</td><td><code>surface</code> · name <code>text</code> 16 / 600 · hours <code>textMuted</code> 14</td><td><code>sitter-day-morning</code> · <code>-afternoon</code> · <code>-overnight</code> (kept)</td><td>Band marker · name + hours · Tag on the right. Information only, not tappable.</td></tr>
+      <tr data-comp="Slot row"><td>Slot tag</td><td>Tag (flat, #129) · 12 / 600</td><td>open: <code>successSurface</code> / <code>success</code> · else <code>track</code> / <code>textMuted</code></td><td>part of the row's label</td><td>“2 spots left” · “1 spot left” · “Full” · “Not available” (blocked and not opened read the same; never who booked).</td></tr>
+      <tr data-comp="Slot row"><td>Hours</td><td>“8 AM to 12 PM” (decision 5)</td><td><code>textMuted</code></td><td>—</td><td>Drop “:00”; keep minutes when they aren't zero (“8:30 AM”). Night: “6 PM to 8 AM”. No dashes in UI copy (#162).</td></tr>
+      <tr data-comp="Footer"><td>Ask · Book</td><td>Footer unchanged</td><td>—</td><td><code>ask-about-stay</code> · <code>book-this-sitter</code></td><td>On a day page the hint reads “Fri, Oct 16 is filled in when you ask or book”; Book opens <code>/owner/bookings/new?sitter=…&amp;drop=…</code> (the param exists).</td></tr>
+      <tr><td>Motion · input</td><td>Normal stack push; Reduce Motion: none</td><td>—</td><td>—</td><td>No folding, no sheets, no drag or long press. Every step is a tap or a click (D25), targets 48 or more.</td></tr>
+      <tr><td>Accessibility</td><td>—</td><td>—</td><td>Opening row label “Friday, October 16, Morning and Afternoon open”</td><td>State never by colour alone: tags say it in words, the hatch stays on the month.</td></tr>
+    </tbody></table></div>
+    <div class="grid2">
+      <div class="box"><span class="k">Files</span><ul>
+        <li><code>frontend/app/owner/sitters/[sitterId].tsx</code>: the month leaves the profile; next openings, the optional answer card and See full month take its place.</li>
+        <li>New <code>frontend/app/owner/sitters/[sitterId]/calendar.tsx</code> (the #150 <code>SlotCalendar</code>, unchanged) and <code>.../day/[date].tsx</code> (slot rows + Ask · Book).</li>
+        <li>New <code>frontend/components/SlotRows.tsx</code> (rows + Tag) and <code>NextOpenings.tsx</code> · <code>InquirySheet.tsx</code>: an optional starting day.</li>
+        <li><code>DESIGN.md</code> §6.1: Opening row, Slot row, the two new pages.</li></ul></div>
+      <div class="box"><span class="k">Tests to update</span><ul>
+        <li><code>sitters.spec.ts</code> L125 – 131: tap a day now opens the day page; the three lines become rows (“Morning”, “8 AM to 12 PM”, “1 spot left”); keep the “never shows Robert” check.</li>
+        <li>New: openings list the next open days; an opening → its day page → ‹ Back; See full month → month page → a day → day page → ‹ Back to the month.</li>
+        <li><code>booking.spec.ts</code> L244: Book from a day page starts the form on that day.</li></ul></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-dec">
+    <h2 id="h-dec">Decisions</h2>
+    <p class="sub">Pick an answer and it saves for both of us. <b>✓</b> marks my recommendation; overrule anything.</p>
+    <p class="dbstate" id="dbstate">Connecting…</p>
+    <div class="dec" id="dec"></div>
+    <div class="q"><b class="qt">Anything else? Notes for me or Minsik</b><textarea class="notes" id="notes" placeholder="e.g. roll up only when the day has open slots"></textarea><button type="button" class="ds-btn secondary savebtn" id="saveNotes">Save notes</button><span class="saved" id="notesSaved"></span></div>
+  </section>
+
+  <footer>Decided Oct 18 (B + D). Sources: issue #120 and IQ-13 (feedback-2026-10-10), #134 / PR #150, <code>SlotCalendar.tsx</code> · <code>[sitterId].tsx</code> · <code>sitters.spec.ts</code> on main (Oct 18). Sample month: October 2026, today Oct 7; Chloe's hours are the demo's (8 AM, 12 PM, 6 PM).</footer>
+</main>
+<script src="tickets/wb.js"></script>
+<script>
+(() => {
+  const { $, ic } = WB;
+  // ---------- the sample month: October 2026 starts on a Thursday; today is the 7th ----------
+  const TODAY = 7, DOW = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const SL = ["morning", "afternoon", "night"], NAME = { morning: "Morning", afternoon: "Afternoon", night: "Night" };
+  const HRS = { morning: ["8 AM", "12 PM", "8:00 AM", "12:00 PM"], afternoon: ["12 PM", "6 PM", "12:00 PM", "6:00 PM"], night: ["6 PM", "8 AM", "6:00 PM", "8:00 AM"] };
+  // per day [morning, afternoon, night]: o2 / o1 = open with spots left, f = full, b = blocked, c = not opened
+  const DAYS = {};
+  for (let d = 1; d <= 31; d++) DAYS[d] = ["o2", "o2", "o2"];
+  Object.assign(DAYS, { 8: ["o2", "o2", "f"], 9: ["o2", "o1", "o1"], 10: ["c", "o2", "o1"], 11: ["c", "o2", "o1"], 12: ["o2", "o2", "o2"],
+    15: ["o2", "b", "o2"], 16: ["b", "o1", "f"], 17: ["o2", "c", "f"], 20: ["b", "b", "b"], 21: ["b", "b", "b"], 22: ["b", "b", "b"],
+    23: ["c", "o2", "o2"], 25: ["o2", "o2", "f"], 30: ["o1", "o2", "o2"] });
+  const row = (d) => Math.floor((d + 3) / 7);
+  const weekDays = (r) => [Math.max(1, r * 7 - 3), Math.min(31, r * 7 + 3)];
+  const weekLabel = (r) => { const [a, b] = weekDays(r); return `Oct ${a} – ${b}`; };
+  const dayName = (d) => `${DOW[(3 + d) % 7]}, Oct ${d}`;
+  const own = (code) => code[0] === "o" ? { k: "open", n: +code[1] } : code === "f" ? { k: "full" } : { k: "na" };
+  const spots = (n) => `${n} spot${n === 1 ? "" : "s"} left`;
+  const hours = (s, o) => o.hours === "long" ? `${HRS[s][2]}–${HRS[s][3]}` : `${HRS[s][0]} to ${HRS[s][1]}`;
+  const sb = `<div class="sb"><span>9:41</span><span>●●● ▮</span></div>`;
+
+  // ---------- pieces ----------
+  const cell = (d, o) => {
+    if (!d) return `<div class="d empty" aria-hidden="true"></div>`;
+    const past = d < TODAY, st = DAYS[d];
+    return `<div class="d${past ? " past" : ""}${d === TODAY ? " today" : ""}${o.sel === d ? " sel" : ""}" data-day="${d}"><span class="bands">${SL.map((s, i) => `<i class="${own(st[i]).k === "open" ? "" : "x"}"></i>`).join("")}</span><b>${d}</b></div>`;
+  };
+  const weekRow = (r, o) => `<div class="wk${o.sel && row(o.sel) === r ? " cur" : ""}">${[0, 1, 2, 3, 4, 5, 6].map((i) => { const d = r * 7 + i - 3; return cell(d >= 1 && d <= 31 ? d : 0, o); }).join("")}</div>`;
+  const folded = (o) => o.mode === "week" && o.sel;
+  function calendar(o, live) {
+    const f = folded(o), r = o.sel ? row(o.sel) : 0;
+    const label = f ? weekLabel(r) : "October 2026";
+    const lab = f && o.back === "header" ? `<span class="lab" data-act="expand" role="button" aria-label="Show the whole month">${label}${ic("down")}</span>` : `<b>${label}</b>`;
+    const rows = live || !f ? [0, 1, 2, 3, 4].map((x) => weekRow(x, o)).join("") : weekRow(r, o);
+    const style = live && f ? `style="height:52px"` : "";
+    const inner = live && f ? `style="transform:translateY(-${r * 56}px)"` : "";
+    return `<div class="cal"><div class="calhd"><span class="nav ${f ? "" : "off"}" data-act="prev" role="button" aria-label="${f ? "Previous week" : "Previous month"}">${ic("back")}</span>${lab}<span class="nav" data-act="next" role="button" aria-label="${f ? "Next week" : "Next month"}">${ic("next")}</span></div>
+      <div class="dows">${["S", "M", "T", "W", "T", "F", "S"].map((x) => `<span>${x}</span>`).join("")}</div>
+      <div class="grid${f ? " folded" : ""}" ${style}><div class="rows" ${inner}>${rows}</div></div>
+      ${f ? "" : `<div class="leg" data-comp="Legend"><span><i></i>Available</span><span><i class="x"></i>Not available</span></div>`}</div>
+      ${f && o.back !== "header" ? `<div class="handle" data-comp="Month handle" data-variant="Label=${o.back === "handle" ? "Show month" : "None"}" data-act="expand" role="button" aria-label="Show the whole month"><i></i>${o.back === "handle" ? "<span>Show month</span>" : ""}</div>` : ""}`;
+  }
+  function slots(d, o) {
+    const st = DAYS[d];
+    if (o.rows === "line") return `<div class="lines"><span class="dayt">${dayName(d)}</span>${SL.map((s, i) => { const x = own(st[i]);
+      return `<span>${NAME[s]}: ${x.k === "open" ? `Open · ${HRS[s][2]}–${HRS[s][3]} · ${spots(x.n)}` : x.k === "full" ? `Full · ${HRS[s][2]}–${HRS[s][3]}` : "Closed"}</span>`; }).join("")}</div>`;
+    if (o.rows === "bar") {
+      const fl = [4, 6, 14];
+      return `<div class="tbar"><span class="dayt">${dayName(d)}</span><div class="segs">${SL.map((s, i) => { const x = own(st[i]);
+        return `<div class="seg ${x.k === "open" ? "ok" : "na"}" style="flex:${fl[i]}"><b>${NAME[s]}</b>${x.k === "open" ? spots(x.n) : x.k === "full" ? "Full" : "Not available"}</div>`; }).join("")}</div>
+        <div class="ticks"><span style="--f:4">${HRS.morning[0]}</span><span style="--f:6">${HRS.afternoon[0]}</span><span style="--f:13">${HRS.night[0]}</span><span style="--f:1;text-align:right">8 AM</span></div></div>`;
+    }
+    return `<div class="slots"><span class="dayt">${dayName(d)}</span>${SL.map((s, i) => { const x = own(st[i]), tag = x.k === "open" ? `<span class="tg ok">${spots(x.n)}</span>` : `<span class="tg na">${x.k === "full" ? "Full" : "Not available"}</span>`;
+      return `<div class="slot" data-comp="Slot row" data-variant="Slot=${NAME[s]}, Status=${x.k === "open" ? "Open" : "Unavailable"}"><span class="sw" aria-hidden="true">${[0, 1, 2].map((k) => `<i class="${k === i ? (x.k === "open" ? "on" : "on x") : ""}"></i>`).join("")}</span><span class="st"><b>${NAME[s]}</b><span>${hours(s, o)}</span></span>${tag}</div>`; }).join("")}</div>`;
+  }
+  const intro = `<div class="card" data-comp="Sitter intro"><span class="name">Chloe</span><span class="meta">Toronto · Boarding and house sitting · 4 km away</span><span class="fav">☆ Add to favorites</span>
+    <div class="chips"><span class="chip">Boarding</span><span class="chip">House sitting</span><span class="chip">One family at a time</span></div>
+    <span class="meta">★ 4.9 · 12 reviews</span><span class="body">“Max came home calmer than he left.” — Jisoo</span>
+    <span class="body">Retired vet tech; a fenced yard and a quiet cat-free spare room.</span></div>`;
+  const foot = (o) => `<div class="foot" data-comp="Footer"><div class="acts"><span class="btn sec">Ask before booking</span><span class="btn">Book</span></div>
+    <span class="hint">${o.sel && o.prefill === "day" ? `${dayName(o.sel)} is filled in when you ask or book.` : "Ask about dates, price or care first — nothing is booked until you send a request."}</span></div>`;
+  const openDays = () => { const out = []; for (let d = TODAY; d <= 31 && out.length < 5; d++) { const open = SL.filter((_, i) => own(DAYS[d][i]).k === "open"); if (open.length) out.push([d, open]); } return out; };
+  function screenBD(o) {
+    const page = o.page || "home";
+    if (page === "day" && o.sel) {
+      const bar = `<div class="bar" data-comp="Top bar"><span class="ib" data-act="back" role="button" aria-label="Back">${ic("back")}</span><span class="title">${dayName(o.sel)}</span></div>`;
+      return `${sb}${bar}<div class="scroll bdday">${slots(o.sel, o)}</div>${foot(o)}`;
+    }
+    if (page === "month") {
+      const bar = `<div class="bar" data-comp="Top bar"><span class="ib" data-act="back" role="button" aria-label="Back">${ic("back")}</span><span class="title">Chloe's calendar</span></div>`;
+      return `${sb}${bar}<div class="scroll">${calendar({ ...o, sel: null, mode: "month" }, false)}<span class="note">Tap a day to see its hours.</span></div>${foot({ ...o, sel: null })}`;
+    }
+    const bar = `<div class="bar" data-comp="Top bar"><span class="ib">${ic("back")}</span><span class="title">Chloe</span></div>`;
+    const answer = o.dates === "yes" ? `<div class="answer" data-comp="Answer"><b>✓ Free Oct 9 to 12</b><span>Chloe is free for your whole stay.</span></div>` : "";
+    const rows = openDays().map(([d, open]) => `<div class="open" data-comp="Opening row" data-open="${d}" role="button"><span class="st"><b>${dayName(d)}</b><span>${open.length === 3 ? "All day" : open.map((x) => NAME[x]).join(", ")}</span></span><span class="chev">${ic("next")}</span></div>`).join("");
+    return `${sb}${bar}<div class="scroll">${o.scrolled ? "" : intro}${answer}<span class="lbl">Next openings</span>${rows}<span class="wide" data-act="month" role="button">See full month</span></div>${foot({ ...o, sel: null })}`;
+  }
+  function screen(o, live = false) {
+    if (o.collapse === "bd") return screenBD(o);
+    const bar = `<div class="bar" data-comp="Top bar"><span class="ib">${ic("back")}</span><span class="title">Chloe</span></div>`;
+    const list = o.sel && o.mode !== "sheet" ? `<div class="slotwrap">${slots(o.sel, o)}</div>` : !o.sel ? `<div class="tapcard">Tap a day to see Chloe's hours and open spots.</div>` : "";
+    const body = `${o.scrolled ? "" : intro}<span class="lbl">Schedule</span>${calendar(o, live)}${list}`;
+    const sheet = o.sel && o.mode === "sheet" ? `<div class="scrim" data-act="close"></div><div class="sheet"><span class="grab" data-act="close"></span>${slots(o.sel, o)}</div>` : "";
+    return `${sb}${bar}<div class="scroll">${body}</div>${sheet}${foot(o)}`;
+  }
+  const phone = (o, inner, cls = "") => `<div class="ph ${o.look === "exp" ? "exp" : ""} ${cls}" role="img" aria-label="Phone sketch">${inner}</div>`;
+  const modeFor = (c) => c === "week" ? "week" : c === "sheet" ? "sheet" : "month";
+
+  // ---------- today ----------
+  function drawToday() {
+    const base = { look: "app", rows: "line", hours: "long", prefill: "none", back: "handle", mode: "month" };
+    $("today").innerHTML = [[null, "Before a tap", "The month, with #150's hatch. The hint card sits below it."], [16, "After tapping Fri, Oct 16", "The outline moves; the three lines are under the month."]]
+      .map(([sel, t, c]) => `<figure>${phone({ ...base, sel }, screen({ ...base, sel }), "tall")}<figcaption><b>${t}</b>${c}</figcaption></figure>`).join("");
+    const place = () => document.querySelectorAll("#today .ph").forEach((ph, i) => {
+      ph.querySelectorAll(".num,.fold").forEach((n) => n.remove());
+      const box = ph.getBoundingClientRect(), footH = ph.querySelector(".foot").getBoundingClientRect().height, y = 874 - 16 - footH;
+      const line = document.createElement("div"); line.className = "fold"; line.style.top = `${y}px`; line.innerHTML = "<span>Bottom of the screen</span>"; ph.appendChild(line);
+      const mark = (el, n) => { if (!el) return; const r = el.getBoundingClientRect(), m = document.createElement("span"); m.className = "num"; m.textContent = n; m.setAttribute("aria-hidden", "true");
+        m.style.left = `${r.right - box.left - 26}px`; m.style.top = `${r.top - box.top - 4}px`; ph.appendChild(m); };
+      if (i === 1) { mark(ph.querySelector(".lines"), 1); mark(ph.querySelector(".lines span:nth-child(3)"), 2); mark(ph.querySelector(".cal"), 3); }
+    });
+    place(); addEventListener("resize", place); document.fonts && document.fonts.ready.then(place);
+  }
+
+  // ---------- live ----------
+  const st = { collapse: "bd", dates: "yes", page: "home", from: "home", rows: "rows", back: "handle", hours: "short", prefill: "day", look: "exp", sel: null, mode: "month" };
+  try { Object.assign(st, JSON.parse(sessionStorage.getItem("t120b") || "{}")); } catch (e) {}
+  const CAPS = { bd: "B + D · Next openings on the profile; the month and each day open as their own pages, with ‹ Back.", week: "A · The month rolls up into the tapped day's week; the slots sit right under it.", sheet: "B · The month stays; the slots open in a sheet over it.", stay: "C · Today's behaviour: the month stays and the slots are under it, a scroll away." };
+  function drawLive() {
+    $("live").innerHTML = phone(st, screen(st, true), "live");
+    $("liveCap").textContent = CAPS[st.collapse] + (st.collapse === "bd" ? " Tap an opening, or See full month." : st.sel ? "" : " Tap a day to start.");
+    document.querySelectorAll("#ctl .seg").forEach((g) => g.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === st[g.dataset.k]))));
+    try { sessionStorage.setItem("t120b", JSON.stringify(st)); } catch (e) {}
+    wireLive();
+    if (st.collapse !== "bd" && folded(st)) scrollToCal("auto");
+  }
+  const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function fold(on) {   // animate between the month and the selected week without redrawing the grid
+    const ph = $("live").querySelector(".ph"), grid = ph.querySelector(".grid"), rows = ph.querySelector(".rows");
+    const r = row(st.sel), full = rows.scrollHeight;
+    if (on) { grid.style.height = `${full}px`; grid.offsetHeight; grid.classList.add("folded"); grid.style.height = "52px"; rows.style.transform = `translateY(-${r * 56}px)`; scrollToCal(reduce() ? "auto" : "smooth"); }
+    else { grid.style.height = `${grid.getBoundingClientRect().height}px`; grid.offsetHeight; grid.classList.remove("folded"); grid.style.height = `${full}px`; rows.style.transform = "translateY(0)"; }
+    setTimeout(() => { st.mode = on ? "week" : "month"; drawLive(); if (!on && st.sel) scrollToSlots(); }, reduce() ? 0 : 260);
+  }
+  function scrollToCal(behavior) {
+    const ph = $("live").querySelector(".ph"), sc = ph.querySelector(".scroll"), l = ph.querySelector(".lbl");
+    sc.scrollTo({ top: l.offsetTop - sc.offsetTop - 12, behavior });
+  }
+  function scrollToSlots() {
+    const ph = $("live").querySelector(".ph"), sc = ph.querySelector(".scroll"), w = ph.querySelector(".slotwrap");
+    if (w) sc.scrollTo({ top: w.offsetTop - sc.offsetTop - 120, behavior: reduce() ? "auto" : "smooth" });
+  }
+  function wireLive() {
+    const ph = $("live").querySelector(".ph");
+    ph.addEventListener("click", (e) => {
+      if (st.collapse === "bd") {
+        const op = e.target.closest("[data-open]"), dd = e.target.closest(".d[data-day]"), ac = e.target.closest("[data-act]");
+        if (op) { st.sel = +op.dataset.open; st.page = "day"; st.from = "home"; }
+        else if (dd && !dd.classList.contains("past")) { st.sel = +dd.dataset.day; st.page = "day"; st.from = "month"; }
+        else if (ac && ac.dataset.act === "month") { st.page = "month"; }
+        else if (ac && ac.dataset.act === "back") { st.page = st.page === "day" ? st.from : "home"; if (st.page !== "day") st.sel = null; }
+        else return;
+        drawLive(); return;
+      }
+      const d = e.target.closest(".d[data-day]"), act = e.target.closest("[data-act]");
+      if (d && !d.classList.contains("past")) {
+        const day = +d.dataset.day, wasFolded = folded(st);
+        st.sel = day;
+        if (st.collapse === "week" && !wasFolded) { ph.querySelectorAll(".d.sel").forEach((x) => x.classList.remove("sel")); d.classList.add("sel"); d.closest(".wk").classList.add("cur"); fold(true); return; }
+        st.mode = modeFor(st.collapse); drawLive(); if (st.collapse === "stay") scrollToSlots(); return;
+      }
+      if (!act) return;
+      const a = act.dataset.act;
+      if (a === "expand") fold(false);
+      if (a === "close") { st.mode = "month"; st.sel = null; drawLive(); }
+      if ((a === "prev" || a === "next") && folded(st)) {
+        let n = st.sel + (a === "next" ? 7 : -7); n = Math.min(31, Math.max(TODAY, n));
+        if (row(n) !== row(st.sel)) { st.sel = n; drawLive(); }
+      }
+    });
+    const h = ph.querySelector(".handle"); if (!h) return;
+    let y0 = null;
+    h.addEventListener("pointerdown", (e) => { y0 = e.clientY; h.setPointerCapture(e.pointerId); h.style.cursor = "grabbing"; });
+    h.addEventListener("pointermove", (e) => { if (y0 != null && e.clientY - y0 > 24) { y0 = null; h.dispatchEvent(new MouseEvent("click", { bubbles: true })); } });
+    h.addEventListener("pointerup", () => { y0 = null; h.style.cursor = ""; });
+  }
+  document.querySelectorAll("#ctl .seg").forEach((g) => g.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return;
+    st[g.dataset.k] = b.dataset.v; if (g.dataset.k === "collapse" && st.sel) st.mode = modeFor(st.collapse); drawLive(); drawThree(); }));
+  $("reset").addEventListener("click", () => { st.sel = null; st.mode = "month"; st.page = "home"; drawLive(); });
+  function drawThree() {
+    $("three").innerHTML = ["week", "sheet", "stay"].map((c) => { const o = { ...st, collapse: c, sel: 16, mode: modeFor(c), scrolled: c !== "sheet" };
+      return `<figure>${phone(o, screen(o))}<figcaption><b>${CAPS[c].split(" · ")[0]} · ${{ week: "Roll up", sheet: "Sheet", stay: "Month stays" }[c]}${c === "week" ? '<span class="pick">My pick</span>' : ""}</b>${CAPS[c].split(" · ")[1]}${c !== "sheet" ? " (Scrolled to the calendar.)" : ""}</figcaption></figure>`; }).join("");
+  }
+
+  // ---------- decided ----------
+  const DECIDED = { collapse: "bd", rows: "rows", prefill: "day", where: "owner", hours: "short", look: "exp" };   // Mook, Oct 18: B + D
+  const Q = [
+    ["collapse", "How the owner reads the sitter's calendar", "Compared in ticket-120-options.html; Mook picked B + D.", [["bd", "Next openings, then a day page (B + D)"], ["week", "Month rolls up into the week"], ["sheet", "Month stays; slots in a sheet"], ["stay", "Month stays; slots below (today)"]], "bd"],
+    ["rows", "Slot text (CAL-3)", "How a slot's state, hours and spots read.", [["rows", "Rows with a status tag"], ["bar", "A time bar"], ["line", "One line each (today)"]], "rows"],
+    ["prefill", "After picking a day, Ask and Book…", "Book already takes a drop-off time (?drop=).", [["day", "Start from that day"], ["none", "Stay as they are"]], "day"],
+    ["where", "Which calendars change", "The sitter's own Schedule edits ranges by dragging (#150).", [["owner", "Owner's view of a sitter only"], ["both", "Also the sitter's Schedule"]], "owner"],
+    ["hours", "Hours format", "Shorter fits the row and reads faster.", [["short", "8 AM to 12 PM"], ["long", "8:00 AM–12:00 PM (today)"]], "short"],
+    ["look", "Which look the frames use", "For the Figma frames on the Tickets page.", [["exp", "Expressive (as #147)"], ["app", "The app today"]], "exp"],
+  ];
+  function drawDecided(dec) {
+    const o = { look: dec.look, rows: dec.rows, back: dec.back, hours: dec.hours, prefill: dec.prefill };
+    const cap = (id, title, oo, cls = "") => `<figure>${phone(oo, screen(oo), cls).replace('class="ph', `data-cap="${id}" data-title="${title}" class="ph`)}<figcaption><b>${title}</b></figcaption></figure>`;
+    const picked = { ...o, sel: 16, mode: modeFor(dec.collapse), scrolled: dec.collapse !== "sheet" };
+    const states = `<div class="slots">${[["o2", "Morning", "morning"], ["o1", "Afternoon", "afternoon"], ["f", "Night", "night"], ["b", "Morning", "morning"]].map(([code, n, s], i) => { const x = own(code);
+      return `<div class="slot" data-comp="Slot row" data-variant="Slot=${NAME[s]}, Status=${x.k === "open" ? "Open" : "Unavailable"}"><span class="sw" aria-hidden="true">${[0, 1, 2].map((k) => `<i class="${k === SL.indexOf(s) ? (x.k === "open" ? "on" : "on x") : ""}"></i>`).join("")}</span><span class="st"><b>${n}</b><span>${hours(s, o)}</span></span>${x.k === "open" ? `<span class="tg ok">${spots(x.n)}</span>` : `<span class="tg na">${x.k === "full" ? "Full" : "Not available"}</span>`}</div>`; }).join("")}</div>`;
+    if (dec.collapse === "bd") {
+      const b = { ...o, collapse: "bd" };
+      $("decided").innerHTML = [
+        cap("openings", "Profile · next openings", { ...b, page: "home", dates: "no" }),
+        cap("answer", "Profile · owner has dates", { ...b, page: "home", dates: "yes", scrolled: true }),
+        cap("month", "Month page", { ...b, page: "month" }),
+        cap("day", "Day page · Fri, Oct 16", { ...b, page: "day", sel: 16 }),
+        dec.rows === "rows" ? `<figure><div class="ph comp ${o.look === "exp" ? "exp" : ""}" data-cap="rows" data-title="Slot rows · every state" role="img" aria-label="Slot rows"><div class="scroll" style="padding:16px">${states}</div></div><figcaption><b>Slot rows · every state</b>2 spots · 1 spot · full · not available</figcaption></figure>` : "",
+      ].join("");
+      $("decidedSub").textContent = `B + D: next openings on the profile, the month and each day as their own pages, ${dec.rows === "rows" ? "rows with a tag" : dec.rows === "bar" ? "a time bar" : "one line per slot"}, ${dec.look === "exp" ? "Expressive look" : "the app's look"}. These are the frames the Figma plugin builds on the Tickets page.`;
+      return;
+    }
+    $("decided").innerHTML = [
+      cap("month", "Sitter profile · the month", { ...o, sel: null, mode: "month" }),
+      cap("picked", dec.collapse === "week" ? "Day tapped · rolled up" : dec.collapse === "sheet" ? "Day tapped · sheet" : "Day tapped · scrolled", picked),
+      dec.collapse === "week" ? cap("back", "Month pulled back down", { ...o, sel: 16, mode: "month", scrolled: true }) : "",
+      dec.rows === "rows" ? `<figure><div class="ph comp ${o.look === "exp" ? "exp" : ""}" data-cap="rows" data-title="Slot rows · every state" role="img" aria-label="Slot rows"><div class="scroll" style="padding:16px">${states}</div></div><figcaption><b>Slot rows · every state</b>2 spots · 1 spot · full · not available</figcaption></figure>` : "",
+    ].join("");
+    const name = { week: "roll up to the week", sheet: "slots in a sheet", stay: "the month stays" }[dec.collapse];
+    $("decidedSub").textContent = `With the answers below: ${name}, ${dec.rows === "rows" ? "rows with a tag" : dec.rows === "bar" ? "a time bar" : "one line per slot"}, ${dec.look === "exp" ? "Expressive look" : "the app's look"}. These are the frames the Figma plugin builds on the Tickets page.`;
+  }
+  drawToday(); drawLive(); drawThree();
+  WB.decisions({ Q, DECIDED, onChange: drawDecided, ticket: (dec, decisions) => ({
+    id: 120, title: "Sitter calendar: next openings and a day page", issue: "https://github.com/minsikpaul92/Goldito/issues/120",
+    workbench: "https://claude.ai/artifact/PzModpuTLWL2t7tmtdd3s8", design: "Mook", code: "Minsik", decisions, spec: WB.specRows(), specLinks: WB.specLinks() }) });
+})();
+</script>
+</body>
+</html>
