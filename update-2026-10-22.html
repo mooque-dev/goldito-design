@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design Update Oct 22</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<script>
+  // No site bar here; the language follows the rest of the site (same saved choice).
+  (() => { let v = "en"; try { v = localStorage.getItem("goldito-lang") === "ko" ? "ko" : "en"; } catch (e) {}
+    document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
+</script>
+<style>
+  /* Design update, Oct 22: work done on Oct 21 to 22 and the to-dos for Oct 22. */
+  *{box-sizing:border-box}
+  html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:54rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+  .wrap>*,section{min-width:0}
+  h1,h2{margin:0;text-wrap:balance}
+  h1{font:700 clamp(1.875rem,4.4vw,2.4rem)/1.1 var(--font-display);letter-spacing:-.01em}
+  h2{font:600 1.25rem/1.2 var(--font-display)}
+  p{margin:0}
+  a{color:var(--color-primary);font-weight:600}
+  code{font:600 .8125rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.0625rem .375rem}
+  section{display:flex;flex-direction:column;gap:.625rem}
+  .bar{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .lang{display:flex;border:1px solid var(--color-border);border-radius:999px;padding:3px;background:var(--color-surface)}
+  .lang button{font:600 .8125rem var(--font-ui);border:0;background:none;color:var(--color-text);border-radius:999px;min-height:32px;padding:0 .75rem;cursor:pointer}
+  .lang button[aria-pressed=true]{background:var(--color-primary);color:var(--color-primary-text)}
+  /* rows: status · what · links */
+  .rows{margin:0;padding:0;list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+  .rows li{display:grid;grid-template-columns:8.5rem minmax(0,1fr) auto;gap:.75rem;align-items:baseline;padding:.625rem 1rem;border-top:1px solid var(--color-border)}
+  .rows li:first-child{border-top:0}
+  .rows b{font-weight:600}
+  .rows .what span.sub{display:block;color:var(--color-text-muted);font-size:.875rem}
+  .rows .links{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:flex-end;font-size:.875rem;white-space:nowrap}
+  @media (max-width:640px){.rows li{grid-template-columns:1fr}.rows .links{justify-content:flex-start}}
+  .pill{justify-self:start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;white-space:nowrap}
+  .pill.done{background:var(--color-success-surface);color:var(--color-success)}
+  .pill.review{background:var(--color-warning-surface);color:var(--color-warning)}
+  .pill.ui{background:var(--color-accent);color:var(--color-primary)}
+  .sprites{display:flex;flex-wrap:wrap;gap:.375rem;margin-top:.375rem}.sprites img{width:48px;height:48px;object-fit:cover;object-position:left center;image-rendering:pixelated;background:var(--color-background);border-radius:6px}
+  .pill.later{background:var(--color-track);color:var(--color-text-muted)}
+  /* visual notes */
+  .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+  @media (max-width:640px){.gallery{grid-template-columns:1fr}}
+  .card{margin:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:inherit}
+  .card:hover{border-color:var(--color-primary)}
+  .card img{width:100%;height:12.5rem;object-fit:contain;display:block;background:var(--color-background);padding:.5rem}
+  .card.tall img{object-fit:cover;object-position:center 50%;padding:0}
+  .card{position:relative}
+  .wip{position:absolute;top:.625rem;left:.625rem;right:.625rem;background:var(--color-warning);color:#fff;font:700 .9375rem/1.3 var(--font-ui);border-radius:var(--radius-md);padding:.5rem .75rem;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .card figcaption{padding:.625rem .875rem;font-size:.875rem;display:flex;justify-content:space-between;gap:.5rem}
+  .card figcaption b{font-weight:600}
+  .card figcaption span.n{color:var(--color-text-muted)}
+  .ask{background:var(--color-warning-surface);border-radius:var(--radius-lg);padding:.75rem 1rem;font-size:.9375rem}
+  ol.order{margin:0;padding-left:1.25rem;display:flex;gap:.25rem 1.5rem;flex-wrap:wrap}
+  html[data-lang="ko"] :is(p,span,li,b){word-break:keep-all}
+  .specs{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15.5rem),1fr));gap:.625rem}
+  .sc{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .sc>b{font:600 1rem/1.25 var(--font-display)}
+  .vs{display:flex;flex-wrap:wrap;align-items:center;gap:.375rem;font-size:.875rem}
+  .side{background:var(--color-track);border-radius:999px;padding:.1875rem .625rem;font-weight:600}
+  .side small{font-weight:500;font-size:.75rem;color:var(--color-text-muted)}
+  .side small a{font-weight:600}
+  .or{font-size:.75rem;color:var(--color-text-muted)}
+  .pick{align-self:flex-start;font-size:.8125rem;font-weight:600;background:var(--color-success-surface);color:var(--color-success);border-radius:999px;padding:.1875rem .625rem}
+  .pick a{color:inherit;white-space:nowrap}
+  .pick.open{background:var(--color-warning-surface);color:var(--color-warning)}
+  .calls{display:flex;flex-wrap:wrap;align-items:center;gap:.375rem;font-size:.875rem}
+  .calls>b{margin-right:.25rem}
+  .chip{background:var(--color-accent);color:var(--color-primary);border-radius:999px;padding:.1875rem .625rem;font-weight:600}
+  ul.q{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem}
+  .note{color:var(--color-text-muted);font-size:.875rem}
+  footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+.ask{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;font-size:.9375rem;line-height:1.6}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="bar"><span class="eyebrow">Goldito · <span class="en">Design update</span><span class="ko">디자인 업데이트</span> · Oct 22</span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
+  <h1><span class="en">Worked on, what's left</span><span class="ko">작업한 일, 남은 일</span></h1>
+  <section><h2><span class="en">Done 10/21 to 10/22</span><span class="ko">완료 10/21~10/22</span></h2><ul class="rows"><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>Audit fixes 1 to 4</b><span class="sub">one header, focus ring, Back name, readable placeholders</span></span><span class="ko"><b>감사 수정 1~4</b><span class="sub">헤더 통일, 포커스 링, 뒤로 버튼 이름, 플레이스홀더 대비</span></span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/269" target="_blank" rel="noopener">PR #269</a> <a href="https://mooque-dev.github.io/goldito-design/qa-ui-fixes.html" target="_blank" rel="noopener">QA</a></span></li><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>Copy batch</b><span class="sub">Sign out, Weekly rules, short helper text, dates, buttons are words</span></span><span class="ko"><b>문구 배치</b><span class="sub">Sign out, Weekly rules, 짧은 도움말, 날짜 형식, 버튼은 글자로</span></span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/277" target="_blank" rel="noopener">PR #277</a> <a href="https://mooque-dev.github.io/goldito-design/qa-copy-batch.html" target="_blank" rel="noopener">QA</a></span></li><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>Link preview, loading screen, bubbles</b><span class="sub">#215 closed; the parts that still apply</span></span><span class="ko"><b>링크 미리보기, 로딩 화면, 말풍선</b><span class="sub">#215는 닫고 아직 유효한 부분만</span></span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/pull/278" target="_blank" rel="noopener">PR #278</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>Sitter card and search pill</b><span class="sub">price on the right; When / Pets / Within with quick picks</span></span><span class="ko"><b>시터 카드와 검색 필</b><span class="sub">가격은 오른쪽, 날짜·펫·거리 빠른 선택</span></span></span><span class="links"><a href="https://mooque-dev.github.io/goldito-design/qa-sitter-card.html" target="_blank" rel="noopener">Page</a></span></li><li><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><span class="what"><span class="en"><b>Open decisions</b><span class="sub">not Ionicons, Lucide front-runner; pet chips: photo, else breed photo, else illustration</span></span><span class="ko"><b>결정 사항</b><span class="sub">Ionicons 제외, Lucide 유력; 펫 칩은 사진, 없으면 품종 사진, 없으면 일러스트</span></span></span><span class="links"><a href="https://mooque-dev.github.io/goldito-design/decisions.html" target="_blank" rel="noopener">Page</a></span></li><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>Illustrations v2</b><span class="sub">43 pieces with coats and variants; waits for the icon pick</span></span><span class="ko"><b>일러스트 v2</b><span class="sub">털색과 변형 포함 43개; 아이콘 결정 대기</span></span></span><span class="links"><a href="https://mooque-dev.github.io/goldito-design/illustrations.html" target="_blank" rel="noopener">Library</a></span></li><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>Design system kit, rounds 1 to 3</b><span class="sub">75 components on one page with states and code; /dev/kit; booking flow sketch; CI token check. Local, ready to push.</span></span><span class="ko"><b>디자인 시스템 키트 1~3차</b><span class="sub">컴포넌트 75개를 상태와 코드와 함께 한 페이지에; /dev/kit; 예약 흐름 스케치; CI 토큰 검사. 로컬, 푸시 준비 완료</span></span></span><span class="links"><a href="kit.html" target="_blank" rel="noopener">Kit</a> <a href="qa-ds-kit.html" target="_blank" rel="noopener">QA</a></span></li><li><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><span class="what"><span class="en"><b>Figma plugin</b><span class="sub">mint chips, no more stacked archive screens, Design kit ticket (10 boards, 134 instances)</span></span><span class="ko"><b>피그마 플러그인</b><span class="sub">민트 칩, 겹쳐 쌓이던 화면 해결, 디자인 키트 (보드 10개, 인스턴스 134개)</span></span></span><span class="links"></span></li><li><span class="pill later"><span class="en">Waiting</span><span class="ko">대기</span></span><span class="what"><span class="en"><b>Pixel pets v2</b><span class="sub">four views, coats, tricolour; the pet room now draws pets in code, so the format needs agreeing with Minsik</span></span><span class="ko"><b>픽셀 펫 v2</b><span class="sub">4방향, 털색, 삼색; 펫 방이 코드로 그리게 바뀌어서 민식님과 형식 합의 필요</span></span></span><span class="links"><a href="pixel-pets.html" target="_blank" rel="noopener">Page</a></span></li></ul></section>
+  <section><h2><span class="en">To do 10/22</span><span class="ko">할 일 10/22</span></h2><ul class="rows"><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Push the design kit</b> and open its PR (needs your "push")</span><span class="ko"><b>디자인 키트 푸시</b>와 PR 열기 (승인 필요)</span></span><span class="links"><a href="qa-ds-kit.html" target="_blank" rel="noopener">QA</a></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Run the Figma plugin</b>: Expressive screens, then Tickets, Design kit</span><span class="ko"><b>피그마 플러그인 실행</b>: 화면 다음 티켓의 디자인 키트</span></span><span class="links"></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Team picks the icon set</b>, then the #182 comment</span><span class="ko"><b>팀 아이콘 선택</b>, 그다음 #182 코멘트</span></span><span class="links"><a href="https://mooque-dev.github.io/goldito-design/decisions.html#icons" target="_blank" rel="noopener">Table</a> <a href="https://github.com/minsikpaul92/Goldito/issues/182" target="_blank" rel="noopener">#182</a></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Product call: step-by-step booking</b> (Mook and Minsik); play the sketch first</span><span class="ko"><b>단계별 예약 결정</b> (무크·민식); 스케치 먼저 체험</span></span><span class="links"><a href="qa-ds-kit.html#flow" target="_blank" rel="noopener">QA</a></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Backend: sitter facts</b> in the search (Minsik, request below)</span><span class="ko"><b>백엔드: 시터 정보</b> 검색에 추가 (민식님, 아래 요청)</span></span><span class="links"><a href="#backend" target="_blank" rel="noopener">Request</a></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Pixel pets</b>: agree the role-letter format with Minsik</span><span class="ko"><b>픽셀 펫</b>: 민식님과 역할 글자 형식 합의</span></span><span class="links"></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>About 20 breed photos</b> for pet chips (Unsplash or #113)</span><span class="ko"><b>품종 사진 약 20장</b> (Unsplash 또는 #113)</span></span><span class="links"><a href="https://github.com/minsikpaul92/Goldito/issues/113" target="_blank" rel="noopener">#113</a></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Merge order</b>: #277 before the kit PR (both edit Settings)</span><span class="ko"><b>머지 순서</b>: #277 먼저, 키트 PR은 그다음 (둘 다 설정 화면 수정)</span></span><span class="links"></span></li><li><span class="pill later"><span class="en">To do</span><span class="ko">할 일</span></span><span class="what"><span class="en"><b>Handoff for Minsik</b> by Oct 28 (Mook leaves Oct 29)</span><span class="ko"><b>민식님 인수인계</b> 10/28까지 (무크 10/29 종료)</span></span><span class="links"></span></li></ul></section>
+  <section id="backend"><h2><span class="en">Request for Minsik: sitter facts in the search</span><span class="ko">민식님 요청: 검색 결과에 시터 정보</span></h2>
+<div class="ask"><span class="en"><code>search_sitters_nearby</code> already returns distance and nightly rates. For the agreed sitter card, could it also return, per sitter: <b>rating_avg</b> (1 decimal, from reviews, null when none), <b>stay_count</b> (finished stays), and for the searched dates <b>available</b> (true or false) and <b>first_full_day</b> (a date, or null)? The card (<code>SitterResultCard</code>) already takes <code>rating</code>, <code>stays</code> and <code>availability</code>; nothing else changes on the frontend.</span><span class="ko"><code>search_sitters_nearby</code>가 거리와 1박 요금은 이미 돌려줍니다. 합의한 시터 카드를 위해 시터마다 <b>rating_avg</b>(소수 1자리, 리뷰가 없으면 null), <b>stay_count</b>(완료된 숙박 수), 검색한 날짜 기준 <b>available</b>(true/false)과 <b>first_full_day</b>(날짜 또는 null)도 함께 받을 수 있을까요? 카드(<code>SitterResultCard</code>)는 <code>rating</code>, <code>stays</code>, <code>availability</code>를 이미 받을 수 있어서 프론트는 이 외에 바뀌는 게 없습니다.</span></div></section>
+  <footer><span class="en">Earlier: <a href="update-2026-10-21.html">Oct 21</a> · Board: <a href="work.html">Everything in progress</a></span><span class="ko">이전: <a href="update-2026-10-21.html">10월 21일</a> · 보드: <a href="work.html">진행 중인 일</a></span></footer>
+<script>
+  const sync = () => document.querySelectorAll(".lang button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.l === document.documentElement.dataset.lang)));
+  document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
+    document.documentElement.dataset.lang = document.documentElement.lang = b.dataset.l;
+    try { localStorage.setItem("goldito-lang", b.dataset.l); } catch (e) {}
+    sync();
+  }));
+  sync();
+</script>
+</body>
+</html>

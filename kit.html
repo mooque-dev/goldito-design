@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Goldito Design Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+/* Goldito design kit: the master for every shared part (design site is the source; the app's /dev/kit and Figma follow).
+   Tokens mirror frontend/theme (Expressive skin). Every part is live; every state is labelled. data-cap / data-comp feed the Figma plugin. */
+:root{
+  --k-ink:#1B4332;--k-cream:#FBF6EA;--k-surface:#FFFFFF;--k-mint:#D8F3DC;--k-line:#E8DCC4;--k-line-strong:#7F6F58;
+  --k-muted:#6B5D4A;--k-hint:#807160;--k-error:#B42318;--k-error-bg:#FEF3F2;--k-success:#067647;--k-gold:#F4C35A;
+  --k-peach:#FDE2CC;--k-butter:#FBEFC8;--k-blush:#FAD6CB;
+  --k-r-lg:16px;--k-r-xl:24px;--k-pill:999px;--k-touch:44px;
+  --k-fast:120ms;--k-base:240ms;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 6rem}
+.wrap{max-width:68rem;margin:0 auto}
+header.top{padding-top:2rem;display:flex;flex-direction:column;gap:.5rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.5rem/1.2 var(--font-display);margin:0}
+h3{font:600 1.05rem var(--font-display);margin:0}
+p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+/* ---------- sticky family tabs (scroll-spy) ---------- */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;margin:1.25rem -1rem 0;padding:.625rem 1rem;background:var(--color-background);border-bottom:1px solid var(--color-border)}
+.tabs .rail{display:flex;gap:.5rem;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;max-width:68rem;margin:0 auto}
+.tabs .rail::-webkit-scrollbar{display:none}
+.tabs a{flex:0 0 auto;min-height:40px;display:inline-flex;align-items:center;gap:.375rem;padding:0 1rem;border-radius:999px;border:1.5px solid var(--color-border);color:var(--color-text);font-weight:700;font-size:.875rem;text-decoration:none;white-space:nowrap;transition:background var(--k-fast),border-color var(--k-fast)}
+.tabs a small{font-weight:600;color:var(--color-text-muted)}
+.tabs a[aria-current=true]{background:var(--color-accent);border:2px solid var(--color-primary);color:var(--color-primary)}
+.tabs a:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+/* ---------- family sections ---------- */
+section.fam{scroll-margin-top:84px;padding-top:2.5rem;display:flex;flex-direction:column;gap:1.25rem}
+.fam > p{max-width:46rem;color:var(--color-text-muted)}
+.part{display:grid;grid-template-columns:minmax(0,402px) minmax(0,1fr);gap:1.25rem;align-items:start;padding:1.25rem 0;border-top:1px solid var(--color-border)}
+@media (max-width:820px){.part{grid-template-columns:1fr}}
+.spec{display:flex;flex-direction:column;gap:.5rem;font-size:.9rem;min-width:0}
+.spec code{font-size:.8125rem}
+.spec ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.25rem}
+.spec .src{font-size:.8125rem;color:var(--color-text-muted)}
+/* the board = what the app renders, 402 wide, cream (plugin captures it) */
+.board{width:100%;max-width:402px;background:var(--k-cream);color:var(--k-ink);border:1px solid var(--color-border);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px;font-family:'Inter',system-ui,sans-serif;position:relative;overflow:hidden}
+.states{display:flex;flex-direction:column;gap:10px}
+.st{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;align-items:center}
+.st > span{font:700 10px/1.2 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--k-muted)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.k-title{font:600 21px/26px Fredoka,sans-serif;color:var(--k-ink);margin:0}
+/* ---------- parts (mirror frontend/components/ui) ---------- */
+.k-chip{min-height:var(--k-touch);display:inline-flex;align-items:center;gap:6px;padding:0 16px;border-radius:var(--k-pill);border:1.5px solid var(--k-line-strong);background:var(--k-surface);color:var(--k-ink);font:600 15px 'Inter',sans-serif;cursor:pointer;transition:transform var(--k-fast),background var(--k-fast)}
+.k-chip[aria-pressed=true],.k-chip.on{background:var(--k-mint);border:2px solid var(--k-ink)}
+.k-chip:active,.k-chip.is-pressed{transform:scale(.97);opacity:.85}
+.k-chip:disabled,.k-chip.is-disabled{opacity:.5;border-style:dashed;cursor:not-allowed}
+.k-chip:focus-visible,.k-chip.is-focus{outline:2px solid var(--k-ink);outline-offset:2px}
+.k-chip .m{width:28px;height:28px;border-radius:50%;background:var(--k-mint);overflow:hidden;margin-left:-10px;display:grid;place-items:center}
+.k-chip .m img{width:100%;height:100%;object-fit:cover}
+.k-chip .x{margin-right:-8px;width:28px;height:28px;display:grid;place-items:center;border-radius:50%;color:var(--k-muted);font-weight:800}
+.k-seg{display:flex;gap:8px}
+.k-seg .k-chip{flex:1;justify-content:center}
+.k-seg .k-chip .n{position:absolute;margin:-30px -60px 0 0;min-width:18px;height:18px;border-radius:9px;background:var(--k-error);color:#fff;font:700 11px/18px 'Inter';text-align:center;padding:0 5px}
+.k-opt{display:flex;align-items:center;gap:16px;min-height:72px;padding:16px;border-radius:var(--k-r-lg);border:1.5px solid var(--k-line-strong);background:var(--k-surface);cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit;transition:transform var(--k-fast)}
+.k-opt[aria-checked=true]{background:var(--k-mint);border:2px solid var(--k-ink)}
+.k-opt:active{transform:scale(.97)}
+.k-opt:disabled{opacity:.5;border-style:dashed;cursor:not-allowed}
+.k-opt:focus-visible{outline:2px solid var(--k-ink);outline-offset:2px}
+.k-opt .lead{width:52px;height:52px;border-radius:14px;overflow:hidden;flex-shrink:0;background:var(--k-mint);display:grid;place-items:center}
+.k-opt .lead img{width:100%;height:100%;object-fit:cover}
+.k-opt .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.k-opt b{font:700 20px/26px 'Inter',sans-serif}
+.k-opt small{font-size:15px;color:var(--k-muted)}
+.k-opt .ck{width:32px;height:32px;border-radius:50%;border:2px solid var(--k-line-strong);display:grid;place-items:center;flex-shrink:0;color:#fff;font-weight:800}
+.k-opt[aria-checked=true] .ck{background:var(--k-ink);border-color:var(--k-ink)}
+.k-opt.sq .ck{border-radius:8px}
+.k-btn{min-height:52px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 20px;border-radius:var(--k-pill);border:1px solid var(--k-ink);background:var(--k-ink);color:#fff;font:600 16px 'Inter',sans-serif;cursor:pointer;transition:transform var(--k-fast),opacity var(--k-fast)}
+.k-btn.lg{min-height:60px;width:100%;font:700 18px 'Inter',sans-serif}
+.k-btn.sec{background:var(--k-surface);color:var(--k-ink);border:2px solid var(--k-ink)}
+.k-btn.dng{background:var(--k-error);border-color:var(--k-error)}
+.k-btn.txt{background:none;border:0;color:var(--k-ink);min-height:44px;padding:0 8px;font-weight:700}
+.k-btn:active,.k-btn.is-pressed{transform:scale(.97);opacity:.85}
+.k-btn:disabled,.k-btn.is-disabled{background:var(--k-line);border-color:var(--k-line);color:var(--k-muted);cursor:not-allowed;transform:none;opacity:1}
+.k-btn:focus-visible,.k-btn.is-focus{outline:2px solid var(--k-ink);outline-offset:2px}
+.k-btn .spin{width:16px;height:16px;border-radius:50%;border:2.5px solid currentColor;border-right-color:transparent;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.k-field{display:flex;flex-direction:column;gap:6px}
+.k-field label{font:600 14px 'Inter';color:var(--k-muted)}
+.k-field input{height:48px;border-radius:12px;border:1px solid var(--k-line-strong);background:var(--k-surface);padding:0 14px;font:16px 'Inter';color:var(--k-ink)}
+.k-field input::placeholder{color:var(--k-hint);font-style:italic}
+.k-field input:focus,.k-field input.is-focus{outline:2px solid var(--k-ink);outline-offset:2px}
+.k-field.err input{border-color:var(--k-error)} .k-field .e{font-size:13px;color:var(--k-error)}
+.k-field input:disabled{background:var(--k-cream);color:var(--k-muted)}
+.k-sitter{display:flex;align-items:center;gap:16px;padding:16px;border-radius:var(--k-r-xl);background:var(--k-surface);cursor:pointer}
+.k-sitter:active{opacity:.85}
+.k-av{width:52px;height:52px;border-radius:50%;background:var(--k-ink);color:#fff;display:grid;place-items:center;font:600 20px 'Inter';flex-shrink:0;overflow:hidden}
+.k-av img{width:100%;height:100%;object-fit:cover}
+.k-sitter .tx{flex:1;min-width:0} .k-sitter b{display:block;font:700 16px 'Inter'} .k-sitter small{font-size:14px;color:var(--k-muted)}
+.k-tagok{display:inline-block;margin-top:4px;font:700 12px 'Inter';border-radius:999px;padding:2px 8px;background:#E6F4EA;color:#1E7A43}
+.k-tagno{display:inline-block;margin-top:4px;font:700 12px 'Inter';border-radius:999px;padding:2px 8px;background:#FDEBD8;color:#B4531A}
+.k-price{text-align:right} .k-price b{display:block;font:600 20px/26px Fredoka} .k-price small{font-size:11px;color:var(--k-muted)}
+.k-pb{display:flex;flex-direction:column;gap:4px;background:var(--k-surface);border-radius:var(--k-r-lg);padding:16px}
+.k-pb .l{display:flex;justify-content:space-between;gap:16px;font-size:15px} .k-pb .l span:first-child{color:var(--k-muted)}
+.k-pb .t{margin-top:6px;padding-top:10px;border-top:1px solid var(--k-line);font-weight:700} .k-pb .t span:last-child{font-size:18px}
+.k-pb .n{font-size:13px;color:var(--k-muted);text-align:right}
+.k-pill{display:flex;background:var(--k-surface);border-radius:999px;padding:4px;box-shadow:0 2px 10px rgba(27,67,50,.08)}
+.k-pill button{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;border:0;background:none;border-radius:999px;padding:8px 12px;font:inherit;color:var(--k-ink);cursor:pointer;text-align:left}
+.k-pill button+button{border-left:1px solid var(--k-line);border-radius:0}
+.k-pill button:last-child{border-radius:0 999px 999px 0}
+.k-pill small{font-size:11px;font-weight:600;color:var(--k-muted)} .k-pill b{font-size:13px;font-weight:800}
+.k-step{display:flex;align-items:center;gap:8px}
+.k-step .bk{width:32px;height:44px;border:0;background:none;font-size:24px;color:var(--k-ink);cursor:pointer}
+.k-step .mid{flex:1;display:flex;flex-direction:column;gap:4px}
+.k-step .tr{height:8px;border-radius:4px;background:var(--k-line);overflow:hidden} .k-step .fl{height:8px;background:var(--k-success);transition:width var(--k-base)}
+.k-step .lb{font-size:14px;color:var(--k-muted)} .k-step a{font-weight:700;color:var(--k-ink);text-decoration:none}
+.k-group{background:var(--k-surface);border-radius:var(--k-r-lg);overflow:hidden}
+.k-lr{display:flex;align-items:center;gap:16px;min-height:54px;padding:8px 16px;border:0;background:none;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.k-lr+.k-lr{border-top:1px solid var(--k-line)}
+.k-lr:active{background:var(--k-cream)}
+.k-lr .tx{flex:1} .k-lr b{display:block;font:600 16px 'Inter'} .k-lr small{font-size:14px;color:var(--k-muted)}
+.k-lr .chev{color:var(--k-muted);font-size:20px} .k-lr.dng b{color:var(--k-error)} .k-lr:disabled{opacity:.5;cursor:default}
+.k-badge{background:var(--k-gold);border-radius:999px;padding:2px 8px;font:700 13px 'Inter'}
+.k-switch{width:42px;height:26px;border-radius:13px;background:var(--k-line);position:relative;border:0;cursor:pointer;flex-shrink:0;transition:background var(--k-fast)}
+.k-switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform var(--k-fast)}
+.k-switch[aria-checked=true]{background:var(--k-ink)} .k-switch[aria-checked=true]::after{transform:translateX(16px)}
+.k-sum{display:flex;align-items:center;gap:16px;min-height:56px;padding:8px 0;border-bottom:1px solid var(--k-line)}
+.k-sum > span{width:72px;font-size:14px;color:var(--k-muted)} .k-sum .v{flex:1} .k-sum b{display:block;font:600 16px 'Inter'} .k-sum small{font-size:14px;color:var(--k-muted)}
+.k-sum a{font-weight:700;color:var(--k-ink)}
+.k-tabbar{display:flex;justify-content:space-around;background:var(--k-surface);border-radius:28px 28px 0 0;padding:10px 4px 12px}
+.k-tabbar button{display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;font:700 12px 'Inter';color:var(--k-muted);cursor:pointer;min-width:56px}
+.k-tabbar .ic{width:44px;height:30px;border-radius:999px;display:grid;place-items:center}
+.k-tabbar .ic svg{width:20px;height:20px}
+.k-tabbar [aria-current=page]{color:var(--k-ink)} .k-tabbar [aria-current=page] .ic{background:var(--k-mint)}
+.k-head{display:flex;align-items:center;gap:8px;min-height:56px}
+.k-head h4{flex:1;margin:0;font:600 24px Fredoka}
+.k-head .role{background:var(--k-mint);border-radius:999px;padding:4px 10px;font:700 13px 'Inter'}
+.k-head .ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--k-ink);position:relative}
+.k-head .ib svg{width:22px;height:22px} .k-head .dot{position:absolute;top:9px;right:10px;min-width:16px;height:16px;border-radius:8px;background:var(--k-error);color:#fff;font:700 10px/16px 'Inter'}
+.k-sect{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.k-sect::-webkit-scrollbar{display:none}
+.k-sect button{flex:0 0 auto}
+.k-menu{height:220px;overflow-y:auto;border-radius:12px;background:var(--k-surface);scroll-behavior:smooth}
+.k-menu h5{position:sticky;top:0;margin:0;padding:8px 12px;background:var(--k-surface);font:600 16px Fredoka;border-bottom:1px solid var(--k-line)}
+.k-menu p{padding:10px 12px;margin:0;font-size:14px;border-bottom:1px solid var(--k-line)}
+.k-dots{display:flex;gap:6px;justify-content:center} .k-dots i{width:8px;height:8px;border-radius:4px;background:var(--k-line)} .k-dots i.on{width:20px;background:var(--k-ink)}
+.k-empty{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:16px}
+.k-empty b{font:600 21px Fredoka} .k-empty small{font-size:14px;color:var(--k-muted);max-width:16rem}
+.k-result{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;background:var(--k-surface);border-radius:var(--k-r-lg);padding:24px 16px}
+.k-result .c{width:72px;height:72px;border-radius:50%;background:var(--k-mint);display:grid;place-items:center;font-size:34px;font-weight:800}
+.k-result b{font:600 21px Fredoka} .k-result small{font-size:15px;color:var(--k-muted);max-width:18rem}
+.k-toast{display:flex;align-items:center;gap:16px;min-height:52px;padding:8px 16px;border-radius:var(--k-r-lg);background:var(--k-ink);color:#fff;font-size:16px}
+.k-toast.err{background:var(--k-error)} .k-toast span{flex:1} .k-toast button{border:0;background:none;color:var(--k-gold);font:700 16px 'Inter';cursor:pointer}
+.k-toast.in{animation:tin 200ms cubic-bezier(.215,.61,.355,1)} @keyframes tin{from{opacity:0;transform:translateY(12px)}}
+.k-overlay{position:absolute;inset:0;background:rgba(27,67,50,.32);display:flex;align-items:flex-end;border-radius:20px}
+.k-overlay[hidden]{display:none!important}
+.k-sheet{width:100%;background:var(--k-surface);border-radius:24px 24px 0 0;padding:8px 16px 16px;display:flex;flex-direction:column;gap:12px;animation:rise var(--k-base) cubic-bezier(.215,.61,.355,1)}
+@keyframes rise{from{transform:translateY(48px)}}
+.k-sheet .hd{width:40px;height:5px;border-radius:3px;background:var(--k-line);align-self:center}
+.k-sheet .tt{display:flex;align-items:center;justify-content:space-between}
+.k-danger{position:absolute;inset:0;background:var(--k-cream);display:flex;flex-direction:column;border-radius:20px;overflow:hidden}
+.k-danger[hidden]{display:none!important}
+.k-danger .band{background:var(--k-error);color:#fff;padding:36px 20px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.k-danger .band .w{width:64px;height:64px;border-radius:50%;background:#fff;color:var(--k-error);display:grid;place-items:center;font:800 30px 'Inter'}
+.k-danger .band b{font:700 22px/1.25 'Inter'}
+.k-danger .bd{flex:1;padding:20px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;font-size:15px}
+.k-danger .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.k-danger .chips span{border:1.5px solid var(--k-error);background:var(--k-error-bg);color:var(--k-error);border-radius:999px;padding:4px 12px;font:700 14px 'Inter'}
+.k-danger .ft{padding:20px}
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.sw{display:flex;flex-direction:column;gap:4px;font-size:12px} .sw i{height:44px;border-radius:10px;border:1px solid rgba(0,0,0,.1)} .sw b{font-weight:700} .sw span{color:var(--k-muted)}
+.type{display:flex;flex-direction:column;gap:8px} .type div{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap} .type span{font-size:12px;color:var(--k-muted);width:110px}
+.reduce .k-sheet,.reduce .k-toast.in{animation:none}
+@media (prefers-reduced-motion: reduce){.k-sheet,.k-toast.in,.k-btn .spin{animation:none}}
+.note{background:var(--color-warning-surface);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
+details.code{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.5rem .875rem}
+details.code summary{cursor:pointer;font-weight:700;font-size:.875rem;min-height:32px;display:flex;align-items:center}
+details.code pre{margin:.5rem 0 0;overflow-x:auto;font-size:.75rem;line-height:1.5}
+.eng{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.75rem;margin-top:1rem}
+.eng div{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.25rem}
+.eng b{font:600 1rem var(--font-display)} .eng span{font-size:.875rem;color:var(--color-text-muted)}
+
+/* ---------- round 3 parts ---------- */
+.k-status{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 4px;font:700 14px 'Inter'} .k-status i{display:inline-block;width:18px;height:10px;border-radius:2px;background:var(--k-ink);margin-left:5px}
+.k-appbar{display:flex;align-items:center;gap:8px;padding:6px 4px 8px} .k-appbar .coin{width:30px;height:30px;border-radius:50%;background:var(--k-gold);display:grid;place-items:center;font:800 14px 'Inter'} .k-appbar b{flex:1;font:600 18px Fredoka}
+.k-detail{display:flex;align-items:center;gap:4px;min-height:56px} .k-detail button{width:44px;height:44px;border:0;background:none;font-size:24px;color:var(--k-ink);cursor:pointer} .k-detail h4{margin:0;font:600 24px Fredoka;flex:1}
+.k-iconbtn{width:44px;height:44px;border-radius:22px;border:0;background:var(--k-surface);display:grid;place-items:center;position:relative;cursor:pointer;color:var(--k-ink)} .k-iconbtn svg{width:22px;height:22px} .k-iconbtn .d{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:4px;background:var(--k-error)}
+.k-menurow{display:flex;align-items:center;gap:16px;min-height:56px;padding:0 16px;background:var(--k-surface);border-radius:var(--k-r-lg)} .k-menurow svg{width:24px;height:24px} .k-menurow b{flex:1;font:700 18px 'Inter'} .k-menurow .c{background:var(--k-error);color:#fff;border-radius:12px;padding:2px 8px;font:700 14px 'Inter'}
+.k-stepper{display:grid;grid-template-columns:repeat(5,1fr);position:relative;isolation:isolate}
+.k-stepper button{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:none;cursor:pointer;padding:6px 2px 4px;border-radius:14px;font:600 12px/13px Fredoka;color:#4f5b53}
+.k-stepper button+button::before{content:"";position:absolute;top:21px;right:50%;width:100%;height:3px;border-radius:2px;background:var(--k-line);z-index:-1}
+.k-stepper .n{position:relative;z-index:2;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 0 0 2px var(--k-line);font:800 14px 'Inter';color:#4f5b53}
+.k-stepper .done .n{background:#2D6A4F;color:#fff;box-shadow:none} .k-stepper .done+button::before{background:#2D6A4F}
+.k-stepper .cur .n{background:var(--k-ink);color:var(--k-cream);box-shadow:none} .k-stepper .cur{color:#1a1a1a}
+.k-stagehead{display:flex;align-items:center;gap:12px;padding:14px 16px 4px;background:var(--k-mint);border-radius:26px 26px 0 0} .k-stagehead .n{width:28px;height:28px;border-radius:50%;background:#2D6A4F;color:#fff;display:grid;place-items:center;font:800 13px 'Inter'} .k-stagehead .tx{flex:1} .k-stagehead b{display:block;font:600 16px/23px Fredoka} .k-stagehead small{font:500 13px 'Inter';color:#4f5b53} .k-stagehead svg{width:52px;height:52px}
+.k-stagebody{background:var(--k-mint);border-radius:0 0 26px 26px;padding:8px 16px 16px;font-size:14px}
+.k-stage{display:flex;align-items:center;gap:12px;min-height:70px;padding:14px 16px;border-radius:26px;cursor:pointer;border:0;width:100%;text-align:left;font:inherit;color:#4f5b53}
+.k-stage .n{width:28px;height:28px;border-radius:50%;background:#e3eadf;display:grid;place-items:center;font:800 13px 'Inter'} .k-stage .tx{flex:1} .k-stage b{display:block;font:700 16px/23px Fredoka} .k-stage small{font:500 13px 'Inter'} .k-stage svg{width:52px;height:52px}
+.k-stage.done .n{background:#2D6A4F;color:#fff} .k-stage.done b{color:var(--k-ink)}
+.k-tag{display:inline-flex;align-items:center;gap:6px;min-height:26px;padding:0 8px;border-radius:8px;font:700 13px 'Inter'}
+.k-tag.warn{background:#fffaeb;color:#b54708} .k-tag.dng{background:#FEF3F2;color:#B42318} .k-tag.ok{background:#ECFDF3;color:#067647} .k-tag.brand{background:var(--k-mint);color:var(--k-ink)} .k-tag.neu{background:#EFEBE3;color:#4f5b53}
+.k-demo{display:inline-flex;align-items:center;gap:6px;border:1.5px dashed var(--k-line-strong);border-radius:999px;padding:4px 10px;font:700 12px 'Inter';color:var(--k-muted)}
+.k-banner{display:flex;gap:8px;padding:8px 16px;border:1px solid;border-radius:12px;font-size:14px} .k-banner .tx{flex:1} .k-banner b{display:block} .k-banner a{display:inline-block;margin-top:4px;font-weight:700;color:inherit}
+.k-banner.info{background:var(--k-mint);border-color:var(--k-line)} .k-banner.info b{color:var(--k-ink)}
+.k-banner.warn{background:#fffaeb;border-color:#b54708} .k-banner.warn b{color:#b54708}
+.k-banner.err{background:#FEF3F2;border-color:#B42318} .k-banner.err b,.k-banner.err a{color:#B42318}
+.k-banner.off{background:#fff;border-color:var(--k-line-strong)}
+.k-skel{display:flex;flex-direction:column;gap:6px} .k-skel i{display:block;height:12px;border-radius:6px;background:linear-gradient(90deg,var(--k-line) 0%,#F4EEE2 50%,var(--k-line) 100%);background-size:200% 100%;animation:sh 1.4s infinite} .k-skel .blk{height:96px;border-radius:12px}
+@keyframes sh{from{background-position:100% 0}to{background-position:-100% 0}}
+.k-prog{display:flex;flex-direction:column;gap:4px} .k-prog .top{display:flex;justify-content:space-between;font:600 14px 'Inter'} .k-prog .top small{font:500 11px 'Inter';color:var(--k-muted)} .k-prog .tr{height:8px;border-radius:4px;background:var(--k-line)} .k-prog .fl{height:8px;border-radius:4px;background:var(--k-success)}
+.k-avs{display:flex;gap:10px;align-items:center} .k-avs .a{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;overflow:hidden;font:600 16px 'Inter'} .k-avs img{width:100%;height:100%;object-fit:cover} .k-avs svg{width:34px;height:34px}
+.k-bubbles{display:flex;flex-direction:column;gap:8px}
+.k-bub{max-width:88%;padding:12px 14px;border-radius:16px;font:15px/21.75px 'Inter'} .k-bub.me{align-self:flex-end;background:#2D6A4F;color:#fff;border-bottom-right-radius:4px} .k-bub.them{align-self:flex-start;background:#fff9f0;border:1px solid #e3eadf;border-bottom-left-radius:4px}
+.k-bub .eb{display:block;font:800 11px/16px 'Inter';letter-spacing:.33px;text-transform:uppercase;color:#4f5b53;margin-bottom:2px}
+.k-bub .ai{display:inline-block;margin-left:6px;background:var(--k-mint);color:var(--k-ink);border-radius:999px;padding:0 6px;font:800 10px/16px 'Inter'}
+.k-bub .src{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px} .k-bub .src span{border:1px solid #e3eadf;border-radius:999px;padding:3px 8px;font:700 11px 'Inter';color:#4f5b53}
+.k-meta{font-size:12px;color:var(--k-muted)} .k-meta.r{align-self:flex-end}
+.k-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:#fff9f0;border:1px solid #e3eadf;border-radius:16px 16px 16px 4px} .k-typing i{width:7px;height:7px;border-radius:50%;background:#4f5b53;animation:bob 1s infinite} .k-typing i:nth-child(2){animation-delay:.15s} .k-typing i:nth-child(3){animation-delay:.3s}
+@keyframes bob{50%{transform:translateY(-4px);opacity:.5}}
+.k-consent{border:1px solid #e3eadf;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;background:#fff} .k-consent label{display:flex;gap:10px;align-items:flex-start;font:700 15px 'Inter';cursor:pointer} .k-consent input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--k-ink)} .k-consent p{margin:0;font-size:13px;color:#4f5b53} .k-consent a{font:700 14px 'Inter';color:#2D6A4F}
+.k-check{display:flex;gap:8px;align-items:center} .k-check input{height:36px;border-radius:18px;border:1px solid #e3eadf;padding:0 10px;font:600 14px 'Inter';color:#1a1a1a;background:#fff} .k-check .t{width:76px} .k-check .i{flex:1;min-width:0} .k-check button{width:44px;height:44px;border:0;background:none;font-size:18px;color:#4f5b53;cursor:pointer}
+.k-entry{background:#fff;border-radius:var(--k-r-lg);padding:16px;display:flex;flex-direction:column;gap:8px} .k-entry .code{font:700 22px 'Inter';letter-spacing:4px}
+.k-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center} .k-cal span{font:700 11px 'Inter';color:var(--k-muted)} .k-cal button{height:38px;border-radius:999px;border:0;background:none;font:700 13px 'Inter';color:var(--k-ink);cursor:pointer}
+.k-cal .past{color:#C9BFAE} .k-cal .full{text-decoration:line-through;color:#B4531A} .k-cal .mid{background:var(--k-mint);border-radius:0} .k-cal .end{background:var(--k-ink);color:#fff} .k-cal .today{box-shadow:inset 0 0 0 2px var(--k-line-strong)}
+.k-booking{background:#fff;border-radius:var(--k-r-xl);padding:16px;display:flex;flex-direction:column;gap:6px} .k-booking .h{display:flex;justify-content:space-between;align-items:center} .k-booking b{font:700 16px 'Inter'} .k-booking small{font-size:14px;color:var(--k-muted)}
+.k-feed{background:#fff;border-radius:var(--k-r-xl);overflow:hidden} .k-feed img{width:100%;height:150px;object-fit:cover;display:block} .k-feed .c{padding:12px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px} .k-feed .c b{font:700 15px 'Inter'}
+.k-note{background:var(--k-mint);border-radius:var(--k-r-xl);padding:16px;display:flex;flex-direction:column;gap:6px;font-size:14px} .k-note .h{display:flex;gap:8px;align-items:center} .k-note .h .a{width:32px;height:32px;border-radius:50%;background:var(--k-ink);color:#fff;display:grid;place-items:center;font:700 14px 'Inter'} .k-note .h b{flex:1;font:700 15px 'Inter'}
+.k-tl{display:flex;align-items:center;gap:12px;background:#fff;border-radius:20px;padding:10px 16px} .k-tl svg{width:40px;height:40px} .k-tl .tx{flex:1} .k-tl b{display:block;font:700 15px 'Inter'} .k-tl small{font-size:13px;color:var(--k-muted)} .k-tl time{font:700 13px 'Inter'}
+.k-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px} .k-tiles div{border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:2px} .k-tiles svg{width:28px;height:28px} .k-tiles b{font:700 24px Fredoka} .k-tiles small{font:600 12px 'Inter'}
+.k-life{background:#fff;border-radius:var(--k-r-lg);padding:16px;display:flex;flex-direction:column;gap:8px;font-size:14px} .k-life .r{display:flex;gap:10px} .k-life .r b{width:84px;flex-shrink:0;font:700 13px 'Inter';color:var(--k-muted)} .k-life .r em{font-style:normal;font-size:12px;color:#2D6A4F;font-weight:700}
+.k-notif{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--k-line)} .k-notif .tx{flex:1} .k-notif b{font:700 14px 'Inter'} .k-notif .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--k-error);margin-left:6px;vertical-align:middle} .k-notif small{display:block;font-size:13px;color:var(--k-muted)} .k-notif time{font:500 11px 'Inter';color:var(--k-muted)}
+.k-stars{display:flex;gap:4px} .k-stars button{border:0;background:none;font-size:30px;color:var(--k-line);cursor:pointer;padding:2px;line-height:1} .k-stars button.on{color:var(--k-gold)}
+.k-petcard{display:flex;align-items:center;gap:12px;border-radius:22px;padding:12px;background:var(--k-peach)} .k-petcard svg{width:48px;height:48px} .k-petcard b{display:block;font:600 18px Fredoka} .k-petcard small{font-size:13px}
+.inv{width:100%;border-collapse:collapse;font-size:.875rem} .inv th,.inv td{text-align:left;padding:.4rem .6rem;border-top:1px solid var(--color-border);vertical-align:top} .inv thead th{border-top:0;font-size:.75rem;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-muted)}
+.inv .y{color:var(--color-success);font-weight:700} .inv .n{color:var(--color-warning);font-weight:700} .invw{overflow-x:auto;border:1px solid var(--color-border);border-radius:14px;background:var(--color-surface)}
+
+/* ---------- round 4 parts ---------- */
+.k-cb{display:flex;align-items:center;gap:10px;min-height:44px;font-size:16px;cursor:pointer} .k-cb input{width:22px;height:22px;accent-color:var(--k-ink);margin:0}
+.k-cb.dis{opacity:.5;cursor:not-allowed}
+.k-tstep{display:flex;align-items:center;gap:12px} .k-tstep button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--k-gold);background:var(--k-surface);font:700 20px 'Inter';color:var(--k-ink);cursor:pointer} .k-tstep button:disabled{opacity:.4} .k-tstep b{min-width:84px;text-align:center;font:700 17px 'Inter';text-decoration:underline dotted}
+.k-select{position:relative} .k-select button{width:100%;height:48px;display:flex;align-items:center;justify-content:space-between;border-radius:12px;border:1px solid var(--k-line-strong);background:#fff;padding:0 14px;font:16px 'Inter';color:var(--k-ink);cursor:pointer}
+.k-select ul{list-style:none;margin:4px 0 0;padding:4px;background:#fff;border:1px solid var(--k-line);border-radius:12px;box-shadow:0 8px 24px rgba(27,67,50,.12)} .k-select li{min-height:44px;display:flex;align-items:center;padding:0 12px;border-radius:8px;cursor:pointer} .k-select li[aria-selected=true]{background:var(--k-mint);font-weight:700}
+.k-sw{display:flex;gap:10px;flex-wrap:wrap} .k-sw button{width:44px;height:44px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--k-line-strong);cursor:pointer} .k-sw button[aria-pressed=true]{box-shadow:0 0 0 3px var(--k-ink)}
+.k-slot{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid var(--k-line);border-radius:16px;padding:10px 16px} .k-slot .tx{flex:1} .k-slot b{display:block;font:600 16px 'Inter'} .k-slot small{font-size:14px}
+.k-map{border-radius:20px;overflow:hidden;background:#EAF2E3;position:relative;height:150px} .k-map svg{width:100%;height:100%} .k-map .eta{position:absolute;left:12px;bottom:12px;background:#fff;border-radius:999px;padding:6px 12px;font:700 14px 'Inter';box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.k-trip{background:#fff;border-radius:20px;padding:14px 16px;display:flex;align-items:center;gap:12px} .k-trip .tx{flex:1} .k-trip b{display:block;font:700 16px 'Inter'} .k-trip small{color:var(--k-muted)}
+.k-pcheck{display:flex;gap:12px;align-items:center;background:#fff;border-radius:20px;padding:12px} .k-pcheck img{width:72px;height:72px;border-radius:14px;object-fit:cover} .k-pcheck ul{list-style:none;margin:0;padding:0;font:600 14px 'Inter';display:flex;flex-direction:column;gap:4px} .k-pcheck .ok{color:#067647} .k-pcheck .no{color:#B54708}
+.k-summary{background:var(--k-butter);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px} .k-summary b{font:600 18px Fredoka}
+.k-profile{background:#fff;border-radius:24px;overflow:hidden} .k-profile .ph{display:grid;grid-template-columns:2fr 1fr;gap:4px;height:120px} .k-profile .ph img{width:100%;height:100%;object-fit:cover} .k-profile .c{padding:14px 16px;display:flex;flex-direction:column;gap:4px} .k-profile b{font:600 21px Fredoka}
+.k-card{background:#fff;border:1px solid var(--k-line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:4px} .k-card b{font:600 16px 'Inter'} .k-card span{font-size:14px;color:var(--k-muted)}
+.k-task{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:10px 14px} .k-task .ck{width:28px;height:28px;border-radius:50%;border:2px solid var(--k-line-strong);display:grid;place-items:center;font-weight:800;color:#fff;flex-shrink:0} .k-task.done .ck{background:#2D6A4F;border-color:#2D6A4F} .k-task.miss .ck{border-color:#B42318;color:#B42318} .k-task .tx{flex:1} .k-task b{display:block;font:600 15px 'Inter'} .k-task.done b{text-decoration:line-through;color:var(--k-muted)} .k-task small{font-size:13px;color:var(--k-muted)}
+.k-next{background:var(--k-ink);color:#fff;border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:10px} .k-next small{color:#D8F3DC;font:700 12px 'Inter';letter-spacing:.06em} .k-next b{font:600 22px Fredoka} .k-next .k-btn{background:var(--k-gold);color:var(--k-ink);border-color:var(--k-gold)}
+.k-mood{background:var(--k-mint);border-radius:20px;padding:16px;display:flex;gap:12px;align-items:center} .k-mood svg{width:56px;height:56px} .k-mood b{display:block;font:600 20px Fredoka} .k-mood small{font-size:13px}
+.k-report{background:#fff;border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:8px} .k-report b{font:700 15px 'Inter'}
+.k-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px} .k-grid img,.k-grid div{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:var(--k-line)} .k-grid div{display:grid;place-items:center;font:700 14px 'Inter';color:var(--k-muted)}
+.k-latest{display:flex;gap:12px;align-items:center;background:#fff;border-radius:28px;padding:12px} .k-latest img{width:64px;height:64px;border-radius:18px;object-fit:cover} .k-latest small{font:800 11px 'Inter';letter-spacing:.66px;text-transform:uppercase;color:#4f5b53} .k-latest p{margin:2px 0 0;font-size:13px}
+.k-dayh{display:flex;justify-content:space-between;align-items:baseline} .k-dayh b{font:600 21px Fredoka} .k-dayh small{color:var(--k-muted)}
+.k-perm{background:#fff;border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:8px;text-align:center;align-items:center} .k-perm b{font:600 18px Fredoka}
+.k-push{background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border-radius:18px;padding:10px 12px;display:flex;gap:10px;align-items:flex-start;box-shadow:0 4px 16px rgba(0,0,0,.12)} .k-push .ic{width:36px;height:36px;border-radius:9px;background:var(--k-gold);display:grid;place-items:center;font-weight:800} .k-push .tx{flex:1;font-size:14px} .k-push b{display:block;font:700 14px 'Inter'} .k-push time{font-size:12px;color:var(--k-muted)}
+.k-lock{background:linear-gradient(160deg,#2D6A4F,#1B4332);border-radius:20px;padding:14px}
+</style>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
+<!-- Goldito spot illustrations v2. Generated by illustrations/build.py: edit the generator, not this file. -->
+  <symbol id="art-dog" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="34" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFFFFF" d="M28 50c-10 4-14 22-8 36 4 9 13 10 16 4l4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFFFFF" d="M92 50c10 4 14 22 8 36-4 9-13 10-16 4l-4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFFFFF" d="M60 24c-16 0-26 10-28 24-3 8-2 18 3 24 3 14 13 24 25 24s22-10 25-24c5-6 6-16 3-24-2-14-12-24-28-24z"/><circle cx="48" cy="60" r="4.5" fill="#1B4332"/><circle cx="49.5" cy="58.5" r="1.4" fill="#fff"/><circle cx="72" cy="60" r="4.5" fill="#1B4332"/><circle cx="73.5" cy="58.5" r="1.4" fill="#fff"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#1B4332" d="M55 70h10l-5 6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 76v4m-7 1c3 4 11 4 14 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 83c1 6 7 6 8 0z"/><circle cx="41" cy="72" r="4" fill="#E76F51" opacity=".35"/><circle cx="79" cy="72" r="4" fill="#E76F51" opacity=".35"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E9C46A" d="M60 30l-12-7v14zM60 30l12-7v14z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="30" r="4" fill="#E9C46A"/></symbol>
+  <symbol id="art-dog-golden" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="34" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F4A261" d="M28 50c-10 4-14 22-8 36 4 9 13 10 16 4l4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F4A261" d="M92 50c10 4 14 22 8 36-4 9-13 10-16 4l-4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E9C46A" d="M60 24c-16 0-26 10-28 24-3 8-2 18 3 24 3 14 13 24 25 24s22-10 25-24c5-6 6-16 3-24-2-14-12-24-28-24z"/><circle cx="48" cy="60" r="4.5" fill="#1B4332"/><circle cx="49.5" cy="58.5" r="1.4" fill="#fff"/><circle cx="72" cy="60" r="4.5" fill="#1B4332"/><circle cx="73.5" cy="58.5" r="1.4" fill="#fff"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#1B4332" d="M55 70h10l-5 6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 76v4m-7 1c3 4 11 4 14 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 83c1 6 7 6 8 0z"/><circle cx="41" cy="72" r="4" fill="#E76F51" opacity=".35"/><circle cx="79" cy="72" r="4" fill="#E76F51" opacity=".35"/></symbol>
+  <symbol id="art-dog-brown" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="34" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#8E4E22" d="M28 50c-10 4-14 22-8 36 4 9 13 10 16 4l4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#8E4E22" d="M92 50c10 4 14 22 8 36-4 9-13 10-16 4l-4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#B5652E" d="M60 24c-16 0-26 10-28 24-3 8-2 18 3 24 3 14 13 24 25 24s22-10 25-24c5-6 6-16 3-24-2-14-12-24-28-24z"/><ellipse cx="60" cy="78" rx="17" ry="13" fill="#FFF9F0"/><circle cx="48" cy="60" r="6.5" fill="#FFF9F0"/><circle cx="48" cy="60" r="4.5" fill="#1B4332"/><circle cx="49.5" cy="58.5" r="1.4" fill="#fff"/><circle cx="72" cy="60" r="6.5" fill="#FFF9F0"/><circle cx="72" cy="60" r="4.5" fill="#1B4332"/><circle cx="73.5" cy="58.5" r="1.4" fill="#fff"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#1B4332" d="M55 70h10l-5 6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 76v4m-7 1c3 4 11 4 14 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 83c1 6 7 6 8 0z"/><circle cx="41" cy="72" r="4" fill="#E76F51" opacity=".35"/><circle cx="79" cy="72" r="4" fill="#E76F51" opacity=".35"/></symbol>
+  <symbol id="art-dog-black" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="34" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#3B4541" d="M28 50c-10 4-14 22-8 36 4 9 13 10 16 4l4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#3B4541" d="M92 50c10 4 14 22 8 36-4 9-13 10-16 4l-4-20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#3B4541" d="M60 24c-16 0-26 10-28 24-3 8-2 18 3 24 3 14 13 24 25 24s22-10 25-24c5-6 6-16 3-24-2-14-12-24-28-24z"/><ellipse cx="60" cy="78" rx="17" ry="13" fill="#FFF9F0"/><circle cx="48" cy="60" r="6.5" fill="#FFF9F0"/><circle cx="48" cy="60" r="4.5" fill="#1B4332"/><circle cx="49.5" cy="58.5" r="1.4" fill="#fff"/><circle cx="72" cy="60" r="6.5" fill="#FFF9F0"/><circle cx="72" cy="60" r="4.5" fill="#1B4332"/><circle cx="73.5" cy="58.5" r="1.4" fill="#fff"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#1B4332" d="M55 70h10l-5 6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 76v4m-7 1c3 4 11 4 14 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 83c1 6 7 6 8 0z"/><circle cx="41" cy="72" r="4" fill="#E76F51" opacity=".35"/><circle cx="79" cy="72" r="4" fill="#E76F51" opacity=".35"/></symbol>
+  <symbol id="art-dog-pointy" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F4A261" d="M30 52L32 18l24 18zM90 52L88 18 64 36z"/><path fill="#FFF9F0" d="M35 40l1-14 11 9zM85 40l-1-14-11 9z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F4A261" d="M60 30c-20 0-32 14-32 32 0 20 14 34 32 34s32-14 32-34c0-18-12-32-32-32z"/><path fill="#FFF9F0" d="M60 66c-12 0-20 8-20 16 0 8 9 13 20 13s20-5 20-13c0-8-8-16-20-16z"/><circle cx="47" cy="58" r="4.5" fill="#1B4332"/><circle cx="48.5" cy="56.5" r="1.4" fill="#fff"/><circle cx="73" cy="58" r="4.5" fill="#1B4332"/><circle cx="74.5" cy="56.5" r="1.4" fill="#fff"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#1B4332" d="M55 72h10l-5 6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 78v3m-7 1c3 4 11 4 14 0"/><circle cx="40" cy="72" r="4" fill="#E76F51" opacity=".35"/><circle cx="80" cy="72" r="4" fill="#E76F51" opacity=".35"/></symbol>
+  <symbol id="art-dog-pointy-grey" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#A9B0A8" d="M30 52L32 18l24 18zM90 52L88 18 64 36z"/><path fill="#FFF9F0" d="M35 40l1-14 11 9zM85 40l-1-14-11 9z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#A9B0A8" d="M60 30c-20 0-32 14-32 32 0 20 14 34 32 34s32-14 32-34c0-18-12-32-32-32z"/><path fill="#FFF9F0" d="M60 66c-12 0-20 8-20 16 0 8 9 13 20 13s20-5 20-13c0-8-8-16-20-16z"/><circle cx="47" cy="58" r="4.5" fill="#1B4332"/><circle cx="48.5" cy="56.5" r="1.4" fill="#fff"/><circle cx="73" cy="58" r="4.5" fill="#1B4332"/><circle cx="74.5" cy="56.5" r="1.4" fill="#fff"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#1B4332" d="M55 72h10l-5 6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 78v3m-7 1c3 4 11 4 14 0"/><circle cx="40" cy="72" r="4" fill="#E76F51" opacity=".35"/><circle cx="80" cy="72" r="4" fill="#E76F51" opacity=".35"/></symbol>
+  <symbol id="art-cat" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F4A261" d="M30 30l18 16h24l18-16 2 34c0 20-14 34-32 34S28 84 28 64z"/><path fill="#FFF9F0" d="M36 40l2 12 8-4zM84 40l-2 12-8-4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M52 46c2 4 2 6 0 8m16-8c-2 4-2 6 0 8M60 44v8"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M44 78c4-8 28-8 32 0-2 10-30 10-32 0z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M44 62c3-3 7-3 10 0M66 62c3-3 7-3 10 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 72h8l-4 4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M38 74l-14-2m14 6l-13 4m57-8l14-2m-14 6l13 4"/></symbol>
+  <symbol id="art-cat-tuxedo" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#3B4541" d="M30 30l18 16h24l18-16 2 34c0 20-14 34-32 34S28 84 28 64z"/><path fill="#5A6560" d="M36 40l2 12 8-4zM84 40l-2 12-8-4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M44 78c4-8 28-8 32 0-2 10-30 10-32 0z"/><circle cx="49" cy="62" r="6.5" fill="#FFF9F0"/><circle cx="71" cy="62" r="6.5" fill="#FFF9F0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M44 62c3-3 7-3 10 0M66 62c3-3 7-3 10 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 72h8l-4 4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M38 74l-14-2m14 6l-13 4m57-8l14-2m-14 6l13 4"/></symbol>
+  <symbol id="art-cat-grey" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#A9B0A8" d="M30 30l18 16h24l18-16 2 34c0 20-14 34-32 34S28 84 28 64z"/><path fill="#FFF9F0" d="M36 40l2 12 8-4zM84 40l-2 12-8-4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M54 46v6M60 44v8M66 46v6"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M44 78c4-8 28-8 32 0-2 10-30 10-32 0z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M44 62c3-3 7-3 10 0M66 62c3-3 7-3 10 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 72h8l-4 4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M38 74l-14-2m14 6l-13 4m57-8l14-2m-14 6l13 4"/></symbol>
+  <symbol id="art-cat-calico" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M30 30l18 16h24l18-16 2 34c0 20-14 34-32 34S28 84 28 64z"/><path fill="#FFF9F0" d="M36 40l2 12 8-4zM84 40l-2 12-8-4z"/><path fill="#F4A261" d="M30 30l18 16-6 14-14-4z"/><path fill="#3B4541" d="M90 30L72 46l6 12 13-6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFFFFF" d="M44 78c4-8 28-8 32 0-2 10-30 10-32 0z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M44 62c3-3 7-3 10 0M66 62c3-3 7-3 10 0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M56 72h8l-4 4z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M38 74l-14-2m14 6l-13 4m57-8l14-2m-14 6l13 4"/></symbol>
+  <symbol id="art-bowl" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><g stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#B5652E"><circle cx="44" cy="56" r="7"/><circle cx="58" cy="50" r="7"/><circle cx="72" cy="55" r="7"/><circle cx="51" cy="62" r="7"/><circle cx="66" cy="62" r="7"/><circle cx="80" cy="62" r="6"/><circle cx="38" cy="64" r="6"/></g><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M22 64h76l-8 30c-1 4-4 6-8 6H38c-4 0-7-2-8-6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M18 62h84v6H18z"/><g fill="#FFF9F0"><circle cx="60" cy="84" r="5"/><circle cx="52" cy="77" r="2.6"/><circle cx="57" cy="74" r="2.6"/><circle cx="63" cy="74" r="2.6"/><circle cx="68" cy="77" r="2.6"/></g></symbol>
+  <symbol id="art-bowl-water" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#D8F3DC" d="M22 64h76l-8 30c-1 4-4 6-8 6H38c-4 0-7-2-8-6z"/><ellipse stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="64" rx="38" ry="8" fill="#9ED8E6"/><path fill="#fff" opacity=".7" d="M40 62c6-2 14-2 20 0-6 2-14 2-20 0z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#9ED8E6" d="M60 24c-8 12-12 18-12 24a12 12 0 0 0 24 0c0-6-4-12-12-24z"/></symbol>
+  <symbol id="art-bone" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="36" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M34 44a10 10 0 1 1 14-10l26 26a10 10 0 1 1 10 14 10 10 0 1 1-14 10L44 58a10 10 0 1 1-10-14z"/><path fill="#fff" opacity=".6" d="M30 40c2-4 6-6 10-5-4 1-7 3-8 7z"/></symbol>
+  <symbol id="art-pill" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="30" ry="6" fill="#1B4332" opacity=".12"/><g transform="rotate(-35 60 60)"><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="26" y="44" width="68" height="32" rx="16" fill="#FFF9F0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M60 44H42a16 16 0 0 0 0 32h18z"/></g><path fill="#fff" opacity=".6" d="M38 66l10-7 3 4-10 7z"/></symbol>
+  <symbol id="art-pill-bottle" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="34" y="22" width="52" height="16" rx="4" fill="#FFF9F0"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="30" y="38" width="60" height="62" rx="10" fill="#E76F51"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="40" y="54" width="40" height="28" rx="4" fill="#FFF9F0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 60v16M52 68h16"/></symbol>
+  <symbol id="art-walk" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="40" ry="6" fill="#1B4332" opacity=".12"/><g transform="translate(40 80) rotate(30)"><ellipse stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="0" cy="5" rx="11" ry="9" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="-12" cy="-8" r="4.5" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="-4" cy="-14" r="4.5" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="5" cy="-14" r="4.5" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="13" cy="-8" r="4.5" fill="#2D6A4F"/></g><g transform="translate(80 40) rotate(30)"><ellipse stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="0" cy="5" rx="11" ry="9" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="-12" cy="-8" r="4.5" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="-4" cy="-14" r="4.5" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="5" cy="-14" r="4.5" fill="#2D6A4F"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="13" cy="-8" r="4.5" fill="#2D6A4F"/></g></symbol>
+  <symbol id="art-walk-leash" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="30" ry="6" fill="#1B4332" opacity=".12"/><path fill="none" stroke="#E76F51" stroke-width="6" stroke-linecap="round" d="M44 40c0 24 8 40 30 52"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M44 40c0 24 8 40 30 52"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M44 16c-10 0-16 6-16 14s6 14 16 14 16-6 16-14-6-14-16-14zm0 8c5 0 8 3 8 6s-3 6-8 6-8-3-8-6 3-6 8-6z"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="70" y="88" width="14" height="14" rx="3" fill="#E9C46A"/></symbol>
+  <symbol id="art-walk-park" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#B5652E" d="M54 70h12v32H54z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#52B788" d="M60 14c-14 0-22 10-20 20-10 2-14 12-10 20 3 8 12 12 20 10 4 6 16 6 20 0 8 2 17-2 20-10 4-8 0-18-10-20 2-10-6-20-20-20z"/><circle cx="48" cy="40" r="5" fill="#D8F3DC"/><circle cx="72" cy="48" r="4" fill="#D8F3DC"/></symbol>
+  <symbol id="art-nap" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="30" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E9C46A" d="M70 24c-20 2-34 18-32 38s20 34 40 32c6 0 11-2 16-5-18 2-34-12-35-30-1-14 6-27 18-34-2-1-5-1-7-1z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M80 30h12l-12 14h12M94 54h8l-8 9h8"/></symbol>
+  <symbol id="art-nap-bed" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="42" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M14 70c0-12 8-20 20-20h52c12 0 20 8 20 20v16c0 6-4 10-10 10H24c-6 0-10-4-10-10z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M26 74c0-6 4-10 10-10h48c6 0 10 4 10 10v8H26z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M74 34h10l-10 10h10M88 22h7l-7 7h7"/></symbol>
+  <symbol id="art-potty" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#D8F3DC" d="M18 98c4-14 20-22 42-22s38 8 42 22z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#52B788" d="M40 80c-6-16-2-30 10-38 2 14 0 26-10 38zM60 76c0-18 6-30 20-36-2 16-8 28-20 36zM74 84c2-10 10-16 20-16-4 8-10 14-20 16z"/></symbol>
+  <symbol id="art-ball" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="60" r="34" fill="#E9C46A"/><path fill="none" stroke="#FFF9F0" stroke-width="5" stroke-linecap="round" d="M34 38c14 10 14 34 0 44M86 38c-14 10-14 34 0 44"/><path fill="#fff" opacity=".6" d="M44 40a6 6 0 1 1 8 0 6 6 0 1 1-8 0z"/></symbol>
+  <symbol id="art-brush" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="36" ry="6" fill="#1B4332" opacity=".12"/><g transform="rotate(-30 60 60)"><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="54" y="56" width="12" height="44" rx="6" fill="#B5652E"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="30" y="26" width="60" height="32" rx="10" fill="#E76F51"/><g fill="#FFF9F0"><circle cx="38" cy="36" r="2.6"/><circle cx="38" cy="47" r="2.6"/><circle cx="49" cy="36" r="2.6"/><circle cx="49" cy="47" r="2.6"/><circle cx="60" cy="36" r="2.6"/><circle cx="60" cy="47" r="2.6"/><circle cx="71" cy="36" r="2.6"/><circle cx="71" cy="47" r="2.6"/><circle cx="82" cy="36" r="2.6"/><circle cx="82" cy="47" r="2.6"/></g></g></symbol>
+  <symbol id="art-home" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="40" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M26 56l34-28 34 28v42H26z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M16 60l44-38 44 38-6 6-38-32-38 32z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#2D6A4F" d="M52 98V74h16v24z"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="74" y="66" width="12" height="12" rx="2" fill="#D8F3DC"/></symbol>
+  <symbol id="art-home-heart" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="40" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M26 56l34-28 34 28v42H26z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M16 60l44-38 44 38-6 6-38-32-38 32z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M60 90c-10-7-16-12-16-19 0-5 4-9 9-9 3 0 5 2 7 4 2-2 4-4 7-4 5 0 9 4 9 9 0 7-6 12-16 19z"/></symbol>
+  <symbol id="art-car" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="44" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M14 74c0-6 4-10 10-10l10-18c2-4 6-6 10-6h32c4 0 8 2 10 6l10 18c6 0 10 4 10 10v12c0 3-3 6-6 6H20c-3 0-6-3-6-6z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#D8F3DC" d="M40 48h17v16H32zM63 48h17l8 16H63z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="36" cy="92" r="10" fill="#1B4332"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="84" cy="92" r="10" fill="#1B4332"/><circle cx="36" cy="92" r="4" fill="#FFF9F0"/><circle cx="84" cy="92" r="4" fill="#FFF9F0"/></symbol>
+  <symbol id="art-pin" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="22" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M60 102S30 70 30 46a30 30 0 0 1 60 0c0 24-30 56-30 56z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="46" r="12" fill="#FFF9F0"/><path fill="#fff" opacity=".6" d="M42 34c3-6 8-9 13-10-4 3-7 7-8 12z"/></symbol>
+  <symbol id="art-calendar" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="20" y="26" width="80" height="72" rx="10" fill="#FFF9F0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M20 36c0-6 4-10 10-10h60c6 0 10 4 10 10v10H20z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M40 18v16M80 18v16"/><g fill="#D8F3DC" stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="32" y="58" width="14" height="12" rx="3"/><rect x="53" y="58" width="14" height="12" rx="3"/></g><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="74" y="58" width="14" height="12" rx="3" fill="#2D6A4F"/><g fill="#D8F3DC" stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="32" y="76" width="14" height="12" rx="3"/><rect x="53" y="76" width="14" height="12" rx="3"/></g></symbol>
+  <symbol id="art-key" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="36" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E9C46A" d="M56 50h46v12h-8v12H82V62h-8v10H62V62h-6z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="38" cy="56" r="22" fill="#E9C46A"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="34" cy="56" r="7" fill="#FFF9F0"/><path fill="#fff" opacity=".6" d="M26 44c4-5 10-7 15-6-5 2-9 5-11 9z"/></symbol>
+  <symbol id="art-card" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="40" ry="6" fill="#1B4332" opacity=".12"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="14" y="30" width="92" height="62" rx="9" fill="#2D6A4F"/><rect x="16" y="44" width="88" height="11" fill="#1B4332"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="26" y="64" width="20" height="15" rx="3" fill="#E9C46A"/><rect x="54" y="68" width="38" height="6" rx="3" fill="#D8F3DC"/></symbol>
+  <symbol id="art-star" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="30" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E9C46A" d="M60 16l12 26 28 3-21 19 6 28-25-14-25 14 6-28-21-19 28-3z"/><path fill="#fff" opacity=".6" d="M52 40l4-9 3 2-4 9z"/></symbol>
+  <symbol id="art-camera" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#F4A261" d="M22 42h20l6-10h24l6 10h20c3 0 6 3 6 6v40c0 3-3 6-6 6H22c-3 0-6-3-6-6V48c0-3 3-6 6-6z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="68" r="19" fill="#FFF9F0"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="68" r="10" fill="#2D6A4F"/><circle cx="56" cy="64" r="3" fill="#fff"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="84" y="50" width="8" height="6" rx="2" fill="#E9C46A"/></symbol>
+  <symbol id="art-photo" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="36" ry="6" fill="#1B4332" opacity=".12"/><g transform="rotate(-6 60 60)"><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="22" y="20" width="76" height="80" rx="6" fill="#FFF9F0"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="30" y="28" width="60" height="50" rx="3" fill="#D8F3DC"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#52B788" d="M30 70l18-18 14 12 10-8 18 14v8H30z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="76" cy="40" r="6" fill="#E9C46A"/></g></symbol>
+  <symbol id="art-heart" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M60 94C38 78 22 64 22 46c0-11 9-20 20-20 8 0 14 4 18 10 4-6 10-10 18-10 11 0 20 9 20 20 0 18-16 32-38 48z"/><path fill="#fff" opacity=".6" d="M36 42c2-6 7-8 11-8-4 3-6 6-7 10z"/></symbol>
+  <symbol id="art-diary" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="36" ry="6" fill="#1B4332" opacity=".12"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="26" y="18" width="68" height="84" rx="8" fill="#2D6A4F"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="38" y="18" width="56" height="84" rx="6" fill="#FFF9F0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M48 40h34M48 52h34M48 64h22"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M78 82c-6-4-9-7-9-11 0-3 2-5 5-5 2 0 3 1 4 3 1-2 2-3 4-3 3 0 5 2 5 5 0 4-3 7-9 11z"/></symbol>
+  <symbol id="art-paw" viewBox="0 0 120 120"><g stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#2D6A4F"><ellipse cx="60" cy="74" rx="22" ry="18"/><ellipse cx="34" cy="50" rx="9" ry="11"/><ellipse cx="50" cy="36" rx="9" ry="11"/><ellipse cx="70" cy="36" rx="9" ry="11"/><ellipse cx="86" cy="50" rx="9" ry="11"/></g></symbol>
+  <symbol id="art-search" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><g transform="rotate(45 48 48)"><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="64" y="41" width="40" height="14" rx="7" fill="#2D6A4F"/></g><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="48" cy="48" r="26" fill="#D8F3DC"/><ellipse cx="48" cy="54" rx="8" ry="6.5" fill="#2D6A4F"/><circle cx="38" cy="45" r="3.4" fill="#2D6A4F"/><circle cx="44" cy="40" r="3.4" fill="#2D6A4F"/><circle cx="52" cy="40" r="3.4" fill="#2D6A4F"/><circle cx="58" cy="45" r="3.4" fill="#2D6A4F"/><path fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8" d="M32 36c3-5 8-8 13-9"/></symbol>
+  <symbol id="art-chat" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M22 26h76c6 0 10 4 10 10v36c0 6-4 10-10 10H56L36 96V82H22c-6 0-10-4-10-10V36c0-6 4-10 10-10z"/><circle cx="40" cy="54" r="6" fill="#52B788"/><circle cx="60" cy="54" r="6" fill="#52B788"/><circle cx="80" cy="54" r="6" fill="#52B788"/></symbol>
+  <symbol id="art-chat-two" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="36" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#D8F3DC" d="M44 44h52c6 0 10 4 10 10v24c0 6-4 10-10 10h-6v12L76 88H44c-6 0-10-4-10-10V54c0-6 4-10 10-10z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#FFF9F0" d="M20 18h50c6 0 10 4 10 10v24c0 6-4 10-10 10H40L26 74V62h-6c-6 0-10-4-10-10V28c0-6 4-10 10-10z"/><circle cx="32" cy="40" r="4.5" fill="#52B788"/><circle cx="45" cy="40" r="4.5" fill="#52B788"/><circle cx="58" cy="40" r="4.5" fill="#52B788"/></symbol>
+  <symbol id="art-bell" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E9C46A" d="M60 20c-16 0-26 12-26 28v18l-8 12h68l-8-12V48c0-16-10-28-26-28z"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M50 84a10 10 0 0 0 20 0z"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="18" r="4" fill="#E9C46A"/><path fill="#fff" opacity=".6" d="M42 44c1-8 5-13 11-15-4 4-6 9-7 15z"/></symbol>
+  <symbol id="art-mail" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/><rect stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" x="16" y="34" width="88" height="60" rx="8" fill="#FFF9F0"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M18 40l42 32 42-32"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#E76F51" d="M60 86c-8-5-12-9-12-14 0-4 3-7 7-7 2 0 4 1 5 3 1-2 3-3 5-3 4 0 7 3 7 7 0 5-4 9-12 14z"/></symbol>
+  <symbol id="art-clock" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="58" r="36" fill="#FFF9F0"/><g fill="#1B4332"><circle cx="60" cy="30" r="3"/><circle cx="88" cy="58" r="3"/><circle cx="60" cy="86" r="3"/><circle cx="32" cy="58" r="3"/></g><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M60 40v18l14 9"/><circle stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" cx="60" cy="58" r="4" fill="#E76F51"/></symbol>
+  <symbol id="art-shield" viewBox="0 0 120 120"><ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/><path stroke="#1B4332" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="#52B788" d="M60 14l34 12v26c0 24-16 40-34 48-18-8-34-24-34-48V26z"/><path fill="none" stroke="#1B4332" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" d="M44 58l11 11 22-24"/><path fill="none" stroke="#FFF9F0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" d="M44 58l11 11 22-24"/></symbol>
+</svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-1.5V19c3-.5 6 0 8 1.5 2-1.5 5-2 8-1.5V4.5c-3-.5-6 0-8 1.5z"/><path d="M12 6v14.5"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</svg>
+<div class="wrap">
+<header class="top">
+  <span class="eyebrow">Goldito design system · the master</span>
+  <h1>Design kit</h1>
+  <p>Every shared part, live: tap, toggle, open. Each part shows its states (default, pressed, selected, focus, disabled, loading, error). The app's <code>/dev/kit</code> and the Figma kit follow this page; the plugin captures every board marked here.</p>
+
+  <div class="eng" aria-label="For engineers">
+    <div><b>Run it in the app</b><span><code>EXPO_PUBLIC_DEV_ROUTES=1 npx expo start --web</code>, then open <code>/dev/kit</code>. Same parts, same states.</span></div>
+    <div><b>Use a part</b><span>Each family below has a "For engineers: code" panel: import, usage, props. Props mirror the Figma variants (Style, Size, State…).</span></div>
+    <div><b>Tokens only</b><span><code>npm run check:tokens</code> runs in CI: no raw hex, numeric font sizes or emoji labels outside <code>theme/</code>. Add <code>// tokens-ok</code> with a reason for a real exception.</span></div>
+    <div><b>Figma</b><span>The plugin's Tickets tab builds "Design kit" from this page: every <code>data-comp</code> becomes a component, every <code>data-variant</code> a variant.</span></div>
+  </div>
+</header>
+</div>
+
+<nav class="tabs" aria-label="Kit sections"><div class="rail" id="rail">
+  <a href="#foundations" data-t="foundations">Foundations</a>
+  <a href="#navigation" data-t="navigation">Navigation <small>11</small></a>
+  <a href="#selection" data-t="selection">Selection <small>6</small></a>
+  <a href="#inputs" data-t="inputs">Inputs <small>6</small></a>
+  <a href="#stay" data-t="stay">Stay and chat <small>13</small></a>
+  <a href="#cards" data-t="cards">Cards <small>5</small></a>
+  <a href="#content" data-t="content">Care and content <small>16</small></a>
+  <a href="#layout" data-t="layout">Layout <small>3</small></a>
+  <a href="#feedback" data-t="feedback">Feedback <small>7</small></a>
+  <a href="#status" data-t="status">Status <small>6</small></a>
+  <a href="#inventory" data-t="inventory">Inventory</a>
+</div></nav>
+
+<div class="wrap">
+
+<!-- ================= FOUNDATIONS ================= -->
+<section class="fam" id="foundations">
+  <h2>Foundations</h2>
+  <p>Tokens every part uses. The CI token check fails new code that skips them.</p>
+  <div class="part"><div class="board" data-cap="kit-foundations" data-title="Kit · Foundations">
+    <h3 class="k-title">Colour</h3>
+    <div class="swatches">
+      <div class="sw"><i style="background:#1B4332"></i><b>Ink</b><span>primary, text</span></div>
+      <div class="sw"><i style="background:#FBF6EA"></i><b>Cream</b><span>background</span></div>
+      <div class="sw"><i style="background:#FFFFFF"></i><b>Surface</b><span>cards, sheets</span></div>
+      <div class="sw"><i style="background:#D8F3DC"></i><b>Mint</b><span>selected, accent</span></div>
+      <div class="sw"><i style="background:#7F6F58"></i><b>Line strong</b><span>chips, fields</span></div>
+      <div class="sw"><i style="background:#E8DCC4"></i><b>Line</b><span>dividers</span></div>
+      <div class="sw"><i style="background:#6B5D4A"></i><b>Muted</b><span>secondary text</span></div>
+      <div class="sw"><i style="background:#807160"></i><b>Placeholder</b><span>4.7:1, italic</span></div>
+      <div class="sw"><i style="background:#B42318"></i><b>Error</b><span>danger only</span></div>
+      <div class="sw"><i style="background:#F4C35A"></i><b>Gold</b><span>badges, coin</span></div>
+      <div class="sw"><i style="background:#FDE2CC"></i><b>Peach</b><span>block</span></div>
+      <div class="sw"><i style="background:#FBEFC8"></i><b>Butter</b><span>block</span></div>
+    </div>
+    <h3 class="k-title">Type</h3>
+    <div class="type">
+      <div><span>title · 24 Fredoka</span><b style="font:600 24px Fredoka">Bookings</b></div>
+      <div><span>section · 21 Fredoka</span><b style="font:600 21px Fredoka">Recent checks</b></div>
+      <div><span>option · 20 bold</span><b style="font:700 20px Inter">At Chloe's home</b></div>
+      <div><span>lead · 18 bold</span><b style="font:700 18px Inter">Next</b></div>
+      <div><span>body · 16</span><span style="width:auto;font-size:16px;color:var(--k-ink)">Max finished his breakfast.</span></div>
+      <div><span>small · 14</span><span style="width:auto;font-size:14px">5 yrs experience · 2 km</span></div>
+      <div><span>caption · 11</span><span style="width:auto;font-size:11px">per night</span></div>
+    </div>
+    <h3 class="k-title">Shape and motion</h3>
+    <div class="type">
+      <div><span>radius</span><span style="width:auto;color:var(--k-ink)">chip and button pill · card 16 · block 24</span></div>
+      <div><span>touch</span><span style="width:auto;color:var(--k-ink)">44 px minimum, 52 buttons, 60 Next</span></div>
+      <div><span>motion</span><span style="width:auto;color:var(--k-ink)">fast 120 · base 240 · slow 420; Reduce motion skips</span></div>
+    </div>
+  </div>
+  <div class="spec"><h3>Where</h3><p class="src"><code>frontend/theme/tokens.ts</code>, <code>themes.ts</code> (Expressive skin). New this round: <code>fontSize.section 21</code>, <code>option 20</code>, <code>lead 18</code>; <code>ui.button</code> height and outline.</p></div></div>
+</section>
+
+<!-- ================= NAVIGATION ================= -->
+<section class="fam" id="navigation">
+  <h2>Navigation</h2>
+  <p>How people move: tabs, the header, one-question flows, sections that follow the scroll, and pages.</p>
+  <div class="part"><div class="board" data-cap="kit-navigation" data-title="Kit · Navigation">
+    <div class="k-status" data-comp="Status bar" data-variant="Default"><span>9:41</span><span><i></i><i></i><i style="width:26px"></i></span></div>
+    <div class="k-appbar" data-comp="App bar" data-variant="Default"><span class="coin">🐾</span><b>Goldito</b><button class="k-iconbtn" aria-label="Notifications"><svg><use href="#i-bell"/></svg><span class="d"></span></button></div>
+    <div class="k-detail" data-comp="Detail header" data-variant="Back=On"><button aria-label="Back">‹</button><h4>Max</h4></div>
+    <div data-comp="App header" data-variant="Role=Owner" class="k-head"><h4>Home</h4><span class="role">Owner</span><button class="ib" aria-label="Notifications, 2 new"><svg><use href="#i-bell"/></svg><span class="dot">2</span></button><button class="ib" aria-label="Menu"><svg><use href="#i-menu"/></svg></button></div>
+    <div data-comp="Tab bar" data-variant="Active=Home" class="k-tabbar" role="tablist" id="tabbar">
+      <button role="tab" aria-current="page"><span class="ic"><svg><use href="#i-home"/></svg></span>Home</button>
+      <button role="tab"><span class="ic"><svg><use href="#i-cal"/></svg></span>Bookings</button>
+      <button role="tab"><span class="ic"><svg><use href="#i-img"/></svg></span>Feed</button>
+      <button role="tab"><span class="ic"><svg><use href="#i-book"/></svg></span>Diary</button>
+      <button role="tab"><span class="ic"><svg><use href="#i-cam"/></svg></span>Snap</button>
+    </div>
+    <div data-comp="Step header" data-variant="Help=On" class="k-step" id="step">
+      <button class="bk" aria-label="Back" data-step="-1">‹</button>
+      <div class="mid"><div class="tr" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="1"><div class="fl" style="width:16.6%"></div></div><span class="lb">Booking request · <b>1</b> of 6</span></div>
+      <a href="#navigation">Ask Chloe</a>
+    </div>
+    <div class="row"><button class="k-btn sec" data-step="-1">Back</button><button class="k-btn" data-step="1">Next step</button></div>
+    <h3 class="k-title">Section tabs (follow the scroll)</h3>
+    <div data-comp="Section tabs" data-variant="Active=Meals" class="k-sect" id="sect">
+      <button class="k-chip" aria-pressed="true" data-s="s-meals">Meals</button><button class="k-chip" aria-pressed="false" data-s="s-walks">Walks</button><button class="k-chip" aria-pressed="false" data-s="s-meds">Meds</button><button class="k-chip" aria-pressed="false" data-s="s-naps">Naps</button><button class="k-chip" aria-pressed="false" data-s="s-play">Play</button>
+    </div>
+    <div class="k-menu" id="menu" tabindex="0" aria-label="Care plan, scroll">
+      <h5 id="s-meals">Meals</h5><p>Breakfast · 1 cup kibble</p><p>Dinner · 1 cup kibble + topper</p>
+      <h5 id="s-walks">Walks</h5><p>Morning · 20 min</p><p>Evening · 30 min</p>
+      <h5 id="s-meds">Meds</h5><p>Skin pill in a treat · 9 AM</p>
+      <h5 id="s-naps">Naps</h5><p>After lunch, his blanket</p>
+      <h5 id="s-play">Play</h5><p>Tennis ball, 10 min</p><p>Puzzle feeder</p>
+    </div>
+    <h3 class="k-title">Icon buttons</h3>
+    <div class="row"><button class="k-iconbtn" aria-label="Notifications" data-comp="Icon button" data-variant="Badge=Off"><svg><use href="#i-bell"/></svg></button><button class="k-iconbtn" aria-label="Notifications, new" data-comp="Icon button" data-variant="Badge=On"><svg><use href="#i-bell"/></svg><span class="d"></span></button><button class="k-iconbtn" aria-label="Menu" data-comp="Icon button" data-variant="Badge=Off"><svg><use href="#i-menu"/></svg></button></div>
+    <h3 class="k-title">Menu rows</h3>
+    <div class="k-menurow" data-comp="Menu row" data-variant="Count=On"><svg><use href="#i-bell"/></svg><b>Notifications</b><span class="c">3</span><span>›</span></div>
+    <div class="k-menurow" data-comp="Menu row" data-variant="Count=Off"><svg><use href="#i-cal"/></svg><b>Schedule</b><span>›</span></div>
+    <h3 class="k-title">Pages</h3>
+    <div data-comp="Pager dots" data-variant="Page=2" class="k-dots" aria-label="Page 2 of 3"><i></i><i class="on"></i><i></i></div>
+  </div>
+  <div class="spec">
+    <h3>Parts</h3>
+    <ul><li><b>App header</b>: Fredoka 24 title, role tag, bell with a count, menu. <code>RoleTabs headerOptions</code></li>
+    <li><b>Tab bar</b>: five tabs, mint pill behind the active icon. <code>RoleTabs</code></li>
+    <li><b>Step header</b>: back, green progress, "1 of 6", optional help link. Try Next / Back. <code>ui/StepHeader</code></li>
+    <li><b>Section tabs</b>: sticky chips that follow the scroll below and jump there when tapped (the restaurant-menu pattern; this page's own tabs work the same). New.</li>
+    <li><b>Pager dots</b>: <code>ui/Pager</code></li></ul>
+    <p class="src">States: active / inactive tab, count badge, step 1 to 6, section tab follows scroll.</p>
+  <details class="code"><summary>For engineers: code</summary><pre><code>import { StepHeader } from &quot;components/ui/StepHeader&quot;;
+import { SectionTabs, useSectionSpy } from &quot;components/ui/SectionTabs&quot;;
+
+&lt;StepHeader flow=&quot;Booking request&quot; step={1} total={6}
+  onBack={goBack} help={{ label: &quot;Ask Chloe&quot;, onPress: openChat }} /&gt;
+
+const spy = useSectionSpy([&quot;meals&quot;, &quot;walks&quot;, &quot;meds&quot;]);
+&lt;ScrollView ref={spy.scroll} stickyHeaderIndices={[0]} onScroll={spy.onScroll} scrollEventThrottle={32}&gt;
+  &lt;SectionTabs sections={SECTIONS} active={spy.active} onPick={spy.jump} /&gt;
+  &lt;View onLayout={spy.onSectionLayout(&quot;meals&quot;)}&gt;…&lt;/View&gt;
+&lt;/ScrollView&gt;
+// App header + tab bar: RoleTabs / headerOptions(theme). Stepper: BookingStageBar.</code></pre></details></div></div>
+</section>
+
+<!-- ================= SELECTION ================= -->
+<section class="fam" id="selection">
+  <h2>Selection</h2>
+  <p>One picker look everywhere: white with a strong line; mint with an ink ring when selected. Ink fill is for primary buttons only.</p>
+  <div class="part"><div class="board" data-cap="kit-selection" data-title="Kit · Selection">
+    <h3 class="k-title">Chip</h3>
+    <div class="states">
+      <div class="st"><span>Default</span><div class="row"><button class="k-chip" data-comp="Chip" data-variant="State=Off" aria-pressed="false">Walks</button></div></div>
+      <div class="st"><span>Selected</span><div class="row"><button class="k-chip" data-comp="Chip" data-variant="State=On" aria-pressed="true">Meals</button></div></div>
+      <div class="st"><span>Pressed</span><div class="row"><span class="k-chip is-pressed" data-comp="Chip" data-variant="State=Pressed">Naps</span></div></div>
+      <div class="st"><span>Focus</span><div class="row"><span class="k-chip is-focus" data-comp="Chip" data-variant="State=Focus">Play</span></div></div>
+      <div class="st"><span>Disabled</span><div class="row"><span class="k-chip is-disabled" data-comp="Chip" data-variant="State=Disabled">Full</span></div></div>
+      <div class="st"><span>With pet</span><div class="row"><button class="k-chip" aria-pressed="true" data-comp="Chip" data-variant="State=On, Lead=Pet"><span class="m"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt=""></span>Max</button></div></div>
+      <div class="st"><span>Removable</span><div class="row"><span class="k-chip" data-comp="Chip" data-variant="State=Off, Remove=On">chicken<span class="x" role="button" aria-label="Remove chicken">×</span></span></div></div>
+      <div class="st"><span>Try it</span><div class="row" data-toggle="multi"><button class="k-chip" aria-pressed="true">All</button><button class="k-chip" aria-pressed="false">Meals</button><button class="k-chip" aria-pressed="false">Walks</button><button class="k-chip" aria-pressed="false" disabled>Grooming</button></div></div>
+    </div>
+    <h3 class="k-title">Segments</h3>
+    <div class="k-seg" data-toggle="one" data-comp="Segmented control" data-variant="Count=3"><button class="k-chip" aria-pressed="true">Chats</button><button class="k-chip" aria-pressed="false" style="position:relative">Requests<span class="n">2</span></button><button class="k-chip" aria-pressed="false">Past</button></div>
+    <h3 class="k-title">Option card</h3>
+    <div class="states" data-toggle="multi-opt">
+      <button class="k-opt sq" role="checkbox" aria-checked="true" data-comp="Option card" data-variant="State=On, Lead=Photo, Type=Checkbox"><span class="lead"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt=""></span><span class="tx"><b>Max</b><small>Dog · Maltese · 4 years</small></span><span class="ck">✓</span></button>
+      <button class="k-opt sq" role="checkbox" aria-checked="false" data-comp="Option card" data-variant="State=Off, Lead=Photo, Type=Checkbox"><span class="lead">🐱</span><span class="tx"><b>Mochi</b><small>Cat · Domestic shorthair · 3 years</small></span><span class="ck"></span></button>
+    </div>
+    <div class="states" data-toggle="one-opt">
+      <button class="k-opt" role="radio" aria-checked="true" data-comp="Option card" data-variant="State=On, Lead=None, Type=Radio"><span class="tx"><b>At Chloe's home</b><small>Boarding · $55 a night</small></span><span class="ck">✓</span></button>
+      <button class="k-opt" role="radio" aria-checked="false" data-comp="Option card" data-variant="State=Off, Lead=None, Type=Radio"><span class="tx"><b>At my home</b><small>House sitting · $70 a night</small></span><span class="ck"></span></button>
+      <button class="k-opt" role="radio" aria-checked="false" disabled data-comp="Option card" data-variant="State=Disabled, Lead=None, Type=Radio"><span class="tx"><b>Drop-in visits</b><small>Chloe doesn't offer this</small></span><span class="ck"></span></button>
+    </div>
+    <h3 class="k-title">Button</h3>
+    <div class="states">
+      <div class="st"><span>Large</span><button class="k-btn lg" data-comp="Button" data-variant="Style=Primary, Size=Large, State=Default">Next</button></div>
+      <div class="st"><span>Primary</span><div class="row"><button class="k-btn" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Default">Save</button><span class="k-btn is-pressed" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Pressed">Pressed</span><span class="k-btn is-focus" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Focus">Focus</span></div></div>
+      <div class="st"><span>Loading</span><div class="row"><button class="k-btn" aria-busy="true" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Loading"><span class="spin"></span>Saving…</button><button class="k-btn" id="tryLoad">Tap to save</button></div></div>
+      <div class="st"><span>Secondary</span><div class="row"><button class="k-btn sec" data-comp="Button" data-variant="Style=Secondary, Size=Default, State=Default">Cancel</button></div></div>
+      <div class="st"><span>Danger</span><div class="row"><button class="k-btn dng" data-comp="Button" data-variant="Style=Danger, Size=Default, State=Default">Sign out</button></div></div>
+      <div class="st"><span>Text</span><div class="row"><button class="k-btn txt" data-comp="Button" data-variant="Style=Text, Size=Default, State=Default">Change</button></div></div>
+      <div class="st"><span>Disabled</span><div class="row"><button class="k-btn" disabled data-comp="Button" data-variant="Style=Primary, Size=Default, State=Disabled">Pick a pet first</button></div></div>
+    </div>
+    <h3 class="k-title">Checkbox row</h3>
+    <label class="k-cb" data-comp="Checkbox row" data-variant="Checked=No"><input type="checkbox"> Max gets a treat after his pill</label>
+    <label class="k-cb" data-comp="Checkbox row" data-variant="Checked=Yes"><input type="checkbox" checked> I've read the house rules</label>
+    <label class="k-cb dis" data-comp="Checkbox row" data-variant="Checked=Yes, State=Locked"><input type="checkbox" checked disabled> Safety alerts (always on)</label>
+    <h3 class="k-title">Switch</h3>
+    <div class="row"><button class="k-switch" role="switch" aria-checked="true" aria-label="Trip updates" data-comp="Switch" data-variant="On=True"></button><button class="k-switch" role="switch" aria-checked="false" aria-label="Tips" data-comp="Switch" data-variant="On=False"></button></div>
+  </div>
+  <div class="spec"><h3>Parts</h3>
+    <ul><li><b>Chip</b>: <code>ui/selectable.ts</code>, used by ChoiceChips, SegmentedControl, care pills, care-line chips, weekly-rule days, chat replies, Snap pet chips.</li>
+    <li><b>Segments</b>: one-of-a-few, optional count badge. <code>ui/SegmentedControl</code></li>
+    <li><b>Option card</b>: big answer on one-question screens; radio or checkbox; optional photo; disabled with a reason. <code>ui/OptionCard</code></li>
+    <li><b>Button</b>: primary, secondary, danger, text; default 52 / large 60; loading keeps its colour (audit F46). <code>ui/Button</code>, <code>ui/TextButton</code></li>
+    <li><b>Switch</b>: in list rows. <code>ui/ListRow</code></li></ul>
+    <p class="src">Pet chips: the pet's photo, else a breed photo, else the illustration (decided Oct 22).</p><details class="code"><summary>For engineers: code</summary><pre><code>import { selectable } from &quot;components/ui/selectable&quot;;   // the one picker look
+import { ChoiceChips } from &quot;components/ui/ChoiceChips&quot;;
+import { OptionCard } from &quot;components/ui/OptionCard&quot;;
+import { Button } from &quot;components/ui/Button&quot;;
+
+&lt;ChoiceChips multi value={picked} onChange={setPicked}
+  options={[{ value: &quot;meals&quot;, label: &quot;Meals&quot; }, { value: &quot;grooming&quot;, label: &quot;Grooming&quot;, disabled: true }]} /&gt;
+&lt;OptionCard title=&quot;Max&quot; detail=&quot;Dog · Maltese · 4 years&quot; leading={&lt;PetMark …/&gt;}
+  multi selected={on} onPress={toggle} /&gt;          // radio by default; disabled shows dashed
+&lt;Button label=&quot;Next&quot; size=&quot;large&quot; onPress={next} /&gt;
+&lt;Button label=&quot;Save&quot; loading={saving} onPress={save} /&gt;   // Figma: Style × Size × State
+&lt;Button label=&quot;Cancel&quot; variant=&quot;secondary&quot; /&gt; &lt;Button label=&quot;Sign out&quot; variant=&quot;danger&quot; /&gt;
+// A hand-rolled picker? spread selectable(theme).chip / .chipOn / .label instead of new styles.</code></pre></details></div></div>
+</section>
+
+<!-- ================= INPUTS ================= -->
+<section class="fam" id="inputs">
+  <h2>Inputs</h2>
+  <p>Fields, the search pill and the slider with quick picks.</p>
+  <div class="part"><div class="board" data-cap="kit-inputs" data-title="Kit · Inputs">
+    <h3 class="k-title">Text field</h3>
+    <div class="k-field" data-comp="Text field" data-variant="State=Empty"><label for="f1">Name</label><input id="f1" placeholder="Max"></div>
+    <div class="k-field" data-comp="Text field" data-variant="State=Filled"><label for="f2">Breed</label><input id="f2" value="Maltese"></div>
+    <div class="k-field" data-comp="Text field" data-variant="State=Focus"><label for="f3">Weight in kg</label><input id="f3" class="is-focus" placeholder="3.2"></div>
+    <div class="k-field err" data-comp="Text field" data-variant="State=Error"><label for="f4">Birthday</label><input id="f4" value="2026-13-40" aria-invalid="true"><span class="e">Use a real date, like 2022-04-15.</span></div>
+    <div class="k-field" data-comp="Text field" data-variant="State=Disabled"><label for="f5">Species</label><input id="f5" value="Dog" disabled></div>
+    <h3 class="k-title">Time stepper</h3>
+    <div class="k-tstep" data-comp="Time stepper" data-variant="Default" id="tstep"><button aria-label="30 minutes earlier">−</button><b aria-live="polite">9:00 AM</b><button aria-label="30 minutes later">+</button></div>
+    <h3 class="k-title">Select</h3>
+    <div class="k-select" data-comp="Select" data-variant="Open=True" id="sel"><button aria-haspopup="listbox" aria-expanded="true">Boarding <span>▾</span></button><ul role="listbox"><li role="option" aria-selected="true">Boarding</li><li role="option" aria-selected="false">House sitting</li><li role="option" aria-selected="false">Drop-in visits</li></ul></div>
+    <h3 class="k-title">Coat colour</h3>
+    <div class="k-sw" data-toggle="one" data-comp="Colour swatch" data-variant="Selected=Golden"><button aria-label="White" aria-pressed="false" style="background:#F4F1EA"></button><button aria-label="Golden" aria-pressed="true" style="background:#E0A85A"></button><button aria-label="Brown" aria-pressed="false" style="background:#9A5F36"></button><button aria-label="Black" aria-pressed="false" style="background:#3B3A3E"></button><button aria-label="Gray" aria-pressed="false" style="background:#A7A9AB"></button></div>
+    <h3 class="k-title">Search pill</h3>
+    <div class="k-pill" data-comp="Search pill" data-variant="Parts=3">
+      <button data-sheet="dates"><small>When</small><b id="pv-when">Oct 23 to 25</b></button>
+      <button data-sheet="pets"><small>Pets</small><b>Max, Mochi</b></button>
+      <button data-sheet="km"><small>Within</small><b id="pv-km">5 km</b></button>
+    </div>
+    <h3 class="k-title">Slider + quick picks</h3>
+    <div class="row" style="justify-content:space-between"><b>Within</b><b id="kmv" style="font:600 20px Fredoka">5 km</b></div>
+    <input type="range" min="1" max="100" value="5" id="km" aria-label="Distance in km" style="width:100%;accent-color:#1B4332">
+    <div class="row" data-toggle="km"><button class="k-chip" aria-pressed="false" data-k="2">2 km</button><button class="k-chip" aria-pressed="true" data-k="5">5 km</button><button class="k-chip" aria-pressed="false" data-k="10">10 km</button><button class="k-chip" aria-pressed="false" data-k="25">25 km</button></div>
+    <div class="k-overlay" id="pillSheet" hidden><div class="k-sheet" role="dialog" aria-modal="true" aria-label="When"><span class="hd"></span><div class="tt"><b class="k-title" id="psTitle">When</b><button class="k-btn txt" data-close>Close</button></div><div class="row" id="psBody"></div><button class="k-btn" data-close>Done</button></div></div>
+  </div>
+  <div class="spec"><h3>Parts</h3>
+    <ul><li><b>Text field</b>: placeholder 4.7:1 italic; 2 px ink focus; error line under the field. <code>ui/TextField</code></li>
+    <li><b>Search pill</b>: When / Pets / Within; each part opens a sheet. <code>SitterSearchBar</code></li>
+    <li><b>Slider + quick picks</b>: 2 / 5 / 10 / 25 km, synced with the slider; dates get 1 night / weekend / a week. Built this round.</li></ul><details class="code"><summary>For engineers: code</summary><pre><code>import { TextField } from &quot;components/ui/TextField&quot;;
+import { Slider } from &quot;components/ui/Slider&quot;;
+
+&lt;TextField label=&quot;Birthday&quot; value={v} onChangeText={setV} error={err} /&gt;   // State=Error when error is set
+&lt;Slider value={km} min={1} max={100} onChange={setKm} label=&quot;Distance&quot; valueText={`${km} km`} /&gt;
+&lt;ChoiceChips value={[String(km)]} options={[2,5,10,25].map(k =&gt; ({ value: String(k), label: `${k} km` }))}
+  onChange={(v) =&gt; setKm(Number(v[0]))} /&gt;          // quick picks stay in sync with the slider
+// Search pill: components/SitterSearchBar (date quick picks: quickStays(today)).</code></pre></details></div></div>
+</section>
+
+
+<!-- ================= STAY AND CHAT ================= -->
+<section class="fam" id="stay">
+  <h2>Stay and chat</h2>
+  <p>The five stages of a stay, the booking forms and the chat. Figma Expressive: Stepper, Stage header, Stage card, Consent card, Checklist row, Message bubble.</p>
+  <div class="part"><div class="board" data-cap="kit-stay" data-title="Kit · Stay and chat">
+    <h3 class="k-title">Stepper</h3>
+    <div class="k-stepper" id="stepper" data-comp="Stepper" data-variant="Viewing=Meet, Done=1">
+      <button class="done"><span class="n">✓</span>Inquiry</button><button class="cur"><span class="n">2</span>Meet</button><button><span class="n">3</span>Booking</button><button><span class="n">4</span>Care</button><button><span class="n">5</span>Home</button>
+    </div>
+    <h3 class="k-title">Stage header and cards</h3>
+    <div><div class="k-stagehead" data-comp="Stage header" data-variant="Stage=2, State=Current, Layout=Sections"><span class="n">2</span><span class="tx"><b>Meet and greet</b><small>Tue 4:00 PM · at Chloe's</small></span><svg aria-hidden="true"><use href="#art-heart"/></svg></div>
+    <div class="k-stagebody">Chloe meets Max and Mochi and walks you through her home. Turn the care request into a checklist first.</div></div>
+    <button class="k-stage done" style="background:var(--k-mint)" data-comp="Stage card" data-variant="Stage=1, State=Done"><span class="n">✓</span><span class="tx"><b>Inquiry</b><small>Chloe replied · Mon</small></span><svg aria-hidden="true"><use href="#art-chat"/></svg></button>
+    <button class="k-stage" style="background:var(--k-butter)" data-comp="Stage card" data-variant="Stage=3, State=Upcoming"><span class="n">3</span><span class="tx"><b>Booking</b><small>Fri</small></span><svg aria-hidden="true"><use href="#art-calendar"/></svg></button>
+    <button class="k-stage" style="background:var(--k-blush)" data-comp="Stage card" data-variant="Stage=4, State=Upcoming"><span class="n">4</span><span class="tx"><b>Care and pet transit</b><small>Fri 7:30 AM</small></span><svg aria-hidden="true"><use href="#art-car"/></svg></button>
+    <button class="k-stage" style="background:var(--k-mint)" data-comp="Stage card" data-variant="Stage=5, State=Upcoming"><span class="n">5</span><span class="tx"><b>Completion</b><small>Mon</small></span><svg aria-hidden="true"><use href="#art-home-heart"/></svg></button>
+    <h3 class="k-title">Consent card</h3>
+    <div class="k-consent" data-comp="Consent card" data-variant="Checked=No"><label><input type="checkbox"> Vet care in an emergency</label><p>If Max needs a vet and you can't be reached, Chloe takes him to the nearest clinic. You pay the bill.</p><a href="#stay">Read full text</a></div>
+    <div class="k-consent" data-comp="Consent card" data-variant="Checked=Yes"><label><input type="checkbox" checked> Photos in the app</label><p>Chloe can share photos of Max and Mochi with you in Goldito.</p><a href="#stay">Read full text</a></div>
+    <h3 class="k-title">Checklist row</h3>
+    <div class="k-check" data-comp="Checklist row" data-variant="Default"><input class="t" value="8:00 AM" aria-label="Time"><input class="i" value="Breakfast · 1 cup kibble" aria-label="Task"><button aria-label="Remove">✕</button></div>
+    <div class="k-check" data-comp="Checklist row" data-variant="Empty"><input class="t" placeholder="Time" aria-label="Time"><input class="i" placeholder="Add a task" aria-label="Task"><button aria-label="Remove">✕</button></div>
+    <h3 class="k-title">Entry info</h3>
+    <div class="k-entry" data-comp="Entry info card" data-variant="State=Locked"><b>🔒 Entry info</b><small style="color:var(--k-muted)">Chloe sees this 2 hours before arriving.</small></div>
+    <div class="k-entry" data-comp="Entry info card" data-variant="State=Unlocked"><b>Entry info</b><span>Buzz 1204 · Lockbox left of the door</span><div class="row"><span class="code" id="code">••••</span><button class="k-btn txt" id="showCode">Show code</button></div><small style="color:var(--k-muted)">The code hides again after 10 seconds.</small></div>
+    <h3 class="k-title">Calendar days</h3>
+    <div class="k-cal" data-comp="Calendar" data-variant="Range=On" id="cal"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      <button class="past" disabled>19</button><button class="past" disabled>20</button><button class="today">21</button><button>22</button><button class="end">23</button><button class="mid">24</button><button class="end">25</button>
+      <button>26</button><button class="full" disabled>27</button><button>28</button><button>29</button><button>30</button><button>31</button><button>1</button></div>
+    <p class="k-meta">Past · today (ring) · selected range · full (struck)</p>
+    <h3 class="k-title">Slot rows</h3>
+    <div class="k-slot" data-comp="Slot row" data-variant="Status=Open"><span class="tx"><b>Morning</b><small>8:00 AM to 12:00 PM</small></span><span class="k-tag ok">Open</span></div>
+    <div class="k-slot" data-comp="Slot row" data-variant="Status=Full"><span class="tx"><b>Afternoon</b><small>12:00 PM to 6:00 PM</small></span><span class="k-tag warn">Full</span></div>
+    <div class="k-slot" data-comp="Slot row" data-variant="Status=Not available" style="opacity:.6"><span class="tx"><b>Night</b><small>Closed by a weekly rule</small></span><span class="k-tag neu">Not available</span></div>
+    <h3 class="k-title">Trip</h3>
+    <div class="k-map" data-comp="Trip map" data-variant="State=Moving"><svg viewBox="0 0 360 150" aria-label="Route from Chloe's place to your home"><path d="M20 120 C90 120 100 40 180 60 S300 40 340 30" fill="none" stroke="#1B4332" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 10"/><circle cx="20" cy="120" r="8" fill="#fff" stroke="#1B4332" stroke-width="3"/><circle cx="340" cy="30" r="9" fill="#E76F51" stroke="#fff" stroke-width="3"/><circle cx="180" cy="60" r="11" fill="#1B4332" stroke="#fff" stroke-width="3"/></svg><span class="eta">Arriving in 12 min</span></div>
+    <div class="k-trip" data-comp="Active trip card" data-variant="State=Moving"><svg width="44" height="44" aria-hidden="true"><use href="#art-car"/></svg><span class="tx"><b>Chloe is driving Max home</b><small>Arriving around 5:12 PM</small></span><span class="k-tag brand">Live</span></div>
+    <h3 class="k-title">Photo check</h3>
+    <div class="k-pcheck" data-comp="Photo check" data-variant="Result=Pass"><img src="redesign/img/pet1.jpg" alt="Handoff photo"><ul><li class="ok">✓ Max is in the photo</li><li class="ok">✓ Crate is closed</li></ul></div>
+    <div class="k-pcheck" data-comp="Photo check" data-variant="Result=Unsure"><img src="redesign/img/pet0.jpg" alt="Handoff photo"><ul><li class="ok">✓ Max is in the photo</li><li class="no">? Can't see the seatbelt. Try another photo.</li></ul></div>
+    <h3 class="k-title">Stay summary</h3>
+    <div class="k-summary" data-comp="Stay summary card" data-variant="Default"><b>Oct 23 to 25 with Chloe</b><span>Max, Mochi · Boarding · Chloe drives both ways</span><span>$268.13 CAD · paid</span></div>
+    <h3 class="k-title">Message bubbles</h3>
+    <div class="k-bubbles">
+      <div class="k-bub me" data-comp="Message bubble" data-variant="From=Owner">Hi Chloe, are you free Oct 23 to 25 for Max and Mochi?</div><span class="k-meta r">Oct 21, 10:34 AM</span>
+      <div class="k-bub them" data-comp="Message bubble" data-variant="From=Sitter, AI=Draft"><span class="eb">Chloe · just now<span class="ai">AI draft</span></span>Yes, I'm free those nights. Two pets, three nights comes to $268.13 with everything included.<span class="src"><span>From Chloe's calendar</span><span>Chloe's rates</span></span></div>
+      <div class="k-typing" data-comp="Typing indicator" data-variant="Default" aria-label="Chloe is typing"><i></i><i></i><i></i></div>
+    </div>
+    <h3 class="k-title">Booking card</h3>
+    <div class="k-booking" data-comp="Booking card" data-variant="Status=Requested"><div class="h"><b>Chloe</b><span class="k-tag warn">Requested</span></div><small>Oct 23 to 25 · Max, Mochi · Boarding</small></div>
+    <div class="k-booking" data-comp="Booking card" data-variant="Status=Confirmed"><div class="h"><b>Chloe</b><span class="k-tag ok">Confirmed</span></div><small>Oct 23 to 25 · Drop-off Fri 7:30 AM</small></div>
+    <div class="k-booking" data-comp="Booking card" data-variant="Status=Cancelled" style="opacity:.75"><div class="h"><b>Paul</b><span class="k-tag neu">Cancelled</span></div><small>Oct 21 to 23 · refunded</small></div>
+  </div>
+  <div class="spec"><h3>Parts</h3><ul>
+    <li><b>Stepper</b>: five stages; done (green check), current (ink), future (white). Tap to view a stage. <code>BookingStageBar</code> (#237: stage names)</li>
+    <li><b>Stage header</b> and <b>Stage card</b>: the stay as colour blocks; the current stage opens. Figma 1673:32190, 1673:32407.</li>
+    <li><b>Consent card</b>: checkbox, summary, Read full text. <code>ConsentCard</code></li>
+    <li><b>Checklist row</b>: time + task + remove. <code>ChecklistCard</code></li>
+    <li><b>Entry info</b>: locked until 2 hours before; Show code hides after 10 s, never in a toast. <code>EntryInfoCard</code></li>
+    <li><b>Calendar</b>: past, today, range, full. <code>RangeCalendar</code>, <code>SlotCalendar</code></li>
+    <li><b>Message bubble</b>: owner (green, tail right), sitter (cream, tail left) with an eyebrow, an AI draft label and source pills. <code>MessageBubble</code>; typing dots.</li>
+    <li><b>Booking card</b>: Requested, Confirmed, Cancelled. <code>BookingCard</code></li></ul><details class="code"><summary>For engineers: code</summary><pre><code>// Stepper → components/BookingStageBar · Consent card → components/ConsentCard
+// Checklist row → components/ChecklistCard · Entry info → components/EntryInfoCard
+// Calendar → components/ui/RangeCalendar, components/SlotCalendar
+// Message bubble → components/MessageBubble · Booking card → components/BookingCard
+import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
+&lt;PriceBreakdown lines={[{ label: &quot;3 nights × $55.00&quot;, amount: &quot;$165.00&quot; }]} total=&quot;$268.13 CAD&quot; note=&quot;All fees included&quot; /&gt;
+// Rules: entry codes never in a toast or a prompt; amounts always from the server.</code></pre></details></div></div>
+</section>
+
+<!-- ================= CARDS ================= -->
+<section class="fam" id="cards">
+  <h2>Cards</h2>
+  <p>What the demo path shows: sitters, prices, tools.</p>
+  <div class="part"><div class="board" data-cap="kit-cards" data-title="Kit · Cards">
+    <h3 class="k-title">Sitter result</h3>
+    <div class="k-sitter" data-comp="Sitter card" data-variant="Photo=On, Price=On, Availability=Free"><span class="k-av"><img src="redesign/img/pet1.jpg" alt=""></span><span class="tx"><b>★ Chloe</b><small>5 yrs experience · 2 km</small><br><span class="k-tagok">Free on your dates</span></span><span class="k-price"><b>$55</b><small>per night</small></span></div>
+    <div class="k-sitter" data-comp="Sitter card" data-variant="Photo=Off, Price=On, Availability=Full"><span class="k-av">J</span><span class="tx"><b>Jun</b><small>3 yrs experience · 3 km</small><br><span class="k-tagno">Full on Oct 24</span></span><span class="k-price"><b>$60</b><small>per night</small></span></div>
+    <div class="k-sitter" data-comp="Sitter card" data-variant="Photo=Off, Price=Off, Availability=None"><span class="k-av">A</span><span class="tx"><b>Ari</b><small>4 km</small></span></div>
+    <h3 class="k-title">Price</h3>
+    <div class="k-pb" data-comp="Price breakdown" data-variant="Lines=3">
+      <div class="l"><span>3 nights × $55.00</span><span>$165.00</span></div><div class="l"><span>Second pet (Mochi), +50%</span><span>+$82.50</span></div><div class="l"><span>Thanksgiving, Oct 12, +25%</span><span>+$20.63</span></div>
+      <div class="l t"><span>Total</span><span>$268.13 CAD</span></div><span class="n">All fees included</span>
+    </div>
+    <h3 class="k-title">Profile card</h3>
+    <div class="k-profile" data-comp="Profile card" data-variant="Photos=3"><div class="ph"><img src="redesign/img/pet1.jpg" alt=""><div style="display:grid;gap:4px"><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet0.jpg" alt=""></div></div><div class="c"><b>Chloe M.</b><span style="font-size:14px">★ 4.9 · 38 stays · 2 km</span><span style="font-size:14px;color:var(--k-muted)">Fenced yard, works from home, walks twice a day.</span></div></div>
+    <h3 class="k-title">Card</h3>
+    <div class="k-card" data-comp="Card" data-variant="Tone=White"><b>Your next stay</b><span>Oct 23 to 25 with Chloe</span></div>
+    <h3 class="k-title">Tool block</h3>
+    <div class="k-sitter" style="background:var(--k-peach)" data-comp="Tool block" data-variant="Tone=Peach"><span class="tx"><b style="font:600 21px Fredoka">Treat check</b><small style="color:var(--k-ink)">Can my pet eat this? Snap the label.</small></span><span class="k-av" style="background:#fff;color:var(--k-ink);width:40px;height:40px">›</span></div>
+  </div>
+  <div class="spec"><h3>Parts</h3>
+    <ul><li><b>Sitter result</b>: photo or initial, facts line, availability tag, price on the right; no chevron. <code>SitterResultCard</code>. Rating, stays and availability need the search to return them.</li>
+    <li><b>Price breakdown</b>: one table for quotes and checkout; amounts from the server. <code>ui/PriceBreakdown</code></li>
+    <li><b>Tool block</b>: colour block with a round arrow (Snap). <code>SnapToolCard</code></li></ul><details class="code"><summary>For engineers: code</summary><pre><code>import { SitterResultCard } from &quot;components/SitterResultCard&quot;;
+
+&lt;SitterResultCard name=&quot;Chloe&quot; photo={url} meta=&quot;5 yrs experience&quot; km=&quot;2 km&quot;
+  nightly={55} favorite onOpen={open} onPhoto={viewPhotos} testID=&quot;sitter-tile-Chloe&quot; /&gt;
+// Tool block → features/snap/SnapToolCard (block: &quot;blockPeach&quot; | &quot;blockMint&quot; | &quot;blockButter&quot;).</code></pre></details></div></div>
+</section>
+
+
+<!-- ================= CARE AND CONTENT ================= -->
+<section class="fam" id="content">
+  <h2>Care and content</h2>
+  <p>What the owner reads during a stay: the daily note, the timeline, stats, photos, the pet and the Life Record.</p>
+  <div class="part"><div class="board" data-cap="kit-content" data-title="Kit · Care and content">
+    <h3 class="k-title">Pet card</h3>
+    <div class="k-petcard" data-comp="Pet card" data-variant="Tone=Peach"><svg aria-hidden="true"><use href="#art-dog"/></svg><span><b>Max</b><small>Maltese · 4 yrs · <span style="color:#B42318;font-weight:700">No chicken</span></small></span></div>
+    <h3 class="k-title">Daily note</h3>
+    <div class="k-note" data-comp="Daily note" data-variant="Default"><div class="h"><span class="a">C</span><b>Daily note from Chloe</b><span>♥</span></div><span>Max finished every bit of his breakfast and we did a 20 minute walk. He spotted a squirrel and got so excited.</span><small style="color:var(--k-muted)">Sent 6:04 PM</small></div>
+    <h3 class="k-title">Timeline</h3>
+    <div class="k-tl" data-comp="Timeline row" data-variant="Kind=Nap"><svg aria-hidden="true"><use href="#art-nap"/></svg><span class="tx"><b>Long nap</b><small>On his favourite blanket</small></span><time>1:15</time></div>
+    <div class="k-tl" data-comp="Timeline row" data-variant="Kind=Meds"><svg aria-hidden="true"><use href="#art-pill"/></svg><span class="tx"><b>Skin pill</b><small>In a treat · photo</small></span><time>11:58</time></div>
+    <div class="k-tl" data-comp="Timeline row" data-variant="Kind=Walk"><svg aria-hidden="true"><use href="#art-walk"/></svg><span class="tx"><b>Walk · 20 min</b><small>All good, one squirrel</small></span><time>9:40</time></div>
+    <h3 class="k-title">Stat tiles</h3>
+    <div class="k-tiles"><div style="background:var(--k-mint)" data-comp="Stat tile" data-variant="Tone=Mint"><svg aria-hidden="true"><use href="#art-bowl"/></svg><b>3/5</b><small>care done</small></div><div style="background:var(--k-peach)" data-comp="Stat tile" data-variant="Tone=Peach"><svg aria-hidden="true"><use href="#art-camera"/></svg><b>12</b><small>photos today</small></div><div style="background:var(--k-butter)" data-comp="Stat tile" data-variant="Tone=Butter"><svg aria-hidden="true"><use href="#art-walk"/></svg><b>40m</b><small>of walks</small></div></div>
+    <h3 class="k-title">Next task</h3>
+    <div class="k-next" data-comp="Next task card" data-variant="Default"><small>NEXT · 9:00 AM</small><b>Skin pill in a treat</b><button class="k-btn lg">Complete with photo</button></div>
+    <h3 class="k-title">Task rows</h3>
+    <div class="k-task" data-comp="Task row" data-variant="State=Due"><span class="ck"></span><span class="tx"><b>Dinner · 1 cup kibble</b><small>6:00 PM</small></span></div>
+    <div class="k-task done" data-comp="Task row" data-variant="State=Done"><span class="ck">✓</span><span class="tx"><b>Breakfast</b><small>8:04 AM · photo</small></span></div>
+    <div class="k-task miss" data-comp="Task row" data-variant="State=Missed"><span class="ck">!</span><span class="tx"><b>Brush teeth</b><small>Missed · 8:00 PM</small></span></div>
+    <h3 class="k-title">Day header</h3>
+    <div class="k-dayh" data-comp="Day header" data-variant="Default"><b>Today</b><small>4 updates</small></div>
+    <h3 class="k-title">Latest update</h3>
+    <div class="k-latest" data-comp="Latest update row" data-variant="Default"><img src="redesign/img/pet1.jpg" alt=""><span><small>Latest from Chloe · 9:02 AM</small><p><b>Breakfast done.</b> Max finished every bit and asked for more.</p></span></div>
+    <h3 class="k-title">Mood result</h3>
+    <div class="k-mood" data-comp="Mood result card" data-variant="Mood=Happy"><svg aria-hidden="true"><use href="#art-heart"/></svg><span><b>Max looks happy</b><small>Relaxed ears, soft eyes. Just for fun, not a health check.</small></span></div>
+    <h3 class="k-title">Report summary</h3>
+    <div class="k-report" data-comp="Report summary" data-variant="Default"><b>Today: 2 tasks done · 1 missed · 4 check-ins</b><div class="row"><button class="k-chip" aria-pressed="true">Meal: Most</button><button class="k-chip" aria-pressed="true">Walk: 30 min</button><button class="k-chip" aria-pressed="false">Zoomies at the park</button></div></div>
+    <h3 class="k-title">Photo grid</h3>
+    <div class="k-grid" data-comp="Photo grid" data-variant="Count=6"><img src="redesign/img/pet1.jpg" alt=""><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet0.jpg" alt=""><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet1.jpg" alt=""><div>+4</div></div>
+    <h3 class="k-title">Feed card</h3>
+    <div class="k-feed" data-comp="Feed card" data-variant="Photo=On"><img src="redesign/img/pet1.jpg" alt="Max at the park"><div class="c"><b>Park time</b><span>Max met a golden retriever and they played chase.</span><small style="color:var(--k-muted)">Walks · 9:40 AM</small></div></div>
+    <h3 class="k-title">Life Record</h3>
+    <div class="k-life" data-comp="Life Record card" data-variant="Default"><div class="r"><b>Eats</b><span>1 cup kibble twice a day <em>· from 3 stays</em></span></div><div class="r"><b>Meds</b><span>Skin pill at 9 AM in a treat <em>· care request</em></span></div><div class="r"><b>Heads-up</b><span>Chicken allergy <em>· owner</em></span></div></div>
+    <h3 class="k-title">Notifications</h3>
+    <div><div class="k-notif" data-comp="Notification row" data-variant="Read=No"><span>🐾</span><span class="tx"><b>Chloe posted 3 photos</b><span class="dot" aria-label="unread"></span><small>Max at the park</small></span><time>2m</time></div>
+    <div class="k-notif" data-comp="Notification row" data-variant="Read=Yes"><span>📅</span><span class="tx"><b>Booking confirmed</b><small>Oct 23 to 25 with Chloe</small></span><time>1h</time></div></div>
+    <h3 class="k-title">Star rating</h3>
+    <div class="k-stars" id="stars" role="radiogroup" aria-label="Rating" data-comp="Star rating" data-variant="Value=4"><button class="on" aria-label="1 star">★</button><button class="on" aria-label="2 stars">★</button><button class="on" aria-label="3 stars">★</button><button class="on" aria-label="4 stars">★</button><button aria-label="5 stars">★</button></div>
+  </div>
+  <div class="spec"><h3>Parts</h3><ul>
+    <li><b>Pet card</b>: colour block, illustration or photo, the one allergy in red. <code>PetCard</code></li>
+    <li><b>Daily note</b>, <b>Timeline row</b>, <b>Stat tile</b>: owner Diary and Home during a stay (Figma 1673:33181, 1673:32779). <code>DiaryTimeline</code>, <code>LiveUpdates</code></li>
+    <li><b>Feed card</b>: photo, caption, category · time. <code>FeedCard</code></li>
+    <li><b>Life Record card</b>: each line shows where it came from. <code>LifeRecordCard</code></li>
+    <li><b>Notification row</b>: unread dot. <code>NotificationBell</code> list</li>
+    <li><b>Star rating</b>: tap to rate. <code>StarRating</code></li></ul>
+    <p class="src">Pictures here use the Goldito illustrations; they follow the team's icon pick.</p><details class="code"><summary>For engineers: code</summary><pre><code>// Pet card → components/PetCard · Daily note, Timeline row → components/DiaryTimeline
+// Stat tile → components/QuickCheckIn · Feed card → components/FeedCard
+// Life Record → components/LifeRecordCard · Star rating → components/StarRating
+// Pictures: components/ui/Art (pending the icon pick) or the pet&#x27;s photo via components/PetMark.</code></pre></details></div></div>
+</section>
+
+<!-- ================= LAYOUT ================= -->
+<section class="fam" id="layout">
+  <h2>Layout</h2>
+  <div class="part"><div class="board" data-cap="kit-layout" data-title="Kit · Layout">
+    <h3 class="k-title" data-comp="Section title" data-variant="Default">Section title</h3>
+    <h3 class="k-title">List rows</h3>
+    <div class="k-group" data-comp="List group" data-variant="Rows=6">
+      <button class="k-lr" data-comp="List row" data-variant="Trailing=Badge, Lines=2"><span class="tx"><b>What's new</b><small>Snap, live trips, photo requests</small></span><span class="k-badge">3 new</span></button>
+      <button class="k-lr" data-comp="List row" data-variant="Trailing=Chevron, Lines=2"><span class="tx"><b>Robert Park</b><small>robert@example.com · Pet owner</small></span><span class="chev">›</span></button>
+      <div class="k-lr" data-comp="List row" data-variant="Trailing=Switch, Lines=2"><span class="tx"><b>Trip updates</b><small>On the way, arrived</small></span><button class="k-switch" role="switch" aria-checked="true" aria-label="Trip updates"></button></div>
+      <button class="k-lr" data-comp="List row" data-variant="Trailing=Chevron, Lines=1"><span class="tx"><b>Privacy</b></span><span class="chev">›</span></button>
+      <button class="k-lr" disabled data-comp="List row" data-variant="Trailing=None, Lines=2, State=Disabled"><span class="tx"><b>Phone notifications</b><small>These are not available yet</small></span></button>
+      <button class="k-lr dng" data-comp="List row" data-variant="Trailing=None, Lines=1, Tone=Danger"><span class="tx"><b>Sign out</b></span></button>
+    </div>
+    <h3 class="k-title">Summary rows</h3>
+    <div>
+      <div class="k-sum" data-comp="Summary row" data-variant="Detail=Off"><span>Pets</span><span class="v"><b>Max and Mochi</b></span><a href="#layout">Change</a></div>
+      <div class="k-sum" data-comp="Summary row" data-variant="Detail=On"><span>Dates</span><span class="v"><b>Oct 9 to 12</b><small>3 nights</small></span><a href="#layout">Change</a></div>
+      <div class="k-sum" data-comp="Summary row" data-variant="Detail=On"><span>Drop-off</span><span class="v"><b>Chloe drives</b><small>Fri, Oct 9, 7:30 AM</small></span><a href="#layout">Change</a></div>
+    </div>
+  </div>
+  <div class="spec"><h3>Parts</h3>
+    <ul><li><b>Section title</b>: Fredoka 21. <code>ui/SectionTitle</code>, now on Settings, Bookings, Today, the pet page, record, checkout, checklists.</li>
+    <li><b>List row</b>: chevron, badge, switch, none; one or two lines; danger; disabled. <code>ui/ListRow</code> + <code>ListGroup</code>. Settings uses it.</li>
+    <li><b>Summary row</b>: label, value, detail, Change. <code>ui/SummaryRow</code></li></ul><details class="code"><summary>For engineers: code</summary><pre><code>import { SectionTitle, sectionTitleStyle } from &quot;components/ui/SectionTitle&quot;;
+import { ListGroup, ListRow } from &quot;components/ui/ListRow&quot;;
+import { SummaryRow } from &quot;components/ui/SummaryRow&quot;;
+
+&lt;SectionTitle&gt;Account&lt;/SectionTitle&gt;         // or heading: sectionTitleStyle(theme) in a StyleSheet
+&lt;ListGroup&gt;
+  &lt;ListRow title=&quot;Name&quot; detail=&quot;Robert Park&quot; onPress={edit} /&gt;
+  &lt;ListRow title=&quot;Trip updates&quot; trailing={{ kind: &quot;switch&quot;, value, onChange }} /&gt;
+  &lt;ListRow title=&quot;What&#x27;s new&quot; trailing={{ kind: &quot;badge&quot;, text: &quot;3 new&quot; }} onPress={open} /&gt;
+  &lt;ListRow title=&quot;Sign out&quot; danger onPress={confirm} /&gt;
+&lt;/ListGroup&gt;
+&lt;SummaryRow label=&quot;Dates&quot; value=&quot;Oct 9 to 12&quot; detail=&quot;3 nights&quot; onChange={edit} /&gt;</code></pre></details></div></div>
+</section>
+
+<!-- ================= FEEDBACK ================= -->
+<section class="fam" id="feedback">
+  <h2>Feedback</h2>
+  <p>What the app says back: sheets, toasts, the end of a flow, empty screens and DANGER.</p>
+  <div class="part"><div class="board" data-cap="kit-feedback" data-title="Kit · Feedback" id="fbBoard">
+    <div class="row"><button class="k-btn sec" id="openSheet">Open a sheet</button><button class="k-btn sec" id="openDanger">DANGER</button></div>
+    <h3 class="k-title">Toast</h3>
+    <div class="k-toast" data-comp="Toast" data-variant="Tone=Default, Undo=Off"><span>Request sent to Chloe</span></div>
+    <div class="k-toast" data-comp="Toast" data-variant="Tone=Default, Undo=On"><span>Chat with Daniel left</span><button>Undo</button></div>
+    <div class="k-toast err" data-comp="Toast" data-variant="Tone=Error, Undo=Off"><span>Couldn't send. Check your connection.</span></div>
+    <div class="row"><button class="k-btn txt" id="toastTry">Show a toast with Undo</button></div>
+    <div id="toastSlot"></div>
+    <h3 class="k-title">Result</h3>
+    <div class="k-result" data-comp="Result state" data-variant="Action=On"><span class="c">✓</span><b>Request sent</b><small>Chloe usually replies within an hour. We'll tell you when she does.</small><button class="k-btn lg">Tell Chloe how to care for them</button></div>
+    <h3 class="k-title">Permission prompt</h3>
+    <div class="k-perm" data-comp="Permission prompt" data-variant="Kind=Camera"><svg width="56" height="56" aria-hidden="true"><use href="#art-camera"/></svg><b>Let Goldito use the camera</b><small style="color:var(--k-muted)">To snap a treat label or a handoff photo. Nothing is saved until you send it.</small><div class="row"><button class="k-btn sec">Not now</button><button class="k-btn">Allow</button></div></div>
+    <h3 class="k-title">Push notification</h3>
+    <div class="k-lock"><div class="k-push" data-comp="Push preview" data-variant="Default"><span class="ic">🐾</span><span class="tx"><b>Chloe posted 3 photos</b>Max at the park, looking very pleased.</span><time>now</time></div></div>
+    <h3 class="k-title">Empty</h3>
+    <div class="k-empty" data-comp="Empty state" data-variant="Action=On"><span style="font-size:40px">📸</span><b>No posts yet</b><small>Your sitter will share photos here.</small><button class="k-btn sec">Open History</button></div>
+    <div class="k-overlay" id="sheet" hidden><div class="k-sheet" role="dialog" aria-modal="true" aria-label="Weekly rules" data-comp="Sheet" data-variant="Footer=On"><span class="hd"></span><div class="tt"><b class="k-title">Weekly rules</b><button class="k-btn txt" data-close>Close</button></div><p style="font-size:15px">Tap the slots you never take.</p><div class="row" data-toggle="multi"><button class="k-chip" aria-pressed="false">Mon</button><button class="k-chip" aria-pressed="true">Tue</button><button class="k-chip" aria-pressed="false">Wed</button></div><button class="k-btn lg" data-close>Apply</button></div></div>
+    <div class="k-danger" id="danger" hidden role="alertdialog" aria-modal="true" aria-label="Contains chicken" data-comp="Danger modal" data-variant="Chips=On"><div class="band"><span class="w">!</span><b>Contains chicken: Max is allergic</b></div><div class="bd"><p>Don't give Max this treat. Chicken is in the ingredients and on his allergy list.</p><div class="chips"><span>Chicken</span><span>Chicken fat</span></div></div><div class="ft"><button class="k-btn lg dng" data-close-danger>I understand, don't feed</button></div></div>
+  </div>
+  <div class="spec"><h3>Parts</h3>
+    <ul><li><b>Sheet</b>: named dialog, grab handle, rises from the bottom (CSS on web), Fredoka title, Close; backdrop isn't a focus stop. <code>ui/Sheet</code></li>
+    <li><b>Toast</b>: rises and fades; optional Undo (stays 6 s); error tone. <code>ToastProvider</code> <code>show(msg, { undo, tone })</code></li>
+    <li><b>Result state</b>: check, one line, the next step. <code>ui/ResultState</code></li>
+    <li><b>Empty state</b>: picture, title, what appears and who adds it, one action. <code>ui/EmptyState</code> (picture follows the icon decision).</li>
+    <li><b>DANGER</b>: red band, cream body, one big red button; no backdrop, no X. <code>ui/AlertModal</code></li></ul>
+    <p class="note">Reduce motion: sheets and toasts appear in place, spinners stop.</p><details class="code"><summary>For engineers: code</summary><pre><code>import { Sheet } from &quot;components/ui/Sheet&quot;;
+import { useToast } from &quot;providers/ToastProvider&quot;;
+import { ResultState } from &quot;components/ui/ResultState&quot;;
+import { AlertModal } from &quot;components/ui/AlertModal&quot;;
+
+&lt;Sheet visible={open} title=&quot;Weekly rules&quot; onClose={close} footer={&lt;Button label=&quot;Apply&quot; size=&quot;large&quot; … /&gt;}&gt;…&lt;/Sheet&gt;
+toast.show(&quot;Chat with Daniel left&quot;, { undo: rejoin });      // stays 6 s with Undo
+toast.show(&quot;Couldn&#x27;t send.&quot;, { tone: &quot;error&quot; });
+&lt;ResultState title=&quot;Request sent&quot; message=&quot;…&quot; action={{ label: &quot;Next step&quot;, onPress }} /&gt;
+&lt;AlertModal visible title=&quot;Contains chicken: Max is allergic&quot; message=&quot;…&quot; chips={[&quot;Chicken&quot;]}
+  actionLabel=&quot;I understand, don&#x27;t feed&quot; onAcknowledge={ack} /&gt;   // no backdrop, no X, no Escape</code></pre></details></div></div>
+</section>
+
+<!-- ================= STATUS ================= -->
+<section class="fam" id="status">
+  <h2>Status</h2>
+  <p>Small signals: tags, banners, progress, loading, avatars.</p>
+  <div class="part"><div class="board" data-cap="kit-status" data-title="Kit · Status">
+    <h3 class="k-title">Tags</h3>
+    <div class="row"><span class="k-tag dng" data-comp="Tag" data-variant="Tone=Danger">DANGER</span><span class="k-tag warn" data-comp="Tag" data-variant="Tone=Warning">⚠ No knocking, text me</span><span class="k-tag ok" data-comp="Tag" data-variant="Tone=Success">SAFE</span><span class="k-tag brand" data-comp="Tag" data-variant="Tone=Brand">Owner</span><span class="k-tag neu" data-comp="Tag" data-variant="Tone=Neutral">Cancelled</span></div>
+    <div class="row"><span class="k-demo" data-comp="Demo tag" data-variant="Default">Demo · as Chloe</span></div>
+    <h3 class="k-title">Banners</h3>
+    <div class="k-banner info" data-comp="Banner" data-variant="Tone=Info"><span>💬</span><span class="tx"><b>Chloe usually replies within an hour</b>We'll tell you when she does.</span></div>
+    <div class="k-banner warn" data-comp="Banner" data-variant="Tone=Warning"><span>⏱️</span><span class="tx"><b>Running 15 minutes late</b>Chloe is on her way. <a href="#status">See the map</a></span></div>
+    <div class="k-banner err" data-comp="Banner" data-variant="Tone=Error"><span>⚠️</span><span class="tx"><b>Payment didn't go through</b>Nothing was charged. <a href="#status">Try again</a></span></div>
+    <div class="k-banner off" data-comp="Banner" data-variant="Tone=Offline"><span>📶</span><span class="tx"><b>You're offline</b>Taps are saved and sent when you're back.</span></div>
+    <h3 class="k-title">Progress</h3>
+    <div class="k-prog" data-comp="Progress bar" data-variant="Value=40"><div class="top"><span>2 of 5 done</span><small>Owner sees each one live</small></div><div class="tr"><div class="fl" style="width:40%"></div></div></div>
+    <h3 class="k-title">Loading</h3>
+    <div class="k-skel" data-comp="Skeleton" data-variant="Kind=Lines" aria-label="Loading"><i style="width:240px"></i><i style="width:160px"></i></div>
+    <div class="k-skel" data-comp="Skeleton" data-variant="Kind=Block"><i class="blk"></i></div>
+    <h3 class="k-title">Avatars</h3>
+    <div class="k-avs"><span class="a" style="background:var(--k-ink);color:#fff" data-comp="Avatar" data-variant="Kind=Initial">C</span><span class="a" data-comp="Avatar" data-variant="Kind=Photo"><img src="redesign/img/pet1.jpg" alt=""></span><span class="a" style="background:var(--k-mint)" data-comp="Avatar" data-variant="Kind=Breed photo"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt="" style="box-shadow:inset 0 0 0 2px #fff"></span><span class="a" style="background:var(--k-mint)" data-comp="Avatar" data-variant="Kind=Illustration"><svg aria-hidden="true"><use href="#art-cat"/></svg></span></div>
+  </div>
+  <div class="spec"><h3>Parts</h3><ul>
+    <li><b>Tag</b>: danger, warning, success, brand, neutral. <code>ui/Tag</code></li>
+    <li><b>Demo tag</b>: marks a simulated action. </li>
+    <li><b>Banner</b>: info, warning, error, offline; one line on what happens next, optional action; never for DANGER. <code>ui/Banner</code></li>
+    <li><b>Progress bar</b>, <b>Skeleton</b>: loading shows the layout, not a spinner (audit F45). Skeleton is new to the app.</li>
+    <li><b>Avatar</b>: initial, photo, breed photo (stand-in, white ring), illustration. <code>ui/Avatar</code>, <code>PetMark</code></li></ul><details class="code"><summary>For engineers: code</summary><pre><code>import { Tag } from &quot;components/ui/Tag&quot;;
+import { Banner } from &quot;components/ui/Banner&quot;;
+import { Avatar } from &quot;components/ui/Avatar&quot;;
+import { PetMark } from &quot;components/PetMark&quot;;
+
+&lt;Banner tone=&quot;warning&quot; icon=&quot;⏱️&quot; title=&quot;Running 15 minutes late&quot; body=&quot;Chloe is on her way.&quot;
+  action={{ label: &quot;See the map&quot;, onPress }} /&gt;
+&lt;Tag label=&quot;SAFE&quot; tone=&quot;success&quot; /&gt;
+&lt;Avatar kind=&quot;initial&quot; name=&quot;Chloe&quot; /&gt;  &lt;Avatar kind=&quot;photo&quot; uri={url} /&gt;
+&lt;PetMark petId={id} species=&quot;dog&quot; /&gt;   // photo, else breed photo (planned), else illustration
+// Skeleton: not in the app yet (audit F45).</code></pre></details></div></div>
+</section>
+
+<!-- ================= INVENTORY ================= -->
+<section class="fam" id="inventory">
+  <h2>Inventory</h2>
+  <p>Every component in Figma and the app, and whether this kit shows it. Built from the Figma file (Expressive set, Oct 19 parts, the older Balanced set) and the app's components folder.</p>
+  <div class="invw"><table class="inv"><thead><tr><th>Component</th><th>Figma</th><th>App</th><th>In kit</th></tr></thead><tbody id="invBody"></tbody></table></div>
+  <p id="invSum" class="src"></p>
+</section>
+</div>
+
+<script>
+// Figma plugin: this page is a "ticket" so the Tickets tab builds every board and its components.
+window.__ticket = { id: "kit", title: "Design kit", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/kit.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Picker look", a: "Mint with an ink ring" }, { q: "Icons", a: "Undecided (not Ionicons; Lucide front-runner)" }, { q: "Pet chips", a: "Photo, else breed photo, else illustration" }],
+  spec: [], specLinks: [] };
+
+// ---------- page tabs: scroll-spy, the active tab scrolls into view, tapping scrolls to the section ----------
+const tabs = [...document.querySelectorAll(".tabs a")], rail = document.getElementById("rail");
+const setActive = (id) => tabs.forEach((a) => { const on = a.dataset.t === id; a.setAttribute("aria-current", on); if (on) rail.scrollTo({ left: a.offsetLeft - rail.clientWidth / 2 + a.clientWidth / 2, behavior: "smooth" }); });
+const fams = [...document.querySelectorAll("section.fam")];
+let pinned = null; // a tapped tab stays active until the smooth scroll ends
+const spy = () => { if (pinned) return; const y = window.scrollY + 96; let cur = fams[0].id; for (const s of fams) if (s.offsetTop <= y) cur = s.id;
+  if (window.scrollY + innerHeight >= document.documentElement.scrollHeight - 4) cur = fams[fams.length - 1].id; setActive(cur); };
+addEventListener("scroll", () => requestAnimationFrame(spy), { passive: true }); spy();
+// A tapped tab stays active until the person scrolls by hand (the page bottom can't bring the last sections to the top).
+["wheel", "touchstart", "keydown"].forEach((ev) => addEventListener(ev, () => { pinned = null; }, { passive: true }));
+tabs.forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); setActive(a.dataset.t); pinned = a.dataset.t; document.getElementById(a.dataset.t).scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }); history.replaceState(null, "", "#" + a.dataset.t); }));
+
+// ---------- toggles ----------
+document.querySelectorAll("[data-toggle]").forEach((g) => g.addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b || b.disabled || !g.contains(b)) return;
+  const mode = g.dataset.toggle;
+  if (mode === "multi") b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true");
+  if (mode === "one" || mode === "km") g.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  if (mode === "multi-opt") b.setAttribute("aria-checked", b.getAttribute("aria-checked") !== "true"), b.querySelector(".ck").textContent = b.getAttribute("aria-checked") === "true" ? "✓" : "";
+  if (mode === "one-opt") g.querySelectorAll("button:not(:disabled)").forEach((x) => { x.setAttribute("aria-checked", x === b); x.querySelector(".ck").textContent = x === b ? "✓" : ""; });
+  if (mode === "km") setKm(+b.dataset.k);
+}));
+document.querySelectorAll(".k-switch").forEach((s) => s.addEventListener("click", (e) => { e.stopPropagation(); s.setAttribute("aria-checked", s.getAttribute("aria-checked") !== "true"); }));
+// tab bar
+document.getElementById("tabbar").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; document.querySelectorAll("#tabbar button").forEach((x) => x.removeAttribute("aria-current")); b.setAttribute("aria-current", "page"); });
+// step header
+let step = 1; const total = 6, stepEl = document.getElementById("step");
+document.querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", () => { step = Math.min(total, Math.max(1, step + +b.dataset.step)); stepEl.querySelector(".fl").style.width = (step / total * 100) + "%"; stepEl.querySelector(".lb b").textContent = step; stepEl.querySelector("[role=progressbar]").setAttribute("aria-valuenow", step); }));
+// section tabs that follow the inner scroll (restaurant-menu pattern)
+const menu = document.getElementById("menu"), sect = document.getElementById("sect");
+// Section starts measured once, before any header sticks (a stuck header reports its stuck position).
+const starts = (() => { const hs = [...menu.querySelectorAll("h5")]; hs.forEach((h) => (h.style.position = "static"));
+  const mr = menu.getBoundingClientRect(); const out = hs.map((h) => ({ id: h.id, top: h.getBoundingClientRect().top - mr.top + menu.scrollTop }));
+  hs.forEach((h) => (h.style.position = "")); return out; })();
+const sectSpy = () => { let cur = starts[0].id; for (const st of starts) if (st.top <= menu.scrollTop + 8) cur = st.id;
+  if (menu.scrollTop + menu.clientHeight >= menu.scrollHeight - 2) cur = starts[starts.length - 1].id;
+  sect.querySelectorAll("button").forEach((b) => { const on = b.dataset.s === cur; b.setAttribute("aria-pressed", on); if (on) sect.scrollTo({ left: b.offsetLeft - sect.offsetLeft - 16, behavior: "smooth" }); }); };
+menu.addEventListener("scroll", () => requestAnimationFrame(sectSpy));
+sect.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const st = starts.find((x) => x.id === b.dataset.s); menu.scrollTo({ top: st.top, behavior: "smooth" }); });
+// loading button
+document.getElementById("tryLoad").addEventListener("click", (e) => { const b = e.currentTarget; if (b.getAttribute("aria-busy")) return; b.setAttribute("aria-busy", "true"); b.innerHTML = '<span class="spin"></span>Saving…'; setTimeout(() => { b.removeAttribute("aria-busy"); b.textContent = "Saved ✓"; setTimeout(() => (b.textContent = "Tap to save"), 1200); }, 1400); });
+// slider + quick picks + pill
+const km = document.getElementById("km");
+function setKm(v) { km.value = v; document.getElementById("kmv").textContent = v + " km"; document.getElementById("pv-km").textContent = v + " km"; document.querySelectorAll("[data-toggle=km] button").forEach((b) => b.setAttribute("aria-pressed", +b.dataset.k === +v)); }
+km.addEventListener("input", () => setKm(+km.value));
+const ps = document.getElementById("pillSheet");
+document.querySelectorAll("[data-sheet]").forEach((b) => b.addEventListener("click", () => {
+  const k = b.dataset.sheet; document.getElementById("psTitle").textContent = { dates: "When", pets: "Pets", km: "Within" }[k];
+  const opts = { dates: ["1 night", "Weekend · Oct 23 to 25", "A week"], pets: ["Max", "Mochi"], km: ["2 km", "5 km", "10 km", "25 km"] }[k];
+  const body = document.getElementById("psBody"); body.innerHTML = opts.map((o, i) => `<button class="k-chip" aria-pressed="${k === "pets" || i === 1}">${o}</button>`).join("");
+  body.dataset.toggle = k === "pets" ? "multi" : "one";
+  ps.hidden = false; ps.querySelector(".k-chip").focus();
+}));
+document.getElementById("psBody").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const g = e.currentTarget;
+  if (g.dataset.toggle === "multi") b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); else g.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  const t = document.getElementById("psTitle").textContent; if (t === "Within") setKm(parseInt(b.textContent)); if (t === "When") document.getElementById("pv-when").textContent = b.textContent.replace("Weekend · ", ""); });
+// sheets, danger, toast
+const sheet = document.getElementById("sheet"), danger = document.getElementById("danger");
+document.getElementById("openSheet").addEventListener("click", () => { sheet.hidden = false; sheet.querySelector("[data-close]").focus(); });
+document.getElementById("openDanger").addEventListener("click", () => { danger.hidden = false; danger.querySelector("[data-close-danger]").focus(); });
+document.querySelectorAll("[data-close]").forEach((b) => b.addEventListener("click", () => { b.closest(".k-overlay").hidden = true; }));
+document.querySelectorAll(".k-overlay").forEach((o) => o.addEventListener("click", (e) => { if (e.target === o) o.hidden = true; }));
+document.querySelector("[data-close-danger]").addEventListener("click", () => (danger.hidden = true));
+addEventListener("keydown", (e) => { if (e.key === "Escape") document.querySelectorAll(".k-overlay").forEach((o) => (o.hidden = true)); }); // DANGER ignores Escape on purpose
+document.getElementById("toastTry").addEventListener("click", () => { const slot = document.getElementById("toastSlot"); slot.innerHTML = '<div class="k-toast in" role="status"><span>Chat with Daniel left</span><button>Undo</button></div>';
+  slot.querySelector("button").onclick = () => (slot.innerHTML = '<div class="k-toast in" role="status"><span>Chat is back</span></div>'); setTimeout(() => (slot.innerHTML = ""), 6000); });
+
+// ---------- round 3 interactions ----------
+document.getElementById("stepper").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const all = [...e.currentTarget.children]; const i = all.indexOf(b);
+  all.forEach((x, k) => { x.className = k < i ? "done" : k === i ? "cur" : ""; x.querySelector(".n").textContent = k < i ? "✓" : k + 1; }); });
+document.getElementById("showCode").addEventListener("click", (e) => { const c = document.getElementById("code"); c.textContent = "4821"; e.currentTarget.disabled = true; setTimeout(() => { c.textContent = "••••"; e.currentTarget.disabled = false; }, 10000); });
+document.getElementById("stars").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const all = [...e.currentTarget.children]; const i = all.indexOf(b); all.forEach((x, k) => x.classList.toggle("on", k <= i)); });
+let calStart = null;
+document.getElementById("cal").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b || b.disabled) return; const days = [...e.currentTarget.querySelectorAll("button")];
+  if (!calStart || days.some((d) => d.classList.contains("end") && d !== calStart && calStart)) { days.forEach((d) => d.classList.remove("end", "mid")); calStart = b; b.classList.add("end"); return; }
+  const a = days.indexOf(calStart), z = days.indexOf(b); const [lo, hi] = a < z ? [a, z] : [z, a];
+  if (days.slice(lo, hi + 1).some((d) => d.disabled)) { days.forEach((d) => d.classList.remove("end", "mid")); calStart = b; b.classList.add("end"); return; }
+  days.forEach((d, k) => { d.classList.toggle("end", k === lo || k === hi); d.classList.toggle("mid", k > lo && k < hi); }); calStart = null; });
+let tmin = 540; const tstep = document.getElementById("tstep");
+const fmt = (m) => { const h = Math.floor(m / 60), mm = m % 60; return `${((h + 11) % 12) + 1}:${String(mm).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`; };
+tstep.querySelectorAll("button").forEach((b, i) => b.addEventListener("click", () => { tmin = Math.max(0, Math.min(1410, tmin + (i ? 30 : -30))); tstep.querySelector("b").textContent = fmt(tmin); }));
+const sel = document.getElementById("sel");
+sel.querySelector("button").addEventListener("click", () => { const ul = sel.querySelector("ul"); const open = ul.hidden; ul.hidden = !open; sel.querySelector("button").setAttribute("aria-expanded", open); });
+sel.querySelectorAll("li").forEach((li) => li.addEventListener("click", () => { sel.querySelectorAll("li").forEach((x) => x.setAttribute("aria-selected", x === li)); sel.querySelector("button").firstChild.textContent = li.textContent + " "; sel.querySelector("ul").hidden = true; sel.querySelector("button").setAttribute("aria-expanded", "false"); }));
+// ---------- inventory ----------
+const INV = [
+ ["Navigation","Status bar","Expressive 1673:31771","phone frame","y"],["Navigation","App bar","Expressive 1673:32044","RoleTabs header","y"],["Navigation","App header","Oct 19 1302:5959","RoleTabs headerOptions","y"],["Navigation","Detail header (Top bar)","Balanced 1673:16420","stack header","y"],
+ ["Navigation","Tab bar","Expressive 1673:31703","RoleTabs","y"],["Navigation","Icon button","Balanced 1673:16397","HeaderActions","y"],["Navigation","Menu row","Oct 19 1302:5960","HeaderMenu","y"],["Navigation","Step header","site steps.html","ui/StepHeader","y"],
+ ["Navigation","Section tabs","site kit.html","ui/SectionTabs","y"],["Navigation","Pager dots","","ui/Pager","y"],["Navigation","Stepper","Expressive 1673:32766","BookingStageBar","y"],
+ ["Selection","Chip","Expressive 1673:31711","ui/selectable","y"],["Selection","Segmented control","Balanced 1673:16164","ui/SegmentedControl","y"],["Selection","Option card (Choice card)","site steps.html","ui/OptionCard","y"],["Selection","Button","Expressive 1673:32207","ui/Button","y"],["Selection","Text button","Balanced 1673:16120","ui/TextButton","y"],["Selection","Switch","Balanced 1673:16600","ui/ListRow","y"],["Selection","Checkbox row","Balanced 1673:16700","ui/CheckRow","y"],["Selection","Suggestion chip","Balanced","ChipSuggestions","y"],
+ ["Inputs","Text field","Balanced 1673:16154","ui/TextField","y"],["Inputs","Search pill","site qa-sitter-card","SitterSearchBar","y"],["Inputs","Slider","","ui/Slider","y"],["Inputs","Time stepper","","ui/Stepper","y"],["Inputs","Select","","ui/Select","y"],
+ ["Stay and chat","Stage header","Expressive 1673:32190","journey","y"],["Stay and chat","Stage card","Expressive 1673:32407","journey","y"],["Stay and chat","Consent card","Expressive 1673:32609","ConsentCard","y"],["Stay and chat","Checklist row","Expressive 1673:32591","ChecklistCard","y"],
+ ["Stay and chat","Entry info card","Balanced","EntryInfoCard","y"],["Stay and chat","Calendar day","Balanced","RangeCalendar, SlotCalendar","y"],["Stay and chat","Slot row","Oct 19 1302:5987","SlotRows","y"],["Stay and chat","Message bubble","Expressive 1673:32579","MessageBubble","y"],["Stay and chat","Typing indicator","Balanced","chat","y"],["Stay and chat","Source tag","Balanced","chat","y"],["Stay and chat","Booking card","Balanced","BookingCard","y"],["Stay and chat","Quote card","Balanced","QuoteCard → ui/PriceBreakdown","y"],["Stay and chat","Trip map","Balanced","TripMap","y"],["Stay and chat","Photo check","Balanced","HandoffPicker","y"],["Stay and chat","Stay summary card","Balanced","StaySummaryCard","y"],
+ ["Cards","Sitter card","site qa-sitter-card","SitterResultCard","y"],["Cards","Price breakdown","site steps.html","ui/PriceBreakdown","y"],["Cards","Tool block","Expressive Snap","SnapToolCard","y"],["Cards","Profile card","Balanced","sitter profile","y"],["Cards","Card","Balanced 1673:16132","ui/Card","y"],
+ ["Care and content","Pet card","Expressive Home","PetCard","y"],["Care and content","Daily note","Balanced","DiaryTimeline","y"],["Care and content","Timeline row","Balanced","DiaryTimeline","y"],["Care and content","Stat tile (Check-in tile)","Expressive Home","QuickCheckIn","y"],["Care and content","Feed card","Balanced","FeedCard","y"],["Care and content","Life Record card","Balanced","LifeRecordCard","y"],["Care and content","Notification row","Balanced 1673:17017","notifications","y"],["Care and content","Star rating","Balanced","StarRating","y"],["Care and content","Task row / Next task","Balanced","TodayTasks","y"],["Care and content","Mood result card","Balanced","Snap mood","y"],["Care and content","Report summary","Balanced","ReportComposer","y"],["Care and content","Photo tile / Grid photo","Balanced","AlbumView","y"],["Care and content","Latest update row","Balanced","LiveUpdates","y"],
+ ["Layout","Section title","Expressive","ui/SectionTitle","y"],["Layout","List row","Expressive 1673:31755","ui/ListRow","y"],["Layout","Summary row","site steps.html","ui/SummaryRow","y"],["Layout","Day header","Balanced","Diary","y"],
+ ["Feedback","Sheet","Balanced 1673:16551","ui/Sheet","y"],["Feedback","Toast","Balanced 1673:16135","ToastProvider","y"],["Feedback","Result state","site steps.html","ui/ResultState","y"],["Feedback","Empty state","Balanced 1673:16558","ui/EmptyState","y"],["Feedback","Danger modal","Balanced 1673:16968","ui/AlertModal","y"],["Feedback","Permission prompt","Balanced","media","y"],["Feedback","Push preview","Balanced","(not in app)","y"],
+ ["Status","Tag","Expressive 1673:32600","ui/Tag","y"],["Status","Demo tag","Expressive","prototype only","y"],["Status","Banner","Balanced 1673:17001","ui/Banner","y"],["Status","Progress bar","Balanced 1673:16906","care progress","y"],["Status","Skeleton","Balanced 1673:17073","(not in app yet)","y"],["Status","Avatar","Balanced 1673:17059","ui/Avatar, PetMark","y"],["Status","Colour swatch","Balanced","coat picker","y"],
+];
+document.getElementById("invBody").innerHTML = INV.map(([f, n, fig, app, k]) => `<tr><td><b>${n}</b><br><small>${f}</small></td><td>${fig || "none"}</td><td><code>${app}</code></td><td class="${k}">${k === "y" ? "Yes" : "Next round"}</td></tr>`).join("");
+const yes = INV.filter((x) => x[4] === "y").length;
+document.getElementById("invSum").textContent = `${yes} of ${INV.length} shown in the kit; ${INV.length - yes} are marked for the next round.`;
+</script>
+</body>
+</html>
