@@ -130,7 +130,8 @@
       ["qa-ui-fixes.html", "UI fixes QA", "UI 수정 QA", "Header, focus ring, Back, placeholders", "헤더, 포커스 링, 뒤로, 플레이스홀더"],
       ["qa-copy-batch.html", "Copy batch QA", "문구 QA", "Sign out, Weekly rules, dates, labels", "Sign out, Weekly rules, 날짜, 레이블"],
       ["qa-expressive.html", "Patterns QA", "패턴 QA", "Illustrations in content, section titles", "콘텐츠 일러스트, 섹션 제목"],
-      ["qa-sitter-card.html", "Sitter card", "시터 카드", "The card and the search pill, playable", "카드와 검색 필, 체험 가능"]]],
+      ["qa-sitter-card.html", "Sitter card", "시터 카드", "The card and the search pill, playable", "카드와 검색 필, 체험 가능"],
+      ["header-trial.html", "Header trial", "헤더 시안", "Who am I signed in as? Now, A and C, playable", "누구로 로그인했는지: 지금, A, C 체험"]]],
     ["Demo and judges", "데모와 심사", [
       ["judge-panel.html", "Judge panel", "심사위원 패널", "Goldito in two minutes", "2분 안에 보는 Goldito"],
       ["demo-run-sheet.html", "Demo run sheet", "데모 진행표", "What to click, in order", "순서대로 누를 것"],

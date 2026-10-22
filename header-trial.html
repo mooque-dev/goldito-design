@@ -1,0 +1,142 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Header Trial</title>
+<meta name="description" content="Who am I signed in as? Try today's header, A (avatar is the menu) and C (name under the title) on both demo accounts.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.35rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.lang{display:flex;gap:.25rem} .lang button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 .8125rem var(--font-ui);cursor:pointer} .lang button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+html[data-l=en] .ko,html[data-l=ko] .en{display:none}
+.pick{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;position:sticky;top:calc(var(--site-nav-h,0px) + .5rem);z-index:5;background:var(--color-background);padding:.5rem 0}
+.pick>span{font-weight:700;font-size:.875rem;color:var(--color-text-muted);margin-right:.25rem}
+.pick button{min-height:44px;padding:0 1rem;border-radius:999px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:700 .9375rem var(--font-ui);cursor:pointer}
+.pick button[aria-pressed=true]{border:2px solid #1B4332;background:#D8F3DC;color:#1B4332}
+.pick button:focus-visible,.ph button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.what{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem}
+.who{font-weight:700;font-size:.875rem;text-align:center;margin-bottom:.375rem}
+/* the phone: Expressive look, Lucide icons */
+.ph{position:relative;height:560px;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332;max-width:24rem;width:100%;margin:0 auto}
+.sb{display:flex;justify-content:space-between;align-items:center;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px}
+.hd{display:flex;align-items:center;gap:4px;padding:10px 8px 10px 18px;min-height:64px}
+.tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
+.chip{background:#D8F3DC;color:#1B4332;font-weight:700;font-size:14px;padding:4px 10px;border-radius:999px;margin-right:4px}
+.ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0}
+.ib svg{width:24px;height:24px}
+.ct{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B42318;color:#fff;font:800 10px/14px 'Plus Jakarta Sans',sans-serif;border:2px solid #FBF6EA}
+.avr{padding:2px;border-radius:20px;border:1.5px solid #1B4332} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
+.body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 24px}
+.body b{font-size:17px} .body span{font-size:14px;color:#6B5D4A}
+.tabs{display:flex;justify-content:space-around;background:#fff;border-radius:26px 26px 0 0;padding:10px 6px 18px;box-shadow:0 -8px 12px rgba(27,67,50,.08)}
+.tabs div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#6B5D4A} .tabs i{width:54px;height:30px;border-radius:15px;display:grid;place-items:center} .tabs svg{width:22px;height:22px}
+.tabs .on{color:#1B4332} .tabs .on i{background:#D8F3DC}
+.dr{position:absolute;inset:36px 0 0;background:#FBF6EA;padding:8px 18px 18px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 260ms cubic-bezier(.215,.61,.355,1);visibility:hidden}
+.dr.open{transform:none;visibility:visible}
+@media (prefers-reduced-motion:reduce){.dr{transition:none}}
+.dr .x{align-self:flex-end}
+.me{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #E8DCC4}
+.me .av{width:52px;height:52px;font-size:22px} .me b{display:block;font-size:19px} .me small{color:#6B5D4A;font-size:13px}
+.rw{display:flex;align-items:center;gap:14px;min-height:52px;font-weight:600;font-size:17px} .rw svg{width:22px;height:22px;flex:none} .rw .n{margin-left:auto;background:#B42318;color:#fff;font-size:12px;font-weight:700;border-radius:12px;padding:2px 8px}
+.rw.out{margin-top:auto;color:#6B5D4A}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}
+.note{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem;font-size:.9375rem}
+.note b{font-size:1rem}
+.vote{background:var(--color-success-surface);border-radius:12px;padding:.875rem 1rem}
+a{color:var(--color-primary)}
+</style><script src="nav.js" defer></script>
+</head><body><main class="wrap">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="l-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="l-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="l-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="l-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="l-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="l-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
+  <symbol id="l-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+  <symbol id="l-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="l-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 3v4M17 5h4"/></symbol>
+  <symbol id="l-set" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
+  <symbol id="l-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
+</svg>
+
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Header trial</span><span class="ko">헤더 시안</span> · Oct 22</span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
+<section>
+  <h1><span class="en">Who am I signed in as?</span><span class="ko">지금 누구로 로그인했지?</span></h1>
+  <p><span class="en">The team wants the header to say whose account you're in. Flip between today's header and two options, on both demo accounts. Tap the avatar or ≡ to open the menu. The icons are Lucide, the set we picked today.</span><span class="ko">헤더에서 지금 누구 계정인지 바로 보이게 하자는 의견. 지금 헤더와 두 시안을 두 데모 계정에서 바꿔 보세요. 아바타나 ≡를 누르면 메뉴가 열려요. 아이콘은 오늘 정한 Lucide예요.</span></p>
+</section>
+
+<div class="pick" role="radiogroup" aria-label="Header to try">
+  <span><span class="en">Header</span><span class="ko">헤더</span></span>
+  <button type="button" role="radio" data-s="now">Now</button>
+  <button type="button" role="radio" data-s="a">A · <span class="en">Avatar is the menu</span><span class="ko">아바타 = 메뉴</span></button>
+  <button type="button" role="radio" data-s="c">C · <span class="en">Name under the title</span><span class="ko">제목 아래 이름</span></button>
+</div>
+<p class="what" id="what" aria-live="polite"></p>
+
+<div class="phones">
+  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-name="Chloe" data-role="Sitter" data-title="Today" data-badge="7"></div></div>
+  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-name="Robert" data-role="Owner" data-title="Home" data-badge="2"></div></div>
+</div>
+
+<section>
+  <h2><span class="en">How they differ</span><span class="ko">차이점</span></h2>
+  <div class="notes">
+    <div class="note"><b>A · <span class="en">Avatar is the menu</span><span class="ko">아바타 = 메뉴</span></b><span class="en">Smallest change, familiar from Instagram. The role chip stays, so the header shows the role, and your initial or photo. The name itself is one tap away.</span><span class="ko">가장 작은 변화, 인스타그램과 같은 방식. 역할 칩은 그대로라 역할과 이니셜(또는 사진)이 보이고, 이름은 한 번 눌러야 보여요.</span></div>
+    <div class="note"><b>C · <span class="en">Name under the title</span><span class="ko">제목 아래 이름</span></b><span class="en">Says it in words on every tab: "Chloe · Sitter". The role chip goes, so the header has one item fewer than now. Best for judges switching between the two demo accounts.</span><span class="ko">모든 탭에서 "Chloe · Sitter"로 바로 보여요. 역할 칩이 빠져 지금보다 하나 줄어요. 두 데모 계정을 오가는 심사위원에게 가장 분명해요.</span></div>
+    <div class="note"><b><span class="en">Both</span><span class="ko">공통</span></b><span class="en">The menu opens with who you are ("Sitter account"). The avatar's screen reader label is "Chloe, sitter account. Menu". A photo replaces the initial when there is one.</span><span class="ko">메뉴 맨 위에 누구인지 표시("Sitter account"). 스크린 리더 라벨은 "Chloe, sitter account. Menu". 사진이 있으면 이니셜 대신 사진.</span></div>
+  </div>
+  <p class="vote"><span class="en">Pick one in the PR: <a href="https://github.com/minsikpaul92/Goldito/pull/294" target="_blank" rel="noopener">#294</a> (the real app, with the same switch under the phone). Minsik's team can open its Vercel preview.</span><span class="ko">PR <a href="https://github.com/minsikpaul92/Goldito/pull/294" target="_blank" rel="noopener">#294</a>에서 골라 주세요 (실제 앱, 폰 아래에 같은 스위치). 민식님 팀은 Vercel 미리보기로 열 수 있어요.</span></p>
+</section>
+</main>
+<script>
+const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
+const WHAT = {
+  now: { en: "Today's header: the role chip and ≡. Nothing says whose account it is.", ko: "지금 헤더: 역할 칩과 ≡. 누구 계정인지는 안 보여요." },
+  a: { en: "A: your avatar replaces ≡ and opens the menu. The role chip stays.", ko: "A: ≡ 자리에 아바타, 누르면 메뉴. 역할 칩은 그대로." },
+  c: { en: "C: your name and role under every tab title, and the avatar menu. No role chip.", ko: "C: 모든 탭 제목 아래 이름과 역할, 아바타 메뉴. 역할 칩 없음." },
+};
+let style = "c";
+try { const s = localStorage.getItem("goldito.headerTrial"); if (["now", "a", "c"].includes(s)) style = s; } catch {}
+const hash = location.hash.slice(1); if (["now", "a", "c"].includes(hash)) style = hash;
+
+function phone(el) {
+  const { name, role, title, badge } = el.dataset, init = name[0];
+  const avatar = `<span class="avr"><span class="av">${init}</span></span>`;
+  const menuBtn = style === "now"
+    ? `<button class="ib open" type="button" aria-label="Menu">${ic("menu")}</button>`
+    : `<button class="ib open" type="button" aria-label="${name}, ${role.toLowerCase()} account. Menu">${avatar}</button>`;
+  el.innerHTML = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>
+    <div class="hd"><span class="tt"><b>${title}</b>${style === "c" ? `<small>${name} · ${role}</small>` : ""}</span>
+      ${style === "c" ? "" : `<span class="chip">${role}</span>`}
+      <button class="ib" type="button" aria-label="Notifications, ${badge} new">${ic("bell")}<span class="ct">${badge}</span></button>${menuBtn}</div>
+    <div class="body"><b>${role === "Sitter" ? "No bookings yet" : "Your next stay"}</b><span>${role === "Sitter" ? "Open your schedule so owners can find you." : "Oct 23 to 25 with Chloe"}</span></div>
+    <div class="tabs"><div class="on"><i>${ic("home")}</i>Home</div><div><i>${ic("cal")}</i>Bookings</div><div><i>${ic("img")}</i>Feed</div><div><i>${ic("book")}</i>Diary</div><div><i>${ic("cam")}</i>Snap</div></div>
+    <div class="dr" role="dialog" aria-label="Menu" aria-hidden="true"><button class="ib x" type="button" aria-label="Close menu">${ic("x")}</button>
+      <div class="me"><span class="av">${init}</span><span><b>${name}</b><small>${role} account</small></span></div>
+      <div class="rw">${ic("bell")}Notifications<span class="n">${badge}</span></div>
+      ${role === "Sitter" ? `<div class="rw">${ic("cal")}Schedule</div>` : ""}
+      <div class="rw">${ic("spark")}What's new</div><div class="rw">${ic("set")}Settings</div><div class="rw out">${ic("out")}Log out</div></div>`;
+  const dr = el.querySelector(".dr");
+  const setOpen = (o) => { dr.classList.toggle("open", o); dr.setAttribute("aria-hidden", !o); (o ? dr.querySelector(".x") : el.querySelector(".open")).focus(); };
+  el.querySelector(".open").onclick = () => setOpen(true);
+  dr.querySelector(".x").onclick = () => setOpen(false);
+  dr.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+}
+function render() {
+  document.querySelectorAll(".pick button").forEach((b) => { const on = b.dataset.s === style; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.getElementById("what").innerHTML = `<span class="en">${WHAT[style].en}</span><span class="ko">${WHAT[style].ko}</span>`;
+  document.querySelectorAll(".ph").forEach(phone);
+}
+document.querySelectorAll(".pick button").forEach((b) => b.addEventListener("click", () => { style = b.dataset.s; try { localStorage.setItem("goldito.headerTrial", style); } catch {} history.replaceState(null, "", "#" + style); render(); }));
+// language
+const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
+let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
+setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
+render();
+</script></body></html>
