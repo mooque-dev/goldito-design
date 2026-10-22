@@ -131,6 +131,7 @@
       ["qa-copy-batch.html", "Copy batch QA", "문구 QA", "Sign out, Weekly rules, dates, labels", "Sign out, Weekly rules, 날짜, 레이블"],
       ["qa-expressive.html", "Patterns QA", "패턴 QA", "Illustrations in content, section titles", "콘텐츠 일러스트, 섹션 제목"],
       ["qa-sitter-card.html", "Sitter card", "시터 카드", "The card and the search pill, playable", "카드와 검색 필, 체험 가능"],
+      ["qa-jakarta.html", "Typeface QA", "서체 QA", "Fredoka for titles, Plus Jakarta Sans for the rest, before and after", "제목 Fredoka, 나머지 Plus Jakarta Sans, 전후 비교"],
       ["header-trial.html", "Header trial", "헤더 시안", "Who am I signed in as? Now, A and C, playable", "누구로 로그인했는지: 지금, A, C 체험"],
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [
