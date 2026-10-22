@@ -78,7 +78,7 @@ section.fam{scroll-margin-top:calc(var(--site-nav-h,0px) + 84px);padding-top:2.5
 .k-btn.lg{min-height:60px;width:100%;font:700 18px 'Inter',sans-serif}
 .k-btn.sec{background:var(--k-surface);color:var(--k-ink);border:2px solid var(--k-ink)}
 .k-btn.dng{background:var(--k-error);border-color:var(--k-error)}
-.k-btn.txt{background:none;border:0;color:var(--k-ink);min-height:44px;padding:0 8px;font-weight:700}
+.k-btn.txt{background:none;border:0;color:var(--k-ink);min-height:44px;padding:0 8px;font-weight:700} .k-btn.txt.dt{color:var(--k-error)} .k-btn.txt:disabled{background:none;opacity:.4;color:var(--k-ink)} .k-btn.txt.dt:disabled{color:var(--k-error)}
 .k-btn:active,.k-btn.is-pressed{transform:scale(.97);opacity:.85}
 .k-btn:disabled,.k-btn.is-disabled{background:var(--k-line);border-color:var(--k-line);color:var(--k-muted);cursor:not-allowed;transform:none;opacity:1}
 .k-btn:focus-visible,.k-btn.is-focus{outline:2px solid var(--k-ink);outline-offset:2px}
@@ -86,7 +86,7 @@ section.fam{scroll-margin-top:calc(var(--site-nav-h,0px) + 84px);padding-top:2.5
 @keyframes spin{to{transform:rotate(360deg)}}
 .k-field{display:flex;flex-direction:column;gap:6px}
 .k-field label{font:600 14px 'Inter';color:var(--k-muted)}
-.k-field input{height:48px;border-radius:12px;border:1px solid var(--k-line-strong);background:var(--k-surface);padding:0 14px;font:16px 'Inter';color:var(--k-ink)}
+.k-field input{min-height:44px;height:44px;border-radius:12px;border:1px solid var(--k-line-strong);background:var(--k-surface);padding:0 14px;font:16px 'Inter';color:var(--k-ink)}
 .k-field input::placeholder{color:var(--k-hint);font-style:italic}
 .k-field input:focus,.k-field input.is-focus{outline:2px solid var(--k-ink);outline-offset:2px}
 .k-field.err input{border-color:var(--k-error)} .k-field .e{font-size:13px;color:var(--k-error)}
@@ -172,6 +172,58 @@ section.fam{scroll-margin-top:calc(var(--site-nav-h,0px) + 84px);padding-top:2.5
 .reduce .k-sheet,.reduce .k-toast.in{animation:none}
 @media (prefers-reduced-motion: reduce){.k-sheet,.k-toast.in,.k-btn .spin{animation:none}}
 .note{background:var(--color-warning-surface);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
+
+/* round 4: the app's two calendars (RangeCalendar, SlotCalendar) */
+.k-rcal,.k-scal{background:var(--k-surface);border-radius:var(--k-r-lg);padding:12px;display:flex;flex-direction:column;gap:8px;max-width:360px}
+.k-rcal .hd,.k-scal .hd{display:flex;align-items:center;justify-content:space-between}
+.k-rcal .hd b,.k-scal .hd b{font:700 16px 'Inter'}
+.k-rcal .nav{width:44px;height:44px;border-radius:12px;border:1px solid var(--k-line);background:var(--k-surface);display:grid;place-items:center;cursor:pointer;color:var(--k-ink);font:700 18px 'Inter'}
+.k-scal .nav{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--k-ink);font:700 18px 'Inter'}
+.k-rcal .nav:disabled,.k-scal .nav:disabled{opacity:.3;cursor:default}
+.k-rcal .picks{display:flex;gap:6px;flex-wrap:wrap}
+.k-rcal .wk,.k-rcal .gr{display:grid;grid-template-columns:repeat(7,1fr)}
+.k-rcal .wk span{text-align:center;font-size:13px;color:var(--k-muted);padding:4px 0}
+.k-rcal .gr button{min-height:44px;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer;font:16px 'Inter';color:var(--k-ink)}
+.k-rcal .gr button i{width:40px;height:40px;border-radius:20px;display:grid;place-items:center;font-style:normal}
+.k-rcal .gr .in{background:var(--k-mint)} .k-rcal .gr .s{background:var(--k-mint);border-radius:22px 0 0 22px} .k-rcal .gr .e{background:var(--k-mint);border-radius:0 22px 22px 0}
+.k-rcal .gr .s.e{background:none}
+.k-rcal .gr .s i,.k-rcal .gr .e i{background:var(--k-ink);color:#fff;font-weight:700}
+.k-rcal .gr .today i{box-shadow:inset 0 0 0 2px var(--k-line-strong)}
+.k-rcal .gr .full i{text-decoration:line-through;color:#B4531A}
+.k-rcal .gr button:disabled{cursor:default} .k-rcal .gr .past i{opacity:.3}
+.k-rcal .gr button:focus-visible i{outline:2px solid var(--k-ink);outline-offset:1px}
+.k-rcal .ft{font-size:14px;color:var(--k-muted);margin:0}
+.k-scal .wk,.k-scal .gr{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.k-scal .wk span{text-align:center;font-size:13px;color:var(--k-muted)}
+.k-scal .gr button{position:relative;min-height:52px;border:2px solid transparent;border-radius:8px;padding:0;background:none;cursor:pointer;font:13px 'Inter';color:var(--k-ink);overflow:hidden}
+.k-scal .gr button .t{position:absolute;inset:0;display:flex;flex-direction:column-reverse;border-radius:6px;overflow:hidden;background:var(--k-surface)}
+.k-scal .gr button .t i{flex:1} .k-scal .gr button .t .x{background:repeating-linear-gradient(135deg,rgba(127,111,88,.45) 0 1px,transparent 1px 4px)} .k-scal .gr .past .t .x{background:none}
+.k-scal .gr button b{position:relative;font-weight:400}
+.k-scal .gr .today b{font-weight:700;text-decoration:underline}
+.k-scal .gr .sel{border-color:var(--k-ink)} .k-scal .gr .past{opacity:.35;cursor:default}
+.k-scal .gr button:focus-visible{outline:2px solid var(--k-ink);outline-offset:1px}
+.k-scal .lg{display:flex;gap:16px;font-size:13px;color:var(--k-muted)} .k-scal .lg span{display:flex;align-items:center;gap:6px}
+.k-scal .lg i{width:24px;height:12px;border-radius:4px;border:1px solid var(--k-line);background:var(--k-surface)} .k-scal .lg .x{background:repeating-linear-gradient(135deg,rgba(127,111,88,.45) 0 1px,transparent 1px 4px)}
+.k-scal .day{font-size:14px;margin:0}
+.calpair{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start} .calpair>div{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1 1 300px}
+/* round 4: parts that still need design work */
+.needs-work{opacity:.45;filter:saturate(.6);pointer-events:none}
+.k-nw{display:inline-flex;align-items:center;min-height:24px;padding:0 10px;border-radius:999px;background:#FFFAEB;color:#B54708;border:1.5px dashed #B54708;font:800 11px/1 'Inter';letter-spacing:.06em;text-transform:uppercase;vertical-align:middle}
+.tt-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+/* round 4: Figma links */
+a.fig{display:inline-flex;align-items:center;min-height:28px;padding:0 10px;border-radius:999px;border:1px solid var(--k-line-strong);background:var(--k-surface);color:var(--k-ink);font:700 12px 'Inter';text-decoration:none;white-space:nowrap}
+a.fig:hover{background:var(--k-mint)} a.fig.gone{text-decoration:line-through;opacity:.5;cursor:default} a.fig:focus-visible{outline:2px solid var(--k-ink);outline-offset:2px}
+.figrow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:.25rem 0 .75rem} .figrow>span{font-size:.8125rem;font-weight:700;color:var(--color-text-muted,#6B5D4A);margin-right:2px}
+.figrow .none{font-size:.8125rem;color:var(--color-text-muted,#6B5D4A)}
+/* round 4: copy button on the code panels */
+details.code .cw{position:relative} details.code .cw pre{padding-top:2.75rem}
+details.code .copy{position:absolute;top:8px;right:8px;z-index:1;min-height:32px;padding:0 12px;border-radius:999px;border:2px solid #1B4332;background:#1B4332;color:#D8F3DC;font:800 13px 'Inter',sans-serif;cursor:pointer}
+details.code .copy:hover{background:#2D6A4F} details.code .copy:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+details.code .copy.ok{background:#D8F3DC;color:#1B4332}
+@media (prefers-color-scheme: dark){details.code .copy{background:#D8F3DC;color:#1E3128;border-color:#D8F3DC} details.code .copy.ok{background:#1E3128;color:#D8F3DC}}
+/* round 4: audit table */
+.audit td:nth-child(3){white-space:nowrap} .audit .r{display:inline-block;padding:2px 8px;border-radius:999px;font:700 12px 'Inter'}
+.audit .match{background:#ECFDF3;color:#067647} .audit .fixed{background:#D8F3DC;color:#1B4332} .audit .newer{background:#EFEBE3;color:#4f5b53} .audit .decide{background:#FFFAEB;color:#B54708} .audit .work{background:#FEF3F2;color:#B42318}
 details.code{background:#D8F3DC;color:#1B4332;border:2px solid #1B4332;border-radius:16px;padding:.625rem .875rem}
 details.code summary{cursor:pointer;font-weight:800;font-size:.9375rem;min-height:36px;display:flex;align-items:center;gap:.5rem;list-style:none}
 details.code summary::-webkit-details-marker{display:none}
@@ -189,13 +241,14 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
 .k-status{display:flex;justify-content:space-between;align-items:center;padding:10px 24px 4px;font:700 14px 'Inter'} .k-status i{display:inline-block;width:18px;height:10px;border-radius:2px;background:var(--k-ink);margin-left:5px}
 .k-appbar{display:flex;align-items:center;gap:8px;padding:6px 4px 8px} .k-appbar .coin{width:30px;height:30px;border-radius:50%;background:var(--k-gold);display:grid;place-items:center;font:800 14px 'Inter'} .k-appbar b{flex:1;font:600 18px Fredoka}
 .k-detail{display:flex;align-items:center;gap:4px;min-height:56px} .k-detail button{width:44px;height:44px;border:0;background:none;font-size:24px;color:var(--k-ink);cursor:pointer} .k-detail h4{margin:0;font:600 24px Fredoka;flex:1}
+.k-iconbtn.bare{background:none} .k-iconbtn.mint{background:var(--k-mint)} .k-iconbtn.mint b{font:800 16px 'Inter'}
 .k-iconbtn{width:44px;height:44px;border-radius:22px;border:0;background:var(--k-surface);display:grid;place-items:center;position:relative;cursor:pointer;color:var(--k-ink)} .k-iconbtn svg{width:22px;height:22px} .k-iconbtn .d{position:absolute;top:8px;right:9px;width:8px;height:8px;border-radius:4px;background:var(--k-error)}
 .k-menurow{display:flex;align-items:center;gap:16px;min-height:56px;padding:0 16px;background:var(--k-surface);border-radius:var(--k-r-lg)} .k-menurow svg{width:24px;height:24px} .k-menurow b{flex:1;font:700 18px 'Inter'} .k-menurow .c{background:var(--k-error);color:#fff;border-radius:12px;padding:2px 8px;font:700 14px 'Inter'}
 .k-stepper{display:grid;grid-template-columns:repeat(5,1fr);position:relative;isolation:isolate}
 .k-stepper button{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;border:0;background:none;cursor:pointer;padding:6px 2px 4px;border-radius:14px;font:600 12px/13px Fredoka;color:#4f5b53}
 .k-stepper button+button::before{content:"";position:absolute;top:21px;right:50%;width:100%;height:3px;border-radius:2px;background:var(--k-line);z-index:-1}
-.k-stepper .n{position:relative;z-index:2;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:0 0 0 2px var(--k-line);font:800 14px 'Inter';color:#4f5b53}
-.k-stepper .done .n{background:#2D6A4F;color:#fff;box-shadow:none} .k-stepper .done+button::before{background:#2D6A4F}
+.k-stepper .n{position:relative;z-index:2;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:#fff;font:800 14px 'Inter';color:#4f5b53}
+.k-stepper .done .n{background:var(--k-gold);color:#3D2A00} .k-stepper .done+button::before{background:var(--k-gold)}
 .k-stepper .cur .n{background:var(--k-ink);color:var(--k-cream);box-shadow:none} .k-stepper .cur{color:#1a1a1a}
 .k-stagehead{display:flex;align-items:center;gap:12px;padding:14px 16px 4px;background:var(--k-mint);border-radius:26px 26px 0 0} .k-stagehead .n{width:28px;height:28px;border-radius:50%;background:#2D6A4F;color:#fff;display:grid;place-items:center;font:800 13px 'Inter'} .k-stagehead .tx{flex:1} .k-stagehead b{display:block;font:600 16px/23px Fredoka} .k-stagehead small{font:500 13px 'Inter';color:#4f5b53} .k-stagehead svg{width:52px;height:52px}
 .k-stagebody{background:var(--k-mint);border-radius:0 0 26px 26px;padding:8px 16px 16px;font-size:14px}
@@ -251,7 +304,7 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
 .k-trip{background:#fff;border-radius:20px;padding:14px 16px;display:flex;align-items:center;gap:12px} .k-trip .tx{flex:1} .k-trip b{display:block;font:700 16px 'Inter'} .k-trip small{color:var(--k-muted)}
 .k-pcheck{display:flex;gap:12px;align-items:center;background:#fff;border-radius:20px;padding:12px} .k-pcheck img{width:72px;height:72px;border-radius:14px;object-fit:cover} .k-pcheck ul{list-style:none;margin:0;padding:0;font:600 14px 'Inter';display:flex;flex-direction:column;gap:4px} .k-pcheck .ok{color:#067647} .k-pcheck .no{color:#B54708}
 .k-summary{background:var(--k-butter);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;font-size:14px} .k-summary b{font:600 18px Fredoka}
-.k-profile{background:#fff;border-radius:24px;overflow:hidden} .k-profile .ph{display:grid;grid-template-columns:2fr 1fr;gap:4px;height:120px} .k-profile .ph img{width:100%;height:100%;object-fit:cover} .k-profile .c{padding:14px 16px;display:flex;flex-direction:column;gap:4px} .k-profile b{font:600 21px Fredoka}
+.k-profile{background:#fff;border-radius:24px;overflow:hidden} .k-profile .ph{display:grid;grid-template-columns:2fr 1fr;gap:4px;height:140px;overflow:hidden} .k-profile .ph>*{min-height:0} .k-profile .ph .two{display:grid;grid-template-rows:1fr 1fr;gap:4px;min-height:0} .k-profile .ph img{display:block;width:100%;height:100%;min-height:0;object-fit:cover} .k-profile .c{padding:14px 16px;display:flex;flex-direction:column;gap:4px} .k-profile b{font:600 21px Fredoka}
 .k-card{background:#fff;border:1px solid var(--k-line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:4px} .k-card b{font:600 16px 'Inter'} .k-card span{font-size:14px;color:var(--k-muted)}
 .k-task{display:flex;align-items:center;gap:12px;background:#fff;border-radius:16px;padding:10px 14px} .k-task .ck{width:28px;height:28px;border-radius:50%;border:2px solid var(--k-line-strong);display:grid;place-items:center;font-weight:800;color:#fff;flex-shrink:0} .k-task.done .ck{background:#2D6A4F;border-color:#2D6A4F} .k-task.miss .ck{border-color:#B42318;color:#B42318} .k-task .tx{flex:1} .k-task b{display:block;font:600 15px 'Inter'} .k-task.done b{text-decoration:line-through;color:var(--k-muted)} .k-task small{font-size:13px;color:var(--k-muted)}
 .k-next{background:var(--k-ink);color:#fff;border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:10px} .k-next small{color:#D8F3DC;font:700 12px 'Inter';letter-spacing:.06em} .k-next b{font:600 22px Fredoka} .k-next .k-btn{background:var(--k-gold);color:var(--k-ink);border-color:var(--k-gold)}
@@ -265,6 +318,7 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
 .k-lock{background:linear-gradient(160deg,#2D6A4F,#1B4332);border-radius:20px;padding:14px}
 </style>
 <script src="nav.js" defer></script>
+<script src="figma-nodes.js"></script>
 </head>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -397,9 +451,10 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
 <section class="fam" id="navigation">
   <h2>Navigation</h2>
   <p>How people move: tabs, the header, one-question flows, sections that follow the scroll, and pages.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Status Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Status bar ↗</a><a class="fig" data-fig="App Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">App bar ↗</a><a class="fig" data-fig="App Header" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">App header ↗</a><a class="fig" data-fig="Top Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Top bar ↗</a><a class="fig" data-fig="Tab Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Tab bar ↗</a><a class="fig" data-fig="Icon Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Icon button ↗</a><a class="fig" data-fig="Menu Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Menu row ↗</a><a class="fig" data-fig="Step Dot" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Step Dot ↗</a><a class="fig" data-fig="Tab Bar · Stay prototype" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Tab Bar · Stay prototype ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-navigation" data-title="Kit · Navigation">
     <div class="k-status" data-comp="Status bar" data-variant="Default"><span>9:41</span><span><i></i><i></i><i style="width:26px"></i></span></div>
-    <div class="k-appbar" data-comp="App bar" data-variant="Default"><span class="coin">🐾</span><b>Goldito</b><button class="k-iconbtn" aria-label="Notifications"><svg><use href="#i-bell"/></svg><span class="d"></span></button></div>
+    <div class="k-appbar" data-comp="App bar" data-variant="Default"><span class="coin">🐾</span><b>Goldito</b><button class="k-iconbtn bare" aria-label="Notifications, 3 new"><svg><use href="#i-bell"/></svg><span class="d"></span></button><button class="k-iconbtn mint" aria-label="Stay notes"><b>i</b></button></div>
     <div class="k-detail" data-comp="Detail header" data-variant="Back=On"><button aria-label="Back">‹</button><h4>Max</h4></div>
     <div data-comp="App header" data-variant="Role=Owner" class="k-head"><h4>Home</h4><span class="role">Owner</span><button class="ib" aria-label="Notifications, 2 new"><svg><use href="#i-bell"/></svg><span class="dot">2</span></button><button class="ib" aria-label="Menu"><svg><use href="#i-menu"/></svg></button></div>
     <div data-comp="Tab bar" data-variant="Active=Home" class="k-tabbar" role="tablist" id="tabbar">
@@ -426,12 +481,12 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
       <h5 id="s-naps">Naps</h5><p>After lunch, his blanket</p>
       <h5 id="s-play">Play</h5><p>Tennis ball, 10 min</p><p>Puzzle feeder</p>
     </div>
-    <h3 class="k-title">Icon buttons</h3>
+    <div class="tt-row"><h3 class="k-title">Icon buttons</h3><a class="fig" data-fig="Icon Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="row"><button class="k-iconbtn" aria-label="Notifications" data-comp="Icon button" data-variant="Badge=Off"><svg><use href="#i-bell"/></svg></button><button class="k-iconbtn" aria-label="Notifications, new" data-comp="Icon button" data-variant="Badge=On"><svg><use href="#i-bell"/></svg><span class="d"></span></button><button class="k-iconbtn" aria-label="Menu" data-comp="Icon button" data-variant="Badge=Off"><svg><use href="#i-menu"/></svg></button></div>
-    <h3 class="k-title">Menu rows</h3>
+    <div class="tt-row"><h3 class="k-title">Menu rows</h3><a class="fig" data-fig="Menu Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-menurow" data-comp="Menu row" data-variant="Count=On"><svg><use href="#i-bell"/></svg><b>Notifications</b><span class="c">3</span><span>›</span></div>
     <div class="k-menurow" data-comp="Menu row" data-variant="Count=Off"><svg><use href="#i-cal"/></svg><b>Schedule</b><span>›</span></div>
-    <h3 class="k-title">Pages</h3>
+    <div class="tt-row"><h3 class="k-title">Pages</h3><a class="fig" data-fig="Step Dot" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div data-comp="Pager dots" data-variant="Page=2" class="k-dots" aria-label="Page 2 of 3"><i></i><i class="on"></i><i></i></div>
   </div>
   <div class="spec">
@@ -442,7 +497,7 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
     <li><b>Section tabs</b>: sticky chips that follow the scroll below and jump there when tapped (the restaurant-menu pattern; this page's own tabs work the same). New.</li>
     <li><b>Pager dots</b>: <code>ui/Pager</code></li></ul>
     <p class="src">States: active / inactive tab, count badge, step 1 to 6, section tab follows scroll.</p>
-  <details class="code" open><summary>For engineers: code</summary><pre><code>import { StepHeader } from &quot;components/ui/StepHeader&quot;;
+  <details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { StepHeader } from &quot;components/ui/StepHeader&quot;;
 import { SectionTabs, useSectionSpy } from &quot;components/ui/SectionTabs&quot;;
 
 &lt;StepHeader flow=&quot;Booking request&quot; step={1} total={6}
@@ -453,15 +508,16 @@ const spy = useSectionSpy([&quot;meals&quot;, &quot;walks&quot;, &quot;meds&quot
   &lt;SectionTabs sections={SECTIONS} active={spy.active} onPick={spy.jump} /&gt;
   &lt;View onLayout={spy.onSectionLayout(&quot;meals&quot;)}&gt;…&lt;/View&gt;
 &lt;/ScrollView&gt;
-// App header + tab bar: RoleTabs / headerOptions(theme). Stepper: BookingStageBar.</code></pre></details></div></div>
+// App header + tab bar: RoleTabs / headerOptions(theme). Stepper: BookingStageBar.</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= SELECTION ================= -->
 <section class="fam" id="selection">
   <h2>Selection</h2>
   <p>One picker look everywhere: white with a strong line; mint with an ink ring when selected. Ink fill is for primary buttons only.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Chip" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Chip ↗</a><a class="fig" data-fig="Segment" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Segment ↗</a><a class="fig" data-fig="Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Button ↗</a><a class="fig" data-fig="Text Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Text button ↗</a><a class="fig" data-fig="Switch" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Switch ↗</a><a class="fig" data-fig="Checkbox Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Checkbox row ↗</a><a class="fig" data-fig="Choice Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Choice Card ↗</a><a class="fig" data-fig="Suggestion Chip" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Suggestion Chip ↗</a><a class="fig" data-fig="Filter Chip" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Filter Chip ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-selection" data-title="Kit · Selection">
-    <h3 class="k-title">Chip</h3>
+    <div class="tt-row"><h3 class="k-title">Chip</h3><a class="fig" data-fig="Chip" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="states">
       <div class="st"><span>Default</span><div class="row"><button class="k-chip" data-comp="Chip" data-variant="State=Off" aria-pressed="false">Walks</button></div></div>
       <div class="st"><span>Selected</span><div class="row"><button class="k-chip" data-comp="Chip" data-variant="State=On" aria-pressed="true">Meals</button></div></div>
@@ -472,9 +528,9 @@ const spy = useSectionSpy([&quot;meals&quot;, &quot;walks&quot;, &quot;meds&quot
       <div class="st"><span>Removable</span><div class="row"><span class="k-chip" data-comp="Chip" data-variant="State=Off, Remove=On">chicken<span class="x" role="button" aria-label="Remove chicken">×</span></span></div></div>
       <div class="st"><span>Try it</span><div class="row" data-toggle="multi"><button class="k-chip" aria-pressed="true">All</button><button class="k-chip" aria-pressed="false">Meals</button><button class="k-chip" aria-pressed="false">Walks</button><button class="k-chip" aria-pressed="false" disabled>Grooming</button></div></div>
     </div>
-    <h3 class="k-title">Segments</h3>
+    <div class="tt-row"><h3 class="k-title">Segments</h3><a class="fig" data-fig="Segment" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-seg" data-toggle="one" data-comp="Segmented control" data-variant="Count=3"><button class="k-chip" aria-pressed="true">Chats</button><button class="k-chip" aria-pressed="false" style="position:relative">Requests<span class="n">2</span></button><button class="k-chip" aria-pressed="false">Past</button></div>
-    <h3 class="k-title">Option card</h3>
+    <div class="tt-row"><h3 class="k-title">Option card</h3><a class="fig" data-fig="Choice Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="states" data-toggle="multi-opt">
       <button class="k-opt sq" role="checkbox" aria-checked="true" data-comp="Option card" data-variant="State=On, Lead=Photo, Type=Checkbox"><span class="lead"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt=""></span><span class="tx"><b>Max</b><small>Dog · Maltese · 4 years</small></span><span class="ck">✓</span></button>
       <button class="k-opt sq" role="checkbox" aria-checked="false" data-comp="Option card" data-variant="State=Off, Lead=Photo, Type=Checkbox"><span class="lead">🐱</span><span class="tx"><b>Mochi</b><small>Cat · Domestic shorthair · 3 years</small></span><span class="ck"></span></button>
@@ -484,21 +540,21 @@ const spy = useSectionSpy([&quot;meals&quot;, &quot;walks&quot;, &quot;meds&quot
       <button class="k-opt" role="radio" aria-checked="false" data-comp="Option card" data-variant="State=Off, Lead=None, Type=Radio"><span class="tx"><b>At my home</b><small>House sitting · $70 a night</small></span><span class="ck"></span></button>
       <button class="k-opt" role="radio" aria-checked="false" disabled data-comp="Option card" data-variant="State=Disabled, Lead=None, Type=Radio"><span class="tx"><b>Drop-in visits</b><small>Chloe doesn't offer this</small></span><span class="ck"></span></button>
     </div>
-    <h3 class="k-title">Button</h3>
+    <div class="tt-row"><h3 class="k-title">Button</h3><a class="fig" data-fig="Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="states">
       <div class="st"><span>Large</span><button class="k-btn lg" data-comp="Button" data-variant="Style=Primary, Size=Large, State=Default">Next</button></div>
       <div class="st"><span>Primary</span><div class="row"><button class="k-btn" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Default">Save</button><span class="k-btn is-pressed" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Pressed">Pressed</span><span class="k-btn is-focus" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Focus">Focus</span></div></div>
       <div class="st"><span>Loading</span><div class="row"><button class="k-btn" aria-busy="true" data-comp="Button" data-variant="Style=Primary, Size=Default, State=Loading"><span class="spin"></span>Saving…</button><button class="k-btn" id="tryLoad">Tap to save</button></div></div>
       <div class="st"><span>Secondary</span><div class="row"><button class="k-btn sec" data-comp="Button" data-variant="Style=Secondary, Size=Default, State=Default">Cancel</button></div></div>
       <div class="st"><span>Danger</span><div class="row"><button class="k-btn dng" data-comp="Button" data-variant="Style=Danger, Size=Default, State=Default">Sign out</button></div></div>
-      <div class="st"><span>Text</span><div class="row"><button class="k-btn txt" data-comp="Button" data-variant="Style=Text, Size=Default, State=Default">Change</button></div></div>
+      <div class="st"><span>Text button</span><div class="row"><button class="k-btn txt" data-comp="Text button" data-variant="Tone=Default, State=Enabled">Suggest another time</button><button class="k-btn txt" disabled data-comp="Text button" data-variant="Tone=Default, State=Disabled">Suggest another time</button><button class="k-btn txt dt" data-comp="Text button" data-variant="Tone=Danger, State=Enabled">Cancel the stay</button><button class="k-btn txt dt" disabled data-comp="Text button" data-variant="Tone=Danger, State=Disabled">Cancel the stay</button></div></div>
       <div class="st"><span>Disabled</span><div class="row"><button class="k-btn" disabled data-comp="Button" data-variant="Style=Primary, Size=Default, State=Disabled">Pick a pet first</button></div></div>
     </div>
-    <h3 class="k-title">Checkbox row</h3>
+    <div class="tt-row"><h3 class="k-title">Checkbox row</h3><a class="fig" data-fig="Checkbox Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <label class="k-cb" data-comp="Checkbox row" data-variant="Checked=No"><input type="checkbox"> Max gets a treat after his pill</label>
     <label class="k-cb" data-comp="Checkbox row" data-variant="Checked=Yes"><input type="checkbox" checked> I've read the house rules</label>
     <label class="k-cb dis" data-comp="Checkbox row" data-variant="Checked=Yes, State=Locked"><input type="checkbox" checked disabled> Safety alerts (always on)</label>
-    <h3 class="k-title">Switch</h3>
+    <div class="tt-row"><h3 class="k-title">Switch</h3><a class="fig" data-fig="Switch" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="row"><button class="k-switch" role="switch" aria-checked="true" aria-label="Trip updates" data-comp="Switch" data-variant="On=True"></button><button class="k-switch" role="switch" aria-checked="false" aria-label="Tips" data-comp="Switch" data-variant="On=False"></button></div>
   </div>
   <div class="spec"><h3>Parts</h3>
@@ -507,7 +563,7 @@ const spy = useSectionSpy([&quot;meals&quot;, &quot;walks&quot;, &quot;meds&quot
     <li><b>Option card</b>: big answer on one-question screens; radio or checkbox; optional photo; disabled with a reason. <code>ui/OptionCard</code></li>
     <li><b>Button</b>: primary, secondary, danger, text; default 52 / large 60; loading keeps its colour (audit F46). <code>ui/Button</code>, <code>ui/TextButton</code></li>
     <li><b>Switch</b>: in list rows. <code>ui/ListRow</code></li></ul>
-    <p class="src">Pet chips: the pet's photo, else a breed photo, else the illustration (decided Oct 22).</p><details class="code" open><summary>For engineers: code</summary><pre><code>import { selectable } from &quot;components/ui/selectable&quot;;   // the one picker look
+    <p class="src">Pet chips: the pet's photo, else a breed photo, else the illustration (decided Oct 22).</p><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { selectable } from &quot;components/ui/selectable&quot;;   // the one picker look
 import { ChoiceChips } from &quot;components/ui/ChoiceChips&quot;;
 import { OptionCard } from &quot;components/ui/OptionCard&quot;;
 import { Button } from &quot;components/ui/Button&quot;;
@@ -519,15 +575,16 @@ import { Button } from &quot;components/ui/Button&quot;;
 &lt;Button label=&quot;Next&quot; size=&quot;large&quot; onPress={next} /&gt;
 &lt;Button label=&quot;Save&quot; loading={saving} onPress={save} /&gt;   // Figma: Style × Size × State
 &lt;Button label=&quot;Cancel&quot; variant=&quot;secondary&quot; /&gt; &lt;Button label=&quot;Sign out&quot; variant=&quot;danger&quot; /&gt;
-// A hand-rolled picker? spread selectable(theme).chip / .chipOn / .label instead of new styles.</code></pre></details></div></div>
+// A hand-rolled picker? spread selectable(theme).chip / .chipOn / .label instead of new styles.</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= INPUTS ================= -->
 <section class="fam" id="inputs">
   <h2>Inputs</h2>
   <p>Fields, the search pill and the slider with quick picks.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Text Field" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Text field ↗</a><a class="fig" data-fig="Color Swatch" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Color Swatch ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-inputs" data-title="Kit · Inputs">
-    <h3 class="k-title">Text field</h3>
+    <div class="tt-row"><h3 class="k-title">Text field</h3><a class="fig" data-fig="Text Field" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-field" data-comp="Text field" data-variant="State=Empty"><label for="f1">Name</label><input id="f1" placeholder="Max"></div>
     <div class="k-field" data-comp="Text field" data-variant="State=Filled"><label for="f2">Breed</label><input id="f2" value="Maltese"></div>
     <div class="k-field" data-comp="Text field" data-variant="State=Focus"><label for="f3">Weight in kg</label><input id="f3" class="is-focus" placeholder="3.2"></div>
@@ -537,7 +594,7 @@ import { Button } from &quot;components/ui/Button&quot;;
     <div class="k-tstep" data-comp="Time stepper" data-variant="Default" id="tstep"><button aria-label="30 minutes earlier">−</button><b aria-live="polite">9:00 AM</b><button aria-label="30 minutes later">+</button></div>
     <h3 class="k-title">Select</h3>
     <div class="k-select" data-comp="Select" data-variant="Open=True" id="sel"><button aria-haspopup="listbox" aria-expanded="true">Boarding <span>▾</span></button><ul role="listbox"><li role="option" aria-selected="true">Boarding</li><li role="option" aria-selected="false">House sitting</li><li role="option" aria-selected="false">Drop-in visits</li></ul></div>
-    <h3 class="k-title">Coat colour</h3>
+    <div class="tt-row"><h3 class="k-title">Coat colour</h3><a class="fig" data-fig="Color Swatch" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-sw" data-toggle="one" data-comp="Colour swatch" data-variant="Selected=Golden"><button aria-label="White" aria-pressed="false" style="background:#F4F1EA"></button><button aria-label="Golden" aria-pressed="true" style="background:#E0A85A"></button><button aria-label="Brown" aria-pressed="false" style="background:#9A5F36"></button><button aria-label="Black" aria-pressed="false" style="background:#3B3A3E"></button><button aria-label="Gray" aria-pressed="false" style="background:#A7A9AB"></button></div>
     <h3 class="k-title">Search pill</h3>
     <div class="k-pill" data-comp="Search pill" data-variant="Parts=3">
@@ -554,14 +611,14 @@ import { Button } from &quot;components/ui/Button&quot;;
   <div class="spec"><h3>Parts</h3>
     <ul><li><b>Text field</b>: placeholder 4.7:1 italic; 2 px ink focus; error line under the field. <code>ui/TextField</code></li>
     <li><b>Search pill</b>: When / Pets / Within; each part opens a sheet. <code>SitterSearchBar</code></li>
-    <li><b>Slider + quick picks</b>: 2 / 5 / 10 / 25 km, synced with the slider; dates get 1 night / weekend / a week. Built this round.</li></ul><details class="code" open><summary>For engineers: code</summary><pre><code>import { TextField } from &quot;components/ui/TextField&quot;;
+    <li><b>Slider + quick picks</b>: 2 / 5 / 10 / 25 km, synced with the slider; dates get 1 night / weekend / a week. Built this round.</li></ul><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { TextField } from &quot;components/ui/TextField&quot;;
 import { Slider } from &quot;components/ui/Slider&quot;;
 
 &lt;TextField label=&quot;Birthday&quot; value={v} onChangeText={setV} error={err} /&gt;   // State=Error when error is set
 &lt;Slider value={km} min={1} max={100} onChange={setKm} label=&quot;Distance&quot; valueText={`${km} km`} /&gt;
 &lt;ChoiceChips value={[String(km)]} options={[2,5,10,25].map(k =&gt; ({ value: String(k), label: `${k} km` }))}
   onChange={(v) =&gt; setKm(Number(v[0]))} /&gt;          // quick picks stay in sync with the slider
-// Search pill: components/SitterSearchBar (date quick picks: quickStays(today)).</code></pre></details></div></div>
+// Search pill: components/SitterSearchBar (date quick picks: quickStays(today)).</code></pre></div></details></div></div>
 </section>
 
 
@@ -569,51 +626,56 @@ import { Slider } from &quot;components/ui/Slider&quot;;
 <section class="fam" id="stay">
   <h2>Stay and chat</h2>
   <p>The five stages of a stay, the booking forms and the chat. Figma Expressive: Stepper, Stage header, Stage card, Consent card, Checklist row, Message bubble.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Stepper" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Stepper ↗</a><a class="fig" data-fig="Stage Header" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Stage header ↗</a><a class="fig" data-fig="Stage Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Stage card ↗</a><a class="fig" data-fig="Consent Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Consent card ↗</a><a class="fig" data-fig="Checklist Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Checklist row ↗</a><a class="fig" data-fig="Slot Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Slot row ↗</a><a class="fig" data-fig="Message Bubble" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Message bubble ↗</a><a class="fig" data-fig="Entry Info Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Entry Info Card ↗</a><a class="fig" data-fig="Calendar Day" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Calendar Day ↗</a><a class="fig" data-fig="Trip Map" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Trip Map ↗</a><a class="fig" data-fig="Photo Check" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Photo Check ↗</a><a class="fig" data-fig="Stay Summary Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Stay Summary Card ↗</a><a class="fig" data-fig="Booking Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Booking Card ↗</a><a class="fig" data-fig="Typing Indicator" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Typing Indicator ↗</a><a class="fig" data-fig="Source Tag" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Source Tag ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-stay" data-title="Kit · Stay and chat">
-    <h3 class="k-title">Stepper</h3>
+    <div class="tt-row"><h3 class="k-title">Stepper</h3><a class="fig" data-fig="Stepper" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-stepper" id="stepper" data-comp="Stepper" data-variant="Viewing=Meet, Done=1">
       <button class="done"><span class="n">✓</span>Inquiry</button><button class="cur"><span class="n">2</span>Meet</button><button><span class="n">3</span>Booking</button><button><span class="n">4</span>Care</button><button><span class="n">5</span>Home</button>
     </div>
-    <h3 class="k-title">Stage header and cards</h3>
+    <div class="tt-row"><h3 class="k-title">Stage header and cards</h3><a class="fig" data-fig="Stage Header" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Header ↗</a><a class="fig" data-fig="Stage Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Card ↗</a></div>
     <div><div class="k-stagehead" data-comp="Stage header" data-variant="Stage=2, State=Current, Layout=Sections"><span class="n">2</span><span class="tx"><b>Meet and greet</b><small>Tue 4:00 PM · at Chloe's</small></span><svg aria-hidden="true"><use href="#art-heart"/></svg></div>
     <div class="k-stagebody">Chloe meets Max and Mochi and walks you through her home. Turn the care request into a checklist first.</div></div>
     <button class="k-stage done" style="background:var(--k-mint)" data-comp="Stage card" data-variant="Stage=1, State=Done"><span class="n">✓</span><span class="tx"><b>Inquiry</b><small>Chloe replied · Mon</small></span><svg aria-hidden="true"><use href="#art-chat"/></svg></button>
     <button class="k-stage" style="background:var(--k-butter)" data-comp="Stage card" data-variant="Stage=3, State=Upcoming"><span class="n">3</span><span class="tx"><b>Booking</b><small>Fri</small></span><svg aria-hidden="true"><use href="#art-calendar"/></svg></button>
     <button class="k-stage" style="background:var(--k-blush)" data-comp="Stage card" data-variant="Stage=4, State=Upcoming"><span class="n">4</span><span class="tx"><b>Care and pet transit</b><small>Fri 7:30 AM</small></span><svg aria-hidden="true"><use href="#art-car"/></svg></button>
     <button class="k-stage" style="background:var(--k-mint)" data-comp="Stage card" data-variant="Stage=5, State=Upcoming"><span class="n">5</span><span class="tx"><b>Completion</b><small>Mon</small></span><svg aria-hidden="true"><use href="#art-home-heart"/></svg></button>
-    <h3 class="k-title">Consent card</h3>
+    <div class="tt-row"><h3 class="k-title">Consent card</h3><a class="fig" data-fig="Consent Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-consent" data-comp="Consent card" data-variant="Checked=No"><label><input type="checkbox"> Vet care in an emergency</label><p>If Max needs a vet and you can't be reached, Chloe takes him to the nearest clinic. You pay the bill.</p><a href="#stay">Read full text</a></div>
     <div class="k-consent" data-comp="Consent card" data-variant="Checked=Yes"><label><input type="checkbox" checked> Photos in the app</label><p>Chloe can share photos of Max and Mochi with you in Goldito.</p><a href="#stay">Read full text</a></div>
-    <h3 class="k-title">Checklist row</h3>
+    <div class="tt-row"><h3 class="k-title">Checklist row</h3><a class="fig" data-fig="Checklist Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-check" data-comp="Checklist row" data-variant="Default"><input class="t" value="8:00 AM" aria-label="Time"><input class="i" value="Breakfast · 1 cup kibble" aria-label="Task"><button aria-label="Remove">✕</button></div>
     <div class="k-check" data-comp="Checklist row" data-variant="Empty"><input class="t" placeholder="Time" aria-label="Time"><input class="i" placeholder="Add a task" aria-label="Task"><button aria-label="Remove">✕</button></div>
-    <h3 class="k-title">Entry info</h3>
+    <div class="tt-row"><h3 class="k-title">Entry info</h3><a class="fig" data-fig="Entry Info Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-entry" data-comp="Entry info card" data-variant="State=Locked"><b>🔒 Entry info</b><small style="color:var(--k-muted)">Chloe sees this 2 hours before arriving.</small></div>
     <div class="k-entry" data-comp="Entry info card" data-variant="State=Unlocked"><b>Entry info</b><span>Buzz 1204 · Lockbox left of the door</span><div class="row"><span class="code" id="code">••••</span><button class="k-btn txt" id="showCode">Show code</button></div><small style="color:var(--k-muted)">The code hides again after 10 seconds.</small></div>
-    <h3 class="k-title">Calendar days</h3>
-    <div class="k-cal" data-comp="Calendar" data-variant="Range=On" id="cal"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
-      <button class="past" disabled>19</button><button class="past" disabled>20</button><button class="today">21</button><button>22</button><button class="end">23</button><button class="mid">24</button><button class="end">25</button>
-      <button>26</button><button class="full" disabled>27</button><button>28</button><button>29</button><button>30</button><button>31</button><button>1</button></div>
-    <p class="k-meta">Past · today (ring) · selected range · full (struck)</p>
-    <h3 class="k-title">Slot rows</h3>
+    <div class="tt-row"><h3 class="k-title">Calendar days</h3><a class="fig" data-fig="Calendar Day" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
+    <div class="calpair">
+      <div><p class="k-meta">Owner picks dates · <code>RangeCalendar</code></p>
+        <div class="k-rcal" data-comp="Calendar" data-variant="Type=Range" id="rcal"></div></div>
+      <div><p class="k-meta">Sitter's schedule · <code>SlotCalendar</code></p>
+        <div class="k-scal" data-comp="Calendar" data-variant="Type=Slots" id="scal"></div></div>
+    </div>
+    <p class="k-meta">Range: tap a start, then an end; quick picks set both. Past days are faded, today has a ring, full days are struck. Slots: each day is three bands, morning at the bottom, night at the top; striped means not available. Arrows change the month.</p>
+    <div class="tt-row"><h3 class="k-title">Slot rows</h3><a class="fig" data-fig="Slot Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-slot" data-comp="Slot row" data-variant="Status=Open"><span class="tx"><b>Morning</b><small>8:00 AM to 12:00 PM</small></span><span class="k-tag ok">Open</span></div>
     <div class="k-slot" data-comp="Slot row" data-variant="Status=Full"><span class="tx"><b>Afternoon</b><small>12:00 PM to 6:00 PM</small></span><span class="k-tag warn">Full</span></div>
     <div class="k-slot" data-comp="Slot row" data-variant="Status=Not available" style="opacity:.6"><span class="tx"><b>Night</b><small>Closed by a weekly rule</small></span><span class="k-tag neu">Not available</span></div>
-    <h3 class="k-title">Trip</h3>
-    <div class="k-map" data-comp="Trip map" data-variant="State=Moving"><svg viewBox="0 0 360 150" aria-label="Route from Chloe's place to your home"><path d="M20 120 C90 120 100 40 180 60 S300 40 340 30" fill="none" stroke="#1B4332" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 10"/><circle cx="20" cy="120" r="8" fill="#fff" stroke="#1B4332" stroke-width="3"/><circle cx="340" cy="30" r="9" fill="#E76F51" stroke="#fff" stroke-width="3"/><circle cx="180" cy="60" r="11" fill="#1B4332" stroke="#fff" stroke-width="3"/></svg><span class="eta">Arriving in 12 min</span></div>
-    <div class="k-trip" data-comp="Active trip card" data-variant="State=Moving"><svg width="44" height="44" aria-hidden="true"><use href="#art-car"/></svg><span class="tx"><b>Chloe is driving Max home</b><small>Arriving around 5:12 PM</small></span><span class="k-tag brand">Live</span></div>
-    <h3 class="k-title">Photo check</h3>
+    <div class="tt-row"><h3 class="k-title">Trip</h3><span class="k-nw">Needs work</span><a class="fig" data-fig="Trip Map" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Trip map ↗</a></div>
+    <p class="k-meta">Map and live card are placeholders; the look is not decided yet. Don't build from these.</p>
+    <div class="needs-work" aria-hidden="true"><div class="k-map" data-comp="Trip map" data-variant="State=Moving"><svg viewBox="0 0 360 150" aria-label="Route from Chloe's place to your home"><path d="M20 120 C90 120 100 40 180 60 S300 40 340 30" fill="none" stroke="#1B4332" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 10"/><circle cx="20" cy="120" r="8" fill="#fff" stroke="#1B4332" stroke-width="3"/><circle cx="340" cy="30" r="9" fill="#E76F51" stroke="#fff" stroke-width="3"/><circle cx="180" cy="60" r="11" fill="#1B4332" stroke="#fff" stroke-width="3"/></svg><span class="eta">Arriving in 12 min</span></div>
+    <div class="k-trip" data-comp="Active trip card" data-variant="State=Moving"><svg width="44" height="44" aria-hidden="true"><use href="#art-car"/></svg><span class="tx"><b>Chloe is driving Max home</b><small>Arriving around 5:12 PM</small></span><span class="k-tag brand">Live</span></div></div>
+    <div class="tt-row"><h3 class="k-title">Photo check</h3><a class="fig" data-fig="Photo Check" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-pcheck" data-comp="Photo check" data-variant="Result=Pass"><img src="redesign/img/pet1.jpg" alt="Handoff photo"><ul><li class="ok">✓ Max is in the photo</li><li class="ok">✓ Crate is closed</li></ul></div>
     <div class="k-pcheck" data-comp="Photo check" data-variant="Result=Unsure"><img src="redesign/img/pet0.jpg" alt="Handoff photo"><ul><li class="ok">✓ Max is in the photo</li><li class="no">? Can't see the seatbelt. Try another photo.</li></ul></div>
-    <h3 class="k-title">Stay summary</h3>
+    <div class="tt-row"><h3 class="k-title">Stay summary</h3><a class="fig" data-fig="Stay Summary Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-summary" data-comp="Stay summary card" data-variant="Default"><b>Oct 23 to 25 with Chloe</b><span>Max, Mochi · Boarding · Chloe drives both ways</span><span>$268.13 CAD · paid</span></div>
-    <h3 class="k-title">Message bubbles</h3>
+    <div class="tt-row"><h3 class="k-title">Message bubbles</h3><a class="fig" data-fig="Message Bubble" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-bubbles">
       <div class="k-bub me" data-comp="Message bubble" data-variant="From=Owner">Hi Chloe, are you free Oct 23 to 25 for Max and Mochi?</div><span class="k-meta r">Oct 21, 10:34 AM</span>
       <div class="k-bub them" data-comp="Message bubble" data-variant="From=Sitter, AI=Draft"><span class="eb">Chloe · just now<span class="ai">AI draft</span></span>Yes, I'm free those nights. Two pets, three nights comes to $268.13 with everything included.<span class="src"><span>From Chloe's calendar</span><span>Chloe's rates</span></span></div>
       <div class="k-typing" data-comp="Typing indicator" data-variant="Default" aria-label="Chloe is typing"><i></i><i></i><i></i></div>
     </div>
-    <h3 class="k-title">Booking card</h3>
+    <div class="tt-row"><h3 class="k-title">Booking card</h3><a class="fig" data-fig="Booking Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-booking" data-comp="Booking card" data-variant="Status=Requested"><div class="h"><b>Chloe</b><span class="k-tag warn">Requested</span></div><small>Oct 23 to 25 · Max, Mochi · Boarding</small></div>
     <div class="k-booking" data-comp="Booking card" data-variant="Status=Confirmed"><div class="h"><b>Chloe</b><span class="k-tag ok">Confirmed</span></div><small>Oct 23 to 25 · Drop-off Fri 7:30 AM</small></div>
     <div class="k-booking" data-comp="Booking card" data-variant="Status=Cancelled" style="opacity:.75"><div class="h"><b>Paul</b><span class="k-tag neu">Cancelled</span></div><small>Oct 21 to 23 · refunded</small></div>
@@ -626,32 +688,33 @@ import { Slider } from &quot;components/ui/Slider&quot;;
     <li><b>Entry info</b>: locked until 2 hours before; Show code hides after 10 s, never in a toast. <code>EntryInfoCard</code></li>
     <li><b>Calendar</b>: past, today, range, full. <code>RangeCalendar</code>, <code>SlotCalendar</code></li>
     <li><b>Message bubble</b>: owner (green, tail right), sitter (cream, tail left) with an eyebrow, an AI draft label and source pills. <code>MessageBubble</code>; typing dots.</li>
-    <li><b>Booking card</b>: Requested, Confirmed, Cancelled. <code>BookingCard</code></li></ul><details class="code" open><summary>For engineers: code</summary><pre><code>// Stepper → components/BookingStageBar · Consent card → components/ConsentCard
+    <li><b>Booking card</b>: Requested, Confirmed, Cancelled. <code>BookingCard</code></li></ul><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>// Stepper → components/BookingStageBar · Consent card → components/ConsentCard
 // Checklist row → components/ChecklistCard · Entry info → components/EntryInfoCard
 // Calendar → components/ui/RangeCalendar, components/SlotCalendar
 // Message bubble → components/MessageBubble · Booking card → components/BookingCard
 import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
 &lt;PriceBreakdown lines={[{ label: &quot;3 nights × $55.00&quot;, amount: &quot;$165.00&quot; }]} total=&quot;$268.13 CAD&quot; note=&quot;All fees included&quot; /&gt;
-// Rules: entry codes never in a toast or a prompt; amounts always from the server.</code></pre></details></div></div>
+// Rules: entry codes never in a toast or a prompt; amounts always from the server.</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= CARDS ================= -->
 <section class="fam" id="cards">
   <h2>Cards</h2>
   <p>What the demo path shows: sitters, prices, tools.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Card ↗</a><a class="fig" data-fig="Quote Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Quote Card ↗</a><a class="fig" data-fig="Profile Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Profile Card ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-cards" data-title="Kit · Cards">
     <h3 class="k-title">Sitter result</h3>
     <div class="k-sitter" data-comp="Sitter card" data-variant="Photo=On, Price=On, Availability=Free"><span class="k-av"><img src="redesign/img/pet1.jpg" alt=""></span><span class="tx"><b>★ Chloe</b><small>5 yrs experience · 2 km</small><br><span class="k-tagok">Free on your dates</span></span><span class="k-price"><b>$55</b><small>per night</small></span></div>
     <div class="k-sitter" data-comp="Sitter card" data-variant="Photo=Off, Price=On, Availability=Full"><span class="k-av">J</span><span class="tx"><b>Jun</b><small>3 yrs experience · 3 km</small><br><span class="k-tagno">Full on Oct 24</span></span><span class="k-price"><b>$60</b><small>per night</small></span></div>
     <div class="k-sitter" data-comp="Sitter card" data-variant="Photo=Off, Price=Off, Availability=None"><span class="k-av">A</span><span class="tx"><b>Ari</b><small>4 km</small></span></div>
-    <h3 class="k-title">Price</h3>
+    <div class="tt-row"><h3 class="k-title">Price</h3><a class="fig" data-fig="Quote Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-pb" data-comp="Price breakdown" data-variant="Lines=3">
       <div class="l"><span>3 nights × $55.00</span><span>$165.00</span></div><div class="l"><span>Second pet (Mochi), +50%</span><span>+$82.50</span></div><div class="l"><span>Thanksgiving, Oct 12, +25%</span><span>+$20.63</span></div>
       <div class="l t"><span>Total</span><span>$268.13 CAD</span></div><span class="n">All fees included</span>
     </div>
-    <h3 class="k-title">Profile card</h3>
-    <div class="k-profile" data-comp="Profile card" data-variant="Photos=3"><div class="ph"><img src="redesign/img/pet1.jpg" alt=""><div style="display:grid;gap:4px"><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet0.jpg" alt=""></div></div><div class="c"><b>Chloe M.</b><span style="font-size:14px">★ 4.9 · 38 stays · 2 km</span><span style="font-size:14px;color:var(--k-muted)">Fenced yard, works from home, walks twice a day.</span></div></div>
-    <h3 class="k-title">Card</h3>
+    <div class="tt-row"><h3 class="k-title">Profile card</h3><a class="fig" data-fig="Profile Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
+    <div class="k-profile" data-comp="Profile card" data-variant="Photos=3"><div class="ph"><img src="redesign/img/pet1.jpg" alt=""><div class="two"><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet0.jpg" alt=""></div></div><div class="c"><b>Chloe M.</b><span style="font-size:14px">★ 4.9 · 38 stays · 2 km</span><span style="font-size:14px;color:var(--k-muted)">Fenced yard, works from home, walks twice a day.</span></div></div>
+    <div class="tt-row"><h3 class="k-title">Card</h3><a class="fig" data-fig="Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-card" data-comp="Card" data-variant="Tone=White"><b>Your next stay</b><span>Oct 23 to 25 with Chloe</span></div>
     <h3 class="k-title">Tool block</h3>
     <div class="k-sitter" style="background:var(--k-peach)" data-comp="Tool block" data-variant="Tone=Peach"><span class="tx"><b style="font:600 21px Fredoka">Treat check</b><small style="color:var(--k-ink)">Can my pet eat this? Snap the label.</small></span><span class="k-av" style="background:#fff;color:var(--k-ink);width:40px;height:40px">›</span></div>
@@ -659,11 +722,11 @@ import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
   <div class="spec"><h3>Parts</h3>
     <ul><li><b>Sitter result</b>: photo or initial, facts line, availability tag, price on the right; no chevron. <code>SitterResultCard</code>. Rating, stays and availability need the search to return them.</li>
     <li><b>Price breakdown</b>: one table for quotes and checkout; amounts from the server. <code>ui/PriceBreakdown</code></li>
-    <li><b>Tool block</b>: colour block with a round arrow (Snap). <code>SnapToolCard</code></li></ul><details class="code" open><summary>For engineers: code</summary><pre><code>import { SitterResultCard } from &quot;components/SitterResultCard&quot;;
+    <li><b>Tool block</b>: colour block with a round arrow (Snap). <code>SnapToolCard</code></li></ul><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { SitterResultCard } from &quot;components/SitterResultCard&quot;;
 
 &lt;SitterResultCard name=&quot;Chloe&quot; photo={url} meta=&quot;5 yrs experience&quot; km=&quot;2 km&quot;
   nightly={55} favorite onOpen={open} onPhoto={viewPhotos} testID=&quot;sitter-tile-Chloe&quot; /&gt;
-// Tool block → features/snap/SnapToolCard (block: &quot;blockPeach&quot; | &quot;blockMint&quot; | &quot;blockButter&quot;).</code></pre></details></div></div>
+// Tool block → features/snap/SnapToolCard (block: &quot;blockPeach&quot; | &quot;blockMint&quot; | &quot;blockButter&quot;).</code></pre></div></details></div></div>
 </section>
 
 
@@ -671,41 +734,42 @@ import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
 <section class="fam" id="content">
   <h2>Care and content</h2>
   <p>What the owner reads during a stay: the daily note, the timeline, stats, photos, the pet and the Life Record.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Notification Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Notification row ↗</a><a class="fig" data-fig="D · Owner · Home" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Owner Home ↗</a><a class="fig" data-fig="D · Owner · Diary" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Diary ↗</a><a class="fig" data-fig="D · Owner · Snap" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Snap ↗</a><a class="fig" data-fig="Pet Mini Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Pet Mini Card ↗</a><a class="fig" data-fig="Daily Note" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Daily Note ↗</a><a class="fig" data-fig="Timeline Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Timeline Row ↗</a><a class="fig" data-fig="Next Task Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Next Task Card ↗</a><a class="fig" data-fig="Task Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Task Row ↗</a><a class="fig" data-fig="Day Header" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Day Header ↗</a><a class="fig" data-fig="Latest Update Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Latest Update Row ↗</a><a class="fig" data-fig="Mood Result Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Mood Result Card ↗</a><a class="fig" data-fig="Report Summary" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Report Summary ↗</a><a class="fig" data-fig="Grid Photo" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Grid Photo ↗</a><a class="fig" data-fig="Feed Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Feed Card ↗</a><a class="fig" data-fig="Life Record Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Life Record Card ↗</a><a class="fig" data-fig="Star" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Star ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-content" data-title="Kit · Care and content">
-    <h3 class="k-title">Pet card</h3>
+    <div class="tt-row"><h3 class="k-title">Pet card</h3><a class="fig" data-fig="Pet Mini Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-petcard" data-comp="Pet card" data-variant="Tone=Peach"><svg aria-hidden="true"><use href="#art-dog"/></svg><span><b>Max</b><small>Maltese · 4 yrs · <span style="color:#B42318;font-weight:700">No chicken</span></small></span></div>
-    <h3 class="k-title">Daily note</h3>
+    <div class="tt-row"><h3 class="k-title">Daily note</h3><a class="fig" data-fig="Daily Note" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-note" data-comp="Daily note" data-variant="Default"><div class="h"><span class="a">C</span><b>Daily note from Chloe</b><span>♥</span></div><span>Max finished every bit of his breakfast and we did a 20 minute walk. He spotted a squirrel and got so excited.</span><small style="color:var(--k-muted)">Sent 6:04 PM</small></div>
-    <h3 class="k-title">Timeline</h3>
+    <div class="tt-row"><h3 class="k-title">Timeline</h3><a class="fig" data-fig="Timeline Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-tl" data-comp="Timeline row" data-variant="Kind=Nap"><svg aria-hidden="true"><use href="#art-nap"/></svg><span class="tx"><b>Long nap</b><small>On his favourite blanket</small></span><time>1:15</time></div>
     <div class="k-tl" data-comp="Timeline row" data-variant="Kind=Meds"><svg aria-hidden="true"><use href="#art-pill"/></svg><span class="tx"><b>Skin pill</b><small>In a treat · photo</small></span><time>11:58</time></div>
     <div class="k-tl" data-comp="Timeline row" data-variant="Kind=Walk"><svg aria-hidden="true"><use href="#art-walk"/></svg><span class="tx"><b>Walk · 20 min</b><small>All good, one squirrel</small></span><time>9:40</time></div>
     <h3 class="k-title">Stat tiles</h3>
     <div class="k-tiles"><div style="background:var(--k-mint)" data-comp="Stat tile" data-variant="Tone=Mint"><svg aria-hidden="true"><use href="#art-bowl"/></svg><b>3/5</b><small>care done</small></div><div style="background:var(--k-peach)" data-comp="Stat tile" data-variant="Tone=Peach"><svg aria-hidden="true"><use href="#art-camera"/></svg><b>12</b><small>photos today</small></div><div style="background:var(--k-butter)" data-comp="Stat tile" data-variant="Tone=Butter"><svg aria-hidden="true"><use href="#art-walk"/></svg><b>40m</b><small>of walks</small></div></div>
-    <h3 class="k-title">Next task</h3>
+    <div class="tt-row"><h3 class="k-title">Next task</h3><a class="fig" data-fig="Next Task Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-next" data-comp="Next task card" data-variant="Default"><small>NEXT · 9:00 AM</small><b>Skin pill in a treat</b><button class="k-btn lg">Complete with photo</button></div>
-    <h3 class="k-title">Task rows</h3>
+    <div class="tt-row"><h3 class="k-title">Task rows</h3><a class="fig" data-fig="Task Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-task" data-comp="Task row" data-variant="State=Due"><span class="ck"></span><span class="tx"><b>Dinner · 1 cup kibble</b><small>6:00 PM</small></span></div>
     <div class="k-task done" data-comp="Task row" data-variant="State=Done"><span class="ck">✓</span><span class="tx"><b>Breakfast</b><small>8:04 AM · photo</small></span></div>
     <div class="k-task miss" data-comp="Task row" data-variant="State=Missed"><span class="ck">!</span><span class="tx"><b>Brush teeth</b><small>Missed · 8:00 PM</small></span></div>
-    <h3 class="k-title">Day header</h3>
+    <div class="tt-row"><h3 class="k-title">Day header</h3><a class="fig" data-fig="Day Header" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-dayh" data-comp="Day header" data-variant="Default"><b>Today</b><small>4 updates</small></div>
-    <h3 class="k-title">Latest update</h3>
+    <div class="tt-row"><h3 class="k-title">Latest update</h3><a class="fig" data-fig="Latest Update Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-latest" data-comp="Latest update row" data-variant="Default"><img src="redesign/img/pet1.jpg" alt=""><span><small>Latest from Chloe · 9:02 AM</small><p><b>Breakfast done.</b> Max finished every bit and asked for more.</p></span></div>
-    <h3 class="k-title">Mood result</h3>
+    <div class="tt-row"><h3 class="k-title">Mood result</h3><a class="fig" data-fig="Mood Result Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-mood" data-comp="Mood result card" data-variant="Mood=Happy"><svg aria-hidden="true"><use href="#art-heart"/></svg><span><b>Max looks happy</b><small>Relaxed ears, soft eyes. Just for fun, not a health check.</small></span></div>
-    <h3 class="k-title">Report summary</h3>
+    <div class="tt-row"><h3 class="k-title">Report summary</h3><a class="fig" data-fig="Report Summary" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-report" data-comp="Report summary" data-variant="Default"><b>Today: 2 tasks done · 1 missed · 4 check-ins</b><div class="row"><button class="k-chip" aria-pressed="true">Meal: Most</button><button class="k-chip" aria-pressed="true">Walk: 30 min</button><button class="k-chip" aria-pressed="false">Zoomies at the park</button></div></div>
-    <h3 class="k-title">Photo grid</h3>
+    <div class="tt-row"><h3 class="k-title">Photo grid</h3><a class="fig" data-fig="Grid Photo" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-grid" data-comp="Photo grid" data-variant="Count=6"><img src="redesign/img/pet1.jpg" alt=""><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet0.jpg" alt=""><img src="redesign/img/pet2.jpg" alt=""><img src="redesign/img/pet1.jpg" alt=""><div>+4</div></div>
-    <h3 class="k-title">Feed card</h3>
+    <div class="tt-row"><h3 class="k-title">Feed card</h3><a class="fig" data-fig="Feed Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-feed" data-comp="Feed card" data-variant="Photo=On"><img src="redesign/img/pet1.jpg" alt="Max at the park"><div class="c"><b>Park time</b><span>Max met a golden retriever and they played chase.</span><small style="color:var(--k-muted)">Walks · 9:40 AM</small></div></div>
-    <h3 class="k-title">Life Record</h3>
+    <div class="tt-row"><h3 class="k-title">Life Record</h3><a class="fig" data-fig="Life Record Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-life" data-comp="Life Record card" data-variant="Default"><div class="r"><b>Eats</b><span>1 cup kibble twice a day <em>· from 3 stays</em></span></div><div class="r"><b>Meds</b><span>Skin pill at 9 AM in a treat <em>· care request</em></span></div><div class="r"><b>Heads-up</b><span>Chicken allergy <em>· owner</em></span></div></div>
-    <h3 class="k-title">Notifications</h3>
+    <div class="tt-row"><h3 class="k-title">Notifications</h3><a class="fig" data-fig="Notification Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div><div class="k-notif" data-comp="Notification row" data-variant="Read=No"><span>🐾</span><span class="tx"><b>Chloe posted 3 photos</b><span class="dot" aria-label="unread"></span><small>Max at the park</small></span><time>2m</time></div>
     <div class="k-notif" data-comp="Notification row" data-variant="Read=Yes"><span>📅</span><span class="tx"><b>Booking confirmed</b><small>Oct 23 to 25 with Chloe</small></span><time>1h</time></div></div>
-    <h3 class="k-title">Star rating</h3>
+    <div class="tt-row"><h3 class="k-title">Star rating</h3><a class="fig" data-fig="Star" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-stars" id="stars" role="radiogroup" aria-label="Rating" data-comp="Star rating" data-variant="Value=4"><button class="on" aria-label="1 star">★</button><button class="on" aria-label="2 stars">★</button><button class="on" aria-label="3 stars">★</button><button class="on" aria-label="4 stars">★</button><button aria-label="5 stars">★</button></div>
   </div>
   <div class="spec"><h3>Parts</h3><ul>
@@ -715,10 +779,10 @@ import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
     <li><b>Life Record card</b>: each line shows where it came from. <code>LifeRecordCard</code></li>
     <li><b>Notification row</b>: unread dot. <code>NotificationBell</code> list</li>
     <li><b>Star rating</b>: tap to rate. <code>StarRating</code></li></ul>
-    <p class="src">Pictures here use the Goldito illustrations; they follow the team's icon pick.</p><details class="code" open><summary>For engineers: code</summary><pre><code>// Pet card → components/PetCard · Daily note, Timeline row → components/DiaryTimeline
+    <p class="src">Pictures here use the Goldito illustrations; they follow the team's icon pick.</p><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>// Pet card → components/PetCard · Daily note, Timeline row → components/DiaryTimeline
 // Stat tile → components/QuickCheckIn · Feed card → components/FeedCard
 // Life Record → components/LifeRecordCard · Star rating → components/StarRating
-// Pictures: components/ui/Art (pending the icon pick) or the pet&#x27;s photo via components/PetMark.</code></pre></details></div></div>
+// Pictures: components/ui/Art (pending the icon pick) or the pet&#x27;s photo via components/PetMark.</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= LAYOUT ================= -->
@@ -726,7 +790,7 @@ import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
   <h2>Layout</h2>
   <div class="part"><div class="board" data-cap="kit-layout" data-title="Kit · Layout">
     <h3 class="k-title" data-comp="Section title" data-variant="Default">Section title</h3>
-    <h3 class="k-title">List rows</h3>
+    <div class="tt-row"><h3 class="k-title">List rows</h3><a class="fig" data-fig="List Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-group" data-comp="List group" data-variant="Rows=6">
       <button class="k-lr" data-comp="List row" data-variant="Trailing=Badge, Lines=2"><span class="tx"><b>What's new</b><small>Snap, live trips, photo requests</small></span><span class="k-badge">3 new</span></button>
       <button class="k-lr" data-comp="List row" data-variant="Trailing=Chevron, Lines=2"><span class="tx"><b>Robert Park</b><small>robert@example.com · Pet owner</small></span><span class="chev">›</span></button>
@@ -745,7 +809,7 @@ import { PriceBreakdown } from &quot;components/ui/PriceBreakdown&quot;;
   <div class="spec"><h3>Parts</h3>
     <ul><li><b>Section title</b>: Fredoka 21. <code>ui/SectionTitle</code>, now on Settings, Bookings, Today, the pet page, record, checkout, checklists.</li>
     <li><b>List row</b>: chevron, badge, switch, none; one or two lines; danger; disabled. <code>ui/ListRow</code> + <code>ListGroup</code>. Settings uses it.</li>
-    <li><b>Summary row</b>: label, value, detail, Change. <code>ui/SummaryRow</code></li></ul><details class="code" open><summary>For engineers: code</summary><pre><code>import { SectionTitle, sectionTitleStyle } from &quot;components/ui/SectionTitle&quot;;
+    <li><b>Summary row</b>: label, value, detail, Change. <code>ui/SummaryRow</code></li></ul><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { SectionTitle, sectionTitleStyle } from &quot;components/ui/SectionTitle&quot;;
 import { ListGroup, ListRow } from &quot;components/ui/ListRow&quot;;
 import { SummaryRow } from &quot;components/ui/SummaryRow&quot;;
 
@@ -756,16 +820,18 @@ import { SummaryRow } from &quot;components/ui/SummaryRow&quot;;
   &lt;ListRow title=&quot;What&#x27;s new&quot; trailing={{ kind: &quot;badge&quot;, text: &quot;3 new&quot; }} onPress={open} /&gt;
   &lt;ListRow title=&quot;Sign out&quot; danger onPress={confirm} /&gt;
 &lt;/ListGroup&gt;
-&lt;SummaryRow label=&quot;Dates&quot; value=&quot;Oct 9 to 12&quot; detail=&quot;3 nights&quot; onChange={edit} /&gt;</code></pre></details></div></div>
+&lt;SummaryRow label=&quot;Dates&quot; value=&quot;Oct 9 to 12&quot; detail=&quot;3 nights&quot; onChange={edit} /&gt;</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= FEEDBACK ================= -->
 <section class="fam" id="feedback">
   <h2>Feedback</h2>
   <p>What the app says back: sheets, toasts, the end of a flow, empty screens and DANGER.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Toast" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Toast ↗</a><a class="fig" data-fig="Empty State" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Empty state ↗</a><a class="fig" data-fig="Bottom Sheet" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Bottom sheet ↗</a><a class="fig" data-fig="Alert Modal · DANGER" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Alert modal ↗</a><a class="fig" data-fig="D · ④ Treat Guard · DANGER" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Treat DANGER screen ↗</a><a class="fig" data-fig="Permission Prompt" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Permission Prompt ↗</a><a class="fig" data-fig="Push Preview" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Push Preview ↗</a></div>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="List Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">List row ↗</a><a class="fig" data-fig="D · Profile → Settings" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Settings ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-feedback" data-title="Kit · Feedback" id="fbBoard">
     <div class="row"><button class="k-btn sec" id="openSheet">Open a sheet</button><button class="k-btn sec" id="openDanger">DANGER</button></div>
-    <h3 class="k-title">Toast</h3>
+    <div class="tt-row"><h3 class="k-title">Toast</h3><a class="fig" data-fig="Toast" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-toast" data-comp="Toast" data-variant="Tone=Default, Undo=Off"><span>Request sent to Chloe</span></div>
     <div class="k-toast" data-comp="Toast" data-variant="Tone=Default, Undo=On"><span>Chat with Daniel left</span><button>Undo</button></div>
     <div class="k-toast err" data-comp="Toast" data-variant="Tone=Error, Undo=Off"><span>Couldn't send. Check your connection.</span></div>
@@ -773,11 +839,11 @@ import { SummaryRow } from &quot;components/ui/SummaryRow&quot;;
     <div id="toastSlot"></div>
     <h3 class="k-title">Result</h3>
     <div class="k-result" data-comp="Result state" data-variant="Action=On"><span class="c">✓</span><b>Request sent</b><small>Chloe usually replies within an hour. We'll tell you when she does.</small><button class="k-btn lg">Tell Chloe how to care for them</button></div>
-    <h3 class="k-title">Permission prompt</h3>
+    <div class="tt-row"><h3 class="k-title">Permission prompt</h3><a class="fig" data-fig="Permission Prompt" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-perm" data-comp="Permission prompt" data-variant="Kind=Camera"><svg width="56" height="56" aria-hidden="true"><use href="#art-camera"/></svg><b>Let Goldito use the camera</b><small style="color:var(--k-muted)">To snap a treat label or a handoff photo. Nothing is saved until you send it.</small><div class="row"><button class="k-btn sec">Not now</button><button class="k-btn">Allow</button></div></div>
-    <h3 class="k-title">Push notification</h3>
+    <div class="tt-row"><h3 class="k-title">Push notification</h3><a class="fig" data-fig="Push Preview" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-lock"><div class="k-push" data-comp="Push preview" data-variant="Default"><span class="ic">🐾</span><span class="tx"><b>Chloe posted 3 photos</b>Max at the park, looking very pleased.</span><time>now</time></div></div>
-    <h3 class="k-title">Empty</h3>
+    <div class="tt-row"><h3 class="k-title">Empty</h3><a class="fig" data-fig="Empty State" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-empty" data-comp="Empty state" data-variant="Action=On"><span style="font-size:40px">📸</span><b>No posts yet</b><small>Your sitter will share photos here.</small><button class="k-btn sec">Open History</button></div>
     <div class="k-overlay" id="sheet" hidden><div class="k-sheet" role="dialog" aria-modal="true" aria-label="Weekly rules" data-comp="Sheet" data-variant="Footer=On"><span class="hd"></span><div class="tt"><b class="k-title">Weekly rules</b><button class="k-btn txt" data-close>Close</button></div><p style="font-size:15px">Tap the slots you never take.</p><div class="row" data-toggle="multi"><button class="k-chip" aria-pressed="false">Mon</button><button class="k-chip" aria-pressed="true">Tue</button><button class="k-chip" aria-pressed="false">Wed</button></div><button class="k-btn lg" data-close>Apply</button></div></div>
     <div class="k-danger" id="danger" hidden role="alertdialog" aria-modal="true" aria-label="Contains chicken" data-comp="Danger modal" data-variant="Chips=On"><div class="band"><span class="w">!</span><b>Contains chicken: Max is allergic</b></div><div class="bd"><p>Don't give Max this treat. Chicken is in the ingredients and on his allergy list.</p><div class="chips"><span>Chicken</span><span>Chicken fat</span></div></div><div class="ft"><button class="k-btn lg dng" data-close-danger>I understand, don't feed</button></div></div>
@@ -788,7 +854,7 @@ import { SummaryRow } from &quot;components/ui/SummaryRow&quot;;
     <li><b>Result state</b>: check, one line, the next step. <code>ui/ResultState</code></li>
     <li><b>Empty state</b>: picture, title, what appears and who adds it, one action. <code>ui/EmptyState</code> (picture follows the icon decision).</li>
     <li><b>DANGER</b>: red band, cream body, one big red button; no backdrop, no X. <code>ui/AlertModal</code></li></ul>
-    <p class="note">Reduce motion: sheets and toasts appear in place, spinners stop.</p><details class="code" open><summary>For engineers: code</summary><pre><code>import { Sheet } from &quot;components/ui/Sheet&quot;;
+    <p class="note">Reduce motion: sheets and toasts appear in place, spinners stop.</p><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { Sheet } from &quot;components/ui/Sheet&quot;;
 import { useToast } from &quot;providers/ToastProvider&quot;;
 import { ResultState } from &quot;components/ui/ResultState&quot;;
 import { AlertModal } from &quot;components/ui/AlertModal&quot;;
@@ -798,28 +864,29 @@ toast.show(&quot;Chat with Daniel left&quot;, { undo: rejoin });      // stays 6
 toast.show(&quot;Couldn&#x27;t send.&quot;, { tone: &quot;error&quot; });
 &lt;ResultState title=&quot;Request sent&quot; message=&quot;…&quot; action={{ label: &quot;Next step&quot;, onPress }} /&gt;
 &lt;AlertModal visible title=&quot;Contains chicken: Max is allergic&quot; message=&quot;…&quot; chips={[&quot;Chicken&quot;]}
-  actionLabel=&quot;I understand, don&#x27;t feed&quot; onAcknowledge={ack} /&gt;   // no backdrop, no X, no Escape</code></pre></details></div></div>
+  actionLabel=&quot;I understand, don&#x27;t feed&quot; onAcknowledge={ack} /&gt;   // no backdrop, no X, no Escape</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= STATUS ================= -->
 <section class="fam" id="status">
   <h2>Status</h2>
   <p>Small signals: tags, banners, progress, loading, avatars.</p>
+  <div class="figrow"><span>In Figma</span><a class="fig" data-fig="Tag" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Tag ↗</a><a class="fig" data-fig="Banner" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Banner ↗</a><a class="fig" data-fig="Progress Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Progress bar ↗</a><a class="fig" data-fig="Skeleton" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Skeleton ↗</a><a class="fig" data-fig="Avatar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Avatar ↗</a><a class="fig" data-fig="Demo Tag" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Demo Tag ↗</a></div>
   <div class="part"><div class="board" data-cap="kit-status" data-title="Kit · Status">
-    <h3 class="k-title">Tags</h3>
+    <div class="tt-row"><h3 class="k-title">Tags</h3><a class="fig" data-fig="Tag" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="row"><span class="k-tag dng" data-comp="Tag" data-variant="Tone=Danger">DANGER</span><span class="k-tag warn" data-comp="Tag" data-variant="Tone=Warning">⚠ No knocking, text me</span><span class="k-tag ok" data-comp="Tag" data-variant="Tone=Success">SAFE</span><span class="k-tag brand" data-comp="Tag" data-variant="Tone=Brand">Owner</span><span class="k-tag neu" data-comp="Tag" data-variant="Tone=Neutral">Cancelled</span></div>
     <div class="row"><span class="k-demo" data-comp="Demo tag" data-variant="Default">Demo · as Chloe</span></div>
-    <h3 class="k-title">Banners</h3>
+    <div class="tt-row"><h3 class="k-title">Banners</h3><a class="fig" data-fig="Banner" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-banner info" data-comp="Banner" data-variant="Tone=Info"><span>💬</span><span class="tx"><b>Chloe usually replies within an hour</b>We'll tell you when she does.</span></div>
     <div class="k-banner warn" data-comp="Banner" data-variant="Tone=Warning"><span>⏱️</span><span class="tx"><b>Running 15 minutes late</b>Chloe is on her way. <a href="#status">See the map</a></span></div>
     <div class="k-banner err" data-comp="Banner" data-variant="Tone=Error"><span>⚠️</span><span class="tx"><b>Payment didn't go through</b>Nothing was charged. <a href="#status">Try again</a></span></div>
     <div class="k-banner off" data-comp="Banner" data-variant="Tone=Offline"><span>📶</span><span class="tx"><b>You're offline</b>Taps are saved and sent when you're back.</span></div>
-    <h3 class="k-title">Progress</h3>
+    <div class="tt-row"><h3 class="k-title">Progress</h3><a class="fig" data-fig="Progress Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-prog" data-comp="Progress bar" data-variant="Value=40"><div class="top"><span>2 of 5 done</span><small>Owner sees each one live</small></div><div class="tr"><div class="fl" style="width:40%"></div></div></div>
-    <h3 class="k-title">Loading</h3>
+    <div class="tt-row"><h3 class="k-title">Loading</h3><a class="fig" data-fig="Skeleton" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-skel" data-comp="Skeleton" data-variant="Kind=Lines" aria-label="Loading"><i style="width:240px"></i><i style="width:160px"></i></div>
     <div class="k-skel" data-comp="Skeleton" data-variant="Kind=Block"><i class="blk"></i></div>
-    <h3 class="k-title">Avatars</h3>
+    <div class="tt-row"><h3 class="k-title">Avatars</h3><a class="fig" data-fig="Avatar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Figma ↗</a></div>
     <div class="k-avs"><span class="a" style="background:var(--k-ink);color:#fff" data-comp="Avatar" data-variant="Kind=Initial">C</span><span class="a" data-comp="Avatar" data-variant="Kind=Photo"><img src="redesign/img/pet1.jpg" alt=""></span><span class="a" style="background:var(--k-mint)" data-comp="Avatar" data-variant="Kind=Breed photo"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt="" style="box-shadow:inset 0 0 0 2px #fff"></span><span class="a" style="background:var(--k-mint)" data-comp="Avatar" data-variant="Kind=Illustration"><svg aria-hidden="true"><use href="#art-cat"/></svg></span></div>
   </div>
   <div class="spec"><h3>Parts</h3><ul>
@@ -827,7 +894,7 @@ toast.show(&quot;Couldn&#x27;t send.&quot;, { tone: &quot;error&quot; });
     <li><b>Demo tag</b>: marks a simulated action. </li>
     <li><b>Banner</b>: info, warning, error, offline; one line on what happens next, optional action; never for DANGER. <code>ui/Banner</code></li>
     <li><b>Progress bar</b>, <b>Skeleton</b>: loading shows the layout, not a spinner (audit F45). Skeleton is new to the app.</li>
-    <li><b>Avatar</b>: initial, photo, breed photo (stand-in, white ring), illustration. <code>ui/Avatar</code>, <code>PetMark</code></li></ul><details class="code" open><summary>For engineers: code</summary><pre><code>import { Tag } from &quot;components/ui/Tag&quot;;
+    <li><b>Avatar</b>: initial, photo, breed photo (stand-in, white ring), illustration. <code>ui/Avatar</code>, <code>PetMark</code></li></ul><details class="code" open><summary>For engineers: code</summary><div class="cw"><button type="button" class="copy">Copy</button><pre><code>import { Tag } from &quot;components/ui/Tag&quot;;
 import { Banner } from &quot;components/ui/Banner&quot;;
 import { Avatar } from &quot;components/ui/Avatar&quot;;
 import { PetMark } from &quot;components/PetMark&quot;;
@@ -837,7 +904,7 @@ import { PetMark } from &quot;components/PetMark&quot;;
 &lt;Tag label=&quot;SAFE&quot; tone=&quot;success&quot; /&gt;
 &lt;Avatar kind=&quot;initial&quot; name=&quot;Chloe&quot; /&gt;  &lt;Avatar kind=&quot;photo&quot; uri={url} /&gt;
 &lt;PetMark petId={id} species=&quot;dog&quot; /&gt;   // photo, else breed photo (planned), else illustration
-// Skeleton: not in the app yet (audit F45).</code></pre></details></div></div>
+// Skeleton: not in the app yet (audit F45).</code></pre></div></details></div></div>
 </section>
 
 <!-- ================= INVENTORY ================= -->
@@ -846,6 +913,9 @@ import { PetMark } from &quot;components/PetMark&quot;;
   <p>Every component in Figma and the app, and whether this kit shows it. Built from the Figma file (Expressive set, Oct 19 parts, the older Balanced set) and the app's components folder.</p>
   <div class="invw"><table class="inv"><thead><tr><th>Component</th><th>Figma</th><th>App</th><th>In kit</th></tr></thead><tbody id="invBody"></tbody></table></div>
   <p id="invSum" class="src"></p>
+  <h3 class="k-title" id="audit" style="color:var(--color-text);margin-top:2rem">Audit against Figma, Oct 22</h3>
+  <p class="src">Each kit part next to its Figma component (Pawddy-Design, Components page). Links open the exact component; the plugin gives components new ids on every run, so the links go by layer name and <code>figma-nodes.js</code> is rebuilt after each run. <b>Kit is newer</b> means a decision changed the app after the Figma part was drawn; the plugin brings Figma up to date. <b>Decide</b> needs a call from Mook or Minsik.</p>
+  <div class="invw"><table class="inv audit"><thead><tr><th>Part</th><th>Figma</th><th>Result</th><th>What differs</th></tr></thead><tbody><tr><td><b>Typeface</b></td><td>none</td><td><span class="r decide">Decide</span></td><td>Figma's Expressive parts use Plus Jakarta Sans for all UI text (Fredoka for titles). The app ships the system font and this kit uses Inter, so every part reads a little different from Figma. Pick one; Plus Jakarta Sans matches Figma.</td></tr><tr><td><b>Button</b></td><td><a class="fig" data-fig="Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Button ↗</a></td><td><span class="r decide">Decide</span></td><td>Figma primary is #2D6A4F with ExtraBold labels; the app's Expressive theme and this kit use ink #1B4332 with SemiBold. Size and pill shape match.</td></tr><tr><td><b>Tag</b></td><td><a class="fig" data-fig="Tag" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Tag ↗</a></td><td><span class="r decide">Decide</span></td><td>No border and Bold 13 everywhere. Corners: Figma and kit 8, the app's Expressive skin a full pill. Figma also has only the Warning tone.</td></tr><tr><td><b>Stepper</b></td><td><a class="fig" data-fig="Stepper" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Stepper ↗</a></td><td><span class="r fixed">Fixed today</span></td><td>Done steps are now gold with a check and a gold line, future steps plain white, as in Figma and BookingStageBar. Before: green done steps with a ring.</td></tr><tr><td><b>Text field</b></td><td><a class="fig" data-fig="Text Field" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Text Field ↗</a></td><td><span class="r fixed">Fixed today</span></td><td>Input is 44 tall like Figma and ui/TextField (was 48). Label, border and radius already matched.</td></tr><tr><td><b>Text button</b></td><td><a class="fig" data-fig="Text Button" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Text Button ↗</a></td><td><span class="r fixed">Fixed today</span></td><td>Now shown as its own part with Default, Danger and Disabled, like the Figma set.</td></tr><tr><td><b>App bar</b></td><td><a class="fig" data-fig="App Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">App Bar ↗</a></td><td><span class="r fixed">Fixed today</span></td><td>Added the mint notes button and took the fill off the bell. Both stay 44 px (Figma draws 32, below the touch rule).</td></tr><tr><td><b>Profile card</b></td><td>none</td><td><span class="r fixed">Fixed today</span></td><td>The photo column overflowed onto the name and rating. Photos are clipped to their box and the text sits below them.</td></tr><tr><td><b>Calendar</b></td><td>none</td><td><span class="r fixed">Fixed today</span></td><td>Rebuilt as the app's two calendars, with month arrows, quick picks, today, full and past days, and the morning, afternoon and night bands. Figma only has the older Balanced Calendar Day cell; a full calendar component is still to make.</td></tr><tr><td><b>Chip</b></td><td><a class="fig" data-fig="Chip" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Chip ↗</a></td><td><span class="r newer">Kit is newer</span></td><td>Kit and app use mint with an ink ring for On (decided Oct 21). Figma On is still solid ink; the plugin's next run updates it.</td></tr><tr><td><b>Detail header</b></td><td><a class="fig" data-fig="Top Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Top Bar ↗</a></td><td><span class="r newer">Kit is newer</span></td><td>Figma's Top Bar is the older Balanced one: Back text and a centred title. Kit and app use the one header from #269: chevron and a display title.</td></tr><tr><td><b>Toast</b></td><td><a class="fig" data-fig="Toast" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Toast ↗</a></td><td><span class="r newer">Kit is newer</span></td><td>Figma is the older black, centred toast. App and kit: ink, left aligned, with Undo and an error tone.</td></tr><tr><td><b>Empty state</b></td><td><a class="fig" data-fig="Empty State" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Empty State ↗</a></td><td><span class="r newer">Kit is newer</span></td><td>Figma's action is a square outline button; app and kit use the secondary pill button.</td></tr><tr><td><b>Sheet</b></td><td><a class="fig" data-fig="Bottom Sheet" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Bottom Sheet ↗</a></td><td><span class="r newer">Kit is newer</span></td><td>Kit and app add the grab handle, the Fredoka title and the rise animation (#279). Figma is the Balanced sheet.</td></tr><tr><td><b>Danger modal</b></td><td><a class="fig" data-fig="Alert Modal · DANGER" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Alert Modal · DANGER ↗</a></td><td><span class="r newer">Kit is newer</span></td><td>Kit and app: red band, warning circle, allergen chips, one big red button. Figma's component is the Balanced one; the Expressive screen 1673:44181 is closer.</td></tr><tr><td><b>List row</b></td><td><a class="fig" data-fig="List Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">List Row ↗</a></td><td><span class="r match">Matches</span></td><td>Layout, badge and switch match. Titles: Figma #1A1A1A Bold 15, app and kit ink SemiBold 16.</td></tr><tr><td><b>Consent card</b></td><td><a class="fig" data-fig="Consent Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Consent Card ↗</a></td><td><span class="r match">Matches</span></td><td>Matches. The kit underlines Read full text so it reads as a link; Figma doesn't. Figma has no Checked state; the kit shows both.</td></tr><tr><td><b>Checkbox row</b></td><td><a class="fig" data-fig="Checkbox Row" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Checkbox Row ↗</a></td><td><span class="r match">Matches</span></td><td>Matches; kit labels are Regular, Figma Semi Bold.</td></tr><tr><td><b>Tab bar, Stage card, Stage header, Message bubble</b></td><td><a class="fig" data-fig="Tab Bar" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Tab Bar ↗</a></td><td><span class="r match">Matches</span></td><td>Match.</td></tr><tr><td><b>Card, Banner, Progress bar, Avatar</b></td><td><a class="fig" data-fig="Card" href="https://www.figma.com/design/stZjrJJU6KOhLauxPjaV8l/Pawddy-Design" target="_blank" rel="noopener">Card ↗</a></td><td><span class="r match">Matches</span></td><td>Match.</td></tr><tr><td><b>Trip map, Active trip card</b></td><td>none</td><td><span class="r work">Needs work</span></td><td>Placeholders. Marked Needs work and dimmed above.</td></tr><tr><td><b>Parts with no Figma component</b></td><td>none</td><td><span class="r decide">Decide</span></td><td>Section title, Summary row, Step header, Result state, Price breakdown, Sitter card, Search pill, Slider, Time stepper, Select, the full Calendar and Section tabs: the plugin draws them on the Design kit boards, but they are not Figma components yet. Make them components so screens can use instances. (Option card, Profile card, Trip map and the care cards do exist, as the older Balanced components.)</td></tr></tbody></table></div>
 </section>
 </div>
 
@@ -927,18 +997,72 @@ document.getElementById("stepper").addEventListener("click", (e) => { const b = 
   all.forEach((x, k) => { x.className = k < i ? "done" : k === i ? "cur" : ""; x.querySelector(".n").textContent = k < i ? "✓" : k + 1; }); });
 document.getElementById("showCode").addEventListener("click", (e) => { const c = document.getElementById("code"); c.textContent = "4821"; e.currentTarget.disabled = true; setTimeout(() => { c.textContent = "••••"; e.currentTarget.disabled = false; }, 10000); });
 document.getElementById("stars").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; const all = [...e.currentTarget.children]; const i = all.indexOf(b); all.forEach((x, k) => x.classList.toggle("on", k <= i)); });
-let calStart = null;
-document.getElementById("cal").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b || b.disabled) return; const days = [...e.currentTarget.querySelectorAll("button")];
-  if (!calStart || days.some((d) => d.classList.contains("end") && d !== calStart && calStart)) { days.forEach((d) => d.classList.remove("end", "mid")); calStart = b; b.classList.add("end"); return; }
-  const a = days.indexOf(calStart), z = days.indexOf(b); const [lo, hi] = a < z ? [a, z] : [z, a];
-  if (days.slice(lo, hi + 1).some((d) => d.disabled)) { days.forEach((d) => d.classList.remove("end", "mid")); calStart = b; b.classList.add("end"); return; }
-  days.forEach((d, k) => { d.classList.toggle("end", k === lo || k === hi); d.classList.toggle("mid", k > lo && k < hi); }); calStart = null; });
+// calendars, as RangeCalendar and SlotCalendar draw them (today = Wed, Oct 21, 2026)
+const TODAY = "2026-10-21", FULL = ["2026-10-27"];
+const iso = (y, m, d) => `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const md = (d) => { const [y, m, dd] = d.split("-").map(Number); return `${MONTHS[m - 1].slice(0, 3)} ${dd}`; };
+const nightsBetween = (a, b) => Math.round((new Date(b) - new Date(a)) / 864e5);
+const rc = { y: 2026, m: 9, start: "2026-10-23", end: "2026-10-25", picking: false };
+const PICKS = [["This weekend · Oct 23 to 25", "2026-10-23", "2026-10-25"], ["Next weekend · Oct 30 to Nov 1", "2026-10-30", "2026-11-01"], ["1 night · Oct 23", "2026-10-23", "2026-10-24"]];
+function drawRange() {
+  const el = document.getElementById("rcal"), first = new Date(rc.y, rc.m, 1).getDay(), days = new Date(rc.y, rc.m + 1, 0).getDate();
+  const canPrev = rc.y * 12 + rc.m > 2026 * 12 + 9;
+  let g = ""; for (let i = 0; i < first; i++) g += "<span></span>";
+  for (let d = 1; d <= days; d++) { const k = iso(rc.y, rc.m, d), past = k < TODAY, full = FULL.includes(k), multi = rc.end > rc.start;
+    const cls = [k === rc.start && multi ? "s" : "", k === rc.end && multi ? "e" : "", k === rc.start && !multi ? "s e" : "", k > rc.start && k < rc.end ? "in" : "", k === TODAY ? "today" : "", past ? "past" : "", full ? "full" : ""].join(" ");
+    g += `<button type="button" class="${cls}" data-d="${k}" ${past || full ? "disabled" : ""} aria-label="${md(k)}${full ? ", full" : ""}" aria-pressed="${k >= rc.start && k <= rc.end}"><i>${d}</i></button>`; }
+  const n = nightsBetween(rc.start, rc.end);
+  el.innerHTML = `<div class="picks">${PICKS.map(([l, a, b]) => `<button type="button" class="k-chip" data-a="${a}" data-b="${b}" aria-pressed="${rc.start === a && rc.end === b}">${l}</button>`).join("")}</div>
+    <div class="hd"><button type="button" class="nav" data-mv="-1" aria-label="Previous month" ${canPrev ? "" : "disabled"}>‹</button><b role="heading" aria-level="4">${MONTHS[rc.m]} ${rc.y}</b><button type="button" class="nav" data-mv="1" aria-label="Next month">›</button></div>
+    <div class="wk">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((w) => `<span>${w}</span>`).join("")}</div><div class="gr">${g}</div>
+    <p class="ft" aria-live="polite">${rc.picking ? `Starts ${md(rc.start)}. Now tap the last day.` : n ? `${n} night${n > 1 ? "s" : ""} · ${md(rc.start)} to ${md(rc.end)}` : `1 day · ${md(rc.start)}`}</p>`;
+}
+document.getElementById("rcal").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b || b.disabled) return;
+  if (b.dataset.mv) { const t = rc.y * 12 + rc.m + +b.dataset.mv; rc.y = Math.floor(t / 12); rc.m = t % 12; }
+  else if (b.dataset.a) { rc.start = b.dataset.a; rc.end = b.dataset.b; rc.picking = false; const [y, m] = rc.start.split("-").map(Number); rc.y = y; rc.m = m - 1; }
+  else if (b.dataset.d) { const d = b.dataset.d; if (rc.picking && d >= rc.start) { rc.end = d; rc.picking = false; } else { rc.start = rc.end = d; rc.picking = true; } }
+  const f = b.dataset.d || b.dataset.mv; drawRange(); if (f) document.querySelector(`#rcal [data-${b.dataset.d ? "d" : "mv"}="${f}"]`)?.focus(); });
+drawRange();
+// slot calendar: morning, afternoon, night per day; states are sample data
+const SLOTN = ["Morning", "Afternoon", "Night"];
+const sc = { y: 2026, m: 9, sel: "2026-10-23" };
+const slotState = (k) => { const d = +k.slice(8), wd = new Date(k).getDay(); if (k === "2026-10-27") return ["full", "full", "full"];
+  return [d % 5 === 0 ? "full" : "open", wd === 0 ? "closed" : d % 3 === 0 ? "full" : "open", wd === 5 || wd === 6 ? "open" : "closed"]; };
+const SL = { open: "open", full: "full", closed: "closed", blocked: "blocked" };
+function drawSlots() {
+  const el = document.getElementById("scal"), first = new Date(sc.y, sc.m, 1).getDay(), days = new Date(sc.y, sc.m + 1, 0).getDate();
+  const canPrev = sc.y * 12 + sc.m > 2026 * 12 + 9;
+  let g = ""; for (let i = 0; i < first; i++) g += "<span></span>";
+  for (let d = 1; d <= days; d++) { const k = iso(sc.y, sc.m, d), past = k < TODAY, st = slotState(k);
+    g += `<button type="button" class="${k === TODAY ? "today" : ""} ${k === sc.sel ? "sel" : ""} ${past ? "past" : ""}" data-d="${k}" ${past ? "disabled" : ""} aria-pressed="${k === sc.sel}" aria-label="${md(k)}: ${st.map((x, i) => SLOTN[i] + " " + SL[x]).join(", ")}"><span class="t">${st.map((x) => `<i class="${x === "open" ? "" : "x"}"></i>`).join("")}</span><b>${d}</b></button>`; }
+  const st = slotState(sc.sel);
+  el.innerHTML = `<div class="hd"><button type="button" class="nav" data-mv="-1" aria-label="Previous month" ${canPrev ? "" : "disabled"}>‹</button><b role="heading" aria-level="4">${MONTHS[sc.m]} ${sc.y}</b><button type="button" class="nav" data-mv="1" aria-label="Next month">›</button></div>
+    <div class="wk">${["S","M","T","W","T","F","S"].map((w) => `<span>${w}</span>`).join("")}</div><div class="gr">${g}</div>
+    <div class="lg" aria-hidden="true"><span><i></i>Available</span><span><i class="x"></i>Not available</span></div>
+    <p class="day" aria-live="polite"><b>${new Date(sc.sel).toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" })}, ${md(sc.sel)}</b>: ${st.map((x, i) => `${SLOTN[i]} ${SL[x]}`).join(" · ")}</p>`;
+}
+document.getElementById("scal").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b || b.disabled) return;
+  if (b.dataset.mv) { const t = sc.y * 12 + sc.m + +b.dataset.mv; sc.y = Math.floor(t / 12); sc.m = t % 12; } else sc.sel = b.dataset.d;
+  const f = b.dataset.d || b.dataset.mv; drawSlots(); document.querySelector(`#scal [data-${b.dataset.d ? "d" : "mv"}="${f}"]`)?.focus(); });
+drawSlots();
 let tmin = 540; const tstep = document.getElementById("tstep");
 const fmt = (m) => { const h = Math.floor(m / 60), mm = m % 60; return `${((h + 11) % 12) + 1}:${String(mm).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`; };
 tstep.querySelectorAll("button").forEach((b, i) => b.addEventListener("click", () => { tmin = Math.max(0, Math.min(1410, tmin + (i ? 30 : -30))); tstep.querySelector("b").textContent = fmt(tmin); }));
 const sel = document.getElementById("sel");
 sel.querySelector("button").addEventListener("click", () => { const ul = sel.querySelector("ul"); const open = ul.hidden; ul.hidden = !open; sel.querySelector("button").setAttribute("aria-expanded", open); });
 sel.querySelectorAll("li").forEach((li) => li.addEventListener("click", () => { sel.querySelectorAll("li").forEach((x) => x.setAttribute("aria-selected", x === li)); sel.querySelector("button").firstChild.textContent = li.textContent + " "; sel.querySelector("ul").hidden = true; sel.querySelector("button").setAttribute("aria-expanded", "false"); }));
+// Figma links by layer name; ids come from figma-nodes.js (rebuilt after each plugin run by figma-nodes.py)
+document.querySelectorAll("a.fig[data-fig]").forEach((a) => { const id = (window.FIGMA_NODES || {})[a.dataset.fig];
+  if (id) { a.href = `${window.FIGMA_FILE}?node-id=${id.replace(":", "-")}`; a.title = `Open ${a.dataset.fig} in Figma`; }
+  else { a.classList.add("gone"); a.removeAttribute("href"); a.title = `${a.dataset.fig} is not in the Figma file right now`; } });
+// copy buttons on the code panels (clipboard inside the click; select the text if the browser refuses)
+document.querySelectorAll("details.code .copy").forEach((b) => b.addEventListener("click", async () => {
+  const pre = b.parentElement.querySelector("pre"), txt = pre.innerText;
+  const done = (label) => { b.textContent = label; b.classList.add("ok"); setTimeout(() => { b.textContent = "Copy"; b.classList.remove("ok"); }, 1600); };
+  try { await navigator.clipboard.writeText(txt); done("Copied ✓"); }
+  catch { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); done("Press ⌘C"); }
+}));
 // ---------- inventory ----------
 const INV = [
  ["Navigation","Status bar","Expressive 1673:31771","phone frame","y"],["Navigation","App bar","Expressive 1673:32044","RoleTabs header","y"],["Navigation","App header","Oct 19 1302:5959","RoleTabs headerOptions","y"],["Navigation","Detail header (Top bar)","Balanced 1673:16420","stack header","y"],
@@ -947,16 +1071,20 @@ const INV = [
  ["Selection","Chip","Expressive 1673:31711","ui/selectable","y"],["Selection","Segmented control","Balanced 1673:16164","ui/SegmentedControl","y"],["Selection","Option card (Choice card)","site steps.html","ui/OptionCard","y"],["Selection","Button","Expressive 1673:32207","ui/Button","y"],["Selection","Text button","Balanced 1673:16120","ui/TextButton","y"],["Selection","Switch","Balanced 1673:16600","ui/ListRow","y"],["Selection","Checkbox row","Balanced 1673:16700","ui/CheckRow","y"],["Selection","Suggestion chip","Balanced","ChipSuggestions","y"],
  ["Inputs","Text field","Balanced 1673:16154","ui/TextField","y"],["Inputs","Search pill","site qa-sitter-card","SitterSearchBar","y"],["Inputs","Slider","","ui/Slider","y"],["Inputs","Time stepper","","ui/Stepper","y"],["Inputs","Select","","ui/Select","y"],
  ["Stay and chat","Stage header","Expressive 1673:32190","journey","y"],["Stay and chat","Stage card","Expressive 1673:32407","journey","y"],["Stay and chat","Consent card","Expressive 1673:32609","ConsentCard","y"],["Stay and chat","Checklist row","Expressive 1673:32591","ChecklistCard","y"],
- ["Stay and chat","Entry info card","Balanced","EntryInfoCard","y"],["Stay and chat","Calendar day","Balanced","RangeCalendar, SlotCalendar","y"],["Stay and chat","Slot row","Oct 19 1302:5987","SlotRows","y"],["Stay and chat","Message bubble","Expressive 1673:32579","MessageBubble","y"],["Stay and chat","Typing indicator","Balanced","chat","y"],["Stay and chat","Source tag","Balanced","chat","y"],["Stay and chat","Booking card","Balanced","BookingCard","y"],["Stay and chat","Quote card","Balanced","QuoteCard → ui/PriceBreakdown","y"],["Stay and chat","Trip map","Balanced","TripMap","y"],["Stay and chat","Photo check","Balanced","HandoffPicker","y"],["Stay and chat","Stay summary card","Balanced","StaySummaryCard","y"],
+ ["Stay and chat","Entry info card","Balanced","EntryInfoCard","y"],["Stay and chat","Calendar (range and slots)","none","ui/RangeCalendar, SlotCalendar","y"],["Stay and chat","Slot row","Oct 19 1302:5987","SlotRows","y"],["Stay and chat","Message bubble","Expressive 1673:32579","MessageBubble","y"],["Stay and chat","Typing indicator","Balanced","chat","y"],["Stay and chat","Source tag","Balanced","chat","y"],["Stay and chat","Booking card","Balanced","BookingCard","y"],["Stay and chat","Quote card","Balanced","QuoteCard → ui/PriceBreakdown","y"],["Stay and chat","Trip map","Balanced","TripMap","w"],["Stay and chat","Active trip card","none","TripCard","w"],["Stay and chat","Photo check","Balanced","HandoffPicker","y"],["Stay and chat","Stay summary card","Balanced","StaySummaryCard","y"],
  ["Cards","Sitter card","site qa-sitter-card","SitterResultCard","y"],["Cards","Price breakdown","site steps.html","ui/PriceBreakdown","y"],["Cards","Tool block","Expressive Snap","SnapToolCard","y"],["Cards","Profile card","Balanced","sitter profile","y"],["Cards","Card","Balanced 1673:16132","ui/Card","y"],
  ["Care and content","Pet card","Expressive Home","PetCard","y"],["Care and content","Daily note","Balanced","DiaryTimeline","y"],["Care and content","Timeline row","Balanced","DiaryTimeline","y"],["Care and content","Stat tile (Check-in tile)","Expressive Home","QuickCheckIn","y"],["Care and content","Feed card","Balanced","FeedCard","y"],["Care and content","Life Record card","Balanced","LifeRecordCard","y"],["Care and content","Notification row","Balanced 1673:17017","notifications","y"],["Care and content","Star rating","Balanced","StarRating","y"],["Care and content","Task row / Next task","Balanced","TodayTasks","y"],["Care and content","Mood result card","Balanced","Snap mood","y"],["Care and content","Report summary","Balanced","ReportComposer","y"],["Care and content","Photo tile / Grid photo","Balanced","AlbumView","y"],["Care and content","Latest update row","Balanced","LiveUpdates","y"],
  ["Layout","Section title","Expressive","ui/SectionTitle","y"],["Layout","List row","Expressive 1673:31755","ui/ListRow","y"],["Layout","Summary row","site steps.html","ui/SummaryRow","y"],["Layout","Day header","Balanced","Diary","y"],
  ["Feedback","Sheet","Balanced 1673:16551","ui/Sheet","y"],["Feedback","Toast","Balanced 1673:16135","ToastProvider","y"],["Feedback","Result state","site steps.html","ui/ResultState","y"],["Feedback","Empty state","Balanced 1673:16558","ui/EmptyState","y"],["Feedback","Danger modal","Balanced 1673:16968","ui/AlertModal","y"],["Feedback","Permission prompt","Balanced","media","y"],["Feedback","Push preview","Balanced","(not in app)","y"],
  ["Status","Tag","Expressive 1673:32600","ui/Tag","y"],["Status","Demo tag","Expressive","prototype only","y"],["Status","Banner","Balanced 1673:17001","ui/Banner","y"],["Status","Progress bar","Balanced 1673:16906","care progress","y"],["Status","Skeleton","Balanced 1673:17073","(not in app yet)","y"],["Status","Avatar","Balanced 1673:17059","ui/Avatar, PetMark","y"],["Status","Colour swatch","Balanced","coat picker","y"],
 ];
-document.getElementById("invBody").innerHTML = INV.map(([f, n, fig, app, k]) => `<tr><td><b>${n}</b><br><small>${f}</small></td><td>${fig || "none"}</td><td><code>${app}</code></td><td class="${k}">${k === "y" ? "Yes" : "Next round"}</td></tr>`).join("");
+const INVFIG = {"Status bar": "Status Bar", "App bar": "App Bar", "App header": "App Header", "Detail header (Top bar)": "Top Bar", "Tab bar": "Tab Bar", "Icon button": "Icon Button", "Menu row": "Menu Row", "Pager dots": "Step Dot", "Stepper": "Stepper", "Chip": "Chip", "Segmented control": "Segment", "Option card (Choice card)": "Choice Card", "Button": "Button", "Text button": "Text Button", "Switch": "Switch", "Checkbox row": "Checkbox Row", "Suggestion chip": "Suggestion Chip", "Text field": "Text Field", "Tag": "Tag", "Demo tag": "Demo Tag", "Banner": "Banner", "Progress bar": "Progress Bar", "Skeleton": "Skeleton", "Avatar": "Avatar", "Colour swatch": "Color Swatch", "Entry info card": "Entry Info Card", "Calendar (range and slots)": "Calendar Day", "Slot row": "Slot Row", "Message bubble": "Message Bubble", "Typing indicator": "Typing Indicator", "Source tag": "Source Tag", "Booking card": "Booking Card", "Quote card": "Quote Card", "Trip map": "Trip Map", "Photo check": "Photo Check", "Stay summary card": "Stay Summary Card", "Price breakdown": "Quote Card", "Profile card": "Profile Card", "Card": "Card", "Stage header": "Stage Header", "Stage card": "Stage Card", "Consent card": "Consent Card", "Checklist row": "Checklist Row", "List row": "List Row", "Toast": "Toast", "Empty state": "Empty State", "Sheet": "Bottom Sheet", "Bottom sheet": "Bottom Sheet", "Danger modal": "Alert Modal · DANGER", "Alert modal": "Alert Modal · DANGER", "Notification row": "Notification Row", "Star rating": "Star", "Pet card": "Pet Mini Card", "Daily note": "Daily Note", "Timeline row": "Timeline Row", "Next task card": "Next Task Card", "Task row": "Task Row", "Day header": "Day Header", "Latest update row": "Latest Update Row", "Mood result card": "Mood Result Card", "Report summary": "Report Summary", "Photo grid": "Grid Photo", "Feed card": "Feed Card", "Life Record card": "Life Record Card", "Permission prompt": "Permission Prompt", "Push preview": "Push Preview"};
+const figCell = (gen, name) => { const key = INVFIG[name], id = key && (window.FIGMA_NODES || {})[key]; const g = (gen || "").replace(/\s*\d{3,4}:\d{3,5}/, "") || "";
+  return id ? `${g ? g + " · " : ""}<a href="${window.FIGMA_FILE}?node-id=${id.replace(":", "-")}" target="_blank" rel="noopener">${key} ↗</a>` : (g ? g + " · not a component" : "none"); };
+document.getElementById("invBody").innerHTML = INV.map(([f, n, fig, app, k]) => `<tr><td><b>${n}</b><br><small>${f}</small></td><td>${figCell(fig, n)}</td><td><code>${app}</code></td><td class="${k}">${k === "y" ? "Yes" : k === "w" ? "Needs work" : "Next round"}</td></tr>`).join("");
 const yes = INV.filter((x) => x[4] === "y").length;
-document.getElementById("invSum").textContent = `${yes} of ${INV.length} shown in the kit; ${INV.length - yes} are marked for the next round.`;
+const nw = INV.filter((x) => x[4] === "w").length;
+document.getElementById("invSum").textContent = `${yes + nw} of ${INV.length} shown in the kit; ${nw} still need design work.`;
 </script>
 </body>
 </html>

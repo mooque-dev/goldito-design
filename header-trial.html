@@ -22,7 +22,7 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem}
 .who{font-weight:700;font-size:.875rem;text-align:center;margin-bottom:.375rem}
 /* the phone: Expressive look, Lucide icons */
-.ph{position:relative;height:560px;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332;max-width:24rem;width:100%;margin:0 auto}
+.ph{position:relative;height:600px;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332;max-width:24rem;width:100%;margin:0 auto}
 .sb{display:flex;justify-content:space-between;align-items:center;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px}
 .hd{display:flex;align-items:center;gap:4px;padding:10px 8px 10px 18px;min-height:64px}
 .tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
@@ -36,10 +36,12 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .tabs{display:flex;justify-content:space-around;background:#fff;border-radius:26px 26px 0 0;padding:10px 6px 18px;box-shadow:0 -8px 12px rgba(27,67,50,.08)}
 .tabs div{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#6B5D4A} .tabs i{width:54px;height:30px;border-radius:15px;display:grid;place-items:center} .tabs svg{width:22px;height:22px}
 .tabs .on{color:#1B4332} .tabs .on i{background:#D8F3DC}
-.dr{position:absolute;inset:36px 0 0;background:#FBF6EA;padding:8px 18px 18px;display:flex;flex-direction:column;transform:translateX(100%);transition:transform 260ms cubic-bezier(.215,.61,.355,1);visibility:hidden}
-.dr.open{transform:none;visibility:visible}
-@media (prefers-reduced-motion:reduce){.dr{transition:none}}
+.scrim{position:absolute;inset:0;background:rgb(27,67,50);opacity:0;pointer-events:none}
+/* Same drawer as paw-drawer.html: full height over the status bar, 40 px extra on the right for the pull. */
+.dr{position:absolute;top:0;bottom:0;left:0;width:calc(100% + 40px);padding:46px 58px 18px 18px;background:#FBF6EA;display:flex;flex-direction:column;will-change:transform}
+.dr[hidden]{display:none}
 .dr .x{align-self:flex-end}
+.arm{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 .me{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #E8DCC4}
 .me .av{width:52px;height:52px;font-size:22px} .me b{display:block;font-size:19px} .me small{color:#6B5D4A;font-size:13px}
 .rw{display:flex;align-items:center;gap:14px;min-height:52px;font-weight:600;font-size:17px} .rw svg{width:22px;height:22px;flex:none} .rw .n{margin-left:auto;background:#B42318;color:#fff;font-size:12px;font-weight:700;border-radius:12px;padding:2px 8px}
@@ -68,7 +70,7 @@ a{color:var(--color-primary)}
 <div class="bar"><span class="eyebrow">Goldito · <span class="en">Header trial</span><span class="ko">헤더 시안</span> · Oct 22</span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
 <section>
   <h1><span class="en">Who am I signed in as?</span><span class="ko">지금 누구로 로그인했지?</span></h1>
-  <p><span class="en">The team wants the header to say whose account you're in. Flip between today's header and two options, on both demo accounts. Tap the avatar or ≡ to open the menu. The icons are Lucide, the set we picked today.</span><span class="ko">헤더에서 지금 누구 계정인지 바로 보이게 하자는 의견. 지금 헤더와 두 시안을 두 데모 계정에서 바꿔 보세요. 아바타나 ≡를 누르면 메뉴가 열려요. 아이콘은 오늘 정한 Lucide예요.</span></p>
+  <p><span class="en">The team wants the header to say whose account you're in. Flip between today's header and two options, on both demo accounts. Tap the avatar or ≡ and a paw pulls the menu in, the same drawer as the paw drawer page. The icons are Lucide, the set we picked today.</span><span class="ko">헤더에서 지금 누구 계정인지 바로 보이게 하자는 의견. 지금 헤더와 두 시안을 두 데모 계정에서 바꿔 보세요. 아바타나 ≡를 누르면 발바닥이 메뉴를 끌어와요 (발바닥 서랍과 같은 동작). 아이콘은 오늘 정한 Lucide예요.</span></p>
 </section>
 
 <div class="pick" role="radiogroup" aria-label="Header to try">
@@ -80,8 +82,8 @@ a{color:var(--color-primary)}
 <p class="what" id="what" aria-live="polite"></p>
 
 <div class="phones">
-  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-name="Chloe" data-role="Sitter" data-title="Today" data-badge="7"></div></div>
-  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-name="Robert" data-role="Owner" data-title="Home" data-badge="2"></div></div>
+  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-name="Chloe" data-coat="golden" data-role="Sitter" data-title="Today" data-badge="7"></div></div>
+  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-name="Robert" data-coat="cream" data-role="Owner" data-title="Home" data-badge="2"></div></div>
 </div>
 
 <section>
@@ -117,16 +119,79 @@ function phone(el) {
       <button class="ib" type="button" aria-label="Notifications, ${badge} new">${ic("bell")}<span class="ct">${badge}</span></button>${menuBtn}</div>
     <div class="body"><b>${role === "Sitter" ? "No bookings yet" : "Your next stay"}</b><span>${role === "Sitter" ? "Open your schedule so owners can find you." : "Oct 23 to 25 with Chloe"}</span></div>
     <div class="tabs"><div class="on"><i>${ic("home")}</i>Home</div><div><i>${ic("cal")}</i>Bookings</div><div><i>${ic("img")}</i>Feed</div><div><i>${ic("book")}</i>Diary</div><div><i>${ic("cam")}</i>Snap</div></div>
-    <div class="dr" role="dialog" aria-label="Menu" aria-hidden="true"><button class="ib x" type="button" aria-label="Close menu">${ic("x")}</button>
+    <div class="scrim"></div>
+    <div class="dr" role="dialog" aria-modal="true" aria-label="Menu" hidden><button class="ib x" type="button" aria-label="Close menu">${ic("x")}</button>
       <div class="me"><span class="av">${init}</span><span><b>${name}</b><small>${role} account</small></span></div>
       <div class="rw">${ic("bell")}Notifications<span class="n">${badge}</span></div>
       ${role === "Sitter" ? `<div class="rw">${ic("cal")}Schedule</div>` : ""}
-      <div class="rw">${ic("spark")}What's new</div><div class="rw">${ic("set")}Settings</div><div class="rw out">${ic("out")}Log out</div></div>`;
-  const dr = el.querySelector(".dr");
-  const setOpen = (o) => { dr.classList.toggle("open", o); dr.setAttribute("aria-hidden", !o); (o ? dr.querySelector(".x") : el.querySelector(".open")).focus(); };
-  el.querySelector(".open").onclick = () => setOpen(true);
-  dr.querySelector(".x").onclick = () => setOpen(false);
-  dr.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+      <div class="rw">${ic("spark")}What's new</div><div class="rw">${ic("set")}Settings</div><div class="rw out">${ic("out")}Log out</div></div>
+    <svg class="arm" aria-hidden="true"><g class="armPos" transform="translate(-200 0)"><g class="armTilt"><g class="paw" transform="scale(1.15)">${buildPaw(el.dataset.coat, el.dataset.name)}</g></g></g></svg>`;
+  pawDrawer(el);
+}
+
+// ---------- the paw drawer (paw-drawer.html, "Fast" variant; reduced motion = the plain slide from HeaderMenu.tsx) ----------
+const E = { lin: (t) => t, out: (t) => 1 - Math.pow(1 - t, 3), in: (t) => t * t * t, inOut: (t) => (t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2) };
+const OFF = -200, GRAB = 16;
+const timeline = (W) => {
+  const PEEK = W - 24;
+  return matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? { open: { drawer: [[0, W], [260, 0, "out"]] }, close: { drawer: [[0, 0], [200, W, "in"]] } }
+    : { open: { drawer: [[0, W], [200, PEEK, "out"], [250, PEEK], [520, 0, "inOut"]], paw: [[0, OFF], [200, PEEK - GRAB, "out"], [250, "d"], [520, "d"], [620, OFF, "in"]], grip: [[0, 0], [200, 0], [250, 1, "out"], [520, 1], [560, 0, "out"]] },
+        close: { drawer: [[0, 0], [120, 0], [400, W, "in"]], paw: [[0, OFF], [120, -GRAB, "out"], [120, "d"], [400, "d"], [520, OFF, "in"]] } };
+};
+const at = (keys, t, follow) => {
+  if (!keys) return 0;
+  const val = (k) => (k[1] === "d" ? follow() : k[1]);
+  if (t <= keys[0][0]) return val(keys[0]);
+  for (let i = 1; i < keys.length; i++) { const a = keys[i - 1], b = keys[i]; if (t <= b[0]) { const span = b[0] - a[0], q = span ? (t - a[0]) / span : 1; return val(a) + (val(b) - val(a)) * (E[b[2]] || E.lin)(q); } }
+  return val(keys[keys.length - 1]);
+};
+const COATS = { golden: { kind: "dog", arm: "#F4A261", sock: "#FFF9F0" }, cream: { kind: "dog", arm: "#FFFFFF", fluffy: true } };
+const SHAPE = { dog: { aw: 15, rx: 19, ry: 21, tr: 8, tR: 22, A: [-66, -22, 22, 66] } };
+const pol = (r, a) => [r * Math.cos(a * Math.PI / 180), r * Math.sin(a * Math.PI / 180)];
+function buildPaw(coat, id) {
+  const c = COATS[coat], k = SHAPE[c.kind], ink = "#1B4332";
+  let arm = `<rect x="-700" y="${-k.aw}" width="692" height="${2 * k.aw}"/>`;
+  if (c.fluffy) { let top = "", bot = ""; for (let x = -700; x < -8; x += 12) { top += "q6 -3.5 12 0"; bot += "q-6 3.5 -12 0"; } arm = `<path d="M-700 ${-k.aw}${top}L-8 ${k.aw}${bot}z"/>`; }
+  const body = `<ellipse cx="-2" cy="0" rx="${k.rx}" ry="${k.ry}"/>`;
+  const toes = k.A.map((a) => { const [x, y] = pol(k.tR, a); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${k.tr}"/>`; }).join("");
+  const creases = k.A.slice(1).map((a, i) => { const m = (a + k.A[i]) / 2, [x0, y0] = pol(k.tR - 7, m), [x1, y1] = pol(k.tR + 1, m); return `<path d="M${x0.toFixed(1)} ${y0.toFixed(1)}L${x1.toFixed(1)} ${y1.toFixed(1)}"/>`; }).join("");
+  const cuff = c.sock ? `<path d="M-8 ${-k.aw}H-27q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}H-8z" fill="${c.sock}"/><path d="M-27 ${-k.aw}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}q-4 ${k.aw / 3} 0 ${2 * k.aw / 3}" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>` : "";
+  return `<defs><clipPath id="armClip-${id}">${arm}</clipPath></defs>
+    <g stroke="${ink}" stroke-width="4" stroke-linejoin="round" fill="${ink}">${arm}${body}<g class="toes">${toes}</g></g>
+    <g fill="${c.arm}">${arm}</g>${cuff}
+    <g fill="${c.sock || c.arm}">${body}<g class="toes">${toes}</g></g>
+    <g class="toes" fill="none" stroke="${ink}" stroke-width="2" stroke-linecap="round">${creases}</g>`;
+}
+function pawDrawer(el) {
+  const dr = el.querySelector(".dr"), scrim = el.querySelector(".scrim"), armPos = el.querySelector(".armPos"), pawG = el.querySelector(".paw");
+  const st = { open: false, busy: false };
+  const draw = (W, d, x, grip) => {
+    dr.style.transform = `translateX(${d}px)`;
+    scrim.style.opacity = String((1 - d / W) * 0.35);
+    armPos.setAttribute("transform", `translate(${x} ${el.clientHeight * 0.52})`);
+    pawG.querySelectorAll(".toes").forEach((t) => t.setAttribute("transform", `translate(${-3 * grip} 0) scale(${1 - 0.12 * grip} ${1 - 0.06 * grip})`));
+  };
+  const play = (dir) => {
+    if (st.busy || st.open === (dir === "open")) return;
+    st.busy = true;
+    const W = el.clientWidth, tl = timeline(W)[dir], total = Math.max(...Object.values(tl).map((k) => k[k.length - 1][0]));
+    if (dir === "open") { dr.hidden = false; draw(W, W, OFF, 0); }
+    const t0 = performance.now();
+    const frame = (now) => {
+      const t = Math.min(now - t0, total), d = at(tl.drawer, t);
+      draw(W, d, tl.paw ? at(tl.paw, t, () => d - GRAB) : OFF, at(tl.grip, t));
+      if (t < total) return requestAnimationFrame(frame);
+      st.busy = false; st.open = dir === "open";
+      if (!st.open) dr.hidden = true;
+      (st.open ? dr.querySelector(".x") : el.querySelector(".open")).focus();
+    };
+    requestAnimationFrame(frame);
+  };
+  el.querySelector(".open").onclick = () => play("open");
+  dr.querySelector(".x").onclick = () => play("close");
+  dr.querySelectorAll(".rw").forEach((rw) => rw.addEventListener("click", () => play("close")));
+  dr.addEventListener("keydown", (e) => { if (e.key === "Escape") play("close"); });
 }
 function render() {
   document.querySelectorAll(".pick button").forEach((b) => { const on = b.dataset.s === style; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
