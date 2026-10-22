@@ -1,0 +1,452 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Expressive Patterns QA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.35rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.pair{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.75rem} .pair figcaption{grid-column:1/-1;color:var(--color-text-muted);font-size:.875rem}
+.pair div{display:flex;flex-direction:column;gap:.375rem;min-width:0} .pair img,.ref{width:100%;border:1px solid var(--color-border);border-radius:12px;display:block}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem} .tag.b{background:var(--color-track);color:var(--color-text-muted)} .tag.a{background:var(--color-success-surface);color:var(--color-success)}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:.75rem}
+.rules div{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.25rem} .rules b{font:600 1rem var(--font-display)} .rules span{font-size:.875rem;color:var(--color-text-muted)}
+.answer{background:var(--color-success-surface);border-radius:12px;padding:1rem 1.125rem;display:flex;flex-direction:column;gap:.5rem}
+ul{margin:0;padding-left:1.25rem} details{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem} pre{overflow-x:auto;font-size:.75rem;line-height:1.45;margin:.75rem 0 0}
+@media (max-width:560px){.pair{grid-template-columns:1fr}}
+</style></head><body><main class="wrap">
+<header style="display:flex;flex-direction:column;gap:.5rem"><span class="eyebrow">Design QA · try-out branch design/expressive-art · not pushed</span><h1>One pattern per job</h1>
+<p>Bringing the app closer to the Figma Expressive screens, with fewer looks to learn.</p></header>
+
+<section><h2>Is replacing emoji worth it?</h2><div class="answer">
+<p><b>Line icons: no.</b> You were right, they made the app bland. They're removed: buttons are plain text again, which is also the clearest for older users.</p>
+<p><b>Figma's illustrations: yes.</b> Figma never used emoji or line icons for content. It uses the 12-piece Goldito illustration set from the prototype (bowl, heart, paw, moon, pill, tree, camera, dog, cat…). Emoji look different on every phone and computer; the illustrations look the same everywhere and carry the brand.</p></div>
+<img class="ref" src="assets/qa-art/figma-ref.png" alt="Figma Snap, Diary and Home crops showing the illustration set">
+<p style="font-size:.875rem;color:var(--color-text-muted)">Figma reference: Snap tools, the Diary timeline and the Home stats all use the same illustrations.</p></section>
+
+<section><h2>The patterns</h2><div class="rules">
+<div><b>Illustrations for content</b><span>Empty states, tools, pets: the Goldito set. Never emoji.</span></div>
+<div><b>Line icons for chrome only</b><span>Tab bar, bell, menu, chevrons. Nowhere else.</span></div>
+<div><b>Buttons are words</b><span>No emoji or icons in labels. One filled button per screen.</span></div>
+<div><b>One section title</b><span>Fredoka 21 everywhere ("Recent checks", "Care tasks", "Account"). There were three sizes.</span></div>
+<div><b>Tools are colour blocks</b><span>Peach, mint, butter with a round white arrow, as in Figma.</span></div>
+<div><b>Lists are white cards</b><span>Picture left, two lines, status or chevron right.</span></div>
+</div></section>
+
+<section><h2>Snap</h2><p>Figma's colour blocks with the bowl, heart and paw. Recent checks become white cards with the date under the name and the status on the right.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-snap.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-snap.jpg" alt="" loading="lazy"></div><figcaption>Owner Snap</figcaption></figure></section>
+<section><h2>Empty states</h2><p>One component change converts most empty states in the app. Titles use the section style.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-diary.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-diary.jpg" alt="" loading="lazy"></div><figcaption>Diary</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-feed.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-feed.jpg" alt="" loading="lazy"></div><figcaption>Owner Feed</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__sitter-sitter-feed.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__sitter-sitter-feed.jpg" alt="" loading="lazy"></div><figcaption>Sitter Feed</figcaption></figure></section>
+<section><h2>Pets without a photo</h2><p>The dog and cat illustrations replace 🐶 and 🐱 wherever a pet has no photo.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-home.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-home.jpg" alt="" loading="lazy"></div><figcaption>Home pet cards</figcaption></figure></section>
+<section><h2>Section titles</h2><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-pet-end.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-pet-end.jpg" alt="" loading="lazy"></div><figcaption>Pet page: Care tasks, Heads-up</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-settings.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-settings.jpg" alt="" loading="lazy"></div><figcaption>Settings: Account, Notifications, About</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-bookings.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-bookings.jpg" alt="" loading="lazy"></div><figcaption>Bookings: Favorites, Sitters nearby, Chats</figcaption></figure></section>
+
+<section><h2>Pet chips: photo, else illustration</h2><p>Decided Oct 22 (option A). Chips use the chip pattern (mint with an ink ring when selected) and the pet's first photo; the demo pets have no photo, so the illustration shows.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-art/before__owner-treat.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-art/after__owner-treat.jpg" alt="" loading="lazy"></div><figcaption>Treat check, Which pet?</figcaption></figure></section>
+<section><h2>Every emoji now has an illustration</h2><p>v2 of the set (43 pieces, <a href="illustrations.html">library</a>) covers all 22 emoji the empty states used: search, chat, mail, bell, key, card, calendar, clock, diary, star, shield and more. Owner Home's pet tiles stay with PR #215.</p></section>
+<section><h2>The code</h2><p>New: <code>components/ui/Art.tsx</code> (43 illustrations, generated from <code>illustrations/build.py</code>), <code>components/PetMark.tsx</code> and <code>components/ui/SectionTitle.tsx</code>. 12 files changed.</p><details><summary>Diff of changed files</summary><pre>diff --git a/frontend/app/owner/(tabs)/bookings.tsx b/frontend/app/owner/(tabs)/bookings.tsx
+index 057fc71..8855a39 100644
+--- a/frontend/app/owner/(tabs)/bookings.tsx
++++ b/frontend/app/owner/(tabs)/bookings.tsx
+@@ -19,6 +19,7 @@ import { useSession } from &quot;../../../providers/SessionProvider&quot;;
+ import { useThemedStyles } from &quot;../../../providers/ThemeProvider&quot;;
+ import { useOnBookingChange } from &quot;../../../providers/NotificationsProvider&quot;;
+ import { Theme } from &quot;../../../theme/themes&quot;;
++import { sectionTitleStyle } from &quot;../../../components/ui/SectionTitle&quot;;
+ 
+ type State =
+   | { status: &quot;loading&quot; }
+@@ -224,11 +225,7 @@ const makeStyles = (theme: Theme) =&gt;
+     section: {
+       gap: theme.spacing.sm,
+     },
+-    heading: {
+-      fontSize: theme.fontSize.body,
+-      fontWeight: theme.fontWeight.semibold,
+-      color: theme.color.text,
+-    },
++    heading: sectionTitleStyle(theme),
+     hint: {
+       fontSize: theme.fontSize.small,
+       color: theme.color.textMuted,
+diff --git a/frontend/app/settings.tsx b/frontend/app/settings.tsx
+index ed11e3a..2eb2841 100644
+--- a/frontend/app/settings.tsx
++++ b/frontend/app/settings.tsx
+@@ -12,6 +12,7 @@ import { TextButton } from &quot;../components/ui/TextButton&quot;;
+ import { useSession } from &quot;../providers/SessionProvider&quot;;
+ import { useThemedStyles } from &quot;../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../theme/themes&quot;;
++import { sectionTitleStyle } from &quot;../components/ui/SectionTitle&quot;;
+ 
+ /** Menu → Settings (Phase 11.11, D47): the account (Edit profile), notifications, Privacy, the app version and Sign out. */
+ export default function SettingsScreen() {
+@@ -70,7 +71,7 @@ const makeStyles = (theme: Theme) =&gt;
+   StyleSheet.create({
+     confirm: { gap: theme.spacing.sm },
+     content: { gap: theme.spacing.md, paddingBottom: theme.spacing.xl },
+-    heading: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.bold, color: theme.color.text },
++    heading: sectionTitleStyle(theme),
+     body: { fontSize: theme.fontSize.body, color: theme.color.text, lineHeight: 22 },
+     muted: { fontSize: theme.fontSize.small, color: theme.color.textMuted },
+     left: { alignSelf: &quot;flex-start&quot;, paddingHorizontal: 0 },
+diff --git a/frontend/app/sitter/(tabs)/index.tsx b/frontend/app/sitter/(tabs)/index.tsx
+index ecce3c4..649996d 100644
+--- a/frontend/app/sitter/(tabs)/index.tsx
++++ b/frontend/app/sitter/(tabs)/index.tsx
+@@ -19,6 +19,7 @@ import { useSession } from &quot;../../../providers/SessionProvider&quot;;
+ import { useThemedStyles } from &quot;../../../providers/ThemeProvider&quot;;
+ import { useNotifications, useOnBookingChange } from &quot;../../../providers/NotificationsProvider&quot;;
+ import { Theme } from &quot;../../../theme/themes&quot;;
++import { sectionTitleStyle } from &quot;../../../components/ui/SectionTitle&quot;;
+ 
+ type State =
+   | { status: &quot;loading&quot; }
+@@ -207,11 +208,7 @@ const makeStyles = (theme: Theme) =&gt;
+     section: {
+       gap: theme.spacing.sm,
+     },
+-    heading: {
+-      fontSize: theme.fontSize.body,
+-      fontWeight: theme.fontWeight.semibold,
+-      color: theme.color.text,
+-    },
++    heading: sectionTitleStyle(theme),
+     card: {
+       gap: theme.spacing.xs,
+     },
+diff --git a/frontend/components/CareTasksSection.tsx b/frontend/components/CareTasksSection.tsx
+index dcd82d7..b724425 100644
+--- a/frontend/components/CareTasksSection.tsx
++++ b/frontend/components/CareTasksSection.tsx
+@@ -33,6 +33,7 @@ import { Tag } from &quot;./ui/Tag&quot;;
+ import { TimePickerSheet } from &quot;./ui/TimePickerSheet&quot;;
+ import { TextButton } from &quot;./ui/TextButton&quot;;
+ import { TextField } from &quot;./ui/TextField&quot;;
++import { sectionTitleStyle } from &quot;./ui/SectionTitle&quot;;
+ 
+ type Props = {
+   pet: Pick&lt;Pet, &quot;id&quot; | &quot;name&quot; | &quot;species&quot;&gt;;
+@@ -466,7 +467,7 @@ const makeStyles = (theme: Theme) =&gt;
+   StyleSheet.create({
+     section: { marginTop: theme.spacing.lg, gap: theme.spacing.sm },
+     header: { flexDirection: &quot;row&quot;, alignItems: &quot;center&quot;, justifyContent: &quot;space-between&quot; },
+-    heading: { fontSize: theme.fontSize.title, fontWeight: theme.fontWeight.bold, color: theme.color.text },
++    heading: sectionTitleStyle(theme),
+     hint: { fontSize: theme.fontSize.small, color: theme.color.textMuted },
+     muted: { fontSize: theme.fontSize.body, color: theme.color.textMuted },
+     body: { fontSize: theme.fontSize.body, color: theme.color.text, lineHeight: theme.fontSize.body * 1.4 },
+diff --git a/frontend/components/HeadsUpSection.tsx b/frontend/components/HeadsUpSection.tsx
+index dd382a5..0a4ad7c 100644
+--- a/frontend/components/HeadsUpSection.tsx
++++ b/frontend/components/HeadsUpSection.tsx
+@@ -11,6 +11,7 @@ import type { Pet } from &quot;../types/db&quot;;
+ import { Button } from &quot;./ui/Button&quot;;
+ import { Chip } from &quot;./ui/Chip&quot;;
+ import { TextField } from &quot;./ui/TextField&quot;;
++import { sectionTitleStyle } from &quot;./ui/SectionTitle&quot;;
+ 
+ const MAX = 100;
+ 
+@@ -111,7 +112,7 @@ export function HeadsUpSection({ pet, userId }: { pet: Pick&lt;Pet, &quot;id&quot; | &quot;name&quot;&gt;;
+ const makeStyles = (theme: Theme) =&gt;
+   StyleSheet.create({
+     section: { marginTop: theme.spacing.lg, gap: theme.spacing.sm },
+-    heading: { fontSize: theme.fontSize.title, fontWeight: theme.fontWeight.bold, color: theme.color.text },
++    heading: sectionTitleStyle(theme),
+     hint: { fontSize: theme.fontSize.small, color: theme.color.textMuted },
+     muted: { fontSize: theme.fontSize.body, color: theme.color.textMuted },
+     chips: { flexDirection: &quot;row&quot;, flexWrap: &quot;wrap&quot;, gap: theme.spacing.xs },
+diff --git a/frontend/components/LiveUpdates.tsx b/frontend/components/LiveUpdates.tsx
+index f8ed22b..1ef28ab 100644
+--- a/frontend/components/LiveUpdates.tsx
++++ b/frontend/components/LiveUpdates.tsx
+@@ -21,6 +21,7 @@ import { Theme } from &quot;../theme/themes&quot;;
+ import { NoticeDetail, NoticeThumb } from &quot;./NoticeDetail&quot;;
+ import { SwipeToDelete } from &quot;./ui/SwipeToDelete&quot;;
+ import { TextButton } from &quot;./ui/TextButton&quot;;
++import { sectionTitleStyle } from &quot;./ui/SectionTitle&quot;;
+ 
+ /** What the sitter does during a stay — shown as live cards on the owner&#x27;s Home (the daily report too, FB-21). */
+ const LIVE_TYPES = new Set([
+@@ -266,7 +267,7 @@ const makeStyles = (theme: Theme) =&gt;
+   StyleSheet.create({
+     root: { gap: theme.spacing.xs },
+     head: { flexDirection: &quot;row&quot;, alignItems: &quot;center&quot;, justifyContent: &quot;space-between&quot; },
+-    heading: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.bold, color: theme.color.text },
++    heading: sectionTitleStyle(theme),
+     muted: { fontSize: theme.fontSize.small, color: theme.color.textMuted },
+     card: {
+       flexDirection: &quot;row&quot;,
+diff --git a/frontend/components/TodayTasks.tsx b/frontend/components/TodayTasks.tsx
+index 7ded93b..d7e52ac 100644
+--- a/frontend/components/TodayTasks.tsx
++++ b/frontend/components/TodayTasks.tsx
+@@ -11,6 +11,7 @@ import { TaskDoneSheet } from &quot;./TaskDoneSheet&quot;;
+ import { Button } from &quot;./ui/Button&quot;;
+ import { Card } from &quot;./ui/Card&quot;;
+ import { Tag } from &quot;./ui/Tag&quot;;
++import { sectionTitleStyle } from &quot;./ui/SectionTitle&quot;;
+ 
+ /**
+  * Sitter&#x27;s tasks for today (phase-06 6.3): what is left, one **Done** per task. Done opens a small
+@@ -122,7 +123,7 @@ const makeStyles = (theme: Theme) =&gt;
+   StyleSheet.create({
+     section: { gap: theme.spacing.sm },
+     headRow: { flexDirection: &quot;row&quot;, alignItems: &quot;baseline&quot;, justifyContent: &quot;space-between&quot; },
+-    heading: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.semibold, color: theme.color.text },
++    heading: sectionTitleStyle(theme),
+     gap: { gap: theme.spacing.xs },
+     next: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.bold, color: theme.color.primary },
+     allDone: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.semibold, color: theme.color.text },
+diff --git a/frontend/components/ui/Avatar.tsx b/frontend/components/ui/Avatar.tsx
+index e94e45b..3032dc3 100644
+--- a/frontend/components/ui/Avatar.tsx
++++ b/frontend/components/ui/Avatar.tsx
+@@ -2,6 +2,7 @@ import { Image, StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
+ import { useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
++import { Art } from &quot;./Art&quot;;
+ 
+ type Props =
+   /** A person: first letter of the name (Figma `Kind=Initial`). */
+@@ -29,7 +30,11 @@ export function Avatar(props: Props) {
+   }
+   return (
+     &lt;View style={[styles.circle, styles.emojiCircle, circle]} testID={props.testID}&gt;
+-      &lt;Text style={{ fontSize: size * 0.5 }}&gt;{props.emoji}&lt;/Text&gt;
++      {props.emoji === &quot;🐶&quot; || props.emoji === &quot;🐱&quot; ? (
++        &lt;Art name={props.emoji === &quot;🐶&quot; ? &quot;dog&quot; : &quot;cat&quot;} size={size * 0.86} /&gt;
++      ) : (
++        &lt;Text style={{ fontSize: size * 0.5 }}&gt;{props.emoji}&lt;/Text&gt;
++      )}
+     &lt;/View&gt;
+   );
+ }
+diff --git a/frontend/components/ui/EmptyState.tsx b/frontend/components/ui/EmptyState.tsx
+index c4bed78..2528571 100644
+--- a/frontend/components/ui/EmptyState.tsx
++++ b/frontend/components/ui/EmptyState.tsx
+@@ -2,8 +2,16 @@ import { StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
+ import { useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
++import { sectionTitleStyle } from &quot;./SectionTitle&quot;;
++import { Art, type ArtName } from &quot;./Art&quot;;
+ import { Button } from &quot;./Button&quot;;
+ 
++/** Emoji that have an Expressive illustration. Others still show the emoji until the art set grows. */
++const ART_FOR: Record&lt;string, ArtName&gt; = {
++  &quot;🐾&quot;: &quot;paw&quot;, &quot;📸&quot;: &quot;camera&quot;, &quot;🏷️&quot;: &quot;bowl&quot;, &quot;✂️&quot;: &quot;paw&quot;, &quot;😊&quot;: &quot;heart&quot;, &quot;🐶&quot;: &quot;dog&quot;, &quot;🐱&quot;: &quot;cat&quot;,
++  &quot;📅&quot;: &quot;home&quot;, &quot;🗓️&quot;: &quot;home&quot;, &quot;🌤️&quot;: &quot;home&quot;, &quot;📔&quot;: &quot;heart&quot;, &quot;📖&quot;: &quot;heart&quot;, &quot;⭐&quot;: &quot;heart&quot;, &quot;🕘&quot;: &quot;nap&quot;,
++};
++
+ type Props = {
+   emoji: string;
+   title: string;
+@@ -18,9 +26,13 @@ export function EmptyState({ emoji, title, message, action }: Props) {
+ 
+   return (
+     &lt;View style={styles.container}&gt;
+-      &lt;Text style={styles.emoji} accessibilityElementsHidden importantForAccessibility=&quot;no&quot;&gt;
+-        {emoji}
+-      &lt;/Text&gt;
++      {ART_FOR[emoji] ? (
++        &lt;Art name={ART_FOR[emoji]} size={96} /&gt;
++      ) : (
++        &lt;Text style={styles.emoji} accessibilityElementsHidden importantForAccessibility=&quot;no&quot;&gt;
++          {emoji}
++        &lt;/Text&gt;
++      )}
+       &lt;Text style={styles.title}&gt;{title}&lt;/Text&gt;
+       &lt;Text style={styles.message}&gt;{message}&lt;/Text&gt;
+       {action ? &lt;Button label={action.label} onPress={action.onPress} variant=&quot;secondary&quot; style={styles.action} /&gt; : null}
+@@ -41,12 +53,7 @@ const makeStyles = (theme: Theme) =&gt;
+     emoji: {
+       fontSize: theme.icon.hero,
+     },
+-    title: {
+-      fontSize: theme.fontSize.body,
+-      fontWeight: theme.fontWeight.semibold,
+-      color: theme.color.text,
+-      textAlign: &quot;center&quot;,
+-    },
++    title: { ...sectionTitleStyle(theme), textAlign: &quot;center&quot; },
+     message: {
+       fontSize: theme.fontSize.small,
+       color: theme.color.textMuted,
+diff --git a/frontend/features/snap/SnapScreen.tsx b/frontend/features/snap/SnapScreen.tsx
+index 32a6b2b..2dbc9db 100644
+--- a/frontend/features/snap/SnapScreen.tsx
++++ b/frontend/features/snap/SnapScreen.tsx
+@@ -2,7 +2,9 @@ import { router, useFocusEffect } from &quot;expo-router&quot;;
+ import { useCallback, useState } from &quot;react&quot;;
+ import { Pressable, StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
++import { Art } from &quot;../../components/ui/Art&quot;;
+ import { Screen } from &quot;../../components/ui/Screen&quot;;
++import { sectionTitleStyle } from &quot;../../components/ui/SectionTitle&quot;;
+ import { useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { formatDay, isoToZoned } from &quot;../schedule/dates&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
+@@ -22,7 +24,8 @@ export function SnapScreen({ role }: { role: Role }) {
+       {SNAP_TOOLS.map((tool) =&gt; (
+         &lt;SnapToolCard
+           key={tool.key}
+-          emoji={tool.emoji}
++          art={tool.art}
++          block={tool.block}
+           title={tool.title}
+           blurb={tool.blurb}
+           onPress={() =&gt; router.push(`/${role}/snap/${tool.key}`)}
+@@ -65,12 +68,16 @@ function RecentChecks({ role, pets }: { role: Role; pets: PetOption[] }) {
+           style={styles.row}
+           testID=&quot;snap-recent-row&quot;
+         &gt;
++          &lt;Art name=&quot;bowl&quot; size={44} /&gt;
++          &lt;View style={styles.rowBody}&gt;
++            &lt;Text style={styles.name} numberOfLines={1}&gt;
++              {c.product_name || &quot;Treat label&quot;}
++            &lt;/Text&gt;
++            &lt;Text style={styles.date} numberOfLines={1}&gt;
++              {[pets.length &gt; 1 ? pets.find((p) =&gt; p.id === c.petId)?.name : null, formatDay(isoToZoned(c.createdAt).day)].filter(Boolean).join(&quot; · &quot;)}
++            &lt;/Text&gt;
++          &lt;/View&gt;
+           &lt;StatusBadge status={c.safety_status} /&gt;
+-          &lt;Text style={styles.name} numberOfLines={1}&gt;
+-            {c.product_name || &quot;Treat label&quot;}
+-            {pets.length &gt; 1 ? ` · ${pets.find((p) =&gt; p.id === c.petId)?.name ?? &quot;&quot;}` : &quot;&quot;}
+-          &lt;/Text&gt;
+-          &lt;Text style={styles.date}&gt;{formatDay(isoToZoned(c.createdAt).day)}&lt;/Text&gt;
+         &lt;/Pressable&gt;
+       ))}
+     &lt;/View&gt;
+@@ -81,16 +88,18 @@ const makeStyles = (theme: Theme) =&gt;
+   StyleSheet.create({
+     content: { gap: theme.spacing.md },
+     intro: { fontSize: theme.fontSize.body, color: theme.color.textMuted },
+-    section: { gap: theme.spacing.xs },
+-    label: { fontSize: theme.fontSize.small, fontWeight: theme.fontWeight.semibold, color: theme.color.textMuted },
++    section: { gap: theme.spacing.sm, marginTop: theme.spacing.sm },
++    label: sectionTitleStyle(theme),
+     row: {
+       flexDirection: &quot;row&quot;,
+       alignItems: &quot;center&quot;,
+-      gap: theme.spacing.sm,
+-      paddingVertical: theme.spacing.sm,
+-      borderBottomWidth: 1,
+-      borderBottomColor: theme.color.border,
++      gap: theme.spacing.md,
++      padding: theme.spacing.sm,
++      paddingRight: theme.spacing.md,
++      borderRadius: 20,
++      backgroundColor: theme.color.surface,
+     },
+-    name: { flex: 1, fontSize: theme.fontSize.body, color: theme.color.text },
++    rowBody: { flex: 1, gap: 2 },
++    name: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.semibold, color: theme.color.text },
+     date: { fontSize: theme.fontSize.small, color: theme.color.textMuted },
+   });
+diff --git a/frontend/features/snap/SnapToolCard.tsx b/frontend/features/snap/SnapToolCard.tsx
+index 74b40e7..0f14bd4 100644
+--- a/frontend/features/snap/SnapToolCard.tsx
++++ b/frontend/features/snap/SnapToolCard.tsx
+@@ -1,20 +1,22 @@
+ import Ionicons from &quot;@expo/vector-icons/Ionicons&quot;;
+ import { Pressable, StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
+-import { Avatar } from &quot;../../components/ui/Avatar&quot;;
++import { Art, type ArtName } from &quot;../../components/ui/Art&quot;;
++import { sectionTitleStyle } from &quot;../../components/ui/SectionTitle&quot;;
+ import { useTheme, useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
+ 
+ type Props = {
+-  emoji: string;
++  art: ArtName;
++  block: &quot;blockPeach&quot; | &quot;blockMint&quot; | &quot;blockButter&quot;;
+   title: string;
+   blurb: string;
+   onPress: () =&gt; void;
+   testID: string;
+ };
+ 
+-/** One Snap tool on the Snap tab: emoji, name, one line on what it does (same shape as PetCard). */
+-export function SnapToolCard({ emoji, title, blurb, onPress, testID }: Props) {
++/** One Snap tool (Figma 1673:33296): a colour block, its illustration, name, one line, and a white round chevron. */
++export function SnapToolCard({ art, block, title, blurb, onPress, testID }: Props) {
+   const theme = useTheme();
+   const styles = useThemedStyles(makeStyles);
+ 
+@@ -23,15 +25,17 @@ export function SnapToolCard({ emoji, title, blurb, onPress, testID }: Props) {
+       accessibilityRole=&quot;button&quot;
+       accessibilityLabel={`${title}. ${blurb}`}
+       onPress={onPress}
+-      style={({ pressed }) =&gt; [styles.card, pressed &amp;&amp; styles.pressed]}
++      style={({ pressed }) =&gt; [styles.card, { backgroundColor: theme.color[block] }, pressed &amp;&amp; styles.pressed]}
+       testID={testID}
+     &gt;
+-      &lt;Avatar kind=&quot;emoji&quot; emoji={emoji} size={56} /&gt;
++      &lt;Art name={art} size={64} /&gt;
+       &lt;View style={styles.body}&gt;
+         &lt;Text style={styles.title}&gt;{title}&lt;/Text&gt;
+         &lt;Text style={styles.blurb}&gt;{blurb}&lt;/Text&gt;
+       &lt;/View&gt;
+-      &lt;Ionicons name=&quot;chevron-forward&quot; size={theme.icon.sm} color={theme.color.textMuted} /&gt;
++      &lt;View style={styles.go}&gt;
++        &lt;Ionicons name=&quot;chevron-forward&quot; size={20} color={theme.color.text} /&gt;
++      &lt;/View&gt;
+     &lt;/Pressable&gt;
+   );
+ }
+@@ -42,14 +46,20 @@ const makeStyles = (theme: Theme) =&gt;
+       flexDirection: &quot;row&quot;,
+       alignItems: &quot;center&quot;,
+       gap: theme.spacing.md,
+-      padding: theme.spacing.md,
+-      borderRadius: theme.radius.lg,
+-      borderWidth: 1,
+-      borderColor: theme.color.border,
+-      backgroundColor: theme.color.surface,
++      paddingVertical: theme.spacing.md,
++      paddingHorizontal: theme.spacing.md,
++      borderRadius: 24,
+     },
+-    pressed: { opacity: 0.8 },
++    pressed: { opacity: theme.motion.pressOpacity, transform: [{ scale: theme.motion.pressScale }] },
+     body: { flex: 1, gap: theme.spacing.xs },
+-    title: { fontSize: theme.fontSize.body, fontWeight: theme.fontWeight.semibold, color: theme.color.text },
+-    blurb: { fontSize: theme.fontSize.small, color: theme.color.textMuted },
++    title: sectionTitleStyle(theme),
++    blurb: { fontSize: theme.fontSize.small, lineHeight: 20, color: theme.color.text },
++    go: {
++      width: 40,
++      height: 40,
++      borderRadius: 20,
++      backgroundColor: theme.color.surface,
++      alignItems: &quot;center&quot;,
++      justifyContent: &quot;center&quot;,
++    },
+   });
+diff --git a/frontend/features/snap/tools.ts b/frontend/features/snap/tools.ts
+index befd1b8..c276df9 100644
+--- a/frontend/features/snap/tools.ts
++++ b/frontend/features/snap/tools.ts
+@@ -1,8 +1,11 @@
++import type { ArtName } from &quot;../../components/ui/Art&quot;;
++
+ /** The Snap tab&#x27;s tools (Phase 12, D61): one place for the cards to read. */
+ export type SnapTool = &quot;treat&quot; | &quot;mood&quot; | &quot;sticker&quot;;
+ 
+-export const SNAP_TOOLS: { key: SnapTool; emoji: string; title: string; blurb: string }[] = [
+-  { key: &quot;treat&quot;, emoji: &quot;🏷️&quot;, title: &quot;Treat check&quot;, blurb: &quot;Can my pet eat this? Snap the label.&quot; },
+-  { key: &quot;mood&quot;, emoji: &quot;😊&quot;, title: &quot;Mood&quot;, blurb: &quot;How does my pet seem? For fun only.&quot; },
+-  { key: &quot;sticker&quot;, emoji: &quot;✂️&quot;, title: &quot;Sticker&quot;, blurb: &quot;Cut my pet out and decorate the diary.&quot; },
++/** Figma D · Owner Snap (1673:33296): each tool is a colour block with its spot illustration. */
++export const SNAP_TOOLS: { key: SnapTool; art: ArtName; block: &quot;blockPeach&quot; | &quot;blockMint&quot; | &quot;blockButter&quot;; title: string; blurb: string }[] = [
++  { key: &quot;treat&quot;, art: &quot;bowl&quot;, block: &quot;blockPeach&quot;, title: &quot;Treat check&quot;, blurb: &quot;Can my pet eat this? Snap the label.&quot; },
++  { key: &quot;mood&quot;, art: &quot;heart&quot;, block: &quot;blockMint&quot;, title: &quot;Mood&quot;, blurb: &quot;How does my pet seem? For fun only.&quot; },
++  { key: &quot;sticker&quot;, art: &quot;paw&quot;, block: &quot;blockButter&quot;, title: &quot;Sticker&quot;, blurb: &quot;Cut my pet out and decorate the diary.&quot; },
+ ];
+</pre></details></section>
+</main></body></html>

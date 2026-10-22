@@ -1,0 +1,553 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Copy Batch QA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:60rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.35rem/1.2 var(--font-display);margin:0} h2 small{font:600 .75rem var(--font-ui);color:var(--color-text-muted);margin-left:.375rem}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.pair{margin:0;display:grid;grid-template-columns:1fr 1fr;gap:.75rem} .pair figcaption{grid-column:1/-1;color:var(--color-text-muted);font-size:.875rem}
+.pair div{display:flex;flex-direction:column;gap:.375rem;min-width:0} .pair img{width:100%;border:1px solid var(--color-border);border-radius:12px;display:block}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem} .tag.b{background:var(--color-track);color:var(--color-text-muted)} .tag.a{background:var(--color-success-surface);color:var(--color-success)}
+.batch{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr));gap:.75rem}
+.batch div{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem} .batch b{display:block;font:700 1.5rem var(--font-display)} .batch span{font-size:.875rem;color:var(--color-text-muted)}
+ul{margin:0;padding-left:1.25rem} details{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem} pre{overflow-x:auto;font-size:.75rem;line-height:1.45;margin:.75rem 0 0}
+.note{background:var(--color-warning-surface);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
+@media (max-width:560px){.pair{grid-template-columns:1fr}}
+</style></head><body><main class="wrap">
+<header style="display:flex;flex-direction:column;gap:.5rem"><span class="eyebrow">Design QA · branch fix/ui-copy-consistency · not pushed</span><h1>Copy batch: one PR, one review</h1>
+<p>What "one PR per area" means: every copy fix from the audit on one branch, checked here in one pass instead of seven PRs.</p></header>
+<div class="batch"><div><b>7</b><span>audit findings</span></div><div><b>24</b><span>files, 80 lines</span></div><div><b>1</b><span>PR and one QA page</span></div><div><b>0</b><span>backend changes</span></div></div>
+<section><h2>1 · Sign out, everywhere <small>F37</small></h2><p>Settings, its confirm sheet, the menu drawer and the gate screen say Sign out, matching Sign in, Figma and DESIGN.md.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-settings.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-settings.jpg" alt="" loading="lazy"></div><figcaption>Settings</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-settings-sheet.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-settings-sheet.jpg" alt="" loading="lazy"></div><figcaption>Confirm sheet</figcaption></figure></section><section><h2>2 · Weekly rules, said once <small>F38 · F36</small></h2><p>The sheet is titled like its button, and two 4-line paragraphs become one line each.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__sitter-rules.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__sitter-rules.jpg" alt="" loading="lazy"></div><figcaption>Top of the sheet</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__sitter-rules-end.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__sitter-rules-end.jpg" alt="" loading="lazy"></div><figcaption>Hours section</figcaption></figure></section><section><h2>3 · Buttons are words <small>F07</small></h2><p class="note">Changed Oct 21 after review: the line icons are gone. Labels are plain text (History, Write a page, Life Record, Write a care checklist, Add to favorites); the screenshots below still show the icon version. Illustrations moved to the <a href="qa-expressive.html">patterns try-out</a>.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-home.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-home.jpg" alt="" loading="lazy"></div><figcaption>History</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-diary.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-diary.jpg" alt="" loading="lazy"></div><figcaption>Write a page</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-pet-end.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-pet-end.jpg" alt="" loading="lazy"></div><figcaption>Life Record, Write a care checklist</figcaption></figure></section><section><h2>4 · Dates read like the rest of the app <small>F35 · F40</small></h2><p>Recent checks show Oct 21, not 10/21/2026. Signed consents and the sitter search bar use the shared date helpers too (Oct 22 to 24, no dash).</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-snap.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-snap.jpg" alt="" loading="lazy"></div><figcaption>Snap, recent checks</figcaption></figure></section><section><h2>5 · Shorter helper text <small>F36</small></h2><p>Entry info, Welcome and the sitter's multi-owner hint say the one thing that matters.</p><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__owner-home-access.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__owner-home-access.jpg" alt="" loading="lazy"></div><figcaption>Entry info</figcaption></figure><figure class="pair"><div><span class="tag b">Before · live</span><img src="assets/qa-copy/before__public-welcome.jpg" alt="" loading="lazy"></div><div><span class="tag a">After · local :8085</span><img src="assets/qa-copy/after__public-welcome.jpg" alt="" loading="lazy"></div><figcaption>Welcome</figcaption></figure></section>
+<section><h2>Also in this batch, no screenshot</h2><ul>
+<li>Empty states (F66): owner Bookings uses the EmptyState card ("Your stays show up here once a sitter says yes."); sitter Today reads "No pets in your care today. Open your schedule to take bookings." Neither demo account is empty, so they don't show here.</li>
+<li>Sitter profile hint: "One owner at a time, or several within your max."</li>
+<li>e2e tests updated for the new wording.</li></ul></section>
+<section><h2>Left out on purpose</h2><ul>
+<li>Chat date format: the chat screen is being rewritten in PR #215, so changing it now would only conflict.</li>
+<li>Feed's in-care empty state ("No photos yet today"): it needs stay data, so it goes with the Home stay hero (batch 6).</li></ul>
+<p class="note">On the pet page, the "Needs / Source" block is missing on the local side only. It comes from the AI backend, which blocks localhost. It's not caused by this branch.</p></section>
+<section><h2>The code</h2><details><summary>Full diff (24 files)</summary><pre>diff --git a/frontend/app/(public)/welcome/index.tsx b/frontend/app/(public)/welcome/index.tsx
+index 81e4d56..da67789 100644
+--- a/frontend/app/(public)/welcome/index.tsx
++++ b/frontend/app/(public)/welcome/index.tsx
+@@ -24,8 +24,7 @@ export default function WelcomeLanding() {
+           Care updates without the back-and-forth
+         &lt;/Text&gt;
+         &lt;Text style={styles.lead}&gt;
+-          Choose how you use Goldito. We&#x27;ll show you what matters for that role. Sign in stays on the
+-          next screen, same as before.
++          Choose how you use Goldito.
+         &lt;/Text&gt;
+ 
+         &lt;Pressable
+diff --git a/frontend/app/index.tsx b/frontend/app/index.tsx
+index 40ecc23..de58f5f 100644
+--- a/frontend/app/index.tsx
++++ b/frontend/app/index.tsx
+@@ -30,7 +30,7 @@ function ProfileError() {
+         message=&quot;Check your connection and try again, or log out and sign in again.&quot;
+         action={{ label: &quot;Try again&quot;, onPress: reload }}
+       /&gt;
+-      &lt;TextButton label=&quot;Log out&quot; onPress={() =&gt; void signOut()} testID=&quot;gate-logout&quot; /&gt;
++      &lt;TextButton label=&quot;Sign out&quot; onPress={() =&gt; void signOut()} testID=&quot;gate-logout&quot; /&gt;
+     &lt;/View&gt;
+   );
+ }
+diff --git a/frontend/app/owner/(tabs)/bookings.tsx b/frontend/app/owner/(tabs)/bookings.tsx
+index 1ce846a..057fc71 100644
+--- a/frontend/app/owner/(tabs)/bookings.tsx
++++ b/frontend/app/owner/(tabs)/bookings.tsx
+@@ -189,7 +189,9 @@ export default function OwnerBookings() {
+             &lt;ChatList items={chats.items} onLeave={(id) =&gt; void chats.leave(id)} /&gt;
+           &lt;/View&gt;
+         ) : null}
+-        {state.bookings.length === 0 ? &lt;Text style={styles.hint}&gt;No bookings yet&lt;/Text&gt; : null}
++        {state.bookings.length === 0 ? (
++          &lt;EmptyState emoji=&quot;🗓️&quot; title=&quot;No bookings yet&quot; message=&quot;Your stays show up here once a sitter says yes.&quot; /&gt;
++        ) : null}
+         {state.bookings.length &gt; 0 ? (
+           &lt;View style={styles.section}&gt;
+             &lt;Text accessibilityRole=&quot;header&quot; style={styles.heading}&gt;
+diff --git a/frontend/app/owner/bookings/[bookingId]/review.tsx b/frontend/app/owner/bookings/[bookingId]/review.tsx
+index 7285521..3b3fa7c 100644
+--- a/frontend/app/owner/bookings/[bookingId]/review.tsx
++++ b/frontend/app/owner/bookings/[bookingId]/review.tsx
+@@ -100,10 +100,11 @@ export default function ReviewScreen() {
+       &gt;
+         &lt;Text style={styles.hint}&gt;{`Favorites show first when you book. ${booking.sitterName} isn&#x27;t told.`}&lt;/Text&gt;
+         &lt;Button
+-          label=&quot;⭐ Add to favorites&quot;
++          label=&quot;Add to favorites&quot;
++          icon=&quot;star-outline&quot;
+           onPress={() =&gt; {
+             void setFavoriteSitter(booking.sitterId, true)
+-              .then(() =&gt; toast.show(`${booking.sitterName} is a favorite ⭐`))
++              .then(() =&gt; toast.show(`${booking.sitterName} is a favorite`))
+               .catch((e: Error) =&gt; toast.show(e.message))
+               .finally(() =&gt; leave(booking.id));
+           }}
+diff --git a/frontend/app/owner/home-access.tsx b/frontend/app/owner/home-access.tsx
+index c257576..638341b 100644
+--- a/frontend/app/owner/home-access.tsx
++++ b/frontend/app/owner/home-access.tsx
+@@ -92,8 +92,7 @@ export default function HomeAccessScreen() {
+     &lt;View style={styles.root}&gt;
+       &lt;Screen contentStyle={styles.content}&gt;
+         &lt;Text style={styles.note} testID=&quot;home-access-note&quot;&gt;
+-          Only shown to your booked sitter, starting 2 hours before they arrive. You&#x27;ll be notified when
+-          it opens. Use obviously fake codes in this demo.
++          Your sitter sees this 2 hours before arriving. Use fake codes in the demo.
+         &lt;/Text&gt;
+         &lt;TextField
+           label=&quot;Entry steps&quot;
+diff --git a/frontend/app/owner/pets/[petId].tsx b/frontend/app/owner/pets/[petId].tsx
+index 845d5ac..0331a3b 100644
+--- a/frontend/app/owner/pets/[petId].tsx
++++ b/frontend/app/owner/pets/[petId].tsx
+@@ -71,7 +71,7 @@ export default function PetProfileScreen() {
+           router.back();
+         }}
+       /&gt;
+-      &lt;TextButton label=&quot;📖 Life Record&quot; onPress={() =&gt; router.push(`/owner/pets/${pet.id}/record`)} testID=&quot;open-life-record&quot; /&gt;
++      &lt;TextButton label=&quot;Life Record&quot; icon=&quot;book-outline&quot; onPress={() =&gt; router.push(`/owner/pets/${pet.id}/record`)} testID=&quot;open-life-record&quot; /&gt;
+       {session.status === &quot;signedIn&quot; ? &lt;CareTasksSection pet={pet} userId={session.profile.id} /&gt; : null}
+       {session.status === &quot;signedIn&quot; ? &lt;HeadsUpSection pet={pet} userId={session.profile.id} /&gt; : null}
+     &lt;/Screen&gt;
+diff --git a/frontend/app/profile.tsx b/frontend/app/profile.tsx
+index ab82c8c..7c57188 100644
+--- a/frontend/app/profile.tsx
++++ b/frontend/app/profile.tsx
+@@ -502,7 +502,7 @@ export default function ProfileScreen() {
+           {errors.services ? &lt;Text style={styles.error}&gt;{errors.services}&lt;/Text&gt; : null}
+           &lt;CheckRow
+             label=&quot;Take pets from more than one owner at a time&quot;
+-            hint=&quot;Off: one owner&#x27;s pets at a time, so other owners can&#x27;t book dates that are on hold or booked. On: several owners, within your max pets.&quot;
++            hint=&quot;One owner at a time, or several within your max.&quot;
+             checked={multiOwner}
+             onChange={setMultiOwner}
+             testID=&quot;profile-multi-owner&quot;
+diff --git a/frontend/app/settings.tsx b/frontend/app/settings.tsx
+index 23bdb71..ed11e3a 100644
+--- a/frontend/app/settings.tsx
++++ b/frontend/app/settings.tsx
+@@ -13,7 +13,7 @@ import { useSession } from &quot;../providers/SessionProvider&quot;;
+ import { useThemedStyles } from &quot;../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../theme/themes&quot;;
+ 
+-/** Menu → Settings (Phase 11.11, D47): the account (Edit profile), notifications, Privacy, the app version and Log out. */
++/** Menu → Settings (Phase 11.11, D47): the account (Edit profile), notifications, Privacy, the app version and Sign out. */
+ export default function SettingsScreen() {
+   const styles = useThemedStyles(makeStyles);
+   const session = useSession();
+@@ -55,10 +55,10 @@ export default function SettingsScreen() {
+           Goldito {version}
+         &lt;/Text&gt;
+       &lt;/Card&gt;
+-      &lt;Button label=&quot;Log out&quot; variant=&quot;secondary&quot; onPress={() =&gt; setConfirmLogOut(true)} testID=&quot;settings-log-out&quot; /&gt;
+-      &lt;Sheet visible={confirmLogOut} title=&quot;Log out?&quot; onClose={() =&gt; setConfirmLogOut(false)} testID=&quot;settings-log-out-sheet&quot;&gt;
++      &lt;Button label=&quot;Sign out&quot; variant=&quot;secondary&quot; onPress={() =&gt; setConfirmLogOut(true)} testID=&quot;settings-log-out&quot; /&gt;
++      &lt;Sheet visible={confirmLogOut} title=&quot;Sign out?&quot; onClose={() =&gt; setConfirmLogOut(false)} testID=&quot;settings-log-out-sheet&quot;&gt;
+         &lt;View style={styles.confirm}&gt;
+-          &lt;Button label=&quot;Log out&quot; variant=&quot;danger&quot; onPress={() =&gt; void session.signOut()} testID=&quot;settings-log-out-confirm&quot; /&gt;
++          &lt;Button label=&quot;Sign out&quot; variant=&quot;danger&quot; onPress={() =&gt; void session.signOut()} testID=&quot;settings-log-out-confirm&quot; /&gt;
+           &lt;Button label=&quot;Cancel&quot; variant=&quot;secondary&quot; onPress={() =&gt; setConfirmLogOut(false)} /&gt;
+         &lt;/View&gt;
+       &lt;/Sheet&gt;
+diff --git a/frontend/app/sitter/(tabs)/index.tsx b/frontend/app/sitter/(tabs)/index.tsx
+index f0d945a..ecce3c4 100644
+--- a/frontend/app/sitter/(tabs)/index.tsx
++++ b/frontend/app/sitter/(tabs)/index.tsx
+@@ -105,8 +105,8 @@ export default function SitterHome() {
+       &lt;Screen&gt;
+         &lt;EmptyState
+           emoji=&quot;🌤️&quot;
+-          title=&quot;No bookings yet&quot;
+-          message=&quot;Open your schedule so owners can find you.&quot;
++          title=&quot;No pets in your care today&quot;
++          message=&quot;Open your schedule to take bookings.&quot;
+           action={{ label: &quot;Open your schedule&quot;, onPress: () =&gt; router.push(&quot;/sitter/schedule&quot;) }}
+         /&gt;
+       &lt;/Screen&gt;
+diff --git a/frontend/components/CareTasksSection.tsx b/frontend/components/CareTasksSection.tsx
+index 58f5923..9b15110 100644
+--- a/frontend/components/CareTasksSection.tsx
++++ b/frontend/components/CareTasksSection.tsx
+@@ -144,7 +144,8 @@ export function CareTasksSection({ pet, userId }: Props) {
+           : `What ${pet.name}&#x27;s sitter should do each day.`}
+       &lt;/Text&gt;
+       &lt;Button
+-        label={stay ? &quot;✍️ Write a care request&quot; : &quot;✍️ Write a care checklist&quot;}
++        label={stay ? &quot;Write a care request&quot; : &quot;Write a care checklist&quot;}
++        icon=&quot;create-outline&quot;
+         variant=&quot;secondary&quot;
+         onPress={() =&gt; router.push(`/owner/pets/${pet.id}/care-request`)}
+         testID=&quot;care-request-open&quot;
+diff --git a/frontend/components/ClosingRulesSheet.tsx b/frontend/components/ClosingRulesSheet.tsx
+index 42231ab..bf4037e 100644
+--- a/frontend/components/ClosingRulesSheet.tsx
++++ b/frontend/components/ClosingRulesSheet.tsx
+@@ -116,7 +116,7 @@ export function ClosingRulesSheet({ visible, rules, hours, weekdayHours, saving,
+   return (
+     &lt;Sheet
+       visible={visible}
+-      title=&quot;Closing rules&quot;
++      title=&quot;Weekly rules&quot;
+       onClose={onClose}
+       testID=&quot;rules-sheet&quot;
+       footer={
+@@ -129,8 +129,7 @@ export function ClosingRulesSheet({ visible, rules, hours, weekdayHours, saving,
+       }
+     &gt;
+       &lt;Text style={styles.hint}&gt;
+-        Tap the days and times you never take. Closed slots can&#x27;t be booked, every week. With nothing picked you are
+-        open, and owners can find you. Days you close by hand on the calendar stay closed too.
++        Tap the slots you never take.
+       &lt;/Text&gt;
+ 
+       &lt;View style={styles.grid} testID=&quot;rules-grid&quot;&gt;
+@@ -168,8 +167,7 @@ export function ClosingRulesSheet({ visible, rules, hours, weekdayHours, saving,
+ 
+       &lt;Text style={styles.heading}&gt;Hours&lt;/Text&gt;
+       &lt;Text style={styles.hint}&gt;
+-        The hours of each slot on days you haven&#x27;t set by hand. Pick a weekday to give it its own hours; the others keep
+-        the every-day hours. A day you opened by hand keeps its own hours.
++        Pick a weekday to give it its own hours.
+       &lt;/Text&gt;
+       &lt;View style={styles.dayChips} testID=&quot;rules-hours-days&quot;&gt;
+         {([&quot;all&quot;, 0, 1, 2, 3, 4, 5, 6] as const).map((day) =&gt; {
+diff --git a/frontend/components/ConsentCard.tsx b/frontend/components/ConsentCard.tsx
+index d378aee..40966bc 100644
+--- a/frontend/components/ConsentCard.tsx
++++ b/frontend/components/ConsentCard.tsx
+@@ -1,6 +1,7 @@
+ import { useState } from &quot;react&quot;;
+ import { Pressable, StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
++import { formatInstant } from &quot;../features/schedule/dates&quot;;
+ import { DEMO_CONSENT_FOOTER, type ConsentTemplate } from &quot;../features/agreements/templates&quot;;
+ import { useThemedStyles } from &quot;../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../theme/themes&quot;;
+@@ -49,7 +50,7 @@ export function ConsentCard({ template, checked, onCheckedChange, signedAt, disa
+       ) : null}
+       {signed ? (
+         &lt;Text style={styles.signed} testID={testID ? `${testID}-signed` : undefined}&gt;
+-          {`Signed ${new Date(signedAt!).toLocaleString()}`}
++          {`Signed ${formatInstant(signedAt!)}`}
+         &lt;/Text&gt;
+       ) : (
+         &lt;CheckRow
+diff --git a/frontend/components/HeaderMenu.tsx b/frontend/components/HeaderMenu.tsx
+index 782d2c2..641574c 100644
+--- a/frontend/components/HeaderMenu.tsx
++++ b/frontend/components/HeaderMenu.tsx
+@@ -15,7 +15,7 @@ type IconName = ComponentProps&lt;typeof Ionicons&gt;[&quot;name&quot;];
+ 
+ const DURATION = 260;
+ 
+-/** Header ≡ (#147): a full-width drawer from the right. You → Profile, Notifications, Schedule (sitters), What&#x27;s new, Settings, Log out. */
++/** Header ≡ (#147): a full-width drawer from the right. You → Profile, Notifications, Schedule (sitters), What&#x27;s new, Settings, Sign out. */
+ export function HeaderMenu() {
+   const theme = useTheme();
+   const styles = useThemedStyles(makeStyles);
+@@ -112,8 +112,8 @@ export function HeaderMenu() {
+ 
+           {confirming ? (
+             &lt;View style={styles.confirm}&gt;
+-              &lt;Text style={styles.name}&gt;Log out?&lt;/Text&gt;
+-              &lt;Button label=&quot;Log out&quot; variant=&quot;danger&quot; onPress={() =&gt; close(() =&gt; void signOut())} testID=&quot;log-out-confirm&quot; /&gt;
++              &lt;Text style={styles.name}&gt;Sign out?&lt;/Text&gt;
++              &lt;Button label=&quot;Sign out&quot; variant=&quot;danger&quot; onPress={() =&gt; close(() =&gt; void signOut())} testID=&quot;log-out-confirm&quot; /&gt;
+               &lt;Button label=&quot;Cancel&quot; variant=&quot;secondary&quot; onPress={() =&gt; setConfirming(false)} testID=&quot;log-out-cancel&quot; /&gt;
+             &lt;/View&gt;
+           ) : (
+@@ -141,7 +141,7 @@ export function HeaderMenu() {
+                 testID=&quot;log-out&quot;
+               &gt;
+                 &lt;Ionicons name=&quot;log-out-outline&quot; size={24} color={theme.color.textMuted} /&gt;
+-                &lt;Text style={[styles.rowLabel, styles.mutedLabel]}&gt;Log out&lt;/Text&gt;
++                &lt;Text style={[styles.rowLabel, styles.mutedLabel]}&gt;Sign out&lt;/Text&gt;
+               &lt;/Pressable&gt;
+             &lt;/&gt;
+           )}
+diff --git a/frontend/components/LiveUpdates.tsx b/frontend/components/LiveUpdates.tsx
+index 18eb6a3..0c7fae5 100644
+--- a/frontend/components/LiveUpdates.tsx
++++ b/frontend/components/LiveUpdates.tsx
+@@ -173,7 +173,7 @@ export function LiveUpdates() {
+         &lt;Text accessibilityRole=&quot;header&quot; style={styles.heading}&gt;
+           Live updates
+         &lt;/Text&gt;
+-        &lt;TextButton label=&quot;🕘 History&quot; onPress={() =&gt; router.push(&quot;/owner/history&quot;)} testID=&quot;open-history&quot; /&gt;
++        &lt;TextButton label=&quot;History&quot; icon=&quot;time-outline&quot; onPress={() =&gt; router.push(&quot;/owner/history&quot;)} testID=&quot;open-history&quot; /&gt;
+       &lt;/View&gt;
+ 
+       {items != null &amp;&amp; shown.length === 0 ? (
+diff --git a/frontend/components/ShareToggle.tsx b/frontend/components/ShareToggle.tsx
+index 6d7de59..ce5057b 100644
+--- a/frontend/components/ShareToggle.tsx
++++ b/frontend/components/ShareToggle.tsx
+@@ -27,7 +27,7 @@ export function ShareToggle({ label, on, onToggle, disabled, testID }: Props) {
+       testID={testID}
+     &gt;
+       &lt;Text style={[styles.label, on &amp;&amp; styles.labelOn]}&gt;
+-        {on ? &quot;✓ &quot; : &quot;🔒 &quot;}
++        {on ? &quot;✓ &quot; : &quot;&quot;}
+         {on ? label : &quot;Only you&quot;}
+       &lt;/Text&gt;
+     &lt;/Pressable&gt;
+diff --git a/frontend/components/SitterSearchBar.tsx b/frontend/components/SitterSearchBar.tsx
+index 57391ea..80894b6 100644
+--- a/frontend/components/SitterSearchBar.tsx
++++ b/frontend/components/SitterSearchBar.tsx
+@@ -4,7 +4,7 @@ import { ComponentProps, useState } from &quot;react&quot;;
+ import { Pressable, StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
+ import { SPECIES_EMOJI } from &quot;../features/pets/petFormat&quot;;
+-import { formatDay, formatTime, shiftTime } from &quot;../features/schedule/dates&quot;;
++import { formatDay, formatDayRange, formatTime, shiftTime } from &quot;../features/schedule/dates&quot;;
+ import { SitterSearch } from &quot;../features/sitters/useSitterSearch&quot;;
+ import { useTheme, useThemedStyles } from &quot;../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../theme/themes&quot;;
+@@ -23,15 +23,6 @@ type IconName = ComponentProps&lt;typeof Ionicons&gt;[&quot;name&quot;];
+ 
+ const TIME_STEP = 15;
+ 
+-/** &quot;Oct 20&quot; from &quot;Tue, Oct 20&quot;. */
+-const shortDay = (day: string) =&gt; formatDay(day).replace(/^\w+,\s*/, &quot;&quot;);
+-
+-/** &quot;Oct 20 - 22&quot;, or &quot;Oct 30 - Nov 2&quot; across months. */
+-function stayText(from: string, to: string): string {
+-  const a = shortDay(from);
+-  const b = shortDay(to);
+-  return a.split(&quot; &quot;)[0] === b.split(&quot; &quot;)[0] ? `${a} - ${b.split(&quot; &quot;)[1]}` : `${a} - ${b}`;
+-}
+ 
+ /**
+  * One hotel-style line: a place (my home, here, an address or postal code), the stay (dates and times) and the
+@@ -47,7 +38,7 @@ export function SitterSearchBar({ search }: { search: SitterSearch }) {
+ 
+   const { place, dropOff, pickUp, pets, petIds } = search;
+   const placeText = place.kind === &quot;home&quot; ? &quot;My home&quot; : place.kind === &quot;here&quot; ? &quot;Current location&quot; : place.label;
+-  const dateText = stayText(dropOff.day, pickUp.day);
++  const dateText = formatDayRange(dropOff.day, pickUp.day);
+   const petText = petIds.length === 1 ? pets.find((p) =&gt; p.id === petIds[0])?.name ?? &quot;1 pet&quot; : `${petIds.length} pets`;
+ 
+   const segment = (icon: IconName, text: string, onPress: () =&gt; void, id: string, grow: number) =&gt; (
+diff --git a/frontend/components/ui/Button.tsx b/frontend/components/ui/Button.tsx
+index 4a1ca09..d7b10ff 100644
+--- a/frontend/components/ui/Button.tsx
++++ b/frontend/components/ui/Button.tsx
+@@ -1,6 +1,8 @@
+-import { Pressable, StyleSheet, Text, ViewStyle } from &quot;react-native&quot;;
++import Ionicons from &quot;@expo/vector-icons/Ionicons&quot;;
++import type { ComponentProps } from &quot;react&quot;;
++import { Pressable, StyleSheet, Text, View, ViewStyle } from &quot;react-native&quot;;
+ 
+-import { useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
++import { useTheme, useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
+ 
+ type Props = {
+@@ -10,12 +12,15 @@ type Props = {
+   /** `secondary` = white + strong border, for a second button next to the one primary (DESIGN.md §6).
+    * `danger` = `error` fill, white text — only for a destructive confirm that can&#x27;t be undone. */
+   variant?: &quot;primary&quot; | &quot;secondary&quot; | &quot;danger&quot;;
++  /** Optional line icon before the label (Ionicons outline), drawn in the label colour. No emoji in labels (DESIGN.md 7.6). */
++  icon?: ComponentProps&lt;typeof Ionicons&gt;[&quot;name&quot;];
+   style?: ViewStyle;
+   testID?: string;
+ };
+ 
+ /** Figma: Goldito-Design → Components → Button (Style × State). */
+-export function Button({ label, onPress, disabled, variant = &quot;primary&quot;, style, testID }: Props) {
++export function Button({ label, onPress, disabled, variant = &quot;primary&quot;, icon, style, testID }: Props) {
++  const theme = useTheme();
+   const styles = useThemedStyles(makeStyles);
+   const secondary = variant === &quot;secondary&quot;;
+   const danger = variant === &quot;danger&quot;;
+@@ -35,7 +40,16 @@ export function Button({ label, onPress, disabled, variant = &quot;primary&quot;, style, t
+         style,
+       ]}
+     &gt;
+-      &lt;Text style={[styles.label, secondary &amp;&amp; styles.secondaryLabel, disabled &amp;&amp; styles.disabledLabel]}&gt;{label}&lt;/Text&gt;
++      &lt;View style={styles.row}&gt;
++        {icon ? (
++          &lt;Ionicons
++            name={icon}
++            size={20}
++            color={disabled ? theme.color.textMuted : secondary ? theme.color.primary : theme.color.primaryText}
++          /&gt;
++        ) : null}
++        &lt;Text style={[styles.label, secondary &amp;&amp; styles.secondaryLabel, disabled &amp;&amp; styles.disabledLabel]}&gt;{label}&lt;/Text&gt;
++      &lt;/View&gt;
+     &lt;/Pressable&gt;
+   );
+ }
+@@ -53,6 +67,11 @@ const makeStyles = (theme: Theme) =&gt;
+       borderColor: theme.color.primary,
+       alignItems: &quot;center&quot;,
+     },
++    row: {
++      flexDirection: &quot;row&quot;,
++      alignItems: &quot;center&quot;,
++      gap: theme.spacing.xs,
++    },
+     danger: {
+       backgroundColor: theme.color.error,
+       borderColor: theme.color.error,
+diff --git a/frontend/components/ui/TextButton.tsx b/frontend/components/ui/TextButton.tsx
+index 4b75690..942a79a 100644
+--- a/frontend/components/ui/TextButton.tsx
++++ b/frontend/components/ui/TextButton.tsx
+@@ -1,6 +1,8 @@
+-import { Pressable, StyleSheet, Text, ViewStyle } from &quot;react-native&quot;;
++import Ionicons from &quot;@expo/vector-icons/Ionicons&quot;;
++import type { ComponentProps } from &quot;react&quot;;
++import { Pressable, StyleSheet, Text, View, ViewStyle } from &quot;react-native&quot;;
+ 
+-import { useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
++import { useTheme, useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
+ 
+ type Props = {
+@@ -9,12 +11,15 @@ type Props = {
+   /** Destructive link, e.g. Cancel booking — `error` color. */
+   danger?: boolean;
+   disabled?: boolean;
++  /** Optional line icon before the label (Ionicons outline). No emoji in labels (DESIGN.md 7.6). */
++  icon?: ComponentProps&lt;typeof Ionicons&gt;[&quot;name&quot;];
+   style?: ViewStyle;
+   testID?: string;
+ };
+ 
+ /** Secondary action as a text link — keeps one filled primary button per screen (DESIGN.md §7.1). */
+-export function TextButton({ label, onPress, danger, disabled, style, testID }: Props) {
++export function TextButton({ label, onPress, danger, disabled, icon, style, testID }: Props) {
++  const theme = useTheme();
+   const styles = useThemedStyles(makeStyles);
+ 
+   return (
+@@ -25,7 +30,10 @@ export function TextButton({ label, onPress, danger, disabled, style, testID }:
+       testID={testID}
+       style={({ pressed }) =&gt; [styles.base, pressed &amp;&amp; styles.pressed, disabled &amp;&amp; styles.disabled, style]}
+     &gt;
+-      &lt;Text style={[styles.label, danger &amp;&amp; styles.danger]}&gt;{label}&lt;/Text&gt;
++      &lt;View style={styles.row}&gt;
++        {icon ? &lt;Ionicons name={icon} size={18} color={danger ? theme.color.error : theme.color.primary} /&gt; : null}
++        &lt;Text style={[styles.label, danger &amp;&amp; styles.danger]}&gt;{label}&lt;/Text&gt;
++      &lt;/View&gt;
+     &lt;/Pressable&gt;
+   );
+ }
+@@ -38,6 +46,11 @@ const makeStyles = (theme: Theme) =&gt;
+       justifyContent: &quot;center&quot;,
+       paddingHorizontal: theme.spacing.sm,
+     },
++    row: {
++      flexDirection: &quot;row&quot;,
++      alignItems: &quot;center&quot;,
++      gap: theme.spacing.xs,
++    },
+     pressed: {
+       opacity: 0.6,
+     },
+diff --git a/frontend/e2e/auth.spec.ts b/frontend/e2e/auth.spec.ts
+index 8ad54ba..2268715 100644
+--- a/frontend/e2e/auth.spec.ts
++++ b/frontend/e2e/auth.spec.ts
+@@ -64,7 +64,7 @@ test.describe(&quot;auth and role routing&quot;, () =&gt; {
+ 
+     await page.goto(&quot;/owner/diary&quot;);
+     await expect(page).toHaveURL(/\/sitter$/);
+-    await expect(app(page).getByText(&quot;No bookings yet&quot;)).toBeVisible();
++    await expect(app(page).getByText(&quot;No pets in your care today&quot;)).toBeVisible();
+   });
+ 
+   test(&quot;tabs switch with a mouse click&quot;, async ({ page }) =&gt; {
+diff --git a/frontend/e2e/settings.spec.ts b/frontend/e2e/settings.spec.ts
+index 9adaa6c..c81454e 100644
+--- a/frontend/e2e/settings.spec.ts
++++ b/frontend/e2e/settings.spec.ts
+@@ -5,7 +5,7 @@ import changelog from &quot;../features/settings/changelog.json&quot;;
+ import { app, signIn } from &quot;./helpers&quot;;
+ import { OWNER, SITTER, mockSupabase } from &quot;./supabaseMock&quot;;
+ 
+-// Menu → Settings (11.11): the account with Edit profile, a notifications note, Privacy, the app version and Log out.
++// Menu → Settings (11.11): the account with Edit profile, a notifications note, Privacy, the app version and Sign out.
+ // Menu → What&#x27;s new: what shipped after launch (CHANGELOG 1.0.0 and later), never the build-up or the planned ones.
+ 
+ for (const user of [OWNER, SITTER]) {
+diff --git a/frontend/e2e/welcome.spec.ts b/frontend/e2e/welcome.spec.ts
+index 9cdf5f4..82a6cbb 100644
+--- a/frontend/e2e/welcome.spec.ts
++++ b/frontend/e2e/welcome.spec.ts
+@@ -49,7 +49,7 @@ test.describe(&quot;welcome&quot;, () =&gt; {
+     await screen.getByTestId(&quot;onboarding-sitter-next&quot;).click();
+     await screen.getByTestId(&quot;onboarding-sitter-demo&quot;).click();
+     await expect(page).toHaveURL(/\/sitter$/);
+-    await expect(screen.getByText(&quot;No bookings yet&quot;)).toBeVisible();
++    await expect(screen.getByText(&quot;No pets in your care today&quot;)).toBeVisible();
+   });
+ 
+   test(&quot;signed-in users skip Welcome&quot;, async ({ page }) =&gt; {
+diff --git a/frontend/features/diary/OwnerDiaryBook.tsx b/frontend/features/diary/OwnerDiaryBook.tsx
+index 9988fb3..ac992aa 100644
+--- a/frontend/features/diary/OwnerDiaryBook.tsx
++++ b/frontend/features/diary/OwnerDiaryBook.tsx
+@@ -60,7 +60,7 @@ export function OwnerDiaryBook({ initialId }: { initialId?: string | null }) {
+       &lt;/Screen&gt;
+     );
+   }
+-  const write = pets.length &gt; 0 ? &lt;Button label=&quot;✏️ Write a page&quot; variant=&quot;secondary&quot; onPress={() =&gt; setWriting(true)} testID=&quot;diary-write&quot; /&gt; : null;
++  const write = pets.length &gt; 0 ? &lt;Button label=&quot;Write a page&quot; icon=&quot;create-outline&quot; variant=&quot;secondary&quot; onPress={() =&gt; setWriting(true)} testID=&quot;diary-write&quot; /&gt; : null;
+   const sheet = (
+     &lt;OwnerEntrySheet
+       visible={writing}
+diff --git a/frontend/features/snap/SnapScreen.tsx b/frontend/features/snap/SnapScreen.tsx
+index 7df8167..32a6b2b 100644
+--- a/frontend/features/snap/SnapScreen.tsx
++++ b/frontend/features/snap/SnapScreen.tsx
+@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from &quot;react-native&quot;;
+ 
+ import { Screen } from &quot;../../components/ui/Screen&quot;;
+ import { useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
++import { formatDay, isoToZoned } from &quot;../schedule/dates&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
+ import { PetOption, Role, SnapPets } from &quot;./SnapPets&quot;;
+ import { SnapToolCard } from &quot;./SnapToolCard&quot;;
+@@ -69,7 +70,7 @@ function RecentChecks({ role, pets }: { role: Role; pets: PetOption[] }) {
+             {c.product_name || &quot;Treat label&quot;}
+             {pets.length &gt; 1 ? ` · ${pets.find((p) =&gt; p.id === c.petId)?.name ?? &quot;&quot;}` : &quot;&quot;}
+           &lt;/Text&gt;
+-          &lt;Text style={styles.date}&gt;{new Date(c.createdAt).toLocaleDateString()}&lt;/Text&gt;
++          &lt;Text style={styles.date}&gt;{formatDay(isoToZoned(c.createdAt).day)}&lt;/Text&gt;
+         &lt;/Pressable&gt;
+       ))}
+     &lt;/View&gt;
+diff --git a/frontend/features/snap/TreatCheckScreen.tsx b/frontend/features/snap/TreatCheckScreen.tsx
+index d27bd69..e8ae508 100644
+--- a/frontend/features/snap/TreatCheckScreen.tsx
++++ b/frontend/features/snap/TreatCheckScreen.tsx
+@@ -17,6 +17,7 @@ import { useTheme, useThemedStyles } from &quot;../../providers/ThemeProvider&quot;;
+ import { Theme } from &quot;../../theme/themes&quot;;
+ import { PetChips, PetOption, PetsState, Role, SnapPets } from &quot;./SnapPets&quot;;
+ import { SafetyCheck, acknowledgeCheck, checkTreat, getCheck, listRecentChecks } from &quot;./treatApi&quot;;
++import { formatDay, isoToZoned } from &quot;../schedule/dates&quot;;
+ 
+ type Step = &quot;uploading&quot; | &quot;reading&quot; | &quot;checking&quot;;
+ 
+@@ -255,7 +256,7 @@ function TreatCheck({ role, pets }: { role: Role; pets: PetsState }) {
+               &lt;Text style={styles.recentName} numberOfLines={1}&gt;
+                 {c.product_name || &quot;Treat label&quot;}
+               &lt;/Text&gt;
+-              &lt;Text style={styles.recentDate}&gt;{new Date(c.createdAt).toLocaleDateString()}&lt;/Text&gt;
++              &lt;Text style={styles.recentDate}&gt;{formatDay(isoToZoned(c.createdAt).day)}&lt;/Text&gt;
+             &lt;/Pressable&gt;
+           ))}
+         &lt;/View&gt;
+</pre></details></section>
+</main></body></html>
