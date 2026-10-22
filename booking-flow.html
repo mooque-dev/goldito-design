@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Booking Flow</title>
+<meta name="description" content="Step-by-step booking request, playable, built only from the design kit's parts. For the product call: one question per screen instead of one long form.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:62rem;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.25rem/1.2 var(--font-display);margin:0}
+p{margin:0} a{color:var(--color-primary)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.lang{display:flex;gap:.25rem} .lang button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 .8125rem var(--font-ui);cursor:pointer} .lang button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+html[data-l=en] .ko,html[data-l=ko] .en{display:none}
+.play{display:grid;grid-template-columns:minmax(0,402px) minmax(0,1fr);gap:2rem;align-items:start} @media (max-width:820px){.play{grid-template-columns:1fr}}
+.side{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.box{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;display:flex;flex-direction:column;gap:.5rem;font-size:.9375rem}
+.box ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.35rem}
+.jump{display:flex;flex-wrap:wrap;gap:.375rem} .jump button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 .8125rem var(--font-ui);cursor:pointer} .jump button[aria-current=true]{background:#D8F3DC;border:2px solid #1B4332;color:#1B4332}
+
+/* ---- the phone: Expressive, kit parts, Plus Jakarta Sans ---- */
+.ph{--ink:#1B4332;--cream:#FBF6EA;--mint:#D8F3DC;--line:#E8DCC4;--line-strong:#7F6F58;--muted:#6B5D4A;--ok:#067647;--gold:#F4C35A;
+  position:relative;width:100%;max-width:402px;height:min(874px,calc(100vh - 7rem));min-height:640px;margin:0 auto;background:var(--cream);color:var(--ink);border:10px solid #1F1F1F;border-radius:44px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;position:sticky;top:calc(var(--site-nav-h,0px) + 1rem)}
+.sb{display:flex;justify-content:space-between;padding:12px 24px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;height:40px;background:#fff}
+.hd{display:flex;align-items:center;gap:8px;padding:8px 16px 8px 6px}
+.hd .bk{width:44px;height:44px;border:0;background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer;border-radius:22px}
+.hd .bk:disabled{visibility:hidden} .hd .bk svg{width:24px;height:24px}
+.hd .mid{flex:1;display:flex;flex-direction:column;gap:5px}
+.hd .tr{height:8px;border-radius:4px;background:var(--line);overflow:hidden} .hd .fl{height:8px;background:var(--ok);border-radius:4px;transition:width 240ms cubic-bezier(.215,.61,.355,1)}
+.hd .lb{font-size:13px;font-weight:600;color:var(--muted)}
+.hd .help{min-height:44px;display:grid;place-items:center;font-weight:700;font-size:14px;color:var(--ink);text-decoration:none}
+.bd{flex:1;overflow-y:auto;padding:12px 16px 24px;display:flex;flex-direction:column;gap:14px}
+.q{font:600 28px/1.15 Fredoka,sans-serif;margin:0;letter-spacing:-.01em} .sub{font-size:16px;color:var(--muted);margin-top:-6px}
+.opt{display:flex;align-items:center;gap:14px;min-height:72px;padding:14px 16px;border-radius:16px;border:1.5px solid var(--line-strong);background:#fff;cursor:pointer;text-align:left;width:100%;font:inherit;color:inherit;transition:transform 120ms}
+.opt[aria-checked=true]{background:var(--mint);border:2px solid var(--ink)} .opt:active{transform:scale(.98)}
+.opt .lead{width:52px;height:52px;border-radius:14px;overflow:hidden;flex-shrink:0;background:var(--mint);display:grid;place-items:center} .opt .lead img{width:100%;height:100%;object-fit:cover} .opt .lead svg{width:26px;height:26px}
+.opt .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px} .opt b{font-size:19px;font-weight:700} .opt small{font-size:14px;color:var(--muted)}
+.opt .ck{width:30px;height:30px;border-radius:50%;border:2px solid var(--line-strong);display:grid;place-items:center;flex-shrink:0;color:#fff} .opt .ck svg{width:18px;height:18px}
+.opt.sq .ck{border-radius:8px} .opt[aria-checked=true] .ck{background:var(--ink);border-color:var(--ink)}
+.opt:focus-visible,.chip:focus-visible,.bigbtn:focus-visible,.hd .bk:focus-visible,.rc button:focus-visible,.chg:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.lbl{font-size:14px;font-weight:700;color:var(--muted);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--line-strong);background:#fff;color:var(--ink);font:600 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--mint);border:2px solid var(--ink)}
+.note{background:#ECFDF3;color:#067647;border-radius:12px;padding:10px 12px;font-size:14px;font-weight:600}
+.err{color:#B42318;font-size:14px;font-weight:600}
+/* range calendar (RangeCalendar) */
+.rc{background:#fff;border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.rc .mh{display:flex;align-items:center;justify-content:space-between} .rc .mh b{font-size:16px}
+.rc .nav{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;color:var(--ink)} .rc .nav:disabled{opacity:.3;cursor:default} .rc .nav svg{width:20px;height:20px}
+.rc .wk,.rc .gr{display:grid;grid-template-columns:repeat(7,1fr)} .rc .wk span{text-align:center;font-size:12px;color:var(--muted);padding:2px 0}
+.rc .gr button{min-height:44px;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer;font:15px 'Plus Jakarta Sans',sans-serif;color:var(--ink)}
+.rc .gr i{width:38px;height:38px;border-radius:19px;display:grid;place-items:center;font-style:normal}
+.rc .gr .in{background:var(--mint)} .rc .gr .s{background:var(--mint);border-radius:22px 0 0 22px} .rc .gr .e{background:var(--mint);border-radius:0 22px 22px 0} .rc .gr .s.e{background:none}
+.rc .s i,.rc .e i{background:var(--ink);color:#fff;font-weight:700} .rc .today i{box-shadow:inset 0 0 0 2px var(--line-strong)} .rc .full i{text-decoration:line-through;color:#B4531A} .rc .past i{opacity:.3} .rc button:disabled{cursor:default}
+.rc .ft{font-size:13px;color:var(--muted)}
+/* summary + price */
+.card{background:#fff;border-radius:16px;padding:4px 16px}
+.sum{display:flex;align-items:center;gap:14px;min-height:58px;padding:8px 0;border-bottom:1px solid var(--line)} .sum:last-child{border-bottom:0}
+.sum>span{width:72px;font-size:14px;color:var(--muted);flex-shrink:0} .sum .v{flex:1;min-width:0} .sum b{display:block;font-size:16px;font-weight:600} .sum small{font-size:14px;color:var(--muted)}
+.chg{min-height:44px;border:0;background:none;font:700 15px 'Plus Jakarta Sans',sans-serif;color:var(--ink);text-decoration:underline;cursor:pointer;padding:0 4px}
+.pb{background:#fff;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.pb .l{display:flex;justify-content:space-between;gap:16px;font-size:15px;font-variant-numeric:tabular-nums} .pb .l span:first-child{color:var(--muted)}
+.pb .t{margin-top:4px;padding-top:10px;border-top:1px solid var(--line);font-weight:700} .pb .t span:last-child{font-size:18px} .pb .n{font-size:13px;color:var(--muted)}
+.ft2{padding:12px 16px 22px;background:var(--cream);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.bigbtn{min-height:60px;width:100%;border-radius:999px;border:0;background:var(--ink);color:#fff;font:700 18px 'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:transform 120ms}
+.bigbtn:active{transform:scale(.98)} .bigbtn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;transform:none}
+.bigbtn.sec{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
+.done .c{width:84px;height:84px;border-radius:50%;background:var(--mint);display:grid;place-items:center} .done .c svg{width:40px;height:40px}
+@media (prefers-reduced-motion:reduce){.hd .fl,.opt,.bigbtn{transition:none}}
+</style><script src="nav.js" defer></script>
+</head><body><main class="wrap">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="l-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="l-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="l-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="l-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="l-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="l-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/><path d="m21 2-9.6 9.6"/><circle cx="7.5" cy="15.5" r="5.5"/></symbol>
+</svg>
+
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Product call</span><span class="ko">제품 결정</span> · Oct 22</span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
+<section style="display:flex;flex-direction:column;gap:.5rem">
+  <h1><span class="en">Booking, one question at a time</span><span class="ko">예약, 한 화면에 질문 하나</span></h1>
+  <p><span class="en">Play the whole request in the phone. Every screen uses a part from the <a href="kit.html">design kit</a>, so this is what the app would look like. Prices are sample numbers worked out from your picks. Text is Plus Jakarta Sans, the face we picked today.</span><span class="ko">폰에서 요청 전체를 직접 해 보세요. 모든 화면은 <a href="kit.html">디자인 키트</a>의 파트로 만들어서 앱에서도 이렇게 보여요. 가격은 선택에 따라 계산한 예시. 글꼴은 오늘 고른 Plus Jakarta Sans.</span></p>
+</section>
+
+<div class="play">
+  <div class="ph" id="ph" aria-label="Phone: booking request"></div>
+  <div class="side">
+    <div class="box"><b><span class="en">Jump to a screen</span><span class="ko">화면 바로가기</span></b><div class="jump" id="jump"></div></div>
+    <div class="box"><b><span class="en">For the call: Mook and Minsik</span><span class="ko">결정할 것: 무크·민식</span></b>
+      <ul class="en">
+        <li><b>Replace the one long form?</b> Today the owner fills pets, place, dates, drop-off and pick-up on one screen. Here each is one screen with one big button.</li>
+        <li><b>Dates:</b> quick picks first, the calendar under them. Full days are struck; Chloe's calendar decides.</li>
+        <li><b>Who drives:</b> asked on its own screen both ways, because it changes the trip and the entry info later.</li>
+        <li><b>Check screen:</b> every answer with Change, and the price from Chloe's rates. Nothing is paid until Chloe says yes.</li>
+        <li><b>Scope:</b> the parts all exist (#279). Building it in the app is about a day: one route, six screens, the existing request call.</li>
+      </ul>
+      <ul class="ko">
+        <li><b>긴 폼 하나를 바꿀까?</b> 지금은 펫, 장소, 날짜, 맡기기, 데려오기를 한 화면에서 채워요. 여기선 하나씩 한 화면, 큰 버튼 하나.</li>
+        <li><b>날짜:</b> 빠른 선택이 먼저, 그 아래 캘린더. 꽉 찬 날은 줄 그어짐; 클로이의 캘린더 기준.</li>
+        <li><b>누가 운전:</b> 오가는 길을 각각 따로 물어요. 트립과 출입 정보가 달라지니까.</li>
+        <li><b>확인 화면:</b> 모든 답에 Change, 가격은 클로이 요금 기준. 클로이가 수락하기 전엔 결제 없음.</li>
+        <li><b>범위:</b> 파트는 다 있음 (#279). 앱에 만드는 건 약 하루: 라우트 하나, 화면 여섯, 기존 요청 호출.</li>
+      </ul></div>
+    <p class="box" style="flex-direction:row"><span class="en">Older, all four flows (care request, Meet and Greet, checkout too): <a href="steps.html">Step by step</a>. In the app: <code>/dev/booking-flow</code> on #279.</span><span class="ko">예전 버전, 4개 흐름 전체 (케어 요청, 만남, 결제 포함): <a href="steps.html">Step by step</a>. 앱에서는 #279의 <code>/dev/booking-flow</code>.</span></p>
+  </div>
+</div>
+</main>
+<script>
+const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
+const TODAY = "2026-10-21", FULL = ["2026-10-27"], MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const iso = (y, m, d) => `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+const md = (d) => { const [, m, dd] = d.split("-").map(Number); return `${MONTHS[m - 1].slice(0, 3)} ${dd}`; };
+const wd = (d) => new Date(d + "T12:00").toLocaleDateString("en-US", { weekday: "short" });
+const nights = () => Math.round((new Date(S.end) - new Date(S.start)) / 864e5);
+const PICKS = [["This weekend", "2026-10-23", "2026-10-25"], ["Next weekend", "2026-10-30", "2026-11-01"], ["A week", "2026-10-23", "2026-10-30"]];
+const AM = ["7:00 AM", "7:30 AM", "8:00 AM", "9:00 AM"], PM = ["4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM"];
+const STEPS = [["pets", "Who"], ["place", "Where"], ["dates", "Which days"], ["drop", "Drop-off"], ["pick", "Pick-up"], ["check", "Check"]];
+const S = { step: 0, sent: false, pets: ["max"], place: "chloe", start: "2026-10-23", end: "2026-10-25", picking: false, y: 2026, m: 9, drop: "sitter", dropT: "7:30 AM", pick: "owner", pickT: "5:00 PM" };
+const PET = { max: ["Max", "Dog · Maltese · 4 years · allergic to chicken", "https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg"], mochi: ["Mochi", "Cat · Domestic shorthair · 3 years", null] };
+const petNames = () => S.pets.map((p) => PET[p][0]).join(" and ");
+const them = () => (S.pets.length > 1 ? "they" : PET[S.pets[0]]?.[0] || "your pet");
+const money = (n) => `$${n.toFixed(2)}`;
+const price = () => { const rate = S.place === "chloe" ? 55 : 70, n = Math.max(1, nights()), base = n * rate, second = S.pets.length > 1 ? base * 0.5 : 0; return { rate, n, base, second, total: base + second }; };
+
+const opt = (kind, val, on, title, detail, lead, multi) => `<button type="button" class="opt${multi ? " sq" : ""}" role="${multi ? "checkbox" : "radio"}" aria-checked="${on}" data-k="${kind}" data-v="${val}">${lead ? `<span class="lead">${lead}</span>` : ""}<span class="tx"><b>${title}</b>${detail ? `<small>${detail}</small>` : ""}</span><span class="ck">${on ? ic("check") : ""}</span></button>`;
+const chips = (kind, list, cur) => `<div class="chips" role="radiogroup">${list.map((t) => `<button type="button" class="chip" role="radio" aria-pressed="${t === cur}" aria-checked="${t === cur}" data-k="${kind}" data-v="${t}">${t}</button>`).join("")}</div>`;
+
+function calendar() {
+  const first = new Date(S.y, S.m, 1).getDay(), days = new Date(S.y, S.m + 1, 0).getDate(), multi = S.end > S.start;
+  let g = ""; for (let i = 0; i < first; i++) g += "<span></span>";
+  for (let d = 1; d <= days; d++) {
+    const k = iso(S.y, S.m, d), past = k < TODAY, full = FULL.includes(k);
+    const cls = [k === S.start && multi ? "s" : "", k === S.end && multi ? "e" : "", k === S.start && !multi ? "s e" : "", k > S.start && k < S.end ? "in" : "", k === TODAY ? "today" : "", past ? "past" : "", full ? "full" : ""].join(" ");
+    g += `<button type="button" class="${cls}" data-k="day" data-v="${k}" ${past || full ? "disabled" : ""} aria-label="${wd(k)}, ${md(k)}${full ? ", Chloe is full" : ""}" aria-pressed="${k >= S.start && k <= S.end}"><i>${d}</i></button>`;
+  }
+  const canPrev = S.y * 12 + S.m > 2026 * 12 + 9;
+  return `<div class="rc"><div class="mh"><button type="button" class="nav" data-k="mv" data-v="-1" aria-label="Previous month" ${canPrev ? "" : "disabled"}>${ic("back")}</button><b>${MONTHS[S.m]} ${S.y}</b><button type="button" class="nav" data-k="mv" data-v="1" aria-label="Next month">${ic("fwd")}</button></div>
+    <div class="wk">${["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map((w) => `<span>${w}</span>`).join("")}</div><div class="gr">${g}</div>
+    <p class="ft">${S.picking ? `Starts ${md(S.start)}. Now tap the last day.` : "Struck out: Chloe is full that day."}</p></div>`;
+}
+
+function screen() {
+  const p = price();
+  switch (STEPS[S.step][0]) {
+    case "pets": return { q: "Who is staying with Chloe?", sub: "Pick one or both.", ok: S.pets.length > 0, err: "Pick at least one pet.",
+      body: opt("pet", "max", S.pets.includes("max"), "Max", PET.max[1], `<img src="${PET.max[2]}" alt="">`, true) + opt("pet", "mochi", S.pets.includes("mochi"), "Mochi", PET.mochi[1], "🐱", true) };
+    case "place": return { q: `Where should ${them()} stay?`, ok: true,
+      body: opt("place", "chloe", S.place === "chloe", "At Chloe's home", "Boarding · $55 a night", ic("home")) + opt("place", "mine", S.place === "mine", "At my home", "House sitting · Chloe comes to you · $70 a night", ic("key")) };
+    case "dates": return { q: "Which days?", ok: !S.picking,
+      body: `<div class="chips">${PICKS.map(([l, a, b]) => `<button type="button" class="chip" aria-pressed="${S.start === a && S.end === b}" data-k="preset" data-v="${a}|${b}">${l} · ${md(a)} to ${md(b)}</button>`).join("")}</div>${calendar()}
+        ${S.picking ? "" : `<p class="note">Chloe is free ${md(S.start)} to ${md(S.end)}. ${p.n} night${p.n > 1 ? "s" : ""}, about ${money(p.total)} for ${petNames()}.</p>`}` };
+    case "drop": return { q: S.place === "chloe" ? `How do ${them()} get to Chloe's?` : "How does the stay start?", sub: `Drop-off · ${wd(S.start)}, ${md(S.start)}`, ok: true,
+      body: opt("drop", "owner", S.drop === "owner", S.place === "chloe" ? "I'll drive them over" : "I'll be home to meet Chloe", "", ic("car")) + opt("drop", "sitter", S.drop === "sitter", S.place === "chloe" ? "Chloe picks them up" : "Chloe lets herself in", S.place === "chloe" ? "From your home" : "Entry info opens 2 hours before", ic("car"))
+        + `<p class="lbl">What time?</p>${chips("dropT", AM, S.dropT)}` };
+    case "pick": return { q: "And the way home?", sub: `Pick-up · ${wd(S.end)}, ${md(S.end)}`, ok: true,
+      body: opt("pick", "owner", S.pick === "owner", "I'll pick them up", "", ic("car")) + opt("pick", "sitter", S.pick === "sitter", "Chloe brings them home", "", ic("car")) + `<p class="lbl">What time?</p>${chips("pickT", PM, S.pickT)}` };
+    case "check": {
+      const row = (label, v, d, to) => `<div class="sum"><span>${label}</span><span class="v"><b>${v}</b>${d ? `<small>${d}</small>` : ""}</span><button type="button" class="chg" data-k="goto" data-v="${to}" aria-label="Change ${label.toLowerCase()}">Change</button></div>`;
+      return { q: "Check your request", sub: "Tap Change to fix anything.", ok: true, cta: "Send request to Chloe",
+        body: `<div class="card">${row("Pets", petNames(), "", 0)}${row("Stay", S.place === "chloe" ? "At Chloe's home" : "At my home", "", 1)}${row("Dates", `${md(S.start)} to ${md(S.end)}`, `${p.n} night${p.n > 1 ? "s" : ""}`, 2)}${row("Drop-off", S.drop === "owner" ? "You drive" : "Chloe drives", `${wd(S.start)}, ${S.dropT}`, 3)}${row("Pick-up", S.pick === "owner" ? "You drive" : "Chloe drives", `${wd(S.end)}, ${S.pickT}`, 4)}</div>
+          <div class="pb"><div class="l"><span>${p.n} night${p.n > 1 ? "s" : ""} × ${money(p.rate)}</span><span>${money(p.base)}</span></div>${p.second ? `<div class="l"><span>Second pet (Mochi), +50%</span><span>+${money(p.second)}</span></div>` : ""}
+          <div class="l t"><span>Total</span><span>${money(p.total)} CAD</span></div><span class="n">Sample numbers. The real quote comes from Chloe's rates, and you pay only after she says yes.</span></div>` };
+    }
+  }
+}
+
+const ph = document.getElementById("ph");
+function render(focusSel) {
+  document.querySelectorAll("#jump button").forEach((b, i) => b.setAttribute("aria-current", !S.sent && i === S.step));
+  const sb = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>`;
+  if (S.sent) {
+    ph.innerHTML = `${sb}<div class="done" role="status"><span class="c">${ic("check")}</span><p class="q">Request sent</p><p style="color:#6B5D4A;font-size:16px">Chloe usually replies within an hour. We'll tell you when she does.</p></div>
+      <div class="ft2"><button type="button" class="bigbtn" data-k="restart">Tell Chloe how to care for them</button><button type="button" class="bigbtn sec" data-k="restart">Start over</button></div>`;
+    ph.querySelector(".bigbtn").focus(); return;
+  }
+  const s = screen(), n = S.step + 1;
+  ph.innerHTML = `${sb}<div class="hd"><button type="button" class="bk" data-k="back" aria-label="Back" ${S.step ? "" : "disabled"}>${ic("back")}</button>
+      <div class="mid"><div class="tr" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="${n}" aria-label="Step ${n} of 6"><div class="fl" style="width:${(n / 6) * 100}%"></div></div><span class="lb">Booking request · ${n} of 6</span></div>
+      <a class="help" href="#" data-k="help">Ask Chloe</a></div>
+    <div class="bd"><h2 class="q" tabindex="-1">${s.q}</h2>${s.sub ? `<p class="sub">${s.sub}</p>` : ""}${s.body}${!s.ok && s.err ? `<p class="err">${s.err}</p>` : ""}</div>
+    <div class="ft2"><button type="button" class="bigbtn" data-k="next" ${s.ok ? "" : "disabled"}>${s.cta || "Next"}</button></div>`;
+  (focusSel ? ph.querySelector(focusSel) : null)?.focus();
+}
+ph.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-k]"); if (!b || b.disabled) return;
+  const k = b.dataset.k, v = b.dataset.v; let focus = `[data-k="${k}"][data-v="${v}"]`;
+  if (k === "help") { e.preventDefault(); return; }
+  if (k === "next") { if (S.step === 5) S.sent = true; else { S.step++; focus = ".q"; } }
+  else if (k === "back") { S.step = Math.max(0, S.step - 1); focus = ".q"; }
+  else if (k === "goto") { S.step = +v; focus = ".q"; }
+  else if (k === "restart") { S.sent = false; S.step = 0; focus = ".q"; }
+  else if (k === "pet") S.pets = S.pets.includes(v) ? S.pets.filter((x) => x !== v) : [...S.pets, v].sort();
+  else if (k === "place" || k === "drop" || k === "pick" || k === "dropT" || k === "pickT") S[k] = v;
+  else if (k === "preset") { [S.start, S.end] = v.split("|"); S.picking = false; const [y, m] = S.start.split("-").map(Number); S.y = y; S.m = m - 1; }
+  else if (k === "mv") { const t = S.y * 12 + S.m + +v; S.y = Math.floor(t / 12); S.m = t % 12; }
+  else if (k === "day") { if (S.picking && v >= S.start && !FULL.some((f) => f > S.start && f < v)) { S.end = v; S.picking = false; } else { S.start = S.end = v; S.picking = true; } }
+  render(focus);
+});
+document.getElementById("jump").innerHTML = STEPS.map(([, l], i) => `<button type="button" data-i="${i}">${i + 1} · ${l}</button>`).join("") + `<button type="button" data-i="sent">Sent</button>`;
+document.getElementById("jump").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; if (b.dataset.i === "sent") S.sent = true; else { S.sent = false; S.step = +b.dataset.i; } render(); });
+const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
+let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
+setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
+render();
+</script></body></html>
