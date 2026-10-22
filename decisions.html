@@ -11,14 +11,15 @@ section{display:flex;flex-direction:column;gap:.875rem;min-width:0} p{margin:0}
 .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
 .tw{overflow-x:auto;border:1px solid var(--color-border);border-radius:16px;background:#FBF6EA}
 table.ic{border-collapse:collapse;width:100%;color:#1B4332;min-width:40rem} .ic th,.ic td{padding:.375rem .625rem;border-top:1px solid #E8DCC4;text-align:center;vertical-align:middle}
-.ic thead th{border-top:0;font:700 .8125rem 'Inter',sans-serif;padding:.75rem .5rem} .ic thead small{display:block;font-weight:500;color:#6B5D4A}
+.ic thead th{border-top:0;font:700 .8125rem 'Inter',sans-serif;padding:.75rem .5rem} .ic thead small{display:block;font-weight:500;color:#6B5D4A;margin-top:2px}
+.ic thead th{vertical-align:top}
 .ic tbody th{text-align:left;font:600 .875rem 'Inter',sans-serif;white-space:nowrap}
 .ico{display:inline-block;width:28px;height:28px;background:#1B4332;-webkit-mask:var(--u) center/contain no-repeat;mask:var(--u) center/contain no-repeat}
 .emo{font-size:26px} .art{width:44px;height:44px} .na{font-size:.75rem;color:#B4531A}
 .ic .now{background:rgba(180,35,24,.06)}
-.ic td.x{position:relative;background:rgba(180,35,24,.06)} .ic td.x .ico{opacity:.35}
-.ic td.x::after{content:"";position:absolute;left:30%;right:30%;top:50%;border-top:2px solid #B42318;transform:rotate(-30deg)}
-.v{display:block;margin-top:4px;font:700 .6875rem 'Inter',sans-serif;font-style:normal;border-radius:999px;padding:1px 6px}
+.ic td.x{position:relative;background:rgba(180,35,24,.06)} .ic td.x .ico{opacity:.55}
+
+.v{display:inline-flex;align-items:center;justify-content:center;margin-top:6px;min-height:22px;padding:0 10px;font:700 .75rem/1 'Inter',sans-serif;font-style:normal;border-radius:999px;white-space:nowrap}
 .v.no{background:#FEE4E2;color:#B42318}.v.yes{background:#D8F3DC;color:#1B4332}.v.maybe{background:#FDEBD8;color:#8A4A10}
 .note{background:var(--color-warning-surface);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
 .ok{background:var(--color-success-surface);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
@@ -30,11 +31,12 @@ table.ic{border-collapse:collapse;width:100%;color:#1B4332;min-width:40rem} .ic 
 .row{display:flex;gap:8px;flex-wrap:wrap} .rec{font-size:.75rem;font-weight:700;color:var(--color-success);background:var(--color-success-surface);border-radius:999px;padding:.125rem .625rem;align-self:flex-start}
 .flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}
 .flow div{background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem}
+.flow .v{align-self:flex-start;margin-top:0}
 .flow b{font:600 1rem var(--font-display)} .flow span{font-size:.875rem;color:var(--color-text-muted)} .flow code{font-size:.8125rem}
 .k{display:inline-block;font-size:.6875rem;font-weight:700;border-radius:999px;padding:.0625rem .5rem;background:var(--color-accent);color:var(--color-primary);align-self:flex-start}
 .k.team{background:var(--color-warning-surface);color:var(--color-warning)}
 .pair3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem} .pair3 figure{margin:0;display:flex;flex-direction:column;gap:.375rem} .pair3 img{width:100%;border:1px solid var(--color-border);border-radius:12px} .pair3 figcaption{font-size:.8125rem;color:var(--color-text-muted)}
-.tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem} .tag.b{background:var(--color-track);color:var(--color-text-muted)} .tag.a{background:var(--color-warning-surface);color:var(--color-warning)}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem} .tag.b{background:var(--color-track);color:var(--color-text-muted)} .tag.a{background:var(--color-accent);color:var(--color-primary)}
 table.t{border-collapse:collapse;width:100%;font-size:.875rem} .t td,.t th{text-align:left;padding:.5rem .625rem;border-top:1px solid var(--color-border);vertical-align:top}
 @media (max-width:560px){.pair3{grid-template-columns:1fr}}
 </style></head><body>
@@ -100,21 +102,17 @@ table.t{border-collapse:collapse;width:100%;font-size:.875rem} .t td,.t th{text-
 <p class="note"><b>Where we are (Oct 22):</b> not Ionicons. Lucide is the front-runner for icons. Pixel and the Goldito illustrations stay open because of how many visual styles the app would carry next to the pixel pet room. Emoji can stay where they are for now. Team: which set reads best to you?</p>
 
 <h3>Pet name chips</h3>
-<p>A is the rule; your idea adds a breed photo as a stand-in until the owner uploads one. The breed is known once the pet is added, so every pet would show a real-looking dog or cat.</p>
-<div class="chips">
-<div class="copt"><b>A · Photo, else illustration</b><small>Built on the try-out branch.</small><div class="row"><span class="pc on"><span class="m"><svg aria-hidden="true"><use href="#art-dog"/></svg></span>Max</span><span class="pc"><span class="m"><svg aria-hidden="true"><use href="#art-cat"/></svg></span>Mochi</span></div></div>
-<div class="copt"><b>D · Photo, else breed photo</b><span class="rec" style="background:var(--color-track);color:var(--color-text-muted)">Your idea</span><small>Max is a Maltese, so a Maltese photo until his own is added.</small><div class="row"><span class="pc on"><span class="m tmp"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt=""></span>Max</span><span class="pc"><span class="m"><svg aria-hidden="true"><use href="#art-cat"/></svg></span>Mochi</span></div></div>
-<div class="copt"><b>D, then A</b><span class="rec">Chosen</span><small>Breed photo when we have one, illustration for breeds we don't (mixes, rare breeds, "unknown").</small><div class="row"><span class="pc on"><span class="m tmp"><img src="https://images.dog.ceo/breeds/shiba/shiba-18.jpg" alt=""></span>Kuma</span><span class="pc"><span class="m"><svg aria-hidden="true"><use href="#art-dog-brown"/></svg></span>Bean</span></div></div>
-</div>
-<p class="note"><b>The catch with D:</b> we'd need breed photos we're allowed to ship. The sample images here come from the Dog CEO API (Stanford Dogs research dataset), fine for a mock, not for the product. Options: a small set of 20 common dog and cat breeds from Unsplash (free licence) inside the app, or #113 (sample photo set). It also risks looking like the owner's actual pet; a thin white ring marks it as a stand-in. <b>Decided: D then A.</b> Next: source ~20 breed photos.</p>
+
+<div class="chips" style="grid-template-columns:minmax(0,26rem)"><div class="copt"><b>Breed photo, else illustration</b><span class="rec">Chosen</span><small>The pet's own photo when there is one. Until then, a photo of its breed with a thin white ring (a stand-in), or the illustration for mixes and unknown breeds.</small><div class="row"><span class="pc on"><span class="m tmp"><img src="https://images.dog.ceo/breeds/maltese/n02085936_5582.jpg" alt=""></span>Max</span><span class="pc"><span class="m tmp"><img src="https://images.dog.ceo/breeds/shiba/shiba-18.jpg" alt=""></span>Kuma</span><span class="pc"><span class="m"><svg aria-hidden="true"><use href="#art-dog-brown"/></svg></span>Bean</span></div></div></div>
+<p class="note"><b>Next:</b> about 20 common dog and cat breed photos we can ship (Unsplash licence or #113). The photos above are mock placeholders from a research dataset.</p>
 </section>
 
 <section id="push"><h2>2 · What "push" would do</h2><p>Each card is one action. Status as of Oct 22.</p>
 <div class="flow">
-<div><span class="k team">team repo</span><b>PR · Copy batch</b><em class="v yes" style="align-self:flex-start">Opened: <a href="https://github.com/minsikpaul92/Goldito/pull/277">#277</a></em><span>Branch <code>fix/ui-copy-consistency</code> → a pull request on minsikpaul92/Goldito. 22 files, small edits: Sign out, Weekly rules, shorter text, dates, buttons are words. Minsik reviews and merges.</span></div>
-<div><span class="k team">team repo</span><b>PR · Patterns and illustrations</b><em class="v maybe" style="align-self:flex-start">Hold</em><span>Branch <code>design/expressive-art</code> → a second PR, on top of the first. 16 files: Art (43 illustrations), SectionTitle, PetMark, Snap blocks, empty states, pet chips.</span></div>
-<div><span class="k">your Pages site</span><b>Pages</b><em class="v yes" style="align-self:flex-start">Done</em><span>Copies these pages to mooque-dev.github.io/goldito-design so the links in the PRs and in #182 work: illustrations, qa-expressive, qa-copy-batch, work board, this page.</span></div>
-<div><span class="k team">team repo</span><b>Comment on #182</b><em class="v maybe" style="align-self:flex-start">Wait for the icon pick</em><span>Tells JeonBeomGu-S the ticket now means "Ionicons for chrome, Goldito illustrations for content", links the icon table above, and asks him to wait for the PR.</span></div>
+<div><span class="k team">team repo</span><b>PR · Copy batch</b><em class="v yes">Opened: <a href="https://github.com/minsikpaul92/Goldito/pull/277">#277</a></em><span>Branch <code>fix/ui-copy-consistency</code> → a pull request on minsikpaul92/Goldito. 22 files, small edits: Sign out, Weekly rules, shorter text, dates, buttons are words. Minsik reviews and merges.</span></div>
+<div><span class="k team">team repo</span><b>PR · Patterns and illustrations</b><em class="v maybe">Hold</em><span>Branch <code>design/expressive-art</code> → a second PR, on top of the first. 16 files: Art (43 illustrations), SectionTitle, PetMark, Snap blocks, empty states, pet chips.</span></div>
+<div><span class="k">your Pages site</span><b>Pages</b><em class="v yes">Done</em><span>Copies these pages to mooque-dev.github.io/goldito-design so the links in the PRs and in #182 work: illustrations, qa-expressive, qa-copy-batch, work board, this page.</span></div>
+<div><span class="k team">team repo</span><b>Comment on #182</b><em class="v maybe">Wait for the icon pick</em><span>Tells JeonBeomGu-S the ticket now means "Ionicons for chrome, Goldito illustrations for content", links the icon table above, and asks him to wait for the PR.</span></div>
 </div>
 <p style="font-size:.875rem;color:var(--color-text-muted)">Reversible: PRs can be closed, Pages can be overwritten, a comment can be edited. Before each push I scan for secrets and keep AI attribution out.</p></section>
 
