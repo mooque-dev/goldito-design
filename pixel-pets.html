@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pixel Pets v2</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:62rem;margin:0 auto;display:flex;flex-direction:column;gap:2.25rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.35rem/1.2 var(--font-display);margin:0} h3{font:600 1.1rem var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.875rem;min-width:0} p{margin:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+img{image-rendering:pixelated;max-width:100%;display:block}
+.panel{background:#FBF6EA;border:1px solid var(--color-border);border-radius:16px;padding:1rem;overflow-x:auto}
+.cmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:1rem;align-items:start} @media (max-width:720px){.cmp{grid-template-columns:1fr}}
+.cmp figure{margin:0;display:flex;flex-direction:column;gap:.5rem} .cmp figcaption{font-size:.8125rem;color:var(--color-text-muted)}
+.tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;background:var(--color-track);color:var(--color-text-muted)} .tag.a{background:var(--color-accent);color:var(--color-primary)}
+.shape{background:#FBF6EA;color:#1B4332;border:1px solid var(--color-border);border-radius:16px;padding:1rem;display:flex;flex-direction:column;gap:.75rem}
+.shape header{display:flex;flex-wrap:wrap;gap:.25rem .75rem;align-items:baseline} .shape header span{font-size:.8125rem;color:#6B5D4A}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1rem;align-items:end}
+.grid3 figure{margin:0;display:flex;flex-direction:column;gap:.375rem;min-width:0} .grid3 figcaption{font-size:.75rem;color:#6B5D4A}
+.list{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem}
+.note{background:var(--color-warning-surface);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
+</style></head><body><main class="wrap">
+<header style="display:flex;flex-direction:column;gap:.5rem"><span class="eyebrow">Pet room · pixel art · Oct 22 · work in progress</span><h1>Pixel pets v2</h1>
+<p>Full-body sitting pets for the Tamagotchi room, in four views, five moods and eight coats. They plug into the PNG slot Minsik left in the pet room, so no code change is needed to try them.</p></header>
+<section><div class="panel"><img src="assets/pixel-v2/hero.png" alt="Six pets at large size"></div></section>
+<section><h2>Today vs v2</h2><div class="cmp">
+<figure><span class="tag">In the app today (#261)</span><img src="assets/pixel-v2/today.jpg" alt="Current 16 px heads" style="border:1px solid var(--color-border);border-radius:12px"><figcaption>16 × 16 heads drawn in code.</figcaption></figure>
+<figure><span class="tag a">v2</span><div class="panel"><img src="assets/pixel-v2/turn_dog_floppy.png" alt="v2 floppy tricolour dog, four views"></div><figcaption>48 × 48, full body, shaded, four views (tricolour coat).</figcaption></figure></div></section>
+<section><h2>Style rules</h2><ul class="list">
+<li>48 × 48 canvas, sitting, head about half the height (chibi proportions, like the references).</li>
+<li>Light from the top left: a darker band on the lower right edge, a light rim on the upper left.</li>
+<li>Warm dark outline per coat (not black), lighter where the light hits.</li>
+<li>Glossy eyes: 3 × 4 with a white highlight; black coats get a lighter ring so the eyes read.</li>
+<li>Moods change the eyes and mouth, plus a small cue: Zz (sleepy), dots (hungry), a sweat drop (tired).</li>
+<li>One generator draws all of them (<code>design/pixel-pets-v2/gen.py</code>), so a change to the rules updates every look.</li></ul></section>
+<section><h2>All shapes</h2><article class="shape"><header><h3>Floppy ears</h3><span>Retrievers, beagles, spaniels · <code>dog_floppy</code></span></header>
+<div class="grid3"><figure><img src="assets/pixel-v2/turn_dog_floppy.png" alt="Floppy ears: front, left, back, right"><figcaption>Front · left · back · right</figcaption></figure>
+<figure><img src="assets/pixel-v2/moods_dog_floppy.png" alt="Floppy ears: five moods"><figcaption>Excited · calm · tired · hungry · sleepy</figcaption></figure>
+<figure><img src="assets/pixel-v2/coats_dog_floppy.png" alt="Floppy ears: eight coats"><figcaption>White · cream · golden · orange · brown · black · gray · mixed</figcaption></figure></div></article><article class="shape"><header><h3>Pointy ears</h3><span>Shibas, huskies, corgis, jindos · <code>dog_pointy</code></span></header>
+<div class="grid3"><figure><img src="assets/pixel-v2/turn_dog_pointy.png" alt="Pointy ears: front, left, back, right"><figcaption>Front · left · back · right</figcaption></figure>
+<figure><img src="assets/pixel-v2/moods_dog_pointy.png" alt="Pointy ears: five moods"><figcaption>Excited · calm · tired · hungry · sleepy</figcaption></figure>
+<figure><img src="assets/pixel-v2/coats_dog_pointy.png" alt="Pointy ears: eight coats"><figcaption>White · cream · golden · orange · brown · black · gray · mixed</figcaption></figure></div></article><article class="shape"><header><h3>Fluffy</h3><span>Maltese, poodles, shih tzus · <code>dog_fluffy</code></span></header>
+<div class="grid3"><figure><img src="assets/pixel-v2/turn_dog_fluffy.png" alt="Fluffy: front, left, back, right"><figcaption>Front · left · back · right</figcaption></figure>
+<figure><img src="assets/pixel-v2/moods_dog_fluffy.png" alt="Fluffy: five moods"><figcaption>Excited · calm · tired · hungry · sleepy</figcaption></figure>
+<figure><img src="assets/pixel-v2/coats_dog_fluffy.png" alt="Fluffy: eight coats"><figcaption>White · cream · golden · orange · brown · black · gray · mixed</figcaption></figure></div></article><article class="shape"><header><h3>Flat face</h3><span>Pugs, bulldogs, boxers · <code>dog_flat</code></span></header>
+<div class="grid3"><figure><img src="assets/pixel-v2/turn_dog_flat.png" alt="Flat face: front, left, back, right"><figcaption>Front · left · back · right</figcaption></figure>
+<figure><img src="assets/pixel-v2/moods_dog_flat.png" alt="Flat face: five moods"><figcaption>Excited · calm · tired · hungry · sleepy</figcaption></figure>
+<figure><img src="assets/pixel-v2/coats_dog_flat.png" alt="Flat face: eight coats"><figcaption>White · cream · golden · orange · brown · black · gray · mixed</figcaption></figure></div></article><article class="shape"><header><h3>Short hair</h3><span>Most cats · <code>cat_short</code></span></header>
+<div class="grid3"><figure><img src="assets/pixel-v2/turn_cat_short.png" alt="Short hair: front, left, back, right"><figcaption>Front · left · back · right</figcaption></figure>
+<figure><img src="assets/pixel-v2/moods_cat_short.png" alt="Short hair: five moods"><figcaption>Excited · calm · tired · hungry · sleepy</figcaption></figure>
+<figure><img src="assets/pixel-v2/coats_cat_short.png" alt="Short hair: eight coats"><figcaption>White · cream · golden · orange · brown · black · gray · mixed</figcaption></figure></div></article><article class="shape"><header><h3>Long hair</h3><span>Maine coons, ragdolls, persians · <code>cat_long</code></span></header>
+<div class="grid3"><figure><img src="assets/pixel-v2/turn_cat_long.png" alt="Long hair: front, left, back, right"><figcaption>Front · left · back · right</figcaption></figure>
+<figure><img src="assets/pixel-v2/moods_cat_long.png" alt="Long hair: five moods"><figcaption>Excited · calm · tired · hungry · sleepy</figcaption></figure>
+<figure><img src="assets/pixel-v2/coats_cat_long.png" alt="Long hair: eight coats"><figcaption>White · cream · golden · orange · brown · black · gray · mixed</figcaption></figure></div></article></section>
+<section><h2>Still to do</h2><ul class="list">
+<li><b>Round 4 (Oct 22):</b> fur flecks, feathered floppy ears, a back-view spine shade, and "mixed" drawn as a tricolour (black saddle and ears, tan cheeks, white blaze) like the cavalier in the reference.</li>
+<li><b>Next:</b> breed markings beyond mixed (schnauzer brows and beard, husky mask, tuxedo bib), a softer body silhouette, and a 3/4 angle option like the reference group shot.</li>
+<li><b>Size in the app:</b> the pet room draws 16 × pixel. A 48 px sprite only stays crisp at multiples of 48, so ask Minsik to size PNGs at 48 × 3 = 144 px (or 96 / 192).</li>
+<li><b>Animation:</b> a 2-frame idle (breathing or tail wag) per look.</li></ul>
+<p class="note">The references were used for style only. One of them is from a game, so nothing is traced or copied.</p></section>
+</main></body></html>
