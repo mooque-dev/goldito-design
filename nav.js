@@ -121,6 +121,7 @@
       ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
     ["Updates", "업데이트", [
+      ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Nav trial, five PRs merged, what is left", "내비게이션 시안, PR 다섯 개 머지, 남은 일"],
       ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Worked on, to do", "작업한 일, 할 일"],
       ["update-2026-10-21.html", "Oct 21 update", "10월 21일 업데이트", "Worked on, to do", "작업한 일, 할 일"],
       ["update-2026-10-20.html", "Oct 20 update", "10월 20일 업데이트", "Specs and the #115 onboarding", "스펙과 #115 온보딩"],

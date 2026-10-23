@@ -12,7 +12,6 @@ section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0} a
 .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
 .lang{display:flex;gap:.25rem} .lang button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 .8125rem var(--font-ui);cursor:pointer} .lang button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
-html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .hint{color:var(--color-text-muted)}
 .stage{display:grid;grid-template-columns:17rem minmax(0,1fr);gap:1.5rem;align-items:start}
 @media (max-width:900px){.stage{grid-template-columns:1fr}}
@@ -23,7 +22,12 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .panel .pick button{min-height:36px;font-size:.8125rem;padding:0 .75rem;border-radius:999px;border-width:1.5px}
 .panel .pick button[aria-pressed=true]{border-width:2px}
 .panel .pick[hidden]{display:none}
-.rec{display:inline-block;margin-left:.375rem;padding:0 .4rem;border-radius:999px;background:#FFFAEB;color:#8A5A00;font-size:.6875rem;font-weight:800;line-height:1.5;vertical-align:1px}
+.panel .pick.off button{opacity:.45;cursor:not-allowed}
+.panel .pick.off>span::after{content:" · shows during a stay";text-transform:none;letter-spacing:0;font-weight:600}
+html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에만"}
+.panel .what{font-weight:500;color:var(--color-text-muted);font-size:.875rem}
+.rec{margin-left:.3rem;color:#B54708;font-size:.8125rem} .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.panel .pick button{white-space:nowrap}
 .recbox{display:flex;flex-direction:column;gap:.375rem;background:#FFFAEB;color:#3D2A00;border-radius:12px;padding:.75rem .875rem;font-size:.8125rem;line-height:1.45}
 .recbox b{font-size:.875rem}
 .recbox button{align-self:flex-start;min-height:36px;padding:0 .875rem;border-radius:999px;border:2px solid #1B4332;background:#1B4332;color:#fff;font:700 .8125rem var(--font-ui);cursor:pointer}
@@ -59,7 +63,7 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .hd>.sk-quiet,.hd>.sk-mint,.hd>.sk-white{margin-top:-7.5px}
 .pl-quiet{background:none;color:#1B4332;padding-left:0;margin-left:0} .pl-mint{background:#E9F5EC;color:#1B4332} .pl-white{background:#fff;color:#1B4332;box-shadow:0 1px 3px rgba(27,67,50,.16)} .snap .hd{align-items:center;padding-left:8px}
 .tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
-.ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;flex:none}
+.ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;flex:none;border-radius:22px}
 .ib svg{width:24px;height:24px}
 .snapbtn{width:44px;height:44px;border-radius:22px;border:0;background:#1B4332;color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
 .snapbtn svg{width:22px;height:22px}
@@ -68,7 +72,7 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .ct{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B42318;color:#fff;font:800 10px/14px 'Plus Jakarta Sans',sans-serif;border:2px solid #FBF6EA}
 .avr{padding:2px;border-radius:20px;border:1.5px solid #CBBFA8} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
 .bd{flex:1;overflow-y:auto;padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px}
-.seg{display:flex;gap:6px;flex-wrap:nowrap;overflow:hidden} .seg span{flex:none;min-height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;display:inline-flex;align-items:center;font-size:14px;font-weight:600} .seg span.on{background:#D8F3DC;border:2px solid #1B4332}
+.seg{display:flex;gap:6px;flex-wrap:nowrap;overflow:hidden} .seg button{font:inherit;color:inherit;cursor:pointer} .seg span,.seg button{flex:none;min-height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;display:inline-flex;align-items:center;font-size:14px;font-weight:600} .seg span.on,.seg button.on{background:#D8F3DC;border:2px solid #1B4332}
 .card{background:#fff;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px} .card b{font-size:16px} .card small{font-size:13px;color:#6B5D4A}
 .hero{background:#2D6A4F;color:#fff;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:4px} .hero b{font:600 22px/1.15 Fredoka,sans-serif} .hero small{color:#D8F3DC;font-size:13px}
 .row{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid #E8DCC4} .row .av{width:44px;height:44px;font-size:17px} .row .tx{flex:1;min-width:0} .row .tx b{display:block;font-size:15px} .row .tx small{display:block;font-size:13px;color:#6B5D4A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -81,6 +85,9 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .tabs i{width:54px;height:30px;border-radius:15px;display:grid;place-items:center} .tabs svg{width:22px;height:22px}
 .tabs .on{color:#1B4332} .tabs .on i{background:#D8F3DC}
 .tabs .bdg{position:absolute;top:-2px;right:6px;min-width:16px;height:16px;border-radius:8px;background:#B42318;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+.hint-toast{position:absolute;left:16px;right:16px;bottom:96px;background:#1B4332;color:#fff;border-radius:12px;padding:10px 14px;font:600 13px 'Plus Jakarta Sans',sans-serif;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none}
+.hint-toast.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.hint-toast{transition:none}}
 /* Snap screen */
 .snap{position:absolute;inset:36px 0 0;background:#FBF6EA;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 260ms cubic-bezier(.215,.61,.355,1);visibility:hidden}
 .snap.open{transform:none;visibility:visible}
@@ -113,46 +120,46 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
   <symbol id="l-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
 </svg>
 
-<div class="bar"><span class="eyebrow">Goldito · <span class="en">Nav trial</span><span class="ko">내비게이션 시안</span> · <span class="en">from Seulgi's feedback</span><span class="ko">슬기님 피드백</span></span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Nav trial</span><span class="ko">내비게이션 시안</span> · <span class="en">from Seulgi's feedback</span><span class="ko">슬기님 피드백</span></span></div>
 <section>
   <h1><span class="en">Chat gets a tab, Snap moves up</span><span class="ko">채팅은 탭으로, 스냅은 위로</span></h1>
-  <p class="hint"><span class="en">Seulgi's feedback: take the chats out of owner Bookings and give Chat its own tab, as the sitter side splits them. To keep the bar at four tabs (Home, Bookings, Chat, Feed), Snap moves to the top left corner. Flip the versions, switch tabs in each phone, tap Snap.</span><span class="ko">슬기님 피드백: 보호자 예약에서 채팅을 빼고 시터처럼 채팅 탭을 따로. 탭을 넷(홈, 예약, 채팅, 피드)으로 두려고 스냅은 왼쪽 위로. 버전을 바꾸고, 폰에서 탭을 눌러 보고, 스냅을 눌러 보세요.</span></p>
+  <p class="hint"><span class="en">From Seulgi's feedback: Chat gets its own tab. To keep four tabs, Snap moves to the top left. Use the panel, then tap around in each phone.</span><span class="ko">슬기님 피드백: 채팅 탭을 따로. 탭 넷을 위해 스냅은 왼쪽 위로. 패널을 바꾸고 폰을 눌러 보세요.</span></p>
 </section>
 
 
 <div class="stage">
 <aside class="panel" aria-label="Controls">
-  <div class="recbox"><b><span class="en">Recommended path</span><span class="ko">추천 조합</span></b><span class="en">Four tabs with Chat (square paw icon), Snap as a white camera in the top left during a stay, tinted avatars.</span><span class="ko">채팅 탭이 있는 4탭 (네모 발바닥 아이콘), 스테이 중 왼쪽 위 흰 카메라 스냅, 연한 색 아바타.</span>
+  <div class="recbox"><b><span class="en">Recommended path</span><span class="ko">추천 조합</span></b><span class="en">Four tabs with Chat (square paw icon), Snap as a white camera in the top left during a stay, tinted avatars. ★ marks each pick below.</span><span class="ko">채팅 탭이 있는 4탭 (네모 발바닥 아이콘), 스테이 중 왼쪽 위 흰 카메라 스냅, 연한 색 아바타. 아래 ★가 추천.</span>
     <button type="button" id="useRec"><span class="en">Use the recommended path</span><span class="ko">추천 조합 보기</span></button></div>
   <p class="what" id="what" aria-live="polite"></p>
   <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version</span><span class="ko">버전</span></span>
     <button type="button" role="radio" data-v="now">Now</button>
     <button type="button" role="radio" data-v="five"><span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></button>
-    <button type="button" role="radio" data-v="b"><span class="en">Snap in the top left, during a stay</span><span class="ko">스테이 중 왼쪽 위 스냅</span><span class="rec"><span class="en">Recommended</span><span class="ko">추천</span></span></button>
+    <button type="button" role="radio" data-v="b"><span class="en">Snap top left</span><span class="ko">왼쪽 위 스냅</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
   </div>
   <div class="pick" data-grp="stay" role="radiogroup" aria-label="Stay"><span><span class="en">Stay</span><span class="ko">스테이</span></span>
-    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span><span class="rec"><span class="en">Recommended</span><span class="ko">추천</span></span></button>
+    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
     <button type="button" role="radio" data-s="off"><span class="en">No stay right now</span><span class="ko">지금 스테이 없음</span></button>
   </div>
   <div class="pick" data-grp="chaticon" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
     <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
-    <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span><span class="rec"><span class="en">Recommended</span><span class="ko">추천</span></span></button>
+    <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
     <button type="button" role="radio" data-i="chat-text"><span class="en">Square bubble, text</span><span class="ko">네모 말풍선, 글줄</span></button>
   </div>
   <div class="pick" data-grp="snaplook" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look</span><span class="ko">스냅 모양</span></span>
     <button type="button" role="radio" data-k="quiet"><span class="en">Quiet icon</span><span class="ko">아이콘만</span></button>
     <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
-    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span><span class="rec"><span class="en">Recommended</span><span class="ko">추천</span></span></button>
+    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
   </div>
   <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon</span><span class="ko">스냅 아이콘</span></span>
-    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span><span class="rec"><span class="en">Recommended</span><span class="ko">추천</span></span></button>
+    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
     <button type="button" role="radio" data-g="plus"><span class="en">Plus</span><span class="ko">플러스</span></button>
     <button type="button" role="radio" data-g="splus"><span class="en">Plus in a square (Instagram)</span><span class="ko">네모 안 플러스 (인스타그램)</span></button>
   </div>
   <div class="pick" data-grp="avatars" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars</span><span class="ko">아바타</span></span>
     <button type="button" role="radio" data-c="green"><span class="en">One green (now)</span><span class="ko">초록 하나 (지금)</span></button>
     <button type="button" role="radio" data-c="tint"><span class="en">Soft tints, ink letter</span><span class="ko">연한 색, 진초록 글자</span></button>
-    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span><span class="rec"><span class="en">Recommended</span><span class="ko">추천</span></span></button>
+    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
   </div>
 </aside>
 <div class="phones">
@@ -165,7 +172,7 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
   <h2><span class="en">How they differ</span><span class="ko">차이점</span></h2>
   <div class="notes">
     <div class="note"><b><span class="en">Snap in the top left, during a stay</span><span class="ko">스테이 중 왼쪽 위 스냅</span></b><span class="en">The camera shows up only while pets are with the sitter, when the treat check, mood and stickers matter. Outside a stay the header stays calm. Flip "Stay" to see it come and go.</span><span class="ko">시터가 돌보는 동안에만 카메라가 보여요 (간식 체크, 기분, 스티커가 필요한 때). 스테이 밖에선 헤더가 깔끔. "스테이"를 바꿔 보세요.</span></div>
-    <div class="note"><b><span class="en">All of them</span><span class="ko">공통</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
+    <div class="note"><b><span class="en">With four tabs</span><span class="ko">탭 넷일 때</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
   </div>
   <p class="vote"><span class="en">Open question for the team: is Diary fine inside Feed, or does it need its own spot (Home, say)?</span><span class="ko">팀에 묻기: 다이어리를 피드 안에 둬도 될까, 아니면 따로 자리가 필요할까 (예: 홈)?</span></p>
 </section>
@@ -202,9 +209,8 @@ const TABS = {
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
 let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "white", AVC = "match", GLYPH = "cam";
-try { const v = localStorage.getItem("goldito.navTrial"); if (["now", "five", "b"].includes(v)) V = v; } catch {}
 const h = location.hash.slice(1); if (["now", "five", "b"].includes(h)) V = h;
-const state = { owner: { tab: "home", snap: false }, sitter: { tab: "home", snap: false } };
+const state = { owner: { tab: "home", snap: false, feedView: "photos" }, sitter: { tab: "home", snap: false, feedView: "photos" } };
 
 function snapVisible(tab) {
   return V === "b" && STAY === "on" ? "icon" : null;
@@ -215,8 +221,8 @@ function body(role, tab) {
   if (tab === "bookings") return R.bookings(V);
   if (tab === "chat") return R.chats.map(([i, n, m, d, u], k) => `<div class="row${u && k === 0 && role === "sitter" ? " new" : ""}">${av(n, i)}<span class="tx"><b>${n}</b><small>${m}</small></span><span class="dt">${d}${u ? `<span class="un">${u}</span>` : ""}</span></div>`).join("");
   if (tab === "feed" || tab === "diary") {
-    const diaryFirst = tab === "diary";
-    const seg = V === "now" ? "" : `<div class="seg"><span class="${diaryFirst ? "" : "on"}">Photos</span><span class="${diaryFirst ? "on" : ""}">Diary</span></div>`;
+    const diaryFirst = tab === "diary" || state[role].feedView === "diary";
+    const seg = V === "now" ? "" : `<div class="seg" role="tablist"><button type="button" role="tab" data-a="view" data-v="photos" class="${diaryFirst ? "" : "on"}" aria-selected="${!diaryFirst}">Photos</button><button type="button" role="tab" data-a="view" data-v="diary" class="${diaryFirst ? "on" : ""}" aria-selected="${diaryFirst}">Diary</button></div>`;
     return seg + (diaryFirst ? `<div class="card"><b>Daily note from Chloe</b><small>Sent 6:04 PM · Max napped after his walk and ate all his dinner.</small></div>` : `<div class="grid">${PHOTOS.map((p) => `<img src="${p}" alt="">`).join("")}</div>`);
   }
   if (tab === "snap") return snapTools();
@@ -251,14 +257,23 @@ document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e
   if (t) { st.tab = t.dataset.t; st.snap = false; }
   else if (a && a.dataset.a === "snap") st.snap = true;
   else if (a && a.dataset.a === "close") st.snap = false;
-  else return;
+  else if (a && a.dataset.a === "view") st.feedView = a.dataset.v;
+  else { if (e.target.closest("button, .row, .card, .hero, .tool, .grid img")) hint(el); return; }
   phone(el);
   const focus = st.snap ? el.querySelector('.snap [data-a="close"]') : t ? el.querySelector(`[data-t="${st.tab}"]`) : el.querySelector('[data-a="snap"]');
   focus && focus.focus();
 }));
+// Taps outside the navigation: a short note that only the navigation is live here.
+function hint(el) {
+  let h = el.querySelector(".hint-toast");
+  if (!h) { h = document.createElement("div"); h.className = "hint-toast"; h.setAttribute("role", "status"); el.appendChild(h); }
+  h.textContent = document.documentElement.dataset.lang === "ko" ? "이 시안에선 탭과 스냅만 움직여요" : "Only the tabs and Snap work in this trial";
+  h.classList.add("on"); clearTimeout(h.t); h.t = setTimeout(() => h.classList.remove("on"), 1800);
+}
 function render() {
   const grp = (k) => document.querySelector(`[data-grp="${k}"]`);
   grp("snaplook").hidden = grp("snapicon").hidden = V !== "b";
+  for (const k of ["snaplook", "snapicon"]) { grp(k).classList.toggle("off", STAY !== "on"); grp(k).querySelectorAll("button").forEach((b) => (b.disabled = STAY !== "on")); }
   grp("chaticon").hidden = V === "now";
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-g]").forEach((b) => { const on = b.dataset.g === GLYPH; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
@@ -269,15 +284,12 @@ function render() {
   document.getElementById("what").innerHTML = `<span class="en">${WHAT[V].en}</span><span class="ko">${WHAT[V].ko}</span>`;
   document.querySelectorAll(".ph").forEach(phone);
 }
-document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; try { localStorage.setItem("goldito.navTrial", V); } catch {} history.replaceState(null, "", "#" + V); render(); }));
+document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; history.replaceState(null, "", "#" + V); render(); }));
 document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
 document.querySelectorAll("[data-i]").forEach((b) => b.addEventListener("click", () => { CHAT = b.dataset.i; render(); }));
 document.getElementById("useRec").addEventListener("click", () => { V = "b"; STAY = "on"; CHAT = "chat-square"; LOOK = "white"; GLYPH = "cam"; AVC = "match"; history.replaceState(null, "", "#b"); render(); });
 document.querySelectorAll(".pick [data-g]").forEach((b) => b.addEventListener("click", () => { GLYPH = b.dataset.g; render(); }));
 document.querySelectorAll(".pick [data-c]").forEach((b) => b.addEventListener("click", () => { AVC = b.dataset.c; render(); }));
 document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
-const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
-let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
-setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
 render();
 </script></body></html>
