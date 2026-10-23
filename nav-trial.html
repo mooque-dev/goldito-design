@@ -165,8 +165,8 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
   </div>
 </aside>
 <div class="phones">
-  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-role="owner"></div></div>
-  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-role="sitter"></div></div>
+  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-role="owner" data-cap="nav-owner" data-title="Nav · Owner · recommended path"></div></div>
+  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-role="sitter" data-cap="nav-sitter" data-title="Nav · Sitter · recommended path"></div></div>
 </div>
 </div>
 
@@ -300,4 +300,9 @@ document.querySelectorAll(".pick [data-g]").forEach((b) => b.addEventListener("c
 document.querySelectorAll(".pick [data-c]").forEach((b) => b.addEventListener("click", () => { AVC = b.dataset.c; render(); }));
 document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
 render();
+// Figma ticket (plugin › Tickets): the two phones on the recommended path, and what is being decided
+window.__ticket = { id: "nav", title: "Nav: Chat tab, Snap top left (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/nav-trial.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal from Seulgi's feedback; the team picks" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed (Diary inside Feed)" }, { q: "Snap", a: "White camera in the top left, only during a stay" },
+    { q: "Chat icon", a: "Square bubble with a paw (Goldito's own, Lucide style)" }, { q: "Avatars", a: "Block tints per person, matching letter" }],
+  spec: [], specLinks: [] };
 </script></body></html>

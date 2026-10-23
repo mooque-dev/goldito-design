@@ -67,6 +67,10 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .bigbtn{min-height:60px;width:100%;border-radius:999px;border:0;background:var(--ink);color:#fff;font:700 18px 'Plus Jakarta Sans',sans-serif;cursor:pointer;transition:transform 120ms}
 .bigbtn:active{transform:scale(.98)} .bigbtn:disabled{background:var(--line);color:var(--muted);cursor:not-allowed;transform:none}
 .bigbtn.sec{background:#fff;color:var(--ink);border:2px solid var(--ink)}
+.story{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.75rem}
+.sf{margin:0;display:flex;flex-direction:column;gap:.375rem;flex:none}
+.sf figcaption{font-size:.8125rem;font-weight:700;color:var(--color-text-muted)}
+.ph.sm{position:relative;top:auto;width:402px;height:874px;max-width:none;min-height:0}
 .done{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px}
 .done .c{width:84px;height:84px;border-radius:50%;background:var(--mint);display:grid;place-items:center} .done .c svg{width:40px;height:40px}
 @media (prefers-reduced-motion:reduce){.hd .fl,.opt,.bigbtn{transition:none}}
@@ -109,6 +113,11 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
     <p class="box" style="flex-direction:row"><span class="en">Older, all four flows (care request, Meet and Greet, checkout too): <a href="steps.html">Step by step</a>. In the app: <code>/dev/booking-flow</code> on #279.</span><span class="ko">예전 버전, 4개 흐름 전체 (케어 요청, 만남, 결제 포함): <a href="steps.html">Step by step</a>. 앱에서는 #279의 <code>/dev/booking-flow</code>.</span></p>
   </div>
 </div>
+<section style="display:flex;flex-direction:column;gap:.75rem">
+  <h2><span class="en">All six screens</span><span class="ko">여섯 화면 전체</span></h2>
+  <p class="hint" style="color:var(--color-text-muted)"><span class="en">The same request with the default answers, every step side by side. These are also the boards in Figma (Tickets › Booking flow).</span><span class="ko">기본 답으로 채운 같은 요청, 모든 단계를 나란히. 피그마 보드와 같아요 (티켓 › 예약 흐름).</span></p>
+  <div class="story" id="story"></div>
+</section>
 </main>
 <script>
 const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
@@ -154,7 +163,7 @@ function screen() {
     case "dates": return { q: "Which days?", ok: !S.picking,
       body: `<div class="chips">${PICKS.map(([l, a, b]) => `<button type="button" class="chip" aria-pressed="${S.start === a && S.end === b}" data-k="preset" data-v="${a}|${b}">${l} · ${md(a)} to ${md(b)}</button>`).join("")}</div>${calendar()}
         ${S.picking ? "" : `<p class="note">Chloe is free ${md(S.start)} to ${md(S.end)}. ${p.n} night${p.n > 1 ? "s" : ""}, about ${money(p.total)} for ${petNames()}.</p>`}` };
-    case "drop": return { q: S.place === "chloe" ? `How do ${them()} get to Chloe's?` : "How does the stay start?", sub: `Drop-off · ${wd(S.start)}, ${md(S.start)}`, ok: true,
+    case "drop": return { q: S.place === "chloe" ? (S.pets.length > 1 ? "How do they get to Chloe's?" : `How does ${them()} get to Chloe's?`) : "How does the stay start?", sub: `Drop-off · ${wd(S.start)}, ${md(S.start)}`, ok: true,
       body: opt("drop", "owner", S.drop === "owner", S.place === "chloe" ? "I'll drive them over" : "I'll be home to meet Chloe", "", ic("car")) + opt("drop", "sitter", S.drop === "sitter", S.place === "chloe" ? "Chloe picks them up" : "Chloe lets herself in", S.place === "chloe" ? "From your home" : "Entry info opens 2 hours before", ic("car"))
         + `<p class="lbl">What time?</p>${chips("dropT", AM, S.dropT)}` };
     case "pick": return { q: "And the way home?", sub: `Pick-up · ${wd(S.end)}, ${md(S.end)}`, ok: true,
@@ -170,21 +179,33 @@ function screen() {
 }
 
 const ph = document.getElementById("ph");
-function render(focusSel) {
-  document.querySelectorAll("#jump button").forEach((b, i) => b.setAttribute("aria-current", !S.sent && i === S.step));
+function phoneMarkup() {
   const sb = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>`;
   if (S.sent) {
-    ph.innerHTML = `${sb}<div class="done" role="status"><span class="c">${ic("check")}</span><p class="q">Request sent</p><p style="color:#6B5D4A;font-size:16px">Chloe usually replies within an hour. We'll tell you when she does.</p></div>
+    return `${sb}<div class="done" role="status"><span class="c">${ic("check")}</span><p class="q">Request sent</p><p style="color:#6B5D4A;font-size:16px">Chloe usually replies within an hour. We'll tell you when she does.</p></div>
       <div class="ft2"><button type="button" class="bigbtn" data-k="restart">Tell Chloe how to care for them</button><button type="button" class="bigbtn sec" data-k="restart">Start over</button></div>`;
-    ph.querySelector(".bigbtn").focus(); return;
   }
   const s = screen(), n = S.step + 1;
-  ph.innerHTML = `${sb}<div class="hd"><button type="button" class="bk" data-k="back" aria-label="Back" ${S.step ? "" : "disabled"}>${ic("back")}</button>
+  return `${sb}<div class="hd"><button type="button" class="bk" data-k="back" aria-label="Back" ${S.step ? "" : "disabled"}>${ic("back")}</button>
       <div class="mid"><div class="tr" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="${n}" aria-label="Step ${n} of 6"><div class="fl" style="width:${(n / 6) * 100}%"></div></div><span class="lb">Booking request · ${n} of 6</span></div>
       <a class="help" href="#" data-k="help">Ask Chloe</a></div>
     <div class="bd"><h2 class="q" tabindex="-1">${s.q}</h2>${s.sub ? `<p class="sub">${s.sub}</p>` : ""}${s.body}${!s.ok && s.err ? `<p class="err">${s.err}</p>` : ""}</div>
     <div class="ft2"><button type="button" class="bigbtn" data-k="next" ${s.ok ? "" : "disabled"}>${s.cta || "Next"}</button></div>`;
+}
+function render(focusSel) {
+  document.querySelectorAll("#jump button").forEach((b, i) => b.setAttribute("aria-current", !S.sent && i === S.step));
+  ph.innerHTML = phoneMarkup();
+  if (S.sent) { ph.querySelector(".bigbtn").focus(); return; }
   (focusSel ? ph.querySelector(focusSel) : null)?.focus();
+}
+// Every screen side by side (the Figma plugin captures these as the ticket's boards). Static: no buttons work here.
+function storyboard() {
+  const keep = JSON.parse(JSON.stringify(S)), box = document.getElementById("story");
+  const frames = [];
+  for (let i = 0; i < 6; i++) { S.step = i; S.sent = false; frames.push([`book-${i + 1}`, `Booking request · ${i + 1} of 6 · ${STEPS[i][1]}`, phoneMarkup()]); }
+  S.sent = true; frames.push(["book-sent", "Booking request · sent", phoneMarkup()]);
+  Object.assign(S, keep);
+  box.innerHTML = frames.map(([id, t, m]) => `<figure class="sf"><div class="ph sm" data-cap="${id}" data-title="${t}" inert>${m}</div><figcaption>${t}</figcaption></figure>`).join("");
 }
 ph.addEventListener("click", (e) => {
   const b = e.target.closest("[data-k]"); if (!b || b.disabled) return;
@@ -207,4 +228,8 @@ const setL = (l) => { document.documentElement.dataset.l = l; document.querySele
 let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
 setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
 render();
+storyboard();
+window.__ticket = { id: "booking", title: "Booking flow: one question per screen (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/booking-flow.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal for the product call (Mook, Minsik, Seulgi)" }, { q: "Dates", a: "Quick picks first, the app's range calendar under them" }, { q: "Who drives", a: "Asked both ways, each on its own screen" }, { q: "Check screen", a: "Every answer with Change, price from Chloe's rates" }],
+  spec: [], specLinks: [] };
 </script></body></html>
