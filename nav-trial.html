@@ -194,7 +194,7 @@ const TABS = {
   four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
-let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "quiet", AVC = "match", GLYPH = "cam";
+let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "white", AVC = "match", GLYPH = "cam";
 try { const v = localStorage.getItem("goldito.navTrial"); if (["now", "five", "b"].includes(v)) V = v; } catch {}
 const h = location.hash.slice(1); if (["now", "five", "b"].includes(h)) V = h;
 const state = { owner: { tab: "home", snap: false }, sitter: { tab: "home", snap: false } };
