@@ -26,8 +26,11 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 /* the phone */
 .ph{position:relative;height:640px;max-width:24rem;width:100%;margin:0 auto;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332}
 .sb{display:flex;justify-content:space-between;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px;flex:none}
-.hd{display:flex;align-items:center;gap:4px;padding:10px 8px 8px 12px;min-height:64px;flex:none}
-.tt{flex:1;min-width:0;padding-left:6px} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
+.hd{display:flex;align-items:flex-start;gap:10px;padding:12px 8px 8px 16px;min-height:64px;flex:none}
+/* buttons sit on the title line (29 px), not on the two-line block; the left edge matches the content's 16 px gutter */
+.hd .rt{display:flex;gap:4px;margin-top:-7.5px}
+.hd>.snapbtn{margin-top:-7.5px} .hd>.snappill{margin-top:-5.5px} .snap .hd{align-items:center;padding-left:8px}
+.tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
 .ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;flex:none}
 .ib svg{width:24px;height:24px}
 .snapbtn{width:44px;height:44px;border-radius:22px;border:0;background:#1B4332;color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
@@ -68,6 +71,8 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
   <symbol id="l-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
   <symbol id="l-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
   <!-- Chat: Goldito's own icon in Lucide's style, a round bubble with a paw (Oct 23) -->
+  <symbol id="l-chat-square" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><g fill="currentColor" stroke="none"><ellipse cx="12" cy="11.6" rx="2.4" ry="1.85"/><circle cx="9.4" cy="9" r="1.1"/><circle cx="12" cy="7.6" r="1.1"/><circle cx="14.6" cy="9" r="1.1"/></g></symbol>
+  <symbol id="l-chat-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 8H7M17 12H7"/></symbol>
   <symbol id="l-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><g fill="currentColor" stroke="none"><ellipse cx="12" cy="13.3" rx="2.5" ry="2"/><circle cx="9.3" cy="10.6" r="1.15"/><circle cx="12" cy="9.1" r="1.15"/><circle cx="14.7" cy="10.6" r="1.15"/></g></symbol>
   <symbol id="l-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
   <symbol id="l-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
@@ -91,6 +96,11 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
     <button type="button" role="radio" data-v="a">A · <span class="en">Snap always, top left</span><span class="ko">스냅 항상, 왼쪽 위</span></button>
     <button type="button" role="radio" data-v="b">B · <span class="en">Snap only during a stay</span><span class="ko">스테이 중에만</span></button>
     <button type="button" role="radio" data-v="c">C · <span class="en">Snap pill on Home</span><span class="ko">홈에만 스냅 버튼</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
+    <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
+    <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></button>
+    <button type="button" role="radio" data-i="chat-text"><span class="en">Square bubble, text</span><span class="ko">네모 말풍선, 글줄</span></button>
   </div>
   <div class="pick" role="radiogroup" aria-label="Stay"><span><span class="en">Stay</span><span class="ko">스테이</span></span>
     <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
@@ -141,7 +151,7 @@ const TABS = {
   four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
-let V = "b", STAY = "on";
+let V = "b", STAY = "on", CHAT = "chat-square";
 try { const v = localStorage.getItem("goldito.navTrial"); if (["now", "five", "a", "b", "c"].includes(v)) V = v; } catch {}
 const h = location.hash.slice(1); if (["now", "five", "a", "b", "c"].includes(h)) V = h;
 const state = { owner: { tab: "home", snap: false }, sitter: { tab: "home", snap: false } };
@@ -180,10 +190,10 @@ function phone(el) {
   const unread = R.chats.reduce((n, c) => n + c[4], 0);
   el.innerHTML = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>
     <div class="hd">${snapEl}<span class="tt"><b>${title}</b><small>${R.name} · ${R.role}</small></span>
-      <button class="ib" type="button" aria-label="Notifications, ${R.badge} new">${ic("bell")}<span class="ct">${R.badge}</span></button>
-      <button class="ib" type="button" aria-label="${R.name}, ${R.role.toLowerCase()} account. Menu"><span class="avr"><span class="av">${R.init}</span></span></button></div>
+      <span class="rt"><button class="ib" type="button" aria-label="Notifications, ${R.badge} new">${ic("bell")}<span class="ct">${R.badge}</span></button>
+      <button class="ib" type="button" aria-label="${R.name}, ${R.role.toLowerCase()} account. Menu"><span class="avr"><span class="av">${R.init}</span></span></button></span></div>
     <div class="bd">${body(role, st.tab)}</div>
-    <nav class="tabs" aria-label="Tabs">${tabs.map(([k, l, i]) => `<button type="button" class="${k === st.tab ? "on" : ""}" data-t="${k}" aria-current="${k === st.tab ? "page" : "false"}"><i>${ic(i)}</i>${l}${k === "chat" && unread ? `<span class="bdg">${unread}</span>` : ""}</button>`).join("")}</nav>
+    <nav class="tabs" aria-label="Tabs">${tabs.map(([k, l, i]) => `<button type="button" class="${k === st.tab ? "on" : ""}" data-t="${k}" aria-current="${k === st.tab ? "page" : "false"}"><i>${ic(i === "chat" ? CHAT : i)}</i>${l}${k === "chat" && unread ? `<span class="bdg">${unread}</span>` : ""}</button>`).join("")}</nav>
     <div class="snap${st.snap ? " open" : ""}" role="dialog" aria-label="Snap" aria-hidden="${!st.snap}"><div class="hd"><button class="ib" type="button" data-a="close" aria-label="Back">${ic("back")}</button><span class="tt"><b>Snap</b><small>${STAY === "on" ? "For Max and Mochi" : "Pick a pet first"}</small></span></div><div class="bd">${snapTools()}</div></div>`;
 }
 document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e) => {
@@ -198,12 +208,14 @@ document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e
 }));
 function render() {
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.querySelectorAll("[data-i]").forEach((b) => { const on = b.dataset.i === CHAT; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-s]").forEach((b) => { const on = b.dataset.s === STAY; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.getElementById("what").innerHTML = `<span class="en">${WHAT[V].en}</span><span class="ko">${WHAT[V].ko}</span>`;
   document.querySelectorAll(".ph").forEach(phone);
 }
 document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; try { localStorage.setItem("goldito.navTrial", V); } catch {} history.replaceState(null, "", "#" + V); render(); }));
 document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
+document.querySelectorAll("[data-i]").forEach((b) => b.addEventListener("click", () => { CHAT = b.dataset.i; render(); }));
 const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
 let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
 setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
