@@ -14,17 +14,31 @@ section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0} a
 .lang{display:flex;gap:.25rem} .lang button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 .8125rem var(--font-ui);cursor:pointer} .lang button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
 html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .hint{color:var(--color-text-muted)}
-.controls{display:flex;flex-direction:column;gap:.5rem}
+.stage{display:grid;grid-template-columns:17rem minmax(0,1fr);gap:1.5rem;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr}}
+.panel{position:sticky;top:calc(var(--site-nav-h,0px) + 1rem);display:flex;flex-direction:column;gap:1rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:1rem;max-height:calc(100vh - var(--site-nav-h,0px) - 2rem);overflow:auto}
+.panel .what{border:0;padding:0;background:none;font-weight:600;font-size:.9375rem;line-height:1.45}
+.panel .pick{flex-direction:row;flex-wrap:wrap;align-items:center;gap:.375rem}
+.panel .pick>span{min-width:0;flex-basis:100%;font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;margin:0}
+.panel .pick button{min-height:36px;font-size:.8125rem;padding:0 .75rem;border-radius:999px;border-width:1.5px}
+.panel .pick button[aria-pressed=true]{border-width:2px}
+.panel .pick[hidden]{display:none}
+@media (max-width:900px){
+  .panel{position:static;max-height:none;gap:.625rem;padding:.75rem}
+  .panel .pick{flex-direction:row;flex-wrap:wrap;align-items:center}
+  .panel .pick>span{flex-basis:100%}
+  .panel .pick button{min-height:36px;padding:0 .75rem;border-radius:999px}
+}
 .pick{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
 .pick>span{font-weight:700;font-size:.875rem;color:var(--color-text-muted);margin-right:.25rem;min-width:4.5rem}
 .pick button{min-height:44px;padding:0 1rem;border-radius:999px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:700 .9375rem var(--font-ui);cursor:pointer}
 .pick button[aria-pressed=true]{border:2px solid #1B4332;background:#D8F3DC;color:#1B4332}
 .pick button:focus-visible,.ph button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
 .what{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
-.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.25rem;min-width:0}
 .who{font-weight:700;font-size:.875rem;text-align:center;margin-bottom:.375rem}
 /* the phone */
-.ph{position:relative;height:640px;max-width:24rem;width:100%;margin:0 auto;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332}
+.ph{position:relative;height:clamp(520px, calc(100vh - var(--site-nav-h,0px) - 6rem), 680px);max-width:24rem;width:100%;margin:0 auto;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332}
 .sb{display:flex;justify-content:space-between;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px;flex:none}
 .hd{display:flex;align-items:flex-start;gap:10px;padding:12px 8px 8px 16px;min-height:64px;flex:none}
 /* buttons sit on the title line (29 px), not on the two-line block; the left edge matches the content's 16 px gutter */
@@ -100,42 +114,44 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
   <p class="hint"><span class="en">Seulgi's feedback: take the chats out of owner Bookings and give Chat its own tab, as the sitter side splits them. To keep the bar at four tabs (Home, Bookings, Chat, Feed), Snap moves to the top left corner. Flip the versions, switch tabs in each phone, tap Snap.</span><span class="ko">슬기님 피드백: 보호자 예약에서 채팅을 빼고 시터처럼 채팅 탭을 따로. 탭을 넷(홈, 예약, 채팅, 피드)으로 두려고 스냅은 왼쪽 위로. 버전을 바꾸고, 폰에서 탭을 눌러 보고, 스냅을 눌러 보세요.</span></p>
 </section>
 
-<div class="controls">
-  <div class="pick" role="radiogroup" aria-label="Version"><span><span class="en">Version</span><span class="ko">버전</span></span>
+
+<div class="stage">
+<aside class="panel" aria-label="Controls">
+  <p class="what" id="what" aria-live="polite"></p>
+  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version</span><span class="ko">버전</span></span>
     <button type="button" role="radio" data-v="now">Now</button>
     <button type="button" role="radio" data-v="five"><span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></button>
     <button type="button" role="radio" data-v="b"><span class="en">Snap in the top left, during a stay</span><span class="ko">스테이 중 왼쪽 위 스냅</span></button>
   </div>
-  <div class="pick" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look</span><span class="ko">스냅 모양</span></span>
-    <button type="button" role="radio" data-k="quiet"><span class="en">Quiet icon</span><span class="ko">아이콘만</span></button>
-    <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
-    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span></button>
+  <div class="pick" data-grp="stay" role="radiogroup" aria-label="Stay"><span><span class="en">Stay</span><span class="ko">스테이</span></span>
+    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
+    <button type="button" role="radio" data-s="off"><span class="en">No stay right now</span><span class="ko">지금 스테이 없음</span></button>
   </div>
-  <div class="pick" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon</span><span class="ko">스냅 아이콘</span></span>
-    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span></button>
-    <button type="button" role="radio" data-g="plus"><span class="en">Plus</span><span class="ko">플러스</span></button>
-    <button type="button" role="radio" data-g="splus"><span class="en">Plus in a square (Instagram)</span><span class="ko">네모 안 플러스 (인스타그램)</span></button>
-  </div>
-  <div class="pick" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars</span><span class="ko">아바타</span></span>
-    <button type="button" role="radio" data-c="green"><span class="en">One green (now)</span><span class="ko">초록 하나 (지금)</span></button>
-    <button type="button" role="radio" data-c="tint"><span class="en">Soft tints, ink letter</span><span class="ko">연한 색, 진초록 글자</span></button>
-    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span></button>
-  </div>
-  <div class="pick" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
+  <div class="pick" data-grp="chaticon" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
     <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-text"><span class="en">Square bubble, text</span><span class="ko">네모 말풍선, 글줄</span></button>
   </div>
-  <div class="pick" role="radiogroup" aria-label="Stay"><span><span class="en">Stay</span><span class="ko">스테이</span></span>
-    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
-    <button type="button" role="radio" data-s="off"><span class="en">No stay right now</span><span class="ko">지금 스테이 없음</span></button>
+  <div class="pick" data-grp="snaplook" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look</span><span class="ko">스냅 모양</span></span>
+    <button type="button" role="radio" data-k="quiet"><span class="en">Quiet icon</span><span class="ko">아이콘만</span></button>
+    <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
+    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span></button>
   </div>
-</div>
-<p class="what" id="what" aria-live="polite"></p>
-
+  <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon</span><span class="ko">스냅 아이콘</span></span>
+    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span></button>
+    <button type="button" role="radio" data-g="plus"><span class="en">Plus</span><span class="ko">플러스</span></button>
+    <button type="button" role="radio" data-g="splus"><span class="en">Plus in a square (Instagram)</span><span class="ko">네모 안 플러스 (인스타그램)</span></button>
+  </div>
+  <div class="pick" data-grp="avatars" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars</span><span class="ko">아바타</span></span>
+    <button type="button" role="radio" data-c="green"><span class="en">One green (now)</span><span class="ko">초록 하나 (지금)</span></button>
+    <button type="button" role="radio" data-c="tint"><span class="en">Soft tints, ink letter</span><span class="ko">연한 색, 진초록 글자</span></button>
+    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span></button>
+  </div>
+</aside>
 <div class="phones">
   <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-role="owner"></div></div>
   <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-role="sitter"></div></div>
+</div>
 </div>
 
 <section>
@@ -234,6 +250,9 @@ document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e
   focus && focus.focus();
 }));
 function render() {
+  const grp = (k) => document.querySelector(`[data-grp="${k}"]`);
+  grp("snaplook").hidden = grp("snapicon").hidden = V !== "b";
+  grp("chaticon").hidden = V === "now";
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-g]").forEach((b) => { const on = b.dataset.g === GLYPH; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-c]").forEach((b) => { const on = b.dataset.c === AVC; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
