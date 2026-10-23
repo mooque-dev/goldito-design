@@ -50,14 +50,14 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .snappill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border-radius:999px;border:0;background:#1B4332;color:#fff;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;flex:none}
 .snappill svg{width:20px;height:20px}
 .ct{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B42318;color:#fff;font:800 10px/14px 'Plus Jakarta Sans',sans-serif;border:2px solid #FBF6EA}
-.avr{padding:2px;border-radius:20px;border:1.5px solid #1B4332} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
+.avr{padding:2px;border-radius:20px;border:1.5px solid #CBBFA8} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
 .bd{flex:1;overflow-y:auto;padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px}
 .seg{display:flex;gap:6px;flex-wrap:nowrap;overflow:hidden} .seg span{flex:none;min-height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;display:inline-flex;align-items:center;font-size:14px;font-weight:600} .seg span.on{background:#D8F3DC;border:2px solid #1B4332}
 .card{background:#fff;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px} .card b{font-size:16px} .card small{font-size:13px;color:#6B5D4A}
 .hero{background:#2D6A4F;color:#fff;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:4px} .hero b{font:600 22px/1.15 Fredoka,sans-serif} .hero small{color:#D8F3DC;font-size:13px}
 .row{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid #E8DCC4} .row .av{width:44px;height:44px;font-size:17px} .row .tx{flex:1;min-width:0} .row .tx b{display:block;font-size:15px} .row .tx small{display:block;font-size:13px;color:#6B5D4A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .row .dt{font-size:12px;color:#6B5D4A;display:flex;flex-direction:column;align-items:flex-end;gap:4px} .row .un{min-width:20px;height:20px;border-radius:10px;background:#1B4332;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
-.row.new{background:#D8F3DC;border-radius:14px;border:0;padding:10px}
+.row.new{background:#D8F3DC;border-radius:14px;border:0;padding:10px} .row.new .av{box-shadow:0 0 0 2px #fff}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px} .grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block}
 .sec{font:600 18px Fredoka,sans-serif;margin-top:4px}
 .tabs{display:flex;justify-content:space-around;background:#fff;border-radius:26px 26px 0 0;padding:10px 6px 18px;box-shadow:0 -8px 12px rgba(27,67,50,.08);flex:none}
@@ -117,6 +117,11 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
     <button type="button" role="radio" data-k="row"><span class="en">Row above the title</span><span class="ko">제목 위 줄</span></button>
     <button type="button" role="radio" data-k="dark"><span class="en">Dark (before)</span><span class="ko">진한 초록 (이전)</span></button>
   </div>
+  <div class="pick" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars</span><span class="ko">아바타</span></span>
+    <button type="button" role="radio" data-c="green"><span class="en">One green (now)</span><span class="ko">초록 하나 (지금)</span></button>
+    <button type="button" role="radio" data-c="tint"><span class="en">Soft tints, ink letter</span><span class="ko">연한 색, 진초록 글자</span></button>
+    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span></button>
+  </div>
   <div class="pick" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
     <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></button>
@@ -154,16 +159,23 @@ const WHAT = {
   b: { en: "B: four tabs. The camera shows up in the top left only while pets are with the sitter.", ko: "B: 탭 넷. 시터가 돌보는 동안에만 왼쪽 위에 카메라." },
   c: { en: "C: four tabs. A labelled Snap pill on Home only.", ko: "C: 탭 넷. 홈에만 이름 붙은 스냅 버튼." },
 };
+// Avatar colours: the app's block tints (Home tiles, pet cards). A person keeps one colour everywhere (from the name).
+const TINTS = [["#D8F3DC", "#1B4332"], ["#FDE2CC", "#9A3412"], ["#FBEFC8", "#8A5A00"], ["#FAD6CB", "#9F2E1A"], ["#E3EADF", "#3F4A43"]];
+const av = (name, init) => {
+  if (AVC === "green") return `<span class="av">${init}</span>`;
+  const [bg, fg] = TINTS[(name.charCodeAt(0) + name.length) % TINTS.length];
+  return `<span class="av" style="background:${bg};color:${AVC === "tint" ? "#1B4332" : fg}">${init}</span>`;
+};
 const PHOTOS = ["redesign/img/pet1.jpg", "redesign/img/pet2.jpg", "redesign/img/pet0.jpg", "redesign/img/pet2.jpg", "redesign/img/pet1.jpg", "redesign/img/pet0.jpg"];
 const ROLE = {
   owner: { name: "Robert", role: "Owner", init: "R", badge: 6, chats: [["C", "Chloe", "Max ate everything and asked for more.", "9:02 AM", 1], ["D", "Daniel", "Quote", "Oct 22", 0]],
     home: (stay) => stay ? `<div class="hero"><small>With Chloe now · Day 2 of 3</small><b>Max and Mochi are having a good day</b><small>3 of 5 care tasks done</small></div><div class="card"><b>Latest from Chloe · 9:02 AM</b><small>Max finished his breakfast and asked for more.</small></div>`
       : `<div class="card"><b>Plan a stay</b><small>Find a sitter near you for Max and Mochi.</small></div><div class="card"><b>Your pets</b><small>Max · Maltese · Mochi · Domestic shorthair</small></div>`,
-    bookings: (v) => `<div class="seg"><span class="on">Upcoming</span><span>Requests</span><span>Past</span></div><div class="card"><b>Oct 23 to 25 with Chloe</b><small>Max, Mochi · Boarding · Confirmed</small></div>` + (v === "now" ? `<p class="sec">Chats</p><div class="row"><span class="av">D</span><span class="tx"><b>Daniel</b><small>Quote</small></span><span class="dt">Oct 22</span></div>` : "") },
+    bookings: (v) => `<div class="seg"><span class="on">Upcoming</span><span>Requests</span><span>Past</span></div><div class="card"><b>Oct 23 to 25 with Chloe</b><small>Max, Mochi · Boarding · Confirmed</small></div>` + (v === "now" ? `<p class="sec">Chats</p><div class="row">${av("Daniel", "D")}<span class="tx"><b>Daniel</b><small>Quote</small></span><span class="dt">Oct 22</span></div>` : "") },
   sitter: { name: "Chloe", role: "Sitter", init: "C", badge: 7, chats: [["P", "Peter", "Stay details", "Oct 22", 1], ["R", "Robert", "For walks, I'm happy to adjust based on…", "Oct 22", 0], ["A", "Alex", "Hi Chloe, it's Alex. I'm glad you're available.", "Oct 20", 0]],
     home: (stay) => stay ? `<div class="hero"><small>Next · 2:00 PM</small><b>Max · skin pill in a treat</b><small>From Robert's care request · 2 of 5 done today</small></div><div class="card"><b>Mochi · dinner at 6:00 PM</b><small>Half a can, wet food</small></div>`
       : `<div class="card"><b>No bookings yet</b><small>Open your schedule so owners can find you.</small></div>`,
-    bookings: (v) => `<div class="seg"><span class="on">Requests</span><span>In progress</span><span>Upcoming</span></div><div class="card"><b>Peter · Nov 2 to 4</b><small>Biscuit · Boarding · New request</small></div>` + (v === "now" ? `<p class="sec">Chats</p><div class="row"><span class="av">P</span><span class="tx"><b>Peter</b><small>Stay details</small></span><span class="dt">Oct 22</span></div>` : "") },
+    bookings: (v) => `<div class="seg"><span class="on">Requests</span><span>In progress</span><span>Upcoming</span></div><div class="card"><b>Peter · Nov 2 to 4</b><small>Biscuit · Boarding · New request</small></div>` + (v === "now" ? `<p class="sec">Chats</p><div class="row">${av("Peter", "P")}<span class="tx"><b>Peter</b><small>Stay details</small></span><span class="dt">Oct 22</span></div>` : "") },
 };
 const TABS = {
   now: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["feed", "Feed", "img"], ["diary", "Diary", "book"], ["snap", "Snap", "cam"]],
@@ -171,7 +183,7 @@ const TABS = {
   four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
-let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "quiet";
+let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "quiet", AVC = "match";
 try { const v = localStorage.getItem("goldito.navTrial"); if (["now", "five", "a", "b", "c"].includes(v)) V = v; } catch {}
 const h = location.hash.slice(1); if (["now", "five", "a", "b", "c"].includes(h)) V = h;
 const state = { owner: { tab: "home", snap: false }, sitter: { tab: "home", snap: false } };
@@ -186,7 +198,7 @@ function body(role, tab) {
   const R = ROLE[role];
   if (tab === "home") return R.home(STAY === "on");
   if (tab === "bookings") return R.bookings(V);
-  if (tab === "chat") return R.chats.map(([i, n, m, d, u], k) => `<div class="row${u && k === 0 && role === "sitter" ? " new" : ""}"><span class="av">${i}</span><span class="tx"><b>${n}</b><small>${m}</small></span><span class="dt">${d}${u ? `<span class="un">${u}</span>` : ""}</span></div>`).join("");
+  if (tab === "chat") return R.chats.map(([i, n, m, d, u], k) => `<div class="row${u && k === 0 && role === "sitter" ? " new" : ""}">${av(n, i)}<span class="tx"><b>${n}</b><small>${m}</small></span><span class="dt">${d}${u ? `<span class="un">${u}</span>` : ""}</span></div>`).join("");
   if (tab === "feed" || tab === "diary") {
     const diaryFirst = tab === "diary";
     const seg = V === "now" ? "" : `<div class="seg"><span class="${diaryFirst ? "" : "on"}">Photos</span><span class="${diaryFirst ? "on" : ""}">Diary</span></div>`;
@@ -215,7 +227,7 @@ function phone(el) {
   el.innerHTML = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>${snapRow}
     <div class="hd">${snapEl}<span class="tt"><b>${title}</b><small>${R.name} · ${R.role}</small></span>
       <span class="rt"><button class="ib" type="button" aria-label="Notifications, ${R.badge} new">${ic("bell")}<span class="ct">${R.badge}</span></button>
-      <button class="ib" type="button" aria-label="${R.name}, ${R.role.toLowerCase()} account. Menu"><span class="avr"><span class="av">${R.init}</span></span></button></span></div>
+      <button class="ib" type="button" aria-label="${R.name}, ${R.role.toLowerCase()} account. Menu"><span class="avr">${av(R.name, R.init)}</span></button></span></div>
     <div class="bd">${body(role, st.tab)}</div>
     <nav class="tabs" aria-label="Tabs">${tabs.map(([k, l, i]) => `<button type="button" class="${k === st.tab ? "on" : ""}" data-t="${k}" aria-current="${k === st.tab ? "page" : "false"}"><i>${ic(i === "chat" ? CHAT : i)}</i>${l}${k === "chat" && unread ? `<span class="bdg">${unread}</span>` : ""}</button>`).join("")}</nav>
     <div class="snap${st.snap ? " open" : ""}" role="dialog" aria-label="Snap" aria-hidden="${!st.snap}"><div class="hd"><button class="ib" type="button" data-a="close" aria-label="Back">${ic("back")}</button><span class="tt"><b>Snap</b><small>${STAY === "on" ? "For Max and Mochi" : "Pick a pet first"}</small></span></div><div class="bd">${snapTools()}</div></div>`;
@@ -232,6 +244,7 @@ document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e
 }));
 function render() {
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.querySelectorAll("[data-c]").forEach((b) => { const on = b.dataset.c === AVC; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-k]").forEach((b) => { const on = b.dataset.k === LOOK; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-i]").forEach((b) => { const on = b.dataset.i === CHAT; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-s]").forEach((b) => { const on = b.dataset.s === STAY; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
@@ -241,6 +254,7 @@ function render() {
 document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; try { localStorage.setItem("goldito.navTrial", V); } catch {} history.replaceState(null, "", "#" + V); render(); }));
 document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
 document.querySelectorAll("[data-i]").forEach((b) => b.addEventListener("click", () => { CHAT = b.dataset.i; render(); }));
+document.querySelectorAll(".pick [data-c]").forEach((b) => b.addEventListener("click", () => { AVC = b.dataset.c; render(); }));
 document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
 const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
 let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
