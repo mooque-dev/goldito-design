@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Design Update Oct 18</title>
+<title>Design Update Oct 19</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
@@ -14,7 +14,7 @@
     document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
 </script>
 <style>
-  /* Design update, Oct 18 (worked past midnight): today's list, the sketches, what Minsik reviews, tomorrow. */
+  /* Design update, Oct 22: work done on Oct 21 to 22 and the to-dos for Oct 22. */
   *{box-sizing:border-box}
   html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
   body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
@@ -34,7 +34,7 @@
   .lang button[aria-pressed=true]{background:var(--color-primary);color:var(--color-primary-text)}
   /* rows: status · what · links */
   .rows{margin:0;padding:0;list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
-  .rows li{display:grid;grid-template-columns:5.5rem minmax(0,1fr) auto;gap:.75rem;align-items:baseline;padding:.625rem 1rem;border-top:1px solid var(--color-border)}
+  .rows li{display:grid;grid-template-columns:8.5rem minmax(0,1fr) auto;gap:.75rem;align-items:baseline;padding:.625rem 1rem;border-top:1px solid var(--color-border)}
   .rows li:first-child{border-top:0}
   .rows b{font-weight:600}
   .rows .what span.sub{display:block;color:var(--color-text-muted);font-size:.875rem}
@@ -42,7 +42,9 @@
   @media (max-width:640px){.rows li{grid-template-columns:1fr}.rows .links{justify-content:flex-start}}
   .pill{justify-self:start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;white-space:nowrap}
   .pill.done{background:var(--color-success-surface);color:var(--color-success)}
-  .pill.review{background:var(--color-accent);color:var(--color-primary)}
+  .pill.review{background:var(--color-warning-surface);color:var(--color-warning)}
+  .pill.ui{background:var(--color-accent);color:var(--color-primary)}
+  .sprites{display:flex;flex-wrap:wrap;gap:.375rem;margin-top:.375rem}.sprites img{width:48px;height:48px;object-fit:cover;object-position:left center;image-rendering:pixelated;background:var(--color-background);border-radius:6px}
   .pill.later{background:var(--color-track);color:var(--color-text-muted)}
   /* visual notes */
   .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
@@ -51,24 +53,78 @@
   .card:hover{border-color:var(--color-primary)}
   .card img{width:100%;height:12.5rem;object-fit:contain;display:block;background:var(--color-background);padding:.5rem}
   .card.tall img{object-fit:cover;object-position:center 50%;padding:0}
-  .card{position:relative}
+  .card{position:relative} .wip-card:hover{border-color:var(--color-border)} .wipbox{height:11rem;display:grid;place-items:center;background:var(--color-background);border-bottom:1px dashed var(--color-border);color:var(--color-text-muted);font-weight:700;font-size:.9375rem;letter-spacing:.02em}
   .wip{position:absolute;top:.625rem;left:.625rem;right:.625rem;background:var(--color-warning);color:#fff;font:700 .9375rem/1.3 var(--font-ui);border-radius:var(--radius-md);padding:.5rem .75rem;box-shadow:0 2px 8px rgba(0,0,0,.18)}
   .card figcaption{padding:.625rem .875rem;font-size:.875rem;display:flex;justify-content:space-between;gap:.5rem}
   .card figcaption b{font-weight:600}
   .card figcaption span.n{color:var(--color-text-muted)}
   .ask{background:var(--color-warning-surface);border-radius:var(--radius-lg);padding:.75rem 1rem;font-size:.9375rem}
   ol.order{margin:0;padding-left:1.25rem;display:flex;gap:.25rem 1.5rem;flex-wrap:wrap}
+  html[data-lang="ko"] :is(p,span,li,b){word-break:keep-all}
+  .specs{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15.5rem),1fr));gap:.625rem}
+  .sc{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.5rem;min-width:0}
+  .sc>b{font:600 1rem/1.25 var(--font-display)}
+  .vs{display:flex;flex-wrap:wrap;align-items:center;gap:.375rem;font-size:.875rem}
+  .side{background:var(--color-track);border-radius:999px;padding:.1875rem .625rem;font-weight:600}
+  .side small{font-weight:500;font-size:.75rem;color:var(--color-text-muted)}
+  .side small a{font-weight:600}
+  .or{font-size:.75rem;color:var(--color-text-muted)}
+  .pick{align-self:flex-start;font-size:.8125rem;font-weight:600;background:var(--color-success-surface);color:var(--color-success);border-radius:999px;padding:.1875rem .625rem}
+  .pick a{color:inherit;white-space:nowrap}
+  .pick.open{background:var(--color-warning-surface);color:var(--color-warning)}
+  .calls{display:flex;flex-wrap:wrap;align-items:center;gap:.375rem;font-size:.875rem}
+  .calls>b{margin-right:.25rem}
+  .chip{background:var(--color-accent);color:var(--color-primary);border-radius:999px;padding:.1875rem .625rem;font-weight:600}
+  ul.q{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem}
+  .note{color:var(--color-text-muted);font-size:.875rem}
   footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+.ask{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;font-size:.9375rem;line-height:1.6}
 .site-nav ~ * .lang{display:none}
+.card figcaption{flex-direction:column;align-items:flex-start;gap:2px}.card img{object-fit:cover;object-position:top;padding:0;height:11rem}.hint{color:var(--color-text-muted);font-size:.9375rem}
+
+  /* Oct 22 glance: work cards, merge chain, needs, left */
+  .wks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));gap:.75rem}
+  .wk{margin:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+  .wk img{width:100%;height:9rem;object-fit:cover;object-position:top;display:block;background:var(--color-background);border-bottom:1px solid var(--color-border)}
+  .wk figcaption{padding:.625rem .75rem .75rem;display:flex;flex-direction:column;gap:.3rem;flex:1}
+  .wk figcaption b{font:600 1rem/1.25 var(--font-display)}
+  .wk.txt figcaption{justify-content:flex-start}
+  .ln1{font-size:.875rem;color:var(--color-text-muted);line-height:1.45}
+  .lk{display:flex;flex-wrap:wrap;gap:.25rem .75rem;font-size:.875rem;margin-top:auto;padding-top:.25rem}
+  .needs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.75rem}
+  .nd{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.4rem;min-width:0}
+  .nd>b{font-weight:600}
+  .nd.wide{grid-column:span 2} @media (max-width:640px){.nd.wide{grid-column:auto}}
+  .wk .pill{align-self:flex-start}
+  ol.train{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:.375rem}
+  ol.train li{display:flex;flex-direction:column;align-items:center;background:var(--color-accent);border-radius:12px;padding:.25rem .625rem;min-width:3.5rem}
+  ol.train li a{color:var(--color-primary);font-weight:700}
+  ol.train li small{font-size:.6875rem;color:var(--color-primary)}
+  ol.train li.ar{background:none;min-width:0;padding:0;color:var(--color-text-muted);font-weight:700}
+  ul.left{margin:0;padding:0;list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+  ul.left li{padding:.625rem 1rem;border-top:1px solid var(--color-border)} ul.left li:first-child{border-top:0}
+  ul.left li b{font-weight:600} ul.left li.hold{color:var(--color-text-muted)}
+  details.full{border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-surface);padding:.25rem 1rem}
+  details.full>summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+  details.full>section{margin:.5rem 0 1rem}
+  details.full .rows{background:var(--color-background)}
 </style>
 <script src="nav.js" defer></script>
 </head>
 <body>
 <main class="wrap">
-  <header>
-    <div class="bar"><span class="eyebrow"><span class="en">Design update · Oct 18 · Mook</span><span class="ko">디자인 업데이트 · 10월 18일 · 묵</span></span>
-      <div class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
-    <h1><span class="en">Design work · Oct 18</span><span class="ko">디자인 작업 · 10월 18일</span></h1>
+  <div class="bar"><span class="eyebrow">Goldito · <span class="en">Design update</span><span class="ko">디자인 업데이트</span> · Oct 19</span></div>
+  <h1><span class="en">Worked on, what's left</span><span class="ko">작업한 일, 남은 일</span></h1>
+  <p class="lede"><span class="en">Covers the Oct 18 work and the plan for Oct 19</span><span class="ko">10/18 작업과 10/19 계획</span></p>
+
+  <section class="glance"><h2><span class="en">Worked on</span><span class="ko">작업한 것</span></h2><div class="wks"><figure class="wk txt"><figcaption><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b><span class="en">#147 Home header</span><span class="ko">#147 홈 헤더</span></b><span class="ln1"><span class="en">Role chip, bell and a menu drawer; Sign out in the menu and in Settings</span><span class="ko">역할 칩, 벨, 메뉴 서랍; 메뉴와 설정에 로그아웃</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a> <a href="https://github.com/minsikpaul92/Goldito/issues/147" target="_blank" rel="noopener">#147</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b><span class="en">#120 Sitter calendar B + D</span><span class="ko">#120 시터 캘린더 B + D</span></b><span class="ln1"><span class="en">Next openings first, then month and day pages</span><span class="ko">다음 가능 시간 먼저, 그다음 월과 일 페이지</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a> <a href="ticket-120-options.html">Options</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b><span class="en">Expressive look in the app</span><span class="ko">앱에 Expressive 룩</span></b><span class="ln1"><span class="en">Pills, tinted cards, the tab bar and the pixel coin logo</span><span class="ko">알약 버튼, 색 카드, 탭 바, 픽셀 코인 로고</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/177" target="_blank" rel="noopener">#177</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">Figma cleanup</span><span class="ko">피그마 정리</span></b><span class="ln1"><span class="en">Archive page, pixel coin, component fixes; the plugin keeps them</span><span class="ko">아카이브 페이지, 픽셀 코인, 컴포넌트 수정; 플러그인이 유지</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/129" target="_blank" rel="noopener">#129</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">#117 Wrap up #41 and #54</span><span class="ko">#117 #41과 #54 마무리</span></b><span class="ln1"><span class="en">Closed; #41 replaced by #178</span><span class="ko">닫음; #41은 #178로 대체</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/issues/117" target="_blank" rel="noopener">#117</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill later"><span class="en">Later</span><span class="ko">나중에</span></span><b><span class="en">#119 Skins and pixel pets</span><span class="ko">#119 스킨과 픽셀 펫</span></b><span class="ln1"><span class="en">Drafted, not a priority</span><span class="ko">초안, 우선순위 아님</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/issues/119" target="_blank" rel="noopener">#119</a></span></figcaption></figure></div></section>
+
+  <section><h2><span class="en">Needs the team</span><span class="ko">팀이 해 줄 것</span></h2><div class="needs"><div class="nd"><b><span class="en">Minsik: review the three PRs in order</span><span class="ko">민식님: PR 세 개를 순서대로 리뷰</span></b><span class="ln1"><span class="en">They're stacked: the look, then the header, then the calendar.</span><span class="ko">쌓여 있어요: 룩, 헤더, 캘린더 순.</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/177" target="_blank" rel="noopener">#177</a> <a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a> <a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a></span></div><div class="nd"><b><span class="en">Minsik: dates on the sitter profile?</span><span class="ko">민식님: 시터 프로필에 날짜?</span></b><span class="ln1"><span class="en">Can sitter search pass the owner's dates to the profile, for a "Free for your dates" card?</span><span class="ko">시터 검색이 보호자의 날짜를 프로필로 넘길 수 있을까요? "선택한 날짜에 가능" 카드용</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a></span></div></div></section>
+
+  <section><h2><span class="en">Left before the Oct 28 freeze</span><span class="ko">10/28 동결 전 남은 일</span></h2><ul class="left"><li><span class="en"><b>Check Minsik's Devpost submission</b>: read it through, flag anything missing</span><span class="ko"><b>민식님의 Devpost 제출 확인</b>: 끝까지 읽고 빠진 것 표시</span></li><li><span class="en"><b>Prep the Oct 20 webinar</b>: talking points and the demo path</span><span class="ko"><b>10/20 웨비나 준비</b>: 말할 거리와 데모 경로</span></li><li><span class="en"><b>Close what's done</b>: #111 frames, #112 screens map; #113 has 4 photo gaps; #114 stickers drafted</span><span class="ko"><b>끝난 것 닫기</b>: #111 프레임, #112 화면 지도; #113 사진 4개 빈칸; #114 스티커 초안</span></li><li><span class="en"><b>Large-text onboarding</b>, the one big P0, needed by Oct 22</span><span class="ko"><b>큰 글씨 온보딩</b>, 큰 P0 하나, 10/22까지</span> <a href="https://github.com/minsikpaul92/Goldito/issues/115" target="_blank" rel="noopener">#115</a></li><li><span class="en"><b>Demo video shot list</b>; record after the Oct 28 freeze</span><span class="ko"><b>데모 영상 샷 리스트</b>; 10/28 동결 후 녹화</span> <a href="https://github.com/minsikpaul92/Goldito/issues/116" target="_blank" rel="noopener">#116</a></li><li><span class="en">If time: diary papers, then skins</span><span class="ko">시간이 되면: 다이어리 종이, 그다음 스킨</span></li></ul></section>
+
+  <details class="full"><summary><span class="en">Full notes from Oct 19</span><span class="ko">10월 19일 전체 노트</span></summary>
+
   </header>
 
   <section aria-labelledby="h-list">
@@ -93,9 +149,9 @@
     <h2 id="h-notes"><span class="en">Visual notes</span><span class="ko">비주얼 노트</span></h2>
     <div class="gallery">
       <a class="card tall" href="paw-drawer.html"><img src="assets/update/paw.png" alt="A cartoon paw pulling the menu drawer across the phone"><figcaption><b><span class="en">Paw pulls the drawer</span><span class="ko">발이 서랍을 당겨요</span></b><span class="n"><span class="en">idea for #147</span><span class="ko">#147 아이디어</span></span></figcaption></a>
-      <a class="card" href="sketches.html#h-stickers"><img src="assets/update/stickers.png" alt="Nine pixel stickers: ball, Best day!, bone, cloud, heart, paw, star, sun, sleepy"><figcaption><b><span class="en">6 · Pixel sticker set</span><span class="ko">6 · 픽셀 스티커</span></b><span class="n">#114</span></figcaption></a>
+      <a class="card" href="sketches.html#h-stickers"><div class="wipbox" role="img" aria-label="Work in progress"><span class="en">Work in progress</span><span class="ko">작업 중</span></div><figcaption><b><span class="en">6 · Pixel sticker set</span><span class="ko">6 · 픽셀 스티커</span></b><span class="n">#114</span></figcaption></a>
       <a class="card" href="sketches.html#h-themes"><img src="assets/update/papers.png" alt="Four diary papers: sunny, cozy, playful, calm"><figcaption><b><span class="en">7 · Four diary papers</span><span class="ko">7 · 다이어리 종이 넷</span></b><span class="n">#118</span></figcaption></a>
-      <a class="card" href="sketches.html#h-skins"><span class="wip"><span class="en">WIP: only the heads are drawn. Bodies and body types are still in progress.</span><span class="ko">작업 중: 머리만 그렸어요. 몸과 체형은 아직 작업 중이에요.</span></span><img src="assets/update/skins.png" alt="Owner Home with the 8-bit status room in two coat skins"><figcaption><b><span class="en">8 · Coat skins and status room</span><span class="ko">8 · 털 색 스킨과 상태 방</span></b><span class="n">#119</span></figcaption></a>
+      <a class="card" href="sketches.html#h-skins"><span class="wip"><span class="en">WIP: only the heads are drawn. Bodies and body types are still in progress.</span><span class="ko">작업 중: 머리만 그렸어요. 몸과 체형은 아직 작업 중이에요.</span></span><div class="wipbox" role="img" aria-label="Work in progress"><span class="en">Work in progress</span><span class="ko">작업 중</span></div><figcaption><b><span class="en">8 · Coat skins and status room</span><span class="ko">8 · 털 색 스킨과 상태 방</span></b><span class="n">#119</span></figcaption></a>
       <a class="card" href="sketches.html#h-screens"><img src="assets/update/screens.png" alt="Table mapping each scenario screen to the app"><figcaption><b><span class="en">9 · Scenario screens map</span><span class="ko">9 · 시나리오 화면 지도</span></b><span class="n">#112</span></figcaption></a>
       <a class="card" href="sketches.html#h-photos"><img src="assets/update/photos.png" alt="Sample photos and the placeholders still missing"><figcaption><b><span class="en">10 · Sample photos, 4 gaps</span><span class="ko">10 · 샘플 사진, 빈칸 4개</span></b><span class="n">#113</span></figcaption></a>
     </div>
@@ -130,7 +186,9 @@
     </ul>
   </section>
 
-  <footer><span class="en">Site: <a href="index.html">Overview</a> · <a href="sketches.html">Sketches</a> · <a href="plan.html">Plan</a> · Live app: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a></span><span class="ko">사이트: <a href="index.html">개요</a> · <a href="sketches.html">스케치</a> · <a href="plan.html">계획</a> · 실제 앱: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a></span></footer>
+  
+
+  </details>
 </main>
 <script>
   const sync = () => document.querySelectorAll(".lang button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.l === document.documentElement.dataset.lang)));

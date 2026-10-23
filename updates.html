@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design Updates</title>
+<meta name="description" content="Every Goldito daily design update, newest first.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+body{margin:0;background:var(--color-background);color:var(--color-text);font:400 1rem/1.55 var(--font-ui)}
+.wrap{max-width:52rem;margin:0 auto;padding-block:1.5rem 3rem;padding-inline:clamp(1rem,4vw,2rem);display:flex;flex-direction:column;gap:1.25rem}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+h1{margin:0;font:700 clamp(1.875rem,4.4vw,2.4rem)/1.1 var(--font-display);text-wrap:balance}
+.lede{margin:0;color:var(--color-text-muted);max-width:40rem}
+.list{display:flex;flex-direction:column;gap:.625rem}
+.up{display:grid;grid-template-columns:7.5rem minmax(0,1fr) auto;align-items:center;gap:1rem;padding:.875rem 1rem;min-height:44px;border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-surface);color:inherit;text-decoration:none}
+.up:hover{border-color:var(--color-border-strong)}
+.up.first{border-color:var(--color-primary)}
+.up .d{display:flex;flex-direction:column} .up .d b{font:600 1.375rem/1.1 var(--font-display)}
+.up small{color:var(--color-text-muted);font-size:.8125rem}
+.up .t{display:flex;flex-direction:column;gap:.125rem;min-width:0} .up .s{font-weight:600}
+.up .new{font-size:.75rem;font-weight:700;border-radius:999px;padding:.2rem .7rem;background:var(--color-accent);color:var(--color-primary)}
+.up .go{font-size:1.5rem;color:var(--color-text-muted)}
+.how{margin:0;padding:.875rem 1rem;border-radius:var(--radius-lg);background:var(--color-accent);color:var(--color-text);font-size:.9375rem}
+@media (max-width:560px){.up{grid-template-columns:minmax(0,1fr) auto}.up .d{flex-direction:row;align-items:baseline;gap:.5rem}.up .t{grid-column:1/-1;grid-row:2}.up .new,.up .go{grid-column:2;grid-row:1}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <span class="eyebrow">Goldito · <span class="en">Design updates</span><span class="ko">디자인 업데이트</span></span>
+  <h1><span class="en">Every update, newest first</span><span class="ko">모든 업데이트, 최신순</span></h1>
+  <p class="lede"><span class="en">One page per day, for the team meeting. Each has the same parts: Worked on, Needs the team, Left before the Oct 28 freeze, then that day's full notes. Older and newer are one tap away at the top and bottom of each.</span><span class="ko">하루에 한 페이지, 팀 미팅용. 구성은 같아요: 작업한 것, 팀이 해 줄 것, 10/28 동결 전 남은 일, 그리고 그날의 전체 노트. 각 페이지 위아래에서 이전과 다음으로 바로 가요.</span></p>
+  <nav class="list" aria-label="Updates">
+    <a class="up first" href="update-2026-10-23.html">
+      <span class="d"><b><span class="en">Oct 23</span><span class="ko">10월 23일</span></b><small><span class="en">Friday</span><span class="ko">금요일</span></small></span>
+      <span class="t"><span class="s"><span class="en">Nav trial, Figma flags and the Decisions board, proposal issues, DESIGN.md</span><span class="ko">내비게이션 시안, 피그마 표시와 결정 보드, 제안 이슈, DESIGN.md</span></span><small><span class="en">10 worked on · 4 for the team · 6 left</span><span class="ko">작업 10 · 팀 4 · 남은 일 6</span></small></span>
+      <span class="new"><span class="en">Latest</span><span class="ko">최신</span></span></a><a class="up" href="update-2026-10-22.html">
+      <span class="d"><b><span class="en">Oct 22</span><span class="ko">10월 22일</span></b><small><span class="en">Thursday</span><span class="ko">목요일</span></small></span>
+      <span class="t"><span class="s"><span class="en">Design kit, header C, Lucide, Jakarta, the merge chain</span><span class="ko">디자인 키트, 헤더 C, Lucide, Jakarta, 머지 순서</span></span><small><span class="en">9 worked on · 4 for the team · 4 left</span><span class="ko">작업 9 · 팀 4 · 남은 일 4</span></small></span>
+      <span class="go" aria-hidden="true">›</span></a><a class="up" href="update-2026-10-21.html">
+      <span class="d"><b><span class="en">Oct 21</span><span class="ko">10월 21일</span></b><small><span class="en">Wednesday</span><span class="ko">수요일</span></small></span>
+      <span class="t"><span class="s"><span class="en">UI audit, demo polish, judge panel</span><span class="ko">UI 감사, 데모 다듬기, 심사위원 패널</span></span><small><span class="en">6 worked on · 2 for the team · 4 left</span><span class="ko">작업 6 · 팀 2 · 남은 일 4</span></small></span>
+      <span class="go" aria-hidden="true">›</span></a><a class="up" href="update-2026-10-20.html">
+      <span class="d"><b><span class="en">Oct 20</span><span class="ko">10월 20일</span></b><small><span class="en">Tuesday</span><span class="ko">화요일</span></small></span>
+      <span class="t"><span class="s"><span class="en">Expressive merged, gold coin logo, #115 hand-off</span><span class="ko">Expressive 머지, 골드 코인 로고, #115 전달</span></span><small><span class="en">7 worked on · 2 for the team · 3 left</span><span class="ko">작업 7 · 팀 2 · 남은 일 3</span></small></span>
+      <span class="go" aria-hidden="true">›</span></a><a class="up" href="update-2026-10-19.html">
+      <span class="d"><b><span class="en">Oct 19</span><span class="ko">10월 19일</span></b><small><span class="en">Monday</span><span class="ko">월요일</span></small></span>
+      <span class="t"><span class="s"><span class="en">Header, calendar and the look in review</span><span class="ko">헤더, 캘린더, 룩 리뷰 중</span></span><small><span class="en">6 worked on · 2 for the team · 6 left</span><span class="ko">작업 6 · 팀 2 · 남은 일 6</span></small></span>
+      <span class="go" aria-hidden="true">›</span></a>
+  </nav>
+</main>
+<script src="nav.js" defer></script>
+</body>
+</html>

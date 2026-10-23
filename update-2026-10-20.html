@@ -14,7 +14,7 @@
     document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
 </script>
 <style>
-  /* Design update, Oct 20: what landed since Oct 19, the #115 onboarding and the spec questions for Minsik and Seulgi, today. */
+  /* Design update, Oct 22: work done on Oct 21 to 22 and the to-dos for Oct 22. */
   *{box-sizing:border-box}
   html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
   body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem;-webkit-font-smoothing:antialiased}
@@ -34,7 +34,7 @@
   .lang button[aria-pressed=true]{background:var(--color-primary);color:var(--color-primary-text)}
   /* rows: status · what · links */
   .rows{margin:0;padding:0;list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
-  .rows li{display:grid;grid-template-columns:5.5rem minmax(0,1fr) auto;gap:.75rem;align-items:baseline;padding:.625rem 1rem;border-top:1px solid var(--color-border)}
+  .rows li{display:grid;grid-template-columns:8.5rem minmax(0,1fr) auto;gap:.75rem;align-items:baseline;padding:.625rem 1rem;border-top:1px solid var(--color-border)}
   .rows li:first-child{border-top:0}
   .rows b{font-weight:600}
   .rows .what span.sub{display:block;color:var(--color-text-muted);font-size:.875rem}
@@ -42,7 +42,9 @@
   @media (max-width:640px){.rows li{grid-template-columns:1fr}.rows .links{justify-content:flex-start}}
   .pill{justify-self:start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.125rem .625rem;white-space:nowrap}
   .pill.done{background:var(--color-success-surface);color:var(--color-success)}
-  .pill.review{background:var(--color-accent);color:var(--color-primary)}
+  .pill.review{background:var(--color-warning-surface);color:var(--color-warning)}
+  .pill.ui{background:var(--color-accent);color:var(--color-primary)}
+  .sprites{display:flex;flex-wrap:wrap;gap:.375rem;margin-top:.375rem}.sprites img{width:48px;height:48px;object-fit:cover;object-position:left center;image-rendering:pixelated;background:var(--color-background);border-radius:6px}
   .pill.later{background:var(--color-track);color:var(--color-text-muted)}
   /* visual notes */
   .gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
@@ -51,7 +53,7 @@
   .card:hover{border-color:var(--color-primary)}
   .card img{width:100%;height:12.5rem;object-fit:contain;display:block;background:var(--color-background);padding:.5rem}
   .card.tall img{object-fit:cover;object-position:center 50%;padding:0}
-  .card{position:relative}
+  .card{position:relative} .wip-card:hover{border-color:var(--color-border)} .wipbox{height:11rem;display:grid;place-items:center;background:var(--color-background);border-bottom:1px dashed var(--color-border);color:var(--color-text-muted);font-weight:700;font-size:.9375rem;letter-spacing:.02em}
   .wip{position:absolute;top:.625rem;left:.625rem;right:.625rem;background:var(--color-warning);color:#fff;font:700 .9375rem/1.3 var(--font-ui);border-radius:var(--radius-md);padding:.5rem .75rem;box-shadow:0 2px 8px rgba(0,0,0,.18)}
   .card figcaption{padding:.625rem .875rem;font-size:.875rem;display:flex;justify-content:space-between;gap:.5rem}
   .card figcaption b{font-weight:600}
@@ -76,16 +78,53 @@
   ul.q{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.375rem}
   .note{color:var(--color-text-muted);font-size:.875rem}
   footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+.ask{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;font-size:.9375rem;line-height:1.6}
 .site-nav ~ * .lang{display:none}
+.card figcaption{flex-direction:column;align-items:flex-start;gap:2px}.card img{object-fit:cover;object-position:top;padding:0;height:11rem}.hint{color:var(--color-text-muted);font-size:.9375rem}
+
+  /* Oct 22 glance: work cards, merge chain, needs, left */
+  .wks{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));gap:.75rem}
+  .wk{margin:0;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+  .wk img{width:100%;height:9rem;object-fit:cover;object-position:top;display:block;background:var(--color-background);border-bottom:1px solid var(--color-border)}
+  .wk figcaption{padding:.625rem .75rem .75rem;display:flex;flex-direction:column;gap:.3rem;flex:1}
+  .wk figcaption b{font:600 1rem/1.25 var(--font-display)}
+  .wk.txt figcaption{justify-content:flex-start}
+  .ln1{font-size:.875rem;color:var(--color-text-muted);line-height:1.45}
+  .lk{display:flex;flex-wrap:wrap;gap:.25rem .75rem;font-size:.875rem;margin-top:auto;padding-top:.25rem}
+  .needs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.75rem}
+  .nd{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.4rem;min-width:0}
+  .nd>b{font-weight:600}
+  .nd.wide{grid-column:span 2} @media (max-width:640px){.nd.wide{grid-column:auto}}
+  .wk .pill{align-self:flex-start}
+  ol.train{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;gap:.375rem}
+  ol.train li{display:flex;flex-direction:column;align-items:center;background:var(--color-accent);border-radius:12px;padding:.25rem .625rem;min-width:3.5rem}
+  ol.train li a{color:var(--color-primary);font-weight:700}
+  ol.train li small{font-size:.6875rem;color:var(--color-primary)}
+  ol.train li.ar{background:none;min-width:0;padding:0;color:var(--color-text-muted);font-weight:700}
+  ul.left{margin:0;padding:0;list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg)}
+  ul.left li{padding:.625rem 1rem;border-top:1px solid var(--color-border)} ul.left li:first-child{border-top:0}
+  ul.left li b{font-weight:600} ul.left li.hold{color:var(--color-text-muted)}
+  details.full{border:1px solid var(--color-border);border-radius:var(--radius-lg);background:var(--color-surface);padding:.25rem 1rem}
+  details.full>summary{cursor:pointer;font-weight:600;min-height:44px;display:flex;align-items:center}
+  details.full>section{margin:.5rem 0 1rem}
+  details.full .rows{background:var(--color-background)}
 </style>
 <script src="nav.js" defer></script>
 </head>
 <body>
 <main class="wrap">
-  <header>
-    <div class="bar"><span class="eyebrow"><span class="en">Design update · Oct 20 · Mook</span><span class="ko">디자인 업데이트 · 10월 20일 · 묵</span></span>
-      <div class="lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
-    <h1><span class="en">Design work · Oct 20</span><span class="ko">디자인 작업 · 10월 20일</span></h1>
+  <div class="bar"><span class="eyebrow">Goldito · <span class="en">Design update</span><span class="ko">디자인 업데이트</span> · Oct 20</span></div>
+  <h1><span class="en">Worked on, what's left</span><span class="ko">작업한 일, 남은 일</span></h1>
+  <p class="lede"><span class="en">Covers Oct 19 and Oct 20</span><span class="ko">10/19와 10/20</span></p>
+
+  <section class="glance"><h2><span class="en">Worked on</span><span class="ko">작업한 것</span></h2><div class="wks"><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Merged</span><span class="ko">머지됨</span></span><b><span class="en">Expressive look, header and calendar</span><span class="ko">Expressive 룩, 헤더, 캘린더</span></b><span class="ln1"><span class="en">Minsik merged all three on Oct 19; #147 and #120 are closed</span><span class="ko">민식님이 10/19에 셋 다 머지; #147과 #120 닫힘</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/177" target="_blank" rel="noopener">#177</a> <a href="https://github.com/minsikpaul92/Goldito/pull/178" target="_blank" rel="noopener">#178</a> <a href="https://github.com/minsikpaul92/Goldito/pull/183" target="_blank" rel="noopener">#183</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">The gold coin is the logo</span><span class="ko">골드 코인이 로고</span></b><span class="ln1"><span class="en">The tag, Notebook and Pixel stay on Brand for reference</span><span class="ko">태그, 노트북, 픽셀은 브랜드에 참고용으로</span></span><span class="lk"><a href="brand.html">Brand</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">Live app QA</span><span class="ko">라이브 앱 QA</span></b><span class="ln1"><span class="en">Filed #179 to #182 for JeonBeomGu-S; dashes are gone from the app</span><span class="ko">JeonBeomGu-S용 #179~#182 등록; 앱에서 대시 제거</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/202" target="_blank" rel="noopener">#202</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Handed off</span><span class="ko">전달함</span></span><b><span class="en">#115 Large-text pet onboarding</span><span class="ko">#115 큰 글씨 펫 온보딩</span></b><span class="ln1"><span class="en">Photo first, Basics required, Personality optional, Next on every screen</span><span class="ko">사진 먼저, 기본 필수, 성격 선택, 모든 화면에 다음</span></span><span class="lk"><a href="onboarding.html">Play</a> <a href="https://github.com/minsikpaul92/Goldito/issues/115" target="_blank" rel="noopener">#115</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill review"><span class="en">In review</span><span class="ko">리뷰 중</span></span><b><span class="en">Demo polish from Figma</span><span class="ko">피그마 기반 데모 다듬기</span></b><span class="ln1"><span class="en">AI draft label in chat, color-block cards, Figma bubble padding, a link preview image, a coin loading screen</span><span class="ko">채팅 AI 초안 표시, 색 블록 카드, 피그마 말풍선 여백, 링크 미리보기, 코인 로딩 화면</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/215" target="_blank" rel="noopener">#215</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">Webinar and the run sheet</span><span class="ko">웨비나와 진행표</span></b><span class="ln1"><span class="en">Not picked for a live review. Takeaways: the aha in under 2 minutes, one story, show the model routing</span><span class="ko">라이브 리뷰엔 안 뽑힘. 배운 점: 2분 안의 아하, 이야기 하나, 모델 라우팅 보여 주기</span></span><span class="lk"><a href="demo-run-sheet.html">Run sheet</a></span></figcaption></figure><figure class="wk txt"><figcaption><span class="pill done"><span class="en">Done</span><span class="ko">완료</span></span><b><span class="en">#111 Judge panel beside the phone</span><span class="ko">#111 폰 옆 심사위원 패널</span></b><span class="ln1"><span class="en">Direction B, playable on the Overview with model chips on each step</span><span class="ko">B안, 개요에서 단계마다 모델 칩과 함께 체험</span></span><span class="lk"><a href="index.html">Overview</a> <a href="https://github.com/minsikpaul92/Goldito/issues/111" target="_blank" rel="noopener">#111</a></span></figcaption></figure></div></section>
+
+  <section><h2><span class="en">Needs the team</span><span class="ko">팀이 해 줄 것</span></h2><div class="needs"><div class="nd"><b><span class="en">Minsik and Seulgi: #115 spec questions</span><span class="ko">민식님, 슬기님: #115 스펙 질문</span></b><span class="ln1"><span class="en">Nine spots where the spec disagrees, before the build on Oct 24. Two need a call: speech to text, and the build order.</span><span class="ko">스펙이 서로 다른 곳 아홉 개, 10/24 개발 전에. 둘은 결정 필요: 음성 인식, 개발 순서.</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/issues/115" target="_blank" rel="noopener">#115</a> <a href="onboarding.html">Prototype</a></span></div><div class="nd"><b><span class="en">Minsik: review the demo polish</span><span class="ko">민식님: 데모 다듬기 리뷰</span></b><span class="ln1"><span class="en">CI fix pushed (screen map); ready for review.</span><span class="ko">CI 수정 푸시 (화면 지도); 리뷰 준비됨.</span></span><span class="lk"><a href="https://github.com/minsikpaul92/Goldito/pull/215" target="_blank" rel="noopener">#215</a></span></div></div></section>
+
+  <section><h2><span class="en">Left before the Oct 28 freeze</span><span class="ko">10/28 동결 전 남은 일</span></h2><ul class="left"><li><span class="en"><b>Open the PRs</b> for the README section and the pixel pet presets</span><span class="ko"><b>PR 열기</b>: README 섹션과 픽셀 펫 프리셋</span></li><li><span class="en"><b>#116 video</b>: shot list done; the video opens with the three-card story</span><span class="ko"><b>#116 영상</b>: 샷 리스트 완료; 세 장짜리 이야기로 시작</span> <a href="https://github.com/minsikpaul92/Goldito/issues/116" target="_blank" rel="noopener">#116</a></li><li><span class="en"><b>Close #112 to #114</b>: scenario screens, photo gaps, stickers</span><span class="ko"><b>#112~#114 닫기</b>: 시나리오 화면, 사진 빈칸, 스티커</span></li></ul></section>
+
+  <details class="full"><summary><span class="en">Full notes from Oct 20</span><span class="ko">10월 20일 전체 노트</span></summary>
+
   </header>
 
   <section aria-labelledby="h-list">
@@ -147,7 +186,9 @@
     </ul>
   </section>
 
-  <footer><span class="en">Earlier: <a href="update-2026-10-19.html">Oct 18 to 19</a> · Site: <a href="index.html">Overview</a> · <a href="plan.html">Plan</a> · Live app: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a></span><span class="ko">이전: <a href="update-2026-10-19.html">10/18 ~ 19</a> · 사이트: <a href="index.html">개요</a> · <a href="plan.html">계획</a> · 실제 앱: <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">goldito-petcare.vercel.app ↗</a></span></footer>
+  
+
+  </details>
 </main>
 <script>
   const sync = () => document.querySelectorAll(".lang button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.l === document.documentElement.dataset.lang)));

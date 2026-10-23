@@ -52,6 +52,15 @@
     .site-seg button[aria-checked="true"]{background:${C("primary", "var(--primary,#2D6A4F)")};color:${C("primary-text", "var(--primary-foreground,#fff)")}}
     .site-settings small{color:${C("text-muted", "GrayText")};font-size:.75rem}
     .site-settings .x{align-self:flex-end;margin-top:-.25rem;border:0;background:none;color:${C("text-muted", "GrayText")};font:inherit;font-weight:600;cursor:pointer;min-height:32px}
+    .upd-nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.5rem;font:500 .875rem/1.2 var(--font-ui,system-ui,sans-serif)}
+    .upd-nav a{display:inline-flex;flex-direction:column;justify-content:center;min-height:44px;padding:.25rem .875rem;border-radius:12px;border:1px solid ${C("border", "rgba(127,127,127,.3)")};background:${C("surface", "Canvas")};color:${C("text", "CanvasText")};text-decoration:none}
+    .upd-nav a:hover{border-color:${C("border-strong", "rgba(127,127,127,.5)")}}
+    .upd-nav a small{font-size:.75rem;color:${C("text-muted", "GrayText")};font-weight:600}
+    .upd-nav a b{font-weight:700}
+    .upd-nav [rel="prev"]{justify-self:start} .upd-nav [rel="next"]{justify-self:end;text-align:right}
+    .upd-nav .all{justify-self:center;flex-direction:row;align-items:center;border-radius:999px;font-weight:700;color:${C("primary", "#2D6A4F")}}
+    .upd-nav .latest{justify-self:end;font-size:.75rem;font-weight:700;border-radius:999px;padding:.25rem .75rem;background:${C("accent", "#D8F3DC")};color:${C("primary", "#2D6A4F")}}
+    main>.lede,.wrap>.lede{margin:0;color:${C("text-muted", "GrayText")}}
     html[data-motion="reduce"] *,html[data-motion="reduce"] *::before,html[data-motion="reduce"] *::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
     .site-nav :focus-visible,.site-guide :focus-visible{outline:2px solid ${C("primary", "var(--primary,#2D6A4F)")};outline-offset:2px}
     /* Guide panel */
@@ -140,11 +149,11 @@
       ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
     ["Updates", "업데이트", [
-      ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Nav trial, five PRs merged, what is left", "내비게이션 시안, PR 다섯 개 머지, 남은 일"],
-      ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Worked on, to do", "작업한 일, 할 일"],
-      ["update-2026-10-21.html", "Oct 21 update", "10월 21일 업데이트", "Worked on, to do", "작업한 일, 할 일"],
-      ["update-2026-10-20.html", "Oct 20 update", "10월 20일 업데이트", "Specs and the #115 onboarding", "스펙과 #115 온보딩"],
-      ["update-2026-10-19.html", "Oct 19 update", "10월 19일 업데이트", "What landed", "반영된 것"]]],
+      ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Nav trial, Figma flags and the Decisions board, proposal issues, DESIGN.md", "내비게이션 시안, 피그마 표시와 결정 보드, 제안 이슈, DESIGN.md"],
+      ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Design kit, header C, Lucide, Jakarta, the merge chain", "디자인 키트, 헤더 C, Lucide, Jakarta, 머지 순서"],
+      ["update-2026-10-21.html", "Oct 21 update", "10월 21일 업데이트", "UI audit, demo polish, judge panel", "UI 감사, 데모 다듬기, 심사위원 패널"],
+      ["update-2026-10-20.html", "Oct 20 update", "10월 20일 업데이트", "Expressive merged, gold coin logo, #115 hand-off", "Expressive 머지, 골드 코인 로고, #115 전달"],
+      ["update-2026-10-19.html", "Oct 19 update", "10월 19일 업데이트", "Header, calendar and the look in review", "헤더, 캘린더, 룩 리뷰 중"]]],
     ["QA and reviews", "QA와 리뷰", [
       ["audit-2026-10-21.html", "UI audit", "UI 감사", "74 issues with reasons", "근거와 함께 74개 이슈"],
       ["qa-ui-fixes.html", "UI fixes QA", "UI 수정 QA", "Header, focus ring, Back, placeholders", "헤더, 포커스 링, 뒤로, 플레이스홀더"],
@@ -189,9 +198,15 @@
     ["Sketches", "스케치", "sketches.html", "Design tickets sketched as screens, with why, and the ones to skip", "화면으로 그린 디자인 티켓과 이유, 건너뛸 티켓",
       ["The table at the top says what I did with each ticket.", "Each sketch has why now, what I decided, and a question for you.", "Phone rows scroll sideways (drag, wheel or arrow keys)."],
       ["맨 위 표가 티켓마다 한 일을 보여 줘요.", "스케치마다 왜 지금, 정한 것, 묵 님께 질문이 있어요.", "폰 줄은 옆으로 스크롤돼요 (드래그, 휠, 화살표 키)."]],
+    ["Updates", "업데이트", "updates.html", "Every daily design update, newest first", "날마다의 디자인 업데이트, 최신순",
+      ["Each update has the same parts: Worked on, Needs the team, Left before the freeze, then that day's full notes.", "On an update, the bar at the top and bottom goes to the older and newer one.", "The newest is marked Latest."],
+      ["업데이트마다 같은 구성이에요: 작업한 것, 팀이 해 줄 것, 동결 전 남은 일, 그리고 그날의 전체 노트.", "업데이트 위아래 막대로 이전과 다음 업데이트로 가요.", "가장 새것에 최신 표시가 있어요."]],
   ];
   const here = location.pathname.replace(/\/$/, "/index.html");
-  const page = pages.find(([, , href]) => new URL(href, base).pathname === here) || pages[0];
+  // Daily updates live under the Updates tab (one list: the "Updates" group in PRESETS, newest first).
+  const UPDATES = (PRESETS.find((g) => g[0] === "Updates") || [, , []])[2];
+  const isUpdate = UPDATES.some(([h]) => new URL(h, base).pathname === here);
+  const page = pages.find(([, , href]) => new URL(href, base).pathname === here) || (isUpdate && pages.find(([, , h]) => h === "updates.html")) || pages[0];
   const both = (en, k) => `<span class="en">${en}</span><span class="ko">${k}</span>`;
   const nav = document.createElement("nav");
   nav.className = "site-nav";
@@ -199,11 +214,27 @@
   nav.innerHTML = `<a class="site-brand" href="${new URL("index.html", base).pathname}" aria-label="Goldito design, overview" data-tip="Back to the Overview" data-tip-ko="개요로 돌아가기"><i aria-hidden="true">🐾</i><b>Goldito design</b></a>
     <span class="site-tabs">${pages.map(([en, k, href, ten, tko]) => {
       const url = new URL(href, base);
-      return `<a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""} data-tip="${ten}" data-tip-ko="${tko}">${both(en, k)}</a>`;
+      return `<a href="${url.pathname}"${url.pathname === here || (isUpdate && href === "updates.html") ? ' aria-current="page"' : ""} data-tip="${ten}" data-tip-ko="${tko}">${both(en, k)}</a>`;
     }).join("")}</span>
     <span class="site-end"><button type="button" class="site-search-btn" aria-haspopup="dialog" aria-controls="site-search" data-tip="Search the whole site (/ or ⌘K)" data-tip-ko="사이트 전체 검색 (/ 또는 ⌘K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">${both("Search", "검색")}</span><kbd>/</kbd><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">${both("Search", "검색")}</span></button><button type="button" class="site-help" aria-expanded="false" aria-controls="site-guide" aria-label="Guide: how to use this page" data-tip="How to use this page" data-tip-ko="이 페이지 사용법">?</button>
       <button type="button" class="site-set-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-settings" aria-label="Settings: language, appearance, motion" data-tip="Language, appearance and motion" data-tip-ko="언어, 화면 모드, 움직임"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl" data-set-lang></span></button></span>`;
   document.body.prepend(nav);
+
+  // ---------- on a daily update: older · all · newer, at the top and the bottom ----------
+  if (isUpdate) {
+    const i = UPDATES.findIndex(([h]) => new URL(h, base).pathname === here);
+    const older = UPDATES[i + 1], newer = UPDATES[i - 1];
+    const day = (u) => both(u[1].replace(" update", ""), u[2].replace(" 업데이트", ""));
+    const bar = () => {
+      const el = document.createElement("nav"); el.className = "upd-nav"; el.setAttribute("aria-label", "Updates");
+      el.innerHTML = (older ? `<a rel="prev" href="${new URL(older[0], base).pathname}"><small>${both("← Older", "← 이전")}</small><b>${day(older)}</b></a>` : `<span></span>`)
+        + `<a class="all" href="${new URL("updates.html", base).pathname}">${both("All updates", "모든 업데이트")}</a>`
+        + (newer ? `<a rel="next" href="${new URL(newer[0], base).pathname}"><small>${both("Newer →", "다음 →")}</small><b>${day(newer)}</b></a>` : `<span class="latest">${both("Latest", "최신")}</span>`);
+      return el;
+    };
+    const main = document.querySelector("main") || document.body;
+    main.prepend(bar()); main.append(bar());
+  }
   // ---------- settings (gear): language, appearance, motion ----------
   const setBtn = nav.querySelector(".site-set-btn");
   const settings = document.createElement("div");
