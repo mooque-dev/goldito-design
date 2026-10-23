@@ -153,7 +153,7 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
     <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
     <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span></button>
   </div>
-  <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon<em class="pk"> · ★ <span class="en">Camera</span><span class="ko">카메라</span></em></span><span class="ko">스냅 아이콘</span></span>
+  <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon<em class="pk"> · ★ <span class="en">Plus</span><span class="ko">플러스</span></em></span><span class="ko">스냅 아이콘</span></span>
     <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span></button>
     <button type="button" role="radio" data-g="plus"><span class="en">Plus</span><span class="ko">플러스</span></button>
     <button type="button" role="radio" data-g="splus"><span class="en">Plus in a square (Instagram)</span><span class="ko">네모 안 플러스 (인스타그램)</span></button>
@@ -173,7 +173,7 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 <section>
   <h2><span class="en">How they differ</span><span class="ko">차이점</span></h2>
   <div class="notes">
-    <div class="note"><b><span class="en">Snap in the top left, during a stay</span><span class="ko">스테이 중 왼쪽 위 스냅</span></b><span class="en">The camera shows up only while pets are with the sitter, when the treat check, mood and stickers matter. Outside a stay the header stays calm. Flip "Stay" to see it come and go.</span><span class="ko">시터가 돌보는 동안에만 카메라가 보여요 (간식 체크, 기분, 스티커가 필요한 때). 스테이 밖에선 헤더가 깔끔. "스테이"를 바꿔 보세요.</span></div>
+    <div class="note"><b><span class="en">Snap in the top left, during a stay</span><span class="ko">스테이 중 왼쪽 위 스냅</span></b><span class="en">The Snap button (+) shows up only while pets are with the sitter, when the treat check, mood and stickers matter. Outside a stay the header stays calm. Flip "Stay" to see it come and go.</span><span class="ko">시터가 돌보는 동안에만 스냅 버튼 (+)이 보여요 (간식 체크, 기분, 스티커가 필요한 때). 스테이 밖에선 헤더가 깔끔. "스테이"를 바꿔 보세요.</span></div>
     <div class="note"><b><span class="en">With four tabs</span><span class="ko">탭 넷일 때</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
   </div>
   <p class="vote"><span class="en">Open question for the team: is Diary fine inside Feed, or does it need its own spot (Home, say)?</span><span class="ko">팀에 묻기: 다이어리를 피드 안에 둬도 될까, 아니면 따로 자리가 필요할까 (예: 홈)?</span></p>
@@ -184,7 +184,7 @@ const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
 const WHAT = {
   now: { en: "Today: five tabs, Snap is a tab, owner chats sit at the bottom of Bookings.", ko: "지금: 탭 다섯, 스냅이 탭, 보호자 채팅은 예약 맨 아래." },
   five: { en: "Seulgi's sketch: Chat replaces Diary, Snap stays a tab. Still five tabs.", ko: "슬기님 스케치: 다이어리 자리에 채팅, 스냅은 탭 그대로. 여전히 다섯." },
-  b: { en: "Four tabs. The camera shows up in the top left only while pets are with the sitter.", ko: "탭 넷. 시터가 돌보는 동안에만 왼쪽 위에 카메라." },
+  b: { en: "Four tabs. Snap (+) shows up in the top left only while pets are with the sitter.", ko: "탭 넷. 시터가 돌보는 동안에만 왼쪽 위에 스냅 (+)." },
 };
 // Avatar colours: the app's block tints (Home tiles, pet cards). A person keeps one colour everywhere (from the name).
 const TINTS = [["#D8F3DC", "#1B4332"], ["#FDE2CC", "#9A3412"], ["#FBEFC8", "#8A5A00"], ["#FAD6CB", "#9F2E1A"], ["#E3EADF", "#3F4A43"]];
@@ -210,7 +210,7 @@ const TABS = {
   four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
-let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "white", AVC = "match", GLYPH = "cam";
+let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "white", AVC = "match", GLYPH = "plus";
 const h = location.hash.slice(1); if (["now", "five", "b"].includes(h)) V = h;
 const state = { owner: { tab: "home", snap: false, feedView: "photos" }, sitter: { tab: "home", snap: false, feedView: "photos" } };
 
@@ -272,7 +272,7 @@ function hint(el) {
   h.textContent = document.documentElement.dataset.lang === "ko" ? "이 시안에선 탭과 스냅만 움직여요" : "Only the tabs and Snap work in this trial";
   h.classList.add("on"); clearTimeout(h.t); h.t = setTimeout(() => h.classList.remove("on"), 1800);
 }
-const REC = { V: "b", STAY: "on", CHAT: "chat-square", LOOK: "white", GLYPH: "cam", AVC: "match" };
+const REC = { V: "b", STAY: "on", CHAT: "chat-square", LOOK: "white", GLYPH: "plus", AVC: "match" };
 function render() {
   const onRec = V === REC.V && STAY === REC.STAY && CHAT === REC.CHAT && LOOK === REC.LOOK && GLYPH === REC.GLYPH && AVC === REC.AVC;
   const rb = document.querySelector(".recbox"); rb.classList.toggle("on", onRec);
@@ -302,7 +302,7 @@ document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("c
 render();
 // Figma ticket (plugin › Tickets): the two phones on the recommended path, and what is being decided
 window.__ticket = { id: "nav", title: "Nav: Chat tab, Snap top left (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/nav-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Proposal from Seulgi's feedback; the team picks" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed (Diary inside Feed)" }, { q: "Snap", a: "White camera in the top left, only during a stay" },
+  decisions: [{ q: "Status", a: "Proposal from Seulgi's feedback; the team picks" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed (Diary inside Feed)" }, { q: "Snap", a: "White circle with a plus in the top left, only during a stay" },
     { q: "Chat icon", a: "Square bubble with a paw (Goldito's own, Lucide style)" }, { q: "Avatars", a: "Block tints per person, matching letter" }],
   spec: [], specLinks: [] };
 </script></body></html>
