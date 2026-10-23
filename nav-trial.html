@@ -1,0 +1,210 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nav Trial</title>
+<meta name="description" content="Chat gets its own tab (Seulgi's feedback), so the bottom bar keeps four tabs and Snap moves to the top left corner. Try the versions on both demo accounts.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:62rem;margin:0 auto;display:flex;flex-direction:column;gap:1.75rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0} h2{font:600 1.3rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0} a{color:var(--color-primary)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.lang{display:flex;gap:.25rem} .lang button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 .8125rem var(--font-ui);cursor:pointer} .lang button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+html[data-l=en] .ko,html[data-l=ko] .en{display:none}
+.hint{color:var(--color-text-muted)}
+.controls{display:flex;flex-direction:column;gap:.5rem}
+.pick{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.pick>span{font-weight:700;font-size:.875rem;color:var(--color-text-muted);margin-right:.25rem;min-width:4.5rem}
+.pick button{min-height:44px;padding:0 1rem;border-radius:999px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:700 .9375rem var(--font-ui);cursor:pointer}
+.pick button[aria-pressed=true]{border:2px solid #1B4332;background:#D8F3DC;color:#1B4332}
+.pick button:focus-visible,.ph button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.what{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem;font-size:.9375rem}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.25rem}
+.who{font-weight:700;font-size:.875rem;text-align:center;margin-bottom:.375rem}
+/* the phone */
+.ph{position:relative;height:640px;max-width:24rem;width:100%;margin:0 auto;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;overflow:hidden;display:flex;flex-direction:column;font-family:'Plus Jakarta Sans','Inter',sans-serif;color:#1B4332}
+.sb{display:flex;justify-content:space-between;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px;flex:none}
+.hd{display:flex;align-items:center;gap:4px;padding:10px 8px 8px 12px;min-height:64px;flex:none}
+.tt{flex:1;min-width:0;padding-left:6px} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
+.ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;flex:none}
+.ib svg{width:24px;height:24px}
+.snapbtn{width:44px;height:44px;border-radius:22px;border:0;background:#1B4332;color:#fff;display:grid;place-items:center;cursor:pointer;flex:none}
+.snapbtn svg{width:22px;height:22px}
+.snappill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px 0 10px;border-radius:999px;border:0;background:#1B4332;color:#fff;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;flex:none}
+.snappill svg{width:20px;height:20px}
+.ct{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B42318;color:#fff;font:800 10px/14px 'Plus Jakarta Sans',sans-serif;border:2px solid #FBF6EA}
+.avr{padding:2px;border-radius:20px;border:1.5px solid #1B4332} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
+.bd{flex:1;overflow-y:auto;padding:4px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.seg{display:flex;gap:6px;flex-wrap:nowrap;overflow:hidden} .seg span{flex:none;min-height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;display:inline-flex;align-items:center;font-size:14px;font-weight:600} .seg span.on{background:#D8F3DC;border:2px solid #1B4332}
+.card{background:#fff;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px} .card b{font-size:16px} .card small{font-size:13px;color:#6B5D4A}
+.hero{background:#2D6A4F;color:#fff;border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:4px} .hero b{font:600 22px/1.15 Fredoka,sans-serif} .hero small{color:#D8F3DC;font-size:13px}
+.row{display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid #E8DCC4} .row .av{width:44px;height:44px;font-size:17px} .row .tx{flex:1;min-width:0} .row .tx b{display:block;font-size:15px} .row .tx small{display:block;font-size:13px;color:#6B5D4A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .dt{font-size:12px;color:#6B5D4A;display:flex;flex-direction:column;align-items:flex-end;gap:4px} .row .un{min-width:20px;height:20px;border-radius:10px;background:#1B4332;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+.row.new{background:#D8F3DC;border-radius:14px;border:0;padding:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px} .grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;display:block}
+.sec{font:600 18px Fredoka,sans-serif;margin-top:4px}
+.tabs{display:flex;justify-content:space-around;background:#fff;border-radius:26px 26px 0 0;padding:10px 6px 18px;box-shadow:0 -8px 12px rgba(27,67,50,.08);flex:none}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:4px;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;border:0;background:none;cursor:pointer;padding:0;position:relative;min-width:56px}
+.tabs i{width:54px;height:30px;border-radius:15px;display:grid;place-items:center} .tabs svg{width:22px;height:22px}
+.tabs .on{color:#1B4332} .tabs .on i{background:#D8F3DC}
+.tabs .bdg{position:absolute;top:-2px;right:6px;min-width:16px;height:16px;border-radius:8px;background:#B42318;color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+/* Snap screen */
+.snap{position:absolute;inset:36px 0 0;background:#FBF6EA;display:flex;flex-direction:column;transform:translateY(100%);transition:transform 260ms cubic-bezier(.215,.61,.355,1);visibility:hidden}
+.snap.open{transform:none;visibility:visible}
+@media (prefers-reduced-motion:reduce){.snap{transition:none}}
+.tool{display:flex;align-items:center;gap:14px;border-radius:22px;padding:16px;border:0;width:100%;text-align:left;font:inherit;color:#1B4332;cursor:pointer}
+.tool .ic{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.7);display:grid;place-items:center} .tool .ic svg{width:26px;height:26px}
+.tool b{font:600 19px Fredoka,sans-serif;display:block} .tool small{font-size:13px;color:#4f5b53}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}
+.note{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem;font-size:.9375rem}
+.note b{font-size:1rem}
+.vote{background:var(--color-success-surface);border-radius:12px;padding:.875rem 1rem}
+</style><script src="nav.js" defer></script>
+</head><body><main class="wrap">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="l-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="l-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="l-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="l-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></symbol>
+  <symbol id="l-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
+  <symbol id="l-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+  <symbol id="l-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="l-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="l-scan" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"/></symbol>
+  <symbol id="l-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+  <symbol id="l-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+</svg>
+
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Nav trial</span><span class="ko">내비게이션 시안</span> · <span class="en">from Seulgi's feedback</span><span class="ko">슬기님 피드백</span></span><div class="lang"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></div></div>
+<section>
+  <h1><span class="en">Chat gets a tab, Snap moves up</span><span class="ko">채팅은 탭으로, 스냅은 위로</span></h1>
+  <p class="hint"><span class="en">Seulgi's feedback: take the chats out of owner Bookings and give Chat its own tab, as the sitter side splits them. To keep the bar at four tabs (Home, Bookings, Chat, Feed), Snap moves to the top left corner. Flip the versions, switch tabs in each phone, tap Snap.</span><span class="ko">슬기님 피드백: 보호자 예약에서 채팅을 빼고 시터처럼 채팅 탭을 따로. 탭을 넷(홈, 예약, 채팅, 피드)으로 두려고 스냅은 왼쪽 위로. 버전을 바꾸고, 폰에서 탭을 눌러 보고, 스냅을 눌러 보세요.</span></p>
+</section>
+
+<div class="controls">
+  <div class="pick" role="radiogroup" aria-label="Version"><span><span class="en">Version</span><span class="ko">버전</span></span>
+    <button type="button" role="radio" data-v="now">Now</button>
+    <button type="button" role="radio" data-v="five"><span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></button>
+    <button type="button" role="radio" data-v="a">A · <span class="en">Snap always, top left</span><span class="ko">스냅 항상, 왼쪽 위</span></button>
+    <button type="button" role="radio" data-v="b">B · <span class="en">Snap only during a stay</span><span class="ko">스테이 중에만</span></button>
+    <button type="button" role="radio" data-v="c">C · <span class="en">Snap pill on Home</span><span class="ko">홈에만 스냅 버튼</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Stay"><span><span class="en">Stay</span><span class="ko">스테이</span></span>
+    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
+    <button type="button" role="radio" data-s="off"><span class="en">No stay right now</span><span class="ko">지금 스테이 없음</span></button>
+  </div>
+</div>
+<p class="what" id="what" aria-live="polite"></p>
+
+<div class="phones">
+  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-role="owner"></div></div>
+  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-role="sitter"></div></div>
+</div>
+
+<section>
+  <h2><span class="en">How they differ</span><span class="ko">차이점</span></h2>
+  <div class="notes">
+    <div class="note"><b>A · <span class="en">Snap always, top left</span><span class="ko">스냅 항상, 왼쪽 위</span></b><span class="en">A dark camera button before the title on every tab. Always one tap away; it does push the title right a little.</span><span class="ko">모든 탭 제목 앞에 진한 카메라 버튼. 언제나 한 번에; 제목이 조금 오른쪽으로.</span></div>
+    <div class="note"><b>B · <span class="en">Snap only during a stay</span><span class="ko">스테이 중에만</span></b><span class="en">The camera shows up only while pets are with the sitter, when the treat check, mood and stickers matter. Outside a stay the header stays calm. Flip "Stay" to see it come and go.</span><span class="ko">시터가 돌보는 동안에만 카메라가 보여요 (간식 체크, 기분, 스티커가 필요한 때). 스테이 밖에선 헤더가 깔끔. "스테이"를 바꿔 보세요.</span></div>
+    <div class="note"><b>C · <span class="en">Snap pill on Home</span><span class="ko">홈에만 스냅 버튼</span></b><span class="en">A labelled "Snap" pill on Home only, where people start. Clearest for first use; not there from Chat or Feed.</span><span class="ko">홈에만 "Snap" 이름이 붙은 버튼. 처음 쓰는 사람에게 가장 분명; 채팅이나 피드에선 안 보임.</span></div>
+    <div class="note"><b><span class="en">All of them</span><span class="ko">공통</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
+  </div>
+  <p class="vote"><span class="en">Open question for the team: is Diary fine inside Feed, or does it need its own spot (Home, say)?</span><span class="ko">팀에 묻기: 다이어리를 피드 안에 둬도 될까, 아니면 따로 자리가 필요할까 (예: 홈)?</span></p>
+</section>
+</main>
+<script>
+const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
+const WHAT = {
+  now: { en: "Today: five tabs, Snap is a tab, owner chats sit at the bottom of Bookings.", ko: "지금: 탭 다섯, 스냅이 탭, 보호자 채팅은 예약 맨 아래." },
+  five: { en: "Seulgi's sketch: Chat replaces Diary, Snap stays a tab. Still five tabs.", ko: "슬기님 스케치: 다이어리 자리에 채팅, 스냅은 탭 그대로. 여전히 다섯." },
+  a: { en: "A: four tabs. A camera button in the top left of every tab opens Snap.", ko: "A: 탭 넷. 모든 탭 왼쪽 위 카메라 버튼으로 스냅." },
+  b: { en: "B: four tabs. The camera shows up in the top left only while pets are with the sitter.", ko: "B: 탭 넷. 시터가 돌보는 동안에만 왼쪽 위에 카메라." },
+  c: { en: "C: four tabs. A labelled Snap pill on Home only.", ko: "C: 탭 넷. 홈에만 이름 붙은 스냅 버튼." },
+};
+const PHOTOS = ["redesign/img/pet1.jpg", "redesign/img/pet2.jpg", "redesign/img/pet0.jpg", "redesign/img/pet2.jpg", "redesign/img/pet1.jpg", "redesign/img/pet0.jpg"];
+const ROLE = {
+  owner: { name: "Robert", role: "Owner", init: "R", badge: 6, chats: [["C", "Chloe", "Max ate everything and asked for more.", "9:02 AM", 1], ["D", "Daniel", "Quote", "Oct 22", 0]],
+    home: (stay) => stay ? `<div class="hero"><small>With Chloe now · Day 2 of 3</small><b>Max and Mochi are having a good day</b><small>3 of 5 care tasks done</small></div><div class="card"><b>Latest from Chloe · 9:02 AM</b><small>Max finished his breakfast and asked for more.</small></div>`
+      : `<div class="card"><b>Plan a stay</b><small>Find a sitter near you for Max and Mochi.</small></div><div class="card"><b>Your pets</b><small>Max · Maltese · Mochi · Domestic shorthair</small></div>`,
+    bookings: (v) => `<div class="seg"><span class="on">Upcoming</span><span>Requests</span><span>Past</span></div><div class="card"><b>Oct 23 to 25 with Chloe</b><small>Max, Mochi · Boarding · Confirmed</small></div>` + (v === "now" ? `<p class="sec">Chats</p><div class="row"><span class="av">D</span><span class="tx"><b>Daniel</b><small>Quote</small></span><span class="dt">Oct 22</span></div>` : "") },
+  sitter: { name: "Chloe", role: "Sitter", init: "C", badge: 7, chats: [["P", "Peter", "Stay details", "Oct 22", 1], ["R", "Robert", "For walks, I'm happy to adjust based on…", "Oct 22", 0], ["A", "Alex", "Hi Chloe, it's Alex. I'm glad you're available.", "Oct 20", 0]],
+    home: (stay) => stay ? `<div class="hero"><small>Next · 2:00 PM</small><b>Max · skin pill in a treat</b><small>From Robert's care request · 2 of 5 done today</small></div><div class="card"><b>Mochi · dinner at 6:00 PM</b><small>Half a can, wet food</small></div>`
+      : `<div class="card"><b>No bookings yet</b><small>Open your schedule so owners can find you.</small></div>`,
+    bookings: (v) => `<div class="seg"><span class="on">Requests</span><span>In progress</span><span>Upcoming</span></div><div class="card"><b>Peter · Nov 2 to 4</b><small>Biscuit · Boarding · New request</small></div>` + (v === "now" ? `<p class="sec">Chats</p><div class="row"><span class="av">P</span><span class="tx"><b>Peter</b><small>Stay details</small></span><span class="dt">Oct 22</span></div>` : "") },
+};
+const TABS = {
+  now: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["feed", "Feed", "img"], ["diary", "Diary", "book"], ["snap", "Snap", "cam"]],
+  five: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"], ["snap", "Snap", "cam"]],
+  four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
+};
+const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
+let V = "b", STAY = "on";
+try { const v = localStorage.getItem("goldito.navTrial"); if (["now", "five", "a", "b", "c"].includes(v)) V = v; } catch {}
+const h = location.hash.slice(1); if (["now", "five", "a", "b", "c"].includes(h)) V = h;
+const state = { owner: { tab: "home", snap: false }, sitter: { tab: "home", snap: false } };
+
+function snapVisible(tab) {
+  if (V === "a") return "icon";
+  if (V === "b") return STAY === "on" ? "icon" : null;
+  if (V === "c") return tab === "home" ? "pill" : null;
+  return null;
+}
+function body(role, tab) {
+  const R = ROLE[role];
+  if (tab === "home") return R.home(STAY === "on");
+  if (tab === "bookings") return R.bookings(V);
+  if (tab === "chat") return R.chats.map(([i, n, m, d, u], k) => `<div class="row${u && k === 0 && role === "sitter" ? " new" : ""}"><span class="av">${i}</span><span class="tx"><b>${n}</b><small>${m}</small></span><span class="dt">${d}${u ? `<span class="un">${u}</span>` : ""}</span></div>`).join("");
+  if (tab === "feed" || tab === "diary") {
+    const diaryFirst = tab === "diary";
+    const seg = V === "now" ? "" : `<div class="seg"><span class="${diaryFirst ? "" : "on"}">Photos</span><span class="${diaryFirst ? "on" : ""}">Diary</span></div>`;
+    return seg + (diaryFirst ? `<div class="card"><b>Daily note from Chloe</b><small>Sent 6:04 PM · Max napped after his walk and ate all his dinner.</small></div>` : `<div class="grid">${PHOTOS.map((p) => `<img src="${p}" alt="">`).join("")}</div>`);
+  }
+  if (tab === "snap") return snapTools();
+  return "";
+}
+const snapTools = () => `<button class="tool" style="background:#FDE2CC" type="button"><span class="ic">${ic("scan")}</span><span><b>Treat check</b><small>Can my pet eat this? Snap the label.</small></span></button>
+  <button class="tool" style="background:#D8F3DC" type="button"><span class="ic">${ic("smile")}</span><span><b>Mood</b><small>How is Max feeling right now?</small></span></button>
+  <button class="tool" style="background:#FBEFC8" type="button"><span class="ic">${ic("star")}</span><span><b>Sticker</b><small>Turn a photo into a sticker for the diary.</small></span></button>`;
+
+function phone(el) {
+  const role = el.dataset.role, R = ROLE[role], st = state[role];
+  const tabs = V === "now" ? TABS.now : V === "five" ? TABS.five : TABS.four;
+  if (!tabs.some(([k]) => k === st.tab)) st.tab = "home";
+  const title = typeof TITLE[st.tab] === "string" ? TITLE[st.tab] : TITLE[st.tab][role];
+  const sv = snapVisible(st.tab);
+  const snapEl = sv === "icon" ? `<button type="button" class="snapbtn" data-a="snap" aria-label="Snap: treat check, mood, sticker">${ic("cam")}</button>`
+    : sv === "pill" ? `<button type="button" class="snappill" data-a="snap">${ic("cam")}Snap</button>` : "";
+  const unread = R.chats.reduce((n, c) => n + c[4], 0);
+  el.innerHTML = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>
+    <div class="hd">${snapEl}<span class="tt"><b>${title}</b><small>${R.name} · ${R.role}</small></span>
+      <button class="ib" type="button" aria-label="Notifications, ${R.badge} new">${ic("bell")}<span class="ct">${R.badge}</span></button>
+      <button class="ib" type="button" aria-label="${R.name}, ${R.role.toLowerCase()} account. Menu"><span class="avr"><span class="av">${R.init}</span></span></button></div>
+    <div class="bd">${body(role, st.tab)}</div>
+    <nav class="tabs" aria-label="Tabs">${tabs.map(([k, l, i]) => `<button type="button" class="${k === st.tab ? "on" : ""}" data-t="${k}" aria-current="${k === st.tab ? "page" : "false"}"><i>${ic(i)}</i>${l}${k === "chat" && unread ? `<span class="bdg">${unread}</span>` : ""}</button>`).join("")}</nav>
+    <div class="snap${st.snap ? " open" : ""}" role="dialog" aria-label="Snap" aria-hidden="${!st.snap}"><div class="hd"><button class="ib" type="button" data-a="close" aria-label="Back">${ic("back")}</button><span class="tt"><b>Snap</b><small>${STAY === "on" ? "For Max and Mochi" : "Pick a pet first"}</small></span></div><div class="bd">${snapTools()}</div></div>`;
+}
+document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e) => {
+  const st = state[el.dataset.role], t = e.target.closest("[data-t]"), a = e.target.closest("[data-a]");
+  if (t) { st.tab = t.dataset.t; st.snap = false; }
+  else if (a && a.dataset.a === "snap") st.snap = true;
+  else if (a && a.dataset.a === "close") st.snap = false;
+  else return;
+  phone(el);
+  const focus = st.snap ? el.querySelector('.snap [data-a="close"]') : t ? el.querySelector(`[data-t="${st.tab}"]`) : el.querySelector('[data-a="snap"]');
+  focus && focus.focus();
+}));
+function render() {
+  document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.querySelectorAll("[data-s]").forEach((b) => { const on = b.dataset.s === STAY; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.getElementById("what").innerHTML = `<span class="en">${WHAT[V].en}</span><span class="ko">${WHAT[V].ko}</span>`;
+  document.querySelectorAll(".ph").forEach(phone);
+}
+document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; try { localStorage.setItem("goldito.navTrial", V); } catch {} history.replaceState(null, "", "#" + V); render(); }));
+document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
+const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
+let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
+setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
+render();
+</script></body></html>

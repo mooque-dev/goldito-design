@@ -133,6 +133,7 @@
       ["qa-sitter-card.html", "Sitter card", "시터 카드", "The card and the search pill, playable", "카드와 검색 필, 체험 가능"],
       ["qa-jakarta.html", "Typeface QA", "서체 QA", "Fredoka for titles, Plus Jakarta Sans for the rest, before and after", "제목 Fredoka, 나머지 Plus Jakarta Sans, 전후 비교"],
       ["header-trial.html", "Header trial", "헤더 시안", "Who am I signed in as? Now, A and C, playable", "누구로 로그인했는지: 지금, A, C 체험"],
+      ["nav-trial.html", "Nav trial", "내비게이션 시안", "Chat as a tab, Snap in the top left: versions to play", "채팅 탭, 왼쪽 위 스냅: 버전 체험"],
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [
       ["judge-panel.html", "Judge panel", "심사위원 패널", "Goldito in two minutes", "2분 안에 보는 Goldito"],
