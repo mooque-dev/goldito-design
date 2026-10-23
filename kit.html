@@ -220,7 +220,8 @@ details.code .cw{position:relative} details.code .cw pre{padding-top:2.75rem}
 details.code .copy{position:absolute;top:8px;right:8px;z-index:1;min-height:32px;padding:0 12px;border-radius:999px;border:2px solid #1B4332;background:#1B4332;color:#D8F3DC;font:800 13px 'Inter',sans-serif;cursor:pointer}
 details.code .copy:hover{background:#2D6A4F} details.code .copy:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
 details.code .copy.ok{background:#D8F3DC;color:#1B4332}
-@media (prefers-color-scheme: dark){details.code .copy{background:#D8F3DC;color:#1E3128;border-color:#D8F3DC} details.code .copy.ok{background:#1E3128;color:#D8F3DC}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) details.code .copy{background:#D8F3DC;color:#1E3128;border-color:#D8F3DC} :root:not([data-theme="light"]) details.code .copy.ok{background:#1E3128;color:#D8F3DC}}
+:root[data-theme="dark"] details.code .copy{background:#D8F3DC;color:#1E3128;border-color:#D8F3DC} :root[data-theme="dark"] details.code .copy.ok{background:#1E3128;color:#D8F3DC}
 /* round 4: audit table */
 .audit td:nth-child(3){white-space:nowrap} .audit .r{display:inline-block;padding:2px 8px;border-radius:999px;font:700 12px 'Inter'}
 .audit .match{background:#ECFDF3;color:#067647} .audit .fixed{background:#D8F3DC;color:#1B4332} .audit .newer{background:#EFEBE3;color:#4f5b53} .audit .decide{background:#FFFAEB;color:#B54708} .audit .work{background:#FEF3F2;color:#B42318}
@@ -232,7 +233,8 @@ details.code summary::after{content:"Hide";margin-left:auto;font-size:.8125rem;f
 details.code:not([open]) summary::after{content:"Show"}
 details.code summary:focus-visible{outline:2px solid #1B4332;outline-offset:3px;border-radius:8px}
 details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4332;border-radius:10px;padding:.75rem .875rem;overflow:auto;max-height:min(60vh,26rem);font-size:.78rem;line-height:1.55;color:#1B4332}
-@media (prefers-color-scheme: dark){details.code{background:#1E3128;color:#D8F3DC;border-color:#D8F3DC} details.code summary::before{background:#D8F3DC;color:#1E3128} details.code pre{background:#121A16;border-color:#D8F3DC;color:#D8F3DC}}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) details.code{background:#1E3128;color:#D8F3DC;border-color:#D8F3DC} :root:not([data-theme="light"]) details.code summary::before{background:#D8F3DC;color:#1E3128} :root:not([data-theme="light"]) details.code pre{background:#121A16;border-color:#D8F3DC;color:#D8F3DC}}
+:root[data-theme="dark"] details.code{background:#1E3128;color:#D8F3DC;border-color:#D8F3DC} :root[data-theme="dark"] details.code summary::before{background:#D8F3DC;color:#1E3128} :root[data-theme="dark"] details.code pre{background:#121A16;border-color:#D8F3DC;color:#D8F3DC}
 .eng{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.75rem;margin-top:1rem}
 .eng div{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.25rem}
 .eng b{font:600 1rem var(--font-display)} .eng span{font-size:.875rem;color:var(--color-text-muted)}

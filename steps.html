@@ -700,7 +700,7 @@ details.pcard[open]>summary::after{content:"−"}
   const isDark = () => (root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches);
   function setTheme(t) {
     if (t === "auto") delete root.dataset.theme; else root.dataset.theme = t;
-    store.set("goldito-steps-theme", t);
+    store.set("goldito-theme", t === "auto" ? "system" : t);   // the site's Settings › Appearance uses the same key
     document.querySelectorAll("#themeSeg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === t)));
   }
   $("#themeSeg").onclick = (e) => { const b = e.target.closest("button"); if (b) setTheme(b.dataset.t); };
@@ -759,8 +759,9 @@ details.pcard[open]>summary::after{content:"−"}
   }
   addEventListener("hashchange", () => { if (location.hash.slice(1) !== `${flow}-${i + 1}` && fromHash()) { why(); render(true); } });
   setLg(store.get("goldito-steps-lg") === "1");
-  const savedTheme = store.get("goldito-steps-theme");
-  if (savedTheme) setTheme(savedTheme); // otherwise keep whatever the viewer chose (artifact theme or the OS)
+  const savedTheme = store.get("goldito-theme") || store.get("goldito-steps-theme");
+  addEventListener("goldito-theme", (e) => document.querySelectorAll("#themeSeg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === (e.detail === "system" ? "auto" : e.detail)))));
+  if (savedTheme) setTheme(savedTheme === "system" ? "auto" : savedTheme); // otherwise keep whatever the viewer chose (artifact theme or the OS)
   else document.querySelectorAll("#themeSeg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === (root.dataset.theme || "auto"))));
   setLang(root.dataset.lang);
   if (!fromHash()) { flow = "book"; i = 0; }

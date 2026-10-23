@@ -1,14 +1,21 @@
 /* One site bar for every page of the design site: brand · page tabs · search · guide (?) · language.
    Search: the button, "/" or ⌘K / Ctrl+K opens it; results come from search-index.js (built by search-index.mjs).
    Include with <script src="nav.js" defer></script> (or ../nav.js); links resolve relative to this file.
-   Language: EN / 한국어, remembered per browser. Pages mark text with class "en" / "ko",
-   or listen for the "goldito-lang" event and read document.documentElement.dataset.lang.
+   Settings (the gear button): language EN / 한국어, appearance System / Light / Dark, motion System / Reduced, remembered per
+   browser and shared with frames on the same site. Pages mark text with class "en" / "ko", or listen for the
+   "goldito-lang" event and read document.documentElement.dataset.lang. Appearance sets html[data-theme] (no attribute =
+   follow the system), which ds.css and the pages' own dark blocks already read; motion sets html[data-motion="reduce"].
    Tooltips: any element with data-tip="…" (and optional data-tip-ko="…") gets a small label on hover and keyboard focus. */
 (() => {
   const base = new URL(".", document.currentScript.src);
   const root = document.documentElement;
-  const store = { get() { try { return localStorage.getItem("goldito-lang"); } catch (e) { return null; } },
-    set(v) { try { localStorage.setItem("goldito-lang", v); } catch (e) {} } };
+  const pref = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  const store = { get: () => pref.get("goldito-lang"), set: (v) => pref.set("goldito-lang", v) };
+  // Appearance and motion apply before the bar is drawn, so a chosen theme flashes as little as possible.
+  const applyTheme = (t) => { if (t === "light" || t === "dark") root.dataset.theme = t; else delete root.dataset.theme; };
+  const applyMotion = (m) => { if (m === "reduce") root.dataset.motion = "reduce"; else delete root.dataset.motion; };
+  applyTheme(pref.get("goldito-theme")); applyMotion(pref.get("goldito-motion"));
   root.dataset.lang = store.get() === "ko" ? "ko" : "en";
   root.lang = root.dataset.lang;
   const ko = () => root.dataset.lang === "ko";
@@ -31,9 +38,21 @@
     .site-end{justify-self:end;display:inline-flex;align-items:center;gap:.5rem}
     .site-help{width:40px;height:40px;border-radius:50%;border:1px solid ${C("border-strong", "rgba(127,127,127,.5)")};background:none;font:700 1rem/1 inherit;color:${C("text", "var(--text,CanvasText)")};cursor:pointer}
     .site-help[aria-expanded="true"]{background:${C("primary", "#2D6A4F")};color:${C("primary-text", "#fff")};border-color:transparent}
-    .site-lang{display:inline-flex;gap:2px;padding:3px;border-radius:999px;border:1px solid ${C("border-strong", "rgba(127,127,127,.5)")}}
-    .site-lang button{white-space:nowrap;border:0;background:none;min-height:34px;min-width:44px;padding:0 .625rem;border-radius:999px;font:inherit;font-weight:600;font-size:.8125rem;color:${C("text-muted", "var(--text-muted,GrayText)")};cursor:pointer}
-    .site-lang button[aria-pressed="true"]{background:${C("primary", "var(--primary,#2D6A4F)")};color:${C("primary-text", "var(--primary-foreground,#fff)")}}
+    .site-set-btn{display:inline-flex;align-items:center;gap:.375rem;height:40px;min-width:44px;padding:0 .75rem 0 .625rem;border-radius:999px;border:1px solid ${C("border-strong", "rgba(127,127,127,.5)")};background:none;color:${C("text", "var(--text,CanvasText)")};font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer}
+    .site-set-btn svg{width:18px;height:18px;flex:0 0 auto}
+    .site-set-btn[aria-expanded="true"]{background:${C("primary", "#2D6A4F")};color:${C("primary-text", "#fff")};border-color:transparent}
+    .site-settings{position:fixed;z-index:61;top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,60px) + 8px);right:clamp(.75rem,3vw,2rem);width:min(20rem,calc(100vw - 1.5rem));
+      background:${C("surface", "Canvas")};color:${C("text", "CanvasText")};border:1px solid ${C("border", "rgba(127,127,127,.3)")};border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);padding:1rem 1.125rem;font:400 .875rem/1.5 var(--font-ui,system-ui,sans-serif);display:flex;flex-direction:column;gap:.875rem}
+    .site-settings[hidden]{display:none}
+    .site-settings h2{margin:0;font:600 1.125rem/1.2 var(--font-display,inherit)}
+    .site-settings .grp{display:flex;flex-direction:column;gap:.375rem}
+    .site-settings .grp>span{font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:${C("text-muted", "GrayText")}}
+    .site-seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:2px;padding:3px;border-radius:999px;border:1px solid ${C("border-strong", "rgba(127,127,127,.5)")}}
+    .site-seg button{border:0;background:none;min-height:38px;padding:0 .5rem;border-radius:999px;font:inherit;font-weight:600;font-size:.8125rem;color:${C("text-muted", "var(--text-muted,GrayText)")};cursor:pointer;white-space:nowrap}
+    .site-seg button[aria-checked="true"]{background:${C("primary", "var(--primary,#2D6A4F)")};color:${C("primary-text", "var(--primary-foreground,#fff)")}}
+    .site-settings small{color:${C("text-muted", "GrayText")};font-size:.75rem}
+    .site-settings .x{align-self:flex-end;margin-top:-.25rem;border:0;background:none;color:${C("text-muted", "GrayText")};font:inherit;font-weight:600;cursor:pointer;min-height:32px}
+    html[data-motion="reduce"] *,html[data-motion="reduce"] *::before,html[data-motion="reduce"] *::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}
     .site-nav :focus-visible,.site-guide :focus-visible{outline:2px solid ${C("primary", "var(--primary,#2D6A4F)")};outline-offset:2px}
     /* Guide panel */
     .site-guide{position:fixed;z-index:60;top:calc(env(safe-area-inset-top,0px) + var(--site-nav-h,60px) + 8px);right:clamp(.75rem,3vw,2rem);width:min(24rem,calc(100vw - 1.5rem));max-height:calc(100dvh - var(--site-nav-h,60px) - 24px);overflow:auto;
@@ -83,7 +102,7 @@
     a[data-tip],button[data-tip],[role="button"][data-tip],label[data-tip]{cursor:pointer}
     @media (max-width:900px){.site-brand b{display:none}}
     @media (max-width:720px){.site-nav{grid-template-columns:auto 1fr;row-gap:.5rem}.site-end{grid-column:2;grid-row:1}.site-tabs{grid-column:1/-1;grid-row:2;justify-self:stretch;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
-      .site-tabs a{padding:0 .25rem;justify-content:center;text-align:center;font-size:.8125rem;line-height:1.15;min-height:44px;white-space:normal}.site-lang button{min-width:40px;padding:0 .5rem}}`;
+      .site-tabs a{padding:0 .25rem;justify-content:center;text-align:center;font-size:.8125rem;line-height:1.15;min-height:44px;white-space:normal}.site-set-btn .lbl{display:none}}`;
   document.head.appendChild(st);
 
   // ---------- tooltips (all pages, including frames) ----------
@@ -183,14 +202,53 @@
       return `<a href="${url.pathname}"${url.pathname === here ? ' aria-current="page"' : ""} data-tip="${ten}" data-tip-ko="${tko}">${both(en, k)}</a>`;
     }).join("")}</span>
     <span class="site-end"><button type="button" class="site-search-btn" aria-haspopup="dialog" aria-controls="site-search" data-tip="Search the whole site (/ or ⌘K)" data-tip-ko="사이트 전체 검색 (/ 또는 ⌘K)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="lbl">${both("Search", "검색")}</span><kbd>/</kbd><span class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">${both("Search", "검색")}</span></button><button type="button" class="site-help" aria-expanded="false" aria-controls="site-guide" aria-label="Guide: how to use this page" data-tip="How to use this page" data-tip-ko="이 페이지 사용법">?</button>
-      <span class="site-lang" role="group" aria-label="Language"><button type="button" data-l="en">EN</button><button type="button" data-l="ko">한국어</button></span></span>`;
+      <button type="button" class="site-set-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-settings" aria-label="Settings: language, appearance, motion" data-tip="Language, appearance and motion" data-tip-ko="언어, 화면 모드, 움직임"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl" data-set-lang></span></button></span>`;
   document.body.prepend(nav);
-  const sync = () => nav.querySelectorAll(".site-lang button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.l === root.dataset.lang)));
+  // ---------- settings (gear): language, appearance, motion ----------
+  const setBtn = nav.querySelector(".site-set-btn");
+  const settings = document.createElement("div");
+  settings.className = "site-settings"; settings.id = "site-settings"; settings.hidden = true;
+  settings.setAttribute("role", "dialog"); settings.setAttribute("aria-label", "Settings");
+  const seg = (key, label, opts) => `<div class="grp" role="radiogroup" aria-label="${label[0]}"><span>${both(label[0], label[1])}</span><div class="site-seg" data-key="${key}">${opts.map(([v, en, kr]) => `<button type="button" role="radio" data-v="${v}">${kr ? both(en, kr) : en}</button>`).join("")}</div></div>`;
+  settings.innerHTML = `<h2>${both("Settings", "설정")}</h2>
+    ${seg("lang", ["Language", "언어"], [["en", "EN"], ["ko", "한국어"]])}
+    ${seg("theme", ["Appearance", "화면 모드"], [["system", "System", "시스템"], ["light", "Light", "라이트"], ["dark", "Dark", "다크"]])}
+    ${seg("motion", ["Motion", "움직임"], [["system", "System", "시스템"], ["reduce", "Reduced", "줄이기"]])}
+    <small>${both("Saved in this browser and used on every page of the site.", "이 브라우저에 저장되고 사이트의 모든 페이지에 적용돼요.")}</small>
+    <button type="button" class="x">${both("Close", "닫기")}</button>`;
+  document.body.appendChild(settings);
+  const current = { lang: () => root.dataset.lang, theme: () => pref.get("goldito-theme") || "system", motion: () => pref.get("goldito-motion") || "system" };
+  const sync = () => {
+    settings.querySelectorAll(".site-seg").forEach((g) => g.querySelectorAll("button").forEach((b) => {
+      const on = b.dataset.v === current[g.dataset.key](); b.setAttribute("aria-checked", String(on)); b.tabIndex = on ? 0 : -1; }));
+    setBtn.querySelector("[data-set-lang]").textContent = root.dataset.lang === "ko" ? "한국어" : "EN";
+  };
+  const setLang = (l) => { root.dataset.lang = root.lang = l; store.set(l); window.dispatchEvent(new CustomEvent("goldito-lang", {detail: l})); };
+  const choose = (key, v) => {
+    if (key === "lang") setLang(v);
+    if (key === "theme") { pref.set("goldito-theme", v); applyTheme(v); window.dispatchEvent(new CustomEvent("goldito-theme", {detail: v})); }
+    if (key === "motion") { pref.set("goldito-motion", v); applyMotion(v); }
+    sync();
+  };
   sync();
-  nav.querySelector(".site-lang").addEventListener("click", (e) => {
-    const b = e.target.closest("button"); if (!b) return;
-    root.dataset.lang = root.lang = b.dataset.l; store.set(b.dataset.l); sync();
-    window.dispatchEvent(new CustomEvent("goldito-lang", {detail: b.dataset.l}));
+  settings.addEventListener("click", (e) => { const b = e.target.closest(".site-seg button"); if (b) choose(b.closest(".site-seg").dataset.key, b.dataset.v); });
+  // radio groups: arrow keys move the choice, like native radios
+  settings.addEventListener("keydown", (e) => {
+    const b = e.target.closest(".site-seg button"); if (!b || !["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    e.preventDefault(); const all = [...b.parentElement.children], i = all.indexOf(b), n = all[(i + (/Right|Down/.test(e.key) ? 1 : all.length - 1)) % all.length];
+    choose(b.parentElement.dataset.key, n.dataset.v); n.focus();
+  });
+  const setSettings = (open) => { settings.hidden = !open; setBtn.setAttribute("aria-expanded", String(open)); hideTip(); if (open) { if (!guide.hidden) setGuide(false); settings.querySelector('[aria-checked="true"]').focus(); } };
+  setBtn.addEventListener("click", () => setSettings(settings.hidden));
+  settings.querySelector(".x").addEventListener("click", () => { setSettings(false); setBtn.focus(); });
+  document.addEventListener("click", (e) => { if (!settings.hidden && !settings.contains(e.target) && !setBtn.contains(e.target)) setSettings(false); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" && !settings.hidden) { setSettings(false); setBtn.focus(); } });
+  // another page or frame of the site changed a setting: follow it
+  addEventListener("storage", (e) => {
+    if (e.key === "goldito-theme") applyTheme(e.newValue);
+    if (e.key === "goldito-motion") applyMotion(e.newValue);
+    if (e.key === "goldito-lang" && e.newValue && e.newValue !== root.dataset.lang) { root.dataset.lang = root.lang = e.newValue; window.dispatchEvent(new CustomEvent("goldito-lang", {detail: e.newValue})); }
+    sync();
   });
 
   // ---------- guide panel (?) ----------
@@ -213,7 +271,7 @@
     <ul class="site-pages"><li><a href="https://mooque-dev.github.io/goldito-design/logo-files/" target="_blank" rel="noopener"><b>${both("Logo files ↗", "로고 파일 ↗")}</b><small>${both("Every logo, icon and pixel pet to download, with Customize", "모든 로고, 아이콘, 픽셀 펫 다운로드와 Customize")}</small></a></li></ul>
     <button type="button" class="x">${both("Close", "닫기")}</button>`;
   document.body.appendChild(guide);
-  const setGuide = (open) => { guide.hidden = !open; help.setAttribute("aria-expanded", String(open)); hideTip(); if (open) guide.querySelector("a,button").focus(); };
+  const setGuide = (open) => { guide.hidden = !open; help.setAttribute("aria-expanded", String(open)); hideTip(); if (open) { if (!settings.hidden) setSettings(false); guide.querySelector("a,button").focus(); } };
   help.addEventListener("click", () => setGuide(guide.hidden));
   guide.querySelector(".x").addEventListener("click", () => { setGuide(false); help.focus(); });
   document.addEventListener("click", (e) => { if (!guide.hidden && !guide.contains(e.target) && e.target !== help) setGuide(false); });
@@ -271,7 +329,7 @@
   const move = (d) => { if (!hits.length) return; sel = (sel + d + hits.length) % hits.length;
     slist.querySelectorAll("li[role=option]").forEach((li, i) => li.setAttribute("aria-selected", String(i === sel)));
     const cur = slist.querySelector(`#ss-${sel}`); if (cur) { cur.scrollIntoView({ block: "nearest" }); sinput.setAttribute("aria-activedescendant", cur.id); } };
-  const openSearch = async () => { lastFocus = document.activeElement; hideTip(); if (!guide.hidden) setGuide(false); sdlg.hidden = false; sinput.placeholder = ko() ? "검색: 페이지, 스케치, 티켓, 화면…" : "Search pages, sketches, tickets, screens…";
+  const openSearch = async () => { lastFocus = document.activeElement; hideTip(); if (!guide.hidden) setGuide(false); if (!settings.hidden) setSettings(false); sdlg.hidden = false; sinput.placeholder = ko() ? "검색: 페이지, 스케치, 티켓, 화면…" : "Search pages, sketches, tickets, screens…";
     sinput.focus(); sinput.select(); await loadIndex(); run(); };
   const closeSearch = () => { sdlg.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus(); };
   sbtn.addEventListener("click", openSearch);
