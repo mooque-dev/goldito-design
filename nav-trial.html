@@ -29,7 +29,19 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 .hd{display:flex;align-items:flex-start;gap:10px;padding:12px 8px 8px 16px;min-height:64px;flex:none}
 /* buttons sit on the title line (29 px), not on the two-line block; the left edge matches the content's 16 px gutter */
 .hd .rt{display:flex;gap:4px;margin-top:-7.5px}
-.hd>.snapbtn{margin-top:-7.5px} .hd>.snappill{margin-top:-5.5px} .snap .hd{align-items:center;padding-left:8px}
+.hd>.snapbtn{margin-top:-7.5px} .hd>.snappill{margin-top:-5.5px}
+/* Snap looks: every one lines up on the 16 px gutter; ink, never a second green */
+.sk-quiet{width:44px;height:44px;border:0;background:none;color:#1B4332;display:grid;place-items:center;cursor:pointer;margin-left:-10px;margin-right:-6px;border-radius:22px}
+.sk-quiet svg{width:24px;height:24px}
+.sk-outline,.sk-mint,.sk-white{width:40px;height:40px;border-radius:20px;display:grid;place-items:center;cursor:pointer;color:#1B4332}
+.sk-outline{border:1.5px solid #CBBFA8;background:transparent} .sk-mint{border:0;background:#E9F5EC} .sk-white{border:0;background:#fff;box-shadow:0 1px 3px rgba(27,67,50,.12)}
+.sk-outline svg,.sk-mint svg,.sk-white svg{width:21px;height:21px}
+.hd>.sk-outline,.hd>.sk-mint,.hd>.sk-white{margin-top:-5.5px} .hd>.sk-quiet{margin-top:-7.5px}
+.snaprow{display:flex;padding:10px 16px 0;flex:none}
+.sk-row{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px 0 8px;margin-left:-8px;border-radius:999px;border:0;background:none;color:#1B4332;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.sk-row svg{width:20px;height:20px}
+.snaprow+.hd{padding-top:2px;min-height:56px}
+.pl-quiet{background:none;color:#1B4332;padding-left:0;margin-left:0} .pl-outline{background:transparent;color:#1B4332;border:1.5px solid #CBBFA8} .pl-mint{background:#E9F5EC;color:#1B4332} .pl-white{background:#fff;color:#1B4332;box-shadow:0 1px 3px rgba(27,67,50,.12)} .snap .hd{align-items:center;padding-left:8px}
 .tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
 .ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;flex:none}
 .ib svg{width:24px;height:24px}
@@ -97,6 +109,14 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
     <button type="button" role="radio" data-v="b">B · <span class="en">Snap only during a stay</span><span class="ko">스테이 중에만</span></button>
     <button type="button" role="radio" data-v="c">C · <span class="en">Snap pill on Home</span><span class="ko">홈에만 스냅 버튼</span></button>
   </div>
+  <div class="pick" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look</span><span class="ko">스냅 모양</span></span>
+    <button type="button" role="radio" data-k="quiet"><span class="en">Quiet icon</span><span class="ko">아이콘만</span></button>
+    <button type="button" role="radio" data-k="outline"><span class="en">Outline</span><span class="ko">테두리</span></button>
+    <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
+    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span></button>
+    <button type="button" role="radio" data-k="row"><span class="en">Row above the title</span><span class="ko">제목 위 줄</span></button>
+    <button type="button" role="radio" data-k="dark"><span class="en">Dark (before)</span><span class="ko">진한 초록 (이전)</span></button>
+  </div>
   <div class="pick" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
     <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></button>
@@ -117,7 +137,7 @@ html[data-l=en] .ko,html[data-l=ko] .en{display:none}
 <section>
   <h2><span class="en">How they differ</span><span class="ko">차이점</span></h2>
   <div class="notes">
-    <div class="note"><b>A · <span class="en">Snap always, top left</span><span class="ko">스냅 항상, 왼쪽 위</span></b><span class="en">A dark camera button before the title on every tab. Always one tap away; it does push the title right a little.</span><span class="ko">모든 탭 제목 앞에 진한 카메라 버튼. 언제나 한 번에; 제목이 조금 오른쪽으로.</span></div>
+    <div class="note"><b>A · <span class="en">Snap always, top left</span><span class="ko">스냅 항상, 왼쪽 위</span></b><span class="en">A camera before the title on every tab. Always one tap away; it pushes the title right a little (not with "Row above the title").</span><span class="ko">모든 탭 제목 앞에 카메라. 언제나 한 번에; 제목이 조금 오른쪽으로 ("제목 위 줄"은 제외).</span></div>
     <div class="note"><b>B · <span class="en">Snap only during a stay</span><span class="ko">스테이 중에만</span></b><span class="en">The camera shows up only while pets are with the sitter, when the treat check, mood and stickers matter. Outside a stay the header stays calm. Flip "Stay" to see it come and go.</span><span class="ko">시터가 돌보는 동안에만 카메라가 보여요 (간식 체크, 기분, 스티커가 필요한 때). 스테이 밖에선 헤더가 깔끔. "스테이"를 바꿔 보세요.</span></div>
     <div class="note"><b>C · <span class="en">Snap pill on Home</span><span class="ko">홈에만 스냅 버튼</span></b><span class="en">A labelled "Snap" pill on Home only, where people start. Clearest for first use; not there from Chat or Feed.</span><span class="ko">홈에만 "Snap" 이름이 붙은 버튼. 처음 쓰는 사람에게 가장 분명; 채팅이나 피드에선 안 보임.</span></div>
     <div class="note"><b><span class="en">All of them</span><span class="ko">공통</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
@@ -130,7 +150,7 @@ const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
 const WHAT = {
   now: { en: "Today: five tabs, Snap is a tab, owner chats sit at the bottom of Bookings.", ko: "지금: 탭 다섯, 스냅이 탭, 보호자 채팅은 예약 맨 아래." },
   five: { en: "Seulgi's sketch: Chat replaces Diary, Snap stays a tab. Still five tabs.", ko: "슬기님 스케치: 다이어리 자리에 채팅, 스냅은 탭 그대로. 여전히 다섯." },
-  a: { en: "A: four tabs. A camera button in the top left of every tab opens Snap.", ko: "A: 탭 넷. 모든 탭 왼쪽 위 카메라 버튼으로 스냅." },
+  a: { en: "A: four tabs. A camera in the top left of every tab opens Snap. Try the Snap looks: quiet, outline, mint, white, or a row above the title.", ko: "A: 탭 넷. 모든 탭 왼쪽 위 카메라로 스냅. 스냅 모양을 바꿔 보세요: 아이콘만, 테두리, 민트, 흰색, 제목 위 줄." },
   b: { en: "B: four tabs. The camera shows up in the top left only while pets are with the sitter.", ko: "B: 탭 넷. 시터가 돌보는 동안에만 왼쪽 위에 카메라." },
   c: { en: "C: four tabs. A labelled Snap pill on Home only.", ko: "C: 탭 넷. 홈에만 이름 붙은 스냅 버튼." },
 };
@@ -151,7 +171,7 @@ const TABS = {
   four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
-let V = "b", STAY = "on", CHAT = "chat-square";
+let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "quiet";
 try { const v = localStorage.getItem("goldito.navTrial"); if (["now", "five", "a", "b", "c"].includes(v)) V = v; } catch {}
 const h = location.hash.slice(1); if (["now", "five", "a", "b", "c"].includes(h)) V = h;
 const state = { owner: { tab: "home", snap: false }, sitter: { tab: "home", snap: false } };
@@ -185,10 +205,14 @@ function phone(el) {
   if (!tabs.some(([k]) => k === st.tab)) st.tab = "home";
   const title = typeof TITLE[st.tab] === "string" ? TITLE[st.tab] : TITLE[st.tab][role];
   const sv = snapVisible(st.tab);
-  const snapEl = sv === "icon" ? `<button type="button" class="snapbtn" data-a="snap" aria-label="Snap: treat check, mood, sticker">${ic("cam")}</button>`
-    : sv === "pill" ? `<button type="button" class="snappill" data-a="snap">${ic("cam")}Snap</button>` : "";
+  const LBL = 'aria-label="Snap: treat check, mood, sticker"';
+  const snapEl = !sv || LOOK === "row" ? ""
+    : sv === "pill" ? `<button type="button" class="snappill${LOOK === "dark" ? "" : " pl-" + LOOK}" data-a="snap">${ic("cam")}Snap</button>`
+    : LOOK === "dark" ? `<button type="button" class="snapbtn" data-a="snap" ${LBL}>${ic("cam")}</button>`
+    : `<button type="button" class="sk-${LOOK}" data-a="snap" ${LBL}>${ic("cam")}</button>`;
+  const snapRow = sv && LOOK === "row" ? `<div class="snaprow"><button type="button" class="sk-row" data-a="snap">${ic("cam")}Snap</button></div>` : "";
   const unread = R.chats.reduce((n, c) => n + c[4], 0);
-  el.innerHTML = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>
+  el.innerHTML = `<div class="sb"><span>9:41</span><span>●●● ▭</span></div>${snapRow}
     <div class="hd">${snapEl}<span class="tt"><b>${title}</b><small>${R.name} · ${R.role}</small></span>
       <span class="rt"><button class="ib" type="button" aria-label="Notifications, ${R.badge} new">${ic("bell")}<span class="ct">${R.badge}</span></button>
       <button class="ib" type="button" aria-label="${R.name}, ${R.role.toLowerCase()} account. Menu"><span class="avr"><span class="av">${R.init}</span></span></button></span></div>
@@ -208,6 +232,7 @@ document.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", (e
 }));
 function render() {
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
+  document.querySelectorAll("[data-k]").forEach((b) => { const on = b.dataset.k === LOOK; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-i]").forEach((b) => { const on = b.dataset.i === CHAT; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-s]").forEach((b) => { const on = b.dataset.s === STAY; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.getElementById("what").innerHTML = `<span class="en">${WHAT[V].en}</span><span class="ko">${WHAT[V].ko}</span>`;
@@ -216,6 +241,7 @@ function render() {
 document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; try { localStorage.setItem("goldito.navTrial", V); } catch {} history.replaceState(null, "", "#" + V); render(); }));
 document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
 document.querySelectorAll("[data-i]").forEach((b) => b.addEventListener("click", () => { CHAT = b.dataset.i; render(); }));
+document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
 const setL = (l) => { document.documentElement.dataset.l = l; document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.l === l)); try { localStorage.setItem("goldito-lang", l); } catch {} };
 let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch {}
 setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
