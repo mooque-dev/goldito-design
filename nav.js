@@ -149,7 +149,7 @@
       ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
     ["Updates", "업데이트", [
-      ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Nav trial, Figma flags and the Decisions board, proposal issues, DESIGN.md", "내비게이션 시안, 피그마 표시와 결정 보드, 제안 이슈, DESIGN.md"],
+      ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Design tickets in today's slot, nav trial, Figma decisions and flags, DESIGN.md", "오늘 슬롯의 디자인 티켓, 내비게이션 시안, 피그마 결정과 표시, DESIGN.md"],
       ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Design kit, header C, Lucide, Jakarta, the merge chain", "디자인 키트, 헤더 C, Lucide, Jakarta, 머지 순서"],
       ["update-2026-10-21.html", "Oct 21 update", "10월 21일 업데이트", "UI audit, demo polish, judge panel", "UI 감사, 데모 다듬기, 심사위원 패널"],
       ["update-2026-10-20.html", "Oct 20 update", "10월 20일 업데이트", "Expressive merged, gold coin logo, #115 hand-off", "Expressive 머지, 골드 코인 로고, #115 전달"],

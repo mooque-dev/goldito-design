@@ -148,6 +148,7 @@
   </details>
 <section id="backend"><h2><span class="en">Request for Minsik: sitter facts in the search</span><span class="ko">민식님 요청: 검색 결과에 시터 정보</span></h2>
 <div class="ask"><span class="en"><code>search_sitters_nearby</code> already returns distance and nightly rates. For the agreed sitter card, could it also return, per sitter: <b>rating_avg</b> (1 decimal, from reviews, null when none), <b>stay_count</b> (finished stays), and for the searched dates <b>available</b> (true or false) and <b>first_full_day</b> (a date, or null)? The card (<code>SitterResultCard</code>) already takes <code>rating</code>, <code>stays</code> and <code>availability</code>; nothing else changes on the frontend.</span><span class="ko"><code>search_sitters_nearby</code>가 거리와 1박 요금은 이미 돌려줍니다. 합의한 시터 카드를 위해 시터마다 <b>rating_avg</b>(소수 1자리, 리뷰가 없으면 null), <b>stay_count</b>(완료된 숙박 수), 검색한 날짜 기준 <b>available</b>(true/false)과 <b>first_full_day</b>(날짜 또는 null)도 함께 받을 수 있을까요? 카드(<code>SitterResultCard</code>)는 <code>rating</code>, <code>stays</code>, <code>availability</code>를 이미 받을 수 있어서 프론트는 이 외에 바뀌는 게 없습니다.</span></div></section>
+</main>
 <script>
   const sync = () => document.querySelectorAll(".lang button").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.l === document.documentElement.dataset.lang)));
   document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => {
