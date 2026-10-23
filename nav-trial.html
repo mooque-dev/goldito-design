@@ -28,8 +28,10 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 .panel .what{font-weight:500;color:var(--color-text-muted);font-size:.875rem}
 .rec{margin-left:.3rem;color:#B54708;font-size:.8125rem} .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .panel .pick button{white-space:nowrap}
-.recbox{display:flex;flex-direction:column;gap:.375rem;background:#FFFAEB;color:#3D2A00;border-radius:12px;padding:.75rem .875rem;font-size:.8125rem;line-height:1.45}
-.recbox b{font-size:.875rem}
+.recbox{display:flex;flex-direction:column;gap:.5rem;background:#FFFAEB;color:#3D2A00;border-radius:12px;padding:.75rem .875rem;font-size:.875rem;line-height:1.45;font-weight:600}
+.recbox.on{background:#ECFDF3;color:#067647}
+.recbox.on #useRec{display:none}
+.pk{font-style:normal;text-transform:none;letter-spacing:0;font-weight:600;color:var(--color-warning,#B54708)}
 .recbox button{align-self:flex-start;min-height:36px;padding:0 .875rem;border-radius:999px;border:2px solid #1B4332;background:#1B4332;color:#fff;font:700 .8125rem var(--font-ui);cursor:pointer}
 .recbox button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
 @media (max-width:900px){
@@ -129,37 +131,37 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 
 <div class="stage">
 <aside class="panel" aria-label="Controls">
-  <div class="recbox"><b><span class="en">Recommended path</span><span class="ko">추천 조합</span></b><span class="en">Four tabs with Chat (square paw icon), Snap as a white camera in the top left during a stay, tinted avatars. ★ marks each pick below.</span><span class="ko">채팅 탭이 있는 4탭 (네모 발바닥 아이콘), 스테이 중 왼쪽 위 흰 카메라 스냅, 연한 색 아바타. 아래 ★가 추천.</span>
-    <button type="button" id="useRec"><span class="en">Use the recommended path</span><span class="ko">추천 조합 보기</span></button></div>
-  <p class="what" id="what" aria-live="polite"></p>
-  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version</span><span class="ko">버전</span></span>
+  <div class="recbox" aria-live="polite"><span id="recState"></span>
+    <button type="button" id="useRec"><span class="en">Back to the recommended path</span><span class="ko">추천 조합으로 돌아가기</span></button></div>
+  <p class="what" id="what"></p>
+  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version<em class="pk"> · ★ <span class="en">Snap top left</span><span class="ko">왼쪽 위 스냅</span></em></span><span class="ko">버전</span></span>
     <button type="button" role="radio" data-v="now">Now</button>
     <button type="button" role="radio" data-v="five"><span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></button>
-    <button type="button" role="radio" data-v="b"><span class="en">Snap top left</span><span class="ko">왼쪽 위 스냅</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
+    <button type="button" role="radio" data-v="b"><span class="en">Snap top left</span><span class="ko">왼쪽 위 스냅</span></button>
   </div>
-  <div class="pick" data-grp="stay" role="radiogroup" aria-label="Stay"><span><span class="en">Stay</span><span class="ko">스테이</span></span>
-    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
+  <div class="pick" data-grp="stay" role="radiogroup" aria-label="Stay"><span><span class="en">Stay<em class="pk"> · ★ <span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></em></span><span class="ko">스테이</span></span>
+    <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
     <button type="button" role="radio" data-s="off"><span class="en">No stay right now</span><span class="ko">지금 스테이 없음</span></button>
   </div>
-  <div class="pick" data-grp="chaticon" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon</span><span class="ko">채팅 아이콘</span></span>
+  <div class="pick" data-grp="chaticon" role="radiogroup" aria-label="Chat icon"><span><span class="en">Chat icon<em class="pk"> · ★ <span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></em></span><span class="ko">채팅 아이콘</span></span>
     <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
-    <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
+    <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-text"><span class="en">Square bubble, text</span><span class="ko">네모 말풍선, 글줄</span></button>
   </div>
-  <div class="pick" data-grp="snaplook" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look</span><span class="ko">스냅 모양</span></span>
+  <div class="pick" data-grp="snaplook" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look<em class="pk"> · ★ <span class="en">White</span><span class="ko">흰색</span></em></span><span class="ko">스냅 모양</span></span>
     <button type="button" role="radio" data-k="quiet"><span class="en">Quiet icon</span><span class="ko">아이콘만</span></button>
     <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
-    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
+    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span></button>
   </div>
-  <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon</span><span class="ko">스냅 아이콘</span></span>
-    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
+  <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon<em class="pk"> · ★ <span class="en">Camera</span><span class="ko">카메라</span></em></span><span class="ko">스냅 아이콘</span></span>
+    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span></button>
     <button type="button" role="radio" data-g="plus"><span class="en">Plus</span><span class="ko">플러스</span></button>
     <button type="button" role="radio" data-g="splus"><span class="en">Plus in a square (Instagram)</span><span class="ko">네모 안 플러스 (인스타그램)</span></button>
   </div>
-  <div class="pick" data-grp="avatars" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars</span><span class="ko">아바타</span></span>
+  <div class="pick" data-grp="avatars" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars<em class="pk"> · ★ <span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span></em></span><span class="ko">아바타</span></span>
     <button type="button" role="radio" data-c="green"><span class="en">One green (now)</span><span class="ko">초록 하나 (지금)</span></button>
     <button type="button" role="radio" data-c="tint"><span class="en">Soft tints, ink letter</span><span class="ko">연한 색, 진초록 글자</span></button>
-    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span><span class="rec" aria-hidden="true">★</span><span class="sr">, recommended</span></button>
+    <button type="button" role="radio" data-c="match"><span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span></button>
   </div>
 </aside>
 <div class="phones">
@@ -270,7 +272,13 @@ function hint(el) {
   h.textContent = document.documentElement.dataset.lang === "ko" ? "이 시안에선 탭과 스냅만 움직여요" : "Only the tabs and Snap work in this trial";
   h.classList.add("on"); clearTimeout(h.t); h.t = setTimeout(() => h.classList.remove("on"), 1800);
 }
+const REC = { V: "b", STAY: "on", CHAT: "chat-square", LOOK: "white", GLYPH: "cam", AVC: "match" };
 function render() {
+  const onRec = V === REC.V && STAY === REC.STAY && CHAT === REC.CHAT && LOOK === REC.LOOK && GLYPH === REC.GLYPH && AVC === REC.AVC;
+  const rb = document.querySelector(".recbox"); rb.classList.toggle("on", onRec);
+  document.getElementById("recState").innerHTML = onRec
+    ? '<span class="en">You\'re on the recommended path. ★ in each group names its pick.</span><span class="ko">추천 조합을 보고 있어요. 그룹마다 ★가 추천.</span>'
+    : '<span class="en">You changed something. ★ in each group shows the recommended pick.</span><span class="ko">바꾼 상태예요. 그룹마다 ★가 추천.</span>';
   const grp = (k) => document.querySelector(`[data-grp="${k}"]`);
   grp("snaplook").hidden = grp("snapicon").hidden = V !== "b";
   for (const k of ["snaplook", "snapicon"]) { grp(k).classList.toggle("off", STAY !== "on"); grp(k).querySelectorAll("button").forEach((b) => (b.disabled = STAY !== "on")); }
@@ -287,7 +295,7 @@ function render() {
 document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; history.replaceState(null, "", "#" + V); render(); }));
 document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
 document.querySelectorAll("[data-i]").forEach((b) => b.addEventListener("click", () => { CHAT = b.dataset.i; render(); }));
-document.getElementById("useRec").addEventListener("click", () => { V = "b"; STAY = "on"; CHAT = "chat-square"; LOOK = "white"; GLYPH = "cam"; AVC = "match"; history.replaceState(null, "", "#b"); render(); });
+document.getElementById("useRec").addEventListener("click", () => { ({ V, STAY, CHAT, LOOK, GLYPH, AVC } = REC); history.replaceState(null, "", "#b"); render(); });
 document.querySelectorAll(".pick [data-g]").forEach((b) => b.addEventListener("click", () => { GLYPH = b.dataset.g; render(); }));
 document.querySelectorAll(".pick [data-c]").forEach((b) => b.addEventListener("click", () => { AVC = b.dataset.c; render(); }));
 document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
