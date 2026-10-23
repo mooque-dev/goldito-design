@@ -229,7 +229,7 @@ let l0 = "en"; try { l0 = localStorage.getItem("goldito-lang") || "en"; } catch 
 setL(l0); document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setL(b.dataset.l)));
 render();
 storyboard();
-window.__ticket = { id: "booking", title: "Booking flow: one question per screen (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/booking-flow.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Proposal for the product call (Mook, Minsik, Seulgi)" }, { q: "Dates", a: "Quick picks first, the app's range calendar under them" }, { q: "Who drives", a: "Asked both ways, each on its own screen" }, { q: "Check screen", a: "Every answer with Change, price from Chloe's rates" }],
+window.__ticket = { id: "booking", title: "Booking flow: one question per screen (proposal)", issue: "https://github.com/minsikpaul92/Goldito/issues/330", workbench: "https://mooque-dev.github.io/goldito-design/booking-flow.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal for the product call" }, { q: "Dates", a: "Quick picks first, the app's range calendar under them" }, { q: "Who drives", a: "Asked both ways, each on its own screen" }, { q: "Check screen", a: "Every answer with Change, price from Chloe's rates" }],
   spec: [], specLinks: [] };
 </script></body></html>
