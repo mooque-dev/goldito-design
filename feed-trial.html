@@ -1,0 +1,890 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Feed Trial</title>
+<meta name="description" content="Feed and Diary: today's app next to a proposal from our sketch file. Fewer controls above the photos, the day's note first, one pet picker for both views.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Gaegu:wght@400;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:66rem;margin:0 auto;display:flex;flex-direction:column;gap:1.75rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.3rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0} a{color:var(--color-primary)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.hint{color:var(--color-text-muted);max-width:44rem}
+.stage{display:grid;grid-template-columns:16rem minmax(0,1fr);gap:1.5rem;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr}}
+.panel{position:sticky;top:calc(var(--site-nav-h,0px) + 1rem);display:flex;flex-direction:column;gap:1rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:1rem}
+@media (max-width:900px){.panel{position:static;padding:.75rem;gap:.625rem}}
+.pick{display:flex;flex-wrap:wrap;gap:.375rem;align-items:center}
+.pick>span{flex-basis:100%;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted)}
+.pick button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:700 .8125rem var(--font-ui);cursor:pointer;white-space:nowrap}
+.pick button[aria-pressed=true]{border:2px solid #1B4332;background:#D8F3DC;color:#1B4332}
+.pk{font-style:normal;text-transform:none;letter-spacing:0;font-weight:600;color:var(--color-warning,#B54708)}
+.what{font-weight:500;color:var(--color-text-muted);font-size:.875rem}
+button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.25rem;min-width:0}
+.who{font-weight:700;font-size:.875rem;text-align:center;margin-bottom:.375rem}
+/* the phone */
+.ph{position:relative;height:clamp(560px, calc(100vh - var(--site-nav-h,0px) - 6rem), 720px);max-width:24rem;width:100%;margin:0 auto;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;box-shadow:0 0 0 1px var(--color-border);overflow:hidden;display:flex;flex-direction:column;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.sb{display:flex;justify-content:space-between;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px;flex:none}
+.hd{display:flex;align-items:flex-start;gap:10px;padding:12px 8px 6px 16px;flex:none}
+.tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
+.rt{display:flex;gap:4px;margin-top:-7.5px}
+.ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;border-radius:22px}
+.ib svg{width:24px;height:24px}
+.ct{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B42318;color:#fff;font:800 10px/14px 'Plus Jakarta Sans',sans-serif;border:2px solid #FBF6EA}
+.avr{padding:2px;border-radius:20px;border:1.5px solid #CBBFA8} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
+.bd{flex:1;overflow-y:auto;padding:2px 16px 72px;display:flex;flex-direction:column;gap:10px;position:relative}
+.tabs{display:flex;justify-content:space-around;background:#fff;border-radius:26px 26px 0 0;padding:10px 6px 18px;box-shadow:0 -8px 12px rgba(27,67,50,.08);flex:none;z-index:2}
+.tabs span{display:flex;flex-direction:column;align-items:center;gap:4px;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;min-width:56px}
+.tabs i{width:54px;height:30px;border-radius:15px;display:grid;place-items:center} .tabs svg{width:22px;height:22px}
+.tabs .on{color:#1B4332} .tabs .on i{background:#D8F3DC}
+/* today's controls (main): every pick-one row is the same mint pill */
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pills button,.wide{min-height:44px;border-radius:999px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:600 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.pills button.on{background:#D8F3DC;border:2px solid #1B4332}
+.wide{width:100%;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin:0 -16px}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.fab{position:absolute;right:16px;bottom:88px;display:flex;gap:8px;z-index:3}
+.fab button{min-height:44px;padding:0 16px;border-radius:999px;border:0;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.fab .go{background:#1B4332;color:#fff;box-shadow:0 2px 8px rgba(27,67,50,.25)} .fab .soft{background:#fff;color:#1B4332;border:1.5px solid #CBBFA8}
+.covers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cover{border:4px solid #1B4332;border-radius:10px;background:#D8F3DC;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:space-between;padding:10px;cursor:pointer;font:700 15px Gaegu,cursive;color:#1B4332;text-align:center}
+.cover .e{font-size:40px;flex:1;display:grid;place-items:center}
+/* the proposal */
+.vt{border-bottom:1.5px solid #E8DCC4;margin:0 -16px;padding:0 16px;flex:none}
+.vtt button{flex:1;min-height:44px;border:0;background:none;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.vtt button[aria-selected=true]{color:#1B4332;border-bottom-color:#1B4332}
+.pets{display:flex;align-items:center;gap:10px;flex:none}
+.pet{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;cursor:pointer;padding:0;min-width:48px;font:700 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.pet img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid transparent;box-shadow:0 0 0 2px #FBF6EA}
+.pet[aria-pressed=true]{color:#1B4332} .pet[aria-pressed=true] img{border-color:#1B4332}
+.ask{margin-left:auto;min-height:44px;border:0;background:none;color:#2D6A4F;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0 4px}
+.ask[disabled]{color:#6B5D4A;text-decoration:none;cursor:default}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:none;margin:-6px -16px;padding:6px 16px;align-items:center;--fl:0px;--fr:0px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent)}
+.chips.more-l{--fl:32px} .chips.more-r{--fr:32px}
+.chips::after{content:"";flex:none;width:1px}
+.chip{flex:none;display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:0 12px 0 9px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;color:#1B4332;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer;position:relative}
+.chip::after{content:"";position:absolute;inset:-4px 0}
+.chip svg{width:16px;height:16px}
+.chip[aria-pressed=true]{background:#D8F3DC;border:2px solid #1B4332}
+.day{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px}
+.day b{font:600 18px Fredoka,sans-serif} .day small{font-size:12px;color:#6B5D4A;font-weight:600}
+.mosaic{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:96px 96px;gap:6px}
+.mosaic .m{position:relative;border-radius:16px;overflow:hidden;border:0;padding:0;cursor:pointer;background:#E8DCC4}
+.mosaic .m:first-child{grid-row:span 2}
+.mosaic.one{grid-template-columns:1fr;grid-template-rows:200px} .mosaic.one .m:first-child{grid-row:auto}
+.mosaic img{width:100%;height:100%;object-fit:cover;display:block}
+.tb{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:3px;background:#fff;border-radius:999px;padding:2px 8px 2px 4px;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#1B4332}
+.tb svg{width:14px;height:14px}
+.small{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.small img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block}
+.small.n1{grid-template-columns:1fr} .small.n1 img{aspect-ratio:5/2} .small.n2{grid-template-columns:1fr 1fr} .small.n2 img{aspect-ratio:4/3}
+.note{background:#FBEFC8;border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.note .by{display:flex;align-items:center;gap:8px;font-size:12px;color:#6B5D4A;font-weight:600} .note .by .av{width:28px;height:28px;font-size:12px}
+.note .by b{color:#1B4332;font-size:14px;display:block}
+.note p{font-size:14px;line-height:1.45;color:#1B4332}
+.re{display:flex;gap:8px}
+.re button{position:relative;display:inline-flex;align-items:center;gap:5px;min-height:40px;padding:0 12px;border-radius:999px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.re button::after{content:"";position:absolute;inset:-2px 0}
+.re button svg{width:16px;height:16px} .re button[aria-pressed=true]{background:#D8F3DC;border-color:#1B4332}
+.re button.love[aria-pressed=true]{background:#FAD6CB;border-color:#9F2E1A;color:#9F2E1A}
+.empty{border:1.5px dashed #CBBFA8;border-radius:16px;padding:16px;text-align:center;color:#6B5D4A;font-size:14px}
+.page{background:#fff;border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.page .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#6B5D4A;font-weight:600}
+.page .top b{font:600 16px Fredoka,sans-serif;color:#1B4332}
+.page .pic{border-radius:14px;overflow:hidden;aspect-ratio:2/1;background:#D8F3DC}
+.page .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.page .hand{font:400 19px/1.35 Gaegu,cursive;color:#1B4332;background:repeating-linear-gradient(#fff 0 25px,#E8DCC4 25px 26px);padding-top:2px}
+.tl{display:flex;flex-direction:column;gap:8px}
+.it{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;background:#fff;border-radius:16px;padding:8px 12px 8px 8px}
+.it .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center} .it .ic svg{width:20px;height:20px}
+.it b{display:block;font-size:14px} .it small{font-size:12px;color:#6B5D4A}
+.it .tm{font:800 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;font-variant-numeric:tabular-nums}
+.link{min-height:44px;border:0;background:none;color:#2D6A4F;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;align-self:flex-start;padding:0}
+.book{display:flex;align-items:center;justify-content:space-between}
+.book button{width:44px;height:44px;border-radius:22px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;display:grid;place-items:center;cursor:pointer}
+.book button svg{width:20px;height:20px} .book button[disabled]{opacity:.35;cursor:default}
+.book span{font:600 15px Fredoka,sans-serif;text-align:center} .book small{display:block;font:600 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.cchips{display:flex;flex-wrap:wrap;gap:6px}
+.cchips span{display:inline-flex;align-items:center;gap:5px;min-height:32px;padding:0 10px;border-radius:999px;background:#D8F3DC;font:700 12px 'Plus Jakarta Sans',sans-serif}
+.cchips svg{width:14px;height:14px}
+.toast{position:absolute;left:16px;right:16px;bottom:148px;background:#1B4332;color:#fff;border-radius:12px;padding:10px 14px;font:600 13px 'Plus Jakarta Sans',sans-serif;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none;z-index:4}
+.toast.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}
+.nt{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem;font-size:.9375rem}
+.nt b{font-size:1rem} .nt .src{font-size:.8125rem;color:var(--color-text-muted)}
+.n{display:inline-grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:50%;background:#1B4332;color:#fff;font:700 .75rem var(--font-ui);margin-right:.375rem}
+.vote{background:var(--color-success-surface);border-radius:12px;padding:.875rem 1rem}
+/* pet picker: the switcher beside the tabs, its sheet */
+.vt{display:flex;align-items:center;gap:8px}
+.vtt{display:flex;flex:1;min-width:0}
+.sw{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 6px 0 4px;border-radius:999px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;position:relative;flex:none}
+.sw::after{content:"";position:absolute;inset:-3px 0}
+.sw img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+.sw .cv{display:grid} .sw .cv svg{width:16px;height:16px;transform:rotate(90deg)}
+.scrim{position:absolute;inset:0;background:rgba(20,17,13,.4);z-index:7}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:8;background:#fff;border-radius:24px 24px 0 0;padding:16px 16px 28px;display:flex;flex-direction:column;gap:6px}
+.sheet>b{font:600 18px Fredoka,sans-serif;margin:0 4px 6px}
+.prow{display:flex;align-items:center;gap:12px;min-height:60px;border:0;background:none;border-radius:16px;padding:6px 10px;cursor:pointer;text-align:left;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.prow[aria-pressed=true]{background:#D8F3DC}
+.prow img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.prow span{flex:1} .prow b{display:block;font-size:15px} .prow small{font-size:12px;color:#6B5D4A} .prow svg{width:20px;height:20px}
+.link.inl{min-height:0;font-size:12px;padding:12px 0;margin:-12px 0}
+.askrow{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;color:#6B5D4A;font-weight:600}
+.links{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 12px}
+.small button{border:0;padding:0;background:none;cursor:pointer;display:block}
+/* a photo, opened: make a sticker */
+.pv{position:absolute;inset:0;background:#14110D;z-index:6;display:flex;flex-direction:column;color:#fff}
+.pvt{display:flex;align-items:center;gap:6px;padding:40px 8px 4px}
+.pvt b{flex:1;font:700 15px 'Plus Jakarta Sans',sans-serif}
+.pv .ib{color:#fff}
+.pvs{flex:1;min-height:0;container-type:size;display:grid;place-items:center;padding:0 12px}
+.fr{position:relative;aspect-ratio:var(--ar);width:min(100cqw,calc(100cqh * var(--ar)));touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:pointer}
+.fr .p0{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;transition:filter .35s}
+.pv.lifted .fr .p0{filter:blur(3px) brightness(.4)}
+.fr .cut{position:absolute;opacity:0;pointer-events:none;object-fit:contain}
+.pv.lifted .fr .cut{opacity:1;animation:lift .7s cubic-bezier(.2,.9,.3,1.25) forwards}
+@keyframes lift{0%{opacity:0;transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,255,255,0))}35%{opacity:1;filter:drop-shadow(0 0 16px rgba(255,255,255,.95))}100%{opacity:1;transform:scale(1.05) translateY(-8px);filter:drop-shadow(0 12px 18px rgba(0,0,0,.5))}}
+.pva{padding:12px 16px 26px;display:flex;flex-direction:column;gap:8px}
+.bp,.bs{min-height:48px;border-radius:999px;font:700 16px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.bp{border:0;background:#D8F3DC;color:#1B4332} .bp[disabled]{opacity:.75;cursor:default}
+.bs{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+.hw{font-size:13px;color:#D9D0C2;text-align:center}
+/* decorate today's page */
+.page{position:relative}
+.page.deco{box-shadow:0 0 0 2px #1B4332}
+.lay{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;border-radius:20px}
+.stk{position:absolute;pointer-events:none;user-select:none;-webkit-user-select:none}
+.stk.mine{pointer-events:auto;cursor:grab;touch-action:none}
+.stk.theirs{pointer-events:auto;cursor:not-allowed}
+.stk.sel{outline:2px dashed #1B4332;outline-offset:3px;border-radius:8px}
+.tipd{font-size:13px;color:#6B5D4A;font-weight:600;text-align:center}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bd.deco{padding-bottom:240px}
+.tray{position:absolute;left:0;right:0;bottom:78px;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -6px 16px rgba(27,67,50,.14);padding:10px 12px;z-index:4;display:flex;flex-direction:column;gap:8px}
+.trh{display:flex;align-items:center;gap:8px}
+.trt{display:flex;flex:1;gap:4px}
+.trt button{min-height:40px;padding:0 12px;border-radius:999px;border:0;background:none;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;cursor:pointer;position:relative}
+.trt button::after{content:"";position:absolute;inset:-2px 0}
+.trt button[aria-selected=true]{background:#D8F3DC;color:#1B4332}
+.done{min-height:44px;padding:0 18px;border-radius:999px;border:0;background:#1B4332;color:#fff;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.tiles{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;min-height:64px;align-items:center}
+.tile{flex:none;width:64px;height:64px;border-radius:14px;border:1.5px solid #E8DCC4;background:#FBF6EA;display:grid;place-items:center;cursor:pointer;padding:4px}
+.tile img{max-width:100%;max-height:100%}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tools button{min-height:44px;border-radius:12px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.tray .tip{font-size:12px;color:#6B5D4A;margin:0}
+.toast{z-index:9}
+@media (prefers-reduced-motion:reduce){.pv.lifted .fr .cut{animation:none;opacity:1}.fr .p0{transition:none}}
+/* all pets: stacked faces, a face on each photo */
+.stack{display:inline-flex;flex:none}
+.chip.petc{padding:0 6px 0 4px;gap:6px} .chip.petc .stack img{width:26px;height:26px;border-color:#fff}
+.chip.petc .cv{display:grid} .chip.petc .cv svg{width:14px;height:14px;transform:rotate(90deg)}
+.sep{flex:none;width:1.5px;align-self:stretch;margin:6px 2px;background:#E8DCC4} .stack img{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:none}
+.stack img+img{margin-left:-10px}
+.sw .stack img{width:28px;height:28px}
+.pet.allp .stack img{width:38px;height:38px;border:2px solid #FBF6EA} .pet.allp .stack img+img{margin-left:-18px}
+.pet.allp[aria-pressed=true] .stack{border-radius:24px;box-shadow:0 0 0 2px #1B4332}
+.prow.allp .stack img{width:36px;height:36px} .prow.allp .stack img+img{margin-left:-16px}
+.prow .stack{width:44px;justify-content:center}
+.mosaic .m img.pf,.small img.pf,.pf{position:absolute;top:6px;left:6px;width:26px;height:26px;aspect-ratio:auto;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.small button{position:relative}
+.page .top .pt{font:600 16px Fredoka,sans-serif;color:#1B4332}
+/* sharing: the pill, the switch, the add sheet, the New badge and the paw stamp */
+.fab .sharep{display:inline-flex;align-items:center;gap:6px;padding:0 14px 0 8px}
+.sharep .av{width:24px;height:24px;font-size:11px} .sharep svg{width:16px;height:16px}
+.fab .sharep.on{background:#D8F3DC;border-color:#1B4332}
+.share{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;border-radius:16px;border:1.5px solid #CBBFA8;background:#fff;padding:8px 12px;cursor:pointer;text-align:left;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.share.on{background:#D8F3DC;border-color:#1B4332}
+.share .sic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#F3EBDD;flex:none} .share .sic svg{width:18px;height:18px}
+.share.on .sic{background:none} .share .sic .av{width:36px;height:36px}
+.share .stx{flex:1;min-width:0} .share b{display:block;font-size:15px} .share small{font-size:12px;color:#6B5D4A}
+.share .knob{width:44px;height:26px;border-radius:13px;background:#B7AA93;position:relative;flex:none;transition:background .2s}
+.share .knob::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .2s}
+.share.on .knob{background:#1B4332} .share.on .knob::after{transform:translateX(18px)}
+.sheet.add{gap:12px;max-height:90%;overflow-y:auto}
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pk2{border:0;padding:0;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:1;outline-offset:2px;background:#E8DCC4} .pk2 img{width:100%;height:100%;object-fit:cover;display:block}
+.pk2[aria-pressed=true]{outline:3px solid #1B4332}
+.arow{display:flex;align-items:center;gap:6px;flex-wrap:wrap} .lbl{font:700 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;width:100%}
+.cf{width:22px;height:22px;border-radius:50%;object-fit:cover}
+.wide.go2{background:#1B4332;color:#fff;border:0}
+.nw{position:absolute;top:6px;right:6px;background:#E0A526;color:#1B4332;font:800 11px 'Plus Jakarta Sans',sans-serif;border-radius:999px;padding:2px 8px}
+.page .top{position:relative}
+.lk2.pin{position:static;flex:none}
+.lk2{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:#fff;display:grid;place-items:center;color:#1B4332} .lk2 svg{width:14px;height:14px}
+.stampfx{position:absolute;pointer-events:none;color:#E0A526;z-index:5;animation:stamp .9s ease-out forwards} .stampfx svg{width:28px;height:28px;fill:#E0A526}
+@keyframes stamp{0%{transform:scale(.4) rotate(-20deg);opacity:0}30%{transform:scale(1.35) rotate(8deg);opacity:1}100%{transform:translateY(-44px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.stampfx{display:none}.share .knob,.share .knob::after{transition:none}}
+/* reactions: Happy goes butter, Love it goes blush; both pop and float a few icons */
+.re button[data-v=happy][aria-pressed=true]{background:#FBEFC8;border-color:#8A6100;color:#6B4A00}
+.pop{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.burst{position:absolute;z-index:6;pointer-events:none;opacity:0;animation:burst .9s ease-out forwards} .burst svg{width:18px;height:18px}
+@keyframes burst{0%{opacity:0;transform:translate(0,0) scale(.4)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(var(--rot))}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
+.chip.dchip{padding:0 14px;gap:6px} .chip.dchip[disabled]{opacity:.45;cursor:default}
+.dot{width:6px;height:6px;border-radius:50%;background:#2D6A4F;flex:none} .chip.dchip[aria-pressed=true] .dot{background:#1B4332}
+/* the paw: a gold pad under the finger, three toes for the shortcuts */
+.tabs span[data-paw]{cursor:pointer}
+[data-paw]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.pawm{position:absolute;inset:0;z-index:10}
+.pdim{position:absolute;inset:0;background:rgba(20,17,13,.55);animation:pfade .15s ease-out}
+.plift{position:absolute;object-fit:cover;border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.45);transform:scale(1.04);animation:plift .2s ease-out;pointer-events:none}
+.pad{position:absolute;width:44px;height:38px;margin:-19px 0 0 -22px;border-radius:50% 50% 44% 44%;background:radial-gradient(circle at 50% 40%,rgba(242,193,78,.95),rgba(224,165,38,.9));box-shadow:0 0 0 4px rgba(255,255,255,.85),0 0 0 9px rgba(224,165,38,.3);animation:ppad .2s ease-out;pointer-events:none}
+.toe{position:absolute;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #fff;background:#1B4332;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 4px 12px rgba(0,0,0,.35);transition:transform .12s,background .12s;animation:ptoe .28s cubic-bezier(.3,1.5,.5,1) backwards;animation-delay:calc(var(--i) * 40ms)}
+.toe svg{width:24px;height:24px}
+.toe.hot,.toe:hover,.toe:focus-visible{background:#E0A526;color:#1B4332;transform:scale(1.18);outline:none}
+.plabel{position:absolute;transform:translateX(-50%);white-space:nowrap;background:#fff;color:#1B4332;font:700 14px 'Plus Jakarta Sans',sans-serif;padding:6px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);pointer-events:none}
+@keyframes ptoe{from{transform:scale(.2);opacity:0}} @keyframes ppad{from{transform:scale(.6);opacity:0}} @keyframes plift{from{transform:scale(1)}} @keyframes pfade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pdim,.plift,.pad,.toe{animation:none}.toe{transition:none}}
+.moodr{display:flex;gap:12px;align-items:center} .moodr img{width:84px;height:84px;border-radius:16px;object-fit:cover;flex:none}
+.bars{flex:1;display:flex;flex-direction:column;gap:6px}
+.mbar{display:grid;grid-template-columns:18px 60px 1fr 36px;align-items:center;gap:6px;font:700 13px 'Plus Jakarta Sans',sans-serif} .mbar svg{width:18px;height:18px}
+.mbar i{display:block;height:8px;border-radius:4px;background:#D8F3DC;overflow:hidden} .mbar i b{display:block;height:100%;background:#2D6A4F;border-radius:4px}
+.mbar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:#6B5D4A}
+</style><script src="nav.js" defer></script>
+</head><body><main class="wrap">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></symbol>
+<symbol id="i-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16"/><path d="M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2"/><circle cx="13" cy="7" r="1" fill="currentColor"/><rect x="8" y="2" width="14" height="14" rx="2"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+<symbol id="i-meal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z"/><path d="M12 22v-3"/></symbol>
+<symbol id="i-nap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+<symbol id="i-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></symbol>
+<symbol id="i-heart-on" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+<symbol id="i-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v16"/><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10V9"/><path d="M16.472 15a6 6 0 01-8.943 0"/><path d="M9 10V9"/><circle cx="12" cy="12" r="10"/></symbol>
+<symbol id="i-paw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></symbol>
+<symbol id="i-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+<symbol id="i-chats" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="12" cy="11.6" rx="2.4" ry="1.85" fill="currentColor"/><circle cx="9.4" cy="9" r="1.1" fill="currentColor"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor"/><circle cx="14.6" cy="9" r="1.1" fill="currentColor"/></symbol>
+
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+<symbol id="i-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M14 3v4a2 2 0 0 0 2 2h4"/><path d="M8 13h.01"/><path d="M16 13h.01"/><path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-potty" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+</svg>
+
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Feed trial</span><span class="ko">피드 시안</span> · <span class="en">Oct 24</span><span class="ko">10/24</span></span></div>
+<section>
+  <h1><span class="en">Feed and Diary: the day first, the controls second</span><span class="ko">피드와 다이어리: 하루 먼저, 조작은 나중</span></h1>
+  <p class="hint"><span class="en">Today's app has four rows of controls above the first photo, the owner's Diary opens on book covers, and stickers live in Snap. The proposal keeps one Photos · Diary switch and a compact pet picker, opens the Diary on today's note, and lets you make a sticker from any photo and decorate the day's page. Everything is playable.</span><span class="ko">지금 앱은 첫 사진 위에 조작 줄이 넷이고, 보호자 다이어리는 책 표지에서 시작하며, 스티커는 스냅에 있어요. 제안은 사진 · 다이어리 전환 하나와 작은 펫 선택, 다이어리는 오늘 노트부터, 그리고 어떤 사진에서든 스티커를 만들어 그날 페이지를 꾸밀 수 있어요. 모두 눌러 볼 수 있어요.</span></p>
+</section>
+
+<div class="stage">
+<aside class="panel" aria-label="Controls">
+  <p class="what" id="what"></p>
+  <div class="pick" role="radiogroup" aria-label="Version"><span><span class="en">Version<em class="pk"> · ★ <span class="en">Proposal</span><span class="ko">제안</span></em></span><span class="ko">버전</span></span>
+    <button type="button" role="radio" data-v="now"><span class="en">Today (main)</span><span class="ko">지금 (main)</span></button>
+    <button type="button" role="radio" data-v="new"><span class="en">Proposal</span><span class="ko">제안</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Open on"><span><span class="en">Open on</span><span class="ko">시작 화면</span></span>
+    <button type="button" role="radio" data-o="photos"><span class="en">Photos</span><span class="ko">사진</span></button>
+    <button type="button" role="radio" data-o="diary"><span class="en">Diary</span><span class="ko">다이어리</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Pet picker"><span><span class="en">Pet picker<em class="pk"> · ★ Filter chip</em></span><span class="ko">펫 선택<em class="pk"> · ★ 필터 칩</em></span></span>
+    <button type="button" role="radio" data-p="chip"><span class="en">Filter chip</span><span class="ko">필터 칩</span></button>
+    <button type="button" role="radio" data-p="switch"><span class="en">In the tabs</span><span class="ko">탭 안</span></button>
+    <button type="button" role="radio" data-p="avatars"><span class="en">Avatar row</span><span class="ko">아바타 줄</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Pets on the booking"><span><span class="en">Pets on the booking</span><span class="ko">예약한 펫</span></span>
+    <button type="button" role="radio" data-n="2"><span class="en">Two</span><span class="ko">둘</span></button>
+    <button type="button" role="radio" data-n="1"><span class="en">One</span><span class="ko">하나</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Mochi's sitter"><span><span class="en">Mochi's sitter</span><span class="ko">모찌의 시터</span></span>
+    <button type="button" role="radio" data-sit="Chloe"><span class="en">Chloe too</span><span class="ko">클로이도</span></button>
+    <button type="button" role="radio" data-sit="Sam"><span class="en">Sam</span><span class="ko">샘</span></button>
+  </div>
+  <div class="pick" role="radiogroup" aria-label="Tab name"><span><span class="en">Tab name</span><span class="ko">탭 이름</span></span>
+    <button type="button" role="radio" data-l="Feed">Feed</button>
+    <button type="button" role="radio" data-l="Moments">Moments</button>
+    <button type="button" role="radio" data-l="Journal">Journal</button>
+  </div>
+  <p class="what"><span class="en">Try: press and hold a photo, + Photo or the Snap tab, then slide to a toe. Or open a photo and Make a sticker; in Diary, tap Decorate.</span><span class="ko">해 보기: 사진, + 사진, 스냅 탭을 길게 누르고 발가락으로 밀기. 또는 사진을 열어 스티커 만들기; 다이어리에서 꾸미기.</span></p>
+</aside>
+<div class="phones">
+  <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-role="owner" data-cap="feed-owner" data-title="Feed · Owner · proposal"></div></div>
+  <div><p class="who">Chloe · <span class="en">Sitter</span><span class="ko">시터</span></p><div class="ph" data-role="sitter" data-cap="feed-sitter" data-title="Feed · Sitter · proposal"></div></div>
+</div>
+</div>
+
+<section>
+  <h2><span class="en">What changes, and why</span><span class="ko">무엇이 왜 바뀌나</span></h2>
+  <div class="notes">
+    <div class="nt"><b><span class="n">1</span><span class="en">View tabs: a new component</span><span class="ko">뷰 탭: 새 컴포넌트</span></b><span class="en">Photos · Diary as underline tabs, so it reads as switching the view, not filtering it. Pills stay for filters. It's new (the kit's Section tabs are sticky chips that follow a scroll), so it's in the kit page and the Figma kit now, and goes into DESIGN.md with the Feed PR.</span><span class="ko">사진 · 다이어리를 밑줄 탭으로, 필터가 아니라 보기 전환으로 읽혀요. 알약은 필터에만. 새 컴포넌트예요 (키트의 섹션 탭은 스크롤을 따라가는 칩) 그래서 키트 페이지와 Figma 키트에 추가했고, DESIGN.md는 피드 PR과 함께.</span><span class="src">Approved Oct 24 · kit.html › View tabs</span></div>
+    <div class="nt"><b><span class="n">2</span><span class="en">All pets first, narrowed by a filter chip</span><span class="ko">모든 펫 먼저, 필터 칩으로 좁히기</span></b><span class="en">Feed opens on every pet together; each photo carries the pet's face, and each note and page names its pet. The pet picker is the first filter chip (All pets ▾), the common filter-with-a-menu pattern, so the tabs keep their full width and no row is added. With one pet it disappears. "In the tabs" and the avatar row are in the panel to compare.</span><span class="ko">피드는 모든 펫을 함께; 사진마다 펫 얼굴, 노트와 페이지마다 펫 이름. 펫 선택은 첫 필터 칩 (모든 펫 ▾), 흔한 메뉴 달린 필터 패턴이라 탭은 전체 폭 그대로, 줄도 늘지 않아요. 펫이 하나면 사라져요. "탭 안"과 아바타 줄은 패널에서 비교.</span><span class="src">Mook, Oct 24 · Airbnb, Google Photos filter chips</span></div>
+    <div class="nt"><b><span class="n">3</span><span class="en">Meals · Walks · Naps instead of Timeline · Album</span><span class="ko">타임라인 · 앨범 대신 식사 · 산책 · 낮잠</span></b><span class="en">One chip row with the app's Lucide icons filters the day; photos group by day with a header and a count. That's the README's timeline album, in one row instead of two.</span><span class="ko">앱의 Lucide 아이콘이 든 칩 한 줄로 하루를 거르고, 사진은 날짜 머리와 개수로 묶여요. README의 타임라인 앨범을 두 줄 대신 한 줄로.</span><span class="src">Sketch: Expressive Feed</span></div>
+    <div class="nt"><b><span class="n">4</span><span class="en">The day's photos first, then the sitter's words</span><span class="ko">그날 사진 먼저, 그다음 시터의 말</span></b><span class="en">A mosaic of the latest three with times, then the sitter's latest note with Happy and Love it. Request photo becomes a link ("Ask Chloe for a photo"), not a full-width button.</span><span class="ko">최신 세 장 모자이크와 시간, 그다음 시터의 최신 노트와 반응. 사진 요청은 전체 폭 버튼 대신 링크.</span><span class="src">Sketch: Expressive Feed</span></div>
+    <div class="nt"><b><span class="n">5</span><span class="en">Diary opens on today's note</span><span class="ko">다이어리는 오늘 노트부터</span></b><span class="en">The owner's job is reading: the newest page (with the day's best photo, not an empty box) and today's updates with times. A day strip beside the pet chip (Today, Fri 23, Thu 22, newest first, a dot where there are pages) opens any day of the stay, like Kidsnote's 알림장 dates. The book is one tap away, and writing your own page is a quiet link.</span><span class="ko">보호자의 일은 읽기: 최신 페이지 (빈 칸 대신 그날 사진)와 시간이 있는 오늘 소식. 펫 칩 옆 날짜 줄 (오늘, 23일 금, 22일 목, 최신순, 페이지가 있으면 점)로 머문 어느 날이든 열어요, 키즈노트 알림장처럼. 책은 한 번 탭, 직접 쓰기는 조용한 링크.</span><span class="src">Sketch: Expressive Diary</span></div>
+    <div class="nt"><b><span class="n">6</span><span class="en">Sitter: straight to the pet</span><span class="ko">시터: 펫으로 바로</span></b><span class="en">No list of pets to tap first: all the pets in your care, the same switcher as the owner's, and + Photo right there. Diary leads with today's page, past pages are a link, so there's no second switch.</span><span class="ko">먼저 누를 펫 목록 없이 보호자와 같은 펫 선택, 그리드와 + 사진이 바로. 다이어리는 오늘 페이지부터, 지난 페이지는 링크라 두 번째 전환이 없어요.</span><span class="src">Sketch: sitter Today</span></div>
+    <div class="nt"><b><span class="n">7</span><span class="en">A sticker from any photo</span><span class="ko">어떤 사진이든 스티커로</span></b><span class="en">Open a photo and tap Make a sticker, or press and hold the pet. It lifts off with a white border, like iPhone Photos and WhatsApp, into the pet's sticker box, which owner and sitter share. The app already cuts stickers out (Snap › Sticker); this puts it where the photos are.</span><span class="ko">사진을 열고 스티커 만들기, 또는 펫을 길게 누르면 흰 테두리와 함께 떠올라 (아이폰 사진, 왓츠앱처럼) 보호자와 시터가 함께 쓰는 펫 스티커함에 들어가요. 앱은 이미 스티커를 오려내요 (스냅 › 스티커); 사진이 있는 곳으로 옮길 뿐.</span><span class="src">App: StickerScreen · cutout.ts (#90)</span></div>
+    <div class="nt"><b><span class="n">8</span><span class="en">Decorate the day's page</span><span class="ko">그날 페이지 꾸미기</span></b><span class="en">Decorate opens a tray: the pet's own stickers and the Goldito set (#114). Drag to move; Smaller, Bigger, Turn and Remove are buttons, so it all works with a mouse. Each person moves only their own stickers, and both see both.</span><span class="ko">꾸미기는 트레이를 열어요: 펫 스티커와 Goldito 세트 (#114). 끌어서 옮기고, 작게 · 크게 · 돌리기 · 지우기는 버튼이라 마우스로도 돼요. 각자 자기 스티커만 움직이고, 둘 다 서로의 것을 봐요.</span><span class="src">App: DecoratedReport (#223, #246)</span></div>
+    <div class="nt"><b><span class="n">9</span><span class="en">Make it, use it, in one go</span><span class="ko">만들고 바로 쓰기</span></b><span class="en">After the lift, Put it on today's page saves the sticker and opens Decorate with it already on the page. Today that's three places: Snap to cut, the sticker box, then the Diary.</span><span class="ko">떠오른 뒤 오늘 페이지에 붙이기를 누르면 저장하고 스티커가 붙은 채로 꾸미기가 열려요. 지금은 세 곳: 스냅에서 오리고, 스티커함, 그다음 다이어리.</span><span class="src">Sketch: Expressive Diary</span></div>
+    <div class="nt"><b><span class="n">10</span><span class="en">More than one sitter</span><span class="ko">시터가 여럿일 때</span></b><span class="en">Each note and page says who it's from, and Ask for a photo goes to every sitter on the screen. A sitter only ever sees the pets they're sitting. Try "Mochi's sitter: Sam" in the panel: Chloe's phone drops to Max alone and its switcher disappears.</span><span class="ko">노트와 페이지마다 누가 보냈는지 쓰고, 사진 요청은 화면의 모든 시터에게. 시터는 자기가 맡은 펫만 봐요. 패널에서 "모찌의 시터: 샘"을 눌러 보세요: 클로이 폰은 맥스만, 스위처는 사라져요.</span><span class="src">Mook, Oct 24</span></div>
+    <div class="nt"><b><span class="n">11</span><span class="en">What to call the tab</span><span class="ko">탭 이름</span></b><span class="en">"Feed" reads like social media and says nothing about the diary inside. Moments covers photos and the day's pages, and sits well beside Photos · Diary. Journal is warm but repeats Diary. Recommendation: Moments. Try all three in the panel.</span><span class="ko">"피드"는 SNS처럼 읽히고 안의 다이어리를 말해 주지 않아요. Moments는 사진과 그날 페이지를 다 담고 사진 · 다이어리 옆에 잘 어울려요. Journal은 따뜻하지만 Diary와 겹쳐요. 추천: Moments. 패널에서 셋 다 해 보세요.</span><span class="src">Open · for the team</span></div>
+    <div class="nt"><b><span class="n">12</span><span class="en">New parts for the kit</span><span class="ko">키트의 새 부품</span></b><span class="en">View tabs, Pet filter chip, Share switch, Share pill and Sticker tray are marked as components, so the Figma plugin draws them from this page and the kit page.</span><span class="ko">뷰 탭, 펫 필터 칩, 공유 스위치, 공유 알약, 스티커 트레이를 컴포넌트로 표시해서, Figma 플러그인이 이 페이지와 키트 페이지에서 그려요.</span><span class="src">Plugin › Tickets · kit.html</span></div>
+    <div class="nt"><b><span class="n">13</span><span class="en">Share or keep, for photos and pages</span><span class="ko">공유 또는 보관, 사진과 페이지 모두</span></b><span class="en">One switch says who sees it: their face and "Share with Robert", or a lock and "Only you". A sitter can keep a diary page or share it any time. Sharing lands on the other phone right away (New badge, bell, a message) and Goldito's gold paw stamps the button.</span><span class="ko">스위치 하나가 누가 보는지 말해요: 얼굴과 "로버트와 공유", 또는 자물쇠와 "나만". 시터는 다이어리 페이지를 보관하거나 언제든 공유. 공유하면 상대 폰에 바로 (New 배지, 알림, 메시지), 금색 발바닥이 버튼에 찍혀요.</span><span class="src">Mook, Oct 24 · #346 add sheet</span></div>
+    <div class="nt"><b><span class="n">14</span><span class="en">Reactions you can feel</span><span class="ko">느껴지는 반응</span></b><span class="en">Love it fills the heart and floats a few hearts; Happy turns butter and floats smiles; the screen stays where you were. Nothing moves with Reduce motion on.</span><span class="ko">Love it은 하트가 차고 작은 하트가 떠올라요; Happy는 버터색과 웃음; 화면은 그 자리. 동작 줄이기에선 움직이지 않아요.</span><span class="src">Mook, Oct 24</span></div>
+    <div class="nt"><b><span class="n">15</span><span class="en">The paw: press and hold for three shortcuts</span><span class="ko">발바닥: 길게 눌러 지름길 셋</span></b><span class="en">Pinterest's hold menu, shaped like a paw: a gold pad under your finger, three toes above it. Slide to a toe and let go. A photo gives Make a sticker · Mood · Use on today's page; + Photo gives Photo · Sticker · Today's page; the Snap tab gives Treat check · Mood · Sticker. Always a shortcut: every toe is also a plain tap away. Let go without sliding and it stays open to tap; toes lean away from screen edges; moving first scrolls instead.</span><span class="ko">핀터레스트의 길게 누르기 메뉴를 발바닥 모양으로: 손가락 아래 금색 패드, 위에 발가락 셋. 발가락으로 밀고 떼기. 사진은 스티커 · 기분 · 오늘 페이지에; + 사진은 사진 · 스티커 · 오늘 페이지; 스냅 탭은 간식 확인 · 기분 · 스티커. 항상 지름길: 모든 발가락은 그냥 탭으로도 가능. 밀지 않고 떼면 열린 채로 탭; 화면 끝에선 안쪽으로; 먼저 움직이면 스크롤.</span><span class="src">Mook, Oct 24 · Pinterest hold menu</span></div>
+  </div>
+  <p class="vote"><span class="en">For the team: does this match how you'd use Feed? If yes, it lands as one PR on top of #340; the parts are already in the kit and the icons in Icon.tsx.</span><span class="ko">팀에게: 피드를 이렇게 쓰시겠어요? 좋다면 #340 위에 PR 하나로; 부품은 키트에, 아이콘은 Icon.tsx에 이미 있어요.</span></p>
+</section>
+</main>
+<script>
+const ic = (id) => `<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const IMG = (n) => `assets/feed-trial/${n}.jpg`;
+const STK_SRC = (n) => `assets/feed-trial/stickers/${n}.png`;
+// Where the pet sits in each photo (0-1 of the photo, sticker border included), from the cut-out: the sticker lifts off from there.
+const CUT = {"mumu_blossom_basket": {"x": 0.1424, "y": 0.3653, "w": 0.7693, "h": 0.5148, "ar": 0.8367}, "mumu_car_tongue_out": {"x": 0.0247, "y": 0.1482, "w": 0.7318, "h": 0.6918, "ar": 0.75}, "mumu_green_toy": {"x": 0.1235, "y": 0.1951, "w": 0.676, "h": 0.7802, "ar": 0.7508}, "mumu_lake_walk": {"x": 0.3094, "y": 0.2852, "w": 0.3631, "h": 0.6178, "ar": 1.0}, "mumu_leather_chair": {"x": 0.0752, "y": 0.2986, "w": 0.7266, "h": 0.5629, "ar": 0.75}, "mumu_party_hat": {"x": 0.1216, "y": 0.1957, "w": 0.6208, "h": 0.679, "ar": 0.7992}, "mumu_pink_jacket_bed": {"x": 0.4073, "y": 0.3117, "w": 0.401, "h": 0.2984, "ar": 0.75}, "mumu_red_pillow": {"x": 0.125, "y": 0.168, "w": 0.8021, "h": 0.5273, "ar": 0.75}, "mumu_stroller_hat": {"x": 0.191, "y": 0.3995, "w": 0.7013, "h": 0.4017, "ar": 0.75}, "mumu_white_table": {"x": 0.0434, "y": 0.2727, "w": 0.6059, "h": 0.2789, "ar": 0.45}, "mumu_window_nap": {"x": -0.0067, "y": 0.4415, "w": 1.0255, "h": 0.2279, "ar": 0.45}, "orange_cat_lying_relaxed": {"x": -0.0486, "y": 0.3794, "w": 1.0682, "h": 0.4095, "ar": 0.75}};
+const GOLDITO = [["g_heart", "Heart"], ["g_star", "Star"], ["g_sun", "Sun"], ["g_paw", "Paw"], ["g_bone", "Bone"], ["g_ball", "Ball"], ["g_zzz", "Sleepy"], ["g_best_day", "Best day!"]];
+const PETS = {
+  max: { name: "Max", face: "mumu_white_table", emoji: "🐶",
+    photos: [
+      { n: "mumu_white_table", t: "8:12", c: "meal", day: 0 }, { n: "mumu_lake_walk", t: "9:40", c: "walk", day: 0 }, { n: "mumu_green_toy", t: "10:40", c: "mood", day: 0 },
+      { n: "mumu_window_nap", t: "1:15", c: "nap", day: 0 },
+      { n: "mumu_red_pillow", t: "9:10", c: "nap", day: 1 }, { n: "mumu_blossom_basket", t: "11:20", c: "walk", day: 1 }, { n: "mumu_car_tongue_out", t: "2:40", c: "mood", day: 1 }, { n: "mumu_leather_chair", t: "6:15", c: "none", day: 1 }],
+    note: "Max finished every bit of breakfast and asked for more.", noteAt: "9:02 AM",
+    page: "Max ate every bite, took his skin pill in a treat, and we walked 20 minutes by the lake. He spotted a squirrel and got so excited!", pageAt: "6:04 PM", pagePic: "mumu_lake_walk", pageShared: true,
+    updates: [["nap", "Long nap", "On his favourite blanket", "1:15", "#FBEFC8"], ["pill", "Skin pill", "In a treat · photo", "11:58", "#FAD6CB"], ["walk", "Walk · 20 min", "All good, one squirrel", "9:40", "#D8F3DC"], ["meal", "Breakfast", "Finished the bowl", "8:12", "#FDE2CC"]],
+    pages: [["Sat, Oct 24", "mumu_lake_walk"], ["Fri, Oct 23", "mumu_blossom_basket", "Max sniffed every blossom in the park, rode home with his tongue out, and slept on the red pillow."]] },
+  mochi: { name: "Mochi", face: "orange_cat_lying_relaxed", emoji: "🐱",
+    photos: [
+      { n: "orange_cat_lying_relaxed", t: "11:00", c: "nap", day: 0 }],
+    note: "Mochi watched birds all morning, then napped in the sun.", noteAt: "11:04 AM",
+    page: "Mochi watched the birds for an hour and purred through her afternoon nap. Dinner at 6, every bite.", pageAt: "6:20 PM", pagePic: "orange_cat_lying_relaxed", pageShared: false,
+    updates: [["nap", "Sunny nap", "By the window", "11:00", "#FBEFC8"], ["meal", "Breakfast", "Half a can, wet food", "8:30", "#FDE2CC"]],
+    pages: [["Sat, Oct 24", "orange_cat_lying_relaxed"]] },
+};
+// The stay's days for the Diary's day strip (Oct 22 to 26); today is Sat 24.
+const STAY = [["Thu", "22"], ["Fri", "23"], ["Sat", "24"], ["Sun", "25"], ["Mon", "26"]], TODAY = "24";
+const pageIdx = (k, d) => PETS[k].pages.findIndex((x) => x[0].endsWith(`Oct ${d}`));
+const DAYS = ["Today · Sat Oct 24", "Yesterday · Fri Oct 23"];
+// The same filters as the app's Feed (#346, Figma 1730:104035), for owner and sitter alike.
+const CATS = [["all", "All", "all"], ["meal", "Meals", "meal"], ["walk", "Walks", "walk"], ["nap", "Naps", "nap"], ["mood", "Mood", "smile"], ["potty", "Potty", "potty"], ["none", "No tag", "tag"]];
+const TAG_ICON = { meal: "meal", walk: "walk", nap: "nap", mood: "smile", potty: "potty", none: "tag" };
+// Panel: version, view to open on, pet picker, pets on the booking, Mochi's sitter, the tab's name.
+let V = "new", OPEN = "photos", PICK = "chip", NPETS = 2, SITTER2 = "Chloe", LABEL = "Feed";
+// The pet's sticker box (owner and sitter share it) and today's page decorations (each person's own layer, both see both).
+const STK = { max: [{ src: "mumu_party_hat", by: "Chloe" }], mochi: [] };
+const DECOR = { max: [{ id: 1, src: "g_best_day", x: 0.84, y: 0.44, s: 0.24, r: -8, by: "sitter" }], mochi: [] };
+let nextId = 2;
+const blank = () => ({ date: TODAY, tab: "photos", pet: "all", cat: "all", book: false, page: 0, re: {}, view: null, lifted: false, deco: false, sel: null, tray: "pet", sheet: false, asked: false });
+const st = { owner: { ...blank(), share: false }, sitter: { ...blank(), share: true } };
+const ADDS = { max: ["mumu_party_hat", "mumu_stroller_hat", "mumu_pink_jacket_bed"], mochi: ["orange_cat_lying_relaxed"] };
+const OTHER_ROLE = { owner: "sitter", sitter: "owner" };
+const R = { owner: { name: "Robert", role: "Owner", init: "R", badge: 6 }, sitter: { name: "Chloe", role: "Sitter", init: "C", badge: 7 } };
+const WHAT = { now: "Today's app on main (#340): four control rows above the photos; Diary opens on book covers; stickers live in Snap.", new: "The proposal: View tabs, all pets first with a filter chip to narrow, the day first, and a sticker from any photo." };
+
+const sitterOf = (k) => (k === "mochi" ? SITTER2 : "Chloe");
+// Robert's pets on this booking; Chloe sees only the pets she is sitting.
+const petsOf = (role) => (NPETS === 1 ? ["max"] : ["max", "mochi"]).filter((k) => role === "owner" || sitterOf(k) === "Chloe");
+const many = (role) => petsOf(role).length > 1;
+const keysOf = (role, s) => (s.pet === "all" ? petsOf(role) : [s.pet]);
+const one = (role, s) => (s.pet === "all" ? petsOf(role)[0] : s.pet);
+const otherOf = (role, k) => (role === "owner" ? sitterOf(k) : "Robert");
+const shareTo = (role, keys) => (role === "sitter" ? ["Robert"] : [...new Set(keys.map(sitterOf))]);
+const names = (list) => (list.length < 2 ? list[0] : `${list.slice(0, -1).join(", ")} and ${list[list.length - 1]}`);
+const mins = (t) => { const [h, m] = t.split(":").map(Number); return (h < 7 ? h + 12 : h) * 60 + m; };
+const faces = (keys) => `<span class="stack">${keys.map((k) => `<img src="${IMG(PETS[k].face)}" alt="">`).join("")}</span>`;
+
+function tabbar() {
+  return `<nav class="tabs" aria-label="Tabs">${[["home", "Home"], ["cal", "Bookings"], ["chats", "Chat"], ["img", LABEL], ["cam", "Snap"]].map(([i, l]) => `<span class="${l === LABEL ? "on" : ""}" ${l === "Snap" && V === "new" ? 'data-paw="snap" data-a="hint" data-msg="Snap opens Treat check, Mood and Sticker. Press and hold it for the shortcuts" role="button" tabindex="0" aria-label="Snap. Press and hold for Treat check, Mood and Sticker"' : ""}><i>${ic(i)}</i>${l}</span>`).join("")}</nav>`;
+}
+function head(role) {
+  const r = R[role];
+  return `<div class="sb"><span>6:30</span><span>●●● ▭</span></div><div class="hd"><span class="tt"><b>${V === "now" ? "Feed" : LABEL}</b><small>${r.name} · ${r.role}</small></span>
+    <span class="rt"><button class="ib" type="button" data-a="hint" aria-label="Notifications, ${r.badge} new">${ic("bell")}<span class="ct">${r.badge}</span></button><button class="ib" type="button" data-a="hint" aria-label="${r.name}, menu"><span class="avr"><span class="av">${r.init}</span></span></button></span></div>`;
+}
+const NOW_STICKER = "In today's app, stickers are made in Snap › Sticker, not from a Feed photo";
+
+/* ---------- today's app (main) ---------- */
+function nowOwner(s, pet) {
+  const P = PETS[pet], pets = petsOf("owner");
+  if (s.tab === "photos") return `
+    <div class="pills"><button type="button" class="on" data-a="tab" data-v="photos">Photos</button><button type="button" data-a="tab" data-v="diary">Diary</button></div>
+    ${pets.length > 1 ? `<div class="pills">${pets.map((k) => `<button type="button" class="${pet === k ? "on" : ""}" data-a="pet" data-v="${k}">${PETS[k].name}</button>`).join("")}</div>` : ""}
+    <button type="button" class="wide" data-a="ask">${s.asked ? "Requested · waiting for a photo" : "📷 Request photo"}</button>
+    <div class="pills"><button type="button" class="on" data-a="hint">Timeline</button><button type="button" data-a="hint">Album</button></div>
+    <div class="grid">${P.photos.map((p) => `<img src="${IMG(p.n)}" alt="" loading="lazy" data-a="hint" data-msg="${NOW_STICKER}">`).join("")}</div>`;
+  if (!s.book) return `
+    <div class="pills"><button type="button" data-a="tab" data-v="photos">Photos</button><button type="button" class="on" data-a="tab" data-v="diary">Diary</button></div>
+    <button type="button" class="wide" data-a="hint">Write a page</button>
+    <div class="covers">${pets.map((k) => `<button type="button" class="cover" data-a="cover" data-v="${k}"><span class="e">${PETS[k].emoji}</span><span>${PETS[k].name}'s diary<br><small>${PETS[k].pages.length} page${PETS[k].pages.length > 1 ? "s" : ""}</small></span></button>`).join("")}</div>`;
+  return `
+    <div class="pills"><button type="button" data-a="tab" data-v="photos">Photos</button><button type="button" class="on" data-a="tab" data-v="diary">Diary</button></div>
+    <button type="button" class="wide" data-a="hint">Write a page</button>
+    <button type="button" class="link" data-a="covers">‹ Diaries</button>
+    ${bookNav(s, pet)}
+    <div class="page"><div class="top"><span>${P.pages[s.page][0]}</span><b>${P.name}'s day</b></div><div class="pic" style="display:grid;place-items:center;font-size:40px">🖍️</div><div class="hand">${P.page}</div></div>`;
+}
+function nowSitter(s, pet) {
+  const pets = petsOf("sitter");
+  if (s.tab === "photos") return `
+    <div class="pills"><button type="button" class="on" data-a="tab" data-v="photos">Photos</button><button type="button" data-a="tab" data-v="diary">Diary</button></div>
+    <p style="font-size:13px;color:#6B5D4A">Tap a pet to share photos.</p>
+    ${pets.map((k) => `<button type="button" class="wide" style="text-align:left;padding:10px 16px;border-radius:18px;font-weight:600" data-a="hint">${PETS[k].emoji} ${PETS[k].name}<br><small style="color:#6B5D4A;font-weight:500">With Robert · + Photo</small></button>`).join("")}`;
+  return `
+    <div class="pills"><button type="button" data-a="tab" data-v="photos">Photos</button><button type="button" class="on" data-a="tab" data-v="diary">Diary</button></div>
+    <div class="pills"><button type="button" class="on" data-a="hint">Today</button><button type="button" data-a="hint">Diary book</button></div>
+    ${pets.length > 1 ? `<div class="pills">${pets.map((k) => `<button type="button" class="${pet === k ? "on" : ""}" data-a="pet" data-v="${k}">${PETS[k].name}</button>`).join("")}</div>` : ""}
+    <div class="page"><b style="font-size:16px">${PETS[pet].name}</b><small style="color:#6B5D4A">Write ${PETS[pet].name}'s day on the page, or let Goldito write it from today's chips below.</small><div class="pic" style="display:grid;place-items:center;font-size:40px">🖍️</div><div class="hand" style="color:#6B5D4A">Dear diary, today…</div></div>`;
+}
+
+/* ---------- the proposal ---------- */
+function viewTabs(role, s) {
+  const all = s.pet === "all";
+  const sw = PICK === "switch" && many(role)
+    ? `<button type="button" class="sw" data-comp="Pet switcher" data-variant="Showing=${all ? "All pets" : "One pet"}" data-a="sheet" aria-haspopup="dialog" aria-label="Showing ${all ? "all pets" : PETS[s.pet].name}. Change">${all ? faces(petsOf(role)) : faces([s.pet])}${all ? "All pets" : PETS[s.pet].name}<span class="cv">${ic("fwd")}</span></button>` : "";
+  return `<div class="vt"><div class="vtt" role="tablist" data-comp="View tabs" data-variant="Active=${s.tab === "photos" ? "Photos" : "Diary"}">${[["photos", "Photos"], ["diary", "Diary"]].map(([v, l]) => `<button type="button" role="tab" aria-selected="${s.tab === v}" data-a="tab" data-v="${v}">${l}</button>`).join("")}</div>${sw}</div>`;
+}
+// The pet picker as the first filter chip: All pets ▾ (or the pet), opening the same sheet.
+function petChip(role, s) {
+  if (PICK !== "chip" || !many(role)) return "";
+  const all = s.pet === "all";
+  return `<button type="button" class="chip petc" data-comp="Pet filter chip" data-variant="Showing=${all ? "All pets" : "One pet"}" data-a="sheet" aria-haspopup="dialog" aria-pressed="${!all}" aria-label="Showing ${all ? "all pets" : PETS[s.pet].name}. Change">${faces(all ? petsOf(role) : [s.pet])}${all ? "All pets" : PETS[s.pet].name}<span class="cv">${ic("fwd")}</span></button><span class="sep" aria-hidden="true"></span>`;
+}
+function askLink(role, s, cls = "ask") {
+  const who = [...new Set(keysOf(role, s).map(sitterOf))], short = cls.includes("inl");
+  const label = s.asked ? (short ? "Asked ✓" : `Asked ${who.length > 1 ? "your sitters" : who[0]} ✓`) : short ? "Ask for one" : who.length > 1 ? "Ask for a photo" : `Ask ${who[0]} for a photo`;
+  return `<button type="button" class="${cls}" data-a="ask" aria-label="${s.asked ? "Photo asked for" : `Ask ${names(who)} for a photo`}" ${s.asked ? "disabled" : ""}>${label}</button>`;
+}
+const ownLink = (cls) => `<button type="button" class="${cls}" data-a="hint" data-msg="Writing your own page opens the page editor in the app">Write your own page</button>`;
+function petRow(role, s) {
+  if (PICK !== "avatars") return "";
+  const extra = role === "owner" ? (s.tab === "photos" ? askLink(role, s) : ownLink("ask")) : "";
+  if (!many(role) && !extra) return "";
+  const tiles = many(role) ? [["all", "All", faces(petsOf(role))], ...petsOf(role).map((k) => [k, PETS[k].name, `<img src="${IMG(PETS[k].face)}" alt="">`])] : [];
+  return `<div class="pets">${tiles.map(([k, l, f]) => `<button type="button" class="pet${k === "all" ? " allp" : ""}" aria-pressed="${s.pet === k}" data-a="pet" data-v="${k}">${f}${l}</button>`).join("")}${extra}</div>`;
+}
+function photosNew(role, s) {
+  const keys = keysOf(role, s), all = keys.length > 1;
+  const pool = keys.flatMap((k) => PETS[k].photos.map((p) => ({ ...p, pet: k }))).filter((p) => !p.by || p.by === role || p.shared).sort((a, b) => a.day - b.day || mins(b.t) - mins(a.t));
+  const show = pool.filter((p) => s.cat === "all" || p.c === s.cat);
+  const badge = (p) => (all ? `<img class="pf" src="${IMG(PETS[p.pet].face)}" alt="">` : "") + (p.newFor === role ? '<span class="nw">New</span>' : "") + (p.by === role && !p.shared ? `<span class="lk2" aria-label="Only you">${ic("lock")}</span>` : "");
+  const lab = (p) => `Open ${PETS[p.pet].name}'s photo at ${p.t}`;
+  let out = `<div class="chips" role="group" aria-label="Show">${petChip(role, s)}${CATS.map(([v, l, i]) => `<button type="button" class="chip" aria-pressed="${s.cat === v}" data-a="cat" data-v="${v}">${ic(i)}${l}</button>`).join("")}</div>`;
+  [0, 1].forEach((d) => {
+    const ps = show.filter((p) => p.day === d);
+    if (!ps.length) return;
+    const ask = d === 0 && role === "owner" && PICK !== "avatars" ? ` · ${askLink(role, s, "link inl")}` : "";
+    out += `<div class="day"><b>${DAYS[d]}</b><small>${ps.length} photo${ps.length > 1 ? "s" : ""}${ask}</small></div>`;
+    const top = ps.slice(0, 3), rest = ps.slice(3);
+    out += `<div class="mosaic${top.length < 3 ? " one" : ""}">${top.map((p) => `<button type="button" class="m" data-a="open" data-paw="photo" data-v="${p.id || p.n}" aria-label="${lab(p)}"><img src="${IMG(p.n)}" alt="">${badge(p)}<span class="tb">${ic(TAG_ICON[p.c])}${p.t}</span></button>`).join("")}</div>`;
+    if (rest.length) out += `<div class="small n${Math.min(rest.length, 3)}">${rest.map((p) => `<button type="button" data-a="open" data-paw="photo" data-v="${p.id || p.n}" aria-label="${lab(p)}"><img src="${IMG(p.n)}" alt="">${badge(p)}</button>`).join("")}</div>`;
+    if (d === 0 && role === "owner" && s.cat === "all") out += keys.map((k) => noteCard(k, s)).join("");
+  });
+  if (!show.length) out += `<div class="empty">${s.cat === "none" ? "Every photo has a tag" : `No ${CATS.find((c) => c[0] === s.cat)[1].toLowerCase()} photos yet`}${role === "owner" ? ` · ${askLink(role, s, "link")}` : ""}</div>`;
+  return out;
+}
+function noteCard(k, s) {
+  const P = PETS[k], r = s.re[k] || {}, by = sitterOf(k);
+  return `<div class="note"><div class="by"><span class="av">${by[0]}</span><span><b>${by}</b>Sitter · ${P.name} · ${P.noteAt}</span></div><p>${P.note}</p>
+    <div class="re"><button type="button" aria-pressed="${!!r.happy}" data-a="re" data-v="happy" data-pet="${k}">${ic("smile")}Happy</button><button type="button" class="love" aria-pressed="${!!r.love}" data-a="re" data-v="love" data-pet="${k}">${ic(r.love ? "heart-on" : "heart")}Love it</button></div></div>`;
+}
+function bookNav(s, pet) {
+  const P = PETS[pet];
+  return `<div class="book"><button type="button" aria-label="Older page" data-a="pg" data-v="1" ${s.page >= P.pages.length - 1 ? "disabled" : ""}>${ic("back")}</button><span>${P.name} · ${P.pages[s.page][0].split(", ")[1]}<small>Page ${P.pages.length - s.page} of ${P.pages.length}</small></span><button type="button" aria-label="Newer page" data-a="pg" data-v="-1" ${s.page === 0 ? "disabled" : ""}>${ic("fwd")}</button></div>`;
+}
+// The stickers on today's page: everyone's, but only mine move, and only while I decorate this page.
+function layer(pet, role, s) {
+  const live = s.deco === pet;
+  return `<div class="lay" data-pet="${pet}">${DECOR[pet].map((d) => {
+    const on = live && d.by === role, theirs = live && d.by !== role;
+    return `<img class="stk${on ? " mine" : ""}${on && s.sel === d.id ? " sel" : ""}${theirs ? " theirs" : ""}" ${theirs ? `data-a="hint" data-msg="${R[d.by].name} added this sticker. Only ${R[d.by].name} can move it" ` : ""}data-id="${d.id}" src="${STK_SRC(d.src)}" alt="" draggable="false" style="left:${d.x * 100}%;top:${d.y * 100}%;width:${d.s * 100}%;transform:translate(-50%,-50%) rotate(${d.r}deg)">`;
+  }).join("")}</div>`;
+}
+const bookPage = (pet, s, role) => { const P = PETS[pet]; return `<div class="page"><div class="top"><span>${P.pages[s.page][0]}</span><b>${P.name}'s day</b></div><div class="pic"><img src="${IMG(P.pages[s.page][1])}" alt=""></div><div class="hand">${P.pages[s.page][2] || P.page}</div>${s.page === 0 ? layer(pet, role, s) : ""}</div>`; };
+const decoTip = (role, k) => `<p class="tipd">Your stickers move; ${otherOf(role, k)}'s stay put. Both of you see both.</p>`;
+function todayPage(role, s, k) {
+  const P = PETS[k], r = s.re[k] || {}, deco = s.deco === k;
+  const top = role === "owner"
+    ? `<span><b class="pt">${P.name}'s day</b><br>From ${sitterOf(k)} · Sent ${P.pageAt}</span><button type="button" class="ib" style="color:${r.love ? "#B42318" : "#6B5D4A"}" aria-pressed="${!!r.love}" aria-label="Love it" data-a="re" data-v="love" data-pet="${k}">${ic(r.love ? "heart-on" : "heart")}</button>`
+    : `<span><b class="pt">${P.name}'s day</b><br>${P.pageShared ? `Shared with Robert · ${P.pageAt}` : "Only you · not shared"}</span>${P.pageShared ? "" : `<span class="lk2 pin" aria-hidden="true">${ic("lock")}</span>`}`;
+  const under = deco ? decoTip(role, k) : role === "owner"
+    ? `<button type="button" class="wide" data-a="deco" data-v="${k}">Decorate ${keysOf(role, s).length > 1 ? `${P.name}'s page` : ""}</button>`
+    : `${shareSwitch(role, P.pageShared, [k], "pageshare", k, { on: "Shared with Robert", onSub: "Robert can read and react", offSub: "Keep it for yourself, or share any time" })}
+      <div class="duo"><button type="button" class="wide" data-a="deco" data-v="${k}">Decorate</button><button type="button" class="wide" data-a="hint">Edit the page</button></div>`;
+  return `<div class="page${deco ? " deco" : ""}"><div class="top">${top}</div><div class="pic"><img src="${IMG(P.pagePic)}" alt=""></div><div class="hand">${P.page}</div>${layer(k, role, s)}</div>${under}`;
+}
+function dayStrip(role, s) {
+  const keys = keysOf(role, s);
+  // Newest first, like the photos; days still to come can't have pages, so they aren't listed.
+  return STAY.filter(([, d]) => Number(d) <= Number(TODAY)).reverse().map(([w, d]) => {
+    const future = false, has = keys.some((k) => pageIdx(k, d) >= 0 && (d !== TODAY || role === "sitter" || PETS[k].pageShared));
+    return `<button type="button" class="chip dchip" aria-pressed="${s.date === d}" data-a="date" data-v="${d}" ${future ? "disabled" : ""} aria-label="${w} Oct ${d}${d === TODAY ? ", today" : ""}${has ? ", has pages" : future ? ", still to come" : ", no pages"}">${d === TODAY ? "Today" : `${w} ${d}`}${has ? '<span class="dot" aria-hidden="true"></span>' : ""}</button>`;
+  }).join("");
+}
+function diaryNew(role, s) {
+  if (s.book) return `<button type="button" class="link" data-a="unbook">‹ Today</button>${bookNav(s, s.pet)}${bookPage(s.pet, s, role)}`;
+  const row = s.deco ? "" : `<div class="chips" role="group" aria-label="Pet and day">${petChip(role, s)}${dayStrip(role, s)}</div>`;
+  if (s.date !== TODAY) {
+    const ks = keysOf(role, s).filter((k) => pageIdx(k, s.date) >= 0);
+    const [w] = STAY.find((x) => x[1] === s.date);
+    return row + (ks.length ? ks.map((k) => bookPage(k, { ...s, page: pageIdx(k, s.date) }, role)).join("") : `<div class="empty">No pages on ${w}, Oct ${s.date}.</div>`);
+  }
+  const keys = (s.deco ? [s.deco] : keysOf(role, s)).filter((k) => role === "sitter" || PETS[k].pageShared), all = keys.length > 1;
+  if (!keys.length) return row + `<div class="empty">No page from ${names([...new Set(keysOf(role, s).map(sitterOf))])} yet today. Pages show up here when they're shared.</div>`;
+  let out = row;
+  out += keys.map((k) => todayPage(role, s, k)).join("");
+  if (s.deco) return out;
+  const ups = keys.flatMap((k) => PETS[k].updates.map((u) => [...u, k])).sort((a, b) => mins(b[3]) - mins(a[3]));
+  if (role === "owner") out += `<div class="day"><b>Today</b><small>${ups.length} updates</small></div>
+    <div class="tl">${ups.map(([i, l, d, t, bg, k]) => `<div class="it"><span class="ic" style="background:${bg}">${ic(i)}</span><span><b>${l}</b><small>${all ? `${PETS[k].name} · ` : ""}${d}</small></span><span class="tm">${t}</span></div>`).join("")}</div>`;
+  out += `<div class="links">${keys.map((k) => `<button type="button" class="link" data-a="book" data-v="${k}">${role === "owner" ? `All of ${PETS[k].name}'s pages` : `${PETS[k].name}'s past pages`} (${PETS[k].pages.length}) ›</button>`).join("")}${role === "owner" && PICK !== "avatars" ? ownLink("link") : ""}</div>`;
+  return out;
+}
+/* ---------- sharing: a switch that says who sees new photos ---------- */
+function shareSwitch(role, on, keys, act = "addshare", v = "", words = {}) {
+  const who = names(shareTo(role, keys));
+  return `<button type="button" class="share${on ? " on" : ""}" role="switch" aria-checked="${on}" data-a="${act}" data-v="${v}" data-comp="Share switch" data-variant="On=${on ? "Yes" : "No"}">
+    <span class="sic">${on ? `<span class="av">${who[0]}</span>` : ic("lock")}</span>
+    <span class="stx"><b>${on ? (words.on || `Share with ${who}`) : "Only you"}</b><small>${on ? (words.onSub || `${who} sees it right away`) : (words.offSub || "Stays private, you can share later")}</small></span>
+    <span class="knob" aria-hidden="true"></span></button>`;
+}
+function sharePill(role, s) {
+  const who = names(shareTo(role, keysOf(role, s)));
+  return `<button type="button" class="soft sharep${s.share ? " on" : ""}" role="switch" aria-checked="${!!s.share}" aria-label="New photos: ${s.share ? `shared with ${who}` : "only you"}" data-a="share" data-comp="Share pill" data-variant="On=${s.share ? "Yes" : "No"}">${s.share ? `<span class="av">${who[0]}</span>Shares with ${who}` : `${ic("lock")}Only you`}</button>`;
+}
+function addSheet(role, s) {
+  const a = s.add, pets = petsOf(role);
+  const tags = CATS.filter((c) => !["all", "none"].includes(c[0]));
+  return `<div class="scrim" data-a="unadd"></div><div class="sheet add" role="dialog" aria-label="Add a photo"><b>Add a photo</b>
+    <div class="picks">${ADDS[a.pet].map((n) => `<button type="button" class="pk2" aria-pressed="${a.n === n}" data-a="addpick" data-v="${n}" aria-label="Pick this photo"><img src="${IMG(n)}" alt=""></button>`).join("")}</div>
+    ${pets.length > 1 ? `<div class="arow"><span class="lbl">Pet</span>${pets.map((k) => `<button type="button" class="chip" aria-pressed="${a.pet === k}" data-a="addpet" data-v="${k}"><img class="cf" src="${IMG(PETS[k].face)}" alt="">${PETS[k].name}</button>`).join("")}</div>` : ""}
+    <div class="arow"><span class="lbl">Tag (optional)</span>${tags.map(([v, l, i]) => `<button type="button" class="chip" aria-pressed="${a.c === v}" data-a="addtag" data-v="${v}">${ic(i)}${l}</button>`).join("")}</div>
+    ${shareSwitch(role, a.share, [a.pet])}
+    <button type="button" class="wide go2" data-a="addsave">${a.share ? `Save and share with ${names(shareTo(role, [a.pet]))}` : "Save, only you"}</button></div>`;
+}
+/* ---------- a photo, opened: make a sticker ---------- */
+function viewer(role, s) {
+  const p = s.view, P = PETS[p.pet], c = CUT[p.n], have = STK[p.pet].some((k) => k.src === p.n);
+  const acts = !s.lifted
+    ? `<button type="button" class="bp" data-a="lift">Make a sticker</button><p class="hw">Or press and hold ${P.name}</p>`
+    : `<button type="button" class="bp" data-a="keep" ${have ? "disabled" : ""}>${have ? `In ${P.name}'s stickers ✓` : `Save to ${P.name}'s stickers`}</button><button type="button" class="bs" data-a="place">Put it on ${P.name}'s page today</button>`;
+  return `<div class="pv${s.lifted ? " lifted" : ""}" role="dialog" aria-label="Photo of ${P.name} at ${p.t}">
+    <div class="pvt"><button type="button" class="ib" data-a="close" aria-label="Back">${ic("back")}</button><b>${P.name} · ${p.t}</b></div>
+    <div class="pvs"><div class="fr" style="--ar:${c.ar}" data-press="1"><img class="p0" src="${IMG(p.n)}" alt="${P.name} at ${p.t}" draggable="false"><img class="cut" src="${STK_SRC(p.n)}" alt="" draggable="false" style="left:${c.x * 100}%;top:${c.y * 100}%;width:${c.w * 100}%;height:${c.h * 100}%"></div></div>
+    <div class="pva">${acts}</div></div>`;
+}
+function tray(role, s) {
+  const k = s.deco, P = PETS[k], mine = STK[k];
+  const list = s.tray === "pet" ? mine.map((x) => [x.src, `${P.name} sticker`]) : GOLDITO;
+  const sel = DECOR[k].find((d) => d.id === s.sel);
+  const tools = sel ? `<div class="tools">${[["smaller", "Smaller"], ["bigger", "Bigger"], ["turn", "Turn"], ["remove", "Remove"]].map(([v, l]) => `<button type="button" data-a="tool" data-v="${v}">${l}</button>`).join("")}</div>`
+    : `<p class="tip">Tap a sticker to add it, then drag it on the page.</p>`;
+  return `<div class="tray" role="region" aria-label="Stickers" data-comp="Sticker tray" data-variant="Tab=${s.tray === "pet" ? "Pet" : "Goldito"}">
+    <div class="trh"><div class="trt" role="tablist">${[["pet", `${P.name}'s (${mine.length})`], ["gold", "Goldito"]].map(([v, l]) => `<button type="button" role="tab" aria-selected="${s.tray === v}" data-a="trtab" data-v="${v}">${l}</button>`).join("")}</div><button type="button" class="done" data-a="decodone">Done</button></div>
+    <div class="tiles">${list.length ? list.map(([n, l]) => `<button type="button" class="tile" data-a="add" data-v="${n}" aria-label="Add: ${l}"><img src="${STK_SRC(n)}" alt=""></button>`).join("") : `<p class="tip">No stickers of ${P.name} yet. Open a photo and tap Make a sticker.</p>`}</div>
+    ${tools}</div>`;
+}
+function moodSheet(role, s) {
+  const m = s.mood, P = PETS[m.pet], seed = [...m.n].reduce((a, c) => a + c.charCodeAt(0), 0);
+  // Like the app's Mood: the photo's tag picks the lead feeling, a small rule spreads the rest.
+  const tag = (PETS[m.pet].photos.find((x) => x.n === m.n) || {}).c, lead = { nap: "Sleepy", walk: "Curious", meal: "Happy", mood: "Happy" }[tag] || "Calm";
+  const raw = [["Happy", "smile"], ["Curious", "paw"], ["Calm", "heart"], ["Sleepy", "nap"]].map(([l, i], k) => [l, i, l === lead ? 140 + (seed % 40) : ((seed * (k + 3)) % 30) + 12]);
+  const sum = raw.reduce((a, r) => a + r[2], 0), rows = raw.map(([l, i, v]) => [l, i, Math.round((v / sum) * 100)]).sort((a, b) => b[2] - a[2]);
+  return `<div class="scrim" data-a="unmood"></div><div class="sheet" role="dialog" aria-label="How ${P.name} seems"><b>How ${P.name} seems</b>
+    <div class="moodr"><img src="${IMG(m.n)}" alt=""><div class="bars">${rows.map(([l, i, v]) => `<div class="mbar">${ic(i)}<span>${l}</span><i><b style="width:${v}%"></b></i><span>${v}%</span></div>`).join("")}</div></div>
+    <small class="tipd">Just for fun. Goldito tags the photo; a rule table makes the numbers.</small>
+    <button type="button" class="wide go2" data-a="unmood">Done</button></div>`;
+}
+function sheet(role, s) {
+  const rows = [["all", "All pets", role === "owner" ? `Everything from ${names([...new Set(petsOf(role).map(sitterOf))])}` : "Everyone in your care", faces(petsOf(role))],
+    ...petsOf(role).map((k) => [k, PETS[k].name, role === "owner" ? `With ${sitterOf(k)} until Mon, Oct 26` : "Robert's · until Mon, Oct 26", `<img src="${IMG(PETS[k].face)}" alt="">`])];
+  return `<div class="scrim" data-a="unsheet"></div><div class="sheet" role="dialog" aria-label="Choose whose ${s.tab === "photos" ? "photos" : "diary"}"><b>Whose ${s.tab === "photos" ? "photos" : "diary"}?</b>${rows.map(([k, l, sub, f]) => `<button type="button" class="prow${k === "all" ? " allp" : ""}" aria-pressed="${s.pet === k}" data-a="pet" data-v="${k}">${f}<span><b>${l}</b><small>${sub}</small></span>${s.pet === k ? ic("check") : ""}</button>`).join("")}</div>`;
+}
+function phone(el) {
+  const role = el.dataset.role, s = st[role];
+  if (s.pet !== "all" && !petsOf(role).includes(s.pet)) s.pet = "all";
+  if (s.pet === "all" && !many(role)) s.pet = petsOf(role)[0];
+  let body;
+  if (V === "now") body = role === "owner" ? nowOwner(s, one(role, s)) : nowSitter(s, one(role, s));
+  else body = `${viewTabs(role, s)}${petRow(role, s)}${s.tab === "photos" ? photosNew(role, s) : diaryNew(role, s)}`;
+  const deco = V === "new" && s.tab === "diary" && s.deco && !s.book;
+  const fab = s.tab === "photos" && (V === "new" || role === "owner")
+    ? `<div class="fab">${V === "new" ? sharePill(role, s) : role === "owner" ? `<button type="button" class="soft" data-a="hint">Only you</button>` : `<button type="button" class="soft" data-a="hint">✓ Share with Robert</button>`}<button type="button" class="go" data-a="${V === "new" ? "addphoto" : "hint"}" ${V === "new" ? 'data-paw="add"' : ""}>+ Photo</button></div>` : "";
+  const over = V === "new" ? (s.view ? viewer(role, s) : "") + (s.sheet ? sheet(role, s) : "") + (s.add ? addSheet(role, s) : "") + (s.mood ? moodSheet(role, s) : "") : "";
+  // A redraw of the same screen keeps where you were scrolled (down the page and along the chip rows).
+  const key = [V, s.tab, s.pet, s.book, s.page, s.cat, s.date, s.deco, PICK, NPETS, SITTER2].join("|"), same = el._key === key;
+  // The chip row keeps its place on a filter change too, so the chip you picked stays in view.
+  const rowKey = [V, s.tab, s.pet, PICK, NPETS, SITTER2].join("|"), sameRow = el._rowKey === rowKey;
+  const top = same ? el.querySelector(".bd")?.scrollTop || 0 : 0, lefts = sameRow ? [...el.querySelectorAll(".bd .chips")].map((c) => c.scrollLeft) : [];
+  el._key = key; el._rowKey = rowKey;
+  el.innerHTML = `${head(role)}<div class="bd${deco ? " deco" : ""}">${body}</div>${fab}${deco ? tray(role, s) : ""}${tabbar()}${over}<div class="toast" role="status"></div>`;
+  if (same) el.querySelector(".bd").scrollTop = top;
+  if (sameRow) el.querySelectorAll(".bd .chips").forEach((c, i) => { c.scrollLeft = lefts[i] || 0; });
+  el.querySelectorAll(".chips").forEach(edges);
+}
+const pressed = (sel, on) => document.querySelectorAll(sel).forEach((b) => { const v = on(b); b.setAttribute("aria-pressed", v); b.setAttribute("aria-checked", v); });
+function render() {
+  pressed(".pick [data-v]", (b) => b.dataset.v === V);
+  pressed("[data-o]", (b) => b.dataset.o === OPEN);
+  pressed("[data-p]", (b) => b.dataset.p === PICK);
+  pressed("[data-n]", (b) => Number(b.dataset.n) === NPETS);
+  pressed("[data-sit]", (b) => b.dataset.sit === SITTER2);
+  pressed("[data-l]", (b) => b.dataset.l === LABEL);
+  document.getElementById("what").textContent = WHAT[V];
+  document.querySelectorAll(".ph").forEach(phone);
+}
+function toast(el, msg) { const t = el.querySelector(".toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(el._tt); el._tt = setTimeout(() => t.classList.remove("on"), 2400); }
+// A reaction pops and sends a few little hearts (or smiles) up out of the button.
+function burst(el, btn, icon, color) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const r = btn.getBoundingClientRect(), pr = el.getBoundingClientRect();
+  [[-22, -46, -14], [0, -60, 0], [22, -48, 12], [-10, -34, -6], [12, -38, 8]].forEach(([dx, dy, rot], i) => {
+    const fx = document.createElement("span"); fx.className = "burst"; fx.innerHTML = ic(icon); fx.style.color = color;
+    fx.style.left = `${r.left - pr.left + r.width / 2 - 8}px`; fx.style.top = `${r.top - pr.top + r.height / 2 - 8}px`;
+    fx.style.setProperty("--dx", `${dx}px`); fx.style.setProperty("--dy", `${dy}px`); fx.style.setProperty("--rot", `${rot}deg`); fx.style.animationDelay = `${i * 40}ms`;
+    el.appendChild(fx); setTimeout(() => fx.remove(), 1100);
+  });
+}
+// Goldito's gold paw stamps the button when a photo is shared (skipped with Reduce motion).
+function stamp(el) {
+  const b = el.querySelector(".fab .go"); if (!b) return;
+  const fx = document.createElement("span"); fx.className = "stampfx"; fx.innerHTML = ic("paw");
+  const r = b.getBoundingClientRect(), pr = el.getBoundingClientRect();
+  fx.style.left = `${r.left - pr.left + r.width / 2 - 14}px`; fx.style.top = `${r.top - pr.top - 8}px`;
+  el.appendChild(fx); setTimeout(() => fx.remove(), 1000);
+}
+function keep(role, s) {
+  const { n, pet } = s.view;
+  if (!STK[pet].some((k) => k.src === n)) STK[pet].push({ src: n, by: R[role].name });
+  return n;
+}
+const findPhoto = (role, s, n) => { for (const k of keysOf(role, s)) { const p = PETS[k].photos.find((x) => (x.id || x.n) === n); if (p) { p.newFor = p.newFor === role ? null : p.newFor; return { ...p, pet: k }; } } return null; };
+document.querySelector(".phones").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-a]"); if (!b) return;
+  const ph = b.closest(".ph"), role = ph.dataset.role, s = st[role], a = b.dataset.a, v = b.dataset.v;
+  if (a === "tab") Object.assign(s, { tab: v, book: false, page: 0, deco: false, sel: null });
+  else if (a === "pet") { Object.assign(s, { pet: v, page: 0, sheet: false, deco: false, sel: null, book: V === "now" ? s.book : false }); if (V === "new" && s.cat !== "all" && !keysOf(role, s).some((k) => PETS[k].photos.some((p) => p.c === s.cat))) s.cat = "all"; }
+  else if (a === "cat") s.cat = v;
+  else if (a === "date") Object.assign(s, { date: v, deco: false, sel: null });
+  else if (a === "cover") Object.assign(s, { pet: v, book: true, page: 0 });
+  else if (a === "covers") s.book = false;
+  else if (a === "book") Object.assign(s, { back: s.pet, pet: v || s.pet, book: true, page: 0 });
+  else if (a === "unbook") Object.assign(s, { book: false, pet: s.back || s.pet });
+  else if (a === "pg") s.page = Math.max(0, Math.min(PETS[s.pet].pages.length - 1, s.page + Number(v)));
+  else if (a === "ask") { const who = [...new Set(keysOf(role, s).map(sitterOf))]; s.asked = true; render(); toast(ph, `Asked ${names(who)} for a photo`); return; }
+  else if (a === "re") {
+    const k = b.dataset.pet, r = (s.re[k] = s.re[k] || {}); r[v] = !r[v];
+    const inPage = !!b.closest(".page");
+    render();
+    const nb = ph.querySelector(`${inPage ? ".page" : ".note"} [data-a="re"][data-v="${v}"][data-pet="${k}"]`);
+    if (nb && r[v]) { nb.classList.add("pop"); burst(ph, nb, v === "love" ? "heart-on" : "smile", v === "love" ? "#B42318" : "#B7791F"); }
+    return;
+  }
+  else if (a === "share") { s.share = !s.share; render(); const who = names(shareTo(role, keysOf(role, s))); toast(ph, s.share ? `New photos go to ${who}` : "New photos stay with you"); return; }
+  else if (a === "pageshare") {
+    const P = PETS[v]; P.pageShared = !P.pageShared;
+    if (P.pageShared) R.owner.badge += 1;
+    render();
+    toast(ph, P.pageShared ? `${P.name}'s page is shared with Robert` : `${P.name}'s page is only yours again`);
+    if (P.pageShared) toast(document.querySelector('.ph[data-role="owner"]'), `Chloe shared ${P.name}'s page`);
+    return;
+  }
+  else if (a === "addphoto") { const pet = one(role, s); s.add = { pet, n: ADDS[pet][0], c: null, share: !!s.share }; }
+  else if (a === "unadd") s.add = null;
+  else if (a === "unmood") s.mood = null;
+  else if (a === "addpick") s.add.n = v;
+  else if (a === "addpet") Object.assign(s.add, { pet: v, n: ADDS[v][0] });
+  else if (a === "addtag") s.add.c = s.add.c === v ? null : v;
+  else if (a === "addshare") s.add.share = !s.add.share;
+  else if (a === "addsave") {
+    const x = s.add, other = OTHER_ROLE[role], who = shareTo(role, [x.pet]);
+    const reaches = x.share && (role === "sitter" || sitterOf(x.pet) === "Chloe");
+    PETS[x.pet].photos.push({ n: x.n, id: `${x.n}#${nextId++}`, t: "6:30", c: x.c || "none", day: 0, by: role, shared: x.share, newFor: reaches ? other : null });
+    Object.assign(s, { add: null, share: x.share, cat: "all", tab: "photos" });
+    if (reaches) R[other].badge += 1;
+    render();
+    toast(ph, x.share ? `Shared with ${names(who)}` : "Saved. Only you can see it");
+    if (x.share) stamp(ph);
+    if (reaches) toast(document.querySelector(`.ph[data-role="${other}"]`), `${R[role].name} shared a new photo of ${PETS[x.pet].name}`);
+    return;
+  }
+  else if (a === "sheet") Object.assign(s, { sheet: true, deco: false, sel: null });
+  else if (a === "unsheet") s.sheet = false;
+  else if (a === "open") { s.view = findPhoto(role, s, v); s.lifted = false; }
+  else if (a === "close") { s.view = null; s.lifted = false; }
+  else if (a === "lift") s.lifted = true;
+  else if (a === "keep") { const pet = s.view.pet; keep(role, s); render(); toast(ph, `Saved to ${PETS[pet].name}'s stickers · ${otherOf(role, pet)} can use it too`); return; }
+  else if (a === "place") {
+    const id = nextId++, pet = s.view.pet;
+    DECOR[pet].push({ id, src: keep(role, s), x: 0.5, y: 0.33, s: 0.4, r: 0, by: role });
+    Object.assign(s, { view: null, lifted: false, tab: "diary", book: false, deco: pet, sel: id, tray: "pet" });
+  }
+  else if (a === "deco") Object.assign(s, { deco: v, sel: null, tray: STK[v].length ? "pet" : "gold" });
+  else if (a === "decodone") { const k = s.deco; Object.assign(s, { deco: false, sel: null }); render(); toast(ph, `Saved · ${otherOf(role, k)} sees your stickers too`); return; }
+  else if (a === "trtab") s.tray = v;
+  else if (a === "add") { const id = nextId++; DECOR[s.deco].push({ id, src: v, x: 0.5, y: 0.3, s: v.startsWith("g_") ? 0.2 : 0.36, r: 0, by: role }); s.sel = id; }
+  else if (a === "tool") {
+    const d = DECOR[s.deco].find((x) => x.id === s.sel); if (!d) return;
+    if (v === "smaller") d.s = Math.max(0.1, d.s - 0.06);
+    else if (v === "bigger") d.s = Math.min(0.8, d.s + 0.06);
+    else if (v === "turn") d.r += 15;
+    else { DECOR[s.deco] = DECOR[s.deco].filter((x) => x !== d); s.sel = null; }
+  }
+  else { toast(ph, b.dataset.msg || "Only the tabs, pets, chips, photos, stickers and pages work in this trial"); return; }
+  render();
+});
+// Drag my stickers on the page (mouse or finger); press and hold a photo to lift the pet off it.
+let drag = null, hold = null;
+const phones = document.querySelector(".phones");
+phones.addEventListener("pointerdown", (e) => {
+  const k = e.target.closest(".stk.mine");
+  if (k) {
+    const ph = k.closest(".ph"), s = st[ph.dataset.role], pet = k.parentElement.dataset.pet, d = DECOR[pet].find((x) => x.id === Number(k.dataset.id));
+    s.sel = d.id; ph.querySelectorAll(".stk.sel").forEach((x) => x.classList.remove("sel")); k.classList.add("sel");
+    drag = { k, d, box: k.parentElement.getBoundingClientRect() };
+    k.setPointerCapture(e.pointerId); e.preventDefault(); return;
+  }
+  const f = e.target.closest("[data-press]");
+  if (f) { const s = st[f.closest(".ph").dataset.role]; if (!s.lifted) hold = setTimeout(() => { s.lifted = true; render(); }, 450); }
+});
+phones.addEventListener("pointermove", (e) => {
+  if (!drag) return;
+  const { k, d, box } = drag, cl = (n) => Math.max(0, Math.min(1, n));
+  d.x = cl((e.clientX - box.left) / box.width); d.y = cl((e.clientY - box.top) / box.height);
+  k.style.left = `${d.x * 100}%`; k.style.top = `${d.y * 100}%`;
+});
+function edges(row) {
+  const max = row.scrollWidth - row.clientWidth;
+  row.classList.toggle("more-l", row.scrollLeft > 2);
+  row.classList.toggle("more-r", row.scrollLeft < max - 2);
+}
+document.querySelector(".phones").addEventListener("scroll", (e) => { if (e.target.classList?.contains("chips")) edges(e.target); }, true);
+// The chip row scrolls with a mouse too (CLAUDE.md §3: drag or wheel = swipe); a drag doesn't count as a tap.
+let pan = null, panned = false;
+phones.addEventListener("pointerdown", (e) => { const row = e.target.closest(".chips"); if (row && e.pointerType === "mouse") { pan = { row, x: e.clientX, left: row.scrollLeft }; panned = false; } });
+phones.addEventListener("pointermove", (e) => { if (!pan) return; const dx = e.clientX - pan.x; if (Math.abs(dx) > 5) panned = true; if (panned) pan.row.scrollLeft = pan.left - dx; });
+phones.addEventListener("click", (e) => { if (panned) { e.stopImmediatePropagation(); e.preventDefault(); panned = false; } }, true);
+phones.addEventListener("wheel", (e) => { const row = e.target.closest(".chips"); if (row && Math.abs(e.deltaY) > Math.abs(e.deltaX) && row.scrollWidth > row.clientWidth) { row.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
+const end = () => { clearTimeout(hold); hold = null; pan = null; if (drag) { drag = null; render(); } };
+phones.addEventListener("pointerup", end); phones.addEventListener("pointercancel", end);
+phones.addEventListener("contextmenu", (e) => { if (e.target.closest("[data-press], [data-paw]")) e.preventDefault(); });
+/* ---------- the paw: press and hold for three shortcuts (Pinterest's hold menu, shaped like a paw) ---------- */
+const PAWS = {
+  photo: (role) => [["sticker", "Make a sticker", "sticker"], ["mood", "How do they seem?", "smile"], ["page", role === "sitter" ? "Use on today's page" : "Start my own page", "book"]],
+  snap: () => [["treat", "Treat check", "shield"], ["mood", "Mood", "smile"], ["sticker", "Sticker", "sticker"]],
+  add: (role) => [["photo", "Add a photo", "cam"], ["sticker", "Make a sticker", "sticker"], ["page", role === "sitter" ? "Today's page" : "Write my own page", "book"]],
+};
+let paw = null, pawHold = null, pawStart = null, swallow = false;
+function pawOpen(ph, kind, ctx, x, y, lift) {
+  const role = ph.dataset.role, W = ph.clientWidth, H = ph.clientHeight, R = 74;
+  // Toes fan up from the pad; near the top they flip down, near an edge they lean back toward the middle.
+  const up = y > 190, tilt = x < 110 ? 35 : x > W - 110 ? -35 : 0, cl = (v, a, b) => Math.max(a, Math.min(b, v));
+  const toes = PAWS[kind](role).map(([id, label, icon], i) => {
+    const deg = up ? -134 + 44 * i + tilt : 134 - 44 * i - tilt, ang = (deg * Math.PI) / 180;
+    return { id, label, icon, i, x: cl(x + R * Math.cos(ang), 32, W - 32), y: cl(y + R * Math.sin(ang), 60, H - 32) };
+  });
+  const ly = up ? Math.min(...toes.map((t) => t.y)) - 56 : Math.max(...toes.map((t) => t.y)) + 34, lx = cl(x, 90, W - 90);
+  const el = document.createElement("div");
+  el.className = "pawm"; el.setAttribute("role", "menu"); el.setAttribute("aria-label", "Shortcuts");
+  el.innerHTML = `<div class="pdim" data-pawclose></div>${lift ? `<img class="plift" src="${lift.src}" alt="" style="left:${lift.x}px;top:${lift.y}px;width:${lift.w}px;height:${lift.h}px">` : ""}
+    <span class="pad" style="left:${x}px;top:${y}px" aria-hidden="true"></span>
+    ${toes.map((t) => `<button type="button" class="toe" role="menuitem" data-go="${t.id}" aria-label="${t.label}" style="left:${t.x}px;top:${t.y}px;--i:${t.i}">${ic(t.icon)}</button>`).join("")}
+    <span class="plabel" style="left:${lx}px;top:${Math.max(48, ly)}px" aria-live="polite">Slide to a toe</span>`;
+  ph.appendChild(el);
+  paw = { ph, kind, ctx, el, moved: false, hot: null };
+}
+function pawClose() { if (paw) { paw.el.remove(); paw = null; } }
+function pawPick(id) {
+  const { ph, kind, ctx } = paw, role = ph.dataset.role, s = st[role], pet = one(role, s);
+  pawClose();
+  const latest = (k) => ({ ...[...PETS[k].photos].filter((p) => p.day === 0).sort((a, b) => mins(b.t) - mins(a.t))[0], pet: k });
+  if (kind === "photo") {
+    const p = findPhoto(role, s, ctx); if (!p) return;
+    if (id === "sticker") Object.assign(s, { view: p, lifted: true });
+    else if (id === "mood") s.mood = { pet: p.pet, n: p.n };
+    else if (role === "sitter") { PETS[p.pet].pagePic = p.n; Object.assign(s, { tab: "diary", date: TODAY, book: false }); render(); toast(ph, `${PETS[p.pet].name}'s page uses this photo now`); return; }
+    else { toast(ph, "Starts your own page with this photo, in the app"); return; }
+  } else if (kind === "snap") {
+    if (id === "treat") { toast(ph, `Treat check: snap a treat's label and Goldito checks it for ${PETS[pet].name}`); return; }
+    const p = latest(pet);
+    if (id === "mood") s.mood = { pet, n: p.n }; else Object.assign(s, { view: p, lifted: false });
+  } else {
+    if (id === "photo") s.add = { pet, n: ADDS[pet][0], c: null, share: !!s.share };
+    else if (id === "sticker") Object.assign(s, { view: { n: ADDS[pet][0], pet, t: "just now" }, lifted: false });
+    else if (role === "sitter") Object.assign(s, { tab: "diary", date: TODAY, book: false, deco: false });
+    else { toast(ph, "Writing your own page opens the page editor in the app"); return; }
+  }
+  render();
+}
+phones.addEventListener("pointerdown", (e) => {
+  if (paw || V !== "new" || e.button > 0) return;
+  const t = e.target.closest("[data-paw]"); if (!t) return;
+  const ph = t.closest(".ph"), r = ph.getBoundingClientRect(), ox = r.left + ph.clientLeft, oy = r.top + ph.clientTop;
+  pawStart = { x: e.clientX, y: e.clientY };
+  clearTimeout(pawHold);
+  pawHold = setTimeout(() => {
+    pawHold = null;
+    const img = t.dataset.paw === "photo" && t.querySelector("img:not(.pf)"), ir = img && img.getBoundingClientRect();
+    pawOpen(ph, t.dataset.paw, t.dataset.v || "", pawStart.x - ox, pawStart.y - oy, img && { src: img.getAttribute("src"), x: ir.left - ox, y: ir.top - oy, w: ir.width, h: ir.height });
+  }, 380);
+});
+phones.addEventListener("pointermove", (e) => {
+  if (!pawStart) return;
+  const far = Math.hypot(e.clientX - pawStart.x, e.clientY - pawStart.y);
+  if (pawHold && far > 10) { clearTimeout(pawHold); pawHold = null; }
+  if (!paw) return;
+  if (far > 12) paw.moved = true;
+  let hot = null;
+  paw.el.querySelectorAll(".toe").forEach((b) => { const br = b.getBoundingClientRect(), hit = Math.hypot(e.clientX - br.left - br.width / 2, e.clientY - br.top - br.height / 2) < 34; b.classList.toggle("hot", hit); if (hit) hot = b; });
+  if (hot !== paw.hot) { paw.hot = hot; paw.el.querySelector(".plabel").textContent = hot ? hot.getAttribute("aria-label") : "Slide to a toe"; }
+});
+const pawUp = (cancel) => {
+  clearTimeout(pawHold); pawHold = null;
+  if (!paw || !pawStart) { pawStart = null; return; }
+  pawStart = null; swallow = true; setTimeout(() => { swallow = false; }, 80);
+  if (paw.hot && !cancel) pawPick(paw.hot.dataset.go);
+  else if (paw.moved || cancel) pawClose();
+  else paw.el.querySelector(".plabel").textContent = "Tap a toe";
+};
+phones.addEventListener("pointerup", () => pawUp(false));
+phones.addEventListener("pointercancel", () => pawUp(true));
+// The click that ends a hold doesn't count as a tap; with the paw left open, a tap picks a toe or closes it.
+phones.addEventListener("click", (e) => {
+  if (swallow) { e.stopImmediatePropagation(); e.preventDefault(); swallow = false; return; }
+  if (!paw) return;
+  e.stopImmediatePropagation(); e.preventDefault();
+  const toe = e.target.closest(".toe");
+  if (toe) pawPick(toe.dataset.go); else pawClose();
+}, true);
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") pawClose(); });
+document.addEventListener("touchmove", (e) => { if (paw) e.preventDefault(); }, { passive: false });
+const reset = (extra = {}) => { for (const r of ["owner", "sitter"]) Object.assign(st[r], { book: false, deco: false, sel: null, view: null, sheet: false, add: null, mood: null, ...extra }); render(); };
+document.querySelectorAll(".pick [data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; history.replaceState(null, "", "#" + V); reset(); }));
+document.querySelectorAll("[data-o]").forEach((b) => b.addEventListener("click", () => { OPEN = b.dataset.o; reset({ tab: OPEN }); }));
+document.querySelectorAll("[data-p]").forEach((b) => b.addEventListener("click", () => { PICK = b.dataset.p; reset(); }));
+document.querySelectorAll("[data-n]").forEach((b) => b.addEventListener("click", () => { NPETS = Number(b.dataset.n); reset({ pet: "all" }); }));
+document.querySelectorAll("[data-sit]").forEach((b) => b.addEventListener("click", () => { SITTER2 = b.dataset.sit; reset({ pet: "all", asked: false }); }));
+document.querySelectorAll("[data-l]").forEach((b) => b.addEventListener("click", () => { LABEL = b.dataset.l; render(); }));
+if (location.hash === "#now") V = "now";
+render();
+// Figma ticket (plugin › Tickets): the two phones on the proposal
+window.__ticket = { id: "feed", title: "Feed and Diary: the day first (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/feed-trial.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal for the team; today's app is #340. View tabs approved by Mook (Oct 24)" },
+    { q: "View tabs", a: "New component: Photos · Diary as underline tabs that switch the view; pills only for filters" },
+    { q: "Pets", a: "Opens on All pets (each photo carries the pet's face); the first filter chip (All pets ▾) opens a sheet to narrow to one pet; hidden with one pet" },
+    { q: "Sitters", a: "Notes and pages name their sitter; Ask for a photo goes to every sitter on the screen" },
+    { q: "Photos", a: "Meals · Walks · Naps chips with Lucide icons; day headers; a mosaic of the latest three; the sitter's notes with reactions" },
+    { q: "Stickers", a: "Open any photo: Make a sticker, or press and hold the pet. It lifts off with a white border into the pet's sticker box (shared); Put it on the page opens Decorate" },
+    { q: "Diary", a: "Opens on today's pages with the day's photo and today's updates; Decorate opens a tray (the pet's stickers, the Goldito set)" },
+    { q: "Tab name", a: "Open: Feed, Moments or Journal (try it in the panel)" }],
+  spec: [], specLinks: [] };
+</script></body></html>

@@ -136,6 +136,11 @@ section.fam{scroll-margin-top:calc(var(--site-nav-h,0px) + 84px);padding-top:2.5
 .k-head .role{background:var(--k-mint);border-radius:999px;padding:4px 10px;font:700 13px 'Inter'}
 .k-head .ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;cursor:pointer;color:var(--k-ink);position:relative}
 .k-head .ib svg{width:22px;height:22px} .k-head .dot{position:absolute;top:9px;right:10px;min-width:16px;height:16px;border-radius:8px;background:var(--k-error);color:#fff;font:700 10px/16px 'Inter'}
+.k-new{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--k-mint);color:var(--k-ink);font:700 11px 'Plus Jakarta Sans',sans-serif;vertical-align:middle}
+.k-vtabs{display:flex;border-bottom:1.5px solid var(--k-line);max-width:24rem}
+.k-vtabs button{flex:1;min-height:var(--k-touch);border:0;background:none;font:700 15px 'Plus Jakarta Sans',sans-serif;color:var(--k-muted);border-bottom:3px solid transparent;margin-bottom:-1.5px;cursor:pointer}
+.k-vtabs button[aria-selected=true]{color:var(--k-ink);border-bottom-color:var(--k-ink)}
+.k-vtabs button:focus-visible{outline:2px solid var(--k-ink);outline-offset:-2px}
 .k-sect{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .k-sect::-webkit-scrollbar{display:none}
 .k-sect button{flex:0 0 auto}
@@ -472,6 +477,10 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
       <a href="#navigation">Ask Chloe</a>
     </div>
     <div class="row"><button class="k-btn sec" data-step="-1">Back</button><button class="k-btn" data-step="1">Next step</button></div>
+    <h3 class="k-title">View tabs (switch the view) <span class="k-new">New · Oct 24</span></h3>
+    <div data-comp="View tabs" data-variant="Active=Photos" class="k-vtabs" role="tablist" aria-label="View" id="vtabs">
+      <button type="button" role="tab" aria-selected="true">Photos</button><button type="button" role="tab" aria-selected="false">Diary</button>
+    </div>
     <h3 class="k-title">Section tabs (follow the scroll)</h3>
     <div data-comp="Section tabs" data-variant="Active=Meals" class="k-sect" id="sect">
       <button class="k-chip" aria-pressed="true" data-s="s-meals">Meals</button><button class="k-chip" aria-pressed="false" data-s="s-walks">Walks</button><button class="k-chip" aria-pressed="false" data-s="s-meds">Meds</button><button class="k-chip" aria-pressed="false" data-s="s-naps">Naps</button><button class="k-chip" aria-pressed="false" data-s="s-play">Play</button>
@@ -496,6 +505,7 @@ details.code pre{margin:.5rem 0 .125rem;background:#FFFFFF;border:1px solid #1B4
     <ul><li><b>App header</b>: Fredoka 24 title, role tag, bell with a count, menu. <code>RoleTabs headerOptions</code></li>
     <li><b>Tab bar</b>: five tabs, mint pill behind the active icon. <code>RoleTabs</code></li>
     <li><b>Step header</b>: back, green progress, "1 of 6", optional help link. Try Next / Back. <code>ui/StepHeader</code></li>
+    <li><b>View tabs</b>: two or three underline tabs that switch what the screen shows (Photos · Diary in Feed). Not a filter: filters stay pills. Ink text and a 3 px ink underline on the active tab, muted text on the rest, 44 px tall. New, from the Feed trial.</li>
     <li><b>Section tabs</b>: sticky chips that follow the scroll below and jump there when tapped (the restaurant-menu pattern; this page's own tabs work the same). New.</li>
     <li><b>Pager dots</b>: <code>ui/Pager</code></li></ul>
     <p class="src">States: active / inactive tab, count badge, step 1 to 6, section tab follows scroll.</p>
@@ -956,6 +966,7 @@ document.getElementById("tabbar").addEventListener("click", (e) => { const b = e
 let step = 1; const total = 6, stepEl = document.getElementById("step");
 document.querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", () => { step = Math.min(total, Math.max(1, step + +b.dataset.step)); stepEl.querySelector(".fl").style.width = (step / total * 100) + "%"; stepEl.querySelector(".lb b").textContent = step; stepEl.querySelector("[role=progressbar]").setAttribute("aria-valuenow", step); }));
 // section tabs that follow the inner scroll (restaurant-menu pattern)
+document.getElementById("vtabs").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; b.parentElement.querySelectorAll("button").forEach((x) => x.setAttribute("aria-selected", x === b)); b.parentElement.dataset.variant = `Active=${b.textContent}`; });
 const menu = document.getElementById("menu"), sect = document.getElementById("sect");
 // Section starts measured once, before any header sticks (a stuck header reports its stuck position).
 const starts = (() => { const hs = [...menu.querySelectorAll("h5")]; hs.forEach((h) => (h.style.position = "static"));

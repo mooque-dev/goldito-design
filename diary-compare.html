@@ -1,0 +1,580 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diary Views</title>
+<meta name="description" content="The Diary as it is live today next to three ways to look back: today first, a calendar archive with a photo behind each day, and a footprints timeline of the pet's year. Playable, with a side-by-side and a recommendation.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Gaegu:wght@400;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:66rem;margin:0 auto;display:flex;flex-direction:column;gap:1.75rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.3rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0} a{color:var(--color-primary)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.hint{color:var(--color-text-muted);max-width:44rem}
+.stage{display:grid;grid-template-columns:16rem minmax(0,1fr);gap:1.5rem;align-items:start}
+@media (max-width:900px){.stage{grid-template-columns:1fr}}
+.panel{position:sticky;top:calc(var(--site-nav-h,0px) + 1rem);display:flex;flex-direction:column;gap:1rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:1rem}
+@media (max-width:900px){.panel{position:static;padding:.75rem;gap:.625rem}}
+.pick{display:flex;flex-wrap:wrap;gap:.375rem;align-items:center}
+.pick>span{flex-basis:100%;font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted)}
+.pick button{min-height:36px;padding:0 .75rem;border-radius:999px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:700 .8125rem var(--font-ui);cursor:pointer;white-space:nowrap}
+.pick button[aria-pressed=true]{border:2px solid #1B4332;background:#D8F3DC;color:#1B4332}
+.pk{font-style:normal;text-transform:none;letter-spacing:0;font-weight:600;color:var(--color-warning,#B54708)}
+.what{font-weight:500;color:var(--color-text-muted);font-size:.875rem}
+button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:1.25rem;min-width:0}
+.who{font-weight:700;font-size:.875rem;text-align:center;margin-bottom:.375rem}
+/* the phone */
+.ph{position:relative;height:clamp(560px, calc(100vh - var(--site-nav-h,0px) - 6rem), 720px);max-width:24rem;width:100%;margin:0 auto;background:#FBF6EA;border:10px solid #1F1F1F;border-radius:40px;box-shadow:0 0 0 1px var(--color-border);overflow:hidden;display:flex;flex-direction:column;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.sb{display:flex;justify-content:space-between;padding:10px 22px 0;font:700 13px 'Plus Jakarta Sans',sans-serif;background:#fff;height:36px;flex:none}
+.hd{display:flex;align-items:flex-start;gap:10px;padding:12px 8px 6px 16px;flex:none}
+.tt{flex:1;min-width:0} .tt b{display:block;font:600 26px/1.1 Fredoka,sans-serif} .tt small{display:block;font-size:13px;font-weight:600;color:#6B5D4A;margin-top:2px}
+.rt{display:flex;gap:4px;margin-top:-7.5px}
+.ib{width:44px;height:44px;border:0;background:none;display:grid;place-items:center;position:relative;color:#1B4332;cursor:pointer;padding:0;border-radius:22px}
+.ib svg{width:24px;height:24px}
+.ct{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#B42318;color:#fff;font:800 10px/14px 'Plus Jakarta Sans',sans-serif;border:2px solid #FBF6EA}
+.avr{padding:2px;border-radius:20px;border:1.5px solid #CBBFA8} .av{width:32px;height:32px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:600 14px 'Plus Jakarta Sans',sans-serif}
+.bd{flex:1;overflow-y:auto;padding:2px 16px 72px;display:flex;flex-direction:column;gap:10px;position:relative}
+.tabs{display:flex;justify-content:space-around;background:#fff;border-radius:26px 26px 0 0;padding:10px 6px 18px;box-shadow:0 -8px 12px rgba(27,67,50,.08);flex:none;z-index:2}
+.tabs span{display:flex;flex-direction:column;align-items:center;gap:4px;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;min-width:56px}
+.tabs i{width:54px;height:30px;border-radius:15px;display:grid;place-items:center} .tabs svg{width:22px;height:22px}
+.tabs .on{color:#1B4332} .tabs .on i{background:#D8F3DC}
+/* today's controls (main): every pick-one row is the same mint pill */
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pills button,.wide{min-height:44px;border-radius:999px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:600 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.pills button.on{background:#D8F3DC;border:2px solid #1B4332}
+.wide{width:100%;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin:0 -16px}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block}
+.fab{position:absolute;right:16px;bottom:88px;display:flex;gap:8px;z-index:3}
+.fab button{min-height:44px;padding:0 16px;border-radius:999px;border:0;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.fab .go{background:#1B4332;color:#fff;box-shadow:0 2px 8px rgba(27,67,50,.25)} .fab .soft{background:#fff;color:#1B4332;border:1.5px solid #CBBFA8}
+.covers{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cover{border:4px solid #1B4332;border-radius:10px;background:#D8F3DC;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:space-between;padding:10px;cursor:pointer;font:700 15px Gaegu,cursive;color:#1B4332;text-align:center}
+.cover .e{font-size:40px;flex:1;display:grid;place-items:center}
+/* the proposal */
+.vt{border-bottom:1.5px solid #E8DCC4;margin:0 -16px;padding:0 16px;flex:none}
+.vtt button{flex:1;min-height:44px;border:0;background:none;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.vtt button[aria-selected=true]{color:#1B4332;border-bottom-color:#1B4332}
+.pets{display:flex;align-items:center;gap:10px;flex:none}
+.pet{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:none;cursor:pointer;padding:0;min-width:48px;font:700 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.pet img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid transparent;box-shadow:0 0 0 2px #FBF6EA}
+.pet[aria-pressed=true]{color:#1B4332} .pet[aria-pressed=true] img{border-color:#1B4332}
+.ask{margin-left:auto;min-height:44px;border:0;background:none;color:#2D6A4F;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0 4px}
+.ask[disabled]{color:#6B5D4A;text-decoration:none;cursor:default}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;flex:none;margin:-6px -16px;padding:6px 16px;align-items:center;--fl:0px;--fr:0px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent)}
+.chips.more-l{--fl:32px} .chips.more-r{--fr:32px}
+.chips::after{content:"";flex:none;width:1px}
+.chip{flex:none;display:inline-flex;align-items:center;gap:5px;min-height:36px;padding:0 12px 0 9px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;color:#1B4332;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer;position:relative}
+.chip::after{content:"";position:absolute;inset:-4px 0}
+.chip svg{width:16px;height:16px}
+.chip[aria-pressed=true]{background:#D8F3DC;border:2px solid #1B4332}
+.day{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px}
+.day b{font:600 18px Fredoka,sans-serif} .day small{font-size:12px;color:#6B5D4A;font-weight:600}
+.mosaic{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:96px 96px;gap:6px}
+.mosaic .m{position:relative;border-radius:16px;overflow:hidden;border:0;padding:0;cursor:pointer;background:#E8DCC4}
+.mosaic .m:first-child{grid-row:span 2}
+.mosaic.one{grid-template-columns:1fr;grid-template-rows:200px} .mosaic.one .m:first-child{grid-row:auto}
+.mosaic img{width:100%;height:100%;object-fit:cover;display:block}
+.tb{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:3px;background:#fff;border-radius:999px;padding:2px 8px 2px 4px;font:800 11px 'Plus Jakarta Sans',sans-serif;color:#1B4332}
+.tb svg{width:14px;height:14px}
+.small{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.small img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;display:block}
+.small.n1{grid-template-columns:1fr} .small.n1 img{aspect-ratio:5/2} .small.n2{grid-template-columns:1fr 1fr} .small.n2 img{aspect-ratio:4/3}
+.note{background:#FBEFC8;border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.note .by{display:flex;align-items:center;gap:8px;font-size:12px;color:#6B5D4A;font-weight:600} .note .by .av{width:28px;height:28px;font-size:12px}
+.note .by b{color:#1B4332;font-size:14px;display:block}
+.note p{font-size:14px;line-height:1.45;color:#1B4332}
+.re{display:flex;gap:8px}
+.re button{position:relative;display:inline-flex;align-items:center;gap:5px;min-height:40px;padding:0 12px;border-radius:999px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.re button::after{content:"";position:absolute;inset:-2px 0}
+.re button svg{width:16px;height:16px} .re button[aria-pressed=true]{background:#D8F3DC;border-color:#1B4332}
+.re button.love[aria-pressed=true]{background:#FAD6CB;border-color:#9F2E1A;color:#9F2E1A}
+.empty{border:1.5px dashed #CBBFA8;border-radius:16px;padding:16px;text-align:center;color:#6B5D4A;font-size:14px}
+.page{background:#fff;border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.page .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#6B5D4A;font-weight:600}
+.page .top b{font:600 16px Fredoka,sans-serif;color:#1B4332}
+.page .pic{border-radius:14px;overflow:hidden;aspect-ratio:2/1;background:#D8F3DC}
+.page .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.page .hand{font:400 19px/1.35 Gaegu,cursive;color:#1B4332;background:repeating-linear-gradient(#fff 0 25px,#E8DCC4 25px 26px);padding-top:2px}
+.tl{display:flex;flex-direction:column;gap:8px}
+.it{display:grid;grid-template-columns:40px 1fr auto;gap:10px;align-items:center;background:#fff;border-radius:16px;padding:8px 12px 8px 8px}
+.it .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center} .it .ic svg{width:20px;height:20px}
+.it b{display:block;font-size:14px} .it small{font-size:12px;color:#6B5D4A}
+.it .tm{font:800 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;font-variant-numeric:tabular-nums}
+.link{min-height:44px;border:0;background:none;color:#2D6A4F;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px;align-self:flex-start;padding:0}
+.book{display:flex;align-items:center;justify-content:space-between}
+.book button{width:44px;height:44px;border-radius:22px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;display:grid;place-items:center;cursor:pointer}
+.book button svg{width:20px;height:20px} .book button[disabled]{opacity:.35;cursor:default}
+.book span{font:600 15px Fredoka,sans-serif;text-align:center} .book small{display:block;font:600 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.cchips{display:flex;flex-wrap:wrap;gap:6px}
+.cchips span{display:inline-flex;align-items:center;gap:5px;min-height:32px;padding:0 10px;border-radius:999px;background:#D8F3DC;font:700 12px 'Plus Jakarta Sans',sans-serif}
+.cchips svg{width:14px;height:14px}
+.toast{position:absolute;left:16px;right:16px;bottom:148px;background:#1B4332;color:#fff;border-radius:12px;padding:10px 14px;font:600 13px 'Plus Jakarta Sans',sans-serif;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none;z-index:4}
+.toast.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}
+.nt{background:var(--color-surface);border:1px solid var(--color-border);border-radius:12px;padding:.875rem 1rem;display:flex;flex-direction:column;gap:.375rem;font-size:.9375rem}
+.nt b{font-size:1rem} .nt .src{font-size:.8125rem;color:var(--color-text-muted)}
+.n{display:inline-grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:50%;background:#1B4332;color:#fff;font:700 .75rem var(--font-ui);margin-right:.375rem}
+.vote{background:var(--color-success-surface);border-radius:12px;padding:.875rem 1rem}
+/* pet picker: the switcher beside the tabs, its sheet */
+.vt{display:flex;align-items:center;gap:8px}
+.vtt{display:flex;flex:1;min-width:0}
+.sw{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 6px 0 4px;border-radius:999px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer;position:relative;flex:none}
+.sw::after{content:"";position:absolute;inset:-3px 0}
+.sw img{width:30px;height:30px;border-radius:50%;object-fit:cover}
+.sw .cv{display:grid} .sw .cv svg{width:16px;height:16px;transform:rotate(90deg)}
+.scrim{position:absolute;inset:0;background:rgba(20,17,13,.4);z-index:7}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:8;background:#fff;border-radius:24px 24px 0 0;padding:16px 16px 28px;display:flex;flex-direction:column;gap:6px}
+.sheet>b{font:600 18px Fredoka,sans-serif;margin:0 4px 6px}
+.prow{display:flex;align-items:center;gap:12px;min-height:60px;border:0;background:none;border-radius:16px;padding:6px 10px;cursor:pointer;text-align:left;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.prow[aria-pressed=true]{background:#D8F3DC}
+.prow img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.prow span{flex:1} .prow b{display:block;font-size:15px} .prow small{font-size:12px;color:#6B5D4A} .prow svg{width:20px;height:20px}
+.link.inl{min-height:0;font-size:12px;padding:12px 0;margin:-12px 0}
+.askrow{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;color:#6B5D4A;font-weight:600}
+.links{display:flex;justify-content:space-between;flex-wrap:wrap;gap:0 12px}
+.small button{border:0;padding:0;background:none;cursor:pointer;display:block}
+/* a photo, opened: make a sticker */
+.pv{position:absolute;inset:0;background:#14110D;z-index:6;display:flex;flex-direction:column;color:#fff}
+.pvt{display:flex;align-items:center;gap:6px;padding:40px 8px 4px}
+.pvt b{flex:1;font:700 15px 'Plus Jakarta Sans',sans-serif}
+.pv .ib{color:#fff}
+.pvs{flex:1;min-height:0;container-type:size;display:grid;place-items:center;padding:0 12px}
+.fr{position:relative;aspect-ratio:var(--ar);width:min(100cqw,calc(100cqh * var(--ar)));touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;cursor:pointer}
+.fr .p0{width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;transition:filter .35s}
+.pv.lifted .fr .p0{filter:blur(3px) brightness(.4)}
+.fr .cut{position:absolute;opacity:0;pointer-events:none;object-fit:contain}
+.pv.lifted .fr .cut{opacity:1;animation:lift .7s cubic-bezier(.2,.9,.3,1.25) forwards}
+@keyframes lift{0%{opacity:0;transform:scale(1);filter:drop-shadow(0 0 0 rgba(255,255,255,0))}35%{opacity:1;filter:drop-shadow(0 0 16px rgba(255,255,255,.95))}100%{opacity:1;transform:scale(1.05) translateY(-8px);filter:drop-shadow(0 12px 18px rgba(0,0,0,.5))}}
+.pva{padding:12px 16px 26px;display:flex;flex-direction:column;gap:8px}
+.bp,.bs{min-height:48px;border-radius:999px;font:700 16px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.bp{border:0;background:#D8F3DC;color:#1B4332} .bp[disabled]{opacity:.75;cursor:default}
+.bs{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+.hw{font-size:13px;color:#D9D0C2;text-align:center}
+/* decorate today's page */
+.page{position:relative}
+.page.deco{box-shadow:0 0 0 2px #1B4332}
+.lay{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden;border-radius:20px}
+.stk{position:absolute;pointer-events:none;user-select:none;-webkit-user-select:none}
+.stk.mine{pointer-events:auto;cursor:grab;touch-action:none}
+.stk.theirs{pointer-events:auto;cursor:not-allowed}
+.stk.sel{outline:2px dashed #1B4332;outline-offset:3px;border-radius:8px}
+.tipd{font-size:13px;color:#6B5D4A;font-weight:600;text-align:center}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bd.deco{padding-bottom:240px}
+.tray{position:absolute;left:0;right:0;bottom:78px;background:#fff;border-radius:20px 20px 0 0;box-shadow:0 -6px 16px rgba(27,67,50,.14);padding:10px 12px;z-index:4;display:flex;flex-direction:column;gap:8px}
+.trh{display:flex;align-items:center;gap:8px}
+.trt{display:flex;flex:1;gap:4px}
+.trt button{min-height:40px;padding:0 12px;border-radius:999px;border:0;background:none;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;cursor:pointer;position:relative}
+.trt button::after{content:"";position:absolute;inset:-2px 0}
+.trt button[aria-selected=true]{background:#D8F3DC;color:#1B4332}
+.done{min-height:44px;padding:0 18px;border-radius:999px;border:0;background:#1B4332;color:#fff;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.tiles{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;min-height:64px;align-items:center}
+.tile{flex:none;width:64px;height:64px;border-radius:14px;border:1.5px solid #E8DCC4;background:#FBF6EA;display:grid;place-items:center;cursor:pointer;padding:4px}
+.tile img{max-width:100%;max-height:100%}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tools button{min-height:44px;border-radius:12px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;font:700 13px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.tray .tip{font-size:12px;color:#6B5D4A;margin:0}
+.toast{z-index:9}
+@media (prefers-reduced-motion:reduce){.pv.lifted .fr .cut{animation:none;opacity:1}.fr .p0{transition:none}}
+/* all pets: stacked faces, a face on each photo */
+.stack{display:inline-flex;flex:none}
+.chip.petc{padding:0 6px 0 4px;gap:6px} .chip.petc .stack img{width:26px;height:26px;border-color:#fff}
+.chip.petc .cv{display:grid} .chip.petc .cv svg{width:14px;height:14px;transform:rotate(90deg)}
+.sep{flex:none;width:1.5px;align-self:stretch;margin:6px 2px;background:#E8DCC4} .stack img{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:none}
+.stack img+img{margin-left:-10px}
+.sw .stack img{width:28px;height:28px}
+.pet.allp .stack img{width:38px;height:38px;border:2px solid #FBF6EA} .pet.allp .stack img+img{margin-left:-18px}
+.pet.allp[aria-pressed=true] .stack{border-radius:24px;box-shadow:0 0 0 2px #1B4332}
+.prow.allp .stack img{width:36px;height:36px} .prow.allp .stack img+img{margin-left:-16px}
+.prow .stack{width:44px;justify-content:center}
+.mosaic .m img.pf,.small img.pf,.pf{position:absolute;top:6px;left:6px;width:26px;height:26px;aspect-ratio:auto;border-radius:50%;object-fit:cover;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.small button{position:relative}
+.page .top .pt{font:600 16px Fredoka,sans-serif;color:#1B4332}
+/* sharing: the pill, the switch, the add sheet, the New badge and the paw stamp */
+.fab .sharep{display:inline-flex;align-items:center;gap:6px;padding:0 14px 0 8px}
+.sharep .av{width:24px;height:24px;font-size:11px} .sharep svg{width:16px;height:16px}
+.fab .sharep.on{background:#D8F3DC;border-color:#1B4332}
+.share{display:flex;align-items:center;gap:12px;width:100%;min-height:60px;border-radius:16px;border:1.5px solid #CBBFA8;background:#fff;padding:8px 12px;cursor:pointer;text-align:left;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.share.on{background:#D8F3DC;border-color:#1B4332}
+.share .sic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#F3EBDD;flex:none} .share .sic svg{width:18px;height:18px}
+.share.on .sic{background:none} .share .sic .av{width:36px;height:36px}
+.share .stx{flex:1;min-width:0} .share b{display:block;font-size:15px} .share small{font-size:12px;color:#6B5D4A}
+.share .knob{width:44px;height:26px;border-radius:13px;background:#B7AA93;position:relative;flex:none;transition:background .2s}
+.share .knob::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .2s}
+.share.on .knob{background:#1B4332} .share.on .knob::after{transform:translateX(18px)}
+.sheet.add{gap:12px;max-height:90%;overflow-y:auto}
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pk2{border:0;padding:0;border-radius:12px;overflow:hidden;cursor:pointer;aspect-ratio:1;outline-offset:2px;background:#E8DCC4} .pk2 img{width:100%;height:100%;object-fit:cover;display:block}
+.pk2[aria-pressed=true]{outline:3px solid #1B4332}
+.arow{display:flex;align-items:center;gap:6px;flex-wrap:wrap} .lbl{font:700 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;width:100%}
+.cf{width:22px;height:22px;border-radius:50%;object-fit:cover}
+.wide.go2{background:#1B4332;color:#fff;border:0}
+.nw{position:absolute;top:6px;right:6px;background:#E0A526;color:#1B4332;font:800 11px 'Plus Jakarta Sans',sans-serif;border-radius:999px;padding:2px 8px}
+.page .top{position:relative}
+.lk2.pin{position:static;flex:none}
+.lk2{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:#fff;display:grid;place-items:center;color:#1B4332} .lk2 svg{width:14px;height:14px}
+.stampfx{position:absolute;pointer-events:none;color:#E0A526;z-index:5;animation:stamp .9s ease-out forwards} .stampfx svg{width:28px;height:28px;fill:#E0A526}
+@keyframes stamp{0%{transform:scale(.4) rotate(-20deg);opacity:0}30%{transform:scale(1.35) rotate(8deg);opacity:1}100%{transform:translateY(-44px) scale(1);opacity:0}}
+@media (prefers-reduced-motion:reduce){.stampfx{display:none}.share .knob,.share .knob::after{transition:none}}
+/* reactions: Happy goes butter, Love it goes blush; both pop and float a few icons */
+.re button[data-v=happy][aria-pressed=true]{background:#FBEFC8;border-color:#8A6100;color:#6B4A00}
+.pop{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
+.burst{position:absolute;z-index:6;pointer-events:none;opacity:0;animation:burst .9s ease-out forwards} .burst svg{width:18px;height:18px}
+@keyframes burst{0%{opacity:0;transform:translate(0,0) scale(.4)}25%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(var(--rot))}}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
+.chip.dchip{padding:0 14px;gap:6px} .chip.dchip[disabled]{opacity:.45;cursor:default}
+.dot{width:6px;height:6px;border-radius:50%;background:#2D6A4F;flex:none} .chip.dchip[aria-pressed=true] .dot{background:#1B4332}
+/* the paw: a gold pad under the finger, three toes for the shortcuts */
+.tabs span[data-paw]{cursor:pointer}
+[data-paw]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.pawm{position:absolute;inset:0;z-index:10}
+.pdim{position:absolute;inset:0;background:rgba(20,17,13,.55);animation:pfade .15s ease-out}
+.plift{position:absolute;object-fit:cover;border-radius:16px;box-shadow:0 12px 28px rgba(0,0,0,.45);transform:scale(1.04);animation:plift .2s ease-out;pointer-events:none}
+.pad{position:absolute;width:44px;height:38px;margin:-19px 0 0 -22px;border-radius:50% 50% 44% 44%;background:radial-gradient(circle at 50% 40%,rgba(242,193,78,.95),rgba(224,165,38,.9));box-shadow:0 0 0 4px rgba(255,255,255,.85),0 0 0 9px rgba(224,165,38,.3);animation:ppad .2s ease-out;pointer-events:none}
+.toe{position:absolute;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:2px solid #fff;background:#1B4332;color:#fff;display:grid;place-items:center;cursor:pointer;padding:0;box-shadow:0 4px 12px rgba(0,0,0,.35);transition:transform .12s,background .12s;animation:ptoe .28s cubic-bezier(.3,1.5,.5,1) backwards;animation-delay:calc(var(--i) * 40ms)}
+.toe svg{width:24px;height:24px}
+.toe.hot,.toe:hover,.toe:focus-visible{background:#E0A526;color:#1B4332;transform:scale(1.18);outline:none}
+.plabel{position:absolute;transform:translateX(-50%);white-space:nowrap;background:#fff;color:#1B4332;font:700 14px 'Plus Jakarta Sans',sans-serif;padding:6px 12px;border-radius:999px;box-shadow:0 4px 12px rgba(0,0,0,.25);pointer-events:none}
+@keyframes ptoe{from{transform:scale(.2);opacity:0}} @keyframes ppad{from{transform:scale(.6);opacity:0}} @keyframes plift{from{transform:scale(1)}} @keyframes pfade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.pdim,.plift,.pad,.toe{animation:none}.toe{transition:none}}
+.moodr{display:flex;gap:12px;align-items:center} .moodr img{width:84px;height:84px;border-radius:16px;object-fit:cover;flex:none}
+.bars{flex:1;display:flex;flex-direction:column;gap:6px}
+.mbar{display:grid;grid-template-columns:18px 60px 1fr 36px;align-items:center;gap:6px;font:700 13px 'Plus Jakarta Sans',sans-serif} .mbar svg{width:18px;height:18px}
+.mbar i{display:block;height:8px;border-radius:4px;background:#D8F3DC;overflow:hidden} .mbar i b{display:block;height:100%;background:#2D6A4F;border-radius:4px}
+.mbar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:#6B5D4A}
+
+/* ---------- this page ---------- */
+.shots{display:flex;gap:1rem;overflow-x:auto;padding-bottom:.5rem;scrollbar-width:thin}
+.shot{flex:none;width:12.5rem;display:flex;flex-direction:column;gap:.375rem}
+.shot img{width:100%;border-radius:18px;border:1px solid var(--color-border);display:block;background:var(--color-surface)}
+.shot b{font-size:.875rem} .shot span{font-size:.8125rem;color:var(--color-text-muted)}
+.grp{font-size:.75rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted)}
+.pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,18rem),1fr));gap:.75rem}
+.pc .nt ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.25rem}
+.stage2{display:grid;grid-template-columns:15rem minmax(0,24rem) minmax(0,1fr);gap:1.5rem;align-items:start}
+@media (max-width:1100px){.stage2{grid-template-columns:15rem minmax(0,1fr)}.why{grid-column:1/-1}}
+@media (max-width:760px){.stage2{grid-template-columns:1fr}}
+.why{display:flex;flex-direction:column;gap:.75rem}
+.why h3{margin:0;font:600 1.15rem/1.25 var(--font-display)}
+.why .tag{align-self:flex-start;font-size:.75rem;font-weight:700;border-radius:999px;padding:.15rem .6rem;background:var(--color-success-surface);color:var(--color-success)}
+.why ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.3rem}
+.tbl{overflow-x:auto;border:1px solid var(--color-border);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:46rem;font-size:.875rem}
+th,td{padding:.6rem .75rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--color-border)}
+thead th{background:var(--color-surface);font-size:.8125rem}
+tbody th{font-weight:700;width:12rem}
+td.best{background:var(--color-success-surface);font-weight:600}
+tr:last-child th,tr:last-child td{border-bottom:0}
+.rec{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.75rem}
+/* phone: calendar archive */
+.mh{display:flex;align-items:center;justify-content:space-between;margin-top:2px}
+.mh b{font:600 20px Fredoka,sans-serif}
+.mh button{width:40px;height:40px;border-radius:20px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;display:grid;place-items:center;cursor:pointer;position:relative}
+.mh button::after{content:"";position:absolute;inset:-2px}
+.mh button svg{width:18px;height:18px} .mh button[disabled]{opacity:.35;cursor:default}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px 4px}
+.cd{aspect-ratio:1;border-radius:50%;border:0;padding:0;display:grid;place-items:center;font:800 15px 'Plus Jakarta Sans',sans-serif;color:#9A8C76;background:none;position:relative;overflow:hidden;cursor:default}
+.cd.has{cursor:pointer;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.cd.has img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.82)}
+.cd.has span{position:relative}
+.cd.today{box-shadow:0 0 0 3px #FBF6EA,0 0 0 5px #E0A526}
+.cd.future{opacity:.35}
+.cd:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
+.yr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ym{border:1.5px solid #E8DCC4;border-radius:16px;background:#fff;padding:8px;display:flex;flex-direction:column;gap:6px;cursor:pointer;text-align:left;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.ym b{font:600 15px Fredoka,sans-serif} .ym small{font-size:11px;color:#6B5D4A;font-weight:600}
+.ym .cv2{aspect-ratio:1;border-radius:10px;background:#F3EBDD;overflow:hidden;display:grid;place-items:center}
+.ym .cv2 img{width:100%;height:100%;object-fit:cover}
+.ym.none{opacity:.55;cursor:default} .ym.now{border-color:#E0A526;box-shadow:0 0 0 1px #E0A526}
+.wl{display:flex;flex-direction:column;gap:6px}
+.wr{display:grid;grid-template-columns:44px 56px 1fr;gap:10px;align-items:center;background:#fff;border-radius:16px;padding:6px 10px 6px 8px;border:0;text-align:left;cursor:pointer;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif}
+.wr .dn{display:flex;flex-direction:column;align-items:center;font:700 11px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A} .wr .dn b{font:600 18px Fredoka,sans-serif;color:#1B4332}
+.wr img{width:56px;height:56px;border-radius:12px;object-fit:cover}
+.wr .tx b{display:block;font-size:14px} .wr .tx small{font-size:12px;color:#6B5D4A}
+.wr.empty2{background:none;border:1.5px dashed #E8DCC4;cursor:default;grid-template-columns:44px 1fr} .wr.empty2 .tx{color:#9A8C76;font-size:13px}
+/* phone: footprints */
+.fp-h{text-align:center;display:flex;flex-direction:column;gap:2px;margin-top:4px}
+.fp-h b{font:700 24px/1.1 Fredoka,sans-serif} .fp-h small{font-size:12px;color:#6B5D4A;font-weight:600}
+.fp{position:relative;margin:0 -16px;flex:none}
+.fp svg.path{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.stop{position:absolute;border:0;background:none;padding:0;cursor:pointer;color:#1B4332;font-family:'Plus Jakarta Sans',sans-serif;text-align:left}
+.stop .fig{position:absolute;transform:translate(-50%,-100%);width:96px;height:104px;display:flex;align-items:flex-end;justify-content:center}
+.stop .fig img{max-width:100%;max-height:100%;filter:drop-shadow(0 4px 4px rgba(27,67,50,.18))}
+.stop .tx{position:absolute;width:142px;display:flex;flex-direction:column;gap:2px}
+.stop .tx b{font:700 15px/1.2 'Plus Jakarta Sans',sans-serif} .stop .tx .dt{font:600 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.stop .tx q{font:400 16px/1.2 Gaegu,cursive;color:#6B5D4A;quotes:none}
+.stop .dotp{position:absolute;width:12px;height:12px;border-radius:50%;background:#1B4332;transform:translate(-50%,-50%);box-shadow:0 0 0 3px #FBF6EA}
+.stop.now .dotp{background:#E0A526;box-shadow:0 0 0 3px #FBF6EA,0 0 0 6px rgba(224,165,38,.35)}
+.stop:focus-visible{outline:2px solid #1B4332;outline-offset:4px;border-radius:12px}
+.next{position:absolute;font:700 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A;transform:translate(-50%,0);white-space:nowrap}
+/* day sheet */
+.sheet.dayv{max-height:88%;overflow-y:auto;gap:10px}
+.dnav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dnav b{font:600 17px Fredoka,sans-serif;text-align:center;flex:1} .dnav small{display:block;font:600 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.dnav button{width:40px;height:40px;border-radius:20px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;display:grid;place-items:center;cursor:pointer;flex:none}
+.dnav button svg{width:18px;height:18px} .dnav button[disabled]{opacity:.35;cursor:default}
+</style><script src="nav.js" defer></script>
+</head><body><main class="wrap">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v3"/><path d="M16 2v3"/><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></symbol>
+<symbol id="i-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 11-1.296-1.296a2.4 2.4 0 0 0-3.408 0L11 16"/><path d="M4 8a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2"/><circle cx="13" cy="7" r="1" fill="currentColor"/><rect x="8" y="2" width="14" height="14" rx="2"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+<symbol id="i-meal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z"/><path d="M12 22v-3"/></symbol>
+<symbol id="i-nap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+<symbol id="i-pill" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></symbol>
+<symbol id="i-heart-on" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+<symbol id="i-photo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v16"/><path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10V9"/><path d="M16.472 15a6 6 0 01-8.943 0"/><path d="M9 10V9"/><circle cx="12" cy="12" r="10"/></symbol>
+<symbol id="i-paw" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></symbol>
+<symbol id="i-all" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4"/><path d="M2 6h4"/><path d="M2 10h4"/><path d="M2 14h4"/><path d="M2 18h4"/><path d="M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+<symbol id="i-chats" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="12" cy="11.6" rx="2.4" ry="1.85" fill="currentColor"/><circle cx="9.4" cy="9" r="1.1" fill="currentColor"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor"/><circle cx="14.6" cy="9" r="1.1" fill="currentColor"/></symbol>
+
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+<symbol id="i-sticker" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M14 3v4a2 2 0 0 0 2 2h4"/><path d="M8 13h.01"/><path d="M16 13h.01"/><path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-potty" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
+</svg>
+
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Diary views</span><span class="ko">다이어리 보기</span> · <span class="en">Oct 24</span><span class="ko">10/24</span></span></div>
+<section>
+  <h1><span class="en">The Diary: four ways to look back</span><span class="ko">다이어리: 돌아보는 네 가지 방법</span></h1>
+  <p class="hint"><span class="en">What the Diary does on the live app today, next to three options: today first (the Feed trial), a calendar archive with a photo behind each day (like Instagram's Stories archive), and footprints, a timeline of the pet's year (Minsik's reference). Play with each on the phone, then compare.</span><span class="ko">지금 라이브 앱의 다이어리와 세 가지 안: 오늘 먼저 (피드 시안), 날마다 사진이 깔린 캘린더 보관함 (인스타그램 스토리 보관함처럼), 그리고 발자취, 펫의 한 해 타임라인 (민식님 레퍼런스). 폰에서 하나씩 해 보고 비교해 보세요.</span></p>
+</section>
+
+<section>
+  <h2><span class="en">Live today</span><span class="ko">지금 라이브</span></h2>
+  <p class="hint"><span class="en">From goldito-petcare.vercel.app (demo owner and demo sitter, Oct 24) and the same code with a stay on (main).</span><span class="ko">goldito-petcare.vercel.app에서 (데모 보호자와 데모 시터, 10/24), 그리고 같은 코드에 돌봄이 진행 중일 때 (main).</span></p>
+  <span class="grp"><span class="en">Live demo, no stay on</span><span class="ko">라이브 데모, 돌봄 없음</span></span>
+  <div class="shots">
+    <figure class="shot"><img src="assets/diary-compare/live-owner-diary.jpg" alt="Owner Diary on the live app: No diary yet, Open History, Write a page"><b><span class="en">Owner · Diary</span><span class="ko">보호자 · 다이어리</span></b><span class="en">"No diary yet", and the past is in History</span><span class="ko">"아직 다이어리 없음", 지난 일은 히스토리에</span></figure>
+    <figure class="shot"><img src="assets/diary-compare/live-owner-history.jpg" alt="Owner History: one pet at a time, today and the last 7 days"><b><span class="en">Owner · History</span><span class="ko">보호자 · 히스토리</span></b><span class="en">One pet at a time; today and the last 7 days</span><span class="ko">한 마리씩; 오늘과 지난 7일</span></figure>
+    <figure class="shot"><img src="assets/diary-compare/live-sitter-diary.jpg" alt="Sitter Diary book: No pages yet"><b><span class="en">Sitter · Diary book</span><span class="ko">시터 · 다이어리 책</span></b><span class="en">A second switch: Today or Diary book</span><span class="ko">두 번째 전환: 오늘 또는 다이어리 책</span></figure>
+    <figure class="shot"><img src="assets/diary-compare/live-sitter-today.jpg" alt="Sitter Today: write and send the day's page"><b><span class="en">Sitter · Today</span><span class="ko">시터 · 오늘</span></b><span class="en">Write and send the day's page</span><span class="ko">그날 페이지를 쓰고 보내기</span></figure>
+  </div>
+  <span class="grp"><span class="en">Same code with a stay on</span><span class="ko">같은 코드, 돌봄 중</span></span>
+  <div class="shots">
+    <figure class="shot"><img src="assets/diary-compare/main-owner-diary.jpg" alt="Owner Diary covers, one book per pet"><b><span class="en">1 · Covers</span><span class="ko">1 · 표지</span></b><span class="en">A book per pet; pick one first</span><span class="ko">펫마다 책; 먼저 하나 고르기</span></figure>
+    <figure class="shot"><img src="assets/diary-compare/main-owner-diary-open.jpg" alt="Owner Diary book open on a page"><b><span class="en">2 · The book</span><span class="ko">2 · 책</span></b><span class="en">Page by page, newest last; turn like paper</span><span class="ko">한 장씩, 최신이 끝; 종이처럼 넘기기</span></figure>
+    <figure class="shot"><img src="assets/diary-compare/main-sitter-diary.jpg" alt="Sitter Today page with chips"><b><span class="en">3 · Sitter's page</span><span class="ko">3 · 시터의 페이지</span></b><span class="en">Written from today's chips</span><span class="ko">오늘의 칩으로 쓰기</span></figure>
+  </div>
+  <div class="pc">
+    <div class="nt"><b><span class="en">What works</span><span class="ko">좋은 점</span></b><ul>
+      <li><span class="en">The book and the page turn feel like Kidsnote's picture diary, and Decorate makes it ours</span><span class="ko">책과 넘기기가 키즈노트 그림일기 느낌, 꾸미기로 우리 것이 돼요</span></li>
+      <li><span class="en">The sitter's page is written from the day's chips, so there's little to type</span><span class="ko">시터 페이지는 그날 칩으로 써서 타이핑이 적어요</span></li></ul></div>
+    <div class="nt"><b><span class="en">What doesn't</span><span class="ko">아쉬운 점</span></b><ul>
+      <li><span class="en">Looking back lives in three places: the Diary, History (7 days) and the book</span><span class="ko">돌아보기가 세 곳: 다이어리, 히스토리 (7일), 책</span></li>
+      <li><span class="en">Covers come first, so today's note is two taps away; one pet at a time</span><span class="ko">표지가 먼저라 오늘 노트까지 두 번 탭; 한 마리씩</span></li>
+      <li><span class="en">Finding a day means paging through; there's no view of a whole stay or year</span><span class="ko">날짜를 찾으려면 넘겨야 하고; 한 번의 돌봄이나 한 해를 보는 화면이 없어요</span></li></ul></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="en">Try the options</span><span class="ko">안 해 보기</span></h2>
+  <div class="stage2">
+    <aside class="panel" aria-label="Controls">
+      <div class="pick" role="radiogroup" aria-label="Option"><span><span class="en">Option</span><span class="ko">안</span></span>
+        <button type="button" role="radio" data-opt="a"><span class="en">A · Today first</span><span class="ko">A · 오늘 먼저</span></button>
+        <button type="button" role="radio" data-opt="b"><span class="en">B · Calendar</span><span class="ko">B · 캘린더</span></button>
+        <button type="button" role="radio" data-opt="c"><span class="en">C · Footprints</span><span class="ko">C · 발자취</span></button>
+      </div>
+      <p class="what"><span class="en">Robert's view, with Max's stays from June to today. Tap a day, a month or a stop.</span><span class="ko">로버트의 화면, 6월부터 오늘까지 맥스의 돌봄. 날짜, 달, 정류장을 눌러 보세요.</span></p>
+    </aside>
+    <div><p class="who">Robert · <span class="en">Owner</span><span class="ko">보호자</span></p><div class="ph" data-role="owner" data-cap="diary-views" data-title="Diary · Owner · options"></div></div>
+    <div class="why" id="why"></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="en">Side by side</span><span class="ko">나란히 비교</span></h2>
+  <div class="tbl"><table>
+    <thead><tr><th></th><th><span class="en">Live today</span><span class="ko">지금 라이브</span></th><th>A · <span class="en">Today first</span><span class="ko">오늘 먼저</span></th><th>B · <span class="en">Calendar</span><span class="ko">캘린더</span></th><th>C · <span class="en">Footprints</span><span class="ko">발자취</span></th></tr></thead>
+    <tbody>
+      <tr><th><span class="en">Read today's note</span><span class="ko">오늘 노트 읽기</span></th><td><span class="en">Two taps (cover, then the newest page)</span><span class="ko">두 번 탭 (표지, 최신 페이지)</span></td><td class="best"><span class="en">Opens on it</span><span class="ko">바로 열림</span></td><td><span class="en">One tap on today</span><span class="ko">오늘을 한 번 탭</span></td><td><span class="en">One tap on the last stop</span><span class="ko">마지막 정류장 한 번 탭</span></td></tr>
+      <tr><th><span class="en">Find a past day</span><span class="ko">지난 날 찾기</span></th><td><span class="en">Page one by one, or History (7 days)</span><span class="ko">한 장씩, 또는 히스토리 (7일)</span></td><td><span class="en">Day strip, this stay only</span><span class="ko">날짜 줄, 이번 돌봄만</span></td><td class="best"><span class="en">Any day of any month, at a glance</span><span class="ko">어느 달 어느 날이든 한눈에</span></td><td><span class="en">By month, as a story</span><span class="ko">달별로, 이야기처럼</span></td></tr>
+      <tr><th><span class="en">See a whole stay or year</span><span class="ko">돌봄 전체나 한 해 보기</span></th><td><span class="en">No</span><span class="ko">없음</span></td><td><span class="en">No</span><span class="ko">없음</span></td><td><span class="en">Yes, a grid of photo days</span><span class="ko">네, 사진 날짜 그리드</span></td><td class="best"><span class="en">Yes, as a path you can read</span><span class="ko">네, 읽히는 길로</span></td></tr>
+      <tr><th><span class="en">Feeling</span><span class="ko">느낌</span></th><td><span class="en">Warm book</span><span class="ko">따뜻한 책</span></td><td><span class="en">Calm, practical</span><span class="ko">차분, 실용적</span></td><td><span class="en">Neat, a little utilitarian</span><span class="ko">깔끔, 조금 실용적</span></td><td class="best"><span class="en">Most personal; worth sharing; uses the stickers</span><span class="ko">가장 개인적; 공유하고 싶음; 스티커 활용</span></td></tr>
+      <tr><th><span class="en">Several pets</span><span class="ko">여러 펫</span></th><td><span class="en">One at a time</span><span class="ko">한 마리씩</span></td><td class="best"><span class="en">All together</span><span class="ko">모두 함께</span></td><td class="best"><span class="en">All together, a photo per day</span><span class="ko">모두 함께, 날마다 사진</span></td><td><span class="en">Reads best one pet at a time</span><span class="ko">한 마리씩일 때 가장 잘 읽혀요</span></td></tr>
+      <tr><th><span class="en">Short stays (one or two days)</span><span class="ko">짧은 돌봄 (하루 이틀)</span></th><td><span class="en">Fine</span><span class="ko">괜찮음</span></td><td class="best"><span class="en">Fine</span><span class="ko">괜찮음</span></td><td><span class="en">Mostly empty month</span><span class="ko">거의 빈 달</span></td><td><span class="en">Shines over many stays</span><span class="ko">여러 번 돌봄일수록 빛남</span></td></tr>
+      <tr><th><span class="en">Effort before the freeze</span><span class="ko">동결 전 작업량</span></th><td><span class="en">Built</span><span class="ko">이미 있음</span></td><td class="best"><span class="en">Small, on top of #346</span><span class="ko">작음, #346 위에</span></td><td><span class="en">Medium: one grid, data exists</span><span class="ko">중간: 그리드 하나, 데이터 있음</span></td><td><span class="en">Medium to large: the path layout; cutouts exist</span><span class="ko">중간~큼: 길 레이아웃; 컷아웃 있음</span></td></tr>
+    </tbody></table></div>
+</section>
+
+<section>
+  <h2><span class="en">Recommendation: one Diary, three zoom levels</span><span class="ko">추천: 다이어리 하나, 확대 단계 셋</span></h2>
+  <div class="rec">
+    <div class="nt"><b><span class="n">1</span><span class="en">Open on today (A)</span><span class="ko">오늘로 열기 (A)</span></b><span class="en">The daily job is reading today's note. Keep the day strip; it covers this stay without a second switch.</span><span class="ko">매일 하는 일은 오늘 노트 읽기. 날짜 줄은 그대로, 두 번째 전환 없이 이번 돌봄을 다뤄요.</span></div>
+    <div class="nt"><b><span class="n">2</span><span class="en">The strip opens the calendar (B)</span><span class="ko">날짜 줄에서 캘린더로 (B)</span></b><span class="en">A Calendar chip at the end of the day strip opens the month with a photo behind each day; Year sits one level up. It replaces History's 7-day limit and the covers.</span><span class="ko">날짜 줄 끝의 캘린더 칩이 날마다 사진이 깔린 달을 열고, 연도는 한 단계 위. 히스토리의 7일 제한과 표지를 대신해요.</span></div>
+    <div class="nt"><b><span class="n">3</span><span class="en">Footprints for Completion (C)</span><span class="ko">마무리에 발자취 (C)</span></b><span class="en">The story view belongs at the end of a stay (README stage ⑤) and on the pet's profile as "Max's 2026": shareable, and a strong moment for the demo video. It's built from the stickers we already cut.</span><span class="ko">이야기 화면은 돌봄 끝 (README ⑤ 단계)과 펫 프로필의 "맥스의 2026"에: 공유하기 좋고 데모 영상의 좋은 장면. 이미 오린 스티커로 만들어요.</span></div>
+  </div>
+  <p class="vote"><span class="en">For the team: does this split match how you'd use it? The book's page turn can stay as the Day view.</span><span class="ko">팀에게: 이렇게 나누는 게 맞을까요? 책 넘기기는 하루 보기로 남길 수 있어요.</span></p>
+</section>
+</main>
+<script>
+const ic = (id) => `<svg aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const IMG = (n) => `assets/feed-trial/${n}.jpg`, STK = (n) => `assets/feed-trial/stickers/${n}.png`;
+const PETS = { max: { name: "Max", face: "mumu_white_table" }, mochi: { name: "Mochi", face: "orange_cat_lying_relaxed" } };
+// Max's year with Chloe (and Mochi's one page), newest last. Every entry is a sent diary page.
+const ENTRIES = [
+  ["2026-06-28", "max", "mumu_white_table", "Meet & Greet", "He sat on my feet the whole time."],
+  ["2026-07-03", "max", "mumu_red_pillow", "First night away", "Slept on the red pillow. Not one cry."],
+  ["2026-07-04", "max", "mumu_window_nap", "Window watch", "Two hours of birds, then a long nap."],
+  ["2026-07-05", "max", "mumu_car_hat", "Home safe", "Kept the hat on the whole drive home."],
+  ["2026-08-14", "max", "mumu_cafe_stroller", "Café morning", "Everyone at the café said hi to him."],
+  ["2026-08-15", "max", "mumu_leather_chair", "Chair claimed", "The leather chair is his now."],
+  ["2026-09-19", "max", "mumu_party_hat", "Turned four", "Kept the party hat on for a whole minute."],
+  ["2026-09-20", "max", "mumu_pink_jacket_bed", "Birthday nap", "Slept off the cake in his pink jacket."],
+  ["2026-10-22", "max", "mumu_car_tongue_out", "Drop-off", "Tongue out the whole way to my place."],
+  ["2026-10-23", "max", "mumu_blossom_basket", "Blossom park", "Sniffed every blossom in the park."],
+  ["2026-10-24", "max", "mumu_lake_walk", "Lake and a squirrel", "Spotted a squirrel and got so excited!"],
+  ["2026-10-24", "mochi", "orange_cat_lying_relaxed", "Bird watching", "Purred through her whole afternoon nap."],
+].map(([d, pet, n, t, q]) => ({ d, pet, n, t, q }));
+// One stop per stay for the year's footprints.
+const STAYS = [["2026-06-28", "Met Chloe", "max"], ["2026-07-03", "First stay", "max"], ["2026-08-14", "Summer weekend", "max"], ["2026-09-19", "Fourth birthday", "max"], ["2026-10-22", "Autumn stay", "max"], ["2026-10-24", "Mochi's first page", "mochi"]];
+const TODAY = "2026-10-24", MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], LONG = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const WD = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const st = { opt: "b", pet: "all", zoom: "month", ym: 9, fp: "year", day: null, date: TODAY };
+const pets = () => (st.pet === "all" ? ["max", "mochi"] : [st.pet]);
+const mine = () => ENTRIES.filter((e) => pets().includes(e.pet));
+const on = (d) => mine().filter((e) => e.d === d);
+const pretty = (d) => { const [y, m, dd] = d.split("-").map(Number); const w = new Date(y, m - 1, dd).getDay(); return `${WD[w]}, ${MONTHS[m - 1]} ${dd}`; };
+const iso = (y, m, d) => `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+
+const WHY = {
+  a: { t: "A · Today first", tag: "The Feed trial", pos: ["Opens on today's note: the daily job, zero taps", "The day strip covers this stay without a second switch", "All pets together, each page named"], neg: ["Nothing beyond this stay: no month, no year", "Old stays still need History or the book"] },
+  b: { t: "B · Calendar archive", tag: "Like Instagram's Stories archive", pos: ["A photo behind each day: you see the stay at a glance", "Day, Week, Month and Year are one model, one tap apart", "Replaces History's 7-day limit and the covers", "Works for any number of pets"], neg: ["Neat but a little utilitarian; less story", "A one-day stay leaves a mostly empty month"] },
+  c: { t: "C · Footprints", tag: "Minsik's reference (발자취)", pos: ["The pet's year as a story: the most personal view", "Built from the stickers we already cut; the pets stand on the path", "Year first, then any month, then any day", "A natural end-of-stay recap (stage ⑤) and a demo-video moment"], neg: ["A layout to build and tune (the path)", "Reads best one pet at a time", "Not for 'what happened Tuesday?'; the calendar is faster"] },
+};
+function why() {
+  const w = WHY[st.opt];
+  document.getElementById("why").innerHTML = `<h3>${w.t}</h3><span class="tag">${w.tag}</span><div class="nt"><b>Good at</b><ul>${w.pos.map((x) => `<li>${x}</li>`).join("")}</ul></div><div class="nt"><b>Weaker at</b><ul>${w.neg.map((x) => `<li>${x}</li>`).join("")}</ul></div>`;
+}
+const head = () => `<div class="sb"><span>6:30</span><span>●●● ▭</span></div><div class="hd"><span class="tt"><b>Feed</b><small>Robert · Owner</small></span><span class="rt"><button class="ib" type="button" data-a="hint" aria-label="Notifications">${ic("bell")}<span class="ct">6</span></button><button class="ib" type="button" data-a="hint" aria-label="Robert, menu"><span class="avr"><span class="av">R</span></span></button></span></div>`;
+const tabbar = () => `<nav class="tabs" aria-label="Tabs">${[["home", "Home"], ["cal", "Bookings"], ["chats", "Chat"], ["img", "Feed"], ["cam", "Snap"]].map(([i, l]) => `<span class="${l === "Feed" ? "on" : ""}"><i>${ic(i)}</i>${l}</span>`).join("")}</nav>`;
+const faces = (ks) => `<span class="stack">${ks.map((k) => `<img src="${IMG(PETS[k].face)}" alt="">`).join("")}</span>`;
+const petChip = () => `<button type="button" class="chip petc" data-a="pet" aria-label="Showing ${st.pet === "all" ? "all pets" : PETS[st.pet].name}. Change">${faces(pets())}${st.pet === "all" ? "All pets" : PETS[st.pet].name}<span class="cv">${ic("fwd")}</span></button><span class="sep" aria-hidden="true"></span>`;
+const chip = (a, v, label, pressed) => `<button type="button" class="chip dchip" data-a="${a}" data-v="${v}" aria-pressed="${pressed}">${label}</button>`;
+const page = (e) => `<div class="page"><div class="top"><span><b class="pt">${PETS[e.pet].name}'s day</b><br>From Chloe · ${pretty(e.d)}</span></div><div class="pic"><img src="${IMG(e.n)}" alt=""></div><div class="hand">${e.q}</div></div>`;
+
+/* A · today first */
+function optA() {
+  const days = [...new Set(mine().filter((e) => e.d >= "2026-10-22").map((e) => e.d))].sort().reverse();
+  const list = on(st.date);
+  return `<div class="chips">${petChip()}${days.map((d) => chip("date", d, d === TODAY ? "Today" : pretty(d).split(", ")[1], st.date === d)).join("")}</div>${list.map(page).join("") || `<div class="empty">No page that day.</div>`}`;
+}
+/* B · calendar archive */
+function month(y, m) {
+  const first = new Date(y, m, 1).getDay(), n = new Date(y, m + 1, 0).getDate();
+  let cells = Array.from({ length: first }, () => `<span></span>`);
+  for (let d = 1; d <= n; d++) {
+    const k = iso(y, m, d), es = on(k), fut = k > TODAY;
+    cells.push(es.length ? `<button type="button" class="cd has${k === TODAY ? " today" : ""}" data-a="day" data-v="${k}" aria-label="${pretty(k)}, ${es.length} page${es.length > 1 ? "s" : ""}"><img src="${IMG(es[0].n)}" alt=""><span>${d}</span></button>`
+      : `<span class="cd${fut ? " future" : ""}${k === TODAY ? " today" : ""}">${d}</span>`);
+  }
+  return `<div class="mh"><button type="button" data-a="mon" data-v="-1" aria-label="Previous month" ${m <= 0 ? "disabled" : ""}>${ic("back")}</button><b>${LONG[m]} ${y}</b><button type="button" data-a="mon" data-v="1" aria-label="Next month" ${m >= 9 ? "disabled" : ""}>${ic("fwd")}</button></div>
+    <div class="wk">${WD.map((w) => `<span>${w[0]}</span>`).join("")}</div><div class="cal">${cells.join("")}</div>`;
+}
+function optB() {
+  const zooms = [["day", "Day"], ["week", "Week"], ["month", "Month"], ["year", "Year"]];
+  let body = "";
+  if (st.zoom === "month") body = month(2026, st.ym);
+  else if (st.zoom === "year") body = `<div class="mh"><span></span><b>2026</b><span></span></div><div class="yr">${MONTHS.map((m, i) => { const es = mine().filter((e) => Number(e.d.slice(5, 7)) === i + 1); return `<button type="button" class="ym${es.length ? "" : " none"}${i === 9 ? " now" : ""}" ${es.length ? `data-a="ym" data-v="${i}"` : "disabled"} aria-label="${LONG[i]}, ${es.length} pages"><span class="cv2">${es.length ? `<img src="${IMG(es[es.length - 1].n)}" alt="">` : ""}</span><b>${m}</b><small>${es.length ? `${es.length} page${es.length > 1 ? "s" : ""}` : i > 9 ? "Coming up" : "No stays"}</small></button>`; }).join("")}</div>`;
+  else if (st.zoom === "week") {
+    const rows = []; for (let d = 24; d >= 18; d--) { const k = iso(2026, 9, d), es = on(k); rows.push(es.length ? `<button type="button" class="wr" data-a="day" data-v="${k}"><span class="dn">${pretty(k).slice(0, 3)}<b>${d}</b></span><img src="${IMG(es[0].n)}" alt=""><span class="tx"><b>${es.map((e) => e.t).join(" · ")}</b><small>${es.map((e) => PETS[e.pet].name).join(", ")} · from Chloe</small></span></button>` : `<div class="wr empty2"><span class="dn">${pretty(k).slice(0, 3)}<b>${d}</b></span><span class="tx">No stay</span></div>`); }
+    body = `<div class="mh"><span></span><b>Oct 18 to 24</b><span></span></div><div class="wl">${rows.join("")}</div>`;
+  } else body = (on(st.date).map(page).join("") || `<div class="empty">No page on ${pretty(st.date)}.</div>`);
+  return `<div class="chips">${petChip()}${zooms.map(([v, l]) => chip("zoom", v, l, st.zoom === v)).join("")}</div>${body}`;
+}
+/* C · footprints */
+function optC() {
+  const months = [...new Set(mine().map((e) => Number(e.d.slice(5, 7)) - 1))];
+  let stops;
+  if (st.fp === "year") stops = STAYS.filter(([d, , p]) => pets().includes(p)).map(([d, t, p]) => { const e = ENTRIES.find((x) => x.d === d && x.pet === p); return { ...e, t, date: `${MONTHS[Number(d.slice(5, 7)) - 1]} ${Number(d.slice(8))}` }; });
+  else stops = mine().filter((e) => Number(e.d.slice(5, 7)) - 1 === Number(st.fp)).map((e) => ({ ...e, date: pretty(e.d) }));
+  const title = st.fp === "year" ? `${st.pet === "all" ? "Max and Mochi's" : `${PETS[st.pet].name}'s`} 2026` : `${LONG[Number(st.fp)]} 2026`;
+  const sub = st.fp === "year" ? `Footprints · ${stops.length} moments with Chloe` : `${stops.length} page${stops.length > 1 ? "s" : ""} · tap one to read it`;
+  // A path winds gently down the middle; each stop's pet stands on one side and its words sit on the other, swapping every stop.
+  const W = 358, GAP = 176, TOP = 130, pct = (x) => (x / W) * 100;
+  const pts = stops.map((s, i) => ({ x: W * (i % 2 ? 0.56 : 0.44), y: TOP + i * GAP }));
+  const first = pts[0] || { x: W / 2, y: TOP };
+  let d = `M ${W / 2} ${TOP - 96} C ${W / 2} ${TOP - 50}, ${first.x} ${first.y - 50}, ${first.x} ${first.y}`;
+  for (let i = 1; i < pts.length; i++) { const a = pts[i - 1], b = pts[i]; d += ` C ${a.x} ${a.y + GAP * 0.5}, ${b.x} ${b.y - GAP * 0.5}, ${b.x} ${b.y}`; }
+  const last = pts[pts.length - 1] || first;
+  d += ` C ${last.x} ${last.y + 50}, ${W / 2} ${last.y + 50}, ${W / 2} ${last.y + 92}`;
+  const paws = pts.slice(1).map((b, i) => { const a = pts[i]; return `<g transform="translate(${(a.x + b.x) / 2 - 7} ${(a.y + b.y) / 2 - 7}) rotate(${a.x < b.x ? 20 : -20} 7 7)"><use href="#i-paw" width="14" height="14" style="color:#E0A526"/></g>`; }).join("");
+  const H = last.y + 130;
+  const html = stops.map((s, i) => { const p = pts[i], odd = i % 2 === 1, now = s.d === TODAY;
+    const fig = odd ? 78 : 22, tx = odd ? `right:calc(${100 - pct(p.x)}% + 22px);text-align:right;align-items:flex-end` : `left:calc(${pct(p.x)}% + 22px)`;
+    return `<button type="button" class="stop${now ? " now" : ""}" data-a="day" data-v="${s.d}" data-pet="${s.pet}" style="left:0;top:${p.y - 110}px;width:100%;height:160px" aria-label="${s.date}: ${s.t}. Open the page">
+      <span class="fig" style="left:${fig}%;top:122px"><img src="${STK(s.n)}" alt=""></span>
+      <span class="dotp" style="left:${pct(p.x)}%;top:110px"></span>
+      <span class="tx" style="${tx};top:66px"><span class="dt">${s.date}${now ? " · today" : ""}</span><b>${s.t}</b><q>“${s.q}”</q></span></button>`; }).join("");
+  const chips = [chip("fp", "year", "2026", st.fp === "year"), ...months.map((m) => chip("fp", String(m), MONTHS[m], st.fp === String(m)))].join("");
+  return `<div class="chips">${petChip()}${chips}</div><div class="fp-h"><b>${title}</b><small>${sub}</small></div>
+    <div class="fp" style="height:${H}px"><svg class="path" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="#1B4332" stroke-width="1.6" stroke-linecap="round"/>${paws}</svg>${html}
+    <span class="next" style="left:50%;top:${last.y + 98}px">${st.fp === "year" || st.fp === "9" ? "Next stay: Nov 12 to 15" : ""}</span></div>`;
+}
+/* the day, opened from B or C */
+function daySheet() {
+  const all = [...new Set(mine().map((e) => e.d))].sort(), i = all.indexOf(st.day), es = on(st.day);
+  return `<div class="scrim" data-a="unday"></div><div class="sheet dayv" role="dialog" aria-label="${pretty(st.day)}">
+    <div class="dnav"><button type="button" data-a="dstep" data-v="-1" aria-label="Earlier page" ${i <= 0 ? "disabled" : ""}>${ic("back")}</button><b>${pretty(st.day)}<small>${es.length} page${es.length > 1 ? "s" : ""} · ${i + 1} of ${all.length} days</small></b><button type="button" data-a="dstep" data-v="1" aria-label="Later page" ${i >= all.length - 1 ? "disabled" : ""}>${ic("fwd")}</button></div>
+    ${es.map(page).join("")}<button type="button" class="wide go2" data-a="unday">Done</button></div>`;
+}
+function render() {
+  document.querySelectorAll("[data-opt]").forEach((b) => { const v = b.dataset.opt === st.opt; b.setAttribute("aria-pressed", v); b.setAttribute("aria-checked", v); });
+  const el = document.querySelector(".ph"), top = el.querySelector(".bd")?.scrollTop || 0, keep = el._opt === st.opt + st.zoom + st.fp + st.pet;
+  const body = st.opt === "a" ? optA() : st.opt === "b" ? optB() : optC();
+  el.innerHTML = `${head()}<div class="bd"><div class="vt"><div class="vtt" role="tablist"><button type="button" role="tab" aria-selected="false" data-a="hint">Photos</button><button type="button" role="tab" aria-selected="true">Diary</button></div></div>${body}</div>${tabbar()}${st.day ? daySheet() : ""}<div class="toast" role="status"></div>`;
+  if (keep) el.querySelector(".bd").scrollTop = top;
+  el._opt = st.opt + st.zoom + st.fp + st.pet;
+  why();
+}
+function toast(msg) { const t = document.querySelector(".ph .toast"); t.textContent = msg; t.classList.add("on"); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove("on"), 2200); }
+document.querySelector(".ph").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-a]"); if (!b) return;
+  const a = b.dataset.a, v = b.dataset.v;
+  if (a === "pet") { st.pet = st.pet === "all" ? "max" : st.pet === "max" ? "mochi" : "all"; if (st.fp !== "year" && !mine().some((x) => Number(x.d.slice(5, 7)) - 1 === Number(st.fp))) st.fp = "year"; }
+  else if (a === "date") st.date = v;
+  else if (a === "zoom") { st.zoom = v; if (v === "day") st.date = TODAY; }
+  else if (a === "mon") st.ym = Math.max(0, Math.min(9, st.ym + Number(v)));
+  else if (a === "ym") { st.ym = Number(v); st.zoom = "month"; }
+  else if (a === "fp") st.fp = v;
+  else if (a === "day") st.day = v;
+  else if (a === "unday") st.day = null;
+  else if (a === "dstep") { const all = [...new Set(mine().map((x) => x.d))].sort(); st.day = all[Math.max(0, Math.min(all.length - 1, all.indexOf(st.day) + Number(v)))]; }
+  else { toast("This page compares the Diary; the rest of the app is still"); return; }
+  render();
+});
+document.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => { st.opt = b.dataset.opt; st.day = null; history.replaceState(null, "", "#" + st.opt); render(); }));
+if (["a", "b", "c"].includes(location.hash.slice(1))) st.opt = location.hash.slice(1);
+function edges(row) { const max = row.scrollWidth - row.clientWidth; row.classList.toggle("more-l", row.scrollLeft > 2); row.classList.toggle("more-r", row.scrollLeft < max - 2); }
+const ph = document.querySelector(".ph");
+ph.addEventListener("scroll", (e) => { if (e.target.classList?.contains("chips")) edges(e.target); }, true);
+ph.addEventListener("wheel", (e) => { const row = e.target.closest(".chips"); if (row && Math.abs(e.deltaY) > Math.abs(e.deltaX) && row.scrollWidth > row.clientWidth) { row.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
+new MutationObserver(() => ph.querySelectorAll(".chips").forEach(edges)).observe(ph, { childList: true });
+render();
+window.__ticket = { id: "diary-views", title: "Diary views: today, calendar, footprints (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/diary-compare.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal for the team; live Diary is covers, book and History (7 days)" }, { q: "Open on", a: "Today (A), with the day strip" },
+    { q: "Archive", a: "The day strip opens a calendar: a photo behind each day; Day, Week, Month, Year (B)" },
+    { q: "Story", a: "Footprints: the pet's year as a path with its stickers, for the end of a stay and the pet profile (C)" }],
+  spec: [], specLinks: [] };
+</script></body></html>
