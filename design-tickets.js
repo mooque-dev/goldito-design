@@ -93,8 +93,8 @@ window.GOLDITO_TICKETS = {
         "무크, 민식님 리뷰"
       ],
       "done": [
-        "Active bookings already use the new ticket card and Past is folded (#343). The past-stay card now says when and where in one line, the place once, and who drives in one line, with no car emoji. 51 booking tests pass.",
-        "진행 중인 예약은 새 티켓 카드, 지난 예약은 접힘 (#343). 지난 스테이 카드는 이제 날짜와 장소 한 줄 (장소 한 번), 운전 한 줄, 자동차 이모지 없음. 예약 테스트 51개 통과."
+        "Active bookings already use the new ticket card and Past is folded (#343). The past-stay card now reads \"Oct 5 to 8 at Chloe's place\" and \"You drive over · Chloe brings them home\": the place once, no car emoji. 66 booking tests pass.",
+        "진행 중인 예약은 새 티켓 카드, 지난 예약은 접힘 (#343). 지난 스테이 카드는 이제 \"Oct 5 to 8 at Chloe's place\", \"You drive over · Chloe brings them home\": 장소 한 번, 자동차 이모지 없음. 예약 테스트 66개 통과."
       ],
       "next": [
         "Push the branch fix/booking-cards-short and open the PR (Closes #181).",
@@ -109,7 +109,8 @@ window.GOLDITO_TICKETS = {
           "https://github.com/minsikpaul92/Goldito/issues/231",
           "#231"
         ]
-      ]
+      ],
+      "img": "assets/notes-1023/c-cards.jpg"
     },
     {
       "n": 293,
