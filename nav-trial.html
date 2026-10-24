@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nav Trial</title>
-<meta name="description" content="Chat gets its own tab (Seulgi's feedback), so the bottom bar keeps four tabs and Snap moves to the top left corner. Try the versions on both demo accounts.">
+<meta name="description" content="Snap stays a tab (decided Oct 23). Does Chat get its own tab, with Diary inside Feed? Try today's tabs and Seulgi's 5 tabs on both demo accounts.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="ds.css">
 <style>
@@ -124,8 +124,8 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 
 <div class="bar"><span class="eyebrow">Goldito · <span class="en">Nav trial</span><span class="ko">내비게이션 시안</span> · <span class="en">from Seulgi's feedback</span><span class="ko">슬기님 피드백</span></span></div>
 <section>
-  <h1><span class="en">Chat gets a tab, Snap moves up</span><span class="ko">채팅은 탭으로, 스냅은 위로</span></h1>
-  <p class="hint"><span class="en">From Seulgi's feedback: Chat gets its own tab. To keep four tabs, Snap moves to the top left. Use the panel, then tap around in each phone.</span><span class="ko">슬기님 피드백: 채팅 탭을 따로. 탭 넷을 위해 스냅은 왼쪽 위로. 패널을 바꾸고 폰을 눌러 보세요.</span></p>
+  <h1><span class="en">Snap stays a tab. Does Chat get one?</span><span class="ko">스냅은 탭 그대로. 채팅도 탭으로?</span></h1>
+  <p class="hint"><span class="en">Decided Oct 23: Snap stays in the tab bar. The version with Snap in the top left is <a href="nav-trial-snap-top-left.html">saved here</a> in case we come back to it. Still open: give Chat its own tab, with Diary inside Feed (Seulgi's 5 tabs), or keep today's tabs.</span><span class="ko">10/23 결정: 스냅은 탭 바에 그대로. 왼쪽 위 스냅 버전은 나중을 위해 <a href="nav-trial-snap-top-left.html">여기 저장</a>. 아직 열린 것: 채팅을 탭으로 (피드 안 다이어리, 슬기 5탭), 아니면 지금 탭 그대로.</span></p>
 </section>
 
 
@@ -134,10 +134,9 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
   <div class="recbox" aria-live="polite"><span id="recState"></span>
     <button type="button" id="useRec"><span class="en">Back to the recommended path</span><span class="ko">추천 조합으로 돌아가기</span></button></div>
   <p class="what" id="what"></p>
-  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version<em class="pk"> · ★ <span class="en">Snap top left</span><span class="ko">왼쪽 위 스냅</span></em></span><span class="ko">버전</span></span>
+  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version<em class="pk"> · ★ <span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></em></span><span class="ko">버전</span></span>
     <button type="button" role="radio" data-v="now">Now</button>
     <button type="button" role="radio" data-v="five"><span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></button>
-    <button type="button" role="radio" data-v="b"><span class="en">Snap top left</span><span class="ko">왼쪽 위 스냅</span></button>
   </div>
   <div class="pick" data-grp="stay" role="radiogroup" aria-label="Stay"><span><span class="en">Stay<em class="pk"> · ★ <span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></em></span><span class="ko">스테이</span></span>
     <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
@@ -147,16 +146,6 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
     <button type="button" role="radio" data-i="chat"><span class="en">Round bubble, paw</span><span class="ko">둥근 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-square"><span class="en">Square bubble, paw</span><span class="ko">네모 말풍선, 발바닥</span></button>
     <button type="button" role="radio" data-i="chat-text"><span class="en">Square bubble, text</span><span class="ko">네모 말풍선, 글줄</span></button>
-  </div>
-  <div class="pick" data-grp="snaplook" role="radiogroup" aria-label="Snap look"><span><span class="en">Snap look<em class="pk"> · ★ <span class="en">White</span><span class="ko">흰색</span></em></span><span class="ko">스냅 모양</span></span>
-    <button type="button" role="radio" data-k="quiet"><span class="en">Quiet icon</span><span class="ko">아이콘만</span></button>
-    <button type="button" role="radio" data-k="mint"><span class="en">Soft mint</span><span class="ko">연한 민트</span></button>
-    <button type="button" role="radio" data-k="white"><span class="en">White</span><span class="ko">흰색</span></button>
-  </div>
-  <div class="pick" data-grp="snapicon" role="radiogroup" aria-label="Snap icon"><span><span class="en">Snap icon<em class="pk"> · ★ <span class="en">Plus</span><span class="ko">플러스</span></em></span><span class="ko">스냅 아이콘</span></span>
-    <button type="button" role="radio" data-g="cam"><span class="en">Camera</span><span class="ko">카메라</span></button>
-    <button type="button" role="radio" data-g="plus"><span class="en">Plus</span><span class="ko">플러스</span></button>
-    <button type="button" role="radio" data-g="splus"><span class="en">Plus in a square (Instagram)</span><span class="ko">네모 안 플러스 (인스타그램)</span></button>
   </div>
   <div class="pick" data-grp="avatars" role="radiogroup" aria-label="Avatar colours"><span><span class="en">Avatars<em class="pk"> · ★ <span class="en">Soft tints, matching letter</span><span class="ko">연한 색, 같은 계열 글자</span></em></span><span class="ko">아바타</span></span>
     <button type="button" role="radio" data-c="green"><span class="en">One green (now)</span><span class="ko">초록 하나 (지금)</span></button>
@@ -173,8 +162,8 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 <section>
   <h2><span class="en">How they differ</span><span class="ko">차이점</span></h2>
   <div class="notes">
-    <div class="note"><b><span class="en">Snap in the top left, during a stay</span><span class="ko">스테이 중 왼쪽 위 스냅</span></b><span class="en">The Snap button (+) shows up only while pets are with the sitter, when the treat check, mood and stickers matter. Outside a stay the header stays calm. Flip "Stay" to see it come and go.</span><span class="ko">시터가 돌보는 동안에만 스냅 버튼 (+)이 보여요 (간식 체크, 기분, 스티커가 필요한 때). 스테이 밖에선 헤더가 깔끔. "스테이"를 바꿔 보세요.</span></div>
-    <div class="note"><b><span class="en">With four tabs</span><span class="ko">탭 넷일 때</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
+    <div class="note"><b><span class="en">Snap stays a tab (decided Oct 23)</span><span class="ko">스냅은 탭 그대로 (10/23 결정)</span></b><span class="en">The treat check, mood and stickers stay one tap away on every screen. The top-left version is <a href="nav-trial-snap-top-left.html">saved</a> if we revisit it.</span><span class="ko">간식 확인, 기분, 스티커가 어느 화면에서나 한 번에. 왼쪽 위 버전은 다시 볼 때를 위해 <a href="nav-trial-snap-top-left.html">저장</a>.</span></div>
+    <div class="note"><b><span class="en">With Chat as a tab</span><span class="ko">채팅이 탭일 때</span></b><span class="en">Bookings drops its Chats list; Chat lists every conversation with unread counts. Diary moves into Feed as a second view (Photos · Diary), since the bar has no room for it.</span><span class="ko">예약에서 채팅 목록이 빠지고, 채팅 탭에 모든 대화와 안 읽은 수. 다이어리는 자리가 없어 피드 안의 두 번째 보기(사진 · 다이어리)로.</span></div>
   </div>
   <p class="vote"><span class="en">Open question for the team: is Diary fine inside Feed, or does it need its own spot (Home, say)?</span><span class="ko">팀에 묻기: 다이어리를 피드 안에 둬도 될까, 아니면 따로 자리가 필요할까 (예: 홈)?</span></p>
 </section>
@@ -184,7 +173,6 @@ const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
 const WHAT = {
   now: { en: "Today: five tabs, Snap is a tab, owner chats sit at the bottom of Bookings.", ko: "지금: 탭 다섯, 스냅이 탭, 보호자 채팅은 예약 맨 아래." },
   five: { en: "Seulgi's sketch: Chat replaces Diary, Snap stays a tab. Still five tabs.", ko: "슬기님 스케치: 다이어리 자리에 채팅, 스냅은 탭 그대로. 여전히 다섯." },
-  b: { en: "Four tabs. Snap (+) shows up in the top left only while pets are with the sitter.", ko: "탭 넷. 시터가 돌보는 동안에만 왼쪽 위에 스냅 (+)." },
 };
 // Avatar colours: the app's block tints (Home tiles, pet cards). A person keeps one colour everywhere (from the name).
 const TINTS = [["#D8F3DC", "#1B4332"], ["#FDE2CC", "#9A3412"], ["#FBEFC8", "#8A5A00"], ["#FAD6CB", "#9F2E1A"], ["#E3EADF", "#3F4A43"]];
@@ -210,8 +198,8 @@ const TABS = {
   four: [["home", "Home", "home"], ["bookings", "Bookings", "cal"], ["chat", "Chat", "chat"], ["feed", "Feed", "img"]],
 };
 const TITLE = { home: { owner: "Home", sitter: "Today" }, bookings: "Bookings", chat: "Chat", feed: "Feed", diary: "Diary", snap: "Snap" };
-let V = "b", STAY = "on", CHAT = "chat-square", LOOK = "white", AVC = "match", GLYPH = "plus";
-const h = location.hash.slice(1); if (["now", "five", "b"].includes(h)) V = h;
+let V = "five", STAY = "on", CHAT = "chat-square", LOOK = "white", AVC = "match", GLYPH = "plus";
+const h = location.hash.slice(1); if (["now", "five"].includes(h)) V = h;
 const state = { owner: { tab: "home", snap: false, feedView: "photos" }, sitter: { tab: "home", snap: false, feedView: "photos" } };
 
 function snapVisible(tab) {
@@ -272,7 +260,8 @@ function hint(el) {
   h.textContent = document.documentElement.dataset.lang === "ko" ? "이 시안에선 탭과 스냅만 움직여요" : "Only the tabs and Snap work in this trial";
   h.classList.add("on"); clearTimeout(h.t); h.t = setTimeout(() => h.classList.remove("on"), 1800);
 }
-const REC = { V: "b", STAY: "on", CHAT: "chat-square", LOOK: "white", GLYPH: "plus", AVC: "match" };
+// Snap stays a tab (decided Oct 23); Snap top left is saved in nav-trial-snap-top-left.html
+const REC = { V: "five", STAY: "on", CHAT: "chat-square", LOOK: "white", GLYPH: "plus", AVC: "match" };
 function render() {
   const onRec = V === REC.V && STAY === REC.STAY && CHAT === REC.CHAT && LOOK === REC.LOOK && GLYPH === REC.GLYPH && AVC === REC.AVC;
   const rb = document.querySelector(".recbox"); rb.classList.toggle("on", onRec);
@@ -280,8 +269,6 @@ function render() {
     ? '<span class="en">You\'re on the recommended path. ★ in each group names its pick.</span><span class="ko">추천 조합을 보고 있어요. 그룹마다 ★가 추천.</span>'
     : '<span class="en">You changed something. ★ in each group shows the recommended pick.</span><span class="ko">바꾼 상태예요. 그룹마다 ★가 추천.</span>';
   const grp = (k) => document.querySelector(`[data-grp="${k}"]`);
-  grp("snaplook").hidden = grp("snapicon").hidden = V !== "b";
-  for (const k of ["snaplook", "snapicon"]) { grp(k).classList.toggle("off", STAY !== "on"); grp(k).querySelectorAll("button").forEach((b) => (b.disabled = STAY !== "on")); }
   grp("chaticon").hidden = V === "now";
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
   document.querySelectorAll("[data-g]").forEach((b) => { const on = b.dataset.g === GLYPH; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
@@ -295,14 +282,14 @@ function render() {
 document.querySelectorAll("[data-v]").forEach((b) => b.addEventListener("click", () => { V = b.dataset.v; history.replaceState(null, "", "#" + V); render(); }));
 document.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { STAY = b.dataset.s; render(); }));
 document.querySelectorAll("[data-i]").forEach((b) => b.addEventListener("click", () => { CHAT = b.dataset.i; render(); }));
-document.getElementById("useRec").addEventListener("click", () => { ({ V, STAY, CHAT, LOOK, GLYPH, AVC } = REC); history.replaceState(null, "", "#b"); render(); });
+document.getElementById("useRec").addEventListener("click", () => { ({ V, STAY, CHAT, LOOK, GLYPH, AVC } = REC); history.replaceState(null, "", "#five"); render(); });
 document.querySelectorAll(".pick [data-g]").forEach((b) => b.addEventListener("click", () => { GLYPH = b.dataset.g; render(); }));
 document.querySelectorAll(".pick [data-c]").forEach((b) => b.addEventListener("click", () => { AVC = b.dataset.c; render(); }));
 document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
 render();
 // Figma ticket (plugin › Tickets): the two phones on the recommended path, and what is being decided
-window.__ticket = { id: "nav", title: "Nav: Chat tab, Snap top left (proposal)", issue: "https://github.com/minsikpaul92/Goldito/issues/329", workbench: "https://mooque-dev.github.io/goldito-design/nav-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Proposal from Seulgi's feedback; the team picks" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed (Diary inside Feed)" }, { q: "Snap", a: "White circle with a plus in the top left, only during a stay" },
+window.__ticket = { id: "nav", title: "Nav: Chat tab (proposal); Snap stays a tab", issue: "https://github.com/minsikpaul92/Goldito/issues/329", workbench: "https://mooque-dev.github.io/goldito-design/nav-trial.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Snap stays a tab (decided Oct 23); Chat as a tab is the open question" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed, Snap (Diary inside Feed), or today's tabs" }, { q: "Snap", a: "Stays a tab. The top-left version is saved (nav-trial-snap-top-left.html)" },
     { q: "Chat icon", a: "Square bubble with a paw (Goldito's own, Lucide style)" }, { q: "Avatars", a: "Block tints per person, matching letter" }],
   spec: [], specLinks: [] };
 </script></body></html>
