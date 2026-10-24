@@ -1,0 +1,129 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Play and Pick</title>
+<meta name="description" content="Nine quick design calls from Oct 24 (Feed, Diary, stickers, the paw, playful words): play each one in the trial, pick an option, copy your picks and paste them to the team.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 7rem}
+.wrap{max-width:66rem;margin:0 auto;display:flex;flex-direction:column;gap:1.75rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.3rem/1.2 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.75rem;min-width:0} p{margin:0} a{color:var(--color-primary)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.lede{color:var(--color-text-muted);max-width:46rem}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.75rem}
+.step{background:var(--color-surface);border:1px solid var(--color-border);border-radius:14px;padding:.875rem 1rem;display:flex;gap:.75rem;align-items:flex-start}
+.step .n{flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--color-primary);color:var(--color-on-primary,#fff);display:grid;place-items:center;font:700 .9375rem var(--font-ui)}
+.step b{display:block}
+.when{background:var(--color-success-surface);border-radius:12px;padding:.75rem 1rem;font-weight:600}
+.who{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.who>span{font-size:.8125rem;font-weight:700;color:var(--color-text-muted);margin-right:.25rem}
+.opt,.who button{min-height:44px;padding:.5rem .875rem;border-radius:999px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:700 .875rem var(--font-ui);cursor:pointer;text-align:left}
+.who button[aria-checked=true],.opt[aria-checked=true]{border:2px solid var(--color-primary);background:var(--color-success-surface)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,20rem),1fr));gap:1rem}
+.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.card img{width:100%;height:9rem;object-fit:cover;object-position:top;display:block;border-bottom:1px solid var(--color-border);background:var(--color-background)}
+.card .viz{height:9rem;display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;padding:1rem;border-bottom:1px solid var(--color-border);background:var(--color-background);font:700 1rem var(--font-ui)}
+.card .viz span{border-radius:999px;padding:.35rem .8rem;background:var(--color-surface);border:1px solid var(--color-border)}
+.card .viz span.g{background:var(--color-success-surface);border-color:transparent}
+.cb{padding:1rem;display:flex;flex-direction:column;gap:.625rem;flex:1}
+.q{display:flex;gap:.5rem;align-items:baseline}
+.q .k{flex:none;font:700 .8125rem var(--font-ui);color:var(--color-text-muted)}
+.q b{font:600 1.0625rem/1.3 var(--font-display)}
+.ctx{font-size:.875rem;color:var(--color-text-muted)}
+.opts{display:flex;flex-direction:column;gap:.5rem}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:.5rem;border-radius:14px}
+.opt .l{display:flex;flex-direction:column} .opt .l small{font-weight:500;color:var(--color-text-muted);font-size:.8125rem}
+.opt .star{flex:none;font-size:.75rem;font-weight:800;color:var(--color-warning,#B54708)}
+.play{display:flex;flex-wrap:wrap;gap:.25rem .75rem;font-size:.875rem;font-weight:700;margin-top:auto;padding-top:.25rem}
+.note{width:100%;min-height:5rem;border-radius:12px;border:1.5px solid var(--color-border-strong,#7F6F58);background:var(--color-surface);color:var(--color-text);font:15px/1.4 var(--font-ui);padding:.75rem}
+.sum{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--color-surface);border-top:1px solid var(--color-border);padding:.75rem 1rem calc(.75rem + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 16px rgba(0,0,0,.08)}
+.sum .in{max-width:66rem;margin:0 auto;display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.sum .txt{flex:1;min-width:12rem;font-size:.875rem} .sum .txt b{display:block;font-size:.9375rem}
+.copy{min-height:48px;padding:0 1.25rem;border-radius:999px;border:0;background:var(--color-primary);color:var(--color-on-primary,#fff);font:700 1rem var(--font-ui);cursor:pointer}
+.copy[disabled]{opacity:.5;cursor:default}
+@media (max-width:520px){.sum .in{flex-wrap:nowrap}.sum .txt{min-width:0}#line{display:none}.sum .ok{display:none}.copy{min-height:44px;padding:0 1rem;font-size:.9375rem}}
+#out{position:absolute;left:-9999px;width:1px;height:1px}
+.ok{font-size:.875rem;font-weight:700;color:var(--color-success)}
+</style><script src="nav.js" defer></script>
+</head><body><main class="wrap">
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Team calls</span><span class="ko">팀 결정</span> · <span class="en">Oct 24</span><span class="ko">10/24</span></span></div>
+<section>
+  <h1><span class="en">Play and pick: nine quick calls</span><span class="ko">해 보고 고르기: 빠른 결정 아홉 개</span></h1>
+  <p class="lede"><span class="en">We tried a lot today in the Feed trial and the Diary comparison. Before Mook builds anything, pick what you like. It takes about ten minutes, works on your phone, and every card links to the exact thing to try.</span><span class="ko">오늘 피드 시안과 다이어리 비교에서 많이 해 봤어요. 무크가 만들기 전에 마음에 드는 걸 골라 주세요. 10분쯤 걸리고 폰에서도 되며, 카드마다 해 볼 곳으로 바로 가는 링크가 있어요.</span></p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><span><b><span class="en">Play</span><span class="ko">해 보기</span></b><span class="en">Each card's links open the trial already set up.</span><span class="ko">카드 링크가 시안을 맞춰서 열어요.</span></span></div>
+    <div class="step"><span class="n">2</span><span><b><span class="en">Pick</span><span class="ko">고르기</span></b><span class="en">Tap one option per card. ★ is Mook's suggestion, not a default.</span><span class="ko">카드마다 하나씩. ★는 무크의 제안이지 기본값이 아니에요.</span></span></div>
+    <div class="step"><span class="n">3</span><span><b><span class="en">Copy and paste</span><span class="ko">복사해서 붙여넣기</span></b><span class="en">Copy my picks, then paste them in the team chat.</span><span class="ko">내 선택 복사, 팀 채팅에 붙여넣기.</span></span></div>
+  </div>
+  <p class="when"><span class="en">Picks by Sunday night, Oct 25. Mook builds the winners Oct 26 to 27, before the Oct 28 freeze.</span><span class="ko">10/25 일요일 밤까지 골라 주세요. 무크가 10/26~27에 만들어요, 10/28 동결 전에.</span></p>
+  <div class="who" role="radiogroup" aria-label="Who's picking"><span><span class="en">I'm</span><span class="ko">나는</span></span>
+    <button type="button" role="radio" data-who="Minsik">Minsik</button><button type="button" role="radio" data-who="Seulgi">Seulgi</button><button type="button" role="radio" data-who="Beomgu">Beomgu</button><button type="button" role="radio" data-who="Mook">Mook</button>
+  </div>
+</section>
+<section><h2><span class="en">The calls</span><span class="ko">결정할 것</span></h2><div class="cards" id="cards"></div></section>
+<section><h2><span class="en">Anything else?</span><span class="ko">더 하고 싶은 말?</span></h2>
+  <textarea class="note" id="note" aria-label="Anything else" placeholder="Optional: what felt off, what you'd change"></textarea></section>
+</main>
+<div class="sum" role="region" aria-label="Your picks"><div class="in"><span class="txt"><b id="count"></b><span id="line"></span></span><span class="ok" id="ok" role="status"></span><button type="button" class="copy" id="copy">Copy my picks</button></div></div>
+<textarea id="out" aria-hidden="true" tabindex="-1"></textarea>
+<script>
+const GH = "https://github.com/minsikpaul92/Goldito/";
+// Each call: question, why it matters, options [key, label, hint, play link, recommended], a picture.
+const CALLS = [
+  { q: ["Where should the pet picker live?", "펫 선택은 어디에?"], img: "assets/notes-1024/c-feed.jpg", ctx: ["Today it's a full row of pills. Owners with one pet never need it.", "지금은 알약 한 줄. 펫이 하나인 보호자에겐 필요 없어요."],
+    o: [["A", "First filter chip (All pets ▾)", "A standard pattern; tabs keep their width; hidden with one pet", "feed-trial.html", 1], ["B", "Inside the tabs", "Saves the row, but tabs get squeezed", "feed-trial.html#intabs"], ["C", "Avatar row", "Friendly, costs a full row", "feed-trial.html#avatars"]] },
+  { q: ["With two pets, Feed opens on…", "펫이 둘이면 피드는…"], img: "assets/notes-1024/c-pages.jpg", ctx: ["Each photo carries the pet's face; notes and pages name the pet.", "사진마다 펫 얼굴; 노트와 페이지마다 이름."],
+    o: [["A", "All pets together", "Everything new at once, then narrow", "feed-trial.html", 1], ["B", "One pet at a time", "Like the live app today", "feed-trial.html#now"]] },
+  { q: ["What should we call the Feed tab?", "피드 탭 이름은?"], viz: [["Feed", ""], ["Moments", "g"], ["Journal", ""]], ctx: ["It holds photos and the diary. Try each name in the trial's tab bar.", "사진과 다이어리가 들어 있어요. 시안 탭 바에서 이름을 바꿔 보세요."],
+    o: [["A", "Feed", "Familiar, reads like social media", "feed-trial.html"], ["B", "Moments", "Covers photos and pages", "feed-trial.html#moments", 1], ["C", "Journal", "Warm, but repeats Diary", "feed-trial.html#journal"]] },
+  { q: ["How should the Diary look back?", "다이어리는 어떻게 돌아볼까?"], img: "assets/notes-1024/c-diary.jpg", ctx: ["Live today: covers, the book and History (7 days).", "지금 라이브: 표지, 책, 히스토리 (7일)."],
+    o: [["A", "Today first only", "Day strip for this stay", "diary-compare.html#a"], ["B", "Today + Calendar", "A photo behind each day, Day to Year", "diary-compare.html#b"], ["C", "Today + Calendar + Footprints", "Footprints as the end-of-stay recap and the pet's year", "diary-compare.html#c", 1]] },
+  { q: ["Who sees a sticker someone makes?", "만든 스티커는 누가 봐요?"], img: "assets/notes-1024/c-sticker.jpg", ctx: ["Open a photo and tap Make a sticker, or hold the pet. #346 keeps stickers private to the maker.", "사진을 열고 스티커 만들기, 또는 펫을 길게. #346은 만든 사람만 봐요."],
+    o: [["A", "The pet's shared sticker box", "Owner and sitter decorate the same pages; Snap works this way today", "feed-trial.html", 1], ["B", "Only the person who made it", "Simpler, as in #346", GH + "pull/346"]] },
+  { q: ["Where can an owner ask for a photo?", "보호자는 사진 요청을 어디서?"], viz: [["Ask for one", "g"], ["Chat only", ""]], ctx: ["#346 moves it to Chat. The trial keeps a small link in today's header.", "#346은 채팅으로 옮겨요. 시안은 오늘 머리에 작은 링크."],
+    o: [["A", "A small link in Feed, plus Chat", "Asked right where photos are missing", "feed-trial.html", 1], ["B", "Only in Chat", "One place, as in #346", GH + "pull/346"]] },
+  { q: ["A sitter's diary page starts…", "시터의 다이어리 페이지는 처음에…"], img: "assets/notes-1024/c-share.jpg", ctx: ["Either way the sitter can switch it any time. In the trial, Mochi's page starts kept.", "어느 쪽이든 시터는 언제든 바꿀 수 있어요. 시안에서 모찌 페이지는 보관으로 시작."],
+    o: [["A", "Shared with the owner", "Owners learn without asking (our north star)", "feed-trial.html#diary", 1], ["B", "Only the sitter, until shared", "More control for the sitter", "feed-trial.html#diary"]] },
+  { q: ["The paw (hold for three shortcuts): when?", "발바닥 (길게 눌러 지름길 셋): 언제?"], img: "assets/notes-1024/c-paw.jpg", ctx: ["Hold a photo, + Photo or the Snap tab in the trial, then slide to a toe.", "시안에서 사진, + 사진, 스냅 탭을 길게 누르고 발가락으로."],
+    o: [["A", "Now, before the freeze", "Delightful; touch and mouse both need testing", "feed-trial.html"], ["B", "After the freeze", "Keeps the freeze safe; still great for the video", "feed-trial.html", 1], ["C", "Not for us", "", ""]] },
+  { q: ["Should words be a little pet-like?", "말투를 조금 펫답게?"], viz: [["Saved", ""], ["Paw-fect! Saved", "g"]], ctx: ["A pun goes in front of the plain meaning, one per screen at most, and never in safety, money, consents, errors or sign-in.", "말장난은 쉬운 뜻 앞에, 화면당 하나까지, 안전, 결제, 동의, 오류, 로그인에는 안 써요."],
+    o: [["A", "Plain", "Clear for everyone", "feed-trial.html"], ["B", "A little playful", "Toasts and empty states only", "feed-trial.html#playful", 1], ["C", "Lots", "Buttons and titles too", ""]] },
+];
+const KEY = "goldito-picks-1024";
+let state = { who: "", picks: {}, note: "" };
+try { state = { ...state, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+const L = (pair) => `<span class="en">${pair[0]}</span><span class="ko">${pair[1]}</span>`;
+function cards() {
+  document.getElementById("cards").innerHTML = CALLS.map((c, i) => {
+    const top = c.img ? `<img src="${c.img}" alt="" loading="lazy">` : `<div class="viz" aria-hidden="true">${c.viz.map(([t, g]) => `<span class="${g}">${t}</span>`).join("")}</div>`;
+    const plays = c.o.filter((o) => o[3]).map((o) => `<a href="${o[3]}" target="_blank" rel="noopener">Try ${o[0]} ↗</a>`);
+    return `<article class="card">${top}<div class="cb"><div class="q"><span class="k">${i + 1}</span><b>${L(c.q)}</b></div><p class="ctx">${L(c.ctx)}</p>
+      <div class="opts" role="radiogroup" aria-label="${c.q[0]}">${c.o.map(([k, l, h, , rec]) => `<button type="button" class="opt" role="radio" aria-checked="${state.picks[i] === k}" data-i="${i}" data-k="${k}"><span class="l"><span>${k} · ${l}</span>${h ? `<small>${h}</small>` : ""}</span>${rec ? '<span class="star" aria-label="Mook suggests">★</span>' : ""}</button>`).join("")}</div>
+      <div class="play">${[...new Set(plays)].join("")}</div></div></article>`;
+  }).join("");
+}
+function summary() {
+  const n = Object.keys(state.picks).length;
+  document.getElementById("count").textContent = `${n} of ${CALLS.length} picked${state.who ? ` · ${state.who}` : ""}`;
+  document.getElementById("line").textContent = CALLS.map((c, i) => (state.picks[i] ? `${i + 1}${state.picks[i]}` : "")).filter(Boolean).join(" · ") || "Tap an option on each card";
+  document.querySelectorAll("[data-who]").forEach((b) => b.setAttribute("aria-checked", b.dataset.who === state.who));
+  document.getElementById("copy").disabled = n === 0;
+}
+function text() {
+  const lines = CALLS.map((c, i) => { const k = state.picks[i], o = c.o.find((x) => x[0] === k); return `${i + 1}. ${c.q[0]} ${o ? `${k} · ${o[1]}` : "(skipped)"}`; });
+  return `${state.who ? `${state.who}'s` : "My"} picks for the Oct 24 design calls\n${lines.join("\n")}${state.note.trim() ? `\nNote: ${state.note.trim()}` : ""}\nhttps://mooque-dev.github.io/goldito-design/play-and-pick.html`;
+}
+document.getElementById("cards").addEventListener("click", (e) => { const b = e.target.closest(".opt"); if (!b) return; state.picks[b.dataset.i] = b.dataset.k; save(); b.parentElement.querySelectorAll(".opt").forEach((x) => x.setAttribute("aria-checked", x === b)); summary(); });
+document.querySelectorAll("[data-who]").forEach((b) => b.addEventListener("click", () => { state.who = b.dataset.who; save(); summary(); }));
+const note = document.getElementById("note"); note.value = state.note; note.addEventListener("input", () => { state.note = note.value; save(); });
+document.getElementById("copy").addEventListener("click", async () => {
+  const t = text(), ok = document.getElementById("ok");
+  try { await navigator.clipboard.writeText(t); ok.textContent = "Copied. Paste it in the team chat"; }
+  catch (e) { const out = document.getElementById("out"); out.value = t; out.select(); try { document.execCommand("copy"); ok.textContent = "Copied. Paste it in the team chat"; } catch (e2) { ok.textContent = "Select and copy the text above"; } }
+  setTimeout(() => { ok.textContent = ""; }, 4000);
+});
+cards(); summary();
+</script></body></html>

@@ -156,6 +156,7 @@
       ["update-2026-10-20.html", "Oct 20 update", "10월 20일 업데이트", "Expressive merged, gold coin logo, #115 hand-off", "Expressive 머지, 골드 코인 로고, #115 전달"],
       ["update-2026-10-19.html", "Oct 19 update", "10월 19일 업데이트", "Header, calendar and the look in review", "헤더, 캘린더, 룩 리뷰 중"]]],
     ["QA and reviews", "QA와 리뷰", [
+      ["play-and-pick.html", "Play and pick", "해 보고 고르기", "Nine calls from Oct 24: play each, pick, copy your picks to the team", "10/24의 결정 아홉 개: 해 보고, 고르고, 팀에 복사"],
       ["audit-2026-10-21.html", "UI audit", "UI 감사", "74 issues with reasons", "근거와 함께 74개 이슈"],
       ["qa-ui-fixes.html", "UI fixes QA", "UI 수정 QA", "Header, focus ring, Back, placeholders", "헤더, 포커스 링, 뒤로, 플레이스홀더"],
       ["qa-copy-batch.html", "Copy batch QA", "문구 QA", "Sign out, Weekly rules, dates, labels", "Sign out, Weekly rules, 날짜, 레이블"],

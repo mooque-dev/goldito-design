@@ -316,6 +316,10 @@ button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
     <button type="button" role="radio" data-l="Moments">Moments</button>
     <button type="button" role="radio" data-l="Journal">Journal</button>
   </div>
+  <div class="pick" role="radiogroup" aria-label="Words"><span><span class="en">Words</span><span class="ko">말투</span></span>
+    <button type="button" role="radio" data-w="plain"><span class="en">Plain</span><span class="ko">기본</span></button>
+    <button type="button" role="radio" data-w="playful"><span class="en">Playful</span><span class="ko">장난스럽게</span></button>
+  </div>
   <p class="what"><span class="en">Try: press and hold a photo, + Photo or the Snap tab, then slide to a toe. Or open a photo and Make a sticker; in Diary, tap Decorate.</span><span class="ko">해 보기: 사진, + 사진, 스냅 탭을 길게 누르고 발가락으로 밀기. 또는 사진을 열어 스티커 만들기; 다이어리에서 꾸미기.</span></p>
 </aside>
 <div class="phones">
@@ -342,6 +346,7 @@ button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
     <div class="nt"><b><span class="n">13</span><span class="en">Share or keep, for photos and pages</span><span class="ko">공유 또는 보관, 사진과 페이지 모두</span></b><span class="en">One switch says who sees it: their face and "Share with Robert", or a lock and "Only you". A sitter can keep a diary page or share it any time. Sharing lands on the other phone right away (New badge, bell, a message) and Goldito's gold paw stamps the button.</span><span class="ko">스위치 하나가 누가 보는지 말해요: 얼굴과 "로버트와 공유", 또는 자물쇠와 "나만". 시터는 다이어리 페이지를 보관하거나 언제든 공유. 공유하면 상대 폰에 바로 (New 배지, 알림, 메시지), 금색 발바닥이 버튼에 찍혀요.</span><span class="src">Mook, Oct 24 · #346 add sheet</span></div>
     <div class="nt"><b><span class="n">14</span><span class="en">Reactions you can feel</span><span class="ko">느껴지는 반응</span></b><span class="en">Love it fills the heart and floats a few hearts; Happy turns butter and floats smiles; the screen stays where you were. Nothing moves with Reduce motion on.</span><span class="ko">Love it은 하트가 차고 작은 하트가 떠올라요; Happy는 버터색과 웃음; 화면은 그 자리. 동작 줄이기에선 움직이지 않아요.</span><span class="src">Mook, Oct 24</span></div>
     <div class="nt"><b><span class="n">15</span><span class="en">The paw: press and hold for three shortcuts</span><span class="ko">발바닥: 길게 눌러 지름길 셋</span></b><span class="en">Pinterest's hold menu, shaped like a paw: a gold pad under your finger, three toes above it. Slide to a toe and let go. A photo gives Make a sticker · Mood · Use on today's page; + Photo gives Photo · Sticker · Today's page; the Snap tab gives Treat check · Mood · Sticker. Always a shortcut: every toe is also a plain tap away. Let go without sliding and it stays open to tap; toes lean away from screen edges; moving first scrolls instead.</span><span class="ko">핀터레스트의 길게 누르기 메뉴를 발바닥 모양으로: 손가락 아래 금색 패드, 위에 발가락 셋. 발가락으로 밀고 떼기. 사진은 스티커 · 기분 · 오늘 페이지에; + 사진은 사진 · 스티커 · 오늘 페이지; 스냅 탭은 간식 확인 · 기분 · 스티커. 항상 지름길: 모든 발가락은 그냥 탭으로도 가능. 밀지 않고 떼면 열린 채로 탭; 화면 끝에선 안쪽으로; 먼저 움직이면 스크롤.</span><span class="src">Mook, Oct 24 · Pinterest hold menu</span></div>
+    <div class="nt"><b><span class="n">16</span><span class="en">Playful words, with rules</span><span class="ko">장난스러운 말투, 규칙과 함께</span></b><span class="en">Words: Playful puts one pet pun in front of the plain meaning ("Paw-fect! Saved to Max's stickers", "Pawsted! Robert can see it"), at most one per screen. Never in safety (treat check, allergies), money, consents, errors or sign-in: danger stays loud and plain.</span><span class="ko">말투: 장난스럽게는 쉬운 뜻 앞에 펫 말장난 하나 ("Paw-fect! 맥스 스티커에 저장", "Pawsted! 로버트가 볼 수 있어요"), 화면당 최대 하나. 안전 (간식 확인, 알레르기), 결제, 동의, 오류, 로그인에는 절대 안 써요: 위험은 크고 쉽게.</span><span class="src">Mook, Oct 24 · CLAUDE.md §3 (4)</span></div>
   </div>
   <p class="vote"><span class="en">For the team: does this match how you'd use Feed? If yes, it lands as one PR on top of #340; the parts are already in the kit and the icons in Icon.tsx.</span><span class="ko">팀에게: 피드를 이렇게 쓰시겠어요? 좋다면 #340 위에 PR 하나로; 부품은 키트에, 아이콘은 Icon.tsx에 이미 있어요.</span></p>
 </section>
@@ -379,6 +384,9 @@ const DAYS = ["Today · Sat Oct 24", "Yesterday · Fri Oct 23"];
 const CATS = [["all", "All", "all"], ["meal", "Meals", "meal"], ["walk", "Walks", "walk"], ["nap", "Naps", "nap"], ["mood", "Mood", "smile"], ["potty", "Potty", "potty"], ["none", "No tag", "tag"]];
 const TAG_ICON = { meal: "meal", walk: "walk", nap: "nap", mood: "smile", potty: "potty", none: "tag" };
 // Panel: version, view to open on, pet picker, pets on the booking, Mochi's sitter, the tab's name.
+// Words: playful puts one pet pun in front of the plain meaning; never in safety, money, consents, errors or sign-in.
+let WORDS = "plain";
+const w = (plain, playful) => (WORDS === "playful" ? playful : plain);
 let V = "new", OPEN = "photos", PICK = "chip", NPETS = 2, SITTER2 = "Chloe", LABEL = "Feed";
 // The pet's sticker box (owner and sitter share it) and today's page decorations (each person's own layer, both see both).
 const STK = { max: [{ src: "mumu_party_hat", by: "Chloe" }], mochi: [] };
@@ -489,7 +497,7 @@ function photosNew(role, s) {
     if (rest.length) out += `<div class="small n${Math.min(rest.length, 3)}">${rest.map((p) => `<button type="button" data-a="open" data-paw="photo" data-v="${p.id || p.n}" aria-label="${lab(p)}"><img src="${IMG(p.n)}" alt="">${badge(p)}</button>`).join("")}</div>`;
     if (d === 0 && role === "owner" && s.cat === "all") out += keys.map((k) => noteCard(k, s)).join("");
   });
-  if (!show.length) out += `<div class="empty">${s.cat === "none" ? "Every photo has a tag" : `No ${CATS.find((c) => c[0] === s.cat)[1].toLowerCase()} photos yet`}${role === "owner" ? ` · ${askLink(role, s, "link")}` : ""}</div>`;
+  if (!show.length) out += `<div class="empty">${s.cat === "none" ? "Every photo has a tag" : w(`No ${CATS.find((c) => c[0] === s.cat)[1].toLowerCase()} photos yet`, `Nothing to sniff here yet: no ${CATS.find((c) => c[0] === s.cat)[1].toLowerCase()} photos`)}${role === "owner" ? ` · ${askLink(role, s, "link")}` : ""}</div>`;
   return out;
 }
 function noteCard(k, s) {
@@ -564,7 +572,7 @@ function sharePill(role, s) {
 function addSheet(role, s) {
   const a = s.add, pets = petsOf(role);
   const tags = CATS.filter((c) => !["all", "none"].includes(c[0]));
-  return `<div class="scrim" data-a="unadd"></div><div class="sheet add" role="dialog" aria-label="Add a photo"><b>Add a photo</b>
+  return `<div class="scrim" data-a="unadd"></div><div class="sheet add" role="dialog" aria-label="Add a photo"><b>${w("Add a photo", "Add a pawtrait")}</b>
     <div class="picks">${ADDS[a.pet].map((n) => `<button type="button" class="pk2" aria-pressed="${a.n === n}" data-a="addpick" data-v="${n}" aria-label="Pick this photo"><img src="${IMG(n)}" alt=""></button>`).join("")}</div>
     ${pets.length > 1 ? `<div class="arow"><span class="lbl">Pet</span>${pets.map((k) => `<button type="button" class="chip" aria-pressed="${a.pet === k}" data-a="addpet" data-v="${k}"><img class="cf" src="${IMG(PETS[k].face)}" alt="">${PETS[k].name}</button>`).join("")}</div>` : ""}
     <div class="arow"><span class="lbl">Tag (optional)</span>${tags.map(([v, l, i]) => `<button type="button" class="chip" aria-pressed="${a.c === v}" data-a="addtag" data-v="${v}">${ic(i)}${l}</button>`).join("")}</div>
@@ -599,7 +607,7 @@ function moodSheet(role, s) {
   const tag = (PETS[m.pet].photos.find((x) => x.n === m.n) || {}).c, lead = { nap: "Sleepy", walk: "Curious", meal: "Happy", mood: "Happy" }[tag] || "Calm";
   const raw = [["Happy", "smile"], ["Curious", "paw"], ["Calm", "heart"], ["Sleepy", "nap"]].map(([l, i], k) => [l, i, l === lead ? 140 + (seed % 40) : ((seed * (k + 3)) % 30) + 12]);
   const sum = raw.reduce((a, r) => a + r[2], 0), rows = raw.map(([l, i, v]) => [l, i, Math.round((v / sum) * 100)]).sort((a, b) => b[2] - a[2]);
-  return `<div class="scrim" data-a="unmood"></div><div class="sheet" role="dialog" aria-label="How ${P.name} seems"><b>How ${P.name} seems</b>
+  return `<div class="scrim" data-a="unmood"></div><div class="sheet" role="dialog" aria-label="How ${P.name} seems"><b>${w(`How ${P.name} seems`, `${P.name}'s mood, sniffed out`)}</b>
     <div class="moodr"><img src="${IMG(m.n)}" alt=""><div class="bars">${rows.map(([l, i, v]) => `<div class="mbar">${ic(i)}<span>${l}</span><i><b style="width:${v}%"></b></i><span>${v}%</span></div>`).join("")}</div></div>
     <small class="tipd">Just for fun. Goldito tags the photo; a rule table makes the numbers.</small>
     <button type="button" class="wide go2" data-a="unmood">Done</button></div>`;
@@ -639,6 +647,7 @@ function render() {
   pressed("[data-n]", (b) => Number(b.dataset.n) === NPETS);
   pressed("[data-sit]", (b) => b.dataset.sit === SITTER2);
   pressed("[data-l]", (b) => b.dataset.l === LABEL);
+  pressed("[data-w]", (b) => b.dataset.w === WORDS);
   document.getElementById("what").textContent = WHAT[V];
   document.querySelectorAll(".ph").forEach(phone);
 }
@@ -680,7 +689,7 @@ document.querySelector(".phones").addEventListener("click", (e) => {
   else if (a === "book") Object.assign(s, { back: s.pet, pet: v || s.pet, book: true, page: 0 });
   else if (a === "unbook") Object.assign(s, { book: false, pet: s.back || s.pet });
   else if (a === "pg") s.page = Math.max(0, Math.min(PETS[s.pet].pages.length - 1, s.page + Number(v)));
-  else if (a === "ask") { const who = [...new Set(keysOf(role, s).map(sitterOf))]; s.asked = true; render(); toast(ph, `Asked ${names(who)} for a photo`); return; }
+  else if (a === "ask") { const who = [...new Set(keysOf(role, s).map(sitterOf))]; s.asked = true; render(); toast(ph, w(`Asked ${names(who)} for a photo`, `Fetch! Asked ${names(who)} for a photo`)); return; }
   else if (a === "re") {
     const k = b.dataset.pet, r = (s.re[k] = s.re[k] || {}); r[v] = !r[v];
     const inPage = !!b.closest(".page");
@@ -694,7 +703,7 @@ document.querySelector(".phones").addEventListener("click", (e) => {
     const P = PETS[v]; P.pageShared = !P.pageShared;
     if (P.pageShared) R.owner.badge += 1;
     render();
-    toast(ph, P.pageShared ? `${P.name}'s page is shared with Robert` : `${P.name}'s page is only yours again`);
+    toast(ph, P.pageShared ? w(`${P.name}'s page is shared with Robert`, `Pawsted! Robert can read ${P.name}'s page`) : `${P.name}'s page is only yours again`);
     if (P.pageShared) toast(document.querySelector('.ph[data-role="owner"]'), `Chloe shared ${P.name}'s page`);
     return;
   }
@@ -712,7 +721,7 @@ document.querySelector(".phones").addEventListener("click", (e) => {
     Object.assign(s, { add: null, share: x.share, cat: "all", tab: "photos" });
     if (reaches) R[other].badge += 1;
     render();
-    toast(ph, x.share ? `Shared with ${names(who)}` : "Saved. Only you can see it");
+    toast(ph, x.share ? w(`Shared with ${names(who)}`, `Pawsted! ${names(who)} can see it`) : w("Saved. Only you can see it", "Tucked in your den. Only you can see it"));
     if (x.share) stamp(ph);
     if (reaches) toast(document.querySelector(`.ph[data-role="${other}"]`), `${R[role].name} shared a new photo of ${PETS[x.pet].name}`);
     return;
@@ -722,14 +731,14 @@ document.querySelector(".phones").addEventListener("click", (e) => {
   else if (a === "open") { s.view = findPhoto(role, s, v); s.lifted = false; }
   else if (a === "close") { s.view = null; s.lifted = false; }
   else if (a === "lift") s.lifted = true;
-  else if (a === "keep") { const pet = s.view.pet; keep(role, s); render(); toast(ph, `Saved to ${PETS[pet].name}'s stickers · ${otherOf(role, pet)} can use it too`); return; }
+  else if (a === "keep") { const pet = s.view.pet; keep(role, s); render(); toast(ph, w(`Saved to ${PETS[pet].name}'s stickers · ${otherOf(role, pet)} can use it too`, `Paw-fect! Saved to ${PETS[pet].name}'s stickers`)); return; }
   else if (a === "place") {
     const id = nextId++, pet = s.view.pet;
     DECOR[pet].push({ id, src: keep(role, s), x: 0.5, y: 0.33, s: 0.4, r: 0, by: role });
     Object.assign(s, { view: null, lifted: false, tab: "diary", book: false, deco: pet, sel: id, tray: "pet" });
   }
   else if (a === "deco") Object.assign(s, { deco: v, sel: null, tray: STK[v].length ? "pet" : "gold" });
-  else if (a === "decodone") { const k = s.deco; Object.assign(s, { deco: false, sel: null }); render(); toast(ph, `Saved · ${otherOf(role, k)} sees your stickers too`); return; }
+  else if (a === "decodone") { const k = s.deco; Object.assign(s, { deco: false, sel: null }); render(); toast(ph, w(`Saved · ${otherOf(role, k)} sees your stickers too`, `Paw-fect! ${otherOf(role, k)} sees your stickers too`)); return; }
   else if (a === "trtab") s.tray = v;
   else if (a === "add") { const id = nextId++; DECOR[s.deco].push({ id, src: v, x: 0.5, y: 0.3, s: v.startsWith("g_") ? 0.2 : 0.36, r: 0, by: role }); s.sel = id; }
   else if (a === "tool") {
@@ -874,7 +883,13 @@ document.querySelectorAll("[data-p]").forEach((b) => b.addEventListener("click",
 document.querySelectorAll("[data-n]").forEach((b) => b.addEventListener("click", () => { NPETS = Number(b.dataset.n); reset({ pet: "all" }); }));
 document.querySelectorAll("[data-sit]").forEach((b) => b.addEventListener("click", () => { SITTER2 = b.dataset.sit; reset({ pet: "all", asked: false }); }));
 document.querySelectorAll("[data-l]").forEach((b) => b.addEventListener("click", () => { LABEL = b.dataset.l; render(); }));
-if (location.hash === "#now") V = "now";
+document.querySelectorAll("[data-w]").forEach((b) => b.addEventListener("click", () => { WORDS = b.dataset.w; render(); }));
+// Deep links from Play and Pick: #playful, #avatars, #intabs, #onepet, #sam, #moments, #journal, #diary, #now (several joined with -)
+for (const t of location.hash.slice(1).split("-")) {
+  if (t === "now") V = "now"; else if (t === "playful") WORDS = "playful"; else if (t === "avatars") PICK = "avatars"; else if (t === "intabs") PICK = "switch";
+  else if (t === "onepet") NPETS = 1; else if (t === "sam") SITTER2 = "Sam"; else if (t === "moments") LABEL = "Moments"; else if (t === "journal") LABEL = "Journal";
+  else if (t === "diary") { OPEN = "diary"; st.owner.tab = st.sitter.tab = "diary"; }
+}
 render();
 // Figma ticket (plugin › Tickets): the two phones on the proposal
 window.__ticket = { id: "feed", title: "Feed and Diary: the day first (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/feed-trial.html", design: "Mook", code: "Minsik",
