@@ -149,6 +149,7 @@
       ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
     ["Updates", "업데이트", [
+      ["update-2026-10-24.html", "Oct 24 update", "10월 24일 업데이트", "Status icons and past booking cards in review, Chat got its tab, Figma flags every change", "상태 아이콘과 지난 예약 카드 리뷰, 채팅 탭 반영, 피그마가 모든 변화 표시"],
       ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Design tickets in today's slot, nav trial, Figma decisions and flags, DESIGN.md", "오늘 슬롯의 디자인 티켓, 내비게이션 시안, 피그마 결정과 표시, DESIGN.md"],
       ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Design kit, header C, Lucide, Jakarta, the merge chain", "디자인 키트, 헤더 C, Lucide, Jakarta, 머지 순서"],
       ["update-2026-10-21.html", "Oct 21 update", "10월 21일 업데이트", "UI audit, demo polish, judge panel", "UI 감사, 데모 다듬기, 심사위원 패널"],
@@ -162,7 +163,7 @@
       ["qa-sitter-card.html", "Sitter card", "시터 카드", "The card and the search pill, playable", "카드와 검색 필, 체험 가능"],
       ["qa-jakarta.html", "Typeface QA", "서체 QA", "Fredoka for titles, Plus Jakarta Sans for the rest, before and after", "제목 Fredoka, 나머지 Plus Jakarta Sans, 전후 비교"],
       ["header-trial.html", "Header trial", "헤더 시안", "Who am I signed in as? Now, A and C, playable", "누구로 로그인했는지: 지금, A, C 체험"],
-      ["nav-trial.html", "Nav trial", "내비게이션 시안", "Does Chat get a tab? Snap stays a tab (decided Oct 23): versions to play", "채팅도 탭으로? 스냅은 탭 그대로 (10/23 결정): 버전 체험"],
+      ["nav-trial.html", "Nav trial", "내비게이션 시안", "Chat got its own tab, Diary inside Feed (shipped #340); compare with before", "채팅 탭, 피드 안 다이어리 (#340 반영); 이전과 비교"],
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [
       ["judge-panel.html", "Judge panel", "심사위원 패널", "Goldito in two minutes", "2분 안에 보는 Goldito"],

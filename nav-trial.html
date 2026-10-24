@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nav Trial</title>
-<meta name="description" content="Snap stays a tab (decided Oct 23). Does Chat get its own tab, with Diary inside Feed? Try today's tabs and Seulgi's 5 tabs on both demo accounts.">
+<meta name="description" content="Chat got its own tab and Diary moved inside Feed (shipped Oct 23, #340); Snap stays a tab. Compare with the tabs before.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="ds.css">
 <style>
@@ -124,19 +124,19 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 
 <div class="bar"><span class="eyebrow">Goldito · <span class="en">Nav trial</span><span class="ko">내비게이션 시안</span> · <span class="en">from Seulgi's feedback</span><span class="ko">슬기님 피드백</span></span></div>
 <section>
-  <h1><span class="en">Snap stays a tab. Does Chat get one?</span><span class="ko">스냅은 탭 그대로. 채팅도 탭으로?</span></h1>
-  <p class="hint"><span class="en">Decided Oct 23: Snap stays in the tab bar. The version with Snap in the top left is <a href="nav-trial-snap-top-left.html">saved here</a> in case we come back to it. Still open: give Chat its own tab, with Diary inside Feed (Seulgi's 5 tabs), or keep today's tabs.</span><span class="ko">10/23 결정: 스냅은 탭 바에 그대로. 왼쪽 위 스냅 버전은 나중을 위해 <a href="nav-trial-snap-top-left.html">여기 저장</a>. 아직 열린 것: 채팅을 탭으로 (피드 안 다이어리, 슬기 5탭), 아니면 지금 탭 그대로.</span></p>
+  <h1><span class="en">Chat got its own tab</span><span class="ko">채팅이 탭이 됐어요</span></h1>
+  <p class="hint"><span class="en">Shipped Oct 23 (<a href="https://github.com/minsikpaul92/Goldito/pull/340" target="_blank" rel="noopener">#340</a>): five tabs, Home, Bookings, Chat, Feed and Snap. Diary lives inside Feed, and Chat uses the square bubble with a paw. Snap stays a tab; the top-left version is <a href="nav-trial-snap-top-left.html">saved here</a>. Flip to Before to compare.</span><span class="ko">10/23 반영 (<a href="https://github.com/minsikpaul92/Goldito/pull/340" target="_blank" rel="noopener">#340</a>): 탭 다섯, 홈, 예약, 채팅, 피드, 스냅. 다이어리는 피드 안, 채팅은 발바닥 네모 말풍선. 스냅은 탭 그대로; 왼쪽 위 버전은 <a href="nav-trial-snap-top-left.html">여기 저장</a>. 이전으로 바꿔 비교해 보세요.</span></p>
 </section>
 
 
 <div class="stage">
 <aside class="panel" aria-label="Controls">
   <div class="recbox" aria-live="polite"><span id="recState"></span>
-    <button type="button" id="useRec"><span class="en">Back to the recommended path</span><span class="ko">추천 조합으로 돌아가기</span></button></div>
+    <button type="button" id="useRec"><span class="en">Back to what shipped</span><span class="ko">반영된 모습으로</span></button></div>
   <p class="what" id="what"></p>
-  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version<em class="pk"> · ★ <span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></em></span><span class="ko">버전</span></span>
-    <button type="button" role="radio" data-v="now">Now</button>
-    <button type="button" role="radio" data-v="five"><span class="en">Seulgi's 5 tabs</span><span class="ko">슬기 5탭</span></button>
+  <div class="pick" data-grp="version" role="radiogroup" aria-label="Version"><span><span class="en">Version<em class="pk"> · ★ <span class="en">Shipped</span><span class="ko">반영됨</span></em></span><span class="ko">버전</span></span>
+    <button type="button" role="radio" data-v="now"><span class="en">Before (Oct 22)</span><span class="ko">이전 (10/22)</span></button>
+    <button type="button" role="radio" data-v="five"><span class="en">Shipped (#340)</span><span class="ko">반영됨 (#340)</span></button>
   </div>
   <div class="pick" data-grp="stay" role="radiogroup" aria-label="Stay"><span><span class="en">Stay<em class="pk"> · ★ <span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></em></span><span class="ko">스테이</span></span>
     <button type="button" role="radio" data-s="on"><span class="en">Pets are with the sitter</span><span class="ko">시터가 돌보는 중</span></button>
@@ -171,8 +171,8 @@ html[data-lang="ko"] .panel .pick.off>span::after{content:" · 스테이 중에�
 <script>
 const ic = (id) => `<svg aria-hidden="true"><use href="#l-${id}"/></svg>`;
 const WHAT = {
-  now: { en: "Today: five tabs, Snap is a tab, owner chats sit at the bottom of Bookings.", ko: "지금: 탭 다섯, 스냅이 탭, 보호자 채팅은 예약 맨 아래." },
-  five: { en: "Seulgi's sketch: Chat replaces Diary, Snap stays a tab. Still five tabs.", ko: "슬기님 스케치: 다이어리 자리에 채팅, 스냅은 탭 그대로. 여전히 다섯." },
+  now: { en: "Before Oct 23: Diary had a tab, owner chats sat at the bottom of Bookings.", ko: "10/23 이전: 다이어리 탭, 보호자 채팅은 예약 맨 아래." },
+  five: { en: "Shipped (#340): Chat replaces Diary, Diary inside Feed, Snap stays a tab. Still five tabs.", ko: "반영 (#340): 다이어리 자리에 채팅, 피드 안 다이어리, 스냅은 탭 그대로. 여전히 다섯." },
 };
 // Avatar colours: the app's block tints (Home tiles, pet cards). A person keeps one colour everywhere (from the name).
 const TINTS = [["#D8F3DC", "#1B4332"], ["#FDE2CC", "#9A3412"], ["#FBEFC8", "#8A5A00"], ["#FAD6CB", "#9F2E1A"], ["#E3EADF", "#3F4A43"]];
@@ -266,8 +266,8 @@ function render() {
   const onRec = V === REC.V && STAY === REC.STAY && CHAT === REC.CHAT && LOOK === REC.LOOK && GLYPH === REC.GLYPH && AVC === REC.AVC;
   const rb = document.querySelector(".recbox"); rb.classList.toggle("on", onRec);
   document.getElementById("recState").innerHTML = onRec
-    ? '<span class="en">You\'re on the recommended path. ★ in each group names its pick.</span><span class="ko">추천 조합을 보고 있어요. 그룹마다 ★가 추천.</span>'
-    : '<span class="en">You changed something. ★ in each group shows the recommended pick.</span><span class="ko">바꾼 상태예요. 그룹마다 ★가 추천.</span>';
+    ? '<span class="en">You\'re looking at what shipped. ★ in each group marks it.</span><span class="ko">반영된 모습이에요. 그룹마다 ★ 표시.</span>'
+    : '<span class="en">You changed something. ★ in each group marks what shipped.</span><span class="ko">바꾼 상태예요. 그룹마다 ★가 반영된 것.</span>';
   const grp = (k) => document.querySelector(`[data-grp="${k}"]`);
   grp("chaticon").hidden = V === "now";
   document.querySelectorAll("[data-v]").forEach((b) => { const on = b.dataset.v === V; b.setAttribute("aria-pressed", on); b.setAttribute("aria-checked", on); });
@@ -288,8 +288,8 @@ document.querySelectorAll(".pick [data-c]").forEach((b) => b.addEventListener("c
 document.querySelectorAll(".pick [data-k]").forEach((b) => b.addEventListener("click", () => { LOOK = b.dataset.k; render(); }));
 render();
 // Figma ticket (plugin › Tickets): the two phones on the recommended path, and what is being decided
-window.__ticket = { id: "nav", title: "Nav: Chat tab (proposal); Snap stays a tab", issue: "https://github.com/minsikpaul92/Goldito/issues/329", workbench: "https://mooque-dev.github.io/goldito-design/nav-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Snap stays a tab (decided Oct 23); Chat as a tab is the open question" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed, Snap (Diary inside Feed), or today's tabs" }, { q: "Snap", a: "Stays a tab. The top-left version is saved (nav-trial-snap-top-left.html)" },
+window.__ticket = { id: "nav", title: "Nav: Chat tab and Diary in Feed (shipped, #340)", issue: "https://github.com/minsikpaul92/Goldito/issues/329", workbench: "https://mooque-dev.github.io/goldito-design/nav-trial.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Shipped Oct 23 in #340; Snap stays a tab" }, { q: "Tabs", a: "Home, Bookings, Chat, Feed, Snap (Diary inside Feed)" }, { q: "Snap", a: "Stays a tab. The top-left version is saved (nav-trial-snap-top-left.html)" },
     { q: "Chat icon", a: "Square bubble with a paw (Goldito's own, Lucide style)" }, { q: "Avatars", a: "Block tints per person, matching letter" }],
   spec: [], specLinks: [] };
 </script></body></html>

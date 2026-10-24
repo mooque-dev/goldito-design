@@ -2,8 +2,46 @@
    board (the plugin reads the same entries). Checked against GitHub and the code on main.
    bucket: done (merged today), today (in the slot), call (needs a team call), close (done, ready to close), after (after the submission). */
 window.GOLDITO_TICKETS = {
-  "checked": "2026-10-23",
+  "checked": "2026-10-24",
   "tickets": [
+    {
+      "n": 329,
+      "bucket": "done",
+      "title": [
+        "Nav: Chat gets its own tab",
+        "내비게이션: 채팅 탭"
+      ],
+      "status": [
+        "Merged",
+        "머지됨"
+      ],
+      "owner": [
+        "Minsik built it (#340)",
+        "민식님이 만듦 (#340)"
+      ],
+      "done": [
+        "Five tabs: Home, Bookings, Chat, Feed, Snap. Diary moved inside Feed, chats left Bookings, and Chat uses the square bubble with a paw. Snap stays a tab; the top-left version is saved.",
+        "탭 다섯: 홈, 예약, 채팅, 피드, 스냅. 다이어리는 피드 안으로, 채팅은 예약에서 빠지고, 채팅은 발바닥 네모 말풍선. 스냅은 탭 그대로; 왼쪽 위 버전은 저장."
+      ],
+      "next": [
+        "Done (#340, Oct 23).",
+        "완료 (#340, 10/23)."
+      ],
+      "links": [
+        [
+          "https://github.com/minsikpaul92/Goldito/pull/340",
+          "PR #340"
+        ],
+        [
+          "https://github.com/minsikpaul92/Goldito/issues/329",
+          "#329"
+        ],
+        [
+          "nav-trial.html",
+          "Nav trial"
+        ]
+      ]
+    },
     {
       "n": 182,
       "bucket": "done",
@@ -85,22 +123,26 @@ window.GOLDITO_TICKETS = {
         "짧은 예약 카드, 지난 스테이는 아래"
       ],
       "status": [
-        "Ready to push",
-        "푸시 준비됨"
+        "PR open",
+        "PR 열림"
       ],
       "owner": [
-        "Mook, then Minsik reviews",
-        "무크, 민식님 리뷰"
+        "Minsik reviews",
+        "민식님 리뷰"
       ],
       "done": [
         "Active bookings already use the new ticket card and Past is folded (#343). The past-stay card now reads \"Oct 5 to 8 at Chloe's place\" and \"You drive over · Chloe brings them home\": the place once, no car emoji. 66 booking tests pass.",
         "진행 중인 예약은 새 티켓 카드, 지난 예약은 접힘 (#343). 지난 스테이 카드는 이제 \"Oct 5 to 8 at Chloe's place\", \"You drive over · Chloe brings them home\": 장소 한 번, 자동차 이모지 없음. 예약 테스트 66개 통과."
       ],
       "next": [
-        "Push the branch fix/booking-cards-short and open the PR (Closes #181).",
-        "fix/booking-cards-short 브랜치 푸시하고 PR 열기 (Closes #181)."
+        "Minsik reviews and merges #353 (Closes #181).",
+        "민식님이 #353 리뷰하고 머지 (Closes #181)."
       ],
       "links": [
+        [
+          "https://github.com/minsikpaul92/Goldito/pull/353",
+          "PR #353"
+        ],
         [
           "https://github.com/minsikpaul92/Goldito/issues/181",
           "#181"
@@ -120,22 +162,26 @@ window.GOLDITO_TICKETS = {
         "예약 탭 밖의 AI 느낌 이모지"
       ],
       "status": [
-        "Ready to push",
-        "푸시 준비됨"
+        "PR open",
+        "PR 열림"
       ],
       "owner": [
-        "Mook, then Minsik reviews",
-        "무크, 민식님 리뷰"
+        "Minsik reviews",
+        "민식님 리뷰"
       ],
       "done": [
-        "45 visible spots fixed on a branch: \"Suggested\" instead of the sparkle, buttons are words (Decorate, Rate, Leave a review), ✓ and ✗ for done and missed. The full e2e suite passes (3 flaky tests pass on a re-run). Notification titles with emoji come from the database: Minsik's side.",
-        "브랜치에서 보이는 45곳 수정: 반짝이 대신 \"Suggested\", 버튼은 글자 (Decorate, Rate, Leave a review), 완료와 놓침은 ✓, ✗. 전체 e2e 통과 (흔들리는 3개는 재실행 통과). 이모지가 든 알림 제목은 데이터베이스에서: 민식님 쪽."
+        "45 spots: words instead of emoji (\"Suggested\", buttons are words) and Lucide icons for statuses, Heads-up, Life Record and care lines (check, clock, x, warning, meal, pill, paw, tip). Full test suite passes.",
+        "45곳: 이모지 대신 글자 (\"Suggested\", 버튼은 글자), 상태, 주의, Life Record, 케어 줄은 Lucide 아이콘 (체크, 시계, x, 경고, 식사, 약, 발, 팁). 전체 테스트 통과."
       ],
       "next": [
-        "Push fix/emoji-outside-bookings and open the PR (Refs #293); Minsik reopens #293 or closes it with the PR.",
-        "fix/emoji-outside-bookings 푸시하고 PR 열기 (Refs #293); 민식님이 #293 다시 열거나 PR과 함께 닫기."
+        "Minsik reviews and merges #352 (Refs #293).",
+        "민식님이 #352 리뷰하고 머지 (Refs #293)."
       ],
       "links": [
+        [
+          "https://github.com/minsikpaul92/Goldito/pull/352",
+          "PR #352"
+        ],
         [
           "https://github.com/minsikpaul92/Goldito/issues/293",
           "#293"
@@ -373,40 +419,6 @@ window.GOLDITO_TICKETS = {
         [
           "video.html",
           "Shot list"
-        ]
-      ]
-    },
-    {
-      "n": 329,
-      "bucket": "call",
-      "title": [
-        "Nav: does Chat get its own tab?",
-        "내비게이션: 채팅도 탭으로?"
-      ],
-      "status": [
-        "Team call",
-        "팀 결정"
-      ],
-      "owner": [
-        "Everyone, by Oct 24",
-        "모두, 10/24까지"
-      ],
-      "done": [
-        "Decided Oct 23: Snap stays a tab; the top-left version is saved. The trial now compares today's tabs with Seulgi's 5 tabs (Chat replaces Diary, Diary inside Feed).",
-        "10/23 결정: 스냅은 탭 그대로; 왼쪽 위 버전은 저장. 시안은 지금 탭과 슬기 5탭 (다이어리 자리에 채팅, 피드 안 다이어리)을 비교."
-      ],
-      "next": [
-        "Chat tab or not, and is Diary fine inside Feed? Answer on the issue by Oct 24; no clear yes means after the submission.",
-        "채팅 탭으로 할지, 다이어리를 피드 안에 둬도 될지. 10/24까지 이슈에 답하기; 확실한 예가 없으면 제출 후."
-      ],
-      "links": [
-        [
-          "https://github.com/minsikpaul92/Goldito/issues/329",
-          "#329"
-        ],
-        [
-          "nav-trial.html",
-          "Nav trial"
         ]
       ]
     },
