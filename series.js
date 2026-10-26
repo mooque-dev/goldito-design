@@ -7,6 +7,7 @@
     doc: "update-2026-10-25.html",
     pages: [
       ["update-2026-10-25.html", "The day's doc", "오늘 문서"],
+      ["rundown-2026-10-25.html", "Rundown and checklist", "한눈에 보기와 체크리스트"],
       ["feed-trial.html", "Moments trial", "모먼츠 시안"],
       ["diary-compare.html", "Diary views", "다이어리 보기"],
       ["tone-trial.html", "Pet tone", "펫 톤"],

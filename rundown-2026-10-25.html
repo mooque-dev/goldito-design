@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Oct 25 Rundown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<script>
+  (() => { let v = "en"; try { v = localStorage.getItem("goldito-lang") === "ko" ? "ko" : "en"; } catch (e) {}
+    document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
+</script>
+<style>
+/* Layout: a day's log in Goldito's own colors. Status strip, then the work as picture cards, then the team's merges, then one checklist grouped by who decides. */
+:root {
+  --bg: #FBF6EA; --surface: #FFFFFF; --sunk: #F3EBD8; --line: #E6DCC4;
+  --ink: #1B4332; --text: #22302A; --muted: #5E665F;
+  --green: #2D6A4F; --green-soft: #D8F0DF; --gold: #F2B84B; --gold-soft: #FBEBC4;
+  --peach-soft: #FCE3CC; --peach-ink: #8A3A12; --grey-soft: #ECEAE4; --grey-ink: #4A4A45;
+  --done-ink: #1F5C3E;
+  --display: "Fredoka", "Nunito", system-ui, sans-serif;
+  --body: "Plus Jakarta Sans", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #13201A; --surface: #1B2B23; --sunk: #17241E; --line: #2C3F35;
+  --ink: #E9F3EC; --text: #DCE6DF; --muted: #A2B0A7;
+  --green: #74C69D; --green-soft: #1F3A2C; --gold: #F2B84B; --gold-soft: #3A3218;
+  --peach-soft: #3F2C1E; --peach-ink: #F6C39E; --grey-soft: #2A302C; --grey-ink: #C9CEC9; --done-ink: #A8E0C0; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #13201A; --surface: #1B2B23; --sunk: #17241E; --line: #2C3F35;
+  --ink: #E9F3EC; --text: #DCE6DF; --muted: #A2B0A7;
+  --green: #74C69D; --green-soft: #1F3A2C; --gold: #F2B84B; --gold-soft: #3A3218;
+  --peach-soft: #3F2C1E; --peach-ink: #F6C39E; --grey-soft: #2A302C; --grey-ink: #C9CEC9; --done-ink: #A8E0C0; color-scheme: dark }
+
+* { box-sizing: border-box }
+html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+body { background: var(--bg); color: var(--text); font: 400 15px/1.55 var(--body); margin: 0 }
+.wrap { max-width: 1120px; margin: 0 auto; padding-block: 24px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 56px }
+h1, h2, h3 { font-family: var(--display); color: var(--ink); margin: 0; text-wrap: balance; letter-spacing: -.005em }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1.05 }
+h2 { font-size: 1.6rem; font-weight: 600 }
+h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.25 }
+p { margin: 0; max-width: 66ch }
+a { color: var(--green); font-weight: 600; text-underline-offset: 3px }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 6px }
+.eyebrow { font: 700 12px var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--muted) }
+.lede { font-size: 1.08rem; color: var(--muted) }
+section { display: flex; flex-direction: column; gap: 20px; min-width: 0 }
+.sh { display: flex; flex-direction: column; gap: 6px }
+
+/* status chips */
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px; font: 700 12.5px var(--body); white-space: nowrap }
+.chip::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor }
+.c-live { background: var(--green-soft); color: var(--done-ink) }
+.c-ship { background: var(--green-soft); color: var(--done-ink) }
+.c-held { background: var(--peach-soft); color: var(--peach-ink) }
+.c-wait { background: var(--gold-soft); color: var(--ink) }
+.c-later { background: var(--grey-soft); color: var(--grey-ink) }
+
+/* status strip */
+.strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px }
+.st { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+.st b { font: 600 1.05rem var(--display); color: var(--ink) }
+.st span.s { color: var(--muted); font-size: 13.5px }
+@media (max-width: 860px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 460px) { .strip { grid-template-columns: 1fr } }
+
+/* work cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; display: flex; flex-direction: column; min-width: 0 }
+.shots { display: flex; gap: 8px; padding: 14px 14px 0; background: var(--sunk); height: 230px; overflow: hidden; justify-content: center }
+.shots img { height: 300px; width: auto; max-width: none; border-radius: 14px 14px 0 0; object-fit: cover; object-position: top; box-shadow: 0 1px 0 var(--line) }
+.shots.two img { height: 260px }
+.cb { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1 }
+.cb p { font-size: 14px; color: var(--muted) }
+.links { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: auto; padding-top: 4px; font-size: 13.5px }
+.links a { display: inline-flex; align-items: center; min-height: 32px }
+.gh { font-variant-numeric: tabular-nums }
+
+/* merges table */
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px }
+th, td { text-align: left; padding: 11px 16px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--sunk) }
+tr:last-child td { border-bottom: 0 }
+td.n { font-variant-numeric: tabular-nums; white-space: nowrap; width: 80px }
+td.d { white-space: nowrap; color: var(--muted); font-variant-numeric: tabular-nums; width: 80px }
+
+/* held */
+.held { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px }
+.hd { background: var(--peach-soft); border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+.hd h3 { color: var(--peach-ink) }
+.hd p { font-size: 14px; color: var(--text) }
+.hd code { font-size: 12.5px; background: color-mix(in srgb, var(--surface) 60%, transparent); padding: 1px 5px; border-radius: 5px; overflow-wrap: anywhere }
+@media (max-width: 860px) { .held { grid-template-columns: 1fr } }
+
+/* checklist */
+.prog { display: flex; align-items: center; gap: 14px; flex-wrap: wrap }
+.bar { flex: 1; min-width: 160px; height: 10px; border-radius: 999px; background: var(--sunk); overflow: hidden }
+.bar i { display: block; height: 100%; width: 0; background: var(--green); border-radius: 999px; transition: width .3s }
+.prog .count { font: 600 1rem var(--display); color: var(--ink); font-variant-numeric: tabular-nums }
+.groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px }
+@media (max-width: 860px) { .groups { grid-template-columns: 1fr } }
+.grp { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+.grp header { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px }
+.grp header .who { display: flex; gap: 8px; align-items: center; flex-wrap: wrap }
+.item { display: grid; grid-template-columns: 28px 1fr; gap: 10px; padding: 10px 6px; border-radius: 12px; cursor: pointer; align-items: start }
+.item:hover { background: var(--sunk) }
+.item input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--green); cursor: pointer }
+.item b { font-weight: 600; color: var(--ink) }
+.item .why { display: block; color: var(--muted); font-size: 13.5px; margin-top: 2px }
+.item .rec { display: inline-block; margin-top: 4px; font: 700 12px var(--body); color: var(--done-ink); background: var(--green-soft); padding: 2px 8px; border-radius: 999px }
+.item:has(input:checked) b { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted) }
+.tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center }
+button { font: 700 14px var(--body); min-height: 44px; padding: 0 18px; border-radius: 999px; cursor: pointer; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink) }
+button.pri { background: var(--green); border-color: var(--green); color: var(--bg) }
+.note { font-size: 13px; color: var(--muted) }
+.foot { font-size: 13.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 18px }
+@media (prefers-reduced-motion: reduce) { .bar i { transition: none } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="sh">
+    <span class="eyebrow"><span class="en">Goldito design · Sunday Oct 25, 2026 · freeze Tue Oct 28</span><span class="ko">골디토 디자인 · 2026년 10월 25일 일요일 · 동결 10월 28일 화요일</span></span>
+    <h1><span class="en">Everything from Oct 25, and what's left to decide</span><span class="ko">10월 25일의 모든 것, 그리고 남은 결정</span></h1>
+    <p class="lede"><span class="en">What went live, what the team built from it, what's held back and why, and one checklist for the team before the next DESIGN.md push or plugin update.</span><span class="ko">무엇이 올라갔는지, 팀이 그걸로 무엇을 만들었는지, 무엇을 왜 보류했는지, 그리고 다음 DESIGN.md 푸시나 플러그인 업데이트 전에 팀이 볼 체크리스트 하나.</span> <a href="update-2026-10-25.html"><span class="en">The day's full doc ›</span><span class="ko">그날의 전체 문서 ›</span></a></p>
+  </header>
+
+  <div class="strip" aria-label="Where things stand">
+    <div class="st"><span class="chip c-live"><span class="en">Live</span><span class="ko">공개</span></span><b><span class="en">Design site</span><span class="ko">디자인 사이트</span></b><span class="s"><span class="en">Today's trials and pages are on Pages, including the intro note with the Terms fix and PR #384.</span><span class="ko">오늘의 시안과 페이지가 모두 Pages에 있어요. 약관 수정과 PR #384가 반영된 인트로 메모 포함.</span></span></div>
+    <div class="st"><span class="chip c-wait"><span class="en">Run needed</span><span class="ko">실행 필요</span></span><b><span class="en">Figma plugin</span><span class="ko">피그마 플러그인</span></b><span class="s"><span class="en">A Dev reference page is built into the plugin. It shows up in Figma after a plugin run.</span><span class="ko">플러그인에 Dev reference 페이지가 들어 있어요. 플러그인을 실행하면 피그마에 나타나요.</span></span></div>
+    <div class="st"><span class="chip c-held"><span class="en">Held</span><span class="ko">보류</span></span><b>DESIGN.md</b><span class="s"><span class="en">Not pushed: 12 UX calls and 4 older questions are still open.</span><span class="ko">푸시 안 함: UX 결정 12개와 예전 질문 4개가 아직 열려 있어요.</span></span></div>
+    <div class="st"><span class="chip c-live"><span class="en">11 merged · 1 in review</span><span class="ko">머지 11 · 리뷰 1</span></span><b>GitHub</b><span class="s"><span class="en">The team merged 11 PRs built on the designs since Oct 23. The intro is in review as PR #384 (#374).</span><span class="ko">10월 23일 이후 디자인으로 만든 PR 11개가 머지됐어요. 인트로는 PR #384로 리뷰 중(#374).</span></span></div>
+  </div>
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">Live on Pages</span><span class="ko">Pages에 공개</span></span><h2><span class="en">What we made</span><span class="ko">만든 것</span></h2><p><span class="en">Each card opens its page. The status says whether it's decided and when to build it.</span><span class="ko">카드마다 그 페이지가 열려요. 상태는 결정됐는지, 언제 만들지 알려줘요.</span></p></div>
+    <div class="cards">
+      <article class="card">
+        <div class="shots"><img src="assets/rundown-1025/c-intro.jpg" alt="Intro Welcome screen" loading="lazy"></div>
+        <div class="cb"><span class="chip c-ship"><span class="en">In review · PR #384</span><span class="ko">리뷰 중 · PR #384</span></span><h3><span class="en">Intro: the first minute</span><span class="ko">인트로: 첫 1분</span></h3>
+          <p><span class="en">Boot and Finish share one 4-paw walk; Welcome to Goldito; How it works in three pages; sign-up in 3 steps. Built in PR #384.</span><span class="ko">부팅과 마무리는 같은 네 발자국 걷기; 웰컴; 소개 세 페이지; 세 단계 가입. PR #384에서 구현.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/intro-trial.html"><span class="en">Intro trial ↗</span><span class="ko">인트로 시안 ↗</span></a><a class="gh" href="https://github.com/minsikpaul92/Goldito/pull/384">#384 ↗</a><a class="gh" href="https://github.com/minsikpaul92/Goldito/issues/374">#374 ↗</a><a class="gh" href="https://github.com/minsikpaul92/Goldito/pull/375">#375 ↗</a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots two"><img src="assets/rundown-1025/c-add.jpg" alt="Add a photo sheet" loading="lazy"><img src="assets/rundown-1025/c-viewer.jpg" alt="Photo viewer" loading="lazy"></div>
+        <div class="cb"><span class="chip c-ship"><span class="en">Decided by Minsik</span><span class="ko">민식님 결정</span></span><h3><span class="en">Moments: add a photo and the viewer</span><span class="ko">모먼츠: 사진 추가와 보기</span></h3>
+          <p><span class="en">Note field, multi-pick, no share pill; tap hides the UI; Hide, Edit, Delete. Minsik's 9 picks applied.</span><span class="ko">메모 칸, 여러 장 선택, 공유 알약 없음; 탭하면 UI 숨김; 숨기기, 편집, 삭제. 민식님의 9가지 선택 반영.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/feed-trial.html"><span class="en">Moments trial ↗</span><span class="ko">모먼츠 시안 ↗</span></a><a href="https://mooque-dev.github.io/goldito-design/feed-trial.html#to-update"><span class="en">What the app should change ↗</span><span class="ko">앱에서 바꿀 것 ↗</span></a><a class="gh" href="https://github.com/minsikpaul92/Goldito/pull/346">#346 ↗</a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots"><img src="assets/rundown-1025/c-diary.jpg" alt="Diary views" loading="lazy"></div>
+        <div class="cb"><span class="chip c-ship"><span class="en">Decided by Minsik</span><span class="ko">민식님 결정</span></span><h3><span class="en">Diary views</span><span class="ko">다이어리 보기</span></h3>
+          <p><span class="en">Today, Calendar and Footprints. A sitter's diary page starts shared.</span><span class="ko">오늘, 달력, 발자국. 시터의 다이어리 페이지는 공유로 시작.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/diary-compare.html"><span class="en">Diary views ↗</span><span class="ko">다이어리 보기 ↗</span></a><a href="https://mooque-dev.github.io/goldito-design/play-and-pick.html"><span class="en">Play and pick answers ↗</span><span class="ko">플레이 앤 픽 답 ↗</span></a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots"><img src="assets/rundown-1025/c-words.jpg" alt="Playful words" loading="lazy"></div>
+        <div class="cb"><span class="chip c-ship"><span class="en">Decided: a little playful</span><span class="ko">결정: 살짝 재치 있게</span></span><h3><span class="en">Playful words</span><span class="ko">재치 있는 말</span></h3>
+          <p><span class="en">17 puns, each for dogs and cats, plus a never list. Toasts and empty states only.</span><span class="ko">강아지와 고양이용 말장난 17개와 금지 목록. 토스트와 빈 화면에만.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/words-trial.html"><span class="en">Playful words ↗</span><span class="ko">재치 있는 말 ↗</span></a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots two"><img src="assets/rundown-1025/c-tone.jpg" alt="Pet tone, light" loading="lazy"><img src="assets/rundown-1025/c-tone-dark.jpg" alt="Pet tone, dark" loading="lazy"></div>
+        <div class="cb"><span class="chip c-later"><span class="en">Proposal · after the freeze</span><span class="ko">제안 · 동결 이후</span></span><h3><span class="en">Pet tone and dark mode</span><span class="ko">펫 톤과 다크 모드</span></h3>
+          <p><span class="en">The app takes its tint from the pet's photo; 10 screens with a legibility check and test pets in different coat colors; 7 calls for the team.</span><span class="ko">펫 사진에서 앱 색을 가져와요; 가독성 검사가 있는 10개 화면과 털색이 다른 테스트 펫; 팀 결정 7개.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/tone-trial.html"><span class="en">Pet tone ↗</span><span class="ko">펫 톤 ↗</span></a><a class="gh" href="https://github.com/minsikpaul92/Goldito/issues/119">#119 ↗</a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots two"><img src="assets/rundown-1025/c-delights.jpg" alt="Little delights" loading="lazy"><img src="assets/rundown-1025/c-walk.jpg" alt="Paw walk" loading="lazy"></div>
+        <div class="cb"><span class="chip c-wait"><span class="en">Proposal · team call</span><span class="ko">제안 · 팀 결정</span></span><h3><span class="en">Little delights</span><span class="ko">작은 즐거움</span></h3>
+          <p><span class="en">14 micro-interactions: paw walks for welcome, loading, typing and progress, rewards, hints.</span><span class="ko">작은 인터랙션 14개: 웰컴, 로딩, 입력, 진행의 발자국 걷기, 보상, 힌트.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/delights.html"><span class="en">Little delights ↗</span><span class="ko">작은 즐거움 ↗</span></a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots"><img src="assets/rundown-1025/c-audit.jpg" alt="UX audit" loading="lazy"></div>
+        <div class="cb"><span class="chip c-live"><span class="en">Done</span><span class="ko">완료</span></span><h3><span class="en">UX audit</span><span class="ko">UX 점검</span></h3>
+          <p><span class="en">55 findings across Back (19), Feedback (17) and Actions (19), each linked to the DESIGN.md rule it breaks.</span><span class="ko">뒤로(19), 피드백(17), 액션(19)에 걸친 55개 발견, 각각 어긋나는 DESIGN.md 규칙에 연결.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/ux-audit.html"><span class="en">UX audit ↗</span><span class="ko">UX 점검 ↗</span></a></div></div>
+      </article>
+      <article class="card">
+        <div class="shots"><img src="assets/rundown-1025/c-calls.jpg" alt="UX calls" loading="lazy"></div>
+        <div class="cb"><span class="chip c-wait"><span class="en">Waiting on picks</span><span class="ko">선택 대기</span></span><h3><span class="en">Pick the UX calls</span><span class="ko">UX 결정 고르기</span></h3>
+          <p><span class="en">The 12 open calls from the audit, drawn as phones. Copy my picks gives one line to paste back.</span><span class="ko">점검에서 나온 열린 결정 12개를 폰 화면으로. 내 선택 복사로 한 줄을 붙여 넣어요.</span></p>
+          <div class="links"><a href="https://mooque-dev.github.io/goldito-design/ux-calls.html"><span class="en">Pick the UX calls ↗</span><span class="ko">UX 결정 고르기 ↗</span></a></div></div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="eyebrow">GitHub · minsikpaul92/Goldito</span><h2><span class="en">What the team built from the designs</span><span class="ko">팀이 디자인으로 만든 것</span></h2><p><span class="en">Since Oct 23. These are the team's PRs; the design each one follows is in the From column.</span><span class="ko">10월 23일부터. 팀의 PR이고, 각 PR이 따른 디자인은 출처 칸에 있어요.</span></p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>PR</th><th><span class="en">What changed</span><span class="ko">바뀐 것</span></th><th><span class="en">From</span><span class="ko">출처</span></th><th><span class="en">Merged</span><span class="ko">머지</span></th></tr></thead>
+      <tbody>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/384">#384</a></td><td><span class="en">New intro: Try the demo, How it works, three-step sign-up, paw-walk boot</span><span class="ko">새 인트로: 데모, 소개, 세 단계 가입, 발자국 부팅</span></td><td>Intro trial, #374</td><td class="d"><span class="en">In review</span><span class="ko">리뷰 중</span></td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/346">#346</a></td><td><span class="en">Moments tab (was Feed): filters, All pets, hide, edit, stickers</span><span class="ko">모먼츠 탭(피드였던): 필터, 모든 펫, 숨기기, 편집, 스티커</span></td><td>Moments trial, closes #345</td><td class="d">Oct 25</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/362">#362</a></td><td><span class="en">Login and sign-up screens with Apple and Google buttons (hidden for now)</span><span class="ko">애플·구글 버튼이 있는 로그인과 가입 화면(지금은 숨김)</span></td><td>Intro, social buttons</td><td class="d">Oct 25</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/375">#375</a></td><td><span class="en">Terms of service page</span><span class="ko">이용약관 페이지</span></td><td>Intro audit</td><td class="d">Oct 25</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/377">#377</a></td><td><span class="en">Owner sign-up keeps the home address and has a way back</span><span class="ko">보호자 가입이 집 주소를 지키고 뒤로 갈 수 있음</span></td><td>QA, Back rules</td><td class="d">Oct 25</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/378">#378</a></td><td><span class="en">Toast sits just above whatever is at the bottom</span><span class="ko">토스트가 맨 아래 요소 바로 위에</span></td><td>Feedback rules</td><td class="d">Oct 25</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/380">#380</a></td><td><span class="en">Foods step goes on with nothing picked</span><span class="ko">음식 단계는 고르지 않아도 진행</span></td><td>QA</td><td class="d">Oct 26</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/352">#352</a></td><td><span class="en">Words and Lucide icons instead of AI-typical emoji</span><span class="ko">AI 느낌 이모지 대신 글자와 Lucide 아이콘</span></td><td>#293</td><td class="d">Oct 24</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/353">#353</a></td><td><span class="en">Shorter past booking cards</span><span class="ko">짧아진 지난 예약 카드</span></td><td>#181</td><td class="d">Oct 24</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/343">#343</a></td><td><span class="en">Bookings tabs follow Figma</span><span class="ko">예약 탭이 피그마를 따름</span></td><td>Figma</td><td class="d">Oct 24</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/341">#341</a></td><td><span class="en">Snap tab follows Figma</span><span class="ko">스냅 탭이 피그마를 따름</span></td><td>Figma</td><td class="d">Oct 23</td></tr>
+        <tr><td class="n"><a href="https://github.com/minsikpaul92/Goldito/pull/340">#340</a></td><td><span class="en">Chat gets its own tab; Diary moves inside Moments</span><span class="ko">채팅 탭 분리; 다이어리는 모먼츠 안으로</span></td><td>#329 nav proposal</td><td class="d">Oct 23</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">Not pushed</span><span class="ko">아직 안 올림</span></span><h2><span class="en">Held back, and why</span><span class="ko">보류한 것과 이유</span></h2></div>
+    <div class="held">
+      <div class="hd"><h3><span class="en">DESIGN.md patterns</span><span class="ko">DESIGN.md 패턴</span></h3><p><span class="en">Branch <code>docs/ux-patterns</code>: §7.8 Back and leaving, §7.11 Feedback, §7.12 Actions and forms, §7.13 the 12 calls, decisions D14 to D17. Held until the calls in the checklist are picked.</span><span class="ko">브랜치 <code>docs/ux-patterns</code>: §7.8 뒤로와 나가기, §7.11 피드백, §7.12 액션과 폼, §7.13 결정 12개, 결정 D14~D17. 체크리스트의 결정이 정해질 때까지 보류.</span></p></div>
+      <div class="hd"><h3><span class="en">Figma Dev reference</span><span class="ko">피그마 Dev reference</span></h3><p><span class="en">A page for devs: app tabs, then Intro, Moments, Playful words, UX calls, Pet tone and Little delights, each with a status pill and notes. It appears after Mook runs the plugin.</span><span class="ko">개발자용 페이지: 앱 탭, 그다음 인트로, 모먼츠, 재치 있는 말, UX 결정, 펫 톤, 작은 즐거움. 각각 상태와 메모 포함. Mook이 플러그인을 실행하면 나타나요.</span></p></div>
+      <div class="hd"><h3><span class="en">Intro build, in review</span><span class="ko">인트로 구현, 리뷰 중</span></h3><p><span class="en">PR #384 passed all 624 tests and waits on Minsik's review. Vercel updates only after the team merges it.</span><span class="ko">PR #384는 테스트 624개를 모두 통과했고 민식님 리뷰를 기다려요. Vercel은 팀이 머지한 뒤에만 바뀌어요.</span></p></div>
+    </div>
+  </section>
+
+  <section id="check">
+    <div class="sh"><span class="eyebrow"><span class="en">Before the next push or plugin update</span><span class="ko">다음 푸시나 플러그인 업데이트 전에</span></span><h2><span class="en">Decisions checklist</span><span class="ko">결정 체크리스트</span></h2><p><span class="en">Grouped by who decides. Ticks stay in your browser. Copy what's done gives one line to paste in the team chat.</span><span class="ko">누가 정하는지로 묶었어요. 체크는 내 브라우저에 남아요. 완료 복사로 팀 채팅에 붙일 한 줄을 만들어요.</span></p></div>
+    <div class="prog"><span class="count" id="count">0 of 0</span><div class="bar" role="progressbar" aria-label="Checklist progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="fill"></i></div></div>
+    <div class="groups" id="groups"></div>
+    <div class="tools"><button type="button" class="pri" id="copy"><span class="en">Copy what's done</span><span class="ko">완료 복사</span></button><button type="button" id="reset"><span class="en">Clear ticks</span><span class="ko">체크 지우기</span></button><span class="note" id="msg" role="status"></span></div>
+    <textarea id="fallback" hidden aria-label="Checklist summary to copy" rows="3" style="width:100%;font:13px var(--body);border-radius:12px;border:1px solid var(--line);padding:10px;background:var(--surface);color:var(--text)"></textarea>
+  </section>
+
+  <p class="foot"><span class="en">Freeze Tue Oct 28 · submit Thu Oct 30 · Mook's last day is Oct 29; after that Minsik approves UI.</span><span class="ko">동결 10월 28일 화 · 제출 10월 30일 목 · Mook의 마지막 날은 10월 29일, 이후 UI 승인은 민식님.</span></p>
+</div>
+
+<script>
+const GROUPS = [
+  { id: "ux", title: ["UX calls (team)", "UX 결정 (팀)"], chip: ["c-held", "Blocks the DESIGN.md push", "DESIGN.md 푸시를 막음"], blurb: ["Pick on the UX calls page and paste the line in the team chat. Recommendations are what DESIGN.md assumes today.", "UX 결정 페이지에서 고르고 팀 채팅에 한 줄을 붙여 주세요. 추천은 지금 DESIGN.md가 가정하는 것이에요."], link: ["ux-calls.html", "Pick the UX calls ↗", "UX 결정 고르기 ↗"], items: [
+    ["U1", "Native header Back", "~37 screens show the chevron only", "Chevron + Back"],
+    ["U2", "Leaving with typed input", "Keep a draft or ask Discard?", "Drafts for long flows, ask for sheets"],
+    ["U3", "Undo time", "5 s, 6 s or 8 s today", "6 s everywhere"],
+    ["U4", "Full-screen viewer close", "✕ top left or top right", "✕ top left, labelled Close"],
+    ["U5", "Sign out", "Confirmed two ways today", "No confirm"],
+    ["U6", "Error surfaces", "As §7.11 or toasts only", "As §7.11, add ErrorDialog"],
+    ["U7", "Skeletons", "53 spinner screens", "Tab roots, after the freeze"],
+    ["U8", "Steps in the URL", "Now or later", "After the freeze"],
+    ["U9", "Notification toasts", "Every one or only off-screen", "Only off-screen, queued"],
+    ["U10", "Live sheets", "Done only or Close and Done", "Done only"],
+    ["U11", "Busy screens with many primaries", "Booking detail, chat", "One primary for the next step"],
+    ["U12", "Accept wording", "Accept, I accept, Approve, Confirm quote", "Accept (Confirm and pay at checkout)"]] },
+  { id: "old", title: ["Older open questions in DESIGN.md §0.7 (team)", "DESIGN.md §0.7의 예전 질문 (팀)"], chip: ["c-held", "Blocks the DESIGN.md push", "DESIGN.md 푸시를 막음"], blurb: ["Four lines that predate today. Two may already be settled; confirm and the file gets updated.", "오늘 이전의 네 줄. 두 개는 이미 정해졌을 수 있어요; 확인해 주시면 파일을 고쳐요."], items: [
+    ["Q1", "Mood vs Snap", "Figma's Tab Bar said Mood; the app ships Snap (#341)", "Snap, update Figma"],
+    ["Q2", "Skins tinting text", "Balanced also tints text and muted text", "Only dark, readable values"],
+    ["Q3", "18 px subtitle", "§4 proposes it; D6 says four sizes", "Pick one"],
+    ["Q4", "Logo", "§0.7 still calls it open; the coin was decided Oct 19", "Coin, remove from §0.7"]] },
+  { id: "mook", title: ["Mook", "Mook"], chip: ["c-wait", "Before the plugin update", "플러그인 업데이트 전"], blurb: ["The plugin run, plus two outward steps that need Mook's OK.", "플러그인 실행, 그리고 Mook의 확인이 필요한 바깥 작업 두 개."], items: [
+    ["M1", "Re-import the plugin and run Screens", "So the app tabs exist to copy", ""],
+    ["M2", "Tickets tab: Build the Dev reference page", "Check the Intro section has 13 frames", ""],
+    ["M3", "Comment on #374 with the intro link", "It asks for Welcome and Sign-in frames; the intro trial, Dev reference and PR #384 answer it", ""],
+    ["M4", "Close done design issues", "#112, #113, #119 are done but open on GitHub", ""]] },
+  { id: "minsik", title: ["Minsik and the devs", "민식님과 개발자"], chip: ["c-later", "Can wait past the push", "푸시 뒤로 미뤄도 됨"], blurb: ["Calls that shape what gets built before Oct 28.", "10월 28일 전에 무엇을 만들지 정하는 결정."], items: [
+    ["T1", "Review PR #384, the intro", "Confirm password is gone on sign-up; no Forgot password yet", ""],
+    ["T2", "Moments follow-ups", "Six items in the trial's What the app should change", ""],
+    ["T3", "Little delights: which to build", "14 proposals; the 4-paw walk is in PR #384", ""],
+    ["T4", "Pet tone: the 7 calls", "After the freeze; tokens stay as they are for now", ""],
+    ["T5", "#330 Booking, one question per screen", "Proposal waiting on a team call", ""]] },
+];
+const KEY = "goldito-rundown-1025-site";
+let ticks = {};
+try { ticks = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { ticks = {}; }
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(ticks)); } catch (e) {} };
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const tt = (en, ko) => `<span class="en">${esc(en)}</span><span class="ko">${esc(ko)}</span>`;
+const all = GROUPS.flatMap((g) => g.items.map((it) => g.id + ":" + it[0]));
+
+function draw() {
+  document.getElementById("groups").innerHTML = GROUPS.map((g) => `<div class="grp"><header><div class="who"><h3>${tt(g.title[0], g.title[1])}</h3><span class="chip ${g.chip[0]}">${tt(g.chip[1], g.chip[2])}</span></div><p class="note">${tt(g.blurb[0], g.blurb[1])}${g.link ? ` <a href="${g.link[0]}">${tt(g.link[1], g.link[2])}</a>` : ""}</p></header>${g.items.map((it) => {
+    const id = g.id + ":" + it[0];
+    return `<label class="item" for="ck-${esc(id.replace(":", "-"))}"><input type="checkbox" id="ck-${esc(id.replace(":", "-"))}" data-k="${esc(id)}"${ticks[id] ? " checked" : ""}><span><b>${esc(it[0])} · ${esc(it[1])}</b><span class="why">${esc(it[2])}</span>${it[3] ? `<span class="rec">★ ${esc(it[3])}</span>` : ""}</span></label>`;
+  }).join("")}</div>`).join("");
+  count();
+}
+function count() {
+  const n = all.filter((k) => ticks[k]).length, pct = Math.round((n / all.length) * 100);
+  document.getElementById("count").textContent = `${n} of ${all.length} done`;
+  document.getElementById("fill").style.width = pct + "%";
+  document.querySelector(".bar").setAttribute("aria-valuenow", pct);
+}
+document.getElementById("groups").addEventListener("change", (e) => {
+  const k = e.target.dataset && e.target.dataset.k; if (!k) return;
+  if (e.target.checked) ticks[k] = 1; else delete ticks[k];
+  save(); count();
+});
+document.getElementById("reset").onclick = () => { ticks = {}; save(); draw(); document.getElementById("msg").textContent = "Ticks cleared."; };
+document.getElementById("copy").onclick = async () => {
+  const done = all.filter((k) => ticks[k]).map((k) => k.split(":")[1]), open = all.filter((k) => !ticks[k]).map((k) => k.split(":")[1]);
+  const line = `Oct 25 checklist · done: ${done.join(", ") || "none"} · open: ${open.join(", ") || "none"}`;
+  const msg = document.getElementById("msg"), fb = document.getElementById("fallback");
+  try { await navigator.clipboard.writeText(line); msg.textContent = "Copied. Paste it back to me."; fb.hidden = true; }
+  catch (e) { fb.hidden = false; fb.value = line; fb.focus(); fb.select(); msg.textContent = "Select and copy the line below."; }
+};
+draw();
+</script>
+<script src="nav.js" defer></script><script src="series.js" defer></script>
+</body>
+</html>

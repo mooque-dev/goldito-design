@@ -150,6 +150,7 @@
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
     ["Updates", "업데이트", [
       ["update-2026-10-25.html", "Oct 25 update", "10월 25일 업데이트", "Moments merged; photo viewer, Diary views, pet tone and dark mode, playful words, little delights", "모먼츠 머지; 사진 보기, 다이어리 보기, 펫 톤과 다크 모드, 재치 있는 말, 작은 즐거움"],
+      ["rundown-2026-10-25.html", "Oct 25 rundown", "10월 25일 한눈에 보기", "Links to everything from Oct 25, what is held, and the decisions checklist", "10월 25일의 모든 링크, 보류한 것, 결정 체크리스트"],
       ["update-2026-10-24.html", "Oct 24 update", "10월 24일 업데이트", "Feed trial (all pets, stickers, Decorate), View tabs, five stages, two PRs in review", "피드 시안 (모든 펫, 스티커, 꾸미기), 뷰 탭, 다섯 단계, PR 둘 리뷰"],
       ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Design tickets in today's slot, nav trial, Figma decisions and flags, DESIGN.md", "오늘 슬롯의 디자인 티켓, 내비게이션 시안, 피그마 결정과 표시, DESIGN.md"],
       ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Design kit, header C, Lucide, Jakarta, the merge chain", "디자인 키트, 헤더 C, Lucide, Jakarta, 머지 순서"],
