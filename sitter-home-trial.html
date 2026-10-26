@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sitter Home Trial</title>
-<meta name="description" content="A new sitter's Home before any booking: today's empty screen next to four playable variations (the waiting tamagotchi, your card as owners see it, a paw path, a stamp card), each from new to all set.">
+<meta name="description" content="A new sitter's Home before any booking: today's empty screen next to E, the card owners will see filling in over a paw trail, and the same Home once bookings come in.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap">
 <link rel="stylesheet" href="ds.css">
 <style>
@@ -43,7 +43,6 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .tabs span.on{color:#1B4332}
 .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 28px}
 .empty .em{font-size:44px} .empty b{font-size:17px;color:#1A1A1A} .empty span{font-size:14.5px;color:#5C5C5C}
-.pix{image-rendering:pixelated;shape-rendering:crispEdges;display:block}
 .sec{font:600 19px/1.2 Fredoka,sans-serif;color:#1B4332}
 .toast{position:absolute;left:18px;right:18px;bottom:150px;background:#1B4332;color:#fff;border-radius:14px;padding:10px 14px;font-size:14px;font-weight:600;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:5}
 .toast.on{opacity:1;transform:none}
@@ -52,34 +51,12 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .card{background:#fff;border-radius:24px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 0 #E8DCC4,0 6px 18px rgba(27,67,50,.06)}
 .card .top{display:flex;align-items:center;gap:10px} .card .top div{flex:1} .card .top b{display:block;font:600 18px/1.2 Fredoka,sans-serif;color:#1B4332} .card .top small{font-size:13px;color:#6B5D4A}
 .bar{height:8px;border-radius:4px;background:#EFE5CF;overflow:hidden} .bar i{display:block;height:100%;background:linear-gradient(90deg,#2D6A4F,#067647);border-radius:4px;transition:width .4s cubic-bezier(.2,.8,.2,1)}
-.rows{display:flex;flex-direction:column}
-.row{display:flex;align-items:center;gap:12px;min-height:56px;padding:6px 0;border:0;border-top:1px solid #F3EBD8;background:none;text-align:left;font:inherit;color:inherit;cursor:pointer;width:100%}
-.row:first-child{border-top:0}
-.row .ic{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;flex:none;color:#1B4332} .row .ic svg{width:20px;height:20px}
-.row .tx{flex:1;min-width:0} .row .tx b{display:block;font-size:14.5px;color:#1A1A1A} .row .tx small{display:block;font-size:12.5px;color:#6B5D4A;line-height:1.35}
-.row .st{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center} .row .st svg{width:18px;height:18px}
-.row.done .tx b{color:#6B6B66} .row.done .st{background:#067647;color:#fff;animation:pop .35s ease-out}
-.row:not(.done) .st{color:#9A8B73}
 .opt{font-size:10.5px;font-weight:800;color:#6B5D4A;background:#F3EBD8;border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
 .next3{display:flex;flex-direction:column;gap:8px}
 .next3 div{display:flex;gap:10px;align-items:center;font-size:14px;color:#1A1A1A} .next3 i{flex:none;width:24px;height:24px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:800 12px 'Plus Jakarta Sans',sans-serif;font-style:normal}
 @keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
 
 /* A · the waiting tamagotchi (same device as the real pet room) */
-.dev{background:#1A1A1A;border-radius:26px;padding:8px;flex:none}
-.lcd{position:relative;height:190px;border-radius:18px;background:#FBEFC8;overflow:hidden;box-shadow:inset 0 0 0 2px rgba(0,0,0,.06)}
-.lcd .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(107,93,74,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(107,93,74,.07) 1px,transparent 1px);background-size:6px 6px}
-.lcd .floor{position:absolute;left:0;right:0;bottom:0;height:34px;background:#FDE2CC;border-top:6px solid #F2C9A8}
-.lcd .win{position:absolute;left:16px;top:16px}
-.lcd .bed{position:absolute;left:50%;bottom:22px;transform:translateX(-50%)}
-.lcd .bowl{position:absolute;right:26px;bottom:24px} .lcd .ball{position:absolute;left:32px;bottom:26px}
-.lcd .ghost{position:absolute;left:50%;bottom:40px;width:66px;height:66px;transform:translateX(-50%);background:url(assets/pixel-pets/dog-white-calm.png) 0 0/200% 100% no-repeat;image-rendering:pixelated;filter:brightness(0) opacity(.13);animation:breathe 3.2s ease-in-out infinite}
-.lcd.ready .ghost{filter:none;opacity:1;animation:hop 1.6s ease-in-out infinite}
-.lcd .say{position:absolute;right:12px;top:14px;max-width:150px;background:#fff;border:3px solid #1A1A1A;border-radius:4px;padding:6px 8px;font:10px/1.5 'Press Start 2P',monospace;color:#1A1A1A;box-shadow:3px 3px 0 rgba(0,0,0,.15)}
-.lcd .say::after{content:"";display:inline-block;width:7px;height:10px;background:#1A1A1A;margin-left:3px;vertical-align:-1px;animation:blink 1s steps(1) infinite}
-.meters{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 4px 2px}
-.meters span{display:flex;align-items:center;gap:6px;font:8px/1 'Press Start 2P',monospace;color:#FBEFC8}
-.meters i{flex:1;height:6px;border-radius:2px;background:#3A3A36;overflow:hidden} .meters i b{display:block;height:100%;width:0;background:#F4C35A;transition:width .5s}
 @keyframes breathe{0%,100%{transform:translateX(-50%) scale(1,1)}50%{transform:translateX(-50%) scale(1.03,.97)}}
 @keyframes hop{0%,100%{transform:translateX(-50%) translateY(0)}45%{transform:translateX(-50%) translateY(-10px)}}
 @keyframes blink{50%{opacity:0}}
@@ -98,18 +75,12 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .facts span{color:#6B5D4A;font-weight:600} .facts b{color:#1A1A1A;font-weight:700}
 .facts i{font-style:normal;color:#9A8B73;border:1.5px dashed #CBBFA8;border-radius:8px;padding:1px 8px;font-weight:600;font-size:12.5px;justify-self:start}
 .pcard .stk{position:absolute;width:30px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
-.mini{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.mini button{display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:12px;border-radius:18px;border:0;cursor:pointer;text-align:left;font:inherit;color:#1A1A1A;min-height:96px}
-.mini button svg{width:22px;height:22px;color:#1B4332} .mini b{font-size:14px} .mini small{font-size:12px;color:#4A3F31;line-height:1.3}
 
 /* C · paw path */
-.map{position:relative;height:262px;border-radius:24px;background:#D8F3DC;overflow:hidden;flex:none}
-.map .hill{position:absolute;left:-20%;right:-20%;bottom:-70px;height:150px;border-radius:50%;background:#B9DDBF}
-.map svg.road{position:absolute;inset:0}
 .stop{position:absolute;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 3px 8px rgba(27,67,50,.18);cursor:pointer;padding:0}
 .stop svg{width:20px;height:20px;color:#1B4332;stroke-width:2.25} .stop img{width:44px;height:44px;image-rendering:pixelated;border-radius:50%}
 .stop.done{border-color:#F4C35A} .stop.done img{width:38px;height:38px}
-.stop.done{background:#fff;animation:pop .35s ease-out} .stop.here{box-shadow:0 0 0 6px rgba(244,195,90,.55),0 3px 8px rgba(27,67,50,.18);animation:pulse 1.6s ease-in-out infinite}
+.stop.done{background:#fff} .stop.done img{animation:pop .35s ease-out} .stop.here{box-shadow:0 0 0 6px rgba(244,195,90,.55),0 3px 8px rgba(27,67,50,.18);animation:pulse 1.6s ease-in-out infinite}
 .stop small{position:absolute;top:47px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 10.5px/1 'Plus Jakarta Sans',sans-serif;color:#1B4332;background:#fff;border-radius:999px;padding:4px 8px;box-shadow:0 1px 3px rgba(27,67,50,.12)}
 .goal{position:absolute;right:14px;top:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
 .goal small{font:800 10.5px 'Plus Jakarta Sans',sans-serif;color:#1B4332;background:#fff;border-radius:999px;padding:2px 8px}
@@ -117,18 +88,6 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 @keyframes pulse{50%{box-shadow:0 0 0 10px rgba(244,195,90,.25),0 3px 8px rgba(27,67,50,.18)}}
 
 /* D · stamp card */
-.scard{position:relative;border-radius:22px;padding:16px 16px 14px;background:#FBEFC8;box-shadow:0 1px 0 #E8D59A,0 10px 24px rgba(107,93,74,.12);overflow:hidden;flex:none}
-.scard::before{content:"";position:absolute;inset:8px;border:2px dashed rgba(107,93,74,.25);border-radius:16px;pointer-events:none}
-.scard .hdr{display:flex;align-items:center;gap:10px;position:relative}
-.scard .hdr img{width:34px;height:34px;image-rendering:pixelated} .scard .hdr div{min-width:0} .scard .hdr b{display:block;font:600 19px/1.15 Fredoka,sans-serif;color:#1B4332} .scard .hdr small{font-size:12.5px;color:#6B5D4A}
-.stamps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 8px;margin-top:14px;position:relative}
-.slot{display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;cursor:pointer;font:inherit;padding:0}
-.slot .c{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;border:2px dashed rgba(107,93,74,.45);color:#7F6F58;position:relative}
-.slot .c svg{width:22px;height:22px}
-.slot.done .c{border:0} .slot.done .c img{width:62px;height:62px;image-rendering:pixelated;animation:press .4s cubic-bezier(.2,.8,.2,1)}
-.slot small{font:700 11.5px/1.25 'Plus Jakarta Sans',sans-serif;color:#4A3F31;text-align:center;max-width:96px}
-.slot.bonus .c{border-style:dotted}
-.readyst{flex:none;margin-left:auto;transform:rotate(-12deg);--r:-12deg;font:10px 'Press Start 2P',monospace;color:#B42318;border:3px solid #B42318;border-radius:6px;padding:6px 8px;opacity:.85;animation:press .4s cubic-bezier(.2,.8,.2,1)}
 @keyframes press{0%{transform:scale(1.6) rotate(-20deg);opacity:0}100%{transform:scale(1) rotate(var(--r,0deg));opacity:1}}
 /* E · card + trail */
 .trail{position:relative;height:122px;border-radius:22px;background:#D8F3DC;overflow:hidden;flex:none}
@@ -137,7 +96,7 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .trail .stop{width:40px;height:40px} .trail .stop svg{width:18px;height:18px} .trail .stop.done img{width:34px;height:34px}
 .trail .stop small{top:43px;font-size:10px;padding:3px 7px}
 .trail .home{position:absolute;right:8px;top:8px;width:40px}
-.trail .tree,.map .tree{position:absolute;width:30px;opacity:.9}
+.trail .tree{position:absolute;width:30px;opacity:.9}
 .pcard.compact{padding:12px 14px;gap:8px}
 .step{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-radius:20px;background:#fff;box-shadow:0 1px 0 #E8DCC4,0 6px 18px rgba(27,67,50,.06);text-align:left;font:inherit;color:inherit;cursor:pointer;flex:none}
 .step .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none} .step .ic svg{width:22px;height:22px;color:#1B4332}
@@ -146,13 +105,8 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .step .go{width:22px;height:22px;color:#9A8B73;flex:none} .step .go svg{width:22px;height:22px}
 .pcard.compact .ring{width:56px;height:56px} .pcard.compact .ring .pv{width:47px;height:47px} .pcard.compact .nm b{font-size:20px}
 .pcard.compact .facts{gap:4px 12px;font-size:12.5px} .pcard.compact .facts i{font-size:12px;padding:0 7px}
-.ribbon{position:absolute;right:-30px;top:16px;transform:rotate(35deg);background:#067647;color:#fff;font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.06em;padding:4px 36px;animation:press .4s cubic-bezier(.2,.8,.2,1);--r:35deg}
 /* F · path to your card */
-.goalcard{position:absolute;right:8px;top:6px;width:128px;background:#fff;border-radius:16px;padding:8px;display:flex;gap:8px;align-items:center;box-shadow:0 4px 12px rgba(27,67,50,.15);z-index:1}
-.goalcard .ring{width:42px;height:42px} .goalcard .ring .pv{width:34px;height:34px;border-width:2px} .goalcard .ring .pv.blank svg{width:16px;height:16px}
-.goalcard b{display:block;font:600 15px/1.1 Fredoka,sans-serif;color:#1B4332} .goalcard small{display:block;font-size:10.5px;font-weight:700;color:#6B5D4A}
 .pcard .who .ic svg{width:22px;height:22px;color:#1B4332}
-.goalcard.ready{box-shadow:0 0 0 4px rgba(244,195,90,.6),0 4px 12px rgba(27,67,50,.15)}
 /* With bookings */
 .slim{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:#fff;box-shadow:0 1px 0 #E8DCC4;flex:none}
 .slim .ring{width:40px;height:40px} .slim .ring .pv{width:33px;height:33px;border-width:2px}
@@ -184,13 +138,19 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .dots{display:flex;gap:4px;align-items:center} .dots i{width:16px;height:16px;border-radius:50%;background:#EFE5CF;display:block} .dots i.d{background:#F4C35A url(assets/intro/goldito-coin-tight.svg) center/14px no-repeat} .dots i.h{background:#fff;box-shadow:0 0 0 2px #F4C35A}
 .secrow{display:flex;justify-content:space-between;align-items:baseline} .secrow a{font:700 13px 'Plus Jakarta Sans',sans-serif;color:#1B4332;text-decoration:none}
 @media (prefers-reduced-motion:reduce){.ph *{animation:none!important;transition:none!important}}
+.trail .stop.up small{top:auto;bottom:43px}
+.step{cursor:default}
+.readytag{position:absolute;right:14px;top:12px;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:#ECFDF3;color:#067647;font:800 11.5px 'Plus Jakarta Sans',sans-serif;animation:pop .35s ease-out}
+.readytag svg{width:13px;height:13px}
+/* on a higher stop the label sits above, so the paw stands beside the coin */
+.trail .walker.side{transform:translate(-210%,-55%)}
 </style>
 <script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
 <div class="wrap">
 <header style="display:flex;flex-direction:column;gap:.6rem">
-  <span class="eyebrow">Trial · Oct 25</span>
+  <span class="eyebrow">Trial · E chosen Oct 26</span>
   <h1><span class="en">A sitter's Home before the first booking</span><span class="ko">첫 예약 전 시터의 홈</span></h1>
-  <p class="lede"><span class="en">Today a new sitter lands on a weather emoji and "No pets in your care today". Four ways to turn the wait into getting booked. Each one checks the same six things Goldito needs to answer owners well, and its button always opens the next missing one. Pick a variation, then a state, or tap the steps to fill them.</span><span class="ko">지금 새 시터는 날씨 이모지와 "오늘 돌보는 펫이 없어요"만 봐요. 기다림을 예약 준비로 바꾸는 네 가지 방법. 모두 골디토가 보호자에게 잘 답하려면 필요한 같은 여섯 가지를 확인하고, 버튼은 항상 다음 빠진 단계를 열어요. 변형과 상태를 고르거나 단계를 눌러 채워 보세요.</span></p>
+  <p class="lede"><span class="en">Today a new sitter lands on a weather emoji and "No pets in your care today". This Home turns the wait into getting booked: the card owners will see fills in at the top, a paw trail turns each finished step into a coin on the way to the first guest, and one button always opens the next missing step. Tap the coins or the button to fill them, or jump between states.</span><span class="ko">지금 새 시터는 날씨 이모지와 "오늘 돌보는 펫이 없어요"만 봐요. 이 홈은 기다림을 예약 준비로 바꿔요: 위에는 보호자가 볼 카드가 채워지고, 발자국 길은 끝낸 단계마다 코인이 되어 첫 손님까지 이어지며, 버튼 하나가 늘 다음 빠진 단계를 열어요. 코인이나 버튼을 눌러 채우거나 상태를 골라 보세요.</span></p>
 </header>
 
 <section>
@@ -198,12 +158,11 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
     <div class="col"><b><span class="en">Today</span><span class="ko">지금</span></b>
       <div class="ph" id="today"></div>
       <p class="cap"><span class="en">From the code on main: one empty state and one button to the schedule.</span><span class="ko">main 코드 기준: 빈 화면 하나와 일정으로 가는 버튼 하나.</span></p></div>
-    <div class="col"><b><span class="en">Proposal ★</span><span class="ko">제안 ★</span></b>
+    <div class="col"><b><span class="en">Before the first booking</span><span class="ko">첫 예약 전</span></b>
       <div class="ph" id="prop" data-cap="sitter-home-E-new" data-title="Sitter Home · E Card + trail · new"></div>
-      <div class="jump v" id="vj" role="group" aria-label="Variation"></div>
       <div class="jump" id="sj" role="group" aria-label="State"></div>
       <p class="cap" id="pcap"></p></div>
-    <div class="col"><b><span class="en">When bookings come in (E)</span><span class="ko">예약이 들어오면 (E)</span></b>
+    <div class="col"><b><span class="en">When bookings come in</span><span class="ko">예약이 들어오면</span></b>
       <div class="ph" id="book" data-cap="sitter-home-booked-request" data-title="Sitter Home · E with bookings · first request"></div>
       <div class="jump" id="bj" role="group" aria-label="Moment"></div>
       <p class="cap" id="bcap"></p></div>
@@ -211,16 +170,13 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 </section>
 
 <section>
-  <h2><span class="en">The variations, side by side</span><span class="ko">변형 비교</span></h2>
+  <h2><span class="en">How it works</span><span class="ko">어떻게 동작하나</span></h2>
   <div class="notes">
-    <div class="nt"><b><span class="n">E</span><span class="en">Card + trail (mix)</span><span class="ko">카드 + 오솔길 (믹스)</span></b><span><span class="en">B's card on top, filling in; C's paw trail under it, one coin per step, ending at the house.</span><span class="ko">위에 B의 카드가 채워지고, 아래 C의 발자국 길이 단계마다 코인으로, 끝은 집.</span></span><span class="pro"><span class="en">Shows what owners will see and keeps the play; fits one screen.</span><span class="ko">보호자가 볼 것을 보여주고 놀이도 유지; 한 화면에 들어가요.</span></span></div>
-    <div class="nt"><b><span class="n">F</span><span class="en">Path to your card (mix)</span><span class="ko">내 카드로 가는 길 (믹스)</span></b><span><span class="en">C's map, but the path leads to your card; its ring grows with each coin, and the card under the map shows what the next stop adds.</span><span class="ko">C의 지도인데 길 끝이 내 카드; 코인마다 링이 자라고, 지도 아래 카드가 다음 정류장이 더할 것을 보여줘요.</span></span><span class="pro"><span class="en">The most playful; the goal is your card, not a vague "ready".</span><span class="ko">가장 놀이 같아요; 목표가 막연한 "준비"가 아니라 내 카드.</span></span></div>
-    <div class="nt"><b><span class="n">A</span><span class="en">Tamagotchi waits</span><span class="ko">기다리는 다마고치</span></b><span><span class="en">The real pet-room device, empty: a pixel bed, bowl and ball, and a faint guest-to-come that hops in once you're ready. The checklist sits under it.</span><span class="ko">실제 펫 방 기기, 비어 있음: 픽셀 침대, 그릇, 공, 그리고 준비되면 뛰어드는 희미한 손님.</span></span><span class="pro"><span class="en">Same place and look as a working sitter's Home, so nothing moves when the first stay starts.</span><span class="ko">일하는 시터의 홈과 같은 자리, 같은 모양이라 첫 머무름이 시작돼도 그대로.</span></span></div>
-    <div class="nt"><b><span class="n">B</span><span class="en">Your card</span><span class="ko">내 카드</span></b><span><span class="en">The profile card owners will see, filling in as you go: photo, rate, open days, house rules, where you meet. A ring around the photo shows how close you are.</span><span class="ko">보호자가 볼 프로필 카드가 채워져요: 사진, 요금, 가능한 날, 규칙, 만나는 곳. 사진 둘레 링이 진행도.</span></span><span class="pro"><span class="en">Shows why each step matters: owners choose from this card.</span><span class="ko">각 단계가 왜 중요한지 보여줘요: 보호자는 이 카드로 골라요.</span></span></div>
-    <div class="nt"><b><span class="n">C</span><span class="en">Paw path</span><span class="ko">발자국 길</span></b><span><span class="en">A little map from stop to stop; each done stop turns into a Goldito coin and the paw walks on. It ends at your first guest.</span><span class="ko">정류장마다 작은 지도; 끝낸 곳은 골디토 코인이 되고 발자국이 걸어가요. 끝은 첫 손님.</span></span><span class="pro"><span class="en">The most playful; ties to the paw walk on Boot and Finish.</span><span class="ko">가장 놀이 같아요; 부팅과 마무리의 발자국 걷기와 이어져요.</span></span></div>
-    <div class="nt"><b><span class="n">D</span><span class="en">Stamp card</span><span class="ko">스탬프 카드</span></b><span><span class="en">A café-style card: each step stamps a coin, auto-send is the bonus stamp, and a READY stamp lands when the five are in.</span><span class="ko">카페 스탬프 카드: 단계마다 코인 도장, 자동 보내기는 보너스 도장, 다섯 개가 차면 READY 도장.</span></span><span class="pro"><span class="en">Instantly familiar; pairs with the sitter badges that come after stays.</span><span class="ko">바로 이해돼요; 머무름 뒤의 시터 배지와 짝이 맞아요.</span></span></div>
+    <div class="nt"><b><span class="n">1</span><span class="en">Your card, filling in</span><span class="ko">채워지는 내 카드</span></b><span><span class="en">The card owners choose from: photo and bio, rate, open days, house rules, where you meet. Missing parts show as dashed "add" chips; a ring around the photo shows how close you are, and a Ready tag lands when the five are in.</span><span class="ko">보호자가 고르는 카드: 사진과 소개, 요금, 가능한 날, 규칙, 만나는 곳. 빠진 곳은 점선 "추가" 칩, 사진 둘레 링이 진행도, 다섯 개가 차면 Ready 태그.</span></span></div>
+    <div class="nt"><b><span class="n">2</span><span class="en">The paw trail</span><span class="ko">발자국 길</span></b><span><span class="en">Five stops, one per step; a finished step becomes a Goldito coin and the paw walks on to the house. When requests come in, the same trail becomes the stay's five stages: Ask, Meet, Book, Care, Home.</span><span class="ko">단계마다 정류장 다섯; 끝낸 단계는 골디토 코인이 되고 발자국이 집까지 걸어가요. 요청이 오면 같은 길이 머무름의 다섯 단계가 돼요: 문의, 만남, 예약, 돌봄, 귀가.</span></span></div>
+    <div class="nt"><b><span class="n">3</span><span class="en">One button</span><span class="ko">버튼 하나</span></b><span><span class="en">The pinned button names the next missing step and opens where it's set (Profile or Schedule). Auto-send is a bonus, not part of ready. All set, the button becomes Edit your answers.</span><span class="ko">고정 버튼은 다음 빠진 단계의 이름으로 그 화면(프로필, 일정)을 열어요. 자동 보내기는 보너스. 다 되면 버튼은 답변 수정이 돼요.</span></span></div>
   </div>
-  <div class="nt" style="max-width:68ch"><b><span class="en">Calls for the team</span><span class="ko">팀 결정</span></b><span><span class="en">Which variation? Is auto-send part of "ready" or a bonus? Ship before the freeze, or after?</span><span class="ko">어느 변형? 자동 보내기는 준비 항목인가 보너스인가? 동결 전, 후?</span></span><span class="rec"><span class="en">Mook's lean (Oct 25): a mix of C and B (E or F); A waits for the tamagotchi visuals being explored separately. Auto-send as a bonus.</span><span class="ko">Mook의 방향 (10/25): C와 B의 믹스 (E 또는 F); A는 따로 탐색 중인 다마고치 비주얼을 기다려요. 자동 보내기는 보너스.</span></span></div>
+  <div class="nt" style="max-width:68ch"><b><span class="en">Still open</span><span class="ko">남은 결정</span></b><span><span class="en">Ship before the Oct 28 freeze, or after? Where the pet room goes once the tamagotchi visuals land: behind the ticket, or on top of it.</span><span class="ko">10/28 동결 전, 후? 다마고치 비주얼이 정해지면 펫 방은 어디에: 티켓 뒤, 또는 위.</span></span></div>
 </section>
 </div>
 
@@ -256,30 +212,6 @@ const I = {
 };
 const COIN = "assets/intro/goldito-coin-tight.svg";
 
-/* ---------- pixel art: rows of role letters, drawn as crisp squares ---------- */
-const PAL = { o: "#5B4636", r: "#F2C9A8", s: "#E2A97E", c: "#FFF4E6", h: "#FDE2CC", k: "#8B5A2B", b: "#E76F51", d: "#C4553B", y: "#D8E86A", g: "#B7C94A", w: "#FFFFFF", f: "#BFE0F2", t: "#9CC9E2", x: "#FBEFC8", n: "#7A5C43" };
-function pix(rows, size) {
-  const w = Math.max(...rows.map((r) => r.length)), h = rows.length;
-  let rects = "";
-  rows.forEach((row, y) => [...row].forEach((ch, x) => { if (ch !== ".") rects += `<rect x="${x}" y="${y}" width="1" height="1" fill="${PAL[ch]}"/>`; }));
-  return `<svg class="pix" viewBox="0 0 ${w} ${h}" width="${w * size}" height="${h * size}" aria-hidden="true">${rects}</svg>`;
-}
-const BED = (() => { // a round cushion bed, 24 x 9
-  const W = 24, rows = [];
-  rows.push("..o" + "o".repeat(W - 6) + "o..");
-  rows.push(".or" + "r".repeat(W - 6) + "ro.");
-  rows.push("orrc" + "c".repeat(W - 8) + "crro");
-  rows.push("orcc" + "h".repeat(W - 8) + "ccro");
-  rows.push("orrc" + "c".repeat(W - 8) + "crro");
-  rows.push("orr" + "r".repeat(W - 6) + "rro");
-  rows.push("os" + "s".repeat(W - 4) + "so");
-  rows.push(".o" + "o".repeat(W - 4) + "o.");
-  return rows;
-})();
-const BOWL = [".kkkkkkk.", "kkkkkkkkk", "ooooooooo", "obbbbbbbo", ".obbbbbo.", ".odddddo.", "..ooooo.."];
-const BALL = [".ooo.", "oyyyo", "ogyyo", "oyygo", ".ooo."];
-const WIN = ["oooooooooooo", "offfffofffffo".slice(0, 12), "offfffoffffo", "ofttffofttfo", "oooooooooooo", "offfffoffffo", "offfffoffffo", "oooooooooooo", ".nnnnnnnnnn."];
-
 /* ---------- shared bits ---------- */
 const tabs = () => `<div class="tabs">${[["home", "Home"], ["cal", "Bookings"], ["chat", "Chat"], ["img", "Moments"], ["cam", "Snap"]].map(([i, l], k) => `<span class="${k === 0 ? "on" : ""}">${I[i]}${l}</span>`).join("")}</div>`;
 const head = (name) => `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="hd"><span class="t"><b>Home</b><small>${name} · Sitter</small></span><span class="ib">${I.bell}</span><span class="av">${name[0]}</span></div>`;
@@ -297,118 +229,50 @@ const ROWS = [
 ];
 const required = ROWS.filter((r) => !r.optional);
 const STATES = { new: [], half: ["bio", "cal", "rules"], ready: ROWS.map((r) => r.k) };
-const VARS = { E: "Card + trail", F: "Path to your card", A: "Tamagotchi waits", B: "Your card", C: "Paw path", D: "Stamp card" };
+const VARS = { E: "Card + trail" };
 const CAPS = {
-  A: "The real pet-room device, empty: a pixel bed, bowl and ball, and a faint guest-to-come. When you're ready the guest hops in.",
-  B: "The card owners will see fills in as you go; the ring shows how close you are. The tiles under it are the steps left.",
-  C: "A little map: each done stop becomes a Goldito coin and the paw walks on to the next. It ends at your first guest.",
-  D: "A stamp card: each step stamps a coin, auto-send is the bonus, and READY lands when the five are in.",
-  E: "Mix of B and C: your card on top fills in as you go; the paw trail under it turns each done step into a coin on the way to your first guest.",
-  F: "Mix of C and B: the paw path leads to your card. Each stop becomes a coin and the ring on your card grows; the card below shows what the next stop adds.",
+  E: "Your card on top fills in as you go; the paw trail under it turns each done step into a coin on the way to your first guest. The button always opens the next missing step.",
 };
 let V = "E", S = "new", done = new Set(), toastT;
 const left = () => ROWS.filter((r) => !done.has(r.k));
 const nextReq = () => left().find((r) => !r.optional);
 const nDone = () => required.filter((r) => done.has(r.k)).length;
 
-const checklist = () => `<div class="card"><div class="top"><div><b>Get ready for your first request</b><small>${nDone()} of ${required.length} ready</small></div></div><div class="bar"><i style="width:${(nDone() / required.length) * 100}%"></i></div>
-  <div class="rows">${ROWS.map((r) => `<button type="button" class="row${done.has(r.k) ? " done" : ""}" data-k="${r.k}" aria-pressed="${done.has(r.k)}"><span class="ic" style="background:${r.bg}">${I[r.icon]}</span><span class="tx"><b>${r.t}${r.optional ? '<span class="opt">Bonus</span>' : ""}</b><small>${r.why}</small></span><span class="st">${done.has(r.k) ? I.check : I.chev}</span></button>`).join("")}</div></div>`;
 const readyCard = () => `<div class="card"><div class="top"><img src="${COIN}" alt="" style="width:34px"><div><b>You're ready for requests</b><small>Owners can find and book you now.</small></div></div>
   <div class="next3"><div><i>1</i>An owner asks about dates and pets</div><div><i>2</i>Goldito drafts the reply in your words, with the quote</div><div><i>3</i>You tap Send${done.has("auto") ? ", or it sends itself" : ""}</div></div>
-  <button type="button" class="btn s" data-act="edit">Edit your answers</button></div>`;
-
-/* ---------- A · Tamagotchi waits ---------- */
-function varA(ready) {
-  const fill = (k) => (done.has(k) ? 100 : 0);
-  return `<div class="dev"><div class="lcd${ready ? " ready" : ""}"><span class="grid"></span><span class="win">${pix(WIN, 4)}</span><span class="floor"></span>
-      <span class="ball">${pix(BALL, 4)}</span><span class="bed">${pix(BED, 5)}</span><span class="ghost"></span><span class="bowl">${pix(BOWL, 4)}</span>
-      <span class="say">${ready ? "READY FOR A GUEST" : "A GUEST IS COMING"}</span></div>
-    <div class="meters"><span>BIO<i><b style="width:${fill("bio")}%"></b></i></span><span>DAYS<i><b style="width:${fill("cal")}%"></b></i></span><span>RULES<i><b style="width:${fill("rules")}%"></b></i></span></div></div>
-    ${ready ? readyCard() : checklist()}`;
-}
+  </div>`;
 
 /* ---------- B · Your card ---------- */
 const ringAvatar = () => `<span class="ring" style="--p:${Math.round((nDone() / required.length) * 100)}"><span class="pv${done.has("bio") ? "" : " blank"}">${done.has("bio") ? '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">' : I.cam}</span></span>`;
 const factRows = () => { const f = (k, val, ask) => (done.has(k) ? `<b>${val}</b>` : `<i>${ask}</i>`);
   return `<div class="facts"><span>Rate</span>${f("cal", "$48 a night", "add your rate")}<span>Open</span>${f("cal", "Oct 9 to 12, Oct 20 on", "pick open days")}<span>House rules</span>${f("rules", "No dogs on the sofa", "write a few")}<span>Meets at</span>${f("meet", "High Park, east gate", "add a place")}</div>`; };
-function varB(ready) {
-  const pct = Math.round((nDone() / required.length) * 100);
-  const f = (k, val, ask) => (done.has(k) ? `<b>${val}</b>` : `<i>${ask}</i>`);
-  const card = `<div class="pcard"><span class="lbl">${I.eye}Owners will see</span>
-      <img class="stk" src="assets/feed-trial/stickers/g_star.png" alt="" style="right:14px;top:12px;transform:rotate(12deg)">
-      <div class="who"><span class="ring" style="--p:${pct}"><span class="pv${done.has("bio") ? "" : " blank"}">${done.has("bio") ? '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">' : I.cam}</span></span>
-        <span class="nm"><b>Sam</b><span class="newtag"><svg viewBox="0 0 24 24" width="12" height="12"><use href="#i-paw"/></svg>New sitter</span><small>${done.has("bio") ? "Loves long walks and lazy cats. 3 years with my family's dogs." : "Add a line about you"}</small></span></div>
-      <div class="facts"><span>Rate</span>${f("cal", "$48 a night", "add your rate")}<span>Open</span>${f("cal", "Oct 9 to 12, Oct 20 on", "pick open days")}<span>House rules</span>${f("rules", "No dogs on the sofa", "write a few")}<span>Meets at</span>${f("meet", "High Park, east gate", "add a place")}</div></div>`;
-  const tiles = left().filter((r) => !r.optional).slice(0, 4).map((r) => `<button type="button" data-k="${r.k}" style="background:${r.bg}">${I[r.icon]}<b>${r.short}</b><small>${r.why}</small></button>`).join("");
-  return card + (ready ? readyCard() : `<span class="sec">Still to add</span><div class="mini">${tiles}</div>`);
-}
-
-/* ---------- C · Paw path ---------- */
-const STOPS = [[52, 214], [128, 178], [74, 120], [160, 84], [236, 120]]; // x, y in the 300 x 262 map
-function varC(ready) {
-  const here = required.findIndex((r) => !done.has(r.k));
-  const d = "M52 214 C 90 214, 120 200, 128 178 S 70 140, 74 120 S 140 90, 160 84 S 230 96, 236 120 S 270 70, 272 54";
-  const at = here < 0 ? [272, 54] : STOPS[here];
-  return `<div class="map"><span class="hill"></span>
-      <svg class="road" viewBox="0 0 300 262" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".7"/><path d="${d}" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/></svg>
-      <span class="goal" style="left:auto;right:6px;top:8px"><img src="assets/intro/house.svg" alt="" style="width:46px"><small>${ready ? "Your first guest!" : "First guest"}</small></span>
-      ${required.map((r, i) => `<button type="button" class="stop${done.has(r.k) ? " done" : i === here ? " here" : ""}" data-k="${r.k}" style="left:${(STOPS[i][0] / 300) * 100}%;top:${(STOPS[i][1] / 262) * 100}%;background:${done.has(r.k) ? "#fff" : r.bg}" aria-label="${r.t}">${done.has(r.k) ? `<img src="${COIN}" alt="">` : I[r.icon]}<small>${r.short}</small></button>`).join("")}
-      <svg class="walker" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 262) * 100}%"><use href="#i-paw"/></svg>
-      <img src="assets/feed-trial/stickers/g_sun.png" alt="" style="position:absolute;left:12px;top:10px;width:30px"></div>
-    ${ready ? readyCard() : `<div class="card"><div class="top"><div><b>${here + 1}. ${required[here].t}</b><small>${required[here].why}</small></div></div><div class="bar"><i style="width:${(nDone() / required.length) * 100}%"></i></div></div>`}`;
-}
-
 /* ---------- E · Card + trail (B's card, C's path) ---------- */
 const TSTOPS = [[40, 82], [92, 50], [144, 82], [196, 50], [248, 82]]; // in the 300 x 118 trail
 function varE(ready) {
   const here = required.findIndex((r) => !done.has(r.k));
   const d = "M40 82 C 60 82, 74 50, 92 50 S 126 82, 144 82 S 178 50, 196 50 S 230 82, 248 82 S 280 56, 288 40";
   const at = here < 0 ? [288, 40] : TSTOPS[here];
-  const card = `<div class="pcard compact"><span class="lbl">${I.eye}Owners will see</span>${ready ? '<span class="ribbon">READY</span>' : ""}
+  const card = `<div class="pcard compact"><span class="lbl">${I.eye}Owners will see</span>${ready ? `<span class="readytag">${I.check}Ready</span>` : ""}
       <div class="who">${ringAvatar()}<span class="nm"><b>Sam</b><span class="newtag"><svg viewBox="0 0 24 24" width="12" height="12"><use href="#i-paw"/></svg>New sitter</span><small>${done.has("bio") ? "Loves long walks and lazy cats." : "Add a line about you"}</small></span></div>${factRows()}</div>`;
   const trail = `<div class="trail"><span class="hill"></span>
       <svg class="road" viewBox="0 0 300 132" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".75"/><path d="${d}" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/></svg>
       <img class="home" src="assets/intro/house.svg" alt=""><img class="tree" src="assets/intro/tree.svg" alt="" style="left:8px;top:6px">
-      ${required.map((r, i) => `<button type="button" class="stop${done.has(r.k) ? " done" : i === here ? " here" : ""}" data-k="${r.k}" style="left:${(TSTOPS[i][0] / 300) * 100}%;top:${(TSTOPS[i][1] / 132) * 100}%;background:${done.has(r.k) ? "#fff" : r.bg}" aria-label="${r.t}">${done.has(r.k) ? `<img src="${COIN}" alt="">` : I[r.icon]}<small>${r.short}</small></button>`).join("")}
-      <svg class="walker" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 132) * 100}%"><use href="#i-paw"/></svg></div>`;
-  return card + trail + (ready ? readyCard() : `<button type="button" class="step" data-k="${required[here].k}"><span class="ic" style="background:${required[here].bg}">${I[required[here].icon]}</span><span class="tx"><small class="eb">Step ${here + 1} of ${required.length}</small><b>${required[here].t}</b><small>${required[here].why}</small></span><span class="go">${I.chev}</span></button>`);
-}
-
-/* ---------- F · Path to your card (C's map, B's card at the end) ---------- */
-function varF(ready) {
-  const here = required.findIndex((r) => !done.has(r.k));
-  const d = "M52 214 C 90 214, 120 200, 128 178 S 70 140, 74 120 S 140 90, 160 84 S 230 96, 236 120 S 260 100, 250 70";
-  const at = here < 0 ? [250, 70] : STOPS[here];
-  return `<div class="map"><span class="hill"></span>
-      <svg class="road" viewBox="0 0 300 262" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#fff" stroke-width="14" stroke-linecap="round" opacity=".7"/><path d="${d}" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round"/></svg>
-      <span class="goalcard${ready ? " ready" : ""}">${ringAvatar()}<span><b>Sam</b><small>${ready ? "Ready for owners" : `${nDone()} of ${required.length} on your card`}</small></span></span>
-      ${required.map((r, i) => `<button type="button" class="stop${done.has(r.k) ? " done" : i === here ? " here" : ""}" data-k="${r.k}" style="left:${(STOPS[i][0] / 300) * 100}%;top:${(STOPS[i][1] / 262) * 100}%;background:${done.has(r.k) ? "#fff" : r.bg}" aria-label="${r.t}">${done.has(r.k) ? `<img src="${COIN}" alt="">` : I[r.icon]}<small>${r.short}</small></button>`).join("")}
-      ${ready ? "" : `<svg class="walker" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 262) * 100}%"><use href="#i-paw"/></svg>`}
-      <img src="assets/feed-trial/stickers/g_sun.png" alt="" style="position:absolute;left:12px;top:10px;width:30px"><img class="tree" src="assets/intro/tree.svg" alt="" style="left:14px;top:168px"><img class="tree" src="assets/intro/tree.svg" alt="" style="right:18px;top:200px;width:26px"></div>
-    ${ready ? readyCard() : `<div class="pcard compact"><span class="lbl">Next on your card</span><div class="who"><span class="ic" style="width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:${required[here].bg}">${I[required[here].icon]}</span><span class="nm"><b style="font-size:18px">${required[here].t}</b><small>${required[here].why}</small></span></div>${factRows()}</div>`}`;
-}
-
-/* ---------- D · Stamp card ---------- */
-function varD(ready) {
-  const rot = [-8, 6, -4, 10, -12, 4];
-  return `<div class="scard"><div class="hdr"><img src="${COIN}" alt=""><div><b>Sam's ready card</b><small>${ready ? "All stamped. Owners can book you" : "Five stamps and owners can book you"}</small></div>${ready ? '<span class="readyst">READY</span>' : ""}</div>
-      <div class="stamps">${ROWS.map((r, i) => `<button type="button" class="slot${done.has(r.k) ? " done" : ""}${r.optional ? " bonus" : ""}" data-k="${r.k}"><span class="c">${done.has(r.k) ? `<img src="${COIN}" alt="" style="--r:${rot[i]}deg;transform:rotate(${rot[i]}deg)">` : I[r.icon]}</span><small>${r.short}${r.optional ? " · bonus" : ""}</small></button>`).join("")}</div></div>
-    ${ready ? readyCard() : checklist()}`;
+      ${required.map((r, i) => `<button type="button" class="stop${i % 2 ? " up" : ""}${done.has(r.k) ? " done" : i === here ? " here" : ""}" data-k="${r.k}" style="left:${(TSTOPS[i][0] / 300) * 100}%;top:${(TSTOPS[i][1] / 132) * 100}%;background:${done.has(r.k) ? "#fff" : r.bg}" aria-label="${r.t}">${done.has(r.k) ? `<img src="${COIN}" alt="">` : I[r.icon]}<small>${r.short}</small></button>`).join("")}
+      <svg class="walker${here % 2 ? " side" : ""}" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 132) * 100}%"><use href="#i-paw"/></svg></div>`;
+  return card + trail + (ready ? readyCard() : `<div class="step"><span class="ic" style="background:${required[here].bg}">${I[required[here].icon]}</span><span class="tx"><small class="eb">Next · step ${here + 1} of ${required.length}</small><b>${required[here].t}</b><small>${required[here].why}</small></span></div>`);
 }
 
 function prop() {
   const ph = document.getElementById("prop");
   const nr = nextReq(), ready = !nr;
-  const body = { A: varA, B: varB, C: varC, D: varD, E: varE, F: varF }[V](ready);
-  ph.innerHTML = head("Sam") + `<div class="scroll">${body}</div>` + (ready ? "" : `<div class="foot"><button type="button" class="btn" data-k="${nr.k}" data-act="next">${nr.btn}</button></div>`) + `<div class="toast" id="toast" role="status"></div>` + tabs();
+  const body = varE(ready);
+  ph.innerHTML = head("Sam") + `<div class="scroll">${body}</div>` + (ready ? `<div class="foot"><button type="button" class="btn s" data-act="edit">Edit your answers</button></div>` : `<div class="foot"><button type="button" class="btn" data-k="${nr.k}" data-act="next">${nr.btn}</button></div>`) + `<div class="toast" id="toast" role="status"></div>` + tabs();
   document.getElementById("pcap").textContent = CAPS[V];
-  document.getElementById("vj").innerHTML = Object.entries(VARS).map(([k, l]) => `<button type="button" aria-pressed="${V === k}" data-v="${k}">${k} · ${l}</button>`).join("");
   document.getElementById("sj").innerHTML = [["new", "New sitter"], ["half", "Halfway"], ["ready", "All set"]].map(([k, l]) => `<button type="button" aria-pressed="${S === k}" data-s="${k}">${l}</button>`).join("");
 }
 function toast(msg) { const t = document.getElementById("toast"); if (!t) return; t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 1800); }
 document.addEventListener("click", (e) => {
   const b = e.target.closest("button"); if (!b) return;
-  if (b.dataset.v) { V = b.dataset.v; prop(); return; }
   if (b.dataset.s) { S = b.dataset.s; done = new Set(STATES[S]); prop(); return; }
   if (!b.closest("#prop")) return;
   if (b.dataset.act === "edit") { S = "half"; done = new Set(STATES.half); prop(); return; }
@@ -430,8 +294,8 @@ function stageTrail(doneN, label) {
   const here = doneN < STAGES.length ? doneN : -1, at = here < 0 ? [288, 40] : TSTOPS[here];
   return `<div class="trail"><span class="hill"></span>
     <svg class="road" viewBox="0 0 300 132" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".75"/><path d="${d}" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/></svg>
-    ${STAGES.map((g, i) => `<span class="stop${i < doneN ? " done" : i === here ? " here" : ""}" style="left:${(TSTOPS[i][0] / 300) * 100}%;top:${(TSTOPS[i][1] / 132) * 100}%;background:${i < doneN ? "#fff" : g.bg}">${i < doneN ? `<img src="${COIN}" alt="">` : I[g.icon]}<small>${i === here && label ? label : g.t}</small></span>`).join("")}
-    <svg class="walker" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 132) * 100}%"><use href="#i-paw"/></svg></div>`;
+    ${STAGES.map((g, i) => `<span class="stop${i % 2 ? " up" : ""}${i < doneN ? " done" : i === here ? " here" : ""}" style="left:${(TSTOPS[i][0] / 300) * 100}%;top:${(TSTOPS[i][1] / 132) * 100}%;background:${i < doneN ? "#fff" : g.bg}">${i < doneN ? `<img src="${COIN}" alt="">` : I[g.icon]}<small>${i === here && label ? label : g.t}</small></span>`).join("")}
+    <svg class="walker${here % 2 ? " side" : ""}" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 132) * 100}%"><use href="#i-paw"/></svg></div>`;
 }
 const slimCard = `<div class="slim"><span class="ring" style="--p:100"><span class="pv"><img src="assets/feed-trial/mumu_lake_walk.jpg" alt=""></span></span><span class="tx"><b>Your card is live</b><small>Owners can find and book you</small></span><span class="ed">Edit</span></div>`;
 const MOMENTS = {
@@ -471,9 +335,9 @@ function book() {
 document.addEventListener("click", (e) => { const b = e.target.closest("button[data-m]"); if (b) { M = b.dataset.m; book(); } });
 book();
 
-/* For the Figma plugin: every variation in every state. */
-window.__ticket = { id: "sitter-home", title: "Sitter Home before the first booking (proposal, 4 variations)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/sitter-home-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Proposal, Oct 25: pick a variation" }, { q: "Checklist", a: "Six steps from fields the app already stores; the one primary names the next missing step" }, { q: "Variations", a: "A Tamagotchi waits · B Your card · C Paw path · D Stamp card" }],
+/* For the Figma plugin: E in each state, and the booking moments. */
+window.__ticket = { id: "sitter-home", title: "Sitter Home before the first booking (E: card + trail)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/sitter-home-trial.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "E (card + trail) chosen by Mook, Oct 26; the other variations were dropped" }, { q: "Checklist", a: "Six steps from fields the app already stores; the one primary names the next missing step" }, { q: "Auto-send", a: "A bonus, not part of ready (Mook's lean)" }, { q: "With bookings", a: "The trail becomes the stay's five stages: Ask, Meet, Book, Care, Home" }],
   spec: [], specLinks: [] };
 window.__ticketStates = [];
 for (const k of ["booked", "care", "busy"]) window.__ticketStates.push({ cap: `sitter-home-booked-${k}`, on: "sitter-home-booked-request", title: `Sitter Home · E with bookings · ${MOMENTS[k].t.toLowerCase()}`, go: () => { M = k; book(); } });
