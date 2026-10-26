@@ -59,6 +59,8 @@
   .shot .num { position: absolute; right: 6px; top: 6px; background: rgba(255,255,255,.9); color: #1A1A1A; font: 800 11px var(--body); padding: 2px 7px; border-radius: 999px; z-index: 2; font-variant-numeric: tabular-nums }
   .sk .sb { position: absolute; left: 0; right: 0; top: 0; height: 20px; display: flex; justify-content: space-between; align-items: center; padding: 0 12px; font: 700 9px var(--body); color: #1A1A1A; opacity: .75 }
   .shot:hover { transform: translateY(-2px); transition: transform .15s } @media (prefers-reduced-motion: reduce) { .shot:hover { transform: none } }
+  .shot .src { position: absolute; left: 6px; bottom: 6px; z-index: 2; font: 800 10px var(--body); letter-spacing: .04em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,.92); color: #1B4332 } .shot .src.sk2 { background: rgba(26,26,26,.75); color: #fff }
+  .gal { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px } .gal a { display: flex; flex-direction: column; gap: 6px; text-decoration: none; color: inherit; min-width: 0 } .gal img { width: 100%; max-width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 12px; border: 1px solid var(--line); display: block } .gal span { font: 700 13px var(--body) }
   .frame .what { font: 700 14px var(--body) } .frame .vo { font-size: 13px; color: var(--color-text-muted, var(--muted)); font-style: italic }
   .frame .vo::before { content: "VO "; font-style: normal; font-weight: 800; font-size: 11px; letter-spacing: .06em }
   /* sketched screens */
@@ -99,7 +101,7 @@
   <header class="sh">
     <span class="eyebrow"><span class="en">Goldito · Demo video · #116 · recorded by Minsik, edited by Mook</span><span class="ko">골디토 · 데모 영상 · #116 · 촬영 민식, 편집 Mook</span></span>
     <h1><span class="en">The demo video plan</span><span class="ko">데모 영상 계획</span></h1>
-    <p class="lede"><span class="en">Four storyboards for the under-3-minute video, built on the README's demo path (<i>A Stay with Goldito</i>) and on everything we changed this week. Pick one, record each frame as its own clip, then edit. A follows the README most closely; D shows each app whole and saves the two phones for what they share.</span><span class="ko">3분 이내 영상을 위한 스토리보드 네 가지. README의 데모 경로(<i>A Stay with Goldito</i>)와 이번 주 바꾼 것들을 바탕으로 했어요. 하나 고르고, 프레임마다 따로 찍은 뒤 편집하세요. 추천은 A안.</span></p>
+    <p class="lede"><span class="en">Four storyboards for the under-3-minute video, built on the README's demo path (<i>A Stay with Goldito</i>) and on everything we changed this week. Frames marked Live app are real screens from the demo; Sketch frames show what to film where the demo has nothing yet. Pick one, record each frame as its own clip, then edit. A follows the README most closely; D shows each app whole and saves the two phones for what they share.</span><span class="ko">3분 이내 영상을 위한 스토리보드 네 가지. README의 데모 경로(<i>A Stay with Goldito</i>)와 이번 주 바꾼 것들을 바탕으로 했어요. 하나 고르고, 프레임마다 따로 찍은 뒤 편집하세요. 추천은 A안.</span></p>
   </header>
 
   <section>
@@ -144,6 +146,12 @@
     <div id="version"></div>
   </section>
 
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">Submission gallery</span><span class="ko">제출 갤러리</span></span><h2><span class="en">Eight images from the live demo</span><span class="ko">라이브 데모로 만든 여덟 장</span></h2><p><span class="en">1500 × 1000 for Devpost, built from the same real screens as the "Live app" frames above. They also work as title cards between the video's stages. Open one for the full size. After the demo reset, the checklist, live trip, treat check and AI reply frames get recaptured.</span><span class="ko">Devpost용 1500 × 1000, 위 "Live app" 프레임과 같은 실제 화면으로 만들었어요. 영상의 단계 사이 타이틀 카드로도 써요. 누르면 원본 크기. 데모 초기화 후 체크리스트, 이동 지도, 간식 검사, AI 답장 프레임은 다시 찍어요.</span></p></div>
+    <div class="gal"><a href="assets/submission/01-cover.png" target="_blank" rel="noopener"><img src="assets/video/gallery-01-cover.jpg" alt="Cover" loading="lazy"><span>Cover</span></a><a href="assets/submission/02-inquiry.png" target="_blank" rel="noopener"><img src="assets/video/gallery-02-inquiry.jpg" alt="Stage 1 · Inquiry" loading="lazy"><span>Stage 1 · Inquiry</span></a><a href="assets/submission/03-meet-greet.png" target="_blank" rel="noopener"><img src="assets/video/gallery-03-meet-greet.jpg" alt="Stage 2 · Meet & Greet" loading="lazy"><span>Stage 2 · Meet & Greet</span></a><a href="assets/submission/04-booking.png" target="_blank" rel="noopener"><img src="assets/video/gallery-04-booking.jpg" alt="Stage 3 · Booking" loading="lazy"><span>Stage 3 · Booking</span></a><a href="assets/submission/05-care.png" target="_blank" rel="noopener"><img src="assets/video/gallery-05-care.jpg" alt="Stage 4 · Care" loading="lazy"><span>Stage 4 · Care</span></a><a href="assets/submission/06-moments.png" target="_blank" rel="noopener"><img src="assets/video/gallery-06-moments.jpg" alt="Stage 4 · Moments" loading="lazy"><span>Stage 4 · Moments</span></a><a href="assets/submission/07-completion.png" target="_blank" rel="noopener"><img src="assets/video/gallery-07-completion.jpg" alt="Stage 5 · Completion" loading="lazy"><span>Stage 5 · Completion</span></a><a href="assets/submission/08-how-ai-works.png" target="_blank" rel="noopener"><img src="assets/video/gallery-08-how-ai-works.jpg" alt="How the AI works" loading="lazy"><span>How the AI works</span></a></div>
+  </section>
+
   <section>
     <div class="sh"><span class="eyebrow"><span class="en">Required audio</span><span class="ko">필수 음성</span></span><h2><span class="en">The model lines, word for word</span><span class="ko">모델 설명, 그대로</span></h2><p><span class="en">About 25 seconds. Every version uses it: over the AI shots in A and B, as its own scene in C. Model names are exactly as in the README.</span><span class="ko">약 25초. 모든 버전에 들어가요: A와 B는 AI 장면 위에, C는 따로 한 장면으로. 모델 이름은 README 그대로.</span></p></div>
     <div class="say">
@@ -183,30 +191,32 @@ const STAGES = { "both": ["Together · both phones", "#F6D98B"], "①": ["Stage 
 const secs = (tc) => { const [m, x] = tc.split(":").map(Number); return m * 60 + x; };
 const img = (n) => `<img class="full" src="${IMG(n)}" alt="" loading="lazy">`;
 // Current intro screens, captured from the intro trial (Oct 26).
+// Real screens of the live demo (Robert and Chloe, Oct 26); the same captures as the submission gallery.
+const live = (n) => `<img class="full" src="assets/video/live-${n}.jpg" alt="" loading="lazy">`;
 const cap = (n) => `<img class="full" src="assets/video/${n}.jpg" alt="" loading="lazy">`;
 const sk = (html) => `<div class="sk"><div class="sb"><span>6:30</span><span>● ● ●</span></div>${html}</div>`;
 // Sketched screens (what the real clip should show); photos are real captures from the design site.
 const S = {
   hook: sk(`<div class="t">Robert, Friday night</div><div class="me">How's Max?</div><div class="me">Did he eat?</div><div class="me">Any photos??</div><div class="card-big">No more asking.</div>`),
   boot: cap("boot"),
-  welcome: cap("welcome"),
-  demoSheet: cap("demo-sheet"),
-  inquiry: sk(`<div class="t">Chat with Chloe</div><div class="me">Can you take Max and Mochi Oct 9 to 12?</div><span class="tag">Auto-reply · Chloe's assistant</span><div class="ai">Hi Robert! I'm free Oct 9 to 12 and would love to have Max and Mochi. I see Max can't have chicken, noted.</div><div class="b"><b>Quote</b> 3 nights · 2 pets · holiday<br><b>$268.13 CAD</b></div><div class="btn">Request booking</div>`),
-  checklist: sk(`<div class="t">Care request</div><div class="b">"8 AM kibble · 2 PM pill in a treat · no knocking"</div><span class="tag">Nemotron → checklist</span><div class="row"><span class="ck"></span>8:00 Kibble, 1 cup</div><div class="row"><span class="ck"></span>14:00 Pill in a treat</div><div class="b" style="background:#FBEFC8">Heads-up: no knocking, ring once</div><div class="b" style="background:#FAD6CB">Allergy: chicken</div><div class="btn">Save</div>`),
-  booking: sk(`<div class="t">Finish booking</div><div class="b"><b>Quote</b> $268.13 CAD</div><div class="row"><span class="ck"></span>House rules</div><div class="row"><span class="ck"></span>Medication consent</div><div class="row"><span class="ck"></span>Emergency vet</div><div class="b" style="background:#D8F3DC">Entry info unlocks for Chloe 2 h before</div><div class="btn">Confirm and pay (demo)</div>`),
+  welcome: live("welcome"),
+  demoSheet: live("demo"),
+  inquiry: live("inquiry"),
+  checklist: live("carereq"),
+  booking: live("booked"),
   trip: sk(`<div class="t">On the way to Chloe's</div><div class="map"></div><div class="b"><b>ETA 12 min</b> · visitor parking on Elm St</div>`),
-  sitterHome: sk(`<div class="t">Today · Chloe</div><div class="b">Max and Mochi are with you</div><div class="chips"><span>Meal ✓</span><span>Walk ✓</span><span>Potty</span><span>Mood</span></div><div class="row"><span class="ck"></span>14:00 Pill in a treat, with a photo</div><div class="b" style="background:#FAD6CB">Heads-up: no chicken</div>`),
-  moments: img("c-viewer"),
-  add: img("c-add"),
-  diary: img("c-diary"),
+  sitterHome: live("sitter-home"),
+  moments: live("moments"),
+  add: live("checkin"),
+  diary: live("diary"),
   danger: sk(`<div class="t">Snap · treat check</div><div class="danger">DANGER<br>Contains chicken. Max is allergic.</div><div class="b">Don't give this treat.</div><div class="btn" style="background:#B42318">I understand</div>`),
-  home: sk(`<div class="t">Max and Mochi are home safe</div><div class="b">★★★★★ Chloe</div><div class="b"><b>Max's Life Record</b><br>Eats: kibble, 1 cup at 8<br>Meds: pill at 2 in a treat<br>Watch out: chicken</div>`),
-  next: sk(`<div class="t">A new sitter, next month</div><span class="tag">Remembers Max</span><div class="ai">Hi Robert! I read Max's record: no chicken, pill at 2. I can do that.</div>`),
+  home: live("home-safe"),
+  next: live("record"),
   models: sk(`<div class="t">Under the hood</div><div class="b">Nebius Token Factory</div><div class="b">Nemotron 3 Nano · reply</div><div class="b">Nemotron 3 Super · checklist, note, record</div><div class="b">Nemotron 3 Ultra · treat check</div><div class="b">MiniCPM-V 4.5 · photos</div><div class="b">Qwen3 Embedding · memory</div>`),
   end: sk(`<div class="card-big" style="font-size:22px">Leave your pet.<br>Keep your peace of mind.</div><div class="card-big" style="font-size:13px">goldito-petcare.vercel.app<br>NVIDIA Nemotron on Nebius Token Factory</div>`),
   split: (l, r) => `<div class="sk"><div class="split"><div><b>Robert</b>${l}</div><div><b>Chloe</b>${r}</div></div></div>`,
-  ownerHome: sk(`<div class="t">Home · Robert</div><div class="ticket"><b>Max and Mochi are with Chloe</b>Day 2 of 3 · home Sun 5 PM</div><div class="b">8:12 AM · Max ate every bite</div><div class="b">9:40 AM · Walk, 20 minutes, with a photo</div><div class="b">2:04 PM · Pill given, with a photo</div>`),
-  dailyNote: sk(`<div class="t">Today's note · draft</div><div class="chips"><span>Ate well</span><span>Long walk</span><span>Napped</span></div><span class="tag">Nemotron · in Chloe's voice</span><div class="ai">Max had a big day! He finished breakfast, chased the ball by the lake and napped in the sun.</div><div class="btn">Approve and send</div>`),
+  ownerHome: live("owner-home"),
+  dailyNote: live("daily"),
   sitterRoom: sk(`<div class="t">Max's room · Chloe</div><div class="room">${pet("dog-white-excited", 52, 22, 4)}${pet("cat-orange-calm", 40, 112, 4)}<span class="bowl" style="left:84px"></span></div><div class="tiles"><span>Feed</span><span>Walk</span><span>Poop</span><span>Nap</span></div>`),
   splitDiary: `<div class="sk"><div class="split"><div><b>Robert</b><div class="b"><b>Chloe's page</b> Max's big day</div><div class="b"><b>My page</b> Missing you, Max ★</div></div><div><b>Chloe</b><div class="b"><b>Daily note sent</b></div><div class="b">Sticker on the photo ★</div></div></div></div>`,
   splitRoom: `<div class="sk"><div class="split"><div><b>Robert</b><div class="room">${pet("dog-white-calm", 40, 10, 2)}<span class="bowl" style="left:50px;bottom:8px"></span></div><div class="b">Max is eating</div></div><div><b>Chloe</b><div class="room">${pet("dog-white-hungry", 40, 10, 2)}<span class="bowl" style="left:50px;bottom:8px"></span></div><div class="tiles" style="grid-template-columns:1fr 1fr"><span>Feed ✓</span><span>Walk</span></div></div></div></div>`,
@@ -291,7 +301,7 @@ function draw() {
     <div class="meta"><span>${n} shots</span><span>${used.filter(Boolean).length} stage beats</span><span>about ${words} spoken words</span></div>
     <div class="tl">${v.parts ? `<div class="parts" aria-label="Whose turn">${v.parts.map(([who, a, b, k]) => `<i class="${k || ""}" style="width:${((secs(b) - secs(a)) / end) * 100}%">${who}</i>`).join("")}</div>` : ""}<div class="bar" aria-label="Timeline of ${v.name}">${bar}</div><div class="ticks"><span>0:00</span><span>1:00</span><span>2:00</span><span>${v.len}</span></div></div>
     <div class="legend">${used.map((st) => `<span><i style="background:${STAGES[st][1]}"></i>${STAGES[st][0]}</span>`).join("")}</div></div>
-    <div class="board">${v.frames.map(([tc, st, shot, what, vo], i) => `<div class="frame"><div class="shot" style="background:${shot.includes('class="full"') ? "#1A1A1A" : STAGES[st][1]}"><span class="tc">${tc}</span><span class="num">${i + 1}/${n}</span>${shot}</div><span class="st" style="background:${STAGES[st][1]}">${STAGES[st][0]}</span><span class="what">${what}</span><span class="vo">${vo}</span></div>`).join("")}</div></div>`;
+    <div class="board">${v.frames.map(([tc, st, shot, what, vo], i) => `<div class="frame"><div class="shot" style="background:${shot.includes('class="full"') ? "#1A1A1A" : STAGES[st][1]}"><span class="tc">${tc}</span><span class="num">${i + 1}/${n}</span>${shot}${shot.includes("live-") ? '<span class="src">Live app</span>' : shot.includes('class="sk"') ? '<span class="src sk2">Sketch</span>' : '<span class="src">Trial</span>'}</div><span class="st" style="background:${STAGES[st][1]}">${STAGES[st][0]}</span><span class="what">${what}</span><span class="vo">${vo}</span></div>`).join("")}</div></div>`;
 }
 document.getElementById("tabs").addEventListener("click", (e) => {
   const b = e.target.closest("button[data-i]"); if (!b) return;
