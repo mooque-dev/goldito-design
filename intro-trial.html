@@ -349,11 +349,11 @@ function screen() {
         <div role="radiogroup" aria-label="Role" style="display:flex;flex-direction:column;gap:10px">
         <button type="button" role="radio" class="rolec p" aria-checked="${P.role === "owner"}" data-role="owner">${roleArt("owner", 64)}<span><b>I have a pet</b><small>Book a sitter and get updates without asking.</small></span><span class="rd"></span></button>
         <button type="button" role="radio" class="rolec m" aria-checked="${P.role === "sitter"}" data-role="sitter">${roleArt("sitter", 64)}<span><b>I'm a pet sitter</b><small>Care, snap, tap. Goldito writes the day.</small></span><span class="rd"></span></button></div></div>
-        <div class="foot"><button type="button" class="btn" data-p="stepnext" ${P.role ? "" : "disabled"}>${P.role ? "Continue" : "Pick one to continue"}</button></div>`;
+        <div class="foot"><button type="button" class="btn" data-p="stepnext" ${P.role ? "" : "disabled"}>${P.role ? "Next" : "Pick one first"}</button></div>`;
       if (P.step === 1) return `${top({ back, prog })}<div class="scroll"><h3>Create your account</h3><p>${P.role === "owner" ? "Your sitter sees your first name." : "Owners see your first name."}</p>${P.soc ? `${SOC}<div class="or">or with email</div>` : ""}
         <div class="row2"><div class="fld"><label for="f1">First name</label><input id="f1" data-f="first" value="${esc(f.first)}" autocomplete="given-name"></div><div class="fld"><label for="f2">Last name</label><input id="f2" data-f="last" value="${esc(f.last)}" autocomplete="family-name"></div></div>
         <div class="fld"><label for="f3">Email</label><input id="f3" data-f="email" type="email" value="${esc(f.email)}" placeholder="you@example.com" autocomplete="email"></div></div>
-        <div class="foot"><button type="button" class="btn" data-p="stepnext" data-need="first,email">Continue</button></div>`;
+        <div class="foot"><button type="button" class="btn" data-p="stepnext" data-need="first,email">Next</button></div>`;
       const sc = scoreOf(f.pw);
       return `${top({ back, prog })}<div class="scroll"><h3>Make a password</h3><p>Six characters or more.</p>
         <div class="fld"><label for="f4">Password</label><input id="f4" data-f="pw" type="password" value="${esc(f.pw)}" autocomplete="new-password"><div class="str" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= sc ? "on" : ""}"></i>`).join("")}</div><small id="strw">${["Too short", "Okay", "Good", "Strong", "Strong"][sc]}</small></div>
