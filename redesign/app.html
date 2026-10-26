@@ -182,7 +182,8 @@ body{padding:0!important}
 .xp .sec{display:flex;align-items:baseline;justify-content:space-between}
 .xp .sec h3{margin:0;font:600 21px/1 var(--display);color:var(--ink)}
 .xp .link{color:var(--link);font-weight:800;font-size:13px}
-.xp .back{display:inline-flex;align-items:center;gap:2px;min-height:44px;color:var(--green);font-weight:700;font-size:15px} .xp .back svg{width:20px;height:20px}
+/* Back is the ← arrow alone, 44 × 44, read aloud as Back (DESIGN.md D20) */
+.xp .back{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;color:var(--ink)} .xp .back svg{width:24px;height:24px}
 .xp .pets{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .xp .pet{border-radius:24px;padding:12px;display:flex;align-items:center;gap:8px}
 .xp .pet svg{width:52px;height:52px;flex:0 0 auto}
@@ -941,7 +942,7 @@ body{padding:0!important}
   <symbol id="x-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
   <symbol id="x-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
   <symbol id="x-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
-  <symbol id="x-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol><symbol id="x-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="x-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol><symbol id="x-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></symbol>
   <symbol id="x-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
 </svg>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1330,7 +1331,7 @@ body{padding:0!important}
   <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab on"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-settings"><div class="xp" data-id="owner-settings">
-  <div class="top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Settings</h1></div><div class="icons"><span class="me">R</span></div></div>
+  <div class="top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Settings</h1></div><div class="icons"><span class="me">R</span></div></div>
   <div class="body" style="gap:12px">
     <div class="block g row" style="gap:12px;padding:16px"><span class="me" style="background:var(--gold);color:#3D2A00">R</span><div><div class="h" style="color:#fff">Robert Park</div><div class="sm" style="color:#D8F3DC">demo-owner@goldito.test · Owner</div></div></div>
     <div class="list"><div class="li"><span>What's New<small>Snap, live trips, photo requests</small></span><span class="row" style="gap:6px"><span class="new">3 new</span><svg><use href="#x-chev"/></svg></span></div></div>
@@ -1343,7 +1344,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-owner-whatsnew"><div class="xp" data-id="owner-whatsnew">
-  <div class="top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">What's New</h1><p class="sub">Small updates, in plain words</p></div></div>
+  <div class="top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">What's New</h1><p class="sub">Small updates, in plain words</p></div></div>
   <div class="body" style="gap:12px">
     <div class="block y rel-note"><span class="when">Oct 15 · New</span><div class="mid" style="color:var(--ink)">Snap: three photo tools in one tab</div><ul><li><b>Treat check:</b> snap a treat's label to see if it's safe for your pet, with the sources.</li><li><b>Mood:</b> see how your pet seems in a photo or a short clip. Just for fun.</li><li><b>Stickers:</b> cut your pet out of a photo and decorate a diary page.</li></ul></div><div class="block w rel-note"><span class="when">Oct 15</span><ul><li><b>Ask for a photo.</b> Tap Request photo in Feed; your sitter's next photo answers it.</li><li>Checkout asks for your entry info when the sitter comes to your door.</li></ul></div><div class="block w rel-note"><span class="when">Oct 12</span><ul><li><b>Live trips.</b> Tap Start trip on drop-off and pick-up days. The other person sees the map and when you'll arrive.</li><li>Rather not share your location? The meeting place opens in Google Maps.</li></ul></div><div class="block w rel-note"><span class="when">Oct 10</span><ul><li><b>Ask before booking</b> now sits next to Book on every sitter's profile.</li><li>Sitters pick the pet first when writing a daily note, and can add their own lines.</li></ul></div>
   </div>
@@ -1413,7 +1414,7 @@ body{padding:0!important}
   <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab on"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-booking"><div class="xp" data-id="owner-booking">
-  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+  <div class="top"><div class="bk-head"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="bk-name"><h1 class="hello">Chloe Kim</h1><span class="tagx bk-t-m">Sitter</span></div>
     <p class="sub">Max &amp; Mochi · Boarding at Chloe's</p></div></div>
   <div class="body" style="gap:12px">
@@ -1443,7 +1444,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn bk-sec">Change time or place</div></div>
 </div></template>
 <template id="x-sitter-booking"><div class="xp" data-id="sitter-booking">
-  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+  <div class="top"><div class="bk-head"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="bk-name"><h1 class="hello">Robert Park</h1><span class="tagx bk-t-m">Owner</span><span class="tagx bk-t-m">In care</span></div>
     <p class="sub">Max &amp; Mochi · Boarding at your place</p></div></div>
   <div class="body" style="gap:10px;padding-bottom:8px">
@@ -1477,7 +1478,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Returned</div></div>
 </div></template>
 <template id="x-booking-handoff-change"><div class="xp" data-id="booking-handoff-change">
-  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+  <div class="top"><div class="bk-head"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="bk-name"><h1 class="hello">Chloe Kim</h1><span class="tagx bk-t-m">Sitter</span></div>
     <p class="sub">Max &amp; Mochi · Boarding at Chloe's</p></div></div>
   <div class="body" style="gap:12px">
@@ -1512,7 +1513,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-booking-return"><div class="xp" data-id="booking-return">
-  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+  <div class="top"><div class="bk-head"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="bk-name"><h1 class="hello">Robert Park</h1><span class="tagx bk-t-m">Owner</span></div>
     <p class="sub">Max &amp; Mochi · Boarding at your place</p></div></div>
   <div class="body" style="gap:12px">
@@ -1544,7 +1545,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-meet-greet-time"><div class="xp" data-id="meet-greet-time">
-  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+  <div class="top"><div class="bk-head"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="bk-name"><h1 class="hello">Chloe Kim</h1><span class="tagx bk-t-m">Sitter</span></div>
     <p class="sub">Max &amp; Mochi · Boarding at Chloe's</p></div></div>
   <div class="body" style="gap:12px">
@@ -1580,7 +1581,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-owner-home-access"><div class="xp" data-id="owner-home-access">
-  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Entry info</h1></div></div>
+  <div class="top"><div class="bk-head"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Entry info</h1></div></div>
   <div class="body" style="gap:14px">
     <div class="block m row" style="gap:14px;padding:14px 16px">
       <svg class="art" style="width:60px;height:60px;flex:none"><use href="#art-home"/></svg>
@@ -1595,7 +1596,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Save</div></div>
 </div></template>
 <template id="x-sitter-checkin"><div class="xp" data-id="sitter-checkin">
-  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Max · Check-in</h1><p class="sub">Tap what happened, then Send</p></div>
+  <div class="top ca-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello">Max · Check-in</h1><p class="sub">Tap what happened, then Send</p></div>
     <div class="photo ca-hpet" style="background-image:url(img/pet0.jpg);background-position:50% 35%" role="img" aria-label="Max"></div></div>
   <div class="body" style="gap:10px">
     <div class="block w ca-picks">
@@ -1633,7 +1634,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-sitter-tasks"><div class="xp" data-id="sitter-tasks">
-  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Today's tasks</h1><p class="sub">Max &amp; Mochi · 5 left · 3 done</p></div></div>
+  <div class="top ca-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello">Today's tasks</h1><p class="sub">Max &amp; Mochi · 5 left · 3 done</p></div></div>
   <div class="body" style="gap:10px">
     <div class="block g ca-next">
       <div class="between"><span class="k">Next up · 2:00 PM</span><svg class="art" style="width:44px;height:44px"><use href="#art-pill"/></svg></div>
@@ -1656,7 +1657,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-sitter-care-request"><div class="xp" data-id="sitter-care-request">
-  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Max · Care request</h1><p class="sub">From Robert · 3:12 PM</p></div></div>
+  <div class="top ca-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello">Max · Care request</h1><p class="sub">From Robert · 3:12 PM</p></div></div>
   <div class="body" style="gap:12px">
     <div class="block p">
       <div class="between" style="align-items:flex-start"><div style="flex:1;min-width:0"><div class="k" style="color:var(--gold-ink)">Waiting for you</div><div class="mid" style="margin-top:6px;color:var(--ink)">New care request for Max</div></div><svg class="art" style="width:64px;height:64px;flex:none"><use href="#art-dog"/></svg></div>
@@ -1683,7 +1684,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-owner-history"><div class="xp" data-id="owner-history">
-  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">History</h1><p class="sub">What Chloe did · today and the last 7 days</p></div></div>
+  <div class="top ca-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello">History</h1><p class="sub">What Chloe did · today and the last 7 days</p></div></div>
   <div class="body" style="gap:12px">
     <div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div>
     <div class="ca-day">
@@ -1702,7 +1703,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-owner-notifications"><div class="xp" data-id="owner-notifications">
-  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Notifications</h1><p class="sub">3 new</p></div></div>
+  <div class="top ca-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello">Notifications</h1><p class="sub">3 new</p></div></div>
   <div class="body" style="gap:10px">
     <div class="ca-bar"><span class="ca-tbtn">Mark all as read</span><span class="ca-tbtn danger">Clear all</span></div>
     <div class="ca-ns">
@@ -1721,7 +1722,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-owner"><div class="xp" data-id="chat-owner">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
   </div>
   <div class="ch-stage ch-go" role="button" aria-label="Step 3 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div><span class="ch-cap">Your turn</span></div><svg><use href="#x-chev"/></svg></div>
@@ -1744,7 +1745,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-sitter"><div class="xp" data-id="chat-sitter">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--peach);color:var(--ink)">R</span><div><h1 class="ch-name">Robert</h1><div class="ch-stayline">Boarding · Oct 9 to 12</div></div><span class="ch-pets"><span class="ch-face sm" style="background-image:url(img/pet0.jpg);background-position:50% 40%" aria-label="Max"></span><span class="ch-face sm" style="background:var(--peach)" aria-label="Mochi"><svg class="art"><use href="#art-cat"/></svg></span></span></div>
   </div>
   <div class="ch-stage" role="img" aria-label="Step 1 of 5"><div><div class="ch-steps"><span class="ch-step c"><span class="ch-dot">1</span>Request</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">2</span>M&amp;G</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div></div>
@@ -1769,7 +1770,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-request"><div class="xp" data-id="chat-request">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
   </div>
   <div class="ch-stage" role="img" aria-label="Step 1 of 5"><div><div class="ch-steps"><span class="ch-step c"><span class="ch-dot">1</span>Request</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">2</span>M&amp;G</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div></div>
@@ -1796,7 +1797,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-quote"><div class="xp" data-id="chat-quote">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--peach);color:var(--ink)">R</span><div><h1 class="ch-name">Robert</h1><div class="ch-stayline">Boarding · Oct 9 to 12</div></div><span class="ch-pets"><span class="ch-face sm" style="background-image:url(img/pet0.jpg);background-position:50% 40%" aria-label="Max"></span><span class="ch-face sm" style="background:var(--peach)" aria-label="Mochi"><svg class="art"><use href="#art-cat"/></svg></span></span></div>
   </div>
   <div class="ch-stage" role="img" aria-label="Step 1 of 5"><div><div class="ch-steps"><span class="ch-step c"><span class="ch-dot">1</span>Request</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">2</span>M&amp;G</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div></div>
@@ -1830,7 +1831,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-agree"><div class="xp" data-id="chat-agree">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
   </div>
   <div class="ch-stage ch-go" role="button" aria-label="Step 3 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div><span class="ch-cap">Your turn</span></div><svg><use href="#x-chev"/></svg></div>
@@ -1857,7 +1858,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-decline"><div class="xp" data-id="chat-decline">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
   </div>
   <div class="ch-stage ch-go" role="button" aria-label="Step 3 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div><span class="ch-cap">Your turn</span></div><svg><use href="#x-chev"/></svg></div>
@@ -1888,7 +1889,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-chat-plus"><div class="xp" data-id="chat-plus">
   <div class="ch-top">
-    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span>
     <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
   </div>
   <div class="ch-stage ch-go" role="button" aria-label="Step 4 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>Confirm</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div><svg><use href="#x-chev"/></svg></div>
@@ -1913,7 +1914,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-owner-pet"><div class="xp" data-id="owner-pet">
-  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Max</h1></div><div class="icons"><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="top pp-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Max</h1></div><div class="icons"><span class="avr"><span class="me">R</span></span></div></div>
   <div class="body" style="gap:8px">
     <div class="block p pp-hero">
       <div class="pp-cover"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:42% 40%;background-size:170%"></div><span class="pp-cam" aria-label="Add photo"><svg><use href="#x-cam"/></svg></span></div>
@@ -1972,7 +1973,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Edit Max's profile</div></div>
 </div></template>
 <template id="x-profile-edit"><div class="xp" data-id="profile-edit">
-  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Profile</h1><p class="sub">Robert · Owner</p></div><div class="icons"><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="top pp-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Profile</h1><p class="sub">Robert · Owner</p></div><div class="icons"><span class="avr"><span class="me">R</span></span></div></div>
   <div class="body" style="gap:8px">
     <div class="block w" style="padding:10px 16px 12px">
       <div class="pp-k muted">Your photos</div>
@@ -1997,7 +1998,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Save</div></div>
 </div></template>
 <template id="x-sitter-schedule"><div class="xp" data-id="sitter-schedule">
-  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Schedule</h1><p class="sub">Chloe · Sitter</p></div>
+  <div class="top pp-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Schedule</h1><p class="sub">Chloe · Sitter</p></div>
     <div class="icons"><span class="pp-hact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>Weekly rules</span></div></div>
   <div class="body" style="gap:12px">
     <div class="block w pp-cal">
@@ -2060,7 +2061,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Open or block</div></div>
 </div></template>
 <template id="x-sitter-owner"><div class="xp" data-id="sitter-owner">
-  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Owner</h1><p class="sub">From your chat with Robert</p></div><div class="icons"><span class="avr"><span class="me">C</span></span></div></div>
+  <div class="top pp-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Owner</h1><p class="sub">From your chat with Robert</p></div><div class="icons"><span class="avr"><span class="me">C</span></span></div></div>
   <div class="body" style="gap:12px">
     <div class="block m pp-person">
       <div class="photo" style="background-image:url(img/pet0.jpg);background-position:42% 40%;background-size:170%"></div>
@@ -2085,7 +2086,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-setup-start"><div class="xp" data-id="setup-start">
-  <div class="ps-head"><div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div></div>
+  <div class="ps-head"><div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div></div>
   <div class="body" style="gap:16px;padding-top:4px">
     <div class="block p ps-hero">
       <div class="ps-pcard">
@@ -2110,7 +2111,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-photo"><div class="xp" data-id="setup-photo">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:20%"></div></div><span class="ps-plabel">Basics · 1 of 5</span></div>
   </div>
   <div class="body" style="gap:14px">
@@ -2130,7 +2131,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-basics"><div class="xp" data-id="setup-basics">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:40%"></div></div><span class="ps-plabel">Basics · 2 of 5</span></div>
   </div>
   <div class="body" style="gap:16px">
@@ -2149,7 +2150,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-breed"><div class="xp" data-id="setup-breed">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:60%"></div></div><span class="ps-plabel">Basics · 3 of 5</span></div>
   </div>
   <div class="body" style="gap:14px">
@@ -2174,7 +2175,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-age-weight"><div class="xp" data-id="setup-age-weight">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:80%"></div></div><span class="ps-plabel">Basics · 4 of 5</span></div>
   </div>
   <div class="body" style="gap:14px">
@@ -2198,7 +2199,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-safety"><div class="xp" data-id="setup-safety">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:100%"></div></div><span class="ps-plabel">Basics · 5 of 5</span></div>
   </div>
   <div class="body" style="gap:14px">
@@ -2237,7 +2238,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-ready"><div class="xp" data-id="setup-ready">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:100%"></div></div><span class="ps-plabel">Basics · done</span></div>
   </div>
   <div class="body" style="gap:16px;padding-top:14px">
@@ -2261,7 +2262,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-personality"><div class="xp" data-id="setup-personality">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span><span class="ps-grow"></span><span class="ps-tb" style="padding:0 4px;font-size:15px">Finish later</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><span class="ps-grow"></span><span class="ps-tb" style="padding:0 4px;font-size:15px">Finish later</span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:7%"></div></div><span class="ps-plabel">Personality · 1 of 14</span></div>
   </div>
   <div class="body" style="gap:14px">
@@ -2285,7 +2286,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-voice"><div class="xp" data-id="setup-voice">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span><span class="ps-grow"></span><span class="ps-tb" style="padding:0 4px;font-size:15px">Finish later</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><span class="ps-grow"></span><span class="ps-tb" style="padding:0 4px;font-size:15px">Finish later</span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:7%"></div></div><span class="ps-plabel">Personality · talking</span></div>
   </div>
   <div class="body" style="gap:12px">
@@ -2316,7 +2317,7 @@ body{padding:0!important}
 </div></template>
 <template id="x-setup-review"><div class="xp" data-id="setup-review">
   <div class="ps-head">
-    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-nav"><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span></div>
     <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:100%"></div></div><span class="ps-plabel">Check and save</span></div>
   </div>
   <div class="body" style="gap:12px">
@@ -2402,7 +2403,7 @@ body{padding:0!important}
   <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-snap-treat-scan"><div class="xp" data-id="snap-treat-scan">
-  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Treat check</h1><p class="sub">We check Max's allergies and toxins.</p></div></div>
+  <div class="top sn-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Treat check</h1><p class="sub">We check Max's allergies and toxins.</p></div></div>
   <div class="body">
     <div class="sn-pick"><span class="k">Which pet?</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
     <div class="block p" style="padding:12px 12px 16px">
@@ -2431,7 +2432,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn sn-off" aria-disabled="true">Snap a label</div></div>
 </div></template>
 <template id="x-snap-treat-safe"><div class="xp" data-id="snap-treat-safe">
-  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Treat check</h1><p class="sub">We check Max's allergies and toxins.</p></div></div>
+  <div class="top sn-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Treat check</h1><p class="sub">We check Max's allergies and toxins.</p></div></div>
   <div class="body">
     <div class="sn-pick"><span class="k">Which pet?</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
     <div class="block sn-ok">
@@ -2458,7 +2459,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Check another treat</div></div>
 </div></template>
 <template id="x-snap-checks"><div class="xp" data-id="snap-checks">
-  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Recent checks</h1><p class="sub">Max's treat checks, newest first</p></div></div>
+  <div class="top sn-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Recent checks</h1><p class="sub">Max's treat checks, newest first</p></div></div>
   <div class="body" style="gap:10px">
     <div class="sn-day">Today · Sat Oct 10</div>
     <div class="sn-list">
@@ -2483,7 +2484,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-snap-mood"><div class="xp" data-id="snap-mood">
-  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Mood</h1><p class="sub">How does Max seem today? Just for fun.</p></div></div>
+  <div class="top sn-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Mood</h1><p class="sub">How does Max seem today? Just for fun.</p></div></div>
   <div class="body">
     <div class="sn-pick"><span class="k">Whose photo? (optional)</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
     <div class="sn-pic" style="background-image:url(img/pet0.jpg)" role="img" aria-label="Max's photo with a box around him">
@@ -2507,7 +2508,7 @@ body{padding:0!important}
   <div class="pin"><div class="btn">Try another photo</div></div>
 </div></template>
 <template id="x-snap-sticker"><div class="xp" data-id="snap-sticker">
-  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Sticker</h1><p class="sub">Cut Max out and decorate a diary page.</p></div></div>
+  <div class="top sn-top"><div><span class="back" role="button" aria-label="Back"><svg><use href="#x-back"/></svg></span><h1 class="hello" style="margin-top:6px">Sticker</h1><p class="sub">Cut Max out and decorate a diary page.</p></div></div>
   <div class="body">
     <div class="sn-pick"><span class="k">Whose sticker?</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
     <div class="sn-pick">
