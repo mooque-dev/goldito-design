@@ -525,6 +525,193 @@
 .xp .pp-stay{padding:16px 16px 4px}
 .xp .pp-open{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin-top:10px;border-top:1px solid var(--line);color:var(--green);font-weight:800;font-size:14px}
 .xp .pp-open svg{width:18px;height:18px}
+/* petsetup.html */
+/* Pet setup (ps-): the owner's large-text onboarding (#115). Step header = Back + progress; one question per screen,
+   big outlined options (selected = mint + ink ring + tick), one filled primary pinned at the bottom. */
+.xp .ps-head{display:flex;flex-direction:column;gap:2px;padding:10px 20px 4px}
+.xp .ps-nav{display:flex;align-items:center;gap:8px;min-height:44px}
+.xp .ps-grow{flex:1;min-width:0}
+.xp .ps-prog{display:flex;align-items:center;gap:10px;min-height:24px}
+.xp .ps-track{flex:1;min-width:0;height:10px;border-radius:5px;background:var(--line);overflow:hidden;display:flex}
+.xp .ps-fill{height:10px;border-radius:5px;background:var(--green)}
+.xp .ps-plabel{font-size:13.5px;font-weight:800;color:var(--ink);white-space:nowrap}
+.xp .ps-q{margin:0;font:600 28px/1.15 var(--display);color:var(--ink);letter-spacing:-.01em}
+.xp .ps-sub{margin:0;font-size:16.5px;line-height:1.4;font-weight:600;color:var(--muted)}
+.xp .ps-ttl{display:flex;flex-direction:column;gap:6px}
+.xp .ps-i{width:20px;height:20px;flex:none}
+/* Text button and secondary button */
+.xp .ps-tb{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 10px;color:var(--link);font-weight:800;font-size:16px;white-space:nowrap}
+.xp .ps-btn2{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 18px;border-radius:999px;background:var(--card);border:2px solid var(--ink);color:var(--ink);font-weight:800;font-size:16px;white-space:nowrap}
+.xp .ps-pin{display:flex;flex-direction:column;gap:2px;padding:6px 20px 16px}
+.xp .ps-pin .btn{font-size:17px;min-height:56px}
+.xp .ps-row2{display:flex;justify-content:center;gap:8px}
+/* Big options (BigOption): 64 tall, 19 px words, strong outline; picked = mint + ink ring + tick */
+.xp .ps-opts{display:flex;flex-direction:column;gap:10px}
+.xp .ps-half{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.xp .ps-opt{display:flex;align-items:center;gap:10px;min-height:64px;padding:10px 14px 10px 18px;border-radius:20px;background:var(--card);border:2px solid #7F6F58;color:var(--text)}
+.xp .ps-opt>span:first-child{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.xp .ps-opt b{font-weight:700;font-size:19px;line-height:1.2;color:var(--text)}
+.xp .ps-opt small{font-size:13px;font-weight:700;color:var(--link)}
+.xp .ps-opt.on{background:var(--mint);border:2px solid var(--ink);box-shadow:0 0 0 1.5px var(--ink)}
+.xp .ps-opt.on b{color:var(--ink)}
+.xp .ps-opt.ps-sm{min-height:52px;padding:6px 10px 6px 14px;border-radius:16px}
+.xp .ps-opt.ps-sm b{font-size:16.5px}
+.xp .ps-tick{width:28px;height:28px;border-radius:50%;flex:none;background:var(--ink);color:var(--on-ink);display:grid;place-items:center}
+.xp .ps-tick svg{width:17px;height:17px}
+.xp .ps-opt.ps-sm .ps-tick{width:24px;height:24px}
+.xp .ps-opt.ps-sm .ps-tick svg{width:15px;height:15px}
+.xp .ps-sug{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 12px 4px 8px;font-size:13px;font-weight:800;background:var(--card);color:var(--link);align-self:flex-start}
+.xp .ps-sug svg{width:16px;height:16px}
+/* Start */
+.xp .ps-hero{display:flex;align-items:flex-end;gap:10px;padding:22px 18px 22px 22px;min-height:240px}
+.xp .ps-pcard{flex:1;min-width:0;background:var(--card);border-radius:22px;padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 6px 18px rgba(27,67,50,.10)}
+.xp .ps-pct{display:flex;align-items:center;gap:10px;font:600 19px/1.1 var(--display);color:var(--ink)}
+.xp .ps-pct svg.art{width:48px;height:48px;flex:none;border-radius:50%;background:var(--mint)}
+.xp .ps-pr{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:800;color:var(--muted)}
+.xp .ps-pr span{width:74px;flex:none}
+.xp .ps-pr i{flex:1;min-width:0;height:10px;border-radius:5px;background:var(--line)}
+.xp .ps-hcat{width:76px;height:76px;flex:none}
+.xp .ps-infos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.xp .ps-info{border-radius:20px;padding:12px 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;font-weight:800;font-size:15.5px;line-height:1.2;color:var(--ink);min-height:100px}
+.xp .ps-info svg{width:26px;height:26px}
+/* Photo */
+.xp .ps-photo{height:296px;border-radius:28px;background-size:cover;background-position:50% 38%}
+.xp .ps-guess{display:flex;flex-direction:column;gap:8px;padding:16px 18px 18px}
+.xp .ps-guess .mid{color:var(--ink)}
+.xp .ps-yn{display:flex;gap:10px;margin-top:6px}
+.xp .ps-yn>*{flex:1;min-width:0}
+/* Kind and name */
+.xp .ps-kind{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:168px;border-radius:24px;background:var(--card);border:2px solid #7F6F58;position:relative;padding:12px}
+.xp .ps-kind svg.art{width:88px;height:88px}
+.xp .ps-kind b{font:600 24px/1 var(--display);color:var(--text)}
+.xp .ps-kind small{font-size:13px;font-weight:700;color:var(--link)}
+.xp .ps-kind.on{background:var(--mint);border:2px solid var(--ink);box-shadow:0 0 0 1.5px var(--ink)}
+.xp .ps-kind.on b{color:var(--ink)}
+.xp .ps-kind .ps-tick{position:absolute;top:12px;right:12px}
+.xp .ps-field{display:flex;flex-direction:column;gap:8px}
+.xp .ps-label{font-weight:800;font-size:17px;color:var(--ink)}
+.xp .ps-input{display:flex;align-items:center;gap:6px;min-height:64px;padding:0 18px;border-radius:20px;background:var(--card);border:2px solid var(--ink);font-size:22px;font-weight:700;color:var(--text)}
+.xp .ps-caret{width:2px;height:28px;background:var(--green);flex:none}
+.xp .ps-hint{margin:0;font-size:14.5px;font-weight:600;color:var(--muted)}
+/* Breed */
+.xp .ps-needs{display:flex;align-items:center;gap:12px;padding:12px 16px 12px 12px;border-radius:22px}
+.xp .ps-needs svg.art{width:52px;height:52px;flex:none}
+.xp .ps-needs>div{flex:1;min-width:0;font-size:14.5px;line-height:1.4;color:var(--text)}
+.xp .ps-needs b{color:var(--ink)}
+/* Age and weight */
+.xp .ps-sect{display:flex;flex-direction:column;gap:10px;padding:16px 16px 16px}
+.xp .ps-step{display:flex;align-items:center;gap:10px}
+.xp .ps-pm{width:56px;height:56px;flex:none;border-radius:50%;background:var(--card);border:2px solid var(--ink);display:grid;place-items:center;color:var(--ink)}
+.xp .ps-pm svg{width:24px;height:24px}
+.xp .ps-val{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+.xp .ps-val b{font:600 34px/1 var(--display);color:var(--ink)}
+.xp .ps-val small{font-size:14px;font-weight:700;color:var(--muted)}
+.xp .ps-units{display:flex;gap:8px}
+.xp .ps-unit{flex:1;min-width:0;min-height:48px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:var(--card);border:2px solid #7F6F58;font-weight:800;font-size:16px;color:var(--text)}
+.xp .ps-unit.on{background:var(--mint);border-color:var(--ink);color:var(--ink)}
+.xp .ps-kg{display:flex;align-items:center;gap:10px;min-height:64px;padding:0 18px;border-radius:20px;background:var(--card);border:2px solid #7F6F58}
+.xp .ps-kg b{flex:1;min-width:0;font:600 30px/1 var(--display);color:var(--ink)}
+.xp .ps-kg span{font-weight:800;font-size:17px;color:var(--muted)}
+.xp .ps-heard{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--ink)}
+.xp .ps-heard svg{width:18px;height:18px;color:var(--link)}
+/* Safety */
+.xp .ps-safe{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;border-radius:999px;padding:6px 14px 6px 10px;font-size:13.5px;font-weight:800;background:var(--gold-soft);color:var(--gold-ink)}
+.xp .ps-safe svg{width:17px;height:17px}
+.xp .ps-sq{display:flex;flex-direction:column;gap:8px}
+.xp .ps-sq>b{font-weight:800;font-size:17px;line-height:1.3;color:var(--ink)}
+.xp .ps-foods{display:flex;flex-wrap:wrap;gap:8px}
+.xp .ps-food{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:0 16px;border-radius:999px;background:var(--card);border:2px solid #7F6F58;font-weight:700;font-size:16px;color:var(--text);white-space:nowrap}
+.xp .ps-food.on{background:var(--mint);border-color:var(--ink);color:var(--ink);box-shadow:0 0 0 1.5px var(--ink)}
+.xp .ps-food svg{width:18px;height:18px}
+.xp .ps-fine{margin:0;font-size:13.5px;font-weight:600;color:var(--muted)}
+/* Ready */
+.xp .ps-center{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.xp .ps-face{position:relative;width:128px;height:128px;flex:none}
+.xp .ps-face .photo{width:128px;height:128px;border-radius:50%;border:4px solid var(--card)}
+.xp .ps-badge{position:absolute;right:0;bottom:4px;width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;border:3px solid var(--cream)}
+.xp .ps-badge svg{width:22px;height:22px}
+.xp .ps-done1{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 14px 5px 10px;background:var(--mint);color:var(--ink);font-weight:800;font-size:14px}
+.xp .ps-done1 svg{width:17px;height:17px}
+.xp .ps-got{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.xp .ps-got span{display:inline-flex;align-items:center;border-radius:999px;padding:5px 12px;font-size:13.5px;font-weight:700;background:var(--card);color:var(--ink)}
+.xp .ps-got .tag{align-self:auto}
+.xp .ps-part2{display:flex;align-items:center;gap:14px;padding:16px 18px}
+.xp .ps-part2 svg.art{width:64px;height:64px;flex:none}
+.xp .ps-part2>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.xp .ps-part2 .k{color:var(--gold-ink)}
+.xp .ps-part2 .h{color:var(--ink)}
+.xp .ps-part2 .sm{font-size:14px;line-height:1.4;color:var(--text)}
+/* Personality: the talk-instead row */
+.xp .ps-talk{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 14px;border-radius:20px}
+.xp .ps-talk>svg{width:24px;height:24px;flex:none;color:var(--ink)}
+.xp .ps-talkt{flex:1;min-width:0;font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.3}
+/* Voice */
+.xp .ps-mic{display:flex;align-items:center;gap:16px;padding:14px 18px}
+.xp .ps-micb{width:76px;height:76px;flex:none;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;box-shadow:0 0 0 8px rgba(82,183,136,.28),0 0 0 16px rgba(82,183,136,.14)}
+.xp .ps-micb svg{width:34px;height:34px}
+.xp .ps-micr{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;padding-left:10px}
+.xp .ps-wave{display:flex;align-items:center;gap:5px;height:36px}
+.xp .ps-wave i{width:6px;border-radius:3px;background:var(--green)}
+.xp .ps-micr b{font-size:15px;font-weight:800;color:var(--ink)}
+.xp .ps-said{display:flex;flex-direction:column;gap:6px;padding:14px 16px}
+.xp .ps-said p{margin:0;font-size:15.5px;line-height:1.45;color:var(--text)}
+.xp .ps-said .k{color:var(--muted)}
+.xp .ps-filled{display:flex;flex-direction:column;padding:6px 16px 8px}
+.xp .ps-fl{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid rgba(27,67,50,.14)}
+.xp .ps-fl:first-of-type{border-top:0}
+.xp .ps-fl .ps-tick{width:24px;height:24px}
+.xp .ps-fl .ps-tick svg{width:15px;height:15px}
+.xp .ps-fl>div{flex:1;min-width:0;display:flex;flex-direction:column}
+.xp .ps-fl b{font-weight:800;font-size:15px;color:var(--ink)}
+.xp .ps-fl small{font-size:12.5px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .ps-fh{display:flex;align-items:center;gap:8px;min-height:32px}
+.xp .ps-fh .k{flex:1;min-width:0;color:var(--ink)}
+/* Review */
+.xp .ps-glance{display:flex;flex-direction:column;gap:10px;padding:14px 16px}
+.xp .ps-gh{display:flex;align-items:center;gap:12px}
+.xp .ps-gh .photo{width:60px;height:60px;flex:none;border-radius:50%}
+.xp .ps-gh>div{flex:1;min-width:0}
+.xp .ps-tags{display:flex;flex-wrap:wrap;gap:6px}
+.xp .ps-tags .tag{align-self:auto}
+.xp .ps-chart{display:flex;align-items:center;gap:14px}
+.xp .ps-radar{width:112px;height:112px;flex:none}
+.xp .ps-radar .ring{fill:none;stroke:var(--line);stroke-width:1}
+.xp .ps-radar .shape{fill:var(--leaf);fill-opacity:.32;stroke:var(--green);stroke-width:2;stroke-linejoin:round}
+.xp .ps-radar .pt{fill:var(--green)}
+.xp .ps-words{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.xp .ps-words>div{display:flex;justify-content:space-between;gap:8px;font-size:13.5px}
+.xp .ps-words span{color:var(--muted);font-weight:600}
+.xp .ps-words b{font-weight:800;color:var(--ink)}
+.xp .ps-secs{background:var(--card);border-radius:24px;display:flex;flex-direction:column;overflow:hidden}
+.xp .ps-sr{display:flex;align-items:center;gap:10px;padding:8px 6px 8px 16px;min-height:62px;border-top:1px solid var(--line)}
+.xp .ps-sr:first-child{border-top:0}
+.xp .ps-sr>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.xp .ps-sr b{font-weight:800;font-size:15.5px;color:var(--ink)}
+.xp .ps-sr small{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Done: the four-print paw walk, drawn static as a fading trail (oldest print faintest) */
+.xp .ps-fin{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px 28px 120px}
+.xp .ps-walk{position:relative;width:110px;height:160px;flex:none}
+.xp .ps-walk svg{position:absolute;width:30px;height:30px;color:var(--green)}
+.xp .ps-fin h1{margin:6px 0 0;font:600 32px/1.1 var(--display);color:var(--ink)}
+.xp .ps-tagline{margin:0;font-weight:800;font-size:17px;color:var(--ink)}
+.xp .ps-fin .ps-sub{max-width:300px}
+/* Home reminder */
+.xp .ps-rem{display:flex;flex-direction:column;gap:10px;padding:16px 18px}
+.xp .ps-remh{display:flex;align-items:center;gap:12px}
+.xp .ps-remh svg.art{width:56px;height:56px;flex:none}
+.xp .ps-remh>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.xp .ps-remh .h{color:var(--ink)}
+.xp .ps-remh .sm{font-size:14px;color:var(--text)}
+.xp .ps-rbar{display:flex;align-items:center;gap:10px}
+.xp .ps-rbar .ps-track{background:var(--card)}
+.xp .ps-racts{display:flex;align-items:center;gap:8px}
+.xp .ps-racts .btn{flex:1;min-width:0}
+.xp .ps-stay2{padding:16px 18px}
+/* Upcoming stage chips and the avatar letter stay readable in dark (light chip / mint avatar there) */
+.xp .ps-stay2 .st:not(.d){background:var(--card);color:var(--muted)}
+.xp .ps-me{color:var(--on-ink)}
+.xp .ps-pet .h{color:var(--ink)}
+.xp .ps-add{font-size:13px;font-weight:800;color:var(--link)}
 /* snap.html */
 /* Snap detail pages (Treat check, Recent checks, Mood, Sticker). Tool colours follow the Snap tab: Treat peach, Mood mint, Sticker butter. */
 .xp .sn-top{padding-bottom:4px}
@@ -1564,6 +1751,348 @@
   </div>
 </div>
 
+<!-- ============ PETSETUP (fragments/petsetup.html) ============ -->
+<!-- ============ PET SETUP · START (intro-trial petstart, approved) ============ -->
+<div class="xp" data-id="setup-start">
+  <div class="ps-head"><div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div></div>
+  <div class="body" style="gap:16px;padding-top:4px">
+    <div class="block p ps-hero">
+      <div class="ps-pcard">
+        <div class="ps-pct"><svg class="art"><use href="#art-dog"/></svg>Your pet's card</div>
+        <div class="ps-pr"><span>Eats</span><i></i></div>
+        <div class="ps-pr"><span>Scared of</span><i></i></div>
+        <div class="ps-pr"><span>Loves</span><i></i></div>
+      </div>
+      <svg class="art ps-hcat"><use href="#art-cat"/></svg>
+    </div>
+    <div class="ps-ttl">
+      <h1 class="ps-q">Hi Robert! Let's meet your pet.</h1>
+      <p class="ps-sub">A few questions so your sitter knows them like you do: what they eat, what scares them, what they love.</p>
+    </div>
+    <div class="ps-infos">
+      <div class="ps-info y"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>About 3 minutes</div>
+      <div class="ps-info m"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>Talk or type</div>
+      <div class="ps-info r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 15V9M14 15V9"/></svg>Stop any time</div>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Let's start</div><span class="ps-tb">Add a pet later</span></div>
+</div>
+
+<!-- ============ PET SETUP · PHOTO (onboarding.html S2 photo; app PetPhotosStep + photoGuessApi) ============ -->
+<div class="xp" data-id="setup-photo">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:20%"></div></div><span class="ps-plabel">Basics · 1 of 5</span></div>
+  </div>
+  <div class="body" style="gap:14px">
+    <div class="ps-ttl">
+      <h1 class="ps-q">Start with a photo?</h1>
+      <p class="ps-sub">We'll fill in what we can from it.</p>
+    </div>
+    <div class="ps-photo" style="background-image:url(img/pet0.jpg)" role="img" aria-label="Your pet's photo"></div>
+    <div class="block m ps-guess">
+      <span class="ps-sug"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>Suggested from your photo</span>
+      <div class="mid">Looks like a Maltese. Right?</div>
+      <div class="muted b" style="font-size:15px">A dog with a white coat.</div>
+      <div class="ps-yn"><div class="btn">Yes</div><div class="ps-btn2">Pick another</div></div>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="ps-row2"><span class="ps-tb">Change photo</span><span class="ps-tb">Skip, I'll fill it in</span></div></div>
+</div>
+
+<!-- ============ PET SETUP · NAME AND KIND (app species + name steps on one screen) ============ -->
+<div class="xp" data-id="setup-basics">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:40%"></div></div><span class="ps-plabel">Basics · 2 of 5</span></div>
+  </div>
+  <div class="body" style="gap:16px">
+    <h1 class="ps-q">What kind of pet do you have?</h1>
+    <div class="ps-half">
+      <div class="ps-kind on" aria-pressed="true"><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><svg class="art"><use href="#art-dog"/></svg><b>Dog</b><small>From your photo</small></div>
+      <div class="ps-kind"><svg class="art"><use href="#art-cat"/></svg><b>Cat</b></div>
+    </div>
+    <div class="ps-field">
+      <span class="ps-label">What's your dog's name?</span>
+      <div class="ps-input">Max<span class="ps-caret"></span></div>
+      <p class="ps-hint">Sitters will use it in every update.</p>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Next</div></div>
+</div>
+
+<!-- ============ PET SETUP · BREED (onboarding.html BREEDS + NEEDS; app breed step) ============ -->
+<div class="xp" data-id="setup-breed">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:60%"></div></div><span class="ps-plabel">Basics · 3 of 5</span></div>
+  </div>
+  <div class="body" style="gap:14px">
+    <div class="ps-ttl">
+      <h1 class="ps-q">What breed is Max?</h1>
+      <p class="ps-sub">A mix is fine. Pick the closest one.</p>
+    </div>
+    <div class="ps-half">
+      <div class="ps-opt on" aria-pressed="true"><span><b>Maltese</b><small>Suggested</small></span><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+      <div class="ps-opt"><span><b>Poodle</b></span></div>
+      <div class="ps-opt"><span><b>Shih Tzu</b></span></div>
+      <div class="ps-opt"><span><b>Mixed breed</b></span></div>
+      <div class="ps-opt"><span><b>Not sure</b></span></div>
+      <div class="ps-opt"><span><b>Something else</b></span></div>
+    </div>
+    <div class="block y ps-needs">
+      <svg class="art"><use href="#art-walk"/></svg>
+      <div><b>Maltese needs:</b> daily brushing, two short walks, and a warm spot. They feel the cold.<div class="sm muted b" style="margin-top:2px">Source: akc.org</div></div>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Next</div></div>
+</div>
+
+<!-- ============ PET SETUP · AGE AND WEIGHT (app age Stepper + weight BigInput with kg/lbs) ============ -->
+<div class="xp" data-id="setup-age-weight">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:80%"></div></div><span class="ps-plabel">Basics · 4 of 5</span></div>
+  </div>
+  <div class="body" style="gap:14px">
+    <h1 class="ps-q">How old is Max, and how heavy?</h1>
+    <div class="block w ps-sect">
+      <span class="ps-label">How old is Max?</span>
+      <div class="ps-step">
+        <span class="ps-pm" aria-label="Younger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14"/></svg></span>
+        <div class="ps-val"><b>4 years</b><small>Adult, 4 to 7 years</small></div>
+        <span class="ps-pm" aria-label="Older"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5v14"/></svg></span>
+      </div>
+    </div>
+    <div class="block w ps-sect">
+      <span class="ps-label">How much does Max weigh?</span>
+      <div class="ps-units"><span class="ps-unit on" aria-pressed="true">kg</span><span class="ps-unit">lbs</span></div>
+      <div class="ps-kg"><b>3.2</b><span>kg</span></div>
+      <div class="ps-heard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>From your photo: under 5 kg, a small dog</div>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Next</div><span class="ps-tb">Skip, I'm not sure</span></div>
+</div>
+
+<!-- ============ PET SETUP · FOR YOUR SITTER'S SAFETY (onboarding.html SAFE s1, s3, s6) ============ -->
+<div class="xp" data-id="setup-safety">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:100%"></div></div><span class="ps-plabel">Basics · 5 of 5</span></div>
+  </div>
+  <div class="body" style="gap:14px">
+    <div class="ps-ttl">
+      <span class="ps-safe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>For your sitter's safety</span>
+      <h1 class="ps-q">What should a sitter watch for?</h1>
+    </div>
+    <div class="ps-sq">
+      <b>Has Max ever bitten or snapped at a person?</b>
+      <div class="ps-half">
+        <div class="ps-opt ps-sm on" aria-pressed="true"><span><b>Never</b></span><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+        <div class="ps-opt ps-sm"><span><b>Once</b></span></div>
+        <div class="ps-opt ps-sm"><span><b>More than once</b></span></div>
+        <div class="ps-opt ps-sm"><span><b>Not sure</b></span></div>
+      </div>
+    </div>
+    <div class="ps-sq">
+      <b>Could Max slip out of a door or gate?</b>
+      <div class="ps-half">
+        <div class="ps-opt ps-sm"><span><b>Never</b></span></div>
+        <div class="ps-opt ps-sm on" aria-pressed="true"><span><b>Sometimes</b></span><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+        <div class="ps-opt ps-sm"><span><b>Often tries</b></span></div>
+        <div class="ps-opt ps-sm"><span><b>Not sure</b></span></div>
+      </div>
+    </div>
+    <div class="ps-sq">
+      <b>Foods Max must avoid? <span class="muted" style="font-weight:600;font-size:14.5px">Pick all that apply.</span></b>
+      <div class="ps-foods">
+        <span class="ps-food on" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Chicken</span>
+        <span class="ps-food">Beef</span><span class="ps-food">Dairy</span><span class="ps-food">Wheat</span><span class="ps-food">Fish</span><span class="ps-food">None</span><span class="ps-food">Something else</span>
+      </div>
+    </div>
+    <p class="ps-fine">We never fill in safety answers for you.</p>
+  </div>
+  <div class="ps-pin"><div class="btn">Next</div></div>
+</div>
+
+<!-- ============ PET SETUP · READY TO BOOK (onboarding.html "ready") ============ -->
+<div class="xp" data-id="setup-ready">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:100%"></div></div><span class="ps-plabel">Basics · done</span></div>
+  </div>
+  <div class="body" style="gap:16px;padding-top:14px">
+    <div class="ps-center">
+      <div class="ps-face"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:50% 35%" role="img" aria-label="Max"></div><span class="ps-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+      <span class="ps-done1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Part 1 done</span>
+      <h1 class="ps-q" style="font-size:31px">Max is ready to book</h1>
+      <p class="ps-sub">Sitters will see Max's photo, age, weight and safety notes.</p>
+      <div class="ps-got"><span>Dog · Maltese</span><span>4 years · 3.2 kg</span><span class="tag">⚠️ No chicken</span><span class="tag">Can slip out</span></div>
+    </div>
+    <div class="block p ps-part2">
+      <svg class="art"><use href="#art-heart"/></svg>
+      <div>
+        <span class="k">Part 2 · optional</span>
+        <span class="h">Help Chloe get to know Max</span>
+        <span class="sm">14 quick questions about how Max acts. About 3 minutes. Stop any time.</span>
+      </div>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Continue</div><span class="ps-tb">Not now</span></div>
+</div>
+
+<!-- ============ PET SETUP · PERSONALITY QUESTION (app DOG_QUESTIONS d1, BigOption) ============ -->
+<div class="xp" data-id="setup-personality">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span><span class="ps-grow"></span><span class="ps-tb" style="padding:0 4px;font-size:15px">Finish later</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:7%"></div></div><span class="ps-plabel">Personality · 1 of 14</span></div>
+  </div>
+  <div class="body" style="gap:14px">
+    <div class="ps-ttl">
+      <h1 class="ps-q">When a guest visits, Max…</h1>
+      <p class="ps-sub">Based on what you tell us. Not a behavior assessment.</p>
+    </div>
+    <div class="ps-opts">
+      <div class="ps-opt"><span><b>Stays back</b></span></div>
+      <div class="ps-opt"><span><b>Watches first</b></span></div>
+      <div class="ps-opt"><span><b>Comes to sniff</b></span></div>
+      <div class="ps-opt on" aria-pressed="true"><span><b>Runs to say hi!</b></span><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></div>
+    </div>
+    <div class="block m ps-talk">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+      <span class="ps-talkt">Rather talk? Tell us about Max and we fill in the answers.</span>
+      <span class="ps-tb" style="padding:0 8px">Talk instead</span>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Next</div><span class="ps-tb">Skip, I'm not sure</span></div>
+</div>
+
+<!-- ============ PET SETUP · TELL US ABOUT MAX, VOICE (onboarding.html S3 voiceScreen; app VoiceStep) ============ -->
+<div class="xp" data-id="setup-voice">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span><span class="ps-grow"></span><span class="ps-tb" style="padding:0 4px;font-size:15px">Finish later</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:7%"></div></div><span class="ps-plabel">Personality · talking</span></div>
+  </div>
+  <div class="body" style="gap:12px">
+    <div class="ps-ttl">
+      <h1 class="ps-q">Tell us about Max</h1>
+      <p class="ps-sub">Talk instead of tapping. We fill in the answers from what you say.</p>
+    </div>
+    <div class="ps-mic">
+      <span class="ps-micb" role="img" aria-label="Listening"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></span>
+      <div class="ps-micr">
+        <div class="ps-wave" aria-hidden="true"><i style="height:14px"></i><i style="height:26px"></i><i style="height:36px"></i><i style="height:20px"></i><i style="height:30px"></i><i style="height:12px"></i><i style="height:34px"></i><i style="height:18px"></i><i style="height:28px"></i><i style="height:22px"></i><i style="height:14px"></i><i style="height:24px"></i></div>
+        <b>Listening… 0:24 of 1:00</b>
+      </div>
+    </div>
+    <div class="block w ps-said">
+      <span class="k">You're saying</span>
+      <p>“Max is four. He loves every visitor and he's a bit scared of thunder. He would do anything for a treat…”</p>
+    </div>
+    <div class="block m ps-filled">
+      <div class="ps-fh"><span class="k">Filled in so far</span><span class="sm b" style="color:var(--ink)">3 of 14</span></div>
+      <div class="ps-fl"><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Guests: Runs to say hi!</b><small>From “loves every visitor”</small></div></div>
+      <div class="ps-fl"><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Loud noises: Gets nervous</b><small>From “scared of thunder”</small></div></div>
+      <div class="ps-fl"><span class="ps-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><div><b>Treats: Obsessed with treats!</b><small>From “anything for a treat”</small></div></div>
+    </div>
+    <p class="ps-fine">You check every answer before it's saved. We don't keep the recording.</p>
+  </div>
+  <div class="ps-pin"><div class="btn">I'm done talking</div><span class="ps-tb">Type instead</span></div>
+</div>
+
+<!-- ============ PET SETUP · MEET MAX, REVIEW (onboarding.html review + glance; app summary) ============ -->
+<div class="xp" data-id="setup-review">
+  <div class="ps-head">
+    <div class="ps-nav"><span class="back"><svg><use href="#x-back"/></svg>Back</span></div>
+    <div class="ps-prog"><div class="ps-track"><div class="ps-fill" style="width:100%"></div></div><span class="ps-plabel">Check and save</span></div>
+  </div>
+  <div class="body" style="gap:12px">
+    <div class="ps-ttl">
+      <h1 class="ps-q">Meet Max</h1>
+      <p class="ps-sub">This is what your sitter will see.</p>
+    </div>
+    <div class="block w ps-glance">
+      <div class="ps-gh">
+        <div class="photo" style="background-image:url(img/pet0.jpg);background-position:50% 35%" role="img" aria-label="Max"></div>
+        <div><div class="h" style="color:var(--ink)">Max at a glance</div><div class="sm muted b">Dog · Maltese · 4 years · 3.2 kg</div></div>
+      </div>
+      <div class="ps-tags"><span class="tag">⚠️ No chicken</span><span class="tag">Can slip out of doors</span><span class="tagx m">Never bitten</span></div>
+      <div class="ps-chart">
+        <svg class="ps-radar" viewBox="0 0 132 132" role="img" aria-label="Sociability: Social, Sensitivity: Sensitive, Energy: Active, Appetite: Food-driven, Trainability: Basics">
+          <polygon class="ring" points="66,12 117.36,49.31 97.74,109.69 34.26,109.69 14.64,49.31"/>
+          <polygon class="ring" points="66,25.5 104.52,53.49 89.81,98.76 42.19,98.76 27.48,53.49"/>
+          <polygon class="ring" points="66,39 91.68,57.66 81.87,87.84 50.13,87.84 40.32,57.66"/>
+          <polygon class="ring" points="66,52.5 78.84,61.83 73.94,76.92 58.06,76.92 53.16,61.83"/>
+          <line class="ring" x1="66" y1="66" x2="66" y2="12"/><line class="ring" x1="66" y1="66" x2="117.36" y2="49.31"/><line class="ring" x1="66" y1="66" x2="97.74" y2="109.69"/><line class="ring" x1="66" y1="66" x2="34.26" y2="109.69"/><line class="ring" x1="66" y1="66" x2="14.64" y2="49.31"/>
+          <polygon class="shape" points="66,12 104.52,53.49 89.81,98.76 34.26,109.69 40.32,57.66"/>
+          <circle class="pt" cx="66" cy="12" r="3.5"/><circle class="pt" cx="104.52" cy="53.49" r="3.5"/><circle class="pt" cx="89.81" cy="98.76" r="3.5"/><circle class="pt" cx="34.26" cy="109.69" r="3.5"/><circle class="pt" cx="40.32" cy="57.66" r="3.5"/>
+        </svg>
+        <div class="ps-words">
+          <div><span>Sociability</span><b>Social</b></div>
+          <div><span>Sensitivity</span><b>Sensitive</b></div>
+          <div><span>Energy</span><b>Active</b></div>
+          <div><span>Appetite</span><b>Food-driven</b></div>
+          <div><span>Trainability</span><b>Basics</b></div>
+        </div>
+      </div>
+      <div class="sm muted">From your answers. Not a behavior assessment.</div>
+    </div>
+    <div class="ps-secs">
+      <div class="ps-sr"><div><b>Basics</b><small>Photo, dog, Maltese, 4 years, 3.2 kg</small></div><span class="ps-tb">Edit</span></div>
+      <div class="ps-sr"><div><b>Safety</b><small>Never bitten, can slip out, no chicken</small></div><span class="ps-tb">Edit</span></div>
+      <div class="ps-sr"><div><b>Personality</b><small>14 of 14 answered</small></div><span class="ps-tb">Edit</span></div>
+    </div>
+  </div>
+  <div class="ps-pin"><div class="btn">Done</div></div>
+</div>
+
+<!-- ============ PET SETUP · WELCOME TO GOLDITO (intro-trial "done": the paw walk, static) ============ -->
+<div class="xp" data-id="setup-done">
+  <div class="ps-fin">
+    <div class="ps-walk" aria-hidden="true">
+      <svg viewBox="0 0 24 24" style="left:26px;top:120px;opacity:.3"><g fill="currentColor"><ellipse cx="6.2" cy="10.4" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="14.2" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="17.8" cy="10.4" rx="1.9" ry="2.4"/><path d="M12 11.2c-2.6 0-5.4 3.6-5.4 5.9 0 1.6 1.2 2.4 2.6 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.6-.8 2.6-2.4 0-2.3-2.8-5.9-5.4-5.9z"/></g></svg>
+      <svg viewBox="0 0 24 24" style="left:54px;top:84px;opacity:.5"><g fill="currentColor"><ellipse cx="6.2" cy="10.4" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="14.2" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="17.8" cy="10.4" rx="1.9" ry="2.4"/><path d="M12 11.2c-2.6 0-5.4 3.6-5.4 5.9 0 1.6 1.2 2.4 2.6 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.6-.8 2.6-2.4 0-2.3-2.8-5.9-5.4-5.9z"/></g></svg>
+      <svg viewBox="0 0 24 24" style="left:26px;top:48px;opacity:.72"><g fill="currentColor"><ellipse cx="6.2" cy="10.4" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="14.2" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="17.8" cy="10.4" rx="1.9" ry="2.4"/><path d="M12 11.2c-2.6 0-5.4 3.6-5.4 5.9 0 1.6 1.2 2.4 2.6 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.6-.8 2.6-2.4 0-2.3-2.8-5.9-5.4-5.9z"/></g></svg>
+      <svg viewBox="0 0 24 24" style="left:54px;top:12px"><g fill="currentColor"><ellipse cx="6.2" cy="10.4" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="14.2" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="17.8" cy="10.4" rx="1.9" ry="2.4"/><path d="M12 11.2c-2.6 0-5.4 3.6-5.4 5.9 0 1.6 1.2 2.4 2.6 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.6-.8 2.6-2.4 0-2.3-2.8-5.9-5.4-5.9z"/></g></svg>
+    </div>
+    <h1>Welcome to Goldito</h1>
+    <p class="ps-tagline">Leave your pet. Keep your peace of mind.</p>
+    <p class="ps-sub">Max is all set. Chloe will know him like you do.</p>
+  </div>
+  <div class="ps-pin"><div class="btn">Go to Home</div></div>
+</div>
+
+<!-- ============ PET SETUP · HOME REMINDER (onboarding.html homeScreen, the "Later" flow) ============ -->
+<div class="xp" data-id="setup-reminder">
+  <div class="top"><div><h1 class="hello">Home</h1><p class="sub">Robert · Owner</p></div>
+    <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg></span><span class="avr"><span class="me ps-me">R</span></span></div></div>
+  <div class="body">
+    <div class="block m ps-rem" aria-label="Reminder">
+      <div class="ps-remh">
+        <svg class="art"><use href="#art-heart"/></svg>
+        <div><span class="h">Help Chloe get to know Max</span><span class="sm">You're partway there. About 2 min left.</span></div>
+      </div>
+      <div class="ps-rbar"><div class="ps-track" role="img" aria-label="3 of 14 answered"><div class="ps-fill" style="width:21%"></div></div><span class="ps-plabel">3 of 14</span></div>
+      <div class="ps-racts"><div class="btn">Continue</div><span class="ps-tb">Not now</span></div>
+    </div>
+    <div class="block p ps-stay2">
+      <div class="ticket">
+        <div><div class="k" style="color:var(--gold-ink)">Boarding at Chloe's</div><div class="h" style="margin-top:4px;color:var(--ink)">Max &amp; Mochi</div></div>
+        <svg class="art" style="width:64px;height:64px"><use href="#art-home"/></svg>
+      </div>
+      <div class="dates" style="margin-top:6px"><div><small>DROP-OFF</small><span class="big" style="font-size:32px">OCT 9</span></div><span class="mid" style="color:var(--gold-ink)">→</span><div><small>PICK-UP</small><span class="big" style="font-size:32px">OCT 12</span></div></div>
+      <div class="stages" style="margin-top:12px"><span class="st d">✓ Ask</span><span class="st d">✓ Meet</span><span class="st d">✓ Book</span><span class="st">Care</span><span class="st">Home</span></div>
+      <div class="kv" style="margin-top:12px"><span>Drop-off · you drive</span><b>Fri 7:30 AM</b></div>
+    </div>
+    <div class="sec"><h3>Your pets</h3><span class="link">+ Add pet</span></div>
+    <div class="pets">
+      <div class="pet r ps-pet"><svg class="art"><use href="#art-dog"/></svg><div><div class="h">Max</div><div class="sm muted">Maltese · 4 yrs</div><div class="sm b" style="color:var(--warn-ink)">⚠️ No chicken</div></div></div>
+      <div class="pet p ps-pet"><svg class="art"><use href="#art-cat"/></svg><div><div class="h">Mochi</div><div class="sm muted">Shorthair · 3 yrs</div><div class="ps-add">Add profile</div></div></div>
+    </div>
+  </div>
+  <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+</div>
+
 <!-- ============ SNAP (fragments/snap.html) ============ -->
 <!-- ============ SNAP · TREAT CHECK · SCAN (features/snap/TreatCheckScreen.tsx: pet chips, "Reading the label…" step, recent checks, disclaimer) ============ -->
 <div class="xp" data-id="snap-treat-scan">
@@ -1710,5 +2239,32 @@
   // Standalone preview: pull in the illustration sprite.
   fetch("art.svg").then((r) => r.text()).then((t) => document.body.insertAdjacentHTML("afterbegin", t)).catch(() => {});
 </script>
+<!-- titles:start -->
+<script>window.XP_SECTIONS = [["App tabs", [["owner-home", "Owner · Home"], ["owner-bookings", "Owner · Bookings"], ["owner-chat", "Owner · Chat"], ["owner-feed", "Owner · Moments"], ["owner-diary", "Owner · Moments · Diary"], ["owner-snap", "Owner · Snap"], ["owner-settings", "Profile → Settings"], ["owner-whatsnew", "Settings → What's New"], ["sitter-home", "Sitter · Home"]]], ["Bookings", [["sitter-bookings", "Sitter · Bookings"], ["owner-booking", "Owner · Booking detail"], ["sitter-booking", "Sitter · Booking detail"], ["booking-handoff-change", "Booking · Change a handoff (sheet)"], ["booking-return", "Booking · Return sheet (sitter)"], ["meet-greet-time", "Meet & Greet · Pick a time"], ["owner-home-access", "Owner · Entry codes"]]], ["Care and history", [["sitter-checkin", "Sitter · 5-second check"], ["sitter-tasks", "Sitter · Today's tasks"], ["sitter-care-request", "Sitter · Care request to approve"], ["owner-history", "Owner · History"], ["owner-notifications", "Owner · Notifications"]]], ["Chat", [["chat-owner", "Chat · thread (owner)"], ["chat-sitter", "Chat · thread (sitter)"], ["chat-request", "Chat · Request booking sheet"], ["chat-quote", "Chat · Send quote sheet"], ["chat-agree", "Chat · Agree sheet"], ["chat-decline", "Chat · Decline sheet"], ["chat-plus", "Chat · + menu"]]], ["Pets, people, schedule", [["owner-pet", "Owner · Pet profile"], ["profile-edit", "Profile · Edit"], ["sitter-schedule", "Sitter · Schedule"], ["sitter-owner", "Sitter · Owner profile"]]], ["Pet setup", [["setup-start", "Pet setup · Start"], ["setup-photo", "Pet setup · Photo"], ["setup-basics", "Pet setup · Name and kind"], ["setup-breed", "Pet setup · Breed"], ["setup-age-weight", "Pet setup · Age and weight"], ["setup-safety", "Pet setup · For your sitter's safety"], ["setup-ready", "Pet setup · Ready to book"], ["setup-personality", "Pet setup · Personality question"], ["setup-voice", "Pet setup · Tell us about Max (voice)"], ["setup-review", "Pet setup · Meet Max"], ["setup-done", "Pet setup · Welcome to Goldito"], ["setup-reminder", "Pet setup · Home reminder"]]], ["Snap", [["snap-treat-scan", "Snap · Treat check · Scan"], ["snap-treat-safe", "Snap · Treat check · Safe"], ["snap-checks", "Snap · All treat checks"], ["snap-mood", "Snap · Mood"], ["snap-sticker", "Snap · Sticker maker"]]]];</script>
+<script>
+/* Standalone page only (build_app.py doesn't copy this): a heading per area and a title on every phone, linkable by
+   its id (expressive.html#chat-owner). */
+(() => {
+  const css = document.createElement("style");
+  css.textContent = ".xp-sec{flex-basis:100%;margin:32px 0 0;font:600 24px Fredoka,'Arial Rounded MT Bold',sans-serif;color:inherit}"
+    + ".xp-fig{margin:0;display:flex;flex-direction:column;gap:8px;scroll-margin-top:96px}"
+    + ".xp-fig figcaption{font:700 14px 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;opacity:.8}";
+  document.head.appendChild(css);
+  for (const [name, list] of window.XP_SECTIONS || []) {
+    let first = true;
+    for (const [id, title] of list) {
+      const xp = document.querySelector(`.xp[data-id="${id}"]`);
+      if (!xp) continue;
+      const fig = document.createElement("figure"); fig.className = "xp-fig"; fig.id = id;
+      xp.before(fig);
+      if (first) { const h = document.createElement("h2"); h.className = "xp-sec"; h.textContent = name; fig.before(h); first = false; }
+      const cap = document.createElement("figcaption"); cap.textContent = title;
+      fig.append(cap, xp);
+    }
+  }
+  if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
+})();
+</script>
+<!-- titles:end -->
 </body>
 </html>
