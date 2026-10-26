@@ -168,7 +168,7 @@
       ["qa-jakarta.html", "Typeface QA", "서체 QA", "Fredoka for titles, Plus Jakarta Sans for the rest, before and after", "제목 Fredoka, 나머지 Plus Jakarta Sans, 전후 비교"],
       ["header-trial.html", "Header trial", "헤더 시안", "Who am I signed in as? Now, A and C, playable", "누구로 로그인했는지: 지금, A, C 체험"],
       ["nav-trial.html", "Nav trial", "내비게이션 시안", "Chat got its own tab, Diary inside Feed (shipped #340); compare with before", "채팅 탭, 피드 안 다이어리 (#340 반영); 이전과 비교"],
-      ["diary-compare.html", "Diary views", "다이어리 보기", "Live Diary vs today first, a calendar archive and footprints; playable", "라이브 다이어리 vs 오늘 먼저, 캘린더 보관함, 발자취; 체험 가능"],
+      ["diary-compare.html", "Diary trial", "다이어리 시안", "Play the decided Diary as Robert and Chloe: Days, Calendar, Footprints, Decorate", "결정된 다이어리를 Robert와 Chloe로: 날짜, 달력, 발자국, 꾸미기"],
       ["ux-calls.html", "UX calls (decided)", "UX 결정 (확정)", "The 12 UX calls drawn as phone screens, decided by Mook on Oct 25", "UX 결정 12개를 폰 화면으로, 10/25 Mook 확정"],
       ["ux-audit.html", "UX patterns audit", "UX 패턴 점검", "Back, close, feedback, confirms, labels and forms on main: 55 findings, 12 calls", "뒤로, 닫기, 피드백, 확인, 라벨, 입력: 발견 55, 결정 12"],
       ["intro-trial.html", "Intro trial", "인트로 시안", "The first minute: boot, Welcome, how it works, Try the demo, sign up; today vs a proposal; playable", "첫 1분: 부팅, 웰컴, 소개, 데모, 가입; 지금 vs 제안; 체험 가능"],

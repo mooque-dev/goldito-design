@@ -334,6 +334,16 @@ button:focus-visible{outline:2px solid #1B4332;outline-offset:2px}
 .decided{background:var(--color-success-surface);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;font-size:14px}
 .decided ol{margin:0;padding-left:1.25rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,17rem),1fr));gap:4px 18px}
 .decided li span{color:var(--color-text-muted)} .decided li span::after{content:": "} .decided .src{font-size:12.5px;color:var(--color-text-muted)}
+
+/* #embed: just the two phones, for the Diary trial page's frame */
+html.embed .site-nav,html.embed .series,html.embed .upd-nav,html.embed .site-tip{display:none!important}
+html.embed body{padding:0 8px;background:transparent}
+html.embed main.wrap{padding-top:8px;gap:0}
+html.embed main.wrap>*:not(:has(.phones)){display:none!important}
+html.embed main.wrap :has(> .phones)>:not(.phones){display:none!important}
+html.embed main.wrap :has(.phones){margin:0;padding:0;border:0;background:none;box-shadow:none}
+html.embed main.wrap :has(> .phones){display:block!important;width:auto;max-width:none}
+html.embed .phones{grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),24rem));justify-content:center;gap:2rem}
 </style><script src="nav.js" defer></script><script src="series.js" defer></script>
 </head><body><main class="wrap">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -1195,6 +1205,7 @@ for (const t of location.hash.slice(1).split("-")) {
   else if (t === "diary") { OPEN = "diary"; st.owner.tab = st.sitter.tab = "diary"; }
   else if (t === "cal" || t === "footprints") { OPEN = "diary"; st.owner.tab = st.sitter.tab = "diary"; st.owner.lens = st.sitter.lens = t === "cal" ? "cal" : "steps"; }
   else if (t === "daysonly") DVIEWS = "days"; else if (t === "twoviews") DVIEWS = "cal";
+  else if (t === "embed") document.documentElement.classList.add("embed");
 }
 render();
 // Figma ticket (plugin › Tickets): the two phones on the proposal
@@ -1216,6 +1227,8 @@ window.__ticket = { id: "feed", title: "Moments and Diary: the day first (decide
     ["Sitter notes", "Only on Home (Latest from Chloe), not in Moments (decided Oct 25)"]] };
 // Extra frames for the Figma capture (Oct 25): the states the opening screen doesn't show.
 const tstate = (role, patch) => { DVIEWS = "all"; TAPPED[role] = true; Object.assign(st[role], { view: null, add: null, edit: null, del: null, sheet: false, day: null, bare: false, lifted: false }, patch); render(); };
+// The Diary trial page (diary-compare.html) drives these phones from its jump bar.
+window.__go = (role, patch) => tstate(role, patch);
 window.__ticketStates = [
   { cap: "feed-viewer", on: "feed-owner", title: "Moments · Owner · photo open", go: () => tstate("owner", { tab: "photos", view: findPhoto("owner", st.owner, PETS.max.photos[0].n) }) },
   { cap: "feed-add", on: "feed-sitter", title: "Moments · Sitter · Add photos", go: () => tstate("sitter", { tab: "photos", add: { pet: "max", ns: [ADDS.max[0], ADDS.max[1]], c: "walk", share: true, note: "Off to the park!", lib: false } }) },

@@ -1,5 +1,5 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Diary Views</title>
+<title>Diary Trial</title>
 <meta name="description" content="The Diary as it is live today next to three ways to look back: today first, a calendar archive with a photo behind each day, and a footprints timeline of the pet's year. Playable, with a side-by-side and a recommendation.">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Gaegu:wght@400;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="ds.css">
@@ -319,6 +319,18 @@ tr:last-child th,tr:last-child td{border-bottom:0}
 .dnav b{font:600 17px Fredoka,sans-serif;text-align:center;flex:1} .dnav small{display:block;font:600 12px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
 .dnav button{width:40px;height:40px;border-radius:20px;border:1.5px solid #CBBFA8;background:#fff;color:#1B4332;display:grid;place-items:center;cursor:pointer;flex:none}
 .dnav button svg{width:18px;height:18px} .dnav button[disabled]{opacity:.35;cursor:default}
+
+/* Play the Diary: the Moments trial's phones, opened on the Diary */
+.play{display:flex;flex-direction:column;gap:12px}
+.play .decided{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-radius:14px;background:var(--color-accent);max-width:68ch}
+.play .jumps{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.play .jl{font:700 12px var(--font-ui);letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);padding:0 4px 0 2px}
+.play .jl:not(:first-child){margin-left:10px}
+.play .jumps button{min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 14px var(--font-ui);cursor:pointer}
+.play .jumps button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+.play .jumps button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+.play iframe{width:100%;height:800px;border:0;border-radius:20px;background:transparent}
+@media (max-width:860px){.play iframe{height:1620px}}
 </style><script src="nav.js" defer></script><script src="series.js" defer></script>
 </head><body><main class="wrap">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -354,10 +366,27 @@ tr:last-child th,tr:last-child td{border-bottom:0}
 <symbol id="i-tag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></symbol>
 </svg>
 
-<div class="bar"><span class="eyebrow">Goldito · <span class="en">Diary views</span><span class="ko">다이어리 보기</span> · <span class="en">Oct 24</span><span class="ko">10/24</span></span></div>
+<div class="bar"><span class="eyebrow">Goldito · <span class="en">Diary trial · decided Oct 25</span><span class="ko">다이어리 시안 · 10/25 결정</span></span></div>
 <section>
-  <h1><span class="en">The Diary: four ways to look back</span><span class="ko">다이어리: 돌아보는 네 가지 방법</span></h1>
-  <p class="hint"><span class="en">What the Diary does on the live app today, next to three options: today first (the Feed trial), a calendar archive with a photo behind each day (like Instagram's Stories archive), and footprints, a timeline of the pet's year (Minsik's reference). Play with each on the phone, then compare.</span><span class="ko">지금 라이브 앱의 다이어리와 세 가지 안: 오늘 먼저 (피드 시안), 날마다 사진이 깔린 캘린더 보관함 (인스타그램 스토리 보관함처럼), 그리고 발자취, 펫의 한 해 타임라인 (민식님 레퍼런스). 폰에서 하나씩 해 보고 비교해 보세요.</span></p>
+  <h1><span class="en">The Diary trial</span><span class="ko">다이어리 시안</span></h1>
+  <p class="hint"><span class="en">Play the Diary the team decided, as Robert (the owner) and Chloe (the sitter): it opens on today's page, Calendar and Footprints are one tap away, a sitter's page is shared from the start, and stickers on a page are only seen by whoever put them there. Below the phones: the live app today and the three options we compared to get here.</span><span class="ko">팀이 결정한 다이어리를 Robert(보호자)와 Chloe(시터)로 써 보세요: 오늘의 페이지로 열리고, 달력과 발자국은 한 번 탭, 시터의 페이지는 처음부터 공유, 페이지 스티커는 붙인 사람만 봐요. 폰 아래에는 지금의 앱과 여기까지 오며 비교한 세 가지 안이 있어요.</span></p>
+</section>
+
+<section class="play" aria-label="Play the Diary">
+  <div class="decided"><b><span class="en">Decided by Minsik (D17)</span><span class="ko">민식님 결정 (D17)</span></b><span><span class="en">One Diary, three zoom levels: Days, Calendar, Footprints. All pets first, the picker in the tabs. A sitter's page starts shared; stickers are seen only by their maker.</span><span class="ko">다이어리 하나, 세 단계: 날짜, 달력, 발자국. 모든 펫 먼저, 선택은 탭 안에. 시터의 페이지는 공유로 시작, 스티커는 붙인 사람만.</span></span></div>
+  <div class="jumps" role="group" aria-label="Jump to a state">
+    <span class="jl"><span class="en">As Robert</span><span class="ko">Robert로</span></span>
+    <button type="button" data-go='["owner",{"tab":"diary","lens":"days","date":"24","pet":"all"}]'><span class="en">Today's page</span><span class="ko">오늘의 페이지</span></button>
+    <button type="button" data-go='["owner",{"tab":"diary","lens":"days","date":"23","pet":"all"}]'><span class="en">A past day</span><span class="ko">지난 날</span></button>
+    <button type="button" data-go='["owner",{"tab":"diary","lens":"cal","zoom":"month","pet":"all"}]'><span class="en">Calendar</span><span class="ko">달력</span></button>
+    <button type="button" data-go='["owner",{"tab":"diary","lens":"steps","pet":"all"}]'><span class="en">Footprints</span><span class="ko">발자국</span></button>
+    <button type="button" data-go='["owner",{"tab":"diary","lens":"days","date":"24","pet":"max","deco":"max"}]'><span class="en">Decorate</span><span class="ko">꾸미기</span></button>
+    <span class="jl"><span class="en">As Chloe</span><span class="ko">Chloe로</span></span>
+    <button type="button" data-go='["sitter",{"tab":"diary","lens":"days","date":"24","pet":"all"}]'><span class="en">Her page, shared</span><span class="ko">공유된 페이지</span></button>
+    <button type="button" data-go='["sitter",{"tab":"diary","lens":"days","date":"24","pet":"max","deco":"max"}]'><span class="en">Decorate</span><span class="ko">꾸미기</span></button>
+  </div>
+  <iframe id="dframe" src="feed-trial.html#embed-diary-playful-moments" title="Diary trial: Robert's and Chloe's phones" loading="eager"></iframe>
+  <p class="hint"><span class="en">Everything in the phones is live: tap the days, Calendar, Footprints, a page's heart, Decorate and the stickers. The same phones, with Photos too, are in the <a href="feed-trial.html">Moments trial</a>.</span><span class="ko">폰 안은 모두 실제로 움직여요: 날짜, 달력, 발자국, 페이지의 하트, 꾸미기와 스티커. 사진까지 있는 같은 폰은 <a href="feed-trial.html">모먼츠 시안</a>에 있어요.</span></p>
 </section>
 
 <section>
@@ -572,7 +601,16 @@ ph.addEventListener("scroll", (e) => { if (e.target.classList?.contains("chips")
 ph.addEventListener("wheel", (e) => { const row = e.target.closest(".chips"); if (row && Math.abs(e.deltaY) > Math.abs(e.deltaX) && row.scrollWidth > row.clientWidth) { row.scrollLeft += e.deltaY; e.preventDefault(); } }, { passive: false });
 new MutationObserver(() => ph.querySelectorAll(".chips").forEach(edges)).observe(ph, { childList: true });
 render();
-window.__ticket = { id: "diary-views", title: "Diary views: today, calendar, footprints (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/diary-compare.html", design: "Mook", code: "Minsik",
+// Jump bar: sets a state on Robert's or Chloe's phone inside the frame (same site, so we can call into it).
+document.querySelector(".play .jumps").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-go]"); if (!b) return;
+  const [role, patch] = JSON.parse(b.dataset.go), w = document.getElementById("dframe").contentWindow;
+  if (!w || !w.__go) return;
+  w.__go(role, patch);
+  document.querySelectorAll(".play .jumps button").forEach((x) => x.setAttribute("aria-pressed", x === b));
+  const ph = w.document.querySelector(`.ph[data-role="${role}"]`); if (ph) ph.scrollIntoView({ block: "nearest" });
+});
+window.__ticket = { id: "diary-views", title: "Diary: Days, Calendar, Footprints (decided by Minsik)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/diary-compare.html", design: "Mook", code: "Minsik",
   decisions: [{ q: "Status", a: "Proposal for the team; live Diary is covers, book and History (7 days)" }, { q: "Open on", a: "Today (A), with the day strip" },
     { q: "Archive", a: "The day strip opens a calendar: a photo behind each day; Day, Week, Month, Year (B)" },
     { q: "Story", a: "Footprints: the pet's year as a path with its stickers, for the end of a stay and the pet profile (C)" }],

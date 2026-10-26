@@ -9,7 +9,7 @@
       ["update-2026-10-25.html", "The day's doc", "오늘 문서"],
       ["rundown-2026-10-25.html", "Rundown and checklist", "한눈에 보기와 체크리스트"],
       ["feed-trial.html", "Moments trial", "모먼츠 시안"],
-      ["diary-compare.html", "Diary views", "다이어리 보기"],
+      ["diary-compare.html", "Diary trial", "다이어리 시안"],
       ["tone-trial.html", "Pet tone", "펫 톤"],
       ["words-trial.html", "Playful words", "재치 있는 말"],
       ["delights.html", "Little delights", "작은 즐거움"],
