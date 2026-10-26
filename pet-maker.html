@@ -53,6 +53,13 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 .cover b{display:block}
 .cover span{color:var(--muted)}
 .lead{max-width:62ch}
+.starts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px;margin-top:6px}
+@media (max-width:1100px){.starts{grid-template-columns:1fr}}
+.start{background:var(--bg);border-radius:12px;padding:12px;min-width:0}
+.start h3{margin-top:0}
+.start .chips button,.start input[type=search]{background:var(--card)}
+.start .breeds{max-height:196px}
+.start .breeds h3{margin:8px 0 4px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .cols{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
 .stage{position:sticky;top:max(12px, env(safe-area-inset-top, 0px));align-self:start}
@@ -128,22 +135,34 @@ td{font-variant-numeric:tabular-nums}
 
   <div class="controls">
     <section class="card">
-      <h2><span class="step">1</span>Make it from a photo</h2>
-      <div class="row" style="margin-top:0">
-        <div class="chips" id="species" role="group" aria-label="Species"><button type="button" data-v="dog" aria-pressed="true">Dog</button><button type="button" data-v="cat" aria-pressed="false">Cat</button></div>
-        <button type="button" class="btn primary" id="make" disabled>Add a photo first</button>
+      <h2><span class="step">1</span>Start</h2>
+      <p class="note" style="margin-top:0">From a photo or a breed. Or skip this and change the looks below.</p>
+      <div class="starts">
+        <div class="start">
+          <h3>From a photo</h3>
+          <div class="row" style="margin-top:0">
+            <div class="chips" id="species" role="group" aria-label="Species"><button type="button" data-v="dog" aria-pressed="true">Dog</button><button type="button" data-v="cat" aria-pressed="false">Cat</button></div>
+            <button type="button" class="btn primary" id="make" disabled>Add a photo first</button>
+          </div>
+          <p id="makenote" class="note" hidden></p>
+          <div id="suggest" hidden>
+            <p class="note" id="suggestline"></p>
+            <div class="chips" id="alts"></div>
+          </div>
+          <p id="gap" class="note" hidden></p>
+        </div>
+        <div class="start" id="breedbox">
+          <h3>From a breed <span class="kg">55 dogs and cats</span></h3>
+          <input type="search" id="q" placeholder="Search breeds" aria-label="Search breeds">
+          <div class="breeds" id="breeds"></div>
+        </div>
       </div>
-      <p id="makenote" class="note" hidden></p>
-      <div id="suggest" hidden>
-        <p class="note" id="suggestline"></p>
-        <div class="chips" id="alts"></div>
-      </div>
-      <p id="gap" class="note" hidden></p>
     </section>
 
     <section class="card">
-      <h2><span class="step">2</span>Adjust</h2>
-      <div class="tabs" role="tablist" aria-label="Adjust">
+      <h2><span class="step">2</span>Change the looks</h2>
+      <p class="note" style="margin-top:0">Every change shows on your pet right away. Undo takes it back.</p>
+      <div class="tabs" role="tablist" aria-label="Looks">
         <button type="button" role="tab" id="tab-shape" aria-controls="p-shape" aria-selected="true">Shape</button>
         <button type="button" role="tab" id="tab-marks" aria-controls="p-marks" aria-selected="false">Markings</button>
         <button type="button" role="tab" id="tab-colors" aria-controls="p-colors" aria-selected="false">Colors</button>
@@ -155,13 +174,6 @@ td{font-variant-numeric:tabular-nums}
         <div class="slots" id="slots"></div>
       </div>
     </section>
-
-    <details class="card fold" id="breedbox">
-      <summary><span class="h2">Start from a breed</span><span class="tag">Optional</span></summary>
-      <p class="note">Picking a breed replaces the current look with that breed's. Undo brings yours back.</p>
-      <input type="search" id="q" placeholder="Search breeds" aria-label="Search breeds">
-      <div class="breeds" id="breeds"></div>
-    </details>
 
     <details class="card fold" id="devbox">
       <summary><span class="h2">For developers</span><span class="tag">How it's made</span></summary>
