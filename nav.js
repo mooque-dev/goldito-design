@@ -148,7 +148,8 @@
       ["decisions.html", "Open decisions", "결정 사항", "Icons, pet chips, what got pushed", "아이콘, 펫 칩, 푸시된 것"],
       ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"],
-      ["pet-360.html", "Pets 360", "펫 360", "Every pet with a body: front, back, side, walk, lie, eat, poop", "모든 펫의 몸: 앞, 뒤, 옆, 걷기, 눕기, 먹기, 응가"]]],
+      ["pet-360.html", "Pets 360", "펫 360", "Every pet with a body: front, back, side, walk, lie, eat, poop", "모든 펫의 몸: 앞, 뒤, 옆, 걷기, 눕기, 먹기, 응가"],
+      ["pet-maker.html", "Pet maker", "펫 메이커", "Paste a photo of your pet, get its Goldito pet", "펫 사진을 붙여 넣으면 Goldito 펫이 나와요"]]],
     ["Updates", "업데이트", [
       ["update-2026-10-25.html", "Oct 25 update", "10월 25일 업데이트", "Moments merged; photo viewer, Diary views, pet tone and dark mode, playful words, little delights", "모먼츠 머지; 사진 보기, 다이어리 보기, 펫 톤과 다크 모드, 재치 있는 말, 작은 즐거움"],
       ["rundown-2026-10-25.html", "Oct 25 rundown", "10월 25일 한눈에 보기", "Links to everything from Oct 25, what is held, and the decisions checklist", "10월 25일의 모든 링크, 보류한 것, 결정 체크리스트"],
