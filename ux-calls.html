@@ -78,7 +78,7 @@ p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)
   <span class="eyebrow">Pick · Oct 25</span>
   <h1><span class="en">Twelve calls, drawn</span><span class="ko">결정 열둘, 그림으로</span></h1>
   <p class="lede"><span class="en">Each call from the UX audit as small phone screens. Tap the one you want; ★ is my recommendation and what DESIGN.md assumes. Your picks stay in this browser; Copy my picks gives you one line to paste back to me.</span><span class="ko">UX 점검의 결정마다 작은 폰 화면으로. 원하는 것을 누르세요; ★는 제 추천이자 DESIGN.md의 가정. 고른 건 이 브라우저에 남고, 내 선택 복사로 한 줄을 붙여 보내 주세요.</span></p>
-  <div class="decided"><b><span class="en">Decided by Mook, Oct 25</span><span class="ko">Mook 결정, 10월 25일</span></b><span><span class="en">U1 ← arrow (D20), U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A: every recommendation except U2, where Both won (drafts in long flows, ask before leaving a sheet). Later that night U1 changed to the ← arrow alone, no word: "‹ Back" crowded the sign-up step header (D20). DESIGN.md §7.13 records them; tapping another option here only changes your own view.</span><span class="ko">U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A: U2만 둘 다(긴 흐름은 임시 저장, 시트는 나가기 전에 확인)로, 나머지는 추천대로. 그날 밤 U1은 글자 없는 ← 화살표로 바뀌었어요: "‹ Back"이 가입 단계 헤더를 비좁게 해서요(D20). DESIGN.md §7.13에 기록. 여기서 다른 선택을 눌러도 내 화면만 바뀌어요.</span></span></div>
+  <div class="decided"><b><span class="en">Decided by Mook, Oct 25</span><span class="ko">Mook 결정, 10월 25일</span></b><span><span class="en">U1 ← arrow (D20), U2 C, U3 B, U4 A, U5 B (D21), U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A: every recommendation except U2, where Both won (drafts in long flows, ask before leaving a sheet). Later that night U1 changed to the ← arrow alone, no word: "‹ Back" crowded the sign-up step header (D20). DESIGN.md §7.13 records them; tapping another option here only changes your own view.</span><span class="ko">U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A: U2만 둘 다(긴 흐름은 임시 저장, 시트는 나가기 전에 확인)로, 나머지는 추천대로. 그날 밤 U1은 글자 없는 ← 화살표로 바뀌었어요: "‹ Back"이 가입 단계 헤더를 비좁게 해서요(D20). DESIGN.md §7.13에 기록. 여기서 다른 선택을 눌러도 내 화면만 바뀌어요.</span></span></div>
   <p style="font-size:14px"><a href="ux-audit.html#calls">The same calls as a list, with the findings behind each</a></p>
 </header>
 <div id="calls"></div>
@@ -115,7 +115,7 @@ const CALLS = [
     o: [["A", "✕ top left", "Next to where Back usually is; labelled Close", P(`<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="xbtn" style="left:10px">✕</span><div class="fade">Max · 6:30<br>Party hat, day 3</div>`)],
         ["B", "✕ top right", "Like most photo apps' Close", P(`<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="xbtn" style="right:10px">✕</span><div class="fade">Max · 6:30<br>Party hat, day 3</div>`)],
         ["C", "‹ top left", "What Moments does today", P(`<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="xbtn" style="left:10px;font-size:20px">‹</span><div class="fade">Max · 6:30<br>Party hat, day 3</div>`)]] },
-  { n: "U5", q: "Signing out", why: "Today it asks, in a Sheet in Settings and inline in the menu, with a red button.", rec: "A",
+  { n: "U5", q: "Signing out", why: "It asked inline in the menu and in a Sheet in Settings. Mook picked no confirm, then kept the sheet #387 shipped for both (D21).", rec: "A",
     o: [["A", "No confirm", "Tap Sign out, you're out", P(`<div class="pad" style="padding-top:12px"><h5>Settings</h5><div class="card"><span>Notifications</span><span>Privacy</span></div><div class="btn s">Sign out</div></div>${toast("Signed out", "ok")}`)],
         ["B", "Confirm in a sheet", "One sheet, a plain primary button", P(`<div class="pad" style="padding-top:12px"><h5>Settings</h5><div class="card"><span>Notifications</span><span>Privacy</span></div><div class="btn s">Sign out</div></div><div class="scrim"></div><div class="sheet"><span class="grab"></span><div class="shd"><b>Sign out?</b><span class="cl">Close</span></div><span class="mut">You can sign back in any time.</span><div class="btn">Sign out</div></div>`)]] },
   { n: "U6", q: "Where errors show", why: "Today five surfaces, chosen per screen; about 30 errors show a green check.", rec: "A",
@@ -141,7 +141,7 @@ const CALLS = [
         ["B", "Keep each one", "Each card keeps its own word", P(`<div class="pad" style="padding-top:12px">${[["Booking request", "I accept"], ["Care request", "Approve"], ["Quote", "Confirm quote"], ["Handoff time", "Accept"]].map(([t, b]) => `<div class="card"><div class="row"><b>${t}</b><span class="sp"></span><div class="btn" style="min-height:28px">${b}</div></div></div>`).join("")}</div>`)]] },
 ];
 // Mook's picks, Oct 25 (all the ★ except U2, where Both won). DESIGN.md §7.13 records them.
-const DECIDED = { U1: "B", U2: "C", U3: "B", U4: "A", U5: "A", U6: "A", U7: "A", U8: "B", U9: "A", U10: "A", U11: "A", U12: "A" };
+const DECIDED = { U1: "B", U2: "C", U3: "B", U4: "A", U5: "B", U6: "A", U7: "A", U8: "B", U9: "A", U10: "A", U11: "A", U12: "A" };
 const KEY = "goldito-ux-calls";
 let picks = { ...DECIDED }; try { picks = { ...DECIDED, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} };
@@ -177,7 +177,7 @@ document.addEventListener("click", async (e) => {
 });
 draw();
 window.__ticket = { id: "ux-calls", title: "UX patterns: rules and 12 calls (decided Oct 25)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/ux-calls.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Back (D20)", a: "Changed the same night: Back is the ← arrow alone everywhere, 44 px, read aloud as Back (PR #393)" }, { q: "Status", a: "Decided by Mook, Oct 25: U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A. DESIGN.md §7.8, §7.11, §7.12, §7.13 (branch docs/ux-patterns)" },
+  decisions: [{ q: "Back (D20)", a: "Changed the same night: Back is the ← arrow alone everywhere, 44 px, read aloud as Back (PR #393)" }, { q: "Sign out (D21)", a: "Kept the confirm sheet #387 shipped, in the menu and Settings (PR #394)" }, { q: "Status", a: "Decided by Mook, Oct 25: U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A. DESIGN.md §7.8, §7.11, §7.12, §7.13 (branch docs/ux-patterns)" },
     { q: "Back, close, leave", a: "Back goes back (chevron + Back, top left, one per screen); Close dismisses (never saves); the primary finishes; typed input is never dropped silently" },
     { q: "Feedback", a: "Field errors under the field; screen problems in a Banner; quick results in a toast with a tone; destructive confirms in a Sheet with a danger button; reversible acts get Undo; disabled buttons say why" },
     { q: "Actions", a: "One primary per screen via Screen footer; one word per job (Save, Done, Mark done, Next, Send, Accept, Decline, Try again, Skip); sheet buttons in the footer; 44 px targets" }],

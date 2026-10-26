@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Demo Video Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<script>
+  (() => { let v = "en"; try { v = localStorage.getItem("goldito-lang") === "ko" ? "ko" : "en"; } catch (e) {}
+    document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
+</script>
+<style>
+  /* Demo video plan (#116): what to film, three storyboards, the words to say. Recorded by Minsik, edited by Mook. */
+  :root { --cream: #FBF6EA; --ink: #1B4332; --green: #2D6A4F; --gold: #F4C35A; --mint: #D8F3DC; --peach: #FDE2CC; --butter: #FBEFC8; --blush: #FAD6CB; --line: #E6DCC4; --muted: #5E665F; --display: "Fredoka", system-ui, sans-serif; --body: "Plus Jakarta Sans", system-ui, sans-serif }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --cream: #13201A; --ink: #E9F3EC; --green: #74C69D; --line: #2C3F35; --muted: #A2B0A7; color-scheme: dark } }
+  :root[data-theme="dark"] { --cream: #13201A; --ink: #E9F3EC; --green: #74C69D; --line: #2C3F35; --muted: #A2B0A7; color-scheme: dark }
+  html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+  * { box-sizing: border-box }
+  body { margin: 0; background: var(--color-background, var(--cream)); color: var(--color-text, var(--ink)); font: 15px/1.55 var(--body) }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-block: 24px 72px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-direction: column; gap: 48px }
+  h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; color: var(--color-text, var(--ink)) }
+  h1 { font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.05 } h2 { font-size: 1.6rem } h3 { font-size: 1.15rem }
+  p { margin: 0; max-width: 68ch } a { color: var(--color-primary, var(--green)); font-weight: 600 }
+  .eyebrow { font: 700 12px var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--color-text-muted, var(--muted)) }
+  .lede { font-size: 1.06rem; color: var(--color-text-muted, var(--muted)) }
+  section { display: flex; flex-direction: column; gap: 18px; min-width: 0 }
+  .sh { display: flex; flex-direction: column; gap: 6px }
+  .req { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px }
+  .req div { background: var(--color-surface, #fff); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; min-width: 0 }
+  .req b { font: 600 1rem var(--display); display: flex; align-items: center; gap: 8px } .req span { font-size: 13.5px; color: var(--color-text-muted, var(--muted)) }
+  .req b::before { content: ""; width: 20px; height: 20px; border-radius: 50%; flex: none; background: #2D6A4F url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 13px no-repeat }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font: 700 12px var(--body); white-space: nowrap; width: fit-content }
+  .built { background: #D8F3DC; color: #1F5C3E } .notyet { background: #ECEAE4; color: #4A4A45 } .later { background: #FBEBC4; color: #1B4332 }
+  .tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--color-surface, #fff) }
+  table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 14px }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top }
+  th { font: 700 12px var(--body); letter-spacing: .08em; text-transform: uppercase; color: var(--color-text-muted, var(--muted)); background: var(--color-background, var(--cream)) }
+  tr:last-child td { border-bottom: 0 }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px }
+  .tabs button { font: 700 14px var(--body); min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--color-surface, #fff); color: var(--color-text, var(--ink)); cursor: pointer }
+  .tabs button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--cream) }
+  .tabs button:focus-visible { outline: 2px solid var(--green); outline-offset: 2px }
+  .vhead { display: flex; flex-direction: column; gap: 10px; padding: 18px 20px; border-radius: 20px; background: var(--butter); color: #1B4332 }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px } .meta span { background: rgba(255,255,255,.7); border-radius: 999px; padding: 3px 10px; font: 700 12px var(--body); color: #1B4332 }
+  .tl { display: flex; flex-direction: column; gap: 4px } .tl .bar { display: flex; height: 16px; border-radius: 999px; overflow: hidden; background: rgba(255,255,255,.6) }
+  .tl .bar i { display: block; height: 100%; border-right: 2px solid #FBEFC8 } .tl .bar i:last-child { border-right: 0 }
+  .tl .ticks { display: flex; justify-content: space-between; font: 700 11px var(--body); color: #1B4332; opacity: .8; font-variant-numeric: tabular-nums }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; font: 700 12px var(--body); color: #1B4332 } .legend span { display: inline-flex; align-items: center; gap: 5px } .legend i { width: 12px; height: 12px; border-radius: 4px; display: inline-block }
+  .vhead h3 { color: #1B4332 } .vhead p { color: #1B4332 }
+  .board { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px }
+  .frame { display: flex; flex-direction: column; gap: 8px; min-width: 0 }
+  .shot { position: relative; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 18px; overflow: hidden; border: 6px solid #1A1A1A; background: #FBF6EA; color: #1A1A1A }
+  .shot img.full { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block }
+  .shot .tc { position: absolute; left: 6px; top: 6px; background: rgba(26,26,26,.82); color: #fff; font: 700 11px var(--body); padding: 2px 7px; border-radius: 999px; font-variant-numeric: tabular-nums; z-index: 2 }
+  .frame .st { align-self: flex-start; color: #1A1A1A; font: 800 11.5px var(--body); padding: 3px 10px; border-radius: 999px }
+  .shot .num { position: absolute; right: 6px; top: 6px; background: rgba(255,255,255,.9); color: #1A1A1A; font: 800 11px var(--body); padding: 2px 7px; border-radius: 999px; z-index: 2; font-variant-numeric: tabular-nums }
+  .sk .sb { position: absolute; left: 0; right: 0; top: 0; height: 20px; display: flex; justify-content: space-between; align-items: center; padding: 0 12px; font: 700 9px var(--body); color: #1A1A1A; opacity: .75 }
+  .shot:hover { transform: translateY(-2px); transition: transform .15s } @media (prefers-reduced-motion: reduce) { .shot:hover { transform: none } }
+  .frame .what { font: 700 14px var(--body) } .frame .vo { font-size: 13px; color: var(--color-text-muted, var(--muted)); font-style: italic }
+  .frame .vo::before { content: "VO "; font-style: normal; font-weight: 800; font-size: 11px; letter-spacing: .06em }
+  /* sketched screens */
+  .sk { position: absolute; inset: 0; padding: 26px 10px 10px; display: flex; flex-direction: column; gap: 6px; font-size: 10.5px; line-height: 1.3 }
+  .sk .t { font: 700 13px var(--display); color: #1B4332 }
+  .sk .b { border-radius: 10px; padding: 6px 8px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.06) }
+  .sk .me { align-self: flex-end; background: #1B4332; color: #fff; border-radius: 10px 10px 2px 10px; padding: 5px 8px; max-width: 80% }
+  .sk .ai { align-self: flex-start; background: #fff; border-radius: 10px 10px 10px 2px; padding: 5px 8px; max-width: 85% }
+  .sk .tag { font: 800 9px var(--body); color: #2D6A4F; letter-spacing: .04em; text-transform: uppercase }
+  .sk .row { display: flex; gap: 5px; align-items: center } .sk .ck { width: 11px; height: 11px; border-radius: 3px; background: #2D6A4F; flex: none } .sk .ck.o { background: none; border: 1.5px solid #86867F }
+  .sk .btn { margin-top: auto; background: #1B4332; color: #fff; text-align: center; border-radius: 999px; padding: 6px; font-weight: 800 }
+  .sk .danger { background: #B42318; color: #fff; border-radius: 10px; padding: 8px; font-weight: 700 }
+  .sk .map { flex: 1; border-radius: 10px; background: repeating-linear-gradient(45deg, #E8EFE6 0 8px, #F1F5EF 8px 16px); position: relative }
+  .sk .map::after { content: ""; position: absolute; left: 18%; top: 22%; width: 60%; height: 55%; border: 3px dashed #2D6A4F; border-left: 0; border-bottom: 0; border-radius: 0 30px 0 0 }
+  .sk .chips { display: flex; flex-wrap: wrap; gap: 4px } .sk .chips span { background: #D8F3DC; border-radius: 999px; padding: 2px 7px; font-weight: 700 }
+  .sk .split { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: #1A1A1A }
+  .sk .split > div { background: #FBF6EA; padding: 24px 5px 5px; display: flex; flex-direction: column; gap: 4px; font-size: 9px }
+  .card-big { font: 700 16px var(--display); color: #1B4332; text-align: center; margin: auto 0 }
+  .say { background: var(--mint); color: #1B4332; border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px }
+  .say p { color: #1B4332; font-size: 15.5px } .say b { color: #1B4332 }
+  .say code { font-size: 13px; background: rgba(255,255,255,.7); padding: 1px 5px; border-radius: 5px }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px } @media (max-width: 760px) { .two { grid-template-columns: 1fr } }
+  ol.check { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px } ol.check li { max-width: 70ch }
+  .foot { font-size: 13.5px; color: var(--color-text-muted, var(--muted)); border-top: 1px solid var(--line); padding-top: 16px }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="sh">
+    <span class="eyebrow"><span class="en">Goldito · Demo video · #116 · recorded by Minsik, edited by Mook</span><span class="ko">골디토 · 데모 영상 · #116 · 촬영 민식, 편집 Mook</span></span>
+    <h1><span class="en">The demo video plan</span><span class="ko">데모 영상 계획</span></h1>
+    <p class="lede"><span class="en">Three storyboards for the under-3-minute video, built on the README's demo path (<i>A Stay with Goldito</i>) and on everything we changed this week. Pick one, record each frame as its own clip, then edit. Version A is my pick.</span><span class="ko">3분 이내 영상을 위한 스토리보드 세 가지. README의 데모 경로(<i>A Stay with Goldito</i>)와 이번 주 바꾼 것들을 바탕으로 했어요. 하나 고르고, 프레임마다 따로 찍은 뒤 편집하세요. 추천은 A안.</span></p>
+  </header>
+
+  <section>
+    <div class="sh"><span class="eyebrow">Hackathon rules (docs/hackathon/README.md)</span><h2><span class="en">What the video must have</span><span class="ko">영상 필수 조건</span></h2></div>
+    <div class="req">
+      <div><b>Under 3:00</b><span>Aim for 2:40 so the end card never gets cut.</span></div>
+      <div><b>Public on YouTube</b><span>Before the freeze, Tue Oct 28 (#116). Link it in the README and on Devpost.</span></div>
+      <div><b>The app running on its target device</b><span>A phone, or the phone frame at 402 × 874. Show real taps, not slides.</span></div>
+      <div><b>Audio on Token Factory and NVIDIA models</b><span>Spoken, not only on screen. The exact lines are below.</span></div>
+      <div><b>No copyrighted music or marks</b><span>Royalty-free music or none. Only our own and the fictional demo content.</span></div>
+      <div><b>Fictional data only</b><span>Robert, Chloe, Max and Mochi. No real names, addresses or messages.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">This week's changes</span><span class="ko">이번 주 변경</span></span><h2><span class="en">What to show, and what's in the app</span><span class="ko">보여줄 것, 그리고 앱에 들어간 것</span></h2><p><span class="en">Only film what's built. Everything marked "in the app" is on main.</span><span class="ko">만들어진 것만 찍어요. "앱에 있음"은 모두 main에 있어요.</span></p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>Change</th><th>Where it shows in the video</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Boot: four paw prints walk up, then the coin and Goldito</td><td>The first two seconds</td><td><span class="chip built">In the app · #384</span></td></tr>
+        <tr><td>Welcome: Max and Mochi, the tagline, the How it works card, Try the demo</td><td>Opening, after the hook</td><td><span class="chip built">In the app · #384, #388</span></td></tr>
+        <tr><td>Try the demo sheet: Robert the owner or Chloe the sitter, with their pictures</td><td>The one tap into the stay</td><td><span class="chip built">In the app · #388</span></td></tr>
+        <tr><td>How it works: three pages, "Goldito sends the update"</td><td>Optional B-roll for the problem</td><td><span class="chip built">In the app · #388</span></td></tr>
+        <tr><td>Three-step sign-up with Next; Privacy and Terms pages</td><td>Not needed; judges use the demo</td><td><span class="chip built">In the app · #384, #391</span></td></tr>
+        <tr><td>One Back control everywhere (the ← arrow)</td><td>Every navigation shot looks the same</td><td><span class="chip built">In the app · #393</span></td></tr>
+        <tr><td>Accept as the one yes word; Confirm and pay at checkout</td><td>③ Booking</td><td><span class="chip built">In the app · #393</span></td></tr>
+        <tr><td>Discard? before dropping typed text; drafts kept</td><td>Not needed on camera</td><td><span class="chip built">In the app · #393</span></td></tr>
+        <tr><td>The stay's ticket on Home; Bookings as a plain list</td><td>④ Robert's Home during the stay</td><td><span class="chip built">In the app · #389</span></td></tr>
+        <tr><td>Moments: Photos and Diary, notes on photos, Hide, Edit, Delete</td><td>④ Care: photos arrive with captions</td><td><span class="chip built">In the app · #346</span></td></tr>
+        <tr><td>Diary page: tap the picture box, stickers you can resize</td><td>④ The daily page</td><td><span class="chip built">In the app · #386</span></td></tr>
+        <tr><td>Snap: treat check with the red DANGER alert</td><td>④ The safety beat</td><td><span class="chip built">In the app</span></td></tr>
+        <tr><td>Playful words in toasts and empty states</td><td>Only if built by the recording</td><td><span class="chip notyet">Decided, not built</span></td></tr>
+        <tr><td>Pet tone and dark mode; most little delights; pet setup start and finish</td><td>Leave out</td><td><span class="chip later">After the freeze</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">Storyboards</span><span class="ko">스토리보드</span></span><h2><span class="en">Three ways to tell one stay</span><span class="ko">한 번의 스테이를 말하는 세 가지 방법</span></h2></div>
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="version"></div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">Required audio</span><span class="ko">필수 음성</span></span><h2><span class="en">The model lines, word for word</span><span class="ko">모델 설명, 그대로</span></h2><p><span class="en">About 25 seconds. Every version uses it: over the AI shots in A and B, as its own scene in C. Model names are exactly as in the README.</span><span class="ko">약 25초. 모든 버전에 들어가요: A와 B는 AI 장면 위에, C는 따로 한 장면으로. 모델 이름은 README 그대로.</span></p></div>
+    <div class="say">
+      <p><b>"Every AI call in Goldito runs on Nebius Token Factory, from our backend.</b> NVIDIA Nemotron does the thinking and the writing: <code>Nemotron 3 Nano</code> drafts the sitter's reply in about three seconds, <code>Nemotron 3 Super</code> turns a care note into a timed checklist, writes the daily note and the pet's Life Record, and <code>Nemotron 3 Ultra</code> checks treat labels for allergens, because safety gets the strongest model. A vision model on Token Factory, <code>MiniCPM-V 4.5</code>, reads the photos, and <code>Qwen3 Embedding</code> lets the next sitter's reply remember the pet. Prices, dates and entry codes never come from a model: the server supplies them."</p>
+      <p style="font-size:13.5px">Model IDs, for the on-screen card: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B · nvidia/nemotron-3-super-120b-a12b · nvidia/Nemotron-3-Ultra-550b-a55b · openbmb/MiniCPM-V-4_5 · Qwen/Qwen3-Embedding-8B</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sh"><span class="eyebrow"><span class="en">Recording</span><span class="ko">촬영</span></span><h2><span class="en">Before Minsik hits record</span><span class="ko">촬영 전에</span></h2></div>
+    <div class="two">
+      <ol class="check">
+        <li><b>Wake the backend</b> a minute before: the free plan sleeps, and the first request takes 30 to 50 s.</li>
+        <li><b>Reset the demo set</b> (Profile → Demo tools) so Robert and Chloe start the stay fresh; record on the default Chloe set.</li>
+        <li><b>One clip per frame</b>, 2 to 3 s of stillness at each end so the edit has room.</li>
+        <li><b>Phone or phone frame only</b>: 402 × 874, no browser chrome, no desktop. For version B, open <code>?view=split</code> on a wide window.</li>
+      </ol>
+      <ol class="check" start="5">
+        <li><b>Hide the cursor</b> or keep it still; taps should look like a finger (the frame already turns clicks into taps).</li>
+        <li><b>Record the voiceover separately</b>, in a quiet room, from the lines in each frame; the edit times the shots to it.</li>
+        <li><b>Captions on</b> for every spoken line (judges often watch muted).</li>
+        <li><b>Export 1080 × 1920 or 1920 × 1080</b> with the phone centred; upload public to YouTube; paste the link in the README and on Devpost.</li>
+      </ol>
+    </div>
+  </section>
+
+  <p class="foot">Sources: README (the five stages, <i>A Stay with Goldito</i>, How We Use NVIDIA Nemotron & Nebius Token Factory), docs/hackathon/README.md, #116, and the PRs named above. <a href="rundown-2026-10-25.html">The Oct 25 rundown</a> · <a href="update-2026-10-25.html">the Oct 25 doc</a></p>
+</div>
+
+<script>
+const IMG = (n) => `assets/rundown-1025/${n}.jpg`;
+// Stage colors follow the app's color blocks; the frames without a stage (hook, models, end) stay neutral.
+const STAGES = { "①": ["Stage 1 · Inquiry", "#FDE2CC"], "②": ["Stage 2 · Meet & Greet", "#D8F3DC"], "①②": ["Stages 1 and 2 · Ask and plan", "#FDE2CC"], "③": ["Stage 3 · Booking", "#FBEFC8"], "④": ["Stage 4 · Care & Transit", "#B9DDBF"], "⑤": ["Stage 5 · Completion", "#FAD6CB"], "": ["Story", "#E6DCC4"] };
+const secs = (tc) => { const [m, x] = tc.split(":").map(Number); return m * 60 + x; };
+const img = (n) => `<img class="full" src="${IMG(n)}" alt="" loading="lazy">`;
+// Current intro screens, captured from the intro trial (Oct 26).
+const cap = (n) => `<img class="full" src="assets/video/${n}.jpg" alt="" loading="lazy">`;
+const sk = (html) => `<div class="sk"><div class="sb"><span>6:30</span><span>● ● ●</span></div>${html}</div>`;
+// Sketched screens (what the real clip should show); photos are real captures from the design site.
+const S = {
+  hook: sk(`<div class="t">Robert, Friday night</div><div class="me">How's Max?</div><div class="me">Did he eat?</div><div class="me">Any photos??</div><div class="card-big">No more asking.</div>`),
+  boot: cap("boot"),
+  welcome: cap("welcome"),
+  demoSheet: cap("demo-sheet"),
+  inquiry: sk(`<div class="t">Chat with Chloe</div><div class="me">Can you take Max and Mochi Oct 9 to 12?</div><span class="tag">Auto-reply · Chloe's assistant</span><div class="ai">Hi Robert! I'm free Oct 9 to 12 and would love to have Max and Mochi. I see Max can't have chicken, noted.</div><div class="b"><b>Quote</b> 3 nights · 2 pets · holiday<br><b>$268.13 CAD</b></div><div class="btn">Request booking</div>`),
+  checklist: sk(`<div class="t">Care request</div><div class="b">"8 AM kibble · 2 PM pill in a treat · no knocking"</div><span class="tag">Nemotron → checklist</span><div class="row"><span class="ck"></span>8:00 Kibble, 1 cup</div><div class="row"><span class="ck"></span>14:00 Pill in a treat</div><div class="b" style="background:#FBEFC8">Heads-up: no knocking, ring once</div><div class="b" style="background:#FAD6CB">Allergy: chicken</div><div class="btn">Save</div>`),
+  booking: sk(`<div class="t">Finish booking</div><div class="b"><b>Quote</b> $268.13 CAD</div><div class="row"><span class="ck"></span>House rules</div><div class="row"><span class="ck"></span>Medication consent</div><div class="row"><span class="ck"></span>Emergency vet</div><div class="b" style="background:#D8F3DC">Entry info unlocks for Chloe 2 h before</div><div class="btn">Confirm and pay (demo)</div>`),
+  trip: sk(`<div class="t">On the way to Chloe's</div><div class="map"></div><div class="b"><b>ETA 12 min</b> · visitor parking on Elm St</div>`),
+  sitterHome: sk(`<div class="t">Today · Chloe</div><div class="b">Max and Mochi are with you</div><div class="chips"><span>Meal ✓</span><span>Walk ✓</span><span>Potty</span><span>Mood</span></div><div class="row"><span class="ck"></span>14:00 Pill in a treat, with a photo</div><div class="b" style="background:#FAD6CB">Heads-up: no chicken</div>`),
+  moments: img("c-viewer"),
+  add: img("c-add"),
+  diary: img("c-diary"),
+  danger: sk(`<div class="t">Snap · treat check</div><div class="danger">DANGER<br>Contains chicken. Max is allergic.</div><div class="b">Don't give this treat.</div><div class="btn" style="background:#B42318">I understand</div>`),
+  home: sk(`<div class="t">Max and Mochi are home safe</div><div class="b">★★★★★ Chloe</div><div class="b"><b>Max's Life Record</b><br>Eats: kibble, 1 cup at 8<br>Meds: pill at 2 in a treat<br>Watch out: chicken</div>`),
+  next: sk(`<div class="t">A new sitter, next month</div><span class="tag">Remembers Max</span><div class="ai">Hi Robert! I read Max's record: no chicken, pill at 2. I can do that.</div>`),
+  models: sk(`<div class="t">Under the hood</div><div class="b">Nebius Token Factory</div><div class="b">Nemotron 3 Nano · reply</div><div class="b">Nemotron 3 Super · checklist, note, record</div><div class="b">Nemotron 3 Ultra · treat check</div><div class="b">MiniCPM-V 4.5 · photos</div><div class="b">Qwen3 Embedding · memory</div>`),
+  end: sk(`<div class="card-big" style="font-size:22px">Leave your pet.<br>Keep your peace of mind.</div><div class="card-big" style="font-size:13px">goldito-petcare.vercel.app<br>NVIDIA Nemotron on Nebius Token Factory</div>`),
+  split: (l, r) => `<div class="sk"><div class="split"><div><b>Robert</b>${l}</div><div><b>Chloe</b>${r}</div></div></div>`,
+  howitworks: sk(`<div class="t">How it works · 1 of 3</div><div class="me" style="opacity:.55;text-decoration:line-through">How's Max?</div><div class="me" style="opacity:.55;text-decoration:line-through">Did he eat?</div><div class="b"><b>Breakfast, every bite</b><br>Chloe · 8:12 AM</div><div class="b"><b>Walk, 20 minutes</b><br>Chloe · 9:40 AM</div>`),
+};
+const V = [
+  { id: "a", name: "A · One stay", ko: "A · 한 번의 스테이", pitch: "Follows the README's demo path stage by stage, so a judge who read the README recognises every beat. Owner and sitter alternate; the AI is named as it works.", len: "2:40",
+    frames: [
+      ["0:00", "", S.hook, "The problem, in Robert's texts", "Leaving your pet usually means texting your sitter all weekend."],
+      ["0:08", "", S.boot, "Boot: the paw walk and the coin", "Goldito changes that."],
+      ["0:11", "", S.welcome, "Welcome → Try the demo → Robert", "The whole stay, in one app. Let's follow Robert, Max and Mochi."],
+      ["0:20", "①", S.inquiry, "Robert asks; Chloe's reply drafts itself", "Robert asks Chloe about Thanksgiving. Nemotron drafts her reply in her own voice, with a quote from the server."],
+      ["0:38", "②", S.checklist, "Care note becomes a checklist", "His care note becomes a timed checklist and Heads-up cards. Robert reviews and saves."],
+      ["0:55", "③", S.booking, "Consents, Confirm and pay", "Booking stays out of the AI's hands: consents, the price and the entry code come from fixed rules."],
+      ["1:08", "④", S.trip, "Drop-off: the live trip", "On drop-off day, Chloe sees Robert on the way."],
+      ["1:16", "④", S.sitterHome, "Chloe's day: tap, snap", "Chloe just cares, snaps and taps."],
+      ["1:28", "④", S.moments, "Photos arrive in Moments, captioned", "Photos arrive in Robert's Moments, captioned and sorted by a vision model."],
+      ["1:40", "④", S.diary, "The daily note", "Each evening, Nemotron writes the daily note in Chloe's voice. She approves it."],
+      ["1:52", "④", S.danger, "Treat check: DANGER", "And Snap stops a chicken treat before Max eats it."],
+      ["2:02", "⑤", S.home, "Home safe and the Life Record", "Home safe. The stay becomes Max's Life Record."],
+      ["2:12", "", S.next, "The next sitter already knows Max", "So the next sitter already knows him."],
+      ["2:20", "", S.models, "Model card (the required lines)", "Every AI call runs on Nebius Token Factory… (the 25 s lines below, shortened to fit)"],
+      ["2:34", "", S.end, "End card", "Leave your pet. Keep your peace of mind."]] },
+  { id: "b", name: "B · Two phones", ko: "B · 두 대의 폰", pitch: "Uses the split view (?view=split): Robert on the left, Chloe on the right. Every beat is one tap on one phone and the update landing on the other. Shows 'learn without asking' without saying it.", len: "2:35",
+    frames: [
+      ["0:00", "", S.split(`<div class="b">Try the demo</div>`, `<div class="b">Try the demo</div>`), "Both phones open on Welcome", "Two people, one stay. Robert on the left, Chloe on the right."],
+      ["0:08", "①", S.split(`<div class="b">Ask Chloe</div>`, `<div class="b">Reply drafted ✓</div>`), "Robert asks → Chloe's draft appears", "Robert asks. Chloe's reply is drafted before she picks up her phone."],
+      ["0:25", "②", S.split(`<div class="b">Care note</div>`, `<div class="b">Checklist ✓</div>`), "Care note → Chloe's checklist", "His note becomes her checklist."],
+      ["0:40", "③", S.split(`<div class="b">Confirm and pay</div>`, `<div class="b">Booked ✓</div>`), "Robert pays → Chloe sees booked", "He accepts and pays; she's booked, with the entry code locked until it's time."],
+      ["0:55", "④", S.split(`<div class="map" style="min-height:60px"></div>`, `<div class="b">ETA 12 min</div>`), "Trip: map on both", "Drop-off is live on both phones."],
+      ["1:08", "④", S.split(`<div class="b">Photo ✓ Meal ✓</div>`, `<div class="chips"><span>Meal</span><span>Walk</span></div>`), "Chloe taps → Robert's Home updates", "Every tap Chloe makes lands on Robert's Home. He never has to ask."],
+      ["1:25", "④", S.split(`<div class="b">Daily note</div>`, `<div class="b">Approve</div>`), "Daily note: Chloe approves, Robert reads", "At night, Nemotron writes the note; Chloe approves; Robert reads it."],
+      ["1:40", "④", S.danger, "Treat check (full screen)", "One safety moment: the treat check."],
+      ["1:52", "⑤", S.split(`<div class="b">Home safe ★★★★★</div>`, `<div class="b">Returned</div>`), "Home safe, review, Life Record", "Home safe, a review, and Max's Life Record."],
+      ["2:05", "", S.models, "Model card (the required lines)", "Under the hood… (the 25 s lines)"],
+      ["2:30", "", S.end, "End card", "Leave your pet. Keep your peace of mind."]] },
+  { id: "c", name: "C · Problem first", ko: "C · 문제 먼저", pitch: "A story told from Robert's worry: it opens on the texts he used to send, spends longer on how the weekend feels, then gives the AI its own scene. Warmest, but the stages are less explicit.", len: "2:45",
+    frames: [
+      ["0:00", "", S.hook, "Robert's old texts, crossed out", "Every time I left Max, I spent the weekend texting."],
+      ["0:10", "", S.howitworks, "How it works, page 1", "So we built Goldito, with sitters we've worked with for years."],
+      ["0:20", "", S.demoSheet, "Try the demo → Robert, the owner", "This is Robert's Thanksgiving."],
+      ["0:28", "①②", S.inquiry, "Asking and planning, fast", "He asks, gets a reply in Chloe's voice, and his care note becomes her checklist."],
+      ["0:45", "④", S.moments, "The weekend from Robert's couch", "Then he just… watches. Meals, walks, naps."],
+      ["1:00", "④", S.add, "Chloe's side: snap and tap", "On Chloe's side, it's tap and snap. No essays."],
+      ["1:12", "④", S.diary, "The daily page", "At night, a page about Max's day, in her words."],
+      ["1:25", "④", S.danger, "The treat check", "And the one thing that could go wrong, doesn't."],
+      ["1:38", "", S.models, "Under the hood (its own scene)", "Every AI call in Goldito runs on Nebius Token Factory… (all 25 s)"],
+      ["2:08", "⑤", S.home, "Home safe and the Life Record", "Max comes home, and his story stays."],
+      ["2:20", "", S.next, "Next time, a new sitter knows him", "Next time, any sitter starts informed."],
+      ["2:35", "", S.end, "End card", "Leave your pet. Keep your peace of mind."]] },
+];
+let cur = 0;
+try { cur = Math.max(0, V.findIndex((v) => v.id === (location.hash.slice(1) || localStorage.getItem("goldito-video-v") || "a"))); } catch (e) {}
+function draw() {
+  document.getElementById("tabs").innerHTML = V.map((v, i) => `<button type="button" role="tab" aria-pressed="${i === cur}" data-i="${i}"><span class="en">${v.name}</span><span class="ko">${v.ko}</span></button>`).join("");
+  const v = V[cur];
+  const end = secs(v.len), n = v.frames.length;
+  const bar = v.frames.map(([tc, st], i) => { const a = secs(tc), b = i < n - 1 ? secs(v.frames[i + 1][0]) : end; return `<i title="${tc} ${STAGES[st][0]}" style="width:${((b - a) / end) * 100}%;background:${STAGES[st][1]}"></i>`; }).join("");
+  const used = [...new Set(v.frames.map((f) => f[1]))];
+  const words = v.frames.reduce((w, f) => w + f[4].split(/\s+/).length, 0);
+  document.getElementById("version").innerHTML = `<div style="display:flex;flex-direction:column;gap:14px"><div class="vhead"><h3>${v.name} · ${v.len}${v.id === "a" ? " · recommended" : ""}</h3><p>${v.pitch}</p>
+    <div class="meta"><span>${n} shots</span><span>${used.filter(Boolean).length} stage beats</span><span>about ${words} spoken words</span></div>
+    <div class="tl"><div class="bar" aria-label="Timeline of ${v.name}">${bar}</div><div class="ticks"><span>0:00</span><span>1:00</span><span>2:00</span><span>${v.len}</span></div></div>
+    <div class="legend">${used.map((st) => `<span><i style="background:${STAGES[st][1]}"></i>${STAGES[st][0]}</span>`).join("")}</div></div>
+    <div class="board">${v.frames.map(([tc, st, shot, what, vo], i) => `<div class="frame"><div class="shot" style="background:${shot.includes('class="full"') ? "#1A1A1A" : STAGES[st][1]}"><span class="tc">${tc}</span><span class="num">${i + 1}/${n}</span>${shot}</div><span class="st" style="background:${STAGES[st][1]}">${STAGES[st][0]}</span><span class="what">${what}</span><span class="vo">${vo}</span></div>`).join("")}</div></div>`;
+}
+document.getElementById("tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button[data-i]"); if (!b) return;
+  cur = +b.dataset.i; try { localStorage.setItem("goldito-video-v", V[cur].id); } catch (err) {}
+  draw();
+});
+draw();
+</script>
+<script src="nav.js" defer></script>
+</body>
+</html>
