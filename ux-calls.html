@@ -16,6 +16,8 @@ p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)
 .opt{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:22px;border:2px solid var(--color-border);background:var(--color-surface);cursor:pointer;font:inherit;color:inherit;width:260px;max-width:100%;text-align:center}
 .opt:hover{border-color:var(--color-border-strong)} .opt[aria-checked=true]{border-color:var(--color-primary);background:var(--color-accent)}
 .opt:focus-visible{outline:3px solid var(--color-primary);outline-offset:2px}
+.opt .dec{font:700 12px var(--font-ui);padding:3px 10px;border-radius:999px;background:var(--color-primary);color:var(--color-primary-text)}
+.decided{display:flex;flex-direction:column;gap:4px;padding:12px 16px;border-radius:14px;background:var(--color-accent);max-width:68ch}
 .opt .lb{display:flex;align-items:center;gap:6px;font-weight:700;font-size:15px} .opt .lb i{font-style:normal;width:24px;height:24px;border-radius:50%;border:2px solid var(--color-border-strong);display:inline-grid;place-items:center;font-size:12px;flex:none}
 .opt[aria-checked=true] .lb i{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-primary-text)}
 .opt .sub{font-size:13px;color:var(--color-text-muted);line-height:1.4}
@@ -76,6 +78,7 @@ p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)
   <span class="eyebrow">Pick · Oct 25</span>
   <h1><span class="en">Twelve calls, drawn</span><span class="ko">결정 열둘, 그림으로</span></h1>
   <p class="lede"><span class="en">Each call from the UX audit as small phone screens. Tap the one you want; ★ is my recommendation and what DESIGN.md assumes. Your picks stay in this browser; Copy my picks gives you one line to paste back to me.</span><span class="ko">UX 점검의 결정마다 작은 폰 화면으로. 원하는 것을 누르세요; ★는 제 추천이자 DESIGN.md의 가정. 고른 건 이 브라우저에 남고, 내 선택 복사로 한 줄을 붙여 보내 주세요.</span></p>
+  <div class="decided"><b><span class="en">Decided by Mook, Oct 25</span><span class="ko">Mook 결정, 10월 25일</span></b><span><span class="en">U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A: every recommendation except U2, where Both won (drafts in long flows, ask before leaving a sheet). DESIGN.md §7.13 records them; tapping another option here only changes your own view.</span><span class="ko">U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A: U2만 둘 다(긴 흐름은 임시 저장, 시트는 나가기 전에 확인)로, 나머지는 추천대로. DESIGN.md §7.13에 기록. 여기서 다른 선택을 눌러도 내 화면만 바뀌어요.</span></span></div>
   <p style="font-size:14px"><a href="ux-audit.html#calls">The same calls as a list, with the findings behind each</a></p>
 </header>
 <div id="calls"></div>
@@ -103,7 +106,7 @@ const CALLS = [
   { n: "U2", q: "Leaving with something typed", why: "Today every sheet and form drops typed text without asking.", rec: "A",
     o: [["A", "Keep a draft", "Leave freely; it's waiting when you come back", P(`${noteForm("Max ate every bite, then we walked by the lake and he")}<div class="pad"><span class="pill" style="background:#ECFDF3;color:#067647;align-self:flex-start">Draft kept · 6:31</span></div>`)],
         ["B", "Ask first", "Leaving shows Discard?", P(`${noteForm("Max ate every bite, then we walked by the lake and he")}<div class="scrim"></div><div class="sheet"><span class="grab"></span><div class="shd"><b>Discard your page?</b></div><span class="mut">What you wrote will be gone.</span><div class="btn">Keep editing</div><div class="btn d">Discard</div></div>`)],
-        ["C", "Both", "Drafts in long flows, ask in sheets", P(`<div class="pad" style="padding-top:20px"><div class="card"><b>Owner setup, care request</b><span class="pill" style="background:#ECFDF3;color:#067647;align-self:flex-start">Draft kept</span></div><div class="card"><b>A sheet with a note</b><span class="mut">Close asks: Discard your note?</span><div class="row"><div class="btn" style="flex:1">Keep editing</div><div class="btn d" style="flex:1">Discard</div></div></div></div>`)]], recOverride: "C" },
+        ["C", "Both", "Drafts in long flows, ask in sheets", P(`<div class="pad" style="padding-top:20px"><div class="card"><b>Owner setup, care request</b><span class="pill" style="background:#ECFDF3;color:#067647;align-self:flex-start">Draft kept</span></div><div class="card"><b>A sheet with a note</b><span class="mut">Close asks: Discard your note?</span><div class="btn">Keep editing</div><div class="btn d">Discard</div></div></div>`)]], recOverride: "C" },
   { n: "U3", q: "How long Undo stays", why: "Today 5 s in DESIGN.md, 6 s in the toast, 8 s in the care request. The bars run in real time.", rec: "B",
     o: [5, 6, 8].map((sec, k) => [["A", "B", "C"][k], `${sec} seconds`, k === 1 ? "The toast's value today" : k === 0 ? "DESIGN.md before" : "The care request today",
         P(`<div class="pad"><h5>Moments</h5><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">${["mumu_lake_walk", "mumu_green_toy", "mumu_window_nap"].map((n) => `<img src="${IMG(n)}" alt="" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">`).join("")}</div></div>${toast("Photo hidden", "", true, `<span class="tb" data-dur="${sec}"></span>`)}`)]) },
@@ -136,16 +139,18 @@ const CALLS = [
     o: [["A", "Accept everywhere", "Confirm and pay only at checkout", P(`<div class="pad" style="padding-top:12px">${[["Booking request", "Accept"], ["Care request", "Accept"], ["Quote", "Accept"], ["Handoff time", "Accept"]].map(([t, b]) => `<div class="card"><div class="row"><b>${t}</b><span class="sp"></span><div class="btn" style="min-height:28px">${b}</div></div></div>`).join("")}</div>`)],
         ["B", "Keep each one", "Each card keeps its own word", P(`<div class="pad" style="padding-top:12px">${[["Booking request", "I accept"], ["Care request", "Approve"], ["Quote", "Confirm quote"], ["Handoff time", "Accept"]].map(([t, b]) => `<div class="card"><div class="row"><b>${t}</b><span class="sp"></span><div class="btn" style="min-height:28px">${b}</div></div></div>`).join("")}</div>`)]] },
 ];
+// Mook's picks, Oct 25 (all the ★ except U2, where Both won). DESIGN.md §7.13 records them.
+const DECIDED = { U1: "A", U2: "C", U3: "B", U4: "A", U5: "A", U6: "A", U7: "A", U8: "B", U9: "A", U10: "A", U11: "A", U12: "A" };
 const KEY = "goldito-ux-calls";
-let picks = {}; try { picks = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+let picks = { ...DECIDED }; try { picks = { ...DECIDED, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} };
 function draw() {
   document.getElementById("calls").innerHTML = CALLS.map((c) => { const rec = c.recOverride || c.rec;
     return `<section class="call" id="${c.n}"><div class="ch"><span class="n">${c.n}</span><h2>${c.q}</h2><span class="why">${c.why}</span></div>
-    <div class="opts" role="radiogroup" aria-label="${c.n} ${c.q}">${c.o.map(([k, l, sub, viz]) => `<button type="button" class="opt" role="radio" aria-checked="${picks[c.n] === k}" data-c="${c.n}" data-k="${k}">${viz}<span class="lb"><i>${picks[c.n] === k ? "✓" : k}</i>${l}</span><span class="sub">${sub}</span>${k === rec ? '<span class="star">★ Recommended</span>' : ""}</button>`).join("")}</div></section>`; }).join("");
+    <div class="opts" role="radiogroup" aria-label="${c.n} ${c.q}">${c.o.map(([k, l, sub, viz]) => `<button type="button" class="opt" role="radio" aria-checked="${picks[c.n] === k}" data-c="${c.n}" data-k="${k}">${viz}<span class="lb"><i>${picks[c.n] === k ? "✓" : k}</i>${l}</span><span class="sub">${sub}</span>${DECIDED[c.n] === k ? '<span class="dec">Decided</span>' : k === rec ? '<span class="star">★ Recommended</span>' : ""}</button>`).join("")}</div></section>`; }).join("");
   bars(); summary();
   // For the Figma plugin: each option's drawing is a frame at its own size
-  document.querySelectorAll(".opt").forEach((b) => { const ph = b.querySelector(".ph"), c = CALLS.find((x) => x.n === b.dataset.c), o = c.o.find((x) => x[0] === b.dataset.k); ph.dataset.cap = `${c.n}-${o[0]}`; ph.dataset.capKeep = "1"; ph.dataset.title = `${c.n} · ${c.q} · ${o[0]} ${o[1]}${(c.recOverride || c.rec) === o[0] ? " ★" : ""}`; });
+  document.querySelectorAll(".opt").forEach((b) => { const ph = b.querySelector(".ph"), c = CALLS.find((x) => x.n === b.dataset.c), o = c.o.find((x) => x[0] === b.dataset.k); ph.dataset.cap = `${c.n}-${o[0]}`; ph.dataset.capKeep = "1"; ph.dataset.title = `${c.n} · ${c.q} · ${o[0]} ${o[1]}${DECIDED[c.n] === o[0] ? " · decided" : ""}`; });
 }
 function summary() {
   const n = Object.keys(picks).length;
@@ -162,7 +167,7 @@ function bars() {
 document.addEventListener("click", async (e) => {
   const b = e.target.closest("button"); if (!b) return;
   if (b.dataset.c) { picks[b.dataset.c] = b.dataset.k; save(); document.querySelectorAll(`[data-c="${b.dataset.c}"]`).forEach((x) => { const on = x.dataset.k === b.dataset.k; x.setAttribute("aria-checked", on); x.querySelector(".lb i").textContent = on ? "✓" : x.dataset.k; }); summary(); return; }
-  if (b.id === "reset") { picks = {}; save(); draw(); return; }
+  if (b.id === "reset") { picks = { ...DECIDED }; save(); draw(); return; }
   if (b.id === "copy") {
     const t = `UX calls: ${CALLS.map((c) => `${c.n} ${picks[c.n] || "?"}`).join(", ")}`;
     try { await navigator.clipboard.writeText(t); b.textContent = "Copied"; } catch (err) { document.getElementById("out").textContent = t; b.textContent = "Select the line to copy"; }
@@ -170,8 +175,8 @@ document.addEventListener("click", async (e) => {
   }
 });
 draw();
-window.__ticket = { id: "ux-calls", title: "UX patterns: rules and 12 open calls (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/ux-calls.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Proposal, Oct 25. DESIGN.md §7.8, §7.11, §7.12 and §7.13 (branch docs/ux-patterns) assume each ★ pick until the team says otherwise" },
+window.__ticket = { id: "ux-calls", title: "UX patterns: rules and 12 calls (decided Oct 25)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/ux-calls.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Decided by Mook, Oct 25: U1 A, U2 C, U3 B, U4 A, U5 A, U6 A, U7 A, U8 B, U9 A, U10 A, U11 A, U12 A. DESIGN.md §7.8, §7.11, §7.12, §7.13 (branch docs/ux-patterns)" },
     { q: "Back, close, leave", a: "Back goes back (chevron + Back, top left, one per screen); Close dismisses (never saves); the primary finishes; typed input is never dropped silently" },
     { q: "Feedback", a: "Field errors under the field; screen problems in a Banner; quick results in a toast with a tone; destructive confirms in a Sheet with a danger button; reversible acts get Undo; disabled buttons say why" },
     { q: "Actions", a: "One primary per screen via Screen footer; one word per job (Save, Done, Mark done, Next, Send, Accept, Decline, Try again, Skip); sheet buttons in the footer; 44 px targets" }],
