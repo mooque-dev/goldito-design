@@ -144,7 +144,8 @@ body{padding:0!important}
 .xp svg.art{display:block}
 .xp .top{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px 8px}
 .xp .tagx{display:inline-flex;align-items:center;border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:700;color:var(--ink)}
-.xp .vtabs{display:flex;gap:24px;margin:0 20px;border-bottom:1.5px solid var(--line)} .xp .vtabs span{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1.5px} .xp .vtabs .on{color:var(--ink);border-bottom-color:var(--ink)}
+.xp .bcard{display:flex;align-items:center;gap:10px;padding:16px;border:1px solid var(--line)} .xp .bcard .bdg{display:flex;gap:6px;margin-top:6px} .xp .bcard .go{width:20px;height:20px;flex:none;color:var(--muted)}
+.xp .vtabs{display:flex;align-items:center;gap:24px;margin:0 20px;border-bottom:1.5px solid var(--line)} .xp .vtabs span{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1.5px} .xp .vtabs .on{color:var(--ink);border-bottom-color:var(--ink)}
 .xp .hello{font:600 26px/1.15 var(--display);color:var(--ink);letter-spacing:-.01em;margin:0}
 .xp .hello em{font-style:normal;color:var(--gold-ink)}
 .xp .sub{margin:2px 0 0;color:var(--muted);font-weight:600;font-size:14px}
@@ -181,6 +182,7 @@ body{padding:0!important}
 .xp .sec{display:flex;align-items:baseline;justify-content:space-between}
 .xp .sec h3{margin:0;font:600 21px/1 var(--display);color:var(--ink)}
 .xp .link{color:var(--link);font-weight:800;font-size:13px}
+.xp .back{display:inline-flex;align-items:center;gap:2px;min-height:44px;color:var(--green);font-weight:700;font-size:15px} .xp .back svg{width:20px;height:20px}
 .xp .pets{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .xp .pet{border-radius:24px;padding:12px;display:flex;align-items:center;gap:8px}
 .xp .pet svg{width:52px;height:52px;flex:0 0 auto}
@@ -236,7 +238,7 @@ body{padding:0!important}
 .xp .acts{display:flex;flex-direction:column;gap:8px}
 .xp .act{display:flex;align-items:center;gap:12px;background:var(--card);border:2px solid var(--ink);border-radius:22px;padding:8px 14px 8px 8px;min-height:64px}
 .xp .act .art{width:48px;height:48px;border-radius:16px;background:var(--mint)}
-.xp .act .go{width:22px;height:22px;margin-left:auto;color:var(--ink)}
+.xp .act>div{flex:1;min-width:0} .xp .act .go{width:22px;height:22px;flex:none;color:var(--ink)}
 
 /* Dark: same blocks, deeper pastels; green blocks and buttons keep white text */
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .xp{--ink:#D8F3DC;--mint:#1E3128;--peach:#3A2A1F;--butter:#36301A;--blush:#3A2421;--cream:#121312;--card:#1C1E1C;
@@ -268,6 +270,462 @@ body{padding:0!important}
 .xp .rel-note .when{font:800 11.5px/1 "Plus Jakarta Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .xp .rel-note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
 .xp .rel-note b{font-weight:800}
+/* fragments:start */
+/* bookings.html */
+/* Bookings group: the sitter's Bookings tab, both booking detail pages, their sheets, and the owner's entry info form. */
+/* Status tags (Tag tones): brand/success = mint, warning = gold, neutral = line grey, Paid = butter like owner-bookings */
+.xp .bk-tags{display:flex;flex-wrap:wrap;gap:6px}
+.xp .bk-t-m{background:var(--mint)} .xp .bk-t-y{background:var(--butter)} .xp .bk-t-n{background:var(--line)}
+.xp .bk-t-w{background:var(--gold-soft);color:var(--gold-ink)}
+.xp .bk-t-r{background:var(--danger-soft);color:var(--danger)}
+/* Detail header: name + role tag on one line */
+.xp .bk-head{flex:1;min-width:0}
+.xp .bk-name{display:flex;align-items:center;gap:10px;margin-top:4px}
+.xp .bk-name .tagx{flex:none}
+/* Bookings tab segments: one chip per bucket, count on the corner like the app's SegmentedControl */
+.xp .bk-seg{display:flex;gap:5px;padding-top:6px}
+.xp .bk-seg .chip{position:relative;padding:6px 11px;font-size:13.5px}
+.xp .bk-ct{position:absolute;top:-6px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--green);color:#fff;font:800 11px/16px "Plus Jakarta Sans",sans-serif;text-align:center;border:2px solid var(--cream)}
+.xp .bk-list{display:flex;flex-direction:column;gap:10px}
+.xp .bk-list .bcard{padding:14px 14px 14px 16px}
+.xp .bk-grow{flex:1;min-width:0}
+/* Stage bar (BookingStageBar, color-block skin): numbered dots joined by a rail, gold = done, green = now */
+.xp .bk-stage{padding:14px 12px 12px}
+.xp .bk-steps{display:flex}
+.xp .bk-step{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+.xp .bk-rail{display:flex;align-items:center;width:100%}
+.xp .bk-rail i{flex:1;height:3px;border-radius:2px;background:rgba(27,67,50,.16)}
+.xp .bk-rail i.on{background:var(--gold)} .xp .bk-rail i.x{background:transparent}
+.xp .bk-dot{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--card);color:var(--muted);font-weight:800;font-size:13px}
+.xp .bk-dot.d{background:var(--gold);color:#3D2A00} .xp .bk-dot.c{background:var(--green);color:#fff}
+.xp .bk-step>span{font:600 12.5px/1 var(--display);color:var(--muted);white-space:nowrap}
+.xp .bk-step.c>span{color:var(--ink)}
+.xp .bk-cap{display:flex;justify-content:space-between;gap:10px;margin:10px 6px 0;font-size:12.5px;font-weight:700;color:var(--ink)}
+/* Handoff rows inside a white block */
+.xp .bk-hos{display:flex;flex-direction:column;gap:0;padding:6px 16px}
+.xp .bk-ho{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.xp .bk-ho:first-child{border-top:0}
+.xp .bk-ho .art{width:40px;height:40px;border-radius:14px;flex:none}
+.xp .bk-ho .k{font-size:11px;color:var(--muted)}
+.xp .bk-ho .tagx{margin-top:6px}
+.xp .bk-when-t{font-weight:800;font-size:15.5px;color:var(--ink);margin-top:2px}
+/* Buttons: secondary = white + strong outline; text buttons for the rest */
+.xp .bk-sec{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.xp .bk-tb{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 8px;color:var(--green);font-weight:800;font-size:15px;white-space:nowrap}
+.xp .bk-tb.dg{color:var(--danger)}
+.xp .bk-tbs{display:flex;justify-content:center;gap:4px}
+/* Pet care cards on the sitter's detail */
+.xp .bk-pet{padding:12px 16px;display:flex;flex-direction:column;gap:5px}
+.xp .bk-pet .art{width:44px;height:44px;flex:none}
+.xp .bk-task{display:flex;gap:10px;font-size:13.5px}
+.xp .bk-task b{width:66px;flex:none;font-weight:800;font-variant-numeric:tabular-nums}
+.xp .bk-fold{display:flex;align-items:center;gap:8px;min-height:44px;border-top:1px solid rgba(27,67,50,.14);padding-top:4px;margin-top:2px}
+.xp .bk-fold svg{width:18px;height:18px;flex:none;color:var(--ink);transform:rotate(90deg)}
+/* Sheets: the screen dimmed behind, the sheet over it */
+.xp .bk-scrim{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(10,22,16,.52)}
+.xp .bk-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--cream);border-radius:28px 28px 0 0;padding:8px 20px 26px;display:flex;flex-direction:column;gap:14px;box-shadow:0 -10px 30px rgba(0,0,0,.18)}
+.xp .bk-grab{display:flex;justify-content:center;padding-top:2px}
+.xp .bk-grab i{width:40px;height:5px;border-radius:3px;background:rgba(27,67,50,.28)}
+.xp .bk-shead{display:flex;align-items:center;gap:10px}
+.xp .bk-shead h2{flex:1;min-width:0;margin:0;font:600 23px/1.15 var(--display);color:var(--ink)}
+/* Two-way switch (SegmentedControl): picked = mint + ink ring, done = grey and not pickable */
+.xp .bk-segs{display:flex;gap:8px}
+.xp .bk-segs span{flex:1;min-width:0;min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:16px;background:var(--card);border:1.5px solid #7F6F58;font-weight:700;font-size:14.5px;color:var(--ink)}
+.xp .bk-segs .on{background:var(--mint);border:2px solid var(--ink)}
+.xp .bk-segs .off{background:var(--line);border-color:var(--line);color:var(--muted)}
+/* Date and time fields (DESIGN 7.10): [−] value [+], tap the value for the calendar or the clock */
+.xp .bk-lbl{font-size:12.5px;font-weight:800;color:var(--muted)}
+.xp .bk-when{display:flex;gap:10px}
+.xp .bk-fld{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.xp .bk-stp{display:flex;align-items:center;background:var(--card);border:1.5px solid #7F6F58;border-radius:16px;padding:2px}
+.xp .bk-pm{width:44px;height:44px;flex:none;display:grid;place-items:center;color:var(--green);font-size:22px;font-weight:700}
+.xp .bk-stp .v{flex:1;min-width:0;text-align:center;font-weight:800;font-size:15.5px;color:var(--ink);text-decoration:underline;text-decoration-color:rgba(27,67,50,.3);text-underline-offset:4px}
+/* Radio rows (CheckRow radio) */
+.xp .bk-opts{background:var(--card);border-radius:22px;display:flex;flex-direction:column;overflow:hidden}
+.xp .bk-opt{display:flex;align-items:center;gap:12px;padding:10px 16px;min-height:54px;border-top:1px solid var(--line)}
+.xp .bk-opt:first-child{border-top:0}
+.xp .bk-opt .b{font-size:15px}
+.xp .bk-opt small{display:block;font-size:12.5px;font-weight:600;color:var(--muted)}
+.xp .bk-radio{width:22px;height:22px;border-radius:50%;flex:none;border:2px solid #7F6F58}
+.xp .bk-radio.on{border-color:var(--ink);background:var(--ink);box-shadow:inset 0 0 0 4px var(--card)}
+/* Return sheet: what is still open today */
+.xp .bk-left{display:flex;flex-direction:column;padding:4px 16px}
+.xp .bk-lrow{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.xp .bk-lrow:first-child{border-top:0}
+.xp .bk-lrow .art{width:44px;height:44px;border-radius:14px;flex:none}
+/* Entry info form (TextField): label above, white input with a strong outline */
+.xp .bk-field{display:flex;flex-direction:column;gap:6px}
+.xp .bk-in{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid #7F6F58;border-radius:16px;min-height:50px;padding:4px 6px 4px 16px;font-size:15px;color:var(--text)}
+.xp .bk-in .val{flex:1;min-width:0}
+.xp .bk-in.tall{align-items:flex-start;padding:12px 16px;min-height:76px;line-height:1.45}
+.xp .bk-in .mask{flex:1;min-width:0;font-size:18px;letter-spacing:.28em;color:var(--ink)}
+.xp .bk-lock{display:inline-flex;align-items:center;gap:6px}
+/* care.html */
+/* CARE group: the sitter's 5-second check, Today's tasks, a care request to approve; the owner's History and Notifications. */
+.xp .ca-top{padding-bottom:4px}
+.xp .ca-top>div:first-child{flex:1;min-width:0}
+.xp .ca-top .hello{margin-top:4px}
+.xp .ca-hpet{width:52px;height:52px;flex:none;border-radius:50%;margin-top:46px;border:3px solid var(--card)}
+/* Secondary button: white, strong outline, green label (DESIGN 6.2) */
+.xp .ca-btn2{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:999px;background:var(--card);border:2px solid var(--ink);color:var(--link);font-weight:800;font-size:16px}
+.xp .ca-btn2 svg{width:20px;height:20px}
+.xp .ca-btn2.sm{min-height:44px;font-size:14px;padding:0 16px;flex:none}
+/* Text button: 44 tall, green words */
+.xp .ca-tbtn{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link);font-weight:800;font-size:14px}
+.xp .ca-tbtn.danger{color:var(--danger)}
+.xp .ca-pin{display:flex;flex-direction:column;gap:4px;padding:6px 20px 18px}
+.xp .ca-ready{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13.5px;font-weight:700;color:var(--ink);min-height:28px}
+.xp .ca-ready svg.art{width:28px;height:28px}
+
+/* 5-second check: one white sheet of pickers, one memo, one Send */
+.xp .ca-picks{display:flex;flex-direction:column;gap:10px;padding:12px 14px 14px}
+.xp .ca-grp{display:flex;flex-direction:column;gap:4px}
+.xp .ca-gh{display:flex;align-items:center;gap:6px;font-weight:800;font-size:14px;color:var(--ink);min-height:24px}
+.xp .ca-gh svg.art{width:24px;height:24px}
+.xp .ca-gh .muted{font-weight:600;font-size:12.5px}
+.xp .ca-opts{display:flex;flex-wrap:wrap;gap:6px}
+.xp .ca-opt{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:4px;min-height:44px;padding:0 10px;border-radius:999px;background:var(--card);border:1.5px solid #7F6F58;font-weight:700;font-size:13.5px;color:var(--ink);white-space:nowrap}
+.xp .ca-opt.on{background:var(--mint);border:2px solid var(--ink)}
+.xp .ca-mins{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.xp .ca-mins .ca-opt{flex-direction:column;gap:0;padding:0;min-height:48px;border-radius:16px;line-height:1}
+.xp .ca-mins .ca-opt b{font:600 17px/1 var(--display)}
+.xp .ca-mins .ca-opt small{font-size:10.5px;font-weight:700;color:var(--muted);margin-top:2px}
+.xp .ca-field{display:flex;flex-direction:column;gap:6px}
+.xp .ca-field label{font-size:13px;font-weight:700;color:var(--muted)}
+.xp .ca-memo{display:flex;gap:8px;align-items:center}
+.xp .ca-input{flex:1;min-width:0;min-height:48px;display:flex;align-items:center;padding:0 12px;border-radius:16px;background:var(--card);border:1.5px solid #7F6F58;color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden}
+.xp .ca-sent{display:flex;flex-direction:column;gap:4px;padding:10px 14px 12px}
+.xp .ca-sent .between .k{color:var(--ink)}
+.xp .ca-line{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink)}
+.xp .ca-line>span:nth-child(2){flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .ca-line svg.art{width:24px;height:24px;flex:none}
+.xp .ca-line .t{font-weight:800;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.xp .ca-line .q{font-weight:600;color:var(--muted)}
+
+/* Today's tasks */
+.xp .ca-next .tagx{background:rgba(255,255,255,.2);color:#fff}
+.xp .ca-task{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:22px;padding:8px 8px 8px 8px;min-height:68px}
+.xp .ca-task svg.art{width:48px;height:48px;flex:none;border-radius:16px}
+.xp .ca-task>div{flex:1;min-width:0} .xp .ca-task .sm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .ca-task .ttl{display:flex;align-items:center;gap:6px;font-weight:800;font-size:15px}
+.xp .ca-task .tagx{padding:2px 8px;font-size:11.5px}
+.xp .ca-miss{background:var(--gold-soft);color:var(--gold-ink)}
+.xp .ca-pend{background:var(--cream);color:var(--muted)}
+.xp .ca-tog{display:flex;align-items:center;gap:4px;min-height:44px;color:var(--link);font-weight:800;font-size:14px}
+.xp .ca-tog svg{width:18px;height:18px}
+.xp .ca-done{display:flex;flex-direction:column;gap:6px;padding:4px 14px 14px;border-radius:22px}
+.xp .ca-done .ca-line svg{width:18px;height:18px;flex:none;color:var(--ok)}
+
+/* Care request */
+.xp .ca-req{display:flex;flex-direction:column;padding:6px 14px}
+.xp .ca-rq{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
+.xp .ca-rq:first-child{border-top:0}
+.xp .ca-rq .tm{width:66px;flex:none;font:600 17px/1.1 var(--display);color:var(--ink)}
+.xp .ca-rq svg.art{width:44px;height:44px;flex:none;border-radius:14px}
+.xp .ca-rq>div{flex:1;min-width:0}
+.xp .ca-heads{display:flex;flex-direction:column;gap:8px;padding:14px}
+.xp .ca-heads .tag{align-self:flex-start}
+
+/* Owner History */
+.xp .ca-hit{display:grid;grid-template-columns:52px 1fr auto;gap:12px;align-items:center;background:var(--card);border-radius:22px;padding:8px 10px 8px 8px}
+.xp .ca-hit svg.art{width:52px;height:52px;border-radius:16px}
+.xp .ca-hit>div{min-width:0}
+.xp .ca-hit .memo{font-size:13px;line-height:1.35;color:var(--text)}
+.xp .ca-hit .meta{font-size:12px;font-weight:700;color:var(--muted);margin-top:2px}
+.xp .ca-thumb{width:52px;height:52px;border-radius:14px;background-size:cover;background-position:center}
+.xp .ca-hit.miss{background:var(--gold-soft)}
+.xp .ca-day{display:flex;flex-direction:column;gap:8px}
+
+/* Owner Notifications */
+.xp .ca-bar{display:flex;align-items:center;gap:4px}
+.xp .ca-bar>span:first-child{flex:1;min-width:0}
+.xp .ca-ns{display:flex;flex-direction:column;gap:8px}
+.xp .ca-n{display:flex;align-items:flex-start;gap:10px;background:var(--card);border-radius:20px;padding:12px 12px 12px 12px}
+.xp .ca-n.un{background:var(--mint)}
+.xp .ca-n .dt{width:8px;height:8px;flex:none;border-radius:50%;margin-top:6px}
+.xp .ca-n.un .dt{background:var(--green)}
+.xp .ca-n>div{flex:1;min-width:0}
+.xp .ca-n .ttl{font-size:14px;font-weight:600;color:var(--text);line-height:1.35}
+.xp .ca-n.un .ttl{font-weight:800;color:var(--ink)}
+.xp .ca-n .bd{font-size:12.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .ca-n .tm{font-size:11.5px;font-weight:700;color:var(--muted);margin-top:3px}
+.xp .ca-n .ca-thumb{width:46px;height:46px;border-radius:12px;flex:none}
+.xp .ca-hint{margin:0;text-align:center;font-size:12.5px;color:var(--muted)}
+/* chat.html */
+/* CHAT group: thread, stage bar, bubbles, cards, chips, message box, sheets. All new classes start with ch-. */
+.xp .ch-top{display:flex;flex-direction:column;gap:2px;padding:10px 16px 6px 14px}
+.xp .ch-who{display:flex;align-items:center;gap:12px;padding-left:4px}
+.xp .ch-who>div{flex:1;min-width:0}
+.xp .ch-name{font:600 24px/1.1 var(--display);color:var(--ink);margin:0}
+.xp .ch-stayline{margin-top:2px;font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .ch-face{width:44px;height:44px;border-radius:50%;flex:0 0 auto;background-size:cover;background-position:center;display:grid;place-items:center;font-weight:800;font-size:18px}
+.xp .ch-face.sm{width:40px;height:40px}
+.xp .ch-face svg{width:30px;height:30px}
+.xp .ch-pets{display:flex;gap:6px;flex:0 0 auto}
+/* Stage bar: five connected circles. Pressable (opens the booking) = outline + chevron; no booking yet = plain tint. */
+.xp .ch-stage{margin:4px 16px 0;padding:10px 12px 10px 10px;border-radius:22px;background:var(--card);display:flex;align-items:center;gap:8px}
+.xp .ch-stage.ch-go{border:2px solid var(--ink)}
+.xp .ch-stage>div{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.xp .ch-stage>svg{width:22px;height:22px;flex:0 0 auto;color:var(--ink)}
+.xp .ch-steps{display:flex;align-items:flex-start}
+.xp .ch-step{width:44px;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--muted)}
+.xp .ch-dot{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:11.5px;font-weight:800;background:var(--card);border:1.5px solid var(--line);color:var(--muted)}
+.xp .ch-step.d .ch-dot{background:var(--gold);border-color:var(--gold);color:#3D2A00}
+.xp .ch-step.c{color:var(--ink)} .xp .ch-step.c .ch-dot{background:var(--green);border-color:var(--green);color:#fff}
+.xp .ch-link{flex:1;min-width:4px;height:2px;border-radius:1px;background:var(--line);margin-top:11px}
+.xp .ch-link.on{background:var(--gold)}
+.xp .ch-cap{font-size:12.5px;font-weight:800;color:var(--green);padding-left:8px}
+/* Thread */
+.xp .ch-msgs{flex:1;overflow:hidden;padding:12px 16px 6px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px}
+.xp .ch-msgs>*{flex-shrink:0}
+.xp .ch-msgs.ch-up{justify-content:flex-start}
+.xp .ch-day{align-self:center;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:800;color:var(--muted);background:rgba(127,111,88,.12)}
+.xp .ch-m{display:flex;flex-direction:column;gap:3px;max-width:84%}
+.xp .ch-m.ch-out{align-self:flex-end;align-items:flex-end} .xp .ch-m.ch-in{align-self:flex-start;align-items:flex-start}
+.xp .ch-b{padding:10px 14px;border-radius:20px;font-size:14.5px;line-height:1.45}
+.xp .ch-m.ch-out .ch-b{background:var(--green);color:#fff;border-bottom-right-radius:6px}
+.xp .ch-m.ch-in .ch-b{background:var(--card);color:var(--text);border:1px solid var(--line);border-bottom-left-radius:6px}
+.xp .ch-meta{font-size:11.5px;font-weight:600;color:var(--muted);padding:0 4px}
+/* Cards in the thread take the sides of the bubbles: theirs white (left tail), the booking's own steps mint and centred */
+.xp .ch-card{background:var(--card);border:1px solid var(--line);border-radius:24px;border-bottom-left-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.xp .ch-card.mine{background:var(--mint);border-color:var(--green);border-radius:24px;border-bottom-right-radius:6px}
+.xp .ch-sys{align-self:center;width:92%;border-radius:18px;background:var(--mint);padding:9px 14px;display:flex;flex-direction:column;gap:1px;font-size:13px}
+.xp .ch-sys b{font-weight:800;color:var(--ink);font-size:14px}
+.xp .ch-quote{align-self:flex-start;width:92%;gap:6px}
+.xp .ch-qhead{display:flex;align-items:center;gap:8px}
+.xp .ch-qhead>span:first-child{flex:1;min-width:0;font:600 20px/1.1 var(--display);color:var(--ink)}
+.xp .ch-lines{display:flex;flex-direction:column;gap:5px;margin-top:4px}
+.xp .ch-total{display:flex;align-items:baseline;gap:10px;border-top:1px solid var(--line);padding-top:9px;margin-top:3px}
+.xp .ch-total>span:first-child{flex:1;min-width:0;font-weight:800}
+.xp .ch-total>b{font:600 22px/1 var(--display);color:var(--ink)}
+.xp .ch-acts{display:flex;align-items:center;gap:8px;margin-top:8px}
+.xp .ch-acts .btn{flex:1;min-width:0}
+.xp .ch-text{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 10px;font-weight:800;font-size:15px;color:var(--green)}
+.xp .ch-text.danger{color:var(--danger)}
+.xp .ch-stay{align-self:flex-start;max-width:88%;gap:8px}
+.xp .ch-mini{display:flex;gap:6px}
+.xp .ch-mini span{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 10px 2px 3px;font-size:12.5px;font-weight:800;color:var(--ink)}
+.xp .ch-mini svg{width:24px;height:24px}
+/* Footer step, reply chips and the message box */
+.xp .ch-foot{padding:4px 16px 2px;display:flex;flex-direction:column;gap:8px}
+.xp .ch-draft{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px}
+.xp .ch-draft .ch-row{display:flex;align-items:center;gap:10px}
+.xp .ch-draft .ch-row>div{flex:1;min-width:0}
+.xp .ch-chips{display:flex;gap:8px;padding:8px 16px 0;overflow:hidden}
+.xp .ch-chip{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;background:var(--card);border:1.5px solid #7F6F58;font-weight:700;font-size:14px;color:var(--text);white-space:nowrap;flex:0 0 auto}
+.xp .ch-chip.on{background:var(--mint);border:2px solid var(--ink);color:var(--ink)}
+.xp .ch-compose{display:flex;align-items:flex-end;gap:8px;padding:8px 16px 20px}
+.xp .ch-plus{width:44px;height:44px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:var(--card);border:1.5px solid #7F6F58;color:var(--green)}
+.xp .ch-plus svg,.xp .ch-ico svg,.xp .ch-tog svg{width:22px;height:22px}
+.xp .ch-input{flex:1;min-width:0;min-height:44px;border-radius:22px;border:1px solid var(--line);background:var(--card);padding:11px 16px;font-size:14.5px;color:var(--muted)}
+.xp .ch-send{flex:0 0 auto;min-height:44px;padding:0 18px;border-radius:999px;display:grid;place-items:center;font-weight:800;font-size:15px;background:var(--line);color:var(--muted)}
+/* Sheets over the chat: scrim + white sheet with grab handle, title and Close */
+.xp .ch-scrim{position:absolute;top:0;right:0;bottom:0;left:0;background:rgba(16,28,22,.48)}
+.xp .ch-sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:28px 28px 0 0;padding:8px 20px 22px;display:flex;flex-direction:column;gap:14px;box-shadow:0 -10px 30px rgba(0,0,0,.18)}
+.xp .ch-grab{align-self:center;width:40px;height:5px;border-radius:3px;background:var(--line);flex:0 0 auto}
+.xp .ch-shead{display:flex;align-items:center;gap:10px}
+.xp .ch-shead h2{flex:1;min-width:0;margin:0;font:600 23px/1.15 var(--display);color:var(--ink)}
+.xp .ch-shead .ch-text{padding:0 4px}
+.xp .ch-lab{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.xp .ch-pet{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:4px 14px 4px 4px;font-weight:800;font-size:15px;color:var(--ink)}
+.xp .ch-pet .ch-face{width:34px;height:34px}
+.xp .ch-pet .ch-face svg{width:26px;height:26px}
+.xp .ch-hcard{border:1.5px solid var(--line);border-radius:22px;padding:6px 14px;display:flex;flex-direction:column}
+.xp .ch-hrow{display:flex;flex-direction:column;gap:2px;padding:8px 0}
+.xp .ch-hrow+.ch-hrow{border-top:1px solid var(--line)}
+.xp .ch-when{display:flex;align-items:center;gap:8px}
+.xp .ch-when>b{width:78px;flex:0 0 auto;font-weight:800;font-size:15px}
+.xp .ch-pill{min-height:44px;display:inline-flex;align-items:center;padding:0 14px;border-radius:14px;border:1.5px solid #7F6F58;background:var(--card);font-weight:700;font-size:15px;color:var(--text)}
+.xp .ch-place{display:flex;align-items:center;gap:8px}
+.xp .ch-place>span:first-child{flex:1;min-width:0;font-size:13px;font-weight:600;color:var(--muted)}
+.xp .ch-noteline{display:flex;align-items:center;gap:10px}
+.xp .ch-noteline>b{flex:1;min-width:0;font-weight:800;font-size:15px}
+.xp .ch-tog{width:44px;height:44px;border-radius:14px;flex:0 0 auto;display:grid;place-items:center;border:1.5px solid #7F6F58;background:var(--card);color:var(--green)}
+.xp .ch-info{border-radius:22px;background:var(--cream);padding:4px 16px;display:flex;flex-direction:column}
+.xp .ch-info>div{display:flex;flex-direction:column;gap:2px;padding:10px 0}
+.xp .ch-info>div+div{border-top:1px solid var(--line)}
+.xp .ch-info .ch-l{font-size:14.5px;color:var(--text)}
+.xp .ch-wrap{display:flex;flex-wrap:wrap;gap:8px}
+.xp .ch-field{display:flex;flex-direction:column;gap:6px}
+.xp .ch-field>b{font-weight:800;font-size:14px}
+.xp .ch-area{min-height:88px;border-radius:16px;border:1.5px solid #7F6F58;background:var(--card);padding:12px 14px;font-size:14.5px;color:var(--text)}
+.xp .ch-btn-danger{background:var(--danger);color:#fff}
+.xp .ch-list{display:flex;flex-direction:column;gap:8px}
+.xp .ch-ico{width:44px;height:44px;border-radius:14px;flex:0 0 auto;display:grid;place-items:center;background:var(--mint);color:var(--green)}
+.xp .ch-off{display:flex;align-items:center;gap:12px;min-height:60px;border-radius:22px;padding:8px 14px 8px 8px;background:var(--cream);color:var(--muted);font-weight:700}
+.xp .ch-off>span:nth-child(2){flex:1;min-width:0}
+.xp .ch-off .ch-ico{background:rgba(127,111,88,.12);color:var(--muted)}
+.xp .ch-hint{font-size:12.5px;font-weight:800;color:var(--muted)}
+.xp .ch-act{min-height:60px}
+.xp .ch-act .b{font-size:15px}
+/* people.html */
+/* People, pets, schedule (pp-). Detail pages: back + title, no tab bar. */
+.xp .pp-top{align-items:flex-start}
+.xp .pp-top>div:first-child{flex:1;min-width:0}
+.xp .pp-hact{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 4px;color:var(--green);font-weight:800;font-size:14px}
+.xp .pp-hact svg{width:20px;height:20px}
+/* Pet hero: cover photo with a camera badge, facts, photo strip */
+.xp .pp-hero{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.xp .pp-cover{position:relative;width:88px;height:92px;flex:0 0 auto}
+.xp .pp-cover .photo{position:absolute;left:0;bottom:0;width:84px;height:84px;border-radius:50%;border:3px solid #fff}
+.xp .pp-cam{position:absolute;top:0;right:0;width:34px;height:34px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;border:2.5px solid var(--peach)}
+.xp .pp-cam svg{width:18px;height:18px}
+.xp .pp-strip{display:flex;gap:6px;margin-top:8px}
+.xp .pp-thumb{position:relative;width:48px;height:48px;flex:0 0 auto}
+.xp .pp-thumb .photo{position:absolute;left:0;bottom:0;width:44px;height:44px;border-radius:50%}
+.xp .pp-minus{position:absolute;top:0;right:0;width:20px;height:20px;border-radius:50%;background:var(--danger);border:2px solid var(--peach);display:grid;place-items:center}
+.xp .pp-minus::after{content:"";width:8px;height:2px;border-radius:1px;background:#fff}
+.xp .pp-plus{width:44px;height:44px;border-radius:50%;background:var(--card);border:1.5px solid #7F6F58;display:grid;place-items:center;color:var(--green);font:700 22px/1 "Plus Jakarta Sans",sans-serif;align-self:flex-end}
+/* Personality chart */
+.xp .pp-glance{display:flex;align-items:center;gap:16px;margin-top:6px}
+.xp .pp-radar{width:108px;height:108px;flex:0 0 auto}
+.xp .pp-radar .ring{fill:none;stroke:var(--line);stroke-width:1}
+.xp .pp-radar .shape{fill:var(--leaf);fill-opacity:.32;stroke:var(--green);stroke-width:2;stroke-linejoin:round}
+.xp .pp-radar .pt{fill:var(--green)}
+.xp .pp-levels{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.xp .pp-levels>div{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.xp .pp-levels>div span{color:var(--muted);font-weight:600}
+.xp .pp-levels b{font-weight:800;color:var(--ink)}
+/* Trait tags: Heads-up = warning tags, Good to know = brand tags, own tag = dashed Add chip */
+.xp .pp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.xp .pp-good{background:var(--mint);color:var(--ink)}
+.xp .pp-add{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;border:1.5px dashed #7F6F58;background:var(--card);color:var(--green);font-weight:800;font-size:13px}
+.xp .pp-tags .tag{align-self:center}
+.xp .pp-k{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+/* Care task rows */
+.xp .pp-task{display:flex;align-items:center;gap:12px;padding:6px 14px 6px 8px;min-height:58px;border-top:1px solid var(--line)}
+.xp .pp-task:first-child{border-top:0}
+.xp .pp-task svg.art{width:44px;height:44px;border-radius:14px;flex:0 0 auto}
+.xp .pp-task>div{flex:1;min-width:0}
+.xp .pp-task .go{width:20px;height:20px;flex:0 0 auto;color:var(--muted)}
+/* Form fields (profile) */
+.xp .pp-field{display:flex;flex-direction:column;gap:6px}
+.xp .pp-label{font-size:13px;font-weight:700;color:var(--muted)}
+.xp .pp-input{display:flex;align-items:center;min-height:48px;padding:0 16px;border-radius:16px;background:var(--card);border:1.5px solid #7F6F58;font-size:15px;font-weight:600;color:var(--text)}
+.xp .pp-gallery{display:flex;gap:12px;margin-top:8px}
+.xp .pp-gtile{display:flex;flex-direction:column;align-items:center;gap:3px;width:64px;flex:0 0 auto}
+.xp .pp-gtile .photo{width:64px;height:64px;border-radius:50%}
+.xp .pp-gtile .photo.cover{box-shadow:0 0 0 3px var(--gold)}
+.xp .pp-gtile small{font-size:11.5px;font-weight:800;color:var(--gold-ink)}
+.xp .pp-gtile .pp-plus{width:64px;height:64px;font-size:26px;align-self:auto}
+.xp .pp-down{width:18px;height:18px;flex:0 0 auto;fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.xp .pp-li{padding:7px 16px;min-height:52px}
+.xp .pp-li>span:first-child{flex:1;min-width:0}
+.xp .pp-li small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .pp-ok{display:inline-flex;align-items:center;border-radius:999px;padding:2px 8px;font-size:11.5px;font-weight:800;background:var(--ok-soft);color:var(--ok);margin-left:6px}
+.xp .pp-note{border-radius:18px;padding:10px 14px;font-size:13px;font-weight:600;line-height:1.45;color:var(--ink)}
+/* Schedule: month grid, three bands per day (night top, morning bottom) */
+.xp .pp-cal{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px}
+.xp .pp-month{display:flex;align-items:center;justify-content:space-between}
+.xp .pp-month b{font:600 19px/1 var(--display);color:var(--ink)}
+.xp .pp-nav{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--green)}
+.xp .pp-nav svg{width:20px;height:20px}
+.xp .pp-nav.off{color:var(--line)}
+.xp .pp-week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.xp .pp-wd{text-align:center;font-size:11.5px;font-weight:800;color:var(--muted);letter-spacing:.04em}
+.xp .pp-day{height:48px;border-radius:12px;overflow:hidden;display:flex;flex-direction:column;gap:2px;padding:3px 4px 4px;background:var(--card);border:1.5px solid var(--line)}
+.xp .pp-day i{height:5px;flex:0 0 auto;border-radius:3px;background:var(--line)}
+.xp .pp-day i.on{background:var(--leaf)}
+.xp .pp-day b{order:-1;flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--ink);line-height:1}
+.xp .pp-day.past{opacity:.38}
+.xp .pp-day.today b{color:var(--green);text-decoration:underline;text-underline-offset:2px}
+.xp .pp-day.sel{border:2.5px solid var(--ink)}
+.xp .pp-blank{height:48px}
+.xp .pp-legend{display:flex;gap:16px;padding-top:4px}
+.xp .pp-legend span{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--muted)}
+.xp .pp-legend i{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.xp .pp-legend i.on{background:var(--leaf)}
+.xp .pp-slots{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.xp .pp-slot{display:flex;align-items:center;gap:12px;min-height:54px;padding:8px 12px 8px 14px;border-radius:18px;background:var(--cream)}
+.xp .pp-slot>div{flex:1;min-width:0}
+.xp .pp-slot .b{font-size:15px}
+/* Owner for the sitter */
+.xp .pp-person{display:flex;align-items:center;gap:14px;padding:16px}
+.xp .pp-person .photo{width:80px;height:80px;border-radius:50%;flex:0 0 auto;border:3px solid #fff}
+.xp .pp-person>div:last-child{flex:1;min-width:0}
+.xp .pp-kv{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;min-height:54px;border-top:1px solid var(--line);font-size:14.5px}
+.xp .pp-kv:first-child{border-top:0}
+.xp .pp-kv span{color:var(--muted);font-weight:700}
+.xp .pp-kv b{font-weight:800;text-align:right}
+.xp .pp-stay{padding:16px 16px 4px}
+.xp .pp-open{display:flex;align-items:center;justify-content:space-between;min-height:44px;margin-top:10px;border-top:1px solid var(--line);color:var(--green);font-weight:800;font-size:14px}
+.xp .pp-open svg{width:18px;height:18px}
+/* snap.html */
+/* Snap detail pages (Treat check, Recent checks, Mood, Sticker). Tool colours follow the Snap tab: Treat peach, Mood mint, Sticker butter. */
+.xp .sn-top{padding-bottom:4px}
+.xp .sn-pick{display:flex;flex-direction:column;gap:8px}
+.xp .sn-pick .k{color:var(--muted)}
+/* Treat check: the label photo being read */
+.xp .sn-shot{position:relative;height:178px;border-radius:22px;background:#E6D3B3;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.xp .sn-label{width:236px;background:#FFFDF7;border-radius:14px;padding:12px 14px;box-shadow:0 6px 18px rgba(27,67,50,.18);display:flex;flex-direction:column;gap:6px}
+.xp .sn-label .nm{font:600 18px/1.1 var(--display);color:#7A3E12}
+.xp .sn-label .ing{font-size:11.5px;line-height:1.45;color:#3B3B36}
+.xp .sn-label .ln{height:6px;border-radius:3px;background:#E9E2D2}
+.xp .sn-scan{position:absolute;left:18px;right:18px;top:122px;height:3px;border-radius:2px;background:var(--leaf);box-shadow:0 0 12px 3px rgba(82,183,136,.55)}
+.xp .sn-corner{position:absolute;width:26px;height:26px;border-color:#fff;border-style:solid;border-width:0}
+.xp .sn-corner.a{left:14px;top:14px;border-left-width:4px;border-top-width:4px;border-top-left-radius:10px}
+.xp .sn-corner.b{right:14px;top:14px;border-right-width:4px;border-top-width:4px;border-top-right-radius:10px}
+.xp .sn-corner.c{left:14px;bottom:14px;border-left-width:4px;border-bottom-width:4px;border-bottom-left-radius:10px}
+.xp .sn-corner.d{right:14px;bottom:14px;border-right-width:4px;border-bottom-width:4px;border-bottom-right-radius:10px}
+.xp .sn-steps{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+.xp .sn-step{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.xp .sn-step.next{color:var(--muted)}
+.xp .sn-spin{width:22px;height:22px;flex:none;border-radius:50%;border:3px solid rgba(27,67,50,.18);border-top-color:var(--green)}
+.xp .sn-ring{width:22px;height:22px;flex:none;border-radius:50%;border:2px solid #9A8F7E}
+.xp .btn.sn-off{background:var(--line);color:var(--muted)}
+.xp .sn-it{grid-template-columns:52px 1fr auto}
+.xp .sn-it>div{min-width:0} .xp .sn-it .sm{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xp .sn-note{margin:0;text-align:center;font-size:12.5px;color:var(--muted)}
+/* Treat check: the Safe result */
+.xp .sn-ok{background:var(--ok-soft)}
+.xp .sn-ok .mid{color:var(--ok)}
+.xp .sn-prod{display:flex;align-items:center;gap:12px}
+.xp .sn-prod svg.art{width:48px;height:48px;flex:none;border-radius:14px;background:var(--peach)}
+.xp .sn-prod>div{flex:1;min-width:0}
+.xp .sn-scale{display:flex;gap:6px;margin-top:14px}
+.xp .sn-scale>div{flex:1;display:flex;flex-direction:column;gap:5px}
+.xp .sn-scale i{display:block;height:8px;border-radius:4px;background:rgba(27,67,50,.14)}
+.xp .sn-scale span{font-size:12px;font-weight:700;color:var(--muted)}
+.xp .sn-scale .on i{background:var(--ok)}
+.xp .sn-scale .on span{color:var(--ok);font-weight:800}
+.xp .sn-rule{height:1px;background:rgba(6,118,71,.18);margin:14px 0 10px}
+.xp .sn-kvs{display:flex;flex-direction:column;gap:6px}
+.xp .sn-kvs .kv b{color:var(--ok)}
+.xp .sn-src .li{padding:10px 14px 10px 16px}
+.xp .sn-src .li>span{flex:1;min-width:0;color:var(--link)}
+.xp .sn-src .li small{color:var(--muted)}
+.xp .sn-tb{display:flex;align-items:center;min-height:44px;color:var(--link);font-weight:800;font-size:14px}
+/* Recent checks */
+.xp .sn-day{font:800 11.5px/1 "Plus Jakarta Sans",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.xp .sn-list{display:flex;flex-direction:column;gap:8px}
+.xp .sn-list .it svg.art{background:var(--peach)}
+/* Mood */
+.xp .sn-pic{position:relative;height:196px;border-radius:22px;background-size:cover;background-position:50% 40%}
+.xp .sn-box{position:absolute;left:78px;top:14px;width:228px;height:168px;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 2px var(--green)}
+.xp .sn-boxtag{position:absolute;left:8px;top:8px;background:var(--green);color:#fff;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:800}
+.xp .sn-moods{display:flex;flex-direction:column;gap:7px;margin-top:12px}
+.xp .sn-mrow{display:flex;align-items:center;gap:10px;font-size:13px}
+.xp .sn-mrow .lb{width:104px;flex:none}
+.xp .sn-mrow .bar{flex:1;min-width:0;height:8px;border-radius:4px;background:rgba(255,255,255,.85);overflow:hidden}
+.xp .sn-mrow .bar i{display:block;height:8px;border-radius:4px;background:#9DBFA9}
+.xp .sn-mrow .vl{width:38px;flex:none;text-align:right;color:var(--muted);font-weight:700;font-variant-numeric:tabular-nums}
+.xp .sn-mrow.sn-hi{font-weight:800;color:var(--ink)} .xp .sn-mrow.sn-hi .bar i{background:var(--green)} .xp .sn-mrow.sn-hi .vl{color:var(--ink)}
+/* Sticker */
+.xp .sn-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.xp .sn-src-photo{position:relative;height:208px;border-radius:22px;background-size:cover;background-position:50% 45%}
+.xp .sn-dot{position:absolute;left:66px;top:66px;width:22px;height:22px;border-radius:50%;background:var(--green);border:4px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.xp .sn-cut{height:208px;border-radius:22px;display:flex;align-items:center;justify-content:center}
+.xp .sn-sticker{width:140px;height:122px;border-radius:52% 48% 46% 54% / 58% 56% 44% 42%;border:5px solid #fff;background-size:250%;background-position:44% 46%;box-shadow:0 6px 14px rgba(27,67,50,.22)}
+.xp .sn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.xp .sn-tile{position:relative;height:116px;border-radius:20px;display:flex;align-items:center;justify-content:center}
+.xp .sn-tile .sn-sticker{width:72px;height:64px;border-width:3px;box-shadow:0 3px 8px rgba(27,67,50,.2)}
+.xp .sn-hit{position:absolute;width:44px;height:44px;display:flex;align-items:center;justify-content:center}
+.xp .sn-hit.tr{right:0;top:0} .xp .sn-hit.br{right:0;bottom:0}
+.xp .sn-hit span{width:28px;height:28px;border-radius:50%;background:var(--card);display:grid;place-items:center;color:var(--ink);box-shadow:0 1px 4px rgba(27,67,50,.18)}
+.xp .sn-hit svg{width:16px;height:16px}
+.xp .sn-tbs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.xp .sn-tbs span{display:flex;align-items:center;justify-content:center;min-height:44px;color:var(--link);font-weight:800;font-size:15px}
+/* fragments:end */
 
 </style>
 <link rel="stylesheet" href="skins.css">
@@ -296,7 +754,7 @@ body{padding:0!important}
   <symbol id="x-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
   <symbol id="x-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
   <symbol id="x-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
-  <symbol id="x-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="x-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol><symbol id="x-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
   <symbol id="x-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
 </svg>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -575,6 +1033,18 @@ body{padding:0!important}
       <div class="between sm b" style="margin-top:16px"><span>Today's care</span><span>3 of 5 done</span></div>
       <div class="care-bar" role="img" aria-label="3 of 5 care tasks done" style="margin-top:8px"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
     </div>
+    <div class="block p stay-ticket">
+      <div class="ticket">
+        <div><div class="k" style="color:var(--gold-ink)">Boarding at Chloe's</div><div class="h" style="margin-top:4px">Max &amp; Mochi</div></div>
+        <svg class="art" style="width:76px;height:76px;margin:-8px 0 -6px 0"><use href="#art-home"/></svg>
+      </div>
+      <div class="dates" style="margin-top:10px"><div><small>DROP-OFF</small><span class="big" style="font-size:34px">OCT 9</span></div><span class="mid" style="color:var(--gold-ink)">→</span><div><small>PICK-UP</small><span class="big" style="font-size:34px">OCT 12</span></div></div>
+      <div class="stages" style="margin-top:14px"><span class="st d">✓ Ask</span><span class="st d">✓ Meet</span><span class="st d">✓ Book</span><span class="st c">Care</span><span class="st">Home</span></div>
+      <div style="height:1px;background:rgba(27,67,50,.15);margin:14px 0 10px"></div>
+      <div class="kv"><span>Drop-off · you drive</span><b>Fri 7:30 AM ✓</b></div>
+      <div class="kv" style="margin-top:6px"><span>Pick-up · you drive</span><b>Mon 5:00 PM</b></div>
+      <div class="kv" style="margin-top:6px"><span class="muted">Paid · 5 consents signed</span><b>$268.13 CAD</b></div>
+    </div>
     <div class="tiles">
       <div class="tile m"><svg class="art"><use href="#art-bowl"/></svg><b class="big">3/5</b><span>care done</span></div>
       <div class="tile p"><svg class="art"><use href="#art-camera"/></svg><b class="big">12</b><span>photos today</span></div>
@@ -598,17 +1068,9 @@ body{padding:0!important}
     <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">6</span></span><span class="avr"><span class="me">R</span></span></div></div>
   <div class="body">
     <div class="chips"><span class="chip t on">Upcoming</span><span class="chip t">Requests</span><span class="chip t">Past</span></div>
-    <div class="block p">
-      <div class="ticket">
-        <div><div class="k" style="color:var(--gold-ink)">Boarding at Chloe's</div><div class="h" style="margin-top:4px">Max &amp; Mochi</div></div>
-        <svg class="art" style="width:76px;height:76px;margin:-8px -6px -6px 0"><use href="#art-home"/></svg>
-      </div>
-      <div class="dates" style="margin-top:10px"><div><small>DROP-OFF</small><span class="big" style="font-size:34px">OCT 9</span></div><span class="mid" style="color:var(--gold-ink)">→</span><div><small>PICK-UP</small><span class="big" style="font-size:34px">OCT 12</span></div></div>
-      <div class="stages" style="margin-top:14px"><span class="st d">✓ Ask</span><span class="st d">✓ Meet</span><span class="st d">✓ Book</span><span class="st c">Care</span><span class="st">Home</span></div>
-      <div style="height:1px;background:rgba(27,67,50,.15);margin:14px 0 10px"></div>
-      <div class="kv"><span>🚗 Drop-off · you drive</span><b>Fri 7:30 AM ✓</b></div>
-      <div class="kv" style="margin-top:6px"><span>🏠 Pick-up · you drive</span><b>Mon 5:00 PM</b></div>
-      <div class="kv" style="margin-top:6px"><span class="muted">Paid · 5 consents signed</span><b>$268.13 CAD</b></div>
+    <div class="block w bcard">
+      <div style="flex:1;min-width:0"><div class="h">Chloe Kim</div><div class="bdg"><span class="tagx" style="background:var(--mint)">In care</span><span class="tagx" style="background:var(--butter)">Paid</span></div><div class="sm b" style="margin-top:6px">Max &amp; Mochi · Boarding</div><div class="sm muted">Oct 9 to 12 at Chloe's place</div><div class="sm muted">You drive both ways · Received 7:30 AM</div></div>
+      <svg class="go"><use href="#x-chev"/></svg>
     </div>
     <div class="sec"><h3>Your sitters</h3><span class="link">See all</span></div>
     <div class="block w row" style="padding:14px">
@@ -640,9 +1102,9 @@ body{padding:0!important}
     <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">6</span></span><span class="avr"><span class="me">R</span></span></div></div>
   <div class="vtabs"><span>Photos</span><span class="on">Diary</span></div>
   <div class="body">
-    <div class="block m">
+    <div class="block m dnote">
       <div class="between"><div class="row" style="gap:8px"><span class="ava" style="width:34px;height:34px;font-size:14px">C</span><div><div class="b">Daily note from Chloe</div><div class="sm muted">Sent 6:04 PM</div></div></div>
-        <svg class="art" style="width:54px;height:54px;margin:-8px -6px -8px 0"><use href="#art-heart"/></svg></div>
+        <svg class="art" style="width:48px;height:48px;margin:-6px 0"><use href="#art-heart"/></svg></div>
       <p class="note" style="margin:12px 0 0">Max finished every bit of her breakfast, took her skin pill tucked in a treat, and we did a 20-minute walk. She spotted a squirrel and got so excited 🐿️</p>
     </div>
     <div class="sec"><h3>Today</h3><span class="sm muted b">4 updates</span></div>
@@ -681,7 +1143,7 @@ body{padding:0!important}
   <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab on"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-settings"><div class="xp" data-id="owner-settings">
-  <div class="top"><div><span class="link">‹ Profile</span><h1 class="hello" style="margin-top:6px">Settings</h1></div><div class="icons"><span class="me">R</span></div></div>
+  <div class="top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Settings</h1></div><div class="icons"><span class="me">R</span></div></div>
   <div class="body" style="gap:12px">
     <div class="block g row" style="gap:12px;padding:16px"><span class="me" style="background:var(--gold);color:#3D2A00">R</span><div><div class="h" style="color:#fff">Robert Park</div><div class="sm" style="color:#D8F3DC">demo-owner@goldito.test · Owner</div></div></div>
     <div class="list"><div class="li"><span>What's New<small>Snap, live trips, photo requests</small></span><span class="row" style="gap:6px"><span class="new">3 new</span><svg><use href="#x-chev"/></svg></span></div></div>
@@ -694,7 +1156,7 @@ body{padding:0!important}
   </div>
 </div></template>
 <template id="x-owner-whatsnew"><div class="xp" data-id="owner-whatsnew">
-  <div class="top"><div><span class="link">‹ Settings</span><h1 class="hello" style="margin-top:6px">What's New</h1><p class="sub">Small updates, in plain words</p></div></div>
+  <div class="top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">What's New</h1><p class="sub">Small updates, in plain words</p></div></div>
   <div class="body" style="gap:12px">
     <div class="block y rel-note"><span class="when">Oct 15 · New</span><div class="mid" style="color:var(--ink)">Snap: three photo tools in one tab</div><ul><li><b>Treat check:</b> snap a treat's label to see if it's safe for your pet, with the sources.</li><li><b>Mood:</b> see how your pet seems in a photo or a short clip. Just for fun.</li><li><b>Stickers:</b> cut your pet out of a photo and decorate a diary page.</li></ul></div><div class="block w rel-note"><span class="when">Oct 15</span><ul><li><b>Ask for a photo.</b> Tap Request photo in Feed; your sitter's next photo answers it.</li><li>Checkout asks for your entry info when the sitter comes to your door.</li></ul></div><div class="block w rel-note"><span class="when">Oct 12</span><ul><li><b>Live trips.</b> Tap Start trip on drop-off and pick-up days. The other person sees the map and when you'll arrive.</li><li>Rather not share your location? The meeting place opens in Google Maps.</li></ul></div><div class="block w rel-note"><span class="when">Oct 10</span><ul><li><b>Ask before booking</b> now sits next to Book on every sitter's profile.</li><li>Sitters pick the pet first when writing a daily note, and can add their own lines.</li></ul></div>
   </div>
@@ -703,8 +1165,20 @@ body{padding:0!important}
   <div class="top"><div><h1 class="hello">Today</h1><p class="sub">Chloe · Sitter</p></div>
     <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">7</span></span><span class="avr"><span class="me">C</span></span></div></div>
   <div class="body">
+<div class="block p stay-ticket sitter">
+      <div class="ticket">
+        <div><div class="k" style="color:var(--gold-ink)">Boarding · Robert</div><div class="h" style="margin-top:4px">Max &amp; Mochi</div></div>
+        <svg class="art" style="width:76px;height:76px;margin:-8px 0 -6px 0"><use href="#art-home"/></svg>
+      </div>
+      <div class="dates" style="margin-top:10px"><div><small>DROP-OFF</small><span class="big" style="font-size:34px">OCT 9</span></div><span class="mid" style="color:var(--gold-ink)">→</span><div><small>PICK-UP</small><span class="big" style="font-size:34px">OCT 12</span></div></div>
+      <div class="stages" style="margin-top:14px"><span class="st d">✓ Ask</span><span class="st d">✓ Meet</span><span class="st d">✓ Book</span><span class="st c">Care</span><span class="st">Home</span></div>
+      <div style="height:1px;background:rgba(27,67,50,.15);margin:14px 0 10px"></div>
+      <div class="kv"><span>Drop-off · Robert drives</span><b>Fri 7:30 AM ✓</b></div>
+      <div class="kv" style="margin-top:6px"><span>Pick-up · Robert drives</span><b>Mon 5:00 PM</b></div>
+      <div class="kv" style="margin-top:6px"><span class="muted">Paid · you earn</span><b>$268.13 CAD</b></div>
+    </div>
     <div class="block g">
-      <div class="between"><span class="k">Next · 2:00 PM</span><svg class="art" style="width:64px;height:64px;margin:-12px -8px -16px 0"><use href="#art-pill"/></svg></div>
+      <div class="between"><span class="k">Next · 2:00 PM</span><svg class="art" style="width:64px;height:64px;margin:-12px 0 -16px 0"><use href="#art-pill"/></svg></div>
       <div class="mid" style="margin-top:2px">Max · skin pill in a treat</div>
       <div class="sm" style="color:#D8F3DC;margin-top:6px">From Robert's care request · 2 of 5 done today</div>
       <div class="btn light" style="margin-top:14px"><svg style="width:20px;height:20px"><use href="#x-cam"/></svg>Complete with photo</div>
@@ -723,6 +1197,836 @@ body{padding:0!important}
     </div>
   </div>
   <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+</div></template>
+<template id="x-sitter-bookings"><div class="xp" data-id="sitter-bookings">
+  <div class="top"><div><h1 class="hello">Bookings</h1><p class="sub">Chloe · Sitter</p></div>
+    <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">7</span></span><span class="avr"><span class="me">C</span></span></div></div>
+  <div class="body">
+    <div class="bk-seg">
+      <span class="chip t on">Requests<span class="bk-ct">2</span></span>
+      <span class="chip t">In progress</span>
+      <span class="chip t">Upcoming</span>
+      <span class="chip t">Past</span>
+    </div>
+    <div class="bk-list">
+      <div class="block w bcard">
+        <div class="bk-grow"><div class="h">Robert</div><div class="bdg"><span class="tagx bk-t-m">New request</span></div><div class="sm b" style="margin-top:6px">Max &amp; Mochi · Boarding</div><div class="sm muted">Oct 24 to 27 at your place</div><div class="sm muted">Robert drives both ways</div></div>
+        <svg class="go"><use href="#x-chev"/></svg>
+      </div>
+      <div class="block w bcard">
+        <div class="bk-grow"><div class="h">Priya</div><div class="bdg"><span class="tagx bk-t-w">Custom time, needs your OK</span><span class="tagx bk-t-m">Meet first</span></div><div class="sm b" style="margin-top:6px">Biscuit · Boarding</div><div class="sm muted">Oct 30 to Nov 2 at your place</div><div class="sm muted">Priya drives over · You bring them home</div></div>
+        <svg class="go"><use href="#x-chev"/></svg>
+      </div>
+      <div class="block w bcard">
+        <div class="bk-grow"><div class="h">Dan</div><div class="bdg"><span class="tagx bk-t-n">Waiting for Dan</span></div><div class="sm b" style="margin-top:6px">Nori · House sitting</div><div class="sm muted">Nov 6 to 8 at Dan's place</div><div class="sm muted">🔑 You care for them at Dan's place</div></div>
+        <svg class="go"><use href="#x-chev"/></svg>
+      </div>
+    </div>
+  </div>
+  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab on"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+</div></template>
+<template id="x-owner-booking"><div class="xp" data-id="owner-booking">
+  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="bk-name"><h1 class="hello">Chloe Kim</h1><span class="tagx bk-t-m">Sitter</span></div>
+    <p class="sub">Max &amp; Mochi · Boarding at Chloe's</p></div></div>
+  <div class="body" style="gap:12px">
+    <div class="bk-tags"><span class="tagx bk-t-m">In care</span><span class="tagx bk-t-w">Chloe suggested a change</span><span class="tagx bk-t-y">Paid</span></div>
+    <div class="block m bk-stage">
+      <div class="bk-steps">
+        <div class="bk-step"><div class="bk-rail"><i class="x"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Request</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>M&amp;G</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Confirm</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Pay</span></div>
+        <div class="bk-step c"><div class="bk-rail"><i class="on"></i><span class="bk-dot c">5</span><i class="x"></i></div><span>Care</span></div>
+      </div>
+      <div class="bk-cap"><span>Your turn</span><span class="muted">Day 2 of 3</span></div>
+    </div>
+    <div class="block y" style="padding:16px">
+      <div class="h">Chloe suggested a new pick-up</div>
+      <div class="sm b" style="margin-top:2px">Oct 12, 6:00 PM · Chloe's place</div>
+      <div class="row" style="margin-top:12px;gap:8px"><div class="btn bk-grow">Accept</div><span class="bk-tb">Suggest another time</span></div>
+    </div>
+    <div class="block w bk-hos">
+      <div class="bk-ho"><svg class="art" style="background:var(--mint)"><use href="#art-home"/></svg><div class="bk-grow"><div class="k">Drop-off · you drive</div><div class="bk-when-t">Oct 9, 7:30 AM</div><div class="sm muted">Chloe's place</div><span class="tagx bk-t-m">✓ Received 7:30 AM</span></div></div>
+      <div class="bk-ho"><svg class="art" style="background:var(--peach)"><use href="#art-paw"/></svg><div class="bk-grow"><div class="k">Pick-up · you drive</div><div class="bk-when-t">Oct 12, 5:00 PM</div><div class="sm muted">Chloe's place</div><div class="sm muted">You can start the trip from Oct 12, 3:00 PM.</div></div></div>
+      <div class="bk-ho"><div class="bk-grow"><div class="sm b">📍 100 Example St, North York</div><div class="sm muted">Parking: visitor spots by the side door</div></div></div>
+    </div>
+    <div class="block p" style="padding:12px 16px"><div class="sm"><b>Met ✓</b> · In person · Christie Pits, east entrance · Oct 4, 7:00 PM</div></div>
+  </div>
+  <div class="pin"><div class="btn bk-sec">Change time or place</div></div>
+</div></template>
+<template id="x-sitter-booking"><div class="xp" data-id="sitter-booking">
+  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="bk-name"><h1 class="hello">Robert Park</h1><span class="tagx bk-t-m">Owner</span><span class="tagx bk-t-m">In care</span></div>
+    <p class="sub">Max &amp; Mochi · Boarding at your place</p></div></div>
+  <div class="body" style="gap:10px;padding-bottom:8px">
+    <div class="block m bk-stage">
+      <div class="bk-steps">
+        <div class="bk-step"><div class="bk-rail"><i class="x"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Request</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>M&amp;G</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Confirm</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Pay</span></div>
+        <div class="bk-step c"><div class="bk-rail"><i class="on"></i><span class="bk-dot c">5</span><i class="x"></i></div><span>Care</span></div>
+      </div>
+    </div>
+    <div class="block w bk-hos" style="padding-bottom:2px">
+      <div class="bk-ho"><svg class="art" style="background:var(--mint)"><use href="#art-home"/></svg><div class="bk-grow"><div class="k">Drop-off · Robert drives</div><div class="bk-when-t">Oct 9, 7:30 AM</div><div class="sm muted">Your place · 📍 100 Example St</div><span class="tagx bk-t-m">✓ Received 7:30 AM</span></div></div>
+      <div class="bk-ho"><svg class="art" style="background:var(--peach)"><use href="#art-paw"/></svg><div class="bk-grow"><div class="k">Pick-up · Robert drives</div><div class="bk-when-t">Oct 12, 5:00 PM</div><div class="sm muted">Your place · 📍 100 Example St</div></div></div>
+      <div class="bk-ho" style="padding:2px 0"><span class="bk-tb" style="padding:0">Change time or place</span></div>
+    </div>
+    <div class="block r bk-pet">
+      <div class="row" style="gap:12px"><svg class="art"><use href="#art-dog"/></svg><div class="bk-grow"><div class="h">Max</div><div class="sm muted">Maltese · 4 yrs</div></div><span class="sm b" style="color:var(--warn-ink)">Allergies</span><span class="tagx bk-t-w" style="background:var(--card)">Chicken</span></div>
+      <div class="bk-task"><b>8:00 AM</b><span>Breakfast</span></div>
+      <div class="bk-task"><b>2:00 PM</b><span>Skin pill (1 tablet)</span></div>
+      <div class="sm muted">Takes the pill in a treat.</div>
+      <div class="bk-fold"><div class="bk-grow"><div class="sm b">From Max's Life Record</div><div class="sm muted">From Jamie · Sep 28 to Oct 2</div></div><svg><use href="#x-chev"/></svg></div>
+    </div>
+    <div class="block p bk-pet">
+      <div class="row" style="gap:12px"><svg class="art"><use href="#art-cat"/></svg><div class="bk-grow"><div class="h">Mochi</div><div class="sm muted">Shorthair · 3 yrs</div></div><span class="sm muted b">No allergies listed</span></div>
+      <div class="bk-task"><b>7:30 AM</b><span>Breakfast</span></div>
+      <div class="bk-task"><b>6:00 PM</b><span>Dinner</span></div>
+    </div>
+  </div>
+  <div class="pin"><div class="btn">Returned</div></div>
+</div></template>
+<template id="x-booking-handoff-change"><div class="xp" data-id="booking-handoff-change">
+  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="bk-name"><h1 class="hello">Chloe Kim</h1><span class="tagx bk-t-m">Sitter</span></div>
+    <p class="sub">Max &amp; Mochi · Boarding at Chloe's</p></div></div>
+  <div class="body" style="gap:12px">
+    <div class="bk-tags"><span class="tagx bk-t-m">In care</span><span class="tagx bk-t-y">Paid</span></div>
+    <div class="block m bk-stage">
+      <div class="bk-steps">
+        <div class="bk-step"><div class="bk-rail"><i class="x"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Request</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>M&amp;G</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Confirm</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Pay</span></div>
+        <div class="bk-step c"><div class="bk-rail"><i class="on"></i><span class="bk-dot c">5</span><i class="x"></i></div><span>Care</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="bk-scrim"></div>
+  <div class="bk-sheet">
+    <div class="bk-grab"><i></i></div>
+    <div class="bk-shead"><h2>Change time or place</h2><span class="bk-tb">Close</span></div>
+    <div class="bk-segs"><span class="off">Drop-off · done ✓</span><span class="on">Pick-up</span></div>
+    <div class="bk-when">
+      <div class="bk-fld"><span class="bk-lbl">Day</span><div class="bk-stp"><span class="bk-pm">−</span><span class="v">Oct 12</span><span class="bk-pm">+</span></div></div>
+      <div class="bk-fld"><span class="bk-lbl">Time</span><div class="bk-stp"><span class="bk-pm">−</span><span class="v">5:30 PM</span><span class="bk-pm">+</span></div></div>
+    </div>
+    <div class="bk-fld"><span class="bk-lbl">Place</span>
+      <div class="bk-opts">
+        <div class="bk-opt"><span class="bk-radio on"></span><div class="bk-grow"><div class="b">Chloe's place</div><small>You pick up</small></div></div>
+        <div class="bk-opt"><span class="bk-radio"></span><div class="bk-grow"><div class="b">My place</div><small>Chloe brings them home</small></div></div>
+        <div class="bk-opt"><span class="bk-radio"></span><div class="bk-grow"><div class="b">Somewhere else</div><small>Meet for pick-up</small></div></div>
+      </div>
+    </div>
+    <div class="btn">Send to Chloe</div>
+  </div>
+</div></template>
+<template id="x-booking-return"><div class="xp" data-id="booking-return">
+  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="bk-name"><h1 class="hello">Robert Park</h1><span class="tagx bk-t-m">Owner</span></div>
+    <p class="sub">Max &amp; Mochi · Boarding at your place</p></div></div>
+  <div class="body" style="gap:12px">
+    <div class="block m bk-stage">
+      <div class="bk-steps">
+        <div class="bk-step"><div class="bk-rail"><i class="x"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Request</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>M&amp;G</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Confirm</span></div>
+        <div class="bk-step"><div class="bk-rail"><i class="on"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Pay</span></div>
+        <div class="bk-step c"><div class="bk-rail"><i class="on"></i><span class="bk-dot c">5</span><i class="x"></i></div><span>Care</span></div>
+      </div>
+    </div>
+    <div class="block w bk-hos">
+      <div class="bk-ho"><svg class="art" style="background:var(--peach)"><use href="#art-paw"/></svg><div class="bk-grow"><div class="k">Pick-up · Robert drives</div><div class="bk-when-t">Oct 12, 5:00 PM</div><div class="sm muted">Your place</div></div></div>
+    </div>
+  </div>
+  <div class="pin"><div class="btn">Returned</div></div>
+  <div class="bk-scrim"></div>
+  <div class="bk-sheet">
+    <div class="bk-grab"><i></i></div>
+    <div class="bk-shead"><h2>Return Max &amp; Mochi?</h2><span class="bk-tb">Close</span></div>
+    <p style="margin:0;font-size:15px;line-height:1.5">Max &amp; Mochi go home with Robert. This can't be undone, and it writes the Life Record.</p>
+    <div class="block w bk-left">
+      <div class="bk-lrow"><svg class="art" style="background:var(--blush)"><use href="#art-pill"/></svg><div class="bk-grow"><div class="b">1 care task still open today</div></div></div>
+      <div class="bk-lrow"><svg class="art" style="background:var(--butter)"><use href="#art-heart"/></svg><div class="bk-grow"><div class="b">You haven't sent today's note for Max</div><span class="bk-tb" style="padding:0;justify-content:flex-start">Send today's note first</span></div></div>
+    </div>
+    <div class="btn">Return</div>
+    <div class="btn bk-sec">Cancel</div>
+  </div>
+</div></template>
+<template id="x-meet-greet-time"><div class="xp" data-id="meet-greet-time">
+  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="bk-name"><h1 class="hello">Chloe Kim</h1><span class="tagx bk-t-m">Sitter</span></div>
+    <p class="sub">Max &amp; Mochi · Boarding at Chloe's</p></div></div>
+  <div class="body" style="gap:12px">
+    <div class="bk-tags"><span class="tagx bk-t-m">Requested</span><span class="tagx bk-t-m">Dates held · Meet &amp; Greet</span></div>
+    <div class="block m bk-stage">
+      <div class="bk-steps">
+        <div class="bk-step"><div class="bk-rail"><i class="x"></i><span class="bk-dot d">✓</span><i class="on"></i></div><span>Request</span></div>
+        <div class="bk-step c"><div class="bk-rail"><i class="on"></i><span class="bk-dot c">2</span><i></i></div><span>M&amp;G</span></div>
+        <div class="bk-step"><div class="bk-rail"><i></i><span class="bk-dot">3</span><i></i></div><span>Confirm</span></div>
+        <div class="bk-step"><div class="bk-rail"><i></i><span class="bk-dot">4</span><i></i></div><span>Pay</span></div>
+        <div class="bk-step"><div class="bk-rail"><i></i><span class="bk-dot">5</span><i class="x"></i></div><span>Care</span></div>
+      </div>
+      <div class="bk-cap"><span>Day 1 · Your turn</span></div>
+    </div>
+  </div>
+  <div class="bk-scrim"></div>
+  <div class="bk-sheet">
+    <div class="bk-grab"><i></i></div>
+    <div class="bk-shead"><h2>Schedule Meet &amp; Greet</h2><span class="bk-tb">Close</span></div>
+    <div class="bk-segs"><span class="on">In person</span><span>Video</span></div>
+    <div class="bk-fld"><span class="bk-lbl">Where to meet</span>
+      <div class="bk-opts">
+        <div class="bk-opt"><span class="bk-radio on"></span><div class="bk-grow"><div class="b">Christie Pits, east entrance</div><small>Robert's spot</small></div></div>
+        <div class="bk-opt"><span class="bk-radio"></span><div class="bk-grow"><div class="b">Earl Bales Park, south gate</div><small>Chloe's spot</small></div></div>
+        <div class="bk-opt"><span class="bk-radio"></span><div class="bk-grow"><div class="b">Somewhere else</div><small>A park entrance or café, not a home</small></div></div>
+      </div>
+    </div>
+    <div class="bk-when">
+      <div class="bk-fld"><span class="bk-lbl">Day</span><div class="bk-stp"><span class="bk-pm">−</span><span class="v">Oct 4</span><span class="bk-pm">+</span></div></div>
+      <div class="bk-fld"><span class="bk-lbl">Time</span><div class="bk-stp"><span class="bk-pm">−</span><span class="v">7:00 PM</span><span class="bk-pm">+</span></div></div>
+    </div>
+    <div class="btn">Send to Chloe</div>
+  </div>
+</div></template>
+<template id="x-owner-home-access"><div class="xp" data-id="owner-home-access">
+  <div class="top"><div class="bk-head"><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Entry info</h1></div></div>
+  <div class="body" style="gap:14px">
+    <div class="block m row" style="gap:14px;padding:14px 16px">
+      <svg class="art" style="width:60px;height:60px;flex:none"><use href="#art-home"/></svg>
+      <div class="bk-grow"><div class="b">Your sitter sees this 2 hours before arriving.</div><div class="sm muted" style="margin-top:2px">Use fake codes in the demo.</div></div>
+    </div>
+    <div class="bk-field"><span class="bk-lbl">Entry steps</span><div class="bk-in tall"><span class="val">1. Buzz from the lobby<br>2. Lockbox is left of the door</span></div></div>
+    <div class="bk-field"><span class="bk-lbl">Lockbox code</span><div class="bk-in"><span class="mask">••••</span><span class="bk-tb">Show</span></div></div>
+    <div class="bk-field"><span class="bk-lbl">Buzzer</span><div class="bk-in"><span class="mask">•••••</span><span class="bk-tb">Show</span></div></div>
+    <div class="bk-field"><span class="bk-lbl">Fob notes</span><div class="bk-in"><span class="val">Fob on the key hook</span></div></div>
+    <div class="bk-field"><span class="bk-lbl">Parking for sitter</span><div class="bk-in"><span class="val">Visitor spot B-12</span></div></div>
+  </div>
+  <div class="pin"><div class="btn">Save</div></div>
+</div></template>
+<template id="x-sitter-checkin"><div class="xp" data-id="sitter-checkin">
+  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Max · Check-in</h1><p class="sub">Tap what happened, then Send</p></div>
+    <div class="photo ca-hpet" style="background-image:url(img/pet0.jpg);background-position:50% 35%" role="img" aria-label="Max"></div></div>
+  <div class="body" style="gap:10px">
+    <div class="block w ca-picks">
+      <div class="ca-grp">
+        <div class="ca-gh"><svg class="art"><use href="#art-bowl"/></svg>Meal</div>
+        <div class="ca-opts"><span class="ca-opt">All</span><span class="ca-opt">Most</span><span class="ca-opt">A little</span><span class="ca-opt">None</span></div>
+      </div>
+      <div class="ca-grp">
+        <div class="ca-gh"><svg class="art"><use href="#art-potty"/></svg>Potty</div>
+        <div class="ca-opts"><span class="ca-opt">Normal</span><span class="ca-opt">Soft</span><span class="ca-opt">None</span></div>
+      </div>
+      <div class="ca-grp">
+        <div class="ca-gh"><svg class="art"><use href="#art-walk"/></svg>Walk</div>
+        <div class="ca-mins"><span class="ca-opt"><b>5</b><small>min</small></span><span class="ca-opt"><b>10</b><small>min</small></span><span class="ca-opt"><b>15</b><small>min</small></span><span class="ca-opt"><b>20</b><small>min</small></span><span class="ca-opt"><b>30</b><small>min</small></span><span class="ca-opt"><b>45</b><small>min</small></span><span class="ca-opt"><b>60</b><small>min</small></span></div>
+      </div>
+      <div class="ca-grp">
+        <div class="ca-gh"><svg class="art"><use href="#art-heart"/></svg>Mood</div>
+        <div class="ca-opts"><span class="ca-opt">Happy</span><span class="ca-opt on" aria-pressed="true">✓ Playful</span><span class="ca-opt">Excited</span><span class="ca-opt">Calm</span><span class="ca-opt">Tired</span><span class="ca-opt">Missing you</span><span class="ca-opt">Sad</span><span class="ca-opt">Anxious</span></div>
+      </div>
+    </div>
+    <div class="ca-field">
+      <label>Anything special? (optional)</label>
+      <div class="ca-memo"><span class="ca-input">Skip it for a preset update</span><span class="ca-btn2 sm"><svg><use href="#x-cam"/></svg>Add photo</span></div>
+    </div>
+    <div class="block m ca-sent">
+      <div class="between" style="min-height:28px"><span class="k">Sent to Robert today</span><span class="link">Photos of Max</span></div>
+      <div class="ca-line"><svg class="art"><use href="#art-bowl"/></svg><span>Fed · All</span><span class="t">8:12 AM</span></div>
+      <div class="ca-line"><svg class="art"><use href="#art-walk"/></svg><span>Walk · 20 min <span class="q">· “One squirrel, very excited”</span></span><span class="t">9:40 AM</span></div>
+      <div class="ca-line"><svg class="art"><use href="#art-potty"/></svg><span>Potty · Normal</span><span class="t">9:55 AM</span></div>
+    </div>
+  </div>
+  <div class="ca-pin">
+    <div class="ca-ready"><svg class="art"><use href="#art-heart"/></svg>Ready to send: Mood · Playful</div>
+    <div class="btn">Send</div>
+  </div>
+</div></template>
+<template id="x-sitter-tasks"><div class="xp" data-id="sitter-tasks">
+  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Today's tasks</h1><p class="sub">Max &amp; Mochi · 5 left · 3 done</p></div></div>
+  <div class="body" style="gap:10px">
+    <div class="block g ca-next">
+      <div class="between"><span class="k">Next up · 2:00 PM</span><svg class="art" style="width:44px;height:44px"><use href="#art-pill"/></svg></div>
+      <div class="mid">Max · Skin pill</div>
+      <div class="sm" style="color:#D8F3DC;margin-top:6px">1 pill · Hide it in a lickable treat</div>
+      <div class="row" style="margin-top:10px;gap:6px"><span class="tagx">Pending</span></div>
+      <div class="btn light" style="margin-top:14px">Done</div>
+    </div>
+    <div class="sec"><h3>Still to do</h3><span class="sm muted b">4 more</span></div>
+    <div class="ca-task"><svg class="art" style="background:var(--butter)"><use href="#art-ball"/></svg><div><div class="ttl">Play<span class="tagx ca-miss">Missed</span></div><div class="sm muted">Mochi · 12:00 PM · Feather wand</div></div><span class="ca-btn2 sm">Done</span></div>
+    <div class="ca-task"><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="ttl">Dinner<span class="tagx ca-pend">Pending</span></div><div class="sm muted">Mochi · 5:00 PM · Half a can</div></div><span class="ca-btn2 sm">Done</span></div>
+    <div class="ca-task"><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="ttl">Dinner<span class="tagx ca-pend">Pending</span></div><div class="sm muted">Max · 5:30 PM · 1 cup, no chicken</div></div><span class="ca-btn2 sm">Done</span></div>
+    <div class="ca-task"><svg class="art" style="background:var(--mint)"><use href="#art-walk"/></svg><div><div class="ttl">Evening walk<span class="tagx ca-pend">Pending</span></div><div class="sm muted">Max · 7:00 PM · Around the park</div></div><span class="ca-btn2 sm">Done</span></div>
+    <div class="block w ca-done">
+      <span class="ca-tog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>Done today (3)</span>
+      <div class="ca-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Breakfast · Max</span><span class="t">8:12 AM</span></div>
+      <div class="ca-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Breakfast · Mochi</span><span class="t">8:20 AM</span></div>
+      <div class="ca-line"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>Morning walk · Max <span class="q">· “One squirrel, very excited”</span></span><span class="t">9:40 AM</span></div>
+    </div>
+  </div>
+</div></template>
+<template id="x-sitter-care-request"><div class="xp" data-id="sitter-care-request">
+  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Max · Care request</h1><p class="sub">From Robert · 3:12 PM</p></div></div>
+  <div class="body" style="gap:12px">
+    <div class="block p">
+      <div class="between" style="align-items:flex-start"><div style="flex:1;min-width:0"><div class="k" style="color:var(--gold-ink)">Waiting for you</div><div class="mid" style="margin-top:6px;color:var(--ink)">New care request for Max</div></div><svg class="art" style="width:64px;height:64px;flex:none"><use href="#art-dog"/></svg></div>
+      <div class="sm" style="margin-top:8px">Robert sent this during the stay. Nothing joins Max's day until you approve it.</div>
+    </div>
+    <div class="sec"><h3>Tasks</h3><span class="sm muted b">2</span></div>
+    <div class="block w ca-req">
+      <div class="ca-rq"><span class="tm">7:00 PM</span><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="b">Late snack</div><div class="sm muted">A few treats · once</div></div></div>
+      <div class="ca-rq"><span class="tm">9:30 PM</span><svg class="art" style="background:var(--mint)"><use href="#art-walk"/></svg><div><div class="b">Night walk</div><div class="sm muted">Short loop on the leash · every day</div></div></div>
+    </div>
+    <div class="sec"><h3>Heads-up</h3><span class="sm muted b">2</span></div>
+    <div class="block w ca-heads">
+      <span class="tag">⚠️ Never feed grapes</span>
+      <span class="tag">⚠️ Keep the back gate latched</span>
+    </div>
+    <div class="block m" style="padding:14px 16px">
+      <div class="b" style="color:var(--ink)">If you approve</div>
+      <div class="sm" style="margin-top:2px">2 tasks and 2 Heads-ups are added to Max's day, and Robert is told.</div>
+    </div>
+  </div>
+  <div class="ca-pin">
+    <div class="btn">Approve</div>
+    <div class="ca-btn2">Decline or reply…</div>
+  </div>
+</div></template>
+<template id="x-owner-history"><div class="xp" data-id="owner-history">
+  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">History</h1><p class="sub">What Chloe did · today and the last 7 days</p></div></div>
+  <div class="body" style="gap:12px">
+    <div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div>
+    <div class="ca-day">
+      <div class="sec"><h3>Today</h3><span class="sm muted b">Sat Oct 10</span></div>
+      <div class="ca-hit"><svg class="art" style="background:var(--blush)"><use href="#art-pill"/></svg><div><div class="b">Skin pill · Done</div><div class="memo">Hid it in a treat, took it fine</div><div class="meta">2:04 PM · Chloe</div></div><span class="ca-thumb" style="background-image:url(img/pet0.jpg);background-position:30% 60%;background-size:180%"></span></div>
+      <div class="ca-hit"><svg class="art" style="background:var(--butter)"><use href="#art-camera"/></svg><div><div class="b">Photo</div><div class="memo">Long nap on her favourite blanket</div><div class="meta">1:15 PM · Chloe</div></div><span class="ca-thumb" style="background-image:url(img/pet0.jpg);background-position:70% 20%;background-size:160%"></span></div>
+      <div class="ca-hit"><svg class="art" style="background:var(--mint)"><use href="#art-walk"/></svg><div><div class="b">Walk · 20 min</div><div class="memo">One squirrel, very excited</div><div class="meta">9:40 AM · Chloe</div></div><span class="ca-thumb" style="background-image:url(img/pet0.jpg);background-position:50% 30%"></span></div>
+      <div class="ca-hit"><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="b">Fed · All</div><div class="meta">8:12 AM · Chloe</div></div><span></span></div>
+    </div>
+    <div class="ca-day">
+      <div class="sec"><h3>Yesterday</h3><span class="sm muted b">Fri Oct 9</span></div>
+      <div class="ca-hit miss"><svg class="art" style="background:var(--card)"><use href="#art-walk"/></svg><div><div class="b">Evening walk · Missed</div><div class="meta">7:00 PM · Chloe</div></div><span></span></div>
+      <div class="ca-hit"><svg class="art" style="background:var(--mint)"><use href="#art-heart"/></svg><div><div class="b">Mood · Calm</div><div class="memo">Settled in fast, found the sunny spot</div><div class="meta">6:20 PM · Chloe</div></div><span></span></div>
+      <div class="ca-hit"><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="b">Dinner · Done</div><div class="meta">5:32 PM · Chloe</div></div><span></span></div>
+    </div>
+  </div>
+</div></template>
+<template id="x-owner-notifications"><div class="xp" data-id="owner-notifications">
+  <div class="top ca-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello">Notifications</h1><p class="sub">3 new</p></div></div>
+  <div class="body" style="gap:10px">
+    <div class="ca-bar"><span class="ca-tbtn">Mark all as read</span><span class="ca-tbtn danger">Clear all</span></div>
+    <div class="ca-ns">
+      <div class="ca-n un"><span class="dt"></span><div><div class="ttl">Max's medication is done on time 💊</div><div class="bd">Hid it in a treat, took it fine</div><div class="tm">52m ago</div></div><span class="ca-thumb" style="background-image:url(img/pet0.jpg);background-position:30% 60%;background-size:180%"></span></div>
+      <div class="ca-n un"><span class="dt"></span><div><div class="ttl">Here's the photo of Max you asked for 📷</div><div class="tm">1h ago</div></div><span class="ca-thumb" style="background-image:url(img/pet0.jpg);background-position:70% 20%;background-size:160%"></span></div>
+      <div class="ca-n un"><span class="dt"></span><div><div class="ttl">Max seems playful 😊</div><div class="tm">2h ago</div></div></div>
+      <div class="ca-n"><span class="dt"></span><div><div class="ttl">Max had a 20-minute walk 🦮</div><div class="bd">One squirrel, very excited</div><div class="tm">5h ago</div></div><span class="ca-thumb" style="background-image:url(img/pet0.jpg);background-position:50% 30%"></span></div>
+      <div class="ca-n"><span class="dt"></span><div><div class="ttl">Max ate everything 🍽️</div><div class="tm">6h ago</div></div></div>
+      <div class="ca-n"><span class="dt"></span><div><div class="ttl">Chloe sent Mochi's daily report 📓</div><div class="bd">Mochi settled in fast and found the sunny spot.</div><div class="tm">1d ago</div></div></div>
+    </div>
+    <p class="ca-hint">Swipe a notice left to delete it.</p>
+  </div>
+  <div class="pin" style="padding-bottom:22px">
+    <div class="act"><svg class="art"><use href="#art-paw"/></svg><div><div class="b">History</div><div class="sm muted">What Chloe did stays here</div></div><svg class="go"><use href="#x-chev"/></svg></div>
+  </div>
+</div></template>
+<template id="x-chat-owner"><div class="xp" data-id="chat-owner">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
+  </div>
+  <div class="ch-stage ch-go" role="button" aria-label="Step 3 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div><span class="ch-cap">Your turn</span></div><svg><use href="#x-chev"/></svg></div>
+  <div class="ch-msgs">
+    <div class="ch-m ch-out"><div class="ch-b">Thanks, Chloe! We'd love to book.</div><span class="ch-meta">8:52 AM</span></div>
+    <div class="ch-sys"><b>Booked, you both agreed ✓</b></div>
+    <div class="ch-sys"><b>Payment</b><span class="muted">Pay once the final quote is confirmed.</span></div>
+    <div class="ch-m ch-in"><div class="ch-b">Here's the final quote for Thanksgiving.</div></div>
+    <div class="ch-m ch-in" style="max-width:92%;width:92%"><div class="ch-card ch-quote" style="width:100%">
+        <div class="ch-qhead"><span>Final quote</span><span class="tagx" style="background:var(--butter)">From Chloe</span></div>
+        <div class="sm muted b">Boarding · Max, Mochi</div>
+        <div class="sm muted">Oct 9 7:30 AM to Oct 12 5:00 PM</div>
+        <div class="ch-lines"><div class="kv"><span>3 nights × $55.00</span><b>$165.00</b></div><div class="kv"><span>Extra pet · Mochi</span><b>$82.50</b></div><div class="kv"><span>Holiday · Thanksgiving</span><b>$20.63</b></div></div>
+        <div class="ch-total"><span>Total</span><b>$268.13 CAD</b></div>
+        <div class="ch-acts"><span class="ch-text danger">Decline</span><span class="btn">Confirm quote</span></div>
+      </div><span class="ch-meta">Chloe · 9:14 AM</span></div>
+  </div>
+  <div class="ch-chips"><span class="ch-chip">Looks good, thank you!</span><span class="ch-chip">Pick-up at 6 PM?</span></div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Chloe</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+</div></template>
+<template id="x-chat-sitter"><div class="xp" data-id="chat-sitter">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--peach);color:var(--ink)">R</span><div><h1 class="ch-name">Robert</h1><div class="ch-stayline">Boarding · Oct 9 to 12</div></div><span class="ch-pets"><span class="ch-face sm" style="background-image:url(img/pet0.jpg);background-position:50% 40%" aria-label="Max"></span><span class="ch-face sm" style="background:var(--peach)" aria-label="Mochi"><svg class="art"><use href="#art-cat"/></svg></span></span></div>
+  </div>
+  <div class="ch-stage" role="img" aria-label="Step 1 of 5"><div><div class="ch-steps"><span class="ch-step c"><span class="ch-dot">1</span>Request</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">2</span>M&amp;G</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div></div>
+  <div class="ch-msgs">
+    <span class="ch-day">Today</span>
+    <div class="ch-m ch-in" style="max-width:88%"><div class="ch-card ch-stay">
+        <div class="b" style="font-size:13.5px">Oct 9 7:30 AM to Oct 12 5:00 PM</div>
+        <div class="ch-mini"><span style="background:var(--blush)"><svg class="art"><use href="#art-dog"/></svg>Max</span><span style="background:var(--peach)"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div>
+      </div></div>
+    <div class="ch-m ch-in"><div class="ch-b">Hi Chloe! Could you take Max and Mochi over Thanksgiving? Max is allergic to chicken and takes a skin pill in a treat.</div></div>
+    <div class="ch-m ch-in"><div class="ch-b">Mochi is shy at first but warms up fast.</div><span class="ch-meta">Robert · 8:40 AM</span></div>
+  </div>
+  <div class="ch-foot">
+    <div class="ch-draft">
+      <div class="ch-row"><div><div class="b" style="font-size:15px">Quote for this stay</div><div class="sm muted">Boarding · 3 nights · Max, Mochi</div></div><span class="tagx" style="background:var(--gold-soft);color:var(--gold-ink)">Not sent</span></div>
+      <div class="ch-total" style="margin-top:0"><span class="sm muted" style="font-weight:600">From your saved rates. Robert sees it only after you send.</span><b>$268.13</b></div>
+    </div>
+    <span class="btn">Send quote</span>
+  </div>
+  <div class="ch-chips"><span class="ch-chip">Yes, I can host</span><span class="ch-chip">Let me check</span></div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Robert</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+</div></template>
+<template id="x-chat-request"><div class="xp" data-id="chat-request">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
+  </div>
+  <div class="ch-stage" role="img" aria-label="Step 1 of 5"><div><div class="ch-steps"><span class="ch-step c"><span class="ch-dot">1</span>Request</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">2</span>M&amp;G</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div></div>
+  <div class="ch-msgs ch-up">
+    <div class="ch-m ch-in"><div class="ch-b">Max is welcome! Thanksgiving weekend is open for me.</div></div>
+    <div class="ch-m ch-out"><div class="ch-b">Great, I'll send the request now.</div></div>
+  </div>
+  <div class="ch-foot"><span class="btn">Request booking</span></div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Chloe</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+  <div class="ch-scrim" aria-hidden="true"></div>
+  <div class="ch-sheet" role="dialog" aria-label="Request booking">
+    <span class="ch-grab"></span>
+    <div class="ch-shead"><h2>Request booking</h2><span class="ch-text" role="button">Close</span></div>
+    <div class="row" style="gap:8px"><span class="ch-pet" style="background:var(--blush)"><span class="ch-face" style="background-image:url(img/pet0.jpg);background-position:50% 40%" aria-label="Max"></span>Max</span><span class="ch-pet" style="background:var(--peach)"><span class="ch-face" style="background:var(--card)"><svg class="art"><use href="#art-cat"/></svg></span>Mochi</span></div>
+    <div class="ch-hcard">
+      <div class="ch-hrow"><div class="ch-when"><b>Drop-off</b><span class="ch-pill" role="button">Oct 9</span><span class="ch-pill" role="button">7:30 AM</span></div>
+        <div class="ch-place"><span>At Chloe's place, North York</span><span class="ch-text" role="button" style="padding:0 2px">Change place</span></div></div>
+      <div class="ch-hrow"><div class="ch-when"><b>Pick-up</b><span class="ch-pill" role="button">Oct 12</span><span class="ch-pill" role="button">5:00 PM</span></div>
+        <div class="ch-place"><span>At Chloe's place, North York</span><span class="ch-text" role="button" style="padding:0 2px">Change place</span></div></div>
+    </div>
+    <div class="ch-noteline"><b>Note for Chloe</b><span class="ch-tog" role="button" aria-label="Add a note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span></div>
+    <span class="btn">Send request</span>
+  </div>
+</div></template>
+<template id="x-chat-quote"><div class="xp" data-id="chat-quote">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--peach);color:var(--ink)">R</span><div><h1 class="ch-name">Robert</h1><div class="ch-stayline">Boarding · Oct 9 to 12</div></div><span class="ch-pets"><span class="ch-face sm" style="background-image:url(img/pet0.jpg);background-position:50% 40%" aria-label="Max"></span><span class="ch-face sm" style="background:var(--peach)" aria-label="Mochi"><svg class="art"><use href="#art-cat"/></svg></span></span></div>
+  </div>
+  <div class="ch-stage" role="img" aria-label="Step 1 of 5"><div><div class="ch-steps"><span class="ch-step c"><span class="ch-dot">1</span>Request</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">2</span>M&amp;G</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div></div>
+  <div class="ch-msgs ch-up">
+    <div class="ch-m ch-in" style="max-width:88%"><div class="ch-card ch-stay">
+        <div class="b" style="font-size:13.5px">Oct 9 7:30 AM to Oct 12 5:00 PM</div>
+        <div class="ch-mini"><span style="background:var(--blush)"><svg class="art"><use href="#art-dog"/></svg>Max</span><span style="background:var(--peach)"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div>
+      </div></div>
+    <div class="ch-m ch-in"><div class="ch-b">Hi Chloe! Could you take Max and Mochi over Thanksgiving? Max is allergic to chicken and takes a skin pill in a treat.</div></div>
+    <div class="ch-m ch-in"><div class="ch-b">Mochi is shy at first but warms up fast.</div><span class="ch-meta">Robert · 8:40 AM</span></div>
+  </div>
+  <div class="ch-foot"><span class="btn">Send quote</span></div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Robert</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+  <div class="ch-scrim" aria-hidden="true"></div>
+  <div class="ch-sheet" role="dialog" aria-label="Quote">
+    <span class="ch-grab"></span>
+    <div class="ch-shead"><h2>Quote</h2><span class="ch-text" role="button">Close</span></div>
+    <div class="ch-wrap"><span class="ch-chip on" role="radio" aria-checked="true">Boarding</span><span class="ch-chip" role="radio" aria-checked="false">House sitting</span></div>
+    <div class="ch-info">
+      <div><span class="ch-lab">Pets</span><span class="ch-l b">Max, Mochi</span></div>
+      <div><span class="ch-lab">Stay</span><span class="ch-l">Oct 9 7:30 AM to Oct 12 5:00 PM</span></div>
+    </div>
+    <div class="ch-draft" style="padding:14px 16px">
+      <span class="tag" style="font-size:12px;padding:4px 10px">Priced from your saved rates</span>
+      <div class="ch-lines"><div class="kv"><span>3 nights × $55.00</span><b>$165.00</b></div><div class="kv"><span>Extra pet · Mochi</span><b>$82.50</b></div><div class="kv"><span>Holiday · Thanksgiving</span><b>$20.63</b></div></div>
+      <div class="ch-total"><span>Total</span><b>$268.13 CAD</b></div>
+    </div>
+    <p class="sm muted" style="margin:0">One all-in price, no extra fees. Robert sees it only after you send.</p>
+    <span class="btn">Send quote</span>
+  </div>
+</div></template>
+<template id="x-chat-agree"><div class="xp" data-id="chat-agree">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
+  </div>
+  <div class="ch-stage ch-go" role="button" aria-label="Step 3 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div><span class="ch-cap">Your turn</span></div><svg><use href="#x-chev"/></svg></div>
+  <div class="ch-msgs ch-up">
+    <div class="ch-m ch-in"><div class="ch-b">So nice meeting you both! Mochi came out to say hi in the end.</div></div>
+    <div class="ch-m ch-out"><div class="ch-b">Max loved your yard. We'd love to book.</div></div>
+    <div class="ch-sys"><b>Book Chloe</b><span class="muted">Robert: not yet · Chloe: not yet</span></div>
+  </div>
+  <div class="ch-foot"><span class="btn">I'd like to book</span><span class="ch-text danger">Decline</span></div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Chloe</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+  <div class="ch-scrim" aria-hidden="true"></div>
+  <div class="ch-sheet" role="dialog" aria-label="Book Chloe">
+    <span class="ch-grab"></span>
+    <div class="ch-shead"><h2>Book Chloe</h2><span class="ch-text" role="button">Close</span></div>
+    <div class="ch-info">
+      <div><span class="ch-lab">Pets</span><span class="ch-l b">Max, Mochi</span></div>
+      <div><span class="ch-lab">Times</span><span class="ch-l">Drop-off Oct 9 7:30 AM · Chloe's place</span><span class="ch-l">Pick-up Oct 12 5:00 PM · Chloe's place</span></div>
+      <div><span class="ch-lab">Care checklist</span><span class="ch-l">Max: 3 tasks, 1 heads-up</span><span class="ch-l">Mochi: 2 tasks</span></div>
+      <div><span class="ch-lab">Price</span><span style="font:600 26px/1.1 var(--display);color:var(--ink)">$268.13</span></div>
+    </div>
+    <p class="sm muted" style="margin:0">Chloe says yes on her side. You're booked when you both agree.</p>
+    <span class="btn">I'd like to book</span>
+  </div>
+</div></template>
+<template id="x-chat-decline"><div class="xp" data-id="chat-decline">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
+  </div>
+  <div class="ch-stage ch-go" role="button" aria-label="Step 3 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">3</span>Confirm</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div><span class="ch-cap">Your turn</span></div><svg><use href="#x-chev"/></svg></div>
+  <div class="ch-msgs ch-up">
+    <div class="ch-m ch-out"><div class="ch-b">Thanks, Chloe! We'd love to book.</div><span class="ch-meta">8:52 AM</span></div>
+    <div class="ch-sys"><b>Booked, you both agreed ✓</b></div>
+    <div class="ch-sys"><b>Payment</b><span class="muted">Pay once the final quote is confirmed.</span></div>
+    <div class="ch-m ch-in"><div class="ch-b">Here's the final quote for Thanksgiving.</div></div>
+    <div class="ch-m ch-in" style="max-width:92%;width:92%"><div class="ch-card ch-quote" style="width:100%">
+        <div class="ch-qhead"><span>Final quote</span><span class="tagx" style="background:var(--butter)">From Chloe</span></div>
+        <div class="sm muted b">Boarding · Max, Mochi</div>
+        <div class="sm muted">Oct 9 7:30 AM to Oct 12 5:00 PM</div>
+        <div class="ch-lines"><div class="kv"><span>3 nights × $55.00</span><b>$165.00</b></div><div class="kv"><span>Extra pet · Mochi</span><b>$82.50</b></div><div class="kv"><span>Holiday · Thanksgiving</span><b>$20.63</b></div></div>
+        <div class="ch-total"><span>Total</span><b>$268.13 CAD</b></div>
+        <div class="ch-acts"><span class="ch-text danger">Decline</span><span class="btn">Confirm quote</span></div>
+      </div><span class="ch-meta">Chloe · 9:14 AM</span></div>
+  </div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Chloe</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+  <div class="ch-scrim" aria-hidden="true"></div>
+  <div class="ch-sheet" role="dialog" aria-label="Decline the final quote?">
+    <span class="ch-grab"></span>
+    <div class="ch-shead"><h2>Decline the final quote?</h2><span class="ch-text" role="button">Close</span></div>
+    <p style="margin:0;font-size:15px">Chloe gets a notice and the dates are free again.</p>
+    <div class="ch-wrap"><span class="ch-chip on" role="checkbox" aria-checked="true">The price doesn't work</span><span class="ch-chip" role="checkbox" aria-checked="false">Doesn't seem like a fit</span><span class="ch-chip" role="checkbox" aria-checked="false">Found another sitter</span><span class="ch-chip" role="checkbox" aria-checked="false">My schedule changed</span><span class="ch-chip" role="checkbox" aria-checked="false">Something else</span></div>
+    <div class="ch-field"><b>Note to Chloe (optional)</b><div class="ch-area">Thanks for the Meet &amp; Greet, Chloe.</div></div>
+    <span class="btn ch-btn-danger">Decline and end the request</span>
+  </div>
+</div></template>
+<template id="x-chat-plus"><div class="xp" data-id="chat-plus">
+  <div class="ch-top">
+    <span class="back"><svg><use href="#x-back"/></svg>Back</span>
+    <div class="ch-who"><span class="ch-face" style="background:var(--green);color:#fff">C</span><div><h1 class="ch-name">Chloe</h1><div class="ch-stayline">Boarding · Oct 9 to 12 · Max &amp; Mochi</div></div></div>
+  </div>
+  <div class="ch-stage ch-go" role="button" aria-label="Step 4 of 5"><div><div class="ch-steps"><span class="ch-step d"><span class="ch-dot">✓</span>Request</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>M&amp;G</span><span class="ch-link on"></span><span class="ch-step d"><span class="ch-dot">✓</span>Confirm</span><span class="ch-link on"></span><span class="ch-step c"><span class="ch-dot">4</span>Pay</span><span class="ch-link"></span><span class="ch-step "><span class="ch-dot">5</span>Care</span></div></div><svg><use href="#x-chev"/></svg></div>
+  <div class="ch-msgs ch-up">
+    <div class="ch-sys"><b>Paid</b><span class="muted">$268.13 · Held until the stay ends</span></div>
+    <div class="ch-m ch-in"><div class="ch-b">See you at 7:30! Water bowls are ready.</div></div>
+    <div class="ch-m ch-out"><div class="ch-b">Max's pills are in the front pocket of the bag.</div></div>
+  </div>
+  <div class="ch-compose"><span class="ch-plus" role="button" aria-label="Send a card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg></span><div class="ch-input">Message Chloe</div><span class="ch-send" role="button" aria-disabled="true">Send</span></div>
+  <div class="ch-scrim" aria-hidden="true"></div>
+  <div class="ch-sheet" role="dialog" aria-label="Send a card">
+    <span class="ch-grab"></span>
+    <div class="ch-shead"><h2>Send a card</h2><span class="ch-text" role="button">Close</span></div>
+    <div class="ch-list">
+      <div class="ch-off" role="button" aria-disabled="true"><span class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span>Meet &amp; Greet request</span></div>
+      <div class="ch-off" role="button" aria-disabled="true"><span class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r="1"/></svg></span><span>Quote request</span></div>
+      <div class="act ch-act" role="button"><span class="ch-ico"><svg><use href="#x-cal"/></svg></span><div><div class="b">Date change</div></div><svg class="go"><use href="#x-chev"/></svg></div>
+      <div class="ch-off" role="button" aria-disabled="true"><span class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg></span><span>Start trip</span><span class="ch-hint">From 5:30 AM</span></div>
+      <div class="ch-off" role="button" aria-disabled="true"><span class="ch-ico"><svg><use href="#x-cam"/></svg></span><span>Photo request</span></div>
+    </div>
+    
+  </div>
+</div></template>
+<template id="x-owner-pet"><div class="xp" data-id="owner-pet">
+  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Max</h1></div><div class="icons"><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="body" style="gap:8px">
+    <div class="block p pp-hero">
+      <div class="pp-cover"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:42% 40%;background-size:170%"></div><span class="pp-cam" aria-label="Add photo"><svg><use href="#x-cam"/></svg></span></div>
+      <div style="flex:1;min-width:0">
+        <div class="k" style="color:var(--gold-ink)">Max at a glance</div>
+        <div class="b" style="margin-top:2px">Dog · Maltese · 4 yrs · 3.2 kg</div>
+        <div class="pp-strip">
+          <div class="pp-thumb"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:42% 45%;background-size:190%"></div><span class="pp-minus" aria-label="Delete photo 1"></span></div>
+          <div class="pp-thumb"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:70% 30%;background-size:300%"></div><span class="pp-minus" aria-label="Delete photo 2"></span></div>
+          <div class="pp-thumb"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:20% 70%;background-size:240%"></div><span class="pp-minus" aria-label="Delete photo 3"></span></div>
+          <span class="pp-plus" aria-label="Add photo">+</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block w" style="padding:12px 16px">
+      <div class="pp-glance" style="margin-top:0">
+        <svg class="pp-radar" viewBox="0 0 132 132" role="img" aria-label="Sociability: Social, Sensitivity: Sensitive, Energy: Active, Appetite: Food-driven, Trainability: Basics">
+          <polygon class="ring" points="66,12 117.36,49.31 97.74,109.69 34.26,109.69 14.64,49.31"/>
+          <polygon class="ring" points="66,25.5 104.52,53.49 89.81,98.76 42.19,98.76 27.48,53.49"/>
+          <polygon class="ring" points="66,39 91.68,57.66 81.87,87.84 50.13,87.84 40.32,57.66"/>
+          <polygon class="ring" points="66,52.5 78.84,61.83 73.94,76.92 58.06,76.92 53.16,61.83"/>
+          <line class="ring" x1="66" y1="66" x2="66" y2="12"/><line class="ring" x1="66" y1="66" x2="117.36" y2="49.31"/><line class="ring" x1="66" y1="66" x2="97.74" y2="109.69"/><line class="ring" x1="66" y1="66" x2="34.26" y2="109.69"/><line class="ring" x1="66" y1="66" x2="14.64" y2="49.31"/>
+          <polygon class="shape" points="66,12 104.52,53.49 89.81,98.76 34.26,109.69 40.32,57.66"/>
+          <circle class="pt" cx="66" cy="12" r="3.5"/><circle class="pt" cx="104.52" cy="53.49" r="3.5"/><circle class="pt" cx="89.81" cy="98.76" r="3.5"/><circle class="pt" cx="34.26" cy="109.69" r="3.5"/><circle class="pt" cx="40.32" cy="57.66" r="3.5"/>
+        </svg>
+        <div class="pp-levels">
+          <div><span>Sociability</span><b>Social</b></div>
+          <div><span>Sensitivity</span><b>Sensitive</b></div>
+          <div><span>Energy</span><b>Active</b></div>
+          <div><span>Appetite</span><b>Food-driven</b></div>
+          <div><span>Trainability</span><b>Basics</b></div>
+          <span class="link" style="margin-top:6px">Retake personality</span>
+        </div>
+      </div>
+      <div class="sm muted" style="margin-top:6px">Owner's description, not an assessment.</div>
+    </div>
+
+    <div class="block w" style="padding:12px 16px 14px">
+      <div class="between"><span class="pp-k" style="color:var(--warn-ink)">Heads-up</span><span class="sm muted b">What Max's sitter should watch out for</span></div>
+      <div class="pp-tags">
+        <span class="tag">⚠️ No chicken</span><span class="tag">💊 Daily medication</span><span class="tag">⚠️ Scared of the vacuum</span><span class="pp-add">+ Add</span>
+      </div>
+      <div class="pp-k muted" style="margin-top:10px">Good to know</div>
+      <div class="pp-tags">
+        <span class="tagx pp-good">Loves the squeaky ball</span><span class="tagx pp-good">Brush daily</span>
+      </div>
+    </div>
+
+    <div class="sec"><h3>Care tasks</h3><span class="link" style="min-height:24px">+ Add task</span></div>
+    <div class="list">
+      <div class="pp-task"><svg class="art" style="background:var(--blush)"><use href="#art-pill"/></svg><div><div class="b">Skin pill</div><div class="sm muted">2:00 PM · every day · in a treat</div></div><svg class="go"><use href="#x-chev"/></svg></div>
+      <div class="pp-task"><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="b">Breakfast</div><div class="sm muted">8:00 AM · every day · no chicken</div></div><svg class="go"><use href="#x-chev"/></svg></div>
+    </div>
+  </div>
+  <div class="pin"><div class="btn">Edit Max's profile</div></div>
+</div></template>
+<template id="x-profile-edit"><div class="xp" data-id="profile-edit">
+  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Profile</h1><p class="sub">Robert · Owner</p></div><div class="icons"><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="body" style="gap:8px">
+    <div class="block w" style="padding:10px 16px 12px">
+      <div class="pp-k muted">Your photos</div>
+      <div class="pp-gallery">
+        <div class="pp-gtile"><div class="photo cover" style="background-image:url(img/pet0.jpg);background-position:42% 40%;background-size:170%"></div><small>Cover</small></div>
+        <div class="pp-gtile"><div class="photo" style="background-image:url(img/pet0.jpg);background-position:70% 30%;background-size:280%"></div></div>
+        <div class="pp-gtile"><span class="pp-plus" aria-label="Add a photo">+</span></div>
+      </div>
+    </div>
+    <div class="pp-field"><span class="pp-label">Your name</span><span class="pp-input">Robert Park</span></div>
+    <div class="list">
+      <div class="li pp-li"><span>Phone<small>416 555 0148</small></span><svg class="pp-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="li pp-li"><span>Home address<small>12 Maple St, M2N 6K1<span class="pp-ok">✓ On the map</span></small></span><svg class="pp-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="li pp-li"><span>Emergency contact<small>Grace Park, 416 555 0193</small></span><svg class="pp-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="li pp-li"><span>Vet<small>Bayview Animal Clinic, 416 555 0110</small></span><svg class="pp-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="li pp-li"><span>Packing list<small>4 items</small></span><svg class="pp-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="li pp-li"><span>Entry info</span><svg><use href="#x-chev"/></svg></div>
+      <div class="li pp-li"><span>Meeting spots<small>Earl Bales Park, main lot</small></span><svg class="pp-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div>
+    </div>
+    <div class="pp-note m">🔒 Your address and emergency contact are shared only after a confirmed booking.</div>
+  </div>
+  <div class="pin"><div class="btn">Save</div></div>
+</div></template>
+<template id="x-sitter-schedule"><div class="xp" data-id="sitter-schedule">
+  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Schedule</h1><p class="sub">Chloe · Sitter</p></div>
+    <div class="icons"><span class="pp-hact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>Weekly rules</span></div></div>
+  <div class="body" style="gap:12px">
+    <div class="block w pp-cal">
+      <div class="pp-month"><span class="pp-nav off" aria-label="Previous month"><svg><use href="#x-back"/></svg></span><b>October 2026</b><span class="pp-nav" aria-label="Next month"><svg><use href="#x-chev"/></svg></span></div>
+      <div class="pp-week"><span class="pp-wd">S</span><span class="pp-wd">M</span><span class="pp-wd">T</span><span class="pp-wd">W</span><span class="pp-wd">T</span><span class="pp-wd">F</span><span class="pp-wd">S</span></div>
+      <div class="pp-week">
+        <span class="pp-blank"></span><span class="pp-blank"></span><span class="pp-blank"></span><span class="pp-blank"></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>1</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>2</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>3</b></span>
+      </div>
+      <div class="pp-week">
+        <span class="pp-day past"><i></i><i></i><i></i><b>4</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>5</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>6</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>7</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>8</b></span>
+        <span class="pp-day past"><i class="on"></i><i class="on"></i><i class="on"></i><b>9</b></span>
+        <span class="pp-day today"><i class="on"></i><i class="on"></i><i class="on"></i><b>10</b></span>
+      </div>
+      <div class="pp-week">
+        <span class="pp-day"><i></i><i></i><i></i><b>11</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>12</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>13</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>14</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>15</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>16</b></span>
+        <span class="pp-day sel"><i></i><i></i><i class="on"></i><b>17</b></span>
+      </div>
+      <div class="pp-week">
+        <span class="pp-day"><i></i><i></i><i></i><b>18</b></span>
+        <span class="pp-day"><i></i><i class="on"></i><i class="on"></i><b>19</b></span>
+        <span class="pp-day"><i></i><i class="on"></i><i class="on"></i><b>20</b></span>
+        <span class="pp-day"><i></i><i class="on"></i><i class="on"></i><b>21</b></span>
+        <span class="pp-day"><i></i><i class="on"></i><i class="on"></i><b>22</b></span>
+        <span class="pp-day"><i></i><i class="on"></i><i class="on"></i><b>23</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>24</b></span>
+      </div>
+      <div class="pp-week">
+        <span class="pp-day"><i></i><i></i><i></i><b>25</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>26</b></span>
+        <span class="pp-day"><i class="on"></i><i class="on"></i><i class="on"></i><b>27</b></span>
+        <span class="pp-day"><i></i><i></i><i></i><b>28</b></span>
+        <span class="pp-day"><i></i><i></i><i></i><b>29</b></span>
+        <span class="pp-day"><i></i><i></i><i></i><b>30</b></span>
+        <span class="pp-day"><i></i><i></i><i></i><b>31</b></span>
+      </div>
+      <div class="pp-legend"><span><i class="on"></i>Available</span><span><i></i>Not available</span></div>
+    </div>
+
+    <div class="block w" style="padding:14px 16px 16px">
+      <div class="between"><span class="h">Sat, Oct 17</span><span class="sm muted b">Tap a later day to pick a range.</span></div>
+      <div class="pp-slots">
+        <div class="pp-slot"><div><div class="b">Morning</div><div class="sm muted">8 AM to 12 PM · 1/3 booked</div></div><span class="tagx" style="background:var(--mint)">Open</span></div>
+        <div class="pp-slot"><div><div class="b">Afternoon</div><div class="sm muted">12 PM to 6 PM · 3/3 booked</div></div><span class="tagx" style="background:var(--butter)">Full</span></div>
+        <div class="pp-slot"><div><div class="b">Night</div><div class="sm muted">Owners can't book it</div></div><span class="tagx" style="background:var(--blush)">Blocked</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pin"><div class="btn">Open or block</div></div>
+</div></template>
+<template id="x-sitter-owner"><div class="xp" data-id="sitter-owner">
+  <div class="top pp-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Owner</h1><p class="sub">From your chat with Robert</p></div><div class="icons"><span class="avr"><span class="me">C</span></span></div></div>
+  <div class="body" style="gap:12px">
+    <div class="block m pp-person">
+      <div class="photo" style="background-image:url(img/pet0.jpg);background-position:42% 40%;background-size:170%"></div>
+      <div><div class="mid" style="color:var(--ink)">Robert Park</div><div class="sm muted b" style="margin-top:4px">Pet owner · Max &amp; Mochi</div></div>
+    </div>
+    <div class="list">
+      <div class="pp-kv"><span>Area</span><b>M2N</b></div>
+      <div class="pp-kv"><span>Phone</span><b>416 555 0148</b></div>
+    </div>
+    <div class="pp-note y">🔒 Only the area shows here. The street address and entry info open on a paid booking.</div>
+    <div class="sec"><h3>Pets</h3></div>
+    <div class="pets">
+      <div class="pet r"><svg class="art"><use href="#art-dog"/></svg><div><div class="h">Max</div><div class="sm muted">Maltese · 4 yrs</div><div class="sm b" style="color:var(--warn-ink)">⚠️ No chicken</div></div></div>
+      <div class="pet p"><svg class="art"><use href="#art-cat"/></svg><div><div class="h">Mochi</div><div class="sm muted">Shorthair · 3 yrs</div></div></div>
+    </div>
+    <div class="sec"><h3>Stays together</h3><span class="sm muted b">1 stay</span></div>
+    <div class="block w pp-stay">
+      <div class="between"><div class="h">Max &amp; Mochi · Boarding</div><span class="tagx" style="background:var(--mint)">In care</span></div>
+      <div class="sm muted b" style="margin-top:4px">Oct 9 to 12 at your place · Robert drives</div>
+      <div class="pp-open"><span>View booking</span><svg><use href="#x-chev"/></svg></div>
+    </div>
+  </div>
+</div></template>
+<template id="x-snap-treat-scan"><div class="xp" data-id="snap-treat-scan">
+  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Treat check</h1><p class="sub">We check Max's allergies and toxins.</p></div></div>
+  <div class="body">
+    <div class="sn-pick"><span class="k">Which pet?</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
+    <div class="block p" style="padding:12px 12px 16px">
+      <div class="sn-shot" role="img" aria-label="The label photo you picked">
+        <div class="sn-label">
+          <div class="nm">Sweet potato chew</div>
+          <div class="ing"><b>Ingredients:</b> dried sweet potato, vegetable glycerin, sunflower oil.</div>
+          <div class="ln" style="width:92%"></div><div class="ln" style="width:70%"></div>
+        </div>
+        <span class="sn-corner a"></span><span class="sn-corner b"></span><span class="sn-corner c"></span><span class="sn-corner d"></span>
+        <span class="sn-scan"></span>
+      </div>
+      <div class="sn-steps" style="padding:0 6px">
+        <div class="sn-step"><span class="sn-spin"></span>Reading the label…</div>
+        <div class="sn-step next"><span class="sn-ring"></span>Checking for Max</div>
+      </div>
+      <div class="sm" style="margin:10px 6px 0;color:var(--ink)">Then we check Max's allergies, foods unsafe for dogs and trusted vet sites. Up to a minute.</div>
+    </div>
+    <div class="sec"><h3>Recent checks</h3></div>
+    <div class="sn-list">
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Crunchy Bites</div><div class="sm muted">Chicken · may be hiding in the label</div></div><span class="verdict warn">WARNING</span></div>
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Garden Chews</div><div class="sm muted">Nothing on Max's list</div></div><span class="verdict ok">SAFE</span></div>
+    </div>
+    <p class="sn-note">AI can be wrong. Always double-check the label, and ask your vet if you're unsure.</p>
+  </div>
+  <div class="pin"><div class="btn sn-off" aria-disabled="true">Snap a label</div></div>
+</div></template>
+<template id="x-snap-treat-safe"><div class="xp" data-id="snap-treat-safe">
+  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Treat check</h1><p class="sub">We check Max's allergies and toxins.</p></div></div>
+  <div class="body">
+    <div class="sn-pick"><span class="k">Which pet?</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
+    <div class="block sn-ok">
+      <div class="sn-prod"><svg class="art"><use href="#art-bowl"/></svg><div><div class="mid">Looks fine for Max</div><div class="sm muted b" style="margin-top:4px">Sweet potato chew · just now</div></div></div>
+      <div class="sn-scale" role="img" aria-label="Result: Safe">
+        <div class="on"><i></i><span>Safe</span></div><div><i></i><span>Warning</span></div><div><i></i><span>Danger</span></div>
+      </div>
+      <p class="sm" style="margin:12px 0 0;color:var(--text)">Sweet potato, glycerin and sunflower oil are fine for dogs. Nothing here is on Max's list.</p>
+      <div class="sn-rule"></div>
+      <div class="sn-kvs">
+        <div class="kv"><span>Max's allergy · chicken</span><b>Not found</b></div>
+        <div class="kv"><span>Foods unsafe for dogs</span><b>Not found</b></div>
+        <div class="kv"><span>Second check</span><b>Done</b></div>
+      </div>
+    </div>
+    <div class="sec"><h3>Sources</h3></div>
+    <div class="list sn-src">
+      <div class="li"><span>People Foods to Avoid Feeding Your Pets<small>aspca.org</small></span><svg><use href="#x-chev"/></svg></div>
+      <div class="li"><span>Can Dogs Eat Sweet Potatoes?<small>akc.org</small></span><svg><use href="#x-chev"/></svg></div>
+    </div>
+    <span class="sn-tb">Ingredients we read (3)</span>
+    <p class="sn-note">AI can be wrong. Always double-check the label, and ask your vet if you're unsure.</p>
+  </div>
+  <div class="pin"><div class="btn">Check another treat</div></div>
+</div></template>
+<template id="x-snap-checks"><div class="xp" data-id="snap-checks">
+  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Recent checks</h1><p class="sub">Max's treat checks, newest first</p></div></div>
+  <div class="body" style="gap:10px">
+    <div class="sn-day">Today · Sat Oct 10</div>
+    <div class="sn-list">
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Chewy Chompers</div><div class="sm muted">Chicken · Max is allergic</div></div><span class="verdict bad">DANGER</span></div>
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Sweet potato chew</div><div class="sm muted">Nothing on Max's list</div></div><span class="verdict ok">SAFE</span></div>
+    </div>
+    <div class="sn-day">Thu Oct 8</div>
+    <div class="sn-list">
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Crunchy Bites</div><div class="sm muted">Chicken · may be hiding in the label</div></div><span class="verdict warn">WARNING</span></div>
+    </div>
+    <div class="sn-day">Mon Oct 5</div>
+    <div class="sn-list">
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Garden Chews</div><div class="sm muted">Nothing on Max's list</div></div><span class="verdict ok">SAFE</span></div>
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Treat label</div><div class="sm muted">Part of the label is missing</div></div><span class="verdict warn">WARNING</span></div>
+    </div>
+    <div class="sn-day">Fri Oct 2</div>
+    <div class="sn-list">
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Salmon bites</div><div class="sm muted">Nothing on Max's list</div></div><span class="verdict ok">SAFE</span></div>
+      <div class="it sn-it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Duck jerky</div><div class="sm muted">Nothing on Max's list</div></div><span class="verdict ok">SAFE</span></div>
+    </div>
+    <p class="sn-note" style="margin-top:4px">Tap a check to see its sources.</p>
+  </div>
+</div></template>
+<template id="x-snap-mood"><div class="xp" data-id="snap-mood">
+  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Mood</h1><p class="sub">How does Max seem today? Just for fun.</p></div></div>
+  <div class="body">
+    <div class="sn-pick"><span class="k">Whose photo? (optional)</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
+    <div class="sn-pic" style="background-image:url(img/pet0.jpg)" role="img" aria-label="Max's photo with a box around him">
+      <div class="sn-box"><span class="sn-boxtag">Max · 54% relaxed</span></div>
+    </div>
+    <div class="block m" style="padding:16px 18px">
+      <div class="h" style="color:var(--ink)">Max seems relaxed and a little sleepy.</div>
+      <div class="sn-moods" role="img" aria-label="Mood scores out of 100">
+        <div class="sn-mrow sn-hi"><span class="lb">😌 Relaxed</span><span class="bar"><i style="width:54%"></i></span><span class="vl">54%</span></div>
+        <div class="sn-mrow"><span class="lb">😴 Sleepy</span><span class="bar"><i style="width:24%"></i></span><span class="vl">24%</span></div>
+        <div class="sn-mrow"><span class="lb">😊 Happy</span><span class="bar"><i style="width:10%"></i></span><span class="vl">10%</span></div>
+        <div class="sn-mrow"><span class="lb">🧐 Curious</span><span class="bar"><i style="width:6%"></i></span><span class="vl">6%</span></div>
+        <div class="sn-mrow"><span class="lb">🤩 Excited</span><span class="bar"><i style="width:3%"></i></span><span class="vl">3%</span></div>
+        <div class="sn-mrow"><span class="lb">😟 Anxious</span><span class="bar"><i style="width:2%"></i></span><span class="vl">2%</span></div>
+        <div class="sn-mrow"><span class="lb">😢 Sad</span><span class="bar"><i style="width:1%"></i></span><span class="vl">1%</span></div>
+        <div class="sn-mrow"><span class="lb">😠 Angry</span><span class="bar"><i style="width:0%"></i></span><span class="vl">0%</span></div>
+      </div>
+    </div>
+    <p class="sn-note">For fun only, not a health check.</p>
+  </div>
+  <div class="pin"><div class="btn">Try another photo</div></div>
+</div></template>
+<template id="x-snap-sticker"><div class="xp" data-id="snap-sticker">
+  <div class="top sn-top"><div><span class="back"><svg><use href="#x-back"/></svg>Back</span><h1 class="hello" style="margin-top:6px">Sticker</h1><p class="sub">Cut Max out and decorate a diary page.</p></div></div>
+  <div class="body">
+    <div class="sn-pick"><span class="k">Whose sticker?</span><div class="chips"><span class="chip on"><svg class="art"><use href="#art-dog"/></svg>Max</span><span class="chip"><svg class="art"><use href="#art-cat"/></svg>Mochi</span></div></div>
+    <div class="sn-pick">
+    <div class="sn-pair">
+      <div class="sn-src-photo" style="background-image:url(img/pet0.jpg)" role="img" aria-label="Tap your pet to cut it out"><span class="sn-dot"></span></div>
+      <div class="sn-cut y" role="img" aria-label="Sticker preview"><div class="sn-sticker" style="background-image:url(img/pet0.jpg)"></div></div>
+    </div>
+    <div class="sm muted">Tap your pet if we picked the wrong thing.</div>
+    </div>
+    <div class="sec" style="margin-top:4px"><h3>Sticker box</h3><span class="sm muted b">3 stickers</span></div>
+    <div class="sn-grid">
+      <div class="sn-tile y"><div class="sn-sticker" style="background-image:url(img/pet0.jpg)"></div>
+        <span class="sn-hit tr" aria-label="Delete sticker"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></span>
+        <span class="sn-hit br" aria-label="Download sticker"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></span></div>
+      <div class="sn-tile y"><div class="sn-sticker" style="background-image:url(img/pet0.jpg);background-position:30% 40%"></div>
+        <span class="sn-hit tr" aria-label="Delete sticker"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></span>
+        <span class="sn-hit br" aria-label="Download sticker"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></span></div>
+      <div class="sn-tile y"><div class="sn-sticker" style="background-image:url(img/pet0.jpg);background-position:58% 60%"></div>
+        <span class="sn-hit tr" aria-label="Delete sticker"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></span></span>
+        <span class="sn-hit br" aria-label="Download sticker"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></span></div>
+    </div>
+  </div>
+  <div class="pin"><div class="btn">Save sticker</div><div class="sn-tbs"><span>Download sticker</span><span>Pick another photo</span></div></div>
 </div></template>
 <div id="out"></div>
 <script>

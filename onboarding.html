@@ -1106,3 +1106,40 @@ details.pcard[open]>summary::after{content:"\2212"}
   why(); render(false);
 })();
 </script>
+
+<script>
+/* Figma plugin ticket (Oct 25): the owner's pet setup, so every screen lands in Figma (Tickets tab, Dev reference).
+   One phone, stepped by hash (#s1-3 is flow S1, screen 3): flow S1 in full, S3's voice step, the Home reminder and the
+   sitter's "at a glance" card. */
+window.__ticket = { id: "onboarding", title: "Pet setup: Max's profile in two parts", issue: "https://github.com/minsikpaul92/Goldito/issues/115", workbench: "https://mooque-dev.github.io/goldito-design/onboarding.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Shape", a: "Part 1 Basics (required, fast), then Max is ready to book; Part 2 Personality (optional, stop any time); Meet Max reviews it" },
+    { q: "Ways in", a: "No AI (S1), with a photo that suggests the breed (S2), or by voice (S3)" },
+    { q: "Safety first", a: "Bites, escapes and foods to avoid are asked in Part 1, tagged For your sitter's safety" },
+    { q: "Afterwards", a: "Home reminds the owner to finish; the sitter sees Max at a glance" }],
+  spec: [], specLinks: [] };
+(() => { const ph = document.getElementById("phone"); if (ph) { ph.dataset.cap = "onb-s1-1"; ph.dataset.title = "Pet setup · 1 · Start with a photo?"; } })();
+window.__ticketStates = [
+  { cap: "onb-s1-2", on: "onb-s1-1", title: "Pet setup · 2 · Is your pet a dog or a cat?", go: () => { location.hash = "s1-2"; } },
+  { cap: "onb-s1-3", on: "onb-s1-1", title: "Pet setup · 3 · What's your dog's name?", go: () => { location.hash = "s1-3"; } },
+  { cap: "onb-s1-4", on: "onb-s1-1", title: "Pet setup · 4 · What breed is Max?", go: () => { location.hash = "s1-4"; } },
+  { cap: "onb-s1-5", on: "onb-s1-1", title: "Pet setup · 5 · How old is Max?", go: () => { location.hash = "s1-5"; } },
+  { cap: "onb-s1-6", on: "onb-s1-1", title: "Pet setup · 6 · About how heavy is Max?", go: () => { location.hash = "s1-6"; } },
+  { cap: "onb-s1-7", on: "onb-s1-1", title: "Pet setup · 7 · Has Max ever bitten or snapped at a person?", go: () => { location.hash = "s1-7"; } },
+  { cap: "onb-s1-8", on: "onb-s1-1", title: "Pet setup · 8 · Could Max slip out of a door or gate?", go: () => { location.hash = "s1-8"; } },
+  { cap: "onb-s1-9", on: "onb-s1-1", title: "Pet setup · 9 · Foods Max must avoid?", go: () => { location.hash = "s1-9"; } },
+  { cap: "onb-s1-10", on: "onb-s1-1", title: "Pet setup · 10 · Max is ready to book", go: () => { location.hash = "s1-10"; } },
+  { cap: "onb-s1-11", on: "onb-s1-1", title: "Pet setup · 11 · When a visitor comes in, Max…", go: () => { location.hash = "s1-11"; } },
+  { cap: "onb-s1-12", on: "onb-s1-1", title: "Pet setup · 12 · When there are loud noises, Max…", go: () => { location.hash = "s1-12"; } },
+  { cap: "onb-s1-13", on: "onb-s1-1", title: "Pet setup · 13 · On a normal day, Max needs…", go: () => { location.hash = "s1-13"; } },
+  { cap: "onb-s1-14", on: "onb-s1-1", title: "Pet setup · 14 · About treats, Max…", go: () => { location.hash = "s1-14"; } },
+  { cap: "onb-s1-15", on: "onb-s1-1", title: "Pet setup · 15 · On a leash, Max…", go: () => { location.hash = "s1-15"; } },
+  { cap: "onb-s1-16", on: "onb-s1-1", title: "Pet setup · 16 · With other animals, Max…", go: () => { location.hash = "s1-16"; } },
+  { cap: "onb-s1-17", on: "onb-s1-1", title: "Pet setup · 17 · Does Max guard food, toys or spaces?", go: () => { location.hash = "s1-17"; } },
+  { cap: "onb-s1-18", on: "onb-s1-1", title: "Pet setup · 18 · Meet Max", go: () => { location.hash = "s1-18"; } },
+  { cap: "onb-s3-5", on: "onb-s1-1", title: "Pet setup · with voice · Tell us about Max", go: () => { location.hash = "s3-5"; } },
+  { cap: "onb-later-1", on: "onb-s1-1", title: "Pet setup · Home with the reminder", go: () => { location.hash = "later-1"; } },
+  { cap: "onb-later-2", on: "onb-s1-1", title: "Pet setup · Home after Not now", go: () => { location.hash = "later-2"; } },
+  { cap: "onb-sitter-1", on: "onb-s1-1", title: "Pet setup · Max at a glance (personality not shared)", go: () => { location.hash = "sitter-1"; } },
+  { cap: "onb-sitter-2", on: "onb-s1-1", title: "Pet setup · Max at a glance (personality shared)", go: () => { location.hash = "sitter-2"; } }
+];
+</script>
