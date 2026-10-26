@@ -100,8 +100,20 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .sbtn svg{width:20px;height:20px;flex:none} .sbtn.apple{background:#000;color:#fff;border:0} .sbtn.google{background:#fff;color:#1F1F1F;border:1.5px solid #7F6F58}
 .or{display:flex;align-items:center;gap:10px;font-size:13px;color:#6B5D4A;font-weight:600} .or::before,.or::after{content:"";flex:1;height:1px;background:#CBBFA8}
 .demo2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.demo2 button{min-height:64px;border-radius:20px;border:0;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#1B4332;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.demo2 button{min-height:72px;border-radius:20px;border:0;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#1B4332;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
 .demo2 img{width:34px;height:34px}
+.rart{position:relative;flex:none} .rart img{position:absolute}
+.rart .ph{border-radius:50%;border:2.5px solid #fff;object-fit:cover}
+/* the card rules size every img 62 or 34 px square; role pictures keep their own sizes */
+.rolec .rart img,.demo2 .rart img{width:auto;height:auto;max-width:none}
+.soc.two{flex-direction:row} .soc.two .sbtn{flex:1;font-size:15px}
+.pair{display:flex;justify-content:center;align-items:center;gap:6px} .pair button{background:none;border:0;color:#1B4332;font:700 15.5px 'Plus Jakarta Sans',sans-serif;min-height:44px;padding:0 10px;cursor:pointer} .pair i{width:1px;height:18px;background:#CBBFA8}
+.pcard{background:#fff;border-radius:22px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;box-shadow:0 4px 14px rgba(0,0,0,.08);width:240px}
+.pcard .pt{display:flex;align-items:center;gap:10px;font:600 17px Fredoka,sans-serif;color:#1B4332} .pcard .pt img{width:40px;height:40px}
+.pcard .pr{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#1A1A1A} .pcard .pr span{width:74px;flex:none} .pcard .pr i{flex:1;height:22px;border-radius:8px;border:1.5px dashed #CBBFA8}
+.infos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.info{border-radius:16px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12.5px;font-weight:700;color:#1A1A1A;text-align:center}
+.info svg{width:20px;height:20px;color:#1B4332}
 .legal{font-size:12.5px;color:#6B5D4A;text-align:center} .legal a{color:#1B4332;font-weight:700}
 /* boot and loading */
 .boot{position:absolute;inset:0;z-index:8;background:#FBF6EA;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .35s}
@@ -127,6 +139,7 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .walkx{position:relative;width:110px;height:160px;flex:none}
 .walkx svg{position:absolute;width:30px;height:30px;color:#2D6A4F;opacity:0;animation:pawin 1.2s cubic-bezier(.2,.8,.2,1) forwards}
 .boot2{position:absolute;inset:0;z-index:8;background:#FBF6EA;transition:opacity .35s}
+.celebrate{padding-bottom:18%} /* a little above the middle: the eye reads true centre as low */
 .boot2 .logo{display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:rise .45s .9s forwards}
 .boot2 .logo img{width:52px;height:52px;image-rendering:pixelated} .boot2 .logo b{font:700 30px Fredoka,sans-serif;color:#1B4332}
 /* Welcome stickers */
@@ -144,6 +157,10 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .mini{background:#fff;border-radius:18px;padding:10px;display:flex;align-items:center;gap:6px;box-shadow:0 3px 10px rgba(0,0,0,.08)}
 .chk{display:inline-flex;align-items:center;gap:4px;min-height:32px;padding:0 10px;border-radius:999px;border:1.5px solid #7F6F58;font:700 12.5px 'Plus Jakarta Sans',sans-serif;color:#1B4332;background:#fff} .chk svg{width:13px;height:13px}
 .chk.on{background:#D8F3DC;border-color:#1B4332} .mini .cam{width:30px;height:30px;margin-left:auto}
+.relay{display:flex;flex-direction:column;align-items:center}
+.relay i{width:0;height:12px;border-left:2px dashed rgba(27,67,50,.5)}
+.relay span{display:flex;align-items:center;gap:6px;background:#fff;border-radius:999px;padding:4px 12px 4px 6px;font:800 12px 'Plus Jakarta Sans',sans-serif;color:#1A1A1A}
+.relay img{width:20px;height:20px;image-rendering:pixelated}
 .trail{display:flex;flex-direction:column;align-items:center;gap:2px;height:52px;justify-content:center}
 .trail svg{width:16px;height:16px;color:#C9962E;opacity:.85}
 .notif{background:#fff;border-radius:18px;padding:10px;display:flex;gap:10px;align-items:center;box-shadow:0 3px 10px rgba(0,0,0,.08)}
@@ -281,8 +298,8 @@ const CAP = {
   story: "Three pages from the onboarding plan: the problem, two roles, one stay. Swipe with Next, or Skip.",
   demo: "One tap picks who to be. The paw walks while the demo account opens.",
   signup: "Three short steps: who you are, Apple, Google or email, a password. One progress bar, one Back.",
-  login: "Apple and Google first, then email, then the demo with the hint for judges.",
-  petstart: "Setup says hello, how long it takes, and that you can stop any time.",
+  login: "Email and Log in, then the demo with the hint for judges. Apple and Google go above the email once they work.",
+  petstart: "Setup says hello and shows the card it fills (eats, scared of, loves), then how long it takes, that you can talk or type, and that you can stop any time.",
   done: "The welcome paw walk closes setup: Welcome to Goldito, with the tagline.",
   home: "A demo session: a banner says whose phone you're on and how to switch.",
 };
@@ -290,12 +307,12 @@ const STORIES = [
   { bg: "p", title: "No more “how's Max?”", body: "Photos, meals and meds arrive as they happen. You never have to ask your sitter.",
     vis: `<div class="chat1"><div class="cb x">How's Max?</div><div class="cb x">Did he eat?</div><div class="cb x">Any photos??</div></div><div class="feedc"><img src="${IMG("mumu_white_table")}" alt=""><span><b>Breakfast, every bite</b><small>Chloe · 8:12 AM · Max</small></span></div><div class="feedc"><img src="${IMG("mumu_lake_walk")}" alt=""><span><b>Walk, 20 minutes</b><small>Chloe · 9:40 AM · Max</small></span></div>` },
   { bg: "m", title: "Two sides, one app", body: "Owners learn without asking. Sitters care, snap and tap: no report essays.",
-    vis: `<div class="loop"><span class="who"><i class="av2 c">C</i>Chloe, the sitter: care, snap, tap</span><div class="mini"><span class="chk on">${ic("check")}Meal</span><span class="chk on">${ic("check")}Walk</span><span class="chk">Nap</span><img class="cam" src="${A("camera")}" alt=""></div><div class="trail" aria-hidden="true">${[0, 1, 2].map((k) => `<svg style="--d:${k * 0.25}s;transform:translateX(${k % 2 ? 10 : -10}px) rotate(180deg)"><use href="#i-paw"/></svg>`).join("")}</div><span class="who"><i class="av2 r">R</i>Robert, the owner: learns without asking</span><div class="notif"><img src="${IMG("mumu_white_table")}" alt=""><span><b>Max ate every bite</b><small>Chloe · 8:12 AM · just now</small></span></div></div>` },
+    vis: `<div class="loop"><span class="who"><i class="av2 c">C</i>Chloe, the sitter: care, snap, tap</span><div class="mini"><span class="chk on">${ic("check")}Meal</span><span class="chk on">${ic("check")}Walk</span><span class="chk">Nap</span><img class="cam" src="${A("camera")}" alt=""></div><div class="relay" aria-hidden="true"><i></i><span><img src="${A("goldito-coin-tight")}" alt="">Goldito sends the update</span><i></i></div><span class="who"><i class="av2 r">R</i>Robert, the owner: learns without asking</span><div class="notif"><img src="${IMG("mumu_white_table")}" alt=""><span><b>Max ate every bite</b><small>Chloe · 8:12 AM · just now</small></span></div></div>` },
   { bg: "y", title: "A stay with Goldito", body: "Everything from the first question to home safe, in one place.",
     vis: `<ol class="stay2">${[["Ask", "A quote in minutes", "house", "#FDE2CC"], ["Meet", "Care notes become a checklist", "care-bowl", "#D8F3DC"], ["Book", "Sign, pay, entry on time", "pill", "#FAD6CB"], ["Care", "Photos and the daily page", "camera", "#FBEFC8"], ["Home safe", "A review and Max's record", "pet-dog", "#D8F3DC"]].map(([t, sub, a, bg], k) => `<li><span class="node" style="background:${bg}"><img src="${A(a)}" alt=""><i>${k + 1}</i></span><span><b>${t}</b><small>${sub}</small></span></li>`).join("")}</ol>` },
 ];
 // Apple and Google sign-in, the same on Welcome, Sign up and Log in.
-const SOC = `<div class="soc"><button type="button" class="sbtn apple" data-p="social" data-v="Apple"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.14.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.33-3.56zM14.19 6.15c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg>Continue with Apple</button><button type="button" class="sbtn google" data-p="social" data-v="Google"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.9a5.04 5.04 0 0 1-2.19 3.31v2.75h3.54c2.08-1.92 3.25-4.74 3.25-8.07z"/><path fill="#34A853" d="M12 23c2.96 0 5.45-.98 7.26-2.66l-3.54-2.75c-.98.66-2.24 1.05-3.72 1.05-2.86 0-5.28-1.93-6.15-4.53H2.2v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.85 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.2a11 11 0 0 0 0 9.9l3.65-2.84z"/><path fill="#EA4335" d="M12 5.36c1.61 0 3.06.55 4.2 1.64l3.15-3.15C17.45 2.09 14.96 1 12 1A11 11 0 0 0 2.2 7.05l3.65 2.84C6.72 7.29 9.14 5.36 12 5.36z"/></svg>Continue with Google</button></div>`;
+const SOC = `<div class="soc two"><button type="button" class="sbtn apple" data-p="social" data-v="Apple" aria-label="Continue with Apple"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.14.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.33-3.56zM14.19 6.15c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg>Apple</button><button type="button" class="sbtn google" data-p="social" data-v="Google" aria-label="Continue with Google"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.9a5.04 5.04 0 0 1-2.19 3.31v2.75h3.54c2.08-1.92 3.25-4.74 3.25-8.07z"/><path fill="#34A853" d="M12 23c2.96 0 5.45-.98 7.26-2.66l-3.54-2.75c-.98.66-2.24 1.05-3.72 1.05-2.86 0-5.28-1.93-6.15-4.53H2.2v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.85 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.2a11 11 0 0 0 0 9.9l3.65-2.84z"/><path fill="#EA4335" d="M12 5.36c1.61 0 3.06.55 4.2 1.64l3.15-3.15C17.45 2.09 14.96 1 12 1A11 11 0 0 0 2.2 7.05l3.65 2.84C6.72 7.29 9.14 5.36 12 5.36z"/></svg>Google</button></div>`;
 // One paw walk for Boot and Finish: four prints rise bottom to top; Boot shows the logo under it, Finish the welcome.
 const walk = () => `<div class="walkx" aria-hidden="true">${[0, 1, 2, 3].map((k) => { const side = k % 2 ? 1 : -1; return `<svg style="left:${40 + side * 14}px;top:${120 - k * 36}px;--t:rotate(${side * 8}deg);animation-delay:${k * 0.14}s"><use href="#i-paw"/></svg>`; }).join("")}</div>`;
 const CHEV_R = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -305,16 +322,21 @@ const LEGAL = {
   privacy: ["Privacy", [["What this is", "Goldito is a pet-care app built for the Nebius x NVIDIA Global AI Hackathon. It is a prototype: please do not enter real payment details or anything you would not want a demo to hold. The demo accounts use fictional people, pets and addresses."], ["What we store"], ["Who can see it"], ["AI"], ["Other services that receive data"], ["Google Calendar and Meet"], ["On your device"], ["How long, and your choices"]]],
   terms: ["Terms of Service", [["1. About this prototype", "Goldito is a pet-care prototype developed for the Nebius x NVIDIA Global AI Hackathon. It is created for demonstration and judging purposes."], ["2. Pet care and responsibilities"], ["3. AI suggestions and veterinary disclaimer"], ["4. User content and photos"], ["5. Service availability and changes"]]],
 };
+// What each side gets (demo sheet, Log in demo tiles): the owner's home with a photo of Max arriving; the sitter with Max and Mochi and the camera.
+const roleArt = (role, size = 64) => { const k = size / 64, px = (n) => `${Math.round(n * k)}px`;
+  return role === "owner"
+    ? `<span class="rart" style="width:${px(64)};height:${px(64)}"><img src="${A("house")}" alt="" style="left:0;bottom:0;width:${px(50)}"><img class="ph" src="${IMG("mumu_white_table")}" alt="" style="right:0;top:0;width:${px(34)};height:${px(34)}"></span>`
+    : `<span class="rart" style="width:${px(64)};height:${px(64)}"><img src="${STK("mumu_party_hat")}" alt="" style="left:0;bottom:${px(2)};height:${px(56)}"><img src="${STK("orange_cat_lying_relaxed")}" alt="" style="right:${px(-4)};bottom:0;height:${px(26)}"><img src="${A("camera")}" alt="" style="right:0;top:${px(4)};width:${px(24)}"></span>`; };
 const scoreOf = (pw) => (pw.length >= 6) + (pw.length >= 10) + /[0-9]/.test(pw) + /[^A-Za-z0-9]/.test(pw);
 function screen() {
   const f = P.f;
-  const top = (o = {}) => `<div class="topbar">${o.back ? `<button type="button" class="ib" data-p="${o.back}" aria-label="Back">${ic("back")}</button>` : `<span class="brand"><img src="${A("goldito-coin-tight")}" alt="">Goldito</span>`}${o.prog != null ? `<div class="prog" role="progressbar" aria-valuenow="${o.prog}" aria-valuemin="0" aria-valuemax="100"><b style="width:${o.prog}%"></b></div>` : `<span class="sp"></span>`}${o.skip ? `<button type="button" class="skip" data-p="${o.skip}">Skip</button>` : ""}</div>`;
+  const top = (o = {}) => `<div class="topbar">${o.back ? `<button type="button" class="backl" data-p="${o.back}">${ic("back")}Back</button>` : `<span class="brand"><img src="${A("goldito-coin-tight")}" alt="">Goldito</span>`}${o.prog != null ? `<div class="prog" role="progressbar" aria-valuenow="${o.prog}" aria-valuemin="0" aria-valuemax="100"><b style="width:${o.prog}%"></b></div>` : `<span class="sp"></span>`}${o.skip ? `<button type="button" class="skip" data-p="${o.skip}">Skip</button>` : ""}</div>`;
   switch (P.s) {
     case "boot": return `<div class="celebrate boot2" id="boot">${walk()}<div class="logo"><img src="${A("goldito-coin-tight")}" alt=""><b>Goldito</b></div></div>`;
     case "welcome": return `${top()}<div class="scroll" style="padding-top:2px">
       <div class="hero" style="height:132px"><span class="sun"></span><span class="ground"></span><span class="tagg" style="left:auto;right:14px;top:14px">${ic("paw")}Booked with Chloe</span><img class="stk s1" src="${STK("g_star")}" alt=""><img class="stk s2" src="${STK("g_heart")}" alt=""><img class="stk s3" src="${STK("g_ball")}" alt=""><img class="stk s4" src="${STK("g_sun")}" alt=""><img class="pet p1" src="${STK("mumu_party_hat")}" alt="Max, a white dog" style="height:94px;bottom:10px"><img class="pet p2" src="${STK("orange_cat_lying_relaxed")}" alt="Mochi, an orange cat" style="height:56px;bottom:12px"></div>
       <h3>Leave your pet. Keep your peace of mind.</h3><p>Updates from your sitter without asking. Care notes for sitters without typing.</p><button type="button" class="howc" data-p="story"><img src="${A("sticker-paw")}" alt=""><span><b>How it works</b><small>Three short pages, about a minute</small></span>${CHEV_R}</button></div>
-      <div class="foot"><button type="button" class="btn" data-p="demo">Try the demo</button>${P.soc ? SOC : ""}<div style="display:flex;justify-content:space-between"><button type="button" class="btn t" style="width:auto" data-p="signup">Sign up with email</button><button type="button" class="btn t" style="width:auto" data-p="login">Log in</button></div><div class="legalrow"><button type="button" data-p="privacy">Privacy</button><span aria-hidden="true">·</span><button type="button" data-p="terms">Terms</button></div></div>`;
+      <div class="foot"><button type="button" class="btn" data-p="demo">Try the demo</button>${P.soc ? SOC : ""}<div class="pair"><button type="button" data-p="signup">Sign up with email</button><i aria-hidden="true"></i><button type="button" data-p="login">Log in</button></div><div class="legalrow"><button type="button" data-p="privacy">Privacy</button><span aria-hidden="true">·</span><button type="button" data-p="terms">Terms</button></div></div>`;
     case "privacy": case "terms": { const [title, secs] = LEGAL[P.s];
       return `<div class="topbar"><button type="button" class="backl" data-p="welcome">${ic("back")}Back</button><span class="sp"></span></div><div class="scroll"><h3 class="lgh">${title}</h3><p class="lgu">Last updated October 24, 2026</p>
         ${secs.map(([h, body], i) => `<div class="lgc${P.open === i ? " on" : ""}"><button type="button" data-lg="${i}" aria-expanded="${P.open === i}">${h}${CHEV_D}</button>${P.open === i ? `<p>${body || "The full text is in the app."}</p>` : ""}</div>`).join("")}</div>`; }
@@ -325,8 +347,8 @@ function screen() {
       const prog = [33, 66, 100][P.step], back = P.step ? "stepprev" : "welcome";
       if (P.step === 0) return `${top({ back, prog })}<div class="scroll"><h3>Who are you?</h3><p>You can add the other side later.</p>
         <div role="radiogroup" aria-label="Role" style="display:flex;flex-direction:column;gap:10px">
-        <button type="button" role="radio" class="rolec p" aria-checked="${P.role === "owner"}" data-role="owner"><img src="${A("pet-dog")}" alt=""><span><b>I have a pet</b><small>Book a sitter and get updates without asking.</small></span><span class="rd"></span></button>
-        <button type="button" role="radio" class="rolec m" aria-checked="${P.role === "sitter"}" data-role="sitter"><img src="${A("five-second")}" alt=""><span><b>I'm a pet sitter</b><small>Care, snap, tap. Goldito writes the day.</small></span><span class="rd"></span></button></div></div>
+        <button type="button" role="radio" class="rolec p" aria-checked="${P.role === "owner"}" data-role="owner">${roleArt("owner", 64)}<span><b>I have a pet</b><small>Book a sitter and get updates without asking.</small></span><span class="rd"></span></button>
+        <button type="button" role="radio" class="rolec m" aria-checked="${P.role === "sitter"}" data-role="sitter">${roleArt("sitter", 64)}<span><b>I'm a pet sitter</b><small>Care, snap, tap. Goldito writes the day.</small></span><span class="rd"></span></button></div></div>
         <div class="foot"><button type="button" class="btn" data-p="stepnext" ${P.role ? "" : "disabled"}>${P.role ? "Continue" : "Pick one to continue"}</button></div>`;
       if (P.step === 1) return `${top({ back, prog })}<div class="scroll"><h3>Create your account</h3><p>${P.role === "owner" ? "Your sitter sees your first name." : "Owners see your first name."}</p>${P.soc ? `${SOC}<div class="or">or with email</div>` : ""}
         <div class="row2"><div class="fld"><label for="f1">First name</label><input id="f1" data-f="first" value="${esc(f.first)}" autocomplete="given-name"></div><div class="fld"><label for="f2">Last name</label><input id="f2" data-f="last" value="${esc(f.last)}" autocomplete="family-name"></div></div>
@@ -340,15 +362,17 @@ function screen() {
     case "login": return `${top({ back: "welcome" })}<div class="scroll"><h3>Welcome back</h3><p>Log in to see today with your pet.</p>${P.soc ? `${SOC}<div class="or">or with email</div>` : ""}
       <div class="fld"><label for="l1">Email</label><input id="l1" type="email" placeholder="you@example.com" autocomplete="email"></div>
       <div class="fld"><label for="l2">Password</label><input id="l2" type="password" autocomplete="current-password"></div>
-      <div style="display:flex;justify-content:space-between;align-items:center"><button type="button" class="btn t" style="width:auto;padding:0" data-p="forgot">Forgot password?</button><button type="button" class="btn" style="width:auto;min-height:50px" data-p="forgot">Log in</button></div>
+      <button type="button" class="btn" data-p="forgot">Log in</button>
       <div class="or">or try the demo</div>
-      <div class="demo2"><button type="button" style="background:#FDE2CC" data-as="owner"><img src="${A("pet-dog")}" alt="">Owner</button><button type="button" style="background:#D8F3DC" data-as="sitter"><img src="${A("five-second")}" alt="">Sitter</button></div>
+      <div class="demo2"><button type="button" style="background:#FDE2CC" data-as="owner">${roleArt("owner", 48)}Owner</button><button type="button" style="background:#D8F3DC" data-as="sitter">${roleArt("sitter", 48)}Sitter</button></div>
       <p class="legal">Demo accounts include Max (Maltese, allergic to chicken) and Mochi (cat), booked with Chloe for Thanksgiving weekend.</p></div>
       <div class="foot" style="padding-top:0"><button type="button" class="btn t" data-p="signup">New here? Create an account</button></div>`;
-    case "petstart": return `${top({ back: "welcome" })}<div class="scroll"><div class="hero" style="height:260px;background:#FDE2CC"><span class="sun"></span><span class="ground" style="background:#F2C9A8"></span><img src="${A("pet-dog")}" alt="" style="position:absolute;left:40px;bottom:40px;width:120px"><img src="${A("pet-cat")}" alt="" style="position:absolute;right:40px;bottom:40px;width:96px"></div>
+    case "petstart": return `${top({ back: "welcome" })}<div class="scroll"><div class="hero" style="height:236px;background:#FDE2CC;display:flex;align-items:center;justify-content:center"><span class="sun"></span><span class="ground" style="background:#F2C9A8"></span>
+        <div class="pcard" style="position:relative"><span class="pt"><img src="${A("pet-dog")}" alt="">Your pet's card</span><span class="pr"><span>Eats</span><i></i></span><span class="pr"><span>Scared of</span><i></i></span><span class="pr"><span>Loves</span><i></i></span></div>
+        <img src="${A("pet-cat")}" alt="" style="position:absolute;right:18px;bottom:14px;width:56px"></div>
       <h3>Hi ${esc(f.first || "Robert")}! Let's meet your pet.</h3><p>A few questions so your sitter knows them like you do: what they eat, what scares them, what they love.</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="tagg" style="position:static;background:#FBEFC8">About 3 minutes</span><span class="tagg" style="position:static;background:#D8F3DC">Talk or type</span><span class="tagg" style="position:static;background:#FAD6CB">Stop any time</span></div></div>
-      <div class="foot"><button type="button" class="btn" data-p="done">Let's start</button><button type="button" class="btn t" data-p="home">Add a pet later</button></div>`;
+      <div class="infos"><span class="info" style="background:#FBEFC8"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>About 3 minutes</span><span class="info" style="background:#D8F3DC"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>Talk or type</span><span class="info" style="background:#FAD6CB"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M10 15V9M14 15V9"/></svg>Stop any time</span></div></div>
+      <div class="foot"><button type="button" class="btn" data-p="done">Let's start</button><div class="pair"><button type="button" data-p="home">Add a pet later</button></div></div>`;
     case "done": return `<div class="celebrate">${walk()}
       <h3 style="font-size:30px">Welcome to Goldito</h3><p style="font-weight:700;color:#1B4332">Leave your pet. Keep your peace of mind.</p><p>Max is all set. Chloe will know him like you do.</p><button type="button" class="btn" data-p="home" style="margin-top:12px">Go to Home</button></div>`;
     case "home": { const who = P.as === "sitter" ? ["Chloe", "Sitter", "Max and Mochi are with you", "five-second"] : ["Robert", "Owner", "Max and Mochi are with Chloe", "pet-dog"];
@@ -360,8 +384,8 @@ function screen() {
 }
 function demoSheet() {
   return `<div class="scrim" data-p="unsheet"></div><div class="sheet" role="dialog" aria-label="Try the demo as"><span class="grab"></span><h4>Try Goldito as…</h4><p style="font-size:14.5px">No sign-up. Everything resets when you leave.</p>
-    <button type="button" class="rolec p" data-as="owner"><img src="${A("pet-dog")}" alt=""><span><b>Robert, the owner</b><small>Max and Mochi are with Chloe this weekend. Follow the stay from home.</small></span></button>
-    <button type="button" class="rolec m" data-as="sitter"><img src="${A("five-second")}" alt=""><span><b>Chloe, the sitter</b><small>Max and Mochi are staying with you. Check in, snap a photo, done.</small></span></button></div>`;
+    <button type="button" class="rolec p" data-as="owner">${roleArt("owner", 72)}<span><b>Robert, the owner</b><small>Max and Mochi are with Chloe this weekend. Follow the stay from home.</small></span></button>
+    <button type="button" class="rolec m" data-as="sitter">${roleArt("sitter", 72)}<span><b>Chloe, the sitter</b><small>Max and Mochi are staying with you. Check in, snap a photo, done.</small></span></button></div>`;
 }
 let bootT = null, loadT = null;
 function prop() {
@@ -398,7 +422,7 @@ document.addEventListener("click", (e) => {
   else if (p === "stepprev") { P.step--; prop(); }
   else if (p === "create") go(P.role === "sitter" ? "home" : "petstart", { as: null });
   else if (p === "social") { document.getElementById("pcap").textContent = `In the app this signs in with ${b.dataset.v}, then asks Owner or Sitter if it's a new account. Today it only says Coming soon.`; return; }
-  else if (p === "forgot") { const c = document.getElementById("pcap"); c.textContent = "In the app this opens Forgot password or logs in; the trial skips it."; }
+  else if (p === "forgot") { const c = document.getElementById("pcap"); c.textContent = "In the app this logs in. There is no Forgot password yet: nothing resets a password (PR #384)."; }
   else go(p);
 });
 document.getElementById("prop").addEventListener("input", (e) => {
