@@ -169,8 +169,8 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .listrow.tap{cursor:pointer} .listrow .chev{width:var(--icon-sm);height:var(--icon-sm);color:var(--c-muted);flex:none}
 /* Sheet: scrim (tokens.color.overlay), white top sheet radius xl, grab handle, title (section, display) + Close, md padding */
 .sheetlayer{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;justify-content:flex-end}
-.sheetlayer .scrim{position:absolute;inset:0;background:rgba(26,26,26,.4);animation:fade 240ms ease-out}
-.sheet{position:relative;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:var(--s-sm) var(--s-md) var(--s-md);display:flex;flex-direction:column;gap:var(--s-md);animation:rise 240ms ease-out;max-height:85%;overflow-y:auto;overscroll-behavior:contain}
+.sheetlayer .scrim{position:absolute;inset:0;background:rgba(26,26,26,.4)} .sheetlayer.fresh .scrim{animation:fade 240ms ease-out} .sheetlayer.fresh .sheet{animation:rise 240ms ease-out}
+.sheet{position:relative;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:var(--s-sm) var(--s-md) var(--s-md);display:flex;flex-direction:column;gap:var(--s-md);max-height:85%;overflow-y:auto;overscroll-behavior:contain}
 .sheet .grab{align-self:center;width:36px;height:var(--s-xs);border-radius:var(--r-pill);background:var(--c-track)}
 .sheet .shead{display:flex;align-items:center;justify-content:space-between;gap:var(--s-sm)} .sheet .shead h3{margin:0;font:600 var(--f-section)/var(--lh-section) var(--display);color:var(--c-text)}
 .sheet .why{margin-top:calc(var(--s-sm) * -1);font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)}
@@ -188,6 +188,72 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .switch{width:52px;height:32px;border-radius:var(--r-pill);background:var(--c-track);position:relative;border:0;flex:none;cursor:pointer}
 .switch::after{content:"";position:absolute;left:var(--s-xs);top:var(--s-xs);width:24px;height:24px;border-radius:50%;background:var(--c-surface);transition:left 120ms}
 .switch[aria-checked=true]{background:var(--c-success)} .switch[aria-checked=true]::after{left:24px}
+/* ---------- The screens each step opens (pushed over Home, as Stack screens are) ---------- */
+.pagelayer{position:absolute;inset:0;z-index:7;pointer-events:none} .page{position:absolute;inset:0;background:var(--c-bg);display:flex;flex-direction:column;pointer-events:auto;animation:push 240ms ease-out}
+@keyframes push{from{transform:translateX(100%)}to{transform:none}}
+.page .toast{bottom:calc(var(--btn-h) + var(--s-md) + var(--s-sm))}
+/* Stack header: back icon.md in a 44 target, title section display, right action */
+.nav{display:flex;align-items:center;gap:var(--s-xs);padding:0 var(--s-sm);min-height:var(--touch);flex:none} .nav h2{flex:1;margin:0;font:600 var(--f-section)/var(--lh-section) var(--display);color:var(--c-text)}
+.nav .iconbtn svg,.sftop .iconbtn svg{width:var(--icon-md);height:var(--icon-md)}
+.iconbtn{border:0;background:none;padding:0;cursor:pointer} .iconbtn:disabled{opacity:.35;cursor:default}
+.navaction{display:inline-flex;align-items:center;gap:var(--s-xs);min-height:var(--touch);border:0;background:none;padding:0 var(--s-sm);font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-primary);cursor:pointer} .navaction svg{width:var(--icon-sm);height:var(--icon-sm)}
+.footer.stack{display:flex;flex-direction:column;gap:var(--s-sm)} .navrow{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm)}
+.button:disabled{opacity:.4;cursor:default} .button:disabled:active{transform:none}
+.textbutton{cursor:pointer;align-self:flex-start} .textbutton:disabled{opacity:.4}
+.muted{margin:0;font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* StepFrame: logo, Back + progress (8 tall track), the 28/36 question, an 18/24 hint, answers sm+xs apart */
+.stepframe{gap:var(--s-md)} .sfhead{display:flex;align-items:center;justify-content:space-between;min-height:var(--touch)}
+.logo{display:inline-flex;align-items:center;gap:6px;font:700 var(--f-option)/var(--icon-md) var(--display);color:var(--c-text)} .logo img{width:var(--icon-md);height:var(--icon-md)}
+.sftop{display:flex;align-items:center;gap:var(--s-sm)} .track{flex:1;height:var(--s-sm);border-radius:var(--r-pill);background:var(--c-track);overflow:hidden} .track i{display:block;height:100%;border-radius:var(--r-pill);background:var(--c-primary);transition:width 240ms}
+.sftitle{margin:var(--s-sm) 0 0;font:700 28px/36px var(--display);color:var(--c-text);text-wrap:balance} .sfhint{margin:0;font:400 var(--f-lead)/var(--lh-lead) var(--ui);color:var(--c-muted)}
+.sfbody{display:flex;flex-direction:column;gap:12px}
+.heard{margin:0;font:400 var(--f-lead)/var(--lh-lead) var(--ui);color:var(--c-primary)}
+/* BigOption: 64 min, 2 px border, radius button (pill), label 20/26 semibold; selected = accent + primary border + check icon.md */
+.bigopt{min-height:64px;display:flex;align-items:center;gap:var(--s-sm);padding:var(--s-sm) var(--s-md);background:var(--c-surface);border:2px solid var(--c-border);border-radius:var(--r-pill);text-align:left;cursor:pointer;color:var(--c-text);transition:opacity 120ms}
+.bigopt:active{opacity:.85} .bigopt[aria-pressed=true]{border-color:var(--c-primary);background:var(--c-accent)} .bigopt .txt{flex:1;display:flex;flex-direction:column}
+.bigopt .l{font:600 var(--f-option)/var(--lh-option) var(--ui)} .bigopt .b{font:600 var(--f-small)/18px var(--ui);color:var(--c-primary)} .bigopt .sel svg{width:var(--icon-md);height:var(--icon-md);color:var(--c-primary);display:block}
+/* BigInput: 20 px, 2 px border, radius card when multiline */
+.biginput{min-height:140px;border:2px solid var(--c-border);border-radius:var(--r-lg);padding:var(--s-sm) var(--s-md);font:400 var(--f-option)/var(--lh-option) var(--ui);color:var(--c-text);background:var(--c-surface);resize:none;width:100%}
+.biginput:focus{outline:2px solid var(--c-text);outline-offset:0}
+/* VoiceStep: a big mic button, the status line, Or type it */
+.voice{display:flex;flex-direction:column;align-items:center;gap:var(--s-sm);padding:var(--s-md) 0} .voice .button{width:100%}
+.mic{width:88px;height:88px;border-radius:50%;border:0;background:var(--c-primary);color:var(--c-on-primary);display:grid;place-items:center;cursor:pointer;transition:transform 120ms} .mic:active{transform:scale(.97)} .mic svg{width:var(--icon-hero);height:var(--icon-hero)}
+.voice .status{font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)} .voice .textbutton{align-self:center}
+.answer{margin:0;font:400 var(--f-lead)/var(--lh-lead) var(--ui);color:var(--c-text)}
+.reviewrow{display:flex;flex-direction:column;gap:var(--s-xs);padding-bottom:var(--s-sm);border-bottom:1px solid var(--c-border)} .reviewrow .p{font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)} .reviewrow .a{font:400 var(--f-lead)/var(--lh-lead) var(--ui);color:var(--c-text)}
+.card.plain{border-radius:var(--r-lg);gap:var(--s-sm)} .card.plain .textbutton{padding-left:0}
+/* Profile */
+.role{font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)} .group{display:flex;flex-direction:column;gap:var(--s-sm)}
+.gtitle{font:600 var(--f-body)/var(--lh-body) var(--ui);color:var(--c-text)}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-sm)} .ptile{position:relative;aspect-ratio:1;border-radius:var(--r-md);overflow:hidden;background:var(--c-surface);max-width:100%}
+.ptile img{width:100%;height:100%;object-fit:cover;display:block} .ptile.add{border:1.5px dashed var(--c-border-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s-xs);cursor:pointer;color:var(--c-text)} .ptile.add svg{width:var(--icon-sm);height:var(--icon-sm)} .ptile.add small{font:600 var(--f-caption)/var(--lh-caption) var(--ui)}
+.premove{position:absolute;top:0;right:0;width:var(--touch);height:var(--touch);border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0} .premove svg{width:var(--icon-sm);height:var(--icon-sm);padding:3px;border-radius:50%;background:rgba(26,26,26,.55);color:#fff}
+/* Collapsible: card (radius lg), header 44+ with title body semibold + one-line summary small muted, chevron 20 */
+.collapsible{background:var(--c-surface);border-radius:var(--r-lg);overflow:hidden} .chead{display:flex;align-items:center;width:100%;min-height:var(--touch);padding:0 var(--s-md);border:0;background:none;text-align:left;cursor:pointer;color:var(--c-text)}
+.chead .txt{flex:1;min-width:0;padding:var(--s-sm) 0;display:flex;flex-direction:column} .chead .title{font:600 var(--f-body)/var(--lh-body) var(--ui)} .chead .sub{font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chevron{padding-left:var(--s-sm);color:var(--c-muted);display:grid} .chevron svg{width:20px;height:20px;transition:transform 120ms} .chevron.closed svg{transform:rotate(-90deg)}
+.cbody{display:flex;flex-direction:column;gap:var(--s-md);padding:0 var(--s-md) var(--s-md)}
+.spotrow{display:flex;align-items:flex-end;gap:var(--s-xs)} .spotrow .field{flex:1;min-width:0} .spotrow .iconbtn svg{width:var(--icon-sm);height:var(--icon-sm)}
+.checkrow.tap{width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;cursor:pointer;color:var(--c-text);padding:var(--s-sm) 0} .checkrow.tap:first-of-type{border-top:0}
+.checkrow .txt{display:flex;flex-direction:column} .checkrow .sub{font:400 var(--home-body)/17.5px var(--ui);color:var(--c-muted)}
+.listgroup.inset{background:var(--c-bg);padding:0 var(--s-md)}
+/* SegmentedControl: track ground, pill, 44 tall; selected = surface + ink */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:var(--s-xs);padding:var(--s-xs);border-radius:var(--r-pill);background:var(--c-track)}
+.seg button{min-height:36px;border:0;border-radius:var(--r-pill);background:none;font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted);cursor:pointer} .seg button[aria-checked=true]{background:var(--c-surface);color:var(--c-text)}
+/* SlotCalendar: month header, 7 columns, a day = number + three slot dots (open = success, closed = track) */
+.calendar{background:var(--c-surface);border-radius:var(--r-lg);padding:var(--s-sm);display:flex;flex-direction:column;gap:var(--s-xs)}
+.mhead{display:flex;align-items:center;justify-content:space-between} .mhead b{font:600 var(--f-body)/var(--lh-body) var(--ui)} .mhead .iconbtn svg{width:var(--icon-sm);height:var(--icon-sm)}
+.calendar .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px} .wd{text-align:center;font:700 var(--f-caption)/var(--lh-caption) var(--ui);color:var(--c-muted);padding:var(--s-xs) 0}
+.day{min-height:var(--touch);border:0;border-radius:var(--r-md);background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 var(--f-small)/1 var(--ui);color:var(--c-text);cursor:pointer;padding:0}
+.day.past{color:var(--c-placeholder);cursor:default} .day.past .dots{visibility:hidden} .day.today{box-shadow:inset 0 0 0 1.5px var(--c-border-strong)} .day.sel{background:var(--c-accent);box-shadow:inset 0 0 0 2px var(--c-primary)}
+.dots{display:flex;gap:2px} .dots i,.legend i{width:var(--s-xs);height:var(--s-xs);border-radius:50%;background:var(--c-track);display:block} .dots i.o,.legend i.o{background:var(--c-success)}
+.legend{display:flex;gap:var(--s-md);align-items:center;padding:var(--s-xs) var(--s-xs) 0;font:400 var(--f-caption)/var(--lh-caption) var(--ui);color:var(--c-text)} .legend span{display:inline-flex;align-items:center;gap:var(--s-xs)} .legend .muted{font-size:var(--f-caption);line-height:var(--lh-caption);margin-left:auto}
+.stitle{font:700 var(--f-body)/var(--lh-body) var(--ui);color:var(--c-text)} .line{font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-text)}
+/* ClosingRulesSheet grid: a label column, then seven 44-tall cells; closed = ink with an x */
+.rulesgrid{display:grid;grid-template-columns:72px repeat(7,1fr);gap:var(--s-xs);align-items:center} .rl{font:600 var(--f-small)/var(--lh-small) var(--ui)}
+.cell{height:var(--touch);border-radius:var(--r-md);border:1.5px solid var(--c-border-strong);background:var(--c-surface);display:grid;place-items:center;cursor:pointer;padding:0;color:var(--c-on-primary)} .cell.closed{background:var(--c-text);border-color:var(--c-text)} .cell svg{width:var(--f-small);height:var(--f-small)}
+.sheet .field{width:100%}
 @media (prefers-reduced-motion:reduce){.ph *{animation:none!important;transition:none!important}}
 </style>
 <script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
@@ -195,7 +261,7 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 <header style="display:flex;flex-direction:column;gap:.6rem">
   <span class="eyebrow">Trial · E chosen Oct 26</span>
   <h1><span class="en">A sitter's Home before the first booking</span><span class="ko">첫 예약 전 시터의 홈</span></h1>
-  <p class="lede"><span class="en">Today a new sitter lands on a weather emoji and "No pets in your care today". This Home turns the wait into getting booked: the search card owners will see fills in at the top, a paw trail turns each finished step into a coin on the way to the first guest, and one button always opens the next missing step. Tap the coins or the button to fill them, or jump between states. Every size, color and font comes from the app's tokens or an existing component; the audit is under the phones.</span><span class="ko">지금 새 시터는 날씨 이모지와 "오늘 돌보는 펫이 없어요"만 봐요. 이 홈은 기다림을 예약 준비로 바꿔요: 위에는 보호자가 검색에서 볼 카드가 채워지고, 발자국 길은 끝낸 단계마다 코인이 되어 첫 손님까지 이어지며, 버튼 하나가 늘 다음 빠진 단계를 열어요. 모든 크기, 색, 글꼴은 앱의 토큰이나 기존 컴포넌트에서 왔어요; 점검표는 폰 아래에 있어요.</span></p>
+  <p class="lede"><span class="en">Today a new sitter lands on a weather emoji and "No pets in your care today". This Home turns the wait into getting booked: the search card owners will see fills in at the top, a paw trail turns each finished step into a coin, and one button always opens the next missing step. Each step opens the app's real screen, rebuilt here from the code on main: the nine setup questions (with voice), Profile, and Schedule with its Weekly rules. Every size, color and font comes from the app's tokens or an existing component; the audit is under the phones.</span><span class="ko">지금 새 시터는 날씨 이모지와 "오늘 돌보는 펫이 없어요"만 봐요. 이 홈은 기다림을 예약 준비로 바꿔요: 위에는 보호자가 검색에서 볼 카드가 채워지고, 발자국 길은 끝낸 단계마다 코인이 되며, 버튼 하나가 늘 다음 빠진 단계를 열어요. 각 단계는 main 코드에서 다시 만든 앱의 실제 화면을 열어요: 아홉 개의 설정 질문(음성 포함), 프로필, 주간 규칙이 있는 일정. 모든 크기, 색, 글꼴은 앱의 토큰이나 기존 컴포넌트에서 왔어요; 점검표는 폰 아래에 있어요.</span></p>
 </header>
 
 <section>
@@ -217,16 +283,16 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 <section>
   <h2><span class="en">How it works</span><span class="ko">어떻게 동작하나</span></h2>
   <div class="notes">
-    <div class="nt"><b><span class="n">1</span><span class="en">The card owners see</span><span class="ko">보호자가 보는 카드</span></b><span><span class="en">The top card is SitterResultCard, the one owners pick from in search, filling in as you go: photo, then rate and the "Free on your dates" pill. A Ready tag lands when the five steps are in.</span><span class="ko">위 카드는 보호자가 검색에서 고르는 SitterResultCard 그대로, 단계가 채워질수록 사진, 요금, "가능" 표시가 나타나요. 다섯 단계가 차면 Ready 태그.</span></span></div>
-    <div class="nt"><b><span class="n">2</span><span class="en">The paw trail</span><span class="ko">발자국 길</span></b><span><span class="en">Five stops, one per step; a finished step becomes a Goldito coin and the paw walks on to the house. When requests come in, the same trail becomes the stay's five stages: Ask, Meet, Book, Care, Home.</span><span class="ko">단계마다 정류장 다섯; 끝낸 단계는 골디토 코인이 되고 발자국이 집까지 걸어가요. 요청이 오면 같은 길이 머무름의 다섯 단계가 돼요.</span></span></div>
-    <div class="nt"><b><span class="n">3</span><span class="en">One button</span><span class="ko">버튼 하나</span></b><span><span class="en">The pinned button names the next missing step and opens where it's set (Profile or Schedule). Auto-send is a bonus, not part of ready. All set, it becomes Edit your answers.</span><span class="ko">고정 버튼은 다음 빠진 단계의 이름으로 그 화면을 열어요. 자동 보내기는 보너스. 다 되면 답변 수정이 돼요.</span></span></div>
+    <div class="nt"><b><span class="n">1</span><span class="en">Five real steps</span><span class="ko">실제 다섯 단계</span></b><span><span class="en">Answers (the setup questions), Photos and About you (Profile), When you can host (Schedule), House rules and a meeting spot (Profile), Visitor parking and lobby notes (Profile). Auto-send is a bonus and opens Profile's AI replies with its real consent sheet.</span><span class="ko">답변(설정 질문), 사진과 소개(프로필), 가능한 시간(일정), 하우스 룰과 만날 장소(프로필), 방문 주차와 로비 메모(프로필). 자동 보내기는 보너스로, 프로필의 AI 답장과 실제 동의 시트를 열어요.</span></span></div>
+    <div class="nt"><b><span class="n">2</span><span class="en">Done means saved</span><span class="ko">저장해야 완료</span></b><span><span class="en">A coin lands only when the fields the app stores are filled: Finish on the questions, a photo plus About you, Apply or Save on the schedule, rules plus one spot, parking plus lobby. Skip all for now leaves the step open.</span><span class="ko">앱이 저장하는 칸이 채워져야 코인이 생겨요: 질문의 Finish, 사진과 소개, 일정의 Apply 또는 Save, 룰과 장소 하나, 주차와 로비. "나중에 하기"는 단계를 열어둬요.</span></span></div>
+    <div class="nt"><b><span class="n">3</span><span class="en">The trail with bookings</span><span class="ko">예약 후의 길</span></b><span><span class="en">When requests come in, the same trail becomes the stay's five stages: Ask, Meet, Book, Care, Home.</span><span class="ko">요청이 오면 같은 길이 머무름의 다섯 단계가 돼요.</span></span></div>
   </div>
-  <div class="nt" style="max-width:68ch"><b><span class="en">Still open</span><span class="ko">남은 결정</span></b><span><span class="en">Ship before the Oct 28 freeze, or after? Where the pet room goes once the tamagotchi visuals land: behind the ticket, or on top of it.</span><span class="ko">10/28 동결 전, 후? 다마고치 비주얼이 정해지면 펫 방은 어디에: 티켓 뒤, 또는 위.</span></span></div>
+  <div class="nt" style="max-width:68ch"><b><span class="en">Still open</span><span class="ko">남은 결정</span></b><span><span class="en">Rates: no screen sets a nightly rate yet (#193), so the search card shows no price, as the app does when it has none. A rate step joins the trail once that screen exists. Also: ship before the Oct 28 freeze, or after? Where the pet room goes once the tamagotchi visuals land.</span><span class="ko">요금: 아직 1박 요금을 정하는 화면이 없어서(#193) 검색 카드에 가격이 없어요(앱도 요금이 없으면 그렇게 보여요). 그 화면이 생기면 요금 단계가 길에 들어가요. 그리고: 10/28 동결 전, 후? 다마고치 비주얼이 정해지면 펫 방은 어디에.</span></span></div>
 </section>
 
 <section id="audit">
   <h2><span class="en">Tokens and components</span><span class="ko">토큰과 컴포넌트</span></h2>
-  <p><span class="en">Every part of the three phones, the app component it is, and where its numbers come from. Only two parts are new (the trail and its mini version); everything else is a component that already ships. Values outside the token scale are listed with the component or Figma frame that sets them, the same way the app marks them <code>tokens-ok</code>.</span><span class="ko">세 폰의 모든 부분, 그것이 어떤 앱 컴포넌트인지, 숫자가 어디서 왔는지. 새로 만드는 건 두 가지(발자국 길과 그 미니 버전)뿐이고 나머지는 이미 있는 컴포넌트예요. 토큰 밖의 값은 그 값을 정한 컴포넌트나 피그마 프레임과 함께 적었어요(앱의 <code>tokens-ok</code>와 같은 방식).</span></p>
+  <p><span class="en">Every part of the phones and the screens they open, the app component it is, and where its numbers come from. Only two parts are new (the trail and its mini version); everything else is a component that already ships. Values outside the token scale are listed with the component or Figma frame that sets them, the same way the app marks them <code>tokens-ok</code>.</span><span class="ko">폰과 그 폰이 여는 화면의 모든 부분, 그것이 어떤 앱 컴포넌트인지, 숫자가 어디서 왔는지. 새로 만드는 건 두 가지(발자국 길과 그 미니 버전)뿐이고 나머지는 이미 있는 컴포넌트예요. 토큰 밖의 값은 그 값을 정한 컴포넌트나 피그마 프레임과 함께 적었어요(앱의 <code>tokens-ok</code>와 같은 방식).</span></p>
   <div class="tscroll"><table class="audit">
     <thead><tr><th>Part</th><th>Component</th><th>Values</th><th>Outside the scale, and why</th></tr></thead>
     <tbody>
@@ -242,6 +308,9 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
       <tr><td>Your card is live · pets</td><td><span class="kind app">app</span> ListRow · Avatar · TextButton</td><td>as ListRow above; Edit = TextButton, 44 target</td><td>none beyond ListRow</td></tr>
       <tr><td>Today's care</td><td><span class="kind app">app</span> CheckRow</td><td>44 min, check <code>icon.sm</code>, label <code>small</code>/20, time 12.5 muted</td><td>12.5 = <code>HOME_TEXT.body</code></td></tr>
       <tr><td>Requests · Upcoming</td><td><span class="kind app">app</span> SectionTitle · ListRow · <span class="kind new">new</span> mini StageTrail</td><td>title <code>section</code> display · rows as ListRow · five dots 16, <code>xs</code> apart</td><td>dot 16 = <code>sm</code> × 2, coin 12 inside it</td></tr>
+      <tr><td>Setup questions</td><td><span class="kind app">app</span> StepFrame · BigOption · BigInput · VoiceStep · Button</td><td>logo 28 · Back <code>icon.md</code> in 44 · progress track 8, pill · question 28/36 display bold · hint <code>lead</code> muted · options 64 min, 2 px border, label <code>option</code> 20/26, check <code>icon.md</code> · Skip pinned under Next</td><td>28/36, 64 and the 8 track are StepFrame's and BigOption's own; the mic is VoiceStep's 88</td></tr>
+      <tr><td>Profile</td><td><span class="kind app">app</span> Stack header · ProfilePhotoGallery · TextField · Collapsible · CheckRow · SegmentedControl · Sheet</td><td>groups in the app's order; closed Collapsible shows its value in <code>small</code> muted, chevron 20 · Save pinned · "Turn on auto-send?" consent sheet</td><td>chevron 20 is Collapsible's</td></tr>
+      <tr><td>Schedule</td><td><span class="kind app">app</span> SlotCalendar · Card · ClosingRulesSheet · ScheduleSheet</td><td>day 44 min, three slot dots <code>xs</code> (open <code>success</code>, closed <code>track</code>) · Weekly rules: 7 × 3 cells 44 tall, closed = ink with an x · Open or block: Open / Block, three slot CheckRows</td><td>the rules grid's 72 label column is drawn here; the app sizes it from its row labels</td></tr>
       <tr><td>Tab bar</td><td><span class="kind app">app</span> RoleTabs</td><td><code>layout.tabBarHeight</code> 60 · <code>icon.sm</code> · label 11.5/16 bold</td><td>11.5/16 is RoleTabs' <code>tabBarLabelStyle</code></td></tr>
       <tr><td>Toast</td><td><span class="kind app">app</span> ToastProvider</td><td><code>primary</code>, radius <code>lg</code>, <code>sm</code>×<code>md</code>, <code>small</code> semibold; sits above the footer</td><td>none</td></tr>
       <tr><td>Status bar, bezel</td><td><span class="kind frame">frame</span> phone frame</td><td>12 × 22, 13 px, 10 px bezel</td><td>the desktop phone frame, not the app</td></tr>
@@ -274,6 +343,13 @@ const I = {
   heart: L('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
   chev: L('<path d="m9 18 6-6-6-6"/>'),
   eye: L('<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>'),
+  back: L('<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>'),
+  checkc: L('<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>'),
+  mic: L('<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>'),
+  x: L('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'),
+  plus: L('<path d="M5 12h14"/><path d="M12 5v14"/>'),
+  down: L('<path d="m6 9 6 6 6-6"/>'),
+  gear: L('<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'),
 };
 const COIN = "assets/intro/goldito-coin-tight.svg";
 const B = { mint: "var(--b-mint)", peach: "var(--b-peach)", butter: "var(--b-butter)", blush: "var(--b-blush)" };
@@ -292,28 +368,73 @@ function render(ph, html) {
 
 document.getElementById("today").innerHTML = header() + `<div class="empty" data-comp="EmptyState"><span class="em">🌤️</span><b>No pets in your care today</b><span>Open your schedule to take bookings.</span><button type="button" class="button">Open your schedule</button></div>` + tabbar();
 
-// The six things Goldito needs before a sitter can answer owners well; each opens the screen where it's set.
+// What the sitter has saved, the same fields the app stores (sitter_profiles, sitter answers, schedule rules).
+const blank = () => ({ photos: [], name: "Sam", bio: "", exp: "", home_notes: "", services: ["boarding"], multi: false, policies: "", spots: [""], parking: "", lobby: "",
+  ai: "manual", consented: false, answers: {}, heard: {}, custom: [], intro: "", finished: false, rules: new Set(), availTouched: false, schedSaved: false, blocked: new Set() });
+let D = blank();
+
+// The setup questions, word for word from frontend/features/onboarding/questions.ts.
+const YN = [{ v: "yes", l: "Yes" }, { v: "no", l: "No" }], N3 = [{ v: "1", l: "1" }, { v: "2", l: "2" }, { v: "3", l: "3+" }];
+const QUESTIONS = [
+  { key: "custom_1", prompt: "Do you have your own pets at home?", choices: YN },
+  { key: "multiple_owners", prompt: "Do you take pets from multiple families?", choices: YN },
+  { key: "max_pets", prompt: "How many pets can you host at once?", choices: N3 },
+  { key: "walks_per_day", prompt: "How many walks do you provide a day?", choices: N3 },
+  { key: "activity", prompt: "How active is your home?", choices: [{ v: "active", l: "Active" }, { v: "relaxed", l: "Relaxed" }] },
+  { key: "park_nearby", prompt: "Do you have a fenced yard or outdoor space?", choices: YN },
+  { key: "dog_sizes", prompt: "What dog sizes do you take?", multi: true, choices: [{ v: "small", l: "Small (<15 lbs / 7 kg)" }, { v: "medium", l: "Medium (16–40 lbs / 7–18 kg)" }, { v: "large", l: "Large (41+ lbs / 18+ kg)" }] },
+  { key: "cats", prompt: "Do you take cats?", choices: YN },
+  { key: "handoff", prompt: "How do pick-up and drop-off work?", multi: true, choices: [{ v: "pickup", l: "I can pick up" }, { v: "dropoff", l: "Owner drops off" }] },
+];
+const SETUP = ["voice", ...QUESTIONS.map((q) => q.key), "custom", "availability", "intro", "review"];
+const SAID = "I have a cat at home. I can take two dogs, small or medium, and cats are fine. Three walks a day, there's a fenced yard, and I can pick up.";
+const HEARD = { custom_1: ["yes", "a cat at home"], max_pets: ["2", "two dogs"], walks_per_day: ["3", "Three walks a day"], park_nearby: ["yes", "a fenced yard"], dog_sizes: [["small", "medium"], "small or medium"], cats: ["yes", "cats are fine"], handoff: [["pickup"], "I can pick up"] };
+const SLOTS = [["morning", "Morning"], ["afternoon", "Afternoon"], ["overnight", "Night"]];
+const WD = ["S", "M", "T", "W", "T", "F", "S"], WDS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const SERVICES = [{ v: "boarding", l: "🏠 Boarding", h: "Pets stay at your place" }, { v: "house_sitting", l: "🔑 House sitting", h: "You care for them at the owner's place" }];
+const PHOTOS = ["mumu_lake_walk", "mumu_window_nap", "mumu_green_toy", "orange_cat_lying_relaxed", "mumu_cafe_stroller", "mumu_red_pillow", "mumu_leather_chair", "mumu_blossom_basket"];
+
+const filled = (a) => a && ((Array.isArray(a.choice) ? a.choice.length : a.choice) || (a.answer || "").trim());
+const answered = () => QUESTIONS.filter((q) => filled(D.answers[q.key])).length;
+const DONE = {
+  answers: () => D.finished && answered() > 0,
+  profile: () => D.photos.length > 0 && !!D.bio.trim(),
+  cal: () => D.availTouched || D.schedSaved,
+  rules: () => !!D.policies.trim() && D.spots.some((s) => s.trim()),
+  park: () => !!D.parking.trim() && !!D.lobby.trim(),
+  auto: () => D.ai === "auto",
+};
+
+// The six things the app asks a new sitter for; each opens the real screen where it's set.
 const ROWS = [
-  { k: "bio", icon: "cam", bg: B.peach, t: "Your photo and a short bio", short: "Photo & bio", why: "Owners choose a sitter from this", go: "Profile", btn: "Add your photo and bio" },
-  { k: "cal", icon: "calok", bg: B.mint, t: "Open days and your rates", short: "Days & rates", why: "Goldito quotes from these, never guesses", go: "Schedule", btn: "Set your days and rates" },
-  { k: "rules", icon: "scroll", bg: B.butter, t: "House rules", short: "House rules", why: "Your auto-reply reads them and shows owners", go: "Profile", btn: "Write your house rules" },
-  { k: "meet", icon: "pin", bg: B.blush, t: "Places to meet", short: "Meet spot", why: "Picked for the first Meet & Greet", go: "Profile", btn: "Add a place to meet" },
-  { k: "park", icon: "park", bg: B.mint, t: "Parking and lobby notes", short: "Parking", why: "Shared with the owner only after payment", go: "Profile", btn: "Add parking notes" },
-  { k: "auto", icon: "send", bg: B.butter, t: "Auto-send replies", short: "Auto-send", why: "Answers go out while you sleep; you can edit", go: "Profile", btn: "Turn on auto-send", optional: true },
+  { k: "answers", icon: "chat", bg: B.peach, t: "Answer a few questions", short: "Answers", why: "Goldito drafts your replies from them", btn: "Answer a few questions" },
+  { k: "profile", icon: "cam", bg: B.mint, t: "Photos and About you", short: "Photos", why: "Owners choose a sitter from this", btn: "Add photos and About you" },
+  { k: "cal", icon: "calok", bg: B.butter, t: "When you can host", short: "Schedule", why: "Owners only see the days you're open", btn: "Open your schedule" },
+  { k: "rules", icon: "scroll", bg: B.blush, t: "House rules and a meeting spot", short: "Rules", why: "Replies quote them; owners pick the spot", btn: "Add house rules" },
+  { k: "park", icon: "park", bg: B.mint, t: "Visitor parking and lobby notes", short: "Parking", why: "Shared only after a paid booking", btn: "Add parking notes" },
+  { k: "auto", icon: "send", bg: B.butter, t: "Auto-send replies", short: "Auto-send", why: "Replies that need nothing from you go out in your name", btn: "Turn on auto-send", optional: true },
 ];
 const required = ROWS.filter((r) => !r.optional);
-const STATES = { new: [], half: ["bio", "cal", "rules"], ready: ROWS.map((r) => r.k) };
-const CAP = "The search card owners will see fills in as you go; the paw trail under it turns each done step into a coin on the way to your first guest. The button always opens the next missing step.";
-let S = "new", done = new Set(), toastT;
-const nextReq = () => required.find((r) => !done.has(r.k));
-const nDone = () => required.filter((r) => done.has(r.k)).length;
+const DEMO = {
+  answers: () => { useSaid(); D.answers.activity = { choice: "relaxed", answer: "" }; D.intro = "Loves long walks and lazy cats."; D.availTouched = true; D.finished = true; },
+  profile: () => { D.photos = PHOTOS.slice(0, 3); D.bio = "Loves long walks and lazy cats. Five years with my family's dogs."; D.exp = "5"; },
+  cal: () => { D.availTouched = true; },
+  rules: () => { D.policies = "Free cancellation up to 48 hours before. No dogs on the sofa."; D.spots = ["Christie Pits, east entrance"]; },
+  park: () => { D.parking = "Spot B-12"; D.lobby = "Buzz 1204"; },
+  auto: () => { D.ai = "auto"; D.consented = true; },
+};
+const STATES = { new: [], half: ["answers", "profile", "cal"], ready: ROWS.map((r) => r.k) };
+const CAP = "The search card owners will see fills in as you go; the paw trail turns each done step into a coin. Every step opens the app's real screen: the setup questions, Profile, or Schedule.";
+let S = "new", toastT, P = null; // P: the screen pushed over Home, or null
+const nextReq = () => required.find((r) => !DONE[r.k]());
+const nDone = () => required.filter((r) => DONE[r.k]()).length;
 
-/* SitterResultCard, as owners would see it today: the photo after step 1, the rate and "Free on your dates" after step 2. */
+/* SitterResultCard, as owners would see it: photo and experience after Profile, "Free" after Schedule. No price:
+   no screen sets a rate yet (#193), so the card leaves it off, as the app does when nightly is null. */
 const sitterCard = () => {
-  const photo = done.has("bio"), rate = done.has("cal");
-  return `<div class="sittercard" data-comp="SitterResultCard">${photo ? avatar(52, '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">') : avatar(52, "S")}
-    <span class="body"><span class="name">Sam</span><span class="meta">2 km · ${photo ? "5 yrs exp" : "New sitter"}</span>${rate ? '<span class="avail">Free Oct 9 to 12</span>' : ""}</span>
-    ${rate ? '<span class="price"><span class="amount">$48</span><span class="per">per night</span></span>' : ""}</div>`;
+  const photo = D.photos[0], free = DONE.cal();
+  return `<div class="sittercard" data-comp="SitterResultCard">${photo ? avatar(52, `<img src="assets/feed-trial/${photo}.jpg" alt="">`) : avatar(52, "S")}
+    <span class="body"><span class="name">${D.name}</span><span class="meta">2 km · ${D.exp.trim() ? `${D.exp.trim()} yrs exp` : "New sitter"}</span>${free ? '<span class="avail">Free Oct 9 to 12</span>' : ""}</span></div>`;
 };
 
 /* NEW · StageTrail: five stops on a dashed path; coordinates are artwork in a 300 x 120 box. */
@@ -338,58 +459,249 @@ function trail(stops, flags, opts = {}) {
 const nextRow = (r, i) => `<div class="listgroup"><button type="button" class="listrow tap" data-open="${r.k}" data-comp="ListRow"><span class="tile" style="background:${r.bg}">${I[r.icon]}</span>
   <span class="txt"><span class="kicker">Next · step ${i + 1} of ${required.length}</span><span class="title">${r.t}</span><span class="sub">${r.why}</span></span><span class="chev">${I.chev}</span></button></div>`;
 const readyCard = () => `<div class="card" data-comp="Card"><h3>You're ready for requests</h3>
-  <div class="steps"><div><i>1</i>An owner asks about dates and pets</div><div><i>2</i>Goldito drafts your reply, with the quote</div><div><i>3</i>You tap Send${done.has("auto") ? ", or it sends itself" : ""}</div></div></div>`;
+  <div class="steps"><div><i>1</i>An owner asks about dates and pets</div><div><i>2</i>Goldito drafts your reply from your answers</div><div><i>3</i>You tap Send${DONE.auto() ? ", or it sends itself" : ""}</div></div></div>`;
 
 function prop() {
   const ph = document.getElementById("prop"), nr = nextReq(), ready = !nr;
   const kicker = `<div class="kicker">${I.eye}Owners will see${ready ? tag("success", "Ready", I.check) : ""}</div>`;
-  const body = kicker + sitterCard() + trail(required, required.map((r) => done.has(r.k)), { button: true, scenery: true }) + (ready ? readyCard() : nextRow(nr, required.indexOf(nr)));
-  const foot = ready ? `<button type="button" class="button secondary" data-act="list">Edit your answers</button>` : `<button type="button" class="button" data-open="${nr.k}">${nr.btn}</button>`;
+  const body = kicker + sitterCard() + trail(required, required.map((r) => DONE[r.k]()), { button: true, scenery: true }) + (ready ? readyCard() : nextRow(nr, required.indexOf(nr)));
+  const foot = ready ? `<button type="button" class="button secondary" data-open="profile">Edit your profile</button>` : `<button type="button" class="button" data-open="${nr.k}">${nr.btn}</button>`;
   render(ph, header() + `<div class="screen">${body}</div><div class="footer">${foot}</div><div class="toast" id="toast" role="status"></div>` + tabbar());
+  ph.insertAdjacentHTML("beforeend", '<div class="pagelayer"></div>');
   document.getElementById("pcap").textContent = CAP;
   document.getElementById("sj").innerHTML = [["new", "New sitter"], ["half", "Halfway"], ["ready", "All set"]].map(([k, l]) => `<button type="button" aria-pressed="${S === k}" data-s="${k}">${l}</button>`).join("");
+  if (P) drawPage();
 }
-function toast(msg) { const t = document.getElementById("toast"); if (!t) return; t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 1800); }
-/* Sheets: what each step opens in the app (Profile or Schedule), prefilled with the demo's answers. */
-const FORMS = {
-  bio: () => `<div class="photopick">${avatar(64, '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">')}<button type="button" class="textbutton">Change photo</button></div>
-    <label class="field"><span>About you</span><textarea rows="2">Loves long walks and lazy cats. 5 years with my family's dogs.</textarea></label>`,
-  cal: () => `<label class="field"><span>Nightly rate, boarding</span><input value="$48" inputmode="decimal"></label>
-    <div class="field"><span>Open days</span><div class="chips">${["Oct 9 to 12", "Oct 20 on", "Weekends"].map((c, k) => `<button type="button" class="chip" aria-pressed="${k < 2}">${k < 2 ? I.check : ""}${c}</button>`).join("")}</div></div>`,
-  rules: () => `<label class="field"><span>House rules</span><textarea rows="3">No dogs on the sofa. Two walks a day. Cats stay inside.</textarea></label>`,
-  meet: () => `<div class="field"><span>Places to meet</span><div class="chips">${["High Park, east gate", "Café on Bloor", "My place"].map((c, k) => `<button type="button" class="chip" aria-pressed="${k === 0}">${k === 0 ? I.check : ""}${c}</button>`).join("")}</div></div>`,
-  park: () => `<label class="field"><span>Parking</span><input value="Visitor parking on Elm St"></label><label class="field"><span>Lobby</span><input value="Ring the buzzer for Sam"></label>`,
-  auto: () => `<div class="listgroup" style="background:var(--c-bg)"><div class="listrow"><span class="txt"><span class="title">Auto-send replies</span><span class="sub">Goldito sends your drafted replies about 30 s after it writes them</span></span><button type="button" class="switch" role="switch" aria-checked="true" aria-label="Auto-send replies"></button></div></div>`,
+function toast(msg) { const t = document.getElementById("toast"); if (!t) return; t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 2000); }
+const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+
+/* ---------- The screens each step opens, rebuilt from the app's own components ---------- */
+// TextField: label small semibold over a 44+ box. BigInput / BigOption: the setup flow's 64-tall, 20 px versions.
+const field = (label, bind, val, ph = "", multi = false, extra = "") => `<label class="field"><span${label ? "" : ' class="sr"'}>${label || ph}</span>${multi
+  ? `<textarea rows="3" data-bind="${bind}" placeholder="${esc(ph)}" ${extra}>${esc(val)}</textarea>` : `<input data-bind="${bind}" value="${esc(val)}" placeholder="${esc(ph)}" ${extra}>`}</label>`;
+const bigInput = (bind, val, ph, label) => `<textarea class="biginput" rows="4" data-bind="${bind}" placeholder="${esc(ph)}" aria-label="${label}">${esc(val)}</textarea>`;
+const bigOpt = (q, c, on, badge) => `<button type="button" class="bigopt" aria-pressed="${on}" data-pick="${q.key}:${c.v}" data-comp="BigOption"><span class="txt"><span class="l">${c.l}</span>${badge ? `<span class="b">${badge}</span>` : ""}</span>${on ? `<span class="sel">${I.checkc}</span>` : ""}</button>`;
+const stackNav = (title, right = "") => `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="nav" data-comp="Stack header"><button type="button" class="iconbtn" data-act="back" aria-label="Back">${I.back}</button><h2>${title}</h2>${right || '<span class="iconbtn"></span>'}</div>`;
+
+function stepFrame({ title, hint = "", body, footer = "", skip = false, skipAll = false }) {
+  const i = SETUP.indexOf(P.step), pct = Math.max(4, Math.round((i / (SETUP.length - 1)) * 100));
+  return `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="screen stepframe" data-comp="StepFrame">
+    <div class="sfhead"><span class="logo"><img src="${COIN}" alt="">Goldito</span>${skipAll ? '<button type="button" class="textbutton" data-act="skipall">Skip all for now</button>' : ""}</div>
+    <div class="sftop"><button type="button" class="iconbtn" data-act="back" aria-label="Back">${I.back}</button><span class="track" role="progressbar" aria-valuenow="${pct}"><i style="width:${pct}%"></i></span></div>
+    <h2 class="sftitle">${title}</h2>${hint ? `<p class="sfhint">${hint}</p>` : ""}<div class="sfbody">${body}</div></div>
+    ${footer || skip ? `<div class="footer stack">${footer}${skip ? '<div class="navrow"><span></span><button type="button" class="button secondary" data-act="skip">Skip</button></div>' : ""}</div>` : ""}`;
+}
+const nextBtn = '<button type="button" class="button" data-act="next">Next</button>';
+const availSummary = () => {
+  if (!D.rules.size) return "Open every day.";
+  const parts = SLOTS.map(([s, l]) => { const days = WDS.filter((_, d) => D.rules.has(`${d}-${s}`)); return days.length ? `${days.join(", ")} ${l.toLowerCase()}` : null; }).filter(Boolean);
+  return `Closed: ${parts.join("; ")}.`;
 };
-const SAVED = { bio: "Saved. Owners now see your photo.", cal: "Saved. Your rate and open days are on your card.", rules: "Saved. Your auto-reply will quote these.", meet: "Saved. Owners can pick it for the Meet & Greet.", park: "Saved. Shared with owners only after payment.", auto: "Saved. Replies go out while you sleep." };
-function closeSheet() { const l = document.querySelector("#prop .sheetlayer"); if (l) l.remove(); }
-function openSheet(k) {
-  closeSheet();
-  const r = ROWS.find((x) => x.k === k), ph = document.getElementById("prop");
-  ph.insertAdjacentHTML("beforeend", `<div class="sheetlayer"><div class="scrim" data-act="close"></div><div class="sheet" role="dialog" aria-label="${r.t}" data-comp="Sheet"><span class="grab"></span>
-    <div class="shead"><h3>${r.t}</h3><button type="button" class="textbutton" data-act="close">Close</button></div><p class="why">${r.why}</p>${FORMS[k]()}
-    <button type="button" class="button" data-save="${k}">${done.has(k) ? "Save changes" : "Save"}</button></div></div>`);
-  const first = ph.querySelector(".sheet textarea, .sheet input"); if (first) first.focus({ preventScroll: true });
+const choiceText = (q, a) => [].concat(a.choice || []).map((v) => q.choices.find((c) => c.v === v).l).join(", ");
+
+function setupScreen() {
+  const st = P.step;
+  if (st === "voice") return stepFrame({ title: "Tell us how you look after pets", hint: "Say it in your own words, or type it.", skipAll: true, skip: true, footer: nextBtn,
+    body: `<div class="voice" data-comp="VoiceStep">${P.typing
+      ? `${bigInput("said", P.said ?? "", "How many pets, which dogs, walks, meals…", "What you said")}<button type="button" class="button" data-act="use">${P.busy ? "Looking…" : "Use this"}</button>`
+      : `<button type="button" class="mic" data-act="mic" aria-label="Start recording">${I.mic}</button><span class="status">${P.busy ? "Reading what you said…" : "Tap to talk"}</span><button type="button" class="textbutton" data-act="type">Or type it</button>`}</div>` });
+  const q = QUESTIONS.find((x) => x.key === st);
+  if (q) {
+    const a = D.answers[q.key] || {}, picked = [].concat(a.choice || []), heard = D.heard[q.key], noteOpen = P.notes.has(q.key);
+    return stepFrame({ title: q.prompt, hint: q.multi ? "Pick all that fit." : "", skip: true, footer: filled(a) ? nextBtn : "",
+      body: `${heard ? `<p class="heard">You said: “${heard}”</p>` : ""}${q.choices.map((c) => bigOpt(q, c, picked.includes(c.v), heard && picked.includes(c.v) ? "Suggested" : "")).join("")}
+        ${noteOpen ? bigInput(`note:${q.key}`, a.answer || "", "Add a note", "Note") : ""}<button type="button" class="textbutton" data-act="note">${noteOpen ? "Hide note" : "+ Add a note"}</button>` });
+  }
+  if (st === "custom") return stepFrame({ title: "Your own questions", hint: "Anything owners should know that we did not ask.", skip: true, footer: nextBtn,
+    body: `${D.custom.map((c, i) => `<div class="card plain">${field(`Question ${i + 1}`, `cq:${i}`, c.question)}${field("Your answer", `ca:${i}`, c.answer, "", true)}<button type="button" class="textbutton" data-act="rmq" data-i="${i}">Remove</button></div>`).join("")}
+      ${D.custom.length < 5 ? '<button type="button" class="button secondary" data-act="addq">Add a question</button>' : ""}` });
+  if (st === "availability") return stepFrame({ title: "When can you host?", footer: nextBtn,
+    body: `<p class="answer">${availSummary()}</p><button type="button" class="button secondary" data-act="rules">Set weekly availability</button>` });
+  if (st === "intro") return stepFrame({ title: "A few words about you", hint: "Optional. Owners read this.", footer: '<button type="button" class="button" data-act="review">Review</button>',
+    body: bigInput("intro", D.intro, "", "About you") });
+  // Review: every answer, then Finish and Back to edit.
+  const rows = QUESTIONS.map((q, i) => [q, i + 1, D.answers[q.key]]).filter(([, , a]) => filled(a));
+  const skipped = QUESTIONS.length - rows.length;
+  return `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="screen stepframe" data-comp="Review"><h2 class="sftitle">Check your answers</h2>
+    ${rows.map(([q, n, a]) => `<div class="reviewrow"><span class="p">${n}. ${q.prompt}</span><span class="a">${[choiceText(q, a), (a.answer || "").trim()].filter(Boolean).join(" · ")}</span></div>`).join("")}
+    ${D.custom.filter((c) => c.question.trim() && c.answer.trim()).map((c) => `<div class="reviewrow"><span class="p">${esc(c.question)}</span><span class="a">${esc(c.answer)}</span></div>`).join("")}
+    ${D.availTouched ? `<div class="reviewrow"><span class="p">When you can host</span><span class="a">${availSummary()}</span></div>` : ""}
+    ${D.intro.trim() ? `<div class="reviewrow"><span class="p">About you</span><span class="a">${esc(D.intro)}</span></div>` : ""}
+    <p class="muted">${rows.length ? (skipped ? `${skipped} skipped` : "") : "Nothing answered yet."}</p>
+    <button type="button" class="button" data-act="finish">Finish</button><button type="button" class="button secondary" data-act="backedit">Back to edit</button></div>`;
 }
-function openList() {
-  closeSheet();
-  document.getElementById("prop").insertAdjacentHTML("beforeend", `<div class="sheetlayer"><div class="scrim" data-act="close"></div><div class="sheet" role="dialog" aria-label="Your answers" data-comp="Sheet"><span class="grab"></span>
-    <div class="shead"><h3>Your answers</h3><button type="button" class="textbutton" data-act="close">Close</button></div>
-    <div class="listgroup" style="background:var(--c-bg)">${ROWS.map((r) => `<button type="button" class="listrow tap" data-open="${r.k}"><span class="tile" style="background:${r.bg}">${I[r.icon]}</span><span class="txt"><span class="title">${r.t}</span><span class="sub">${done.has(r.k) ? "Done" : r.optional ? "Bonus" : "To do"}</span></span><span class="chev">${I.chev}</span></button>`).join("")}</div></div></div>`);
+
+// Profile: the sitter's groups in the app's order. A group with a label is a Collapsible that shows its value closed.
+const GROUPS = [["phone", "Phone", "phone", "e.g. 416 555 0123"], ["home", "Home address", "home", "Shown after booking"], ["home_notes", "About your home", "home_notes", "Yard, other pets, stairs", true],
+  ["experience", "Experience", "exp", "Years of experience"], ["parking", "Visitor parking", "parking", "e.g. Spot B-12"], ["lobby", "Lobby notes", "lobby", "e.g. Buzz 1204", true], ["policies", "House rules", "policies", "Cancellation, pets you don't take", true]];
+const collapsible = (id, title, summary, inner) => { const open = P.open.has(id);
+  return `<div class="collapsible" id="g-${id}" data-comp="Collapsible"><button type="button" class="chead" data-tog="${id}" aria-expanded="${open}"><span class="txt"><span class="title">${title}</span>${!open && summary ? `<span class="sub">${esc(summary)}</span>` : ""}</span><span class="chevron${open ? "" : " closed"}">${I.down}</span></button>${open ? `<div class="cbody">${inner}</div>` : ""}</div>`; };
+function profileScreen() {
+  const photos = D.photos.map((p, i) => `<span class="ptile"><img src="assets/feed-trial/${p}.jpg" alt="Photo ${i + 1}"><button type="button" class="premove" data-act="rmphoto" data-i="${i}" aria-label="Remove photo ${i + 1}">${I.x}</button></span>`).join("")
+    + (D.photos.length < 8 ? `<button type="button" class="ptile add" data-act="addphoto" aria-label="Add a photo">${I.plus}<small>Add photo</small></button>` : "");
+  const spots = D.spots.map((s, i) => `<div class="spotrow">${field(`Spot ${i + 1}`, `spot:${i}`, s, i === 0 ? "e.g. Christie Pits, east entrance" : "", false, 'maxlength="60"')}${D.spots.length > 1 || s ? `<button type="button" class="iconbtn" data-act="rmspot" data-i="${i}" aria-label="Remove spot ${i + 1}">${I.x}</button>` : ""}</div>`).join("");
+  return stackNav("Profile") + `<div class="screen">
+    <span class="role">Pet sitter</span>
+    <div class="group" id="g-photos"><span class="gtitle">Your photos</span><div class="photos" data-comp="ProfilePhotoGallery">${photos}</div></div>
+    ${field("Your name", "name", D.name)}
+    <div id="g-bio">${field("About you", "bio", D.bio, "A few lines for owners", true)}</div>
+    ${GROUPS.map(([id, t, bind, ph, multi]) => collapsible(id, t, D[bind] || "", field("", bind, D[bind] || "", ph, multi, bind === "exp" ? 'inputmode="numeric"' : ""))).join("")}
+    ${collapsible("spots", "Meeting spots", D.spots.filter((s) => s.trim()).join(", "), `<p class="muted">Public places only. Up to 3.</p>${spots}${D.spots.length < 3 ? '<button type="button" class="textbutton" data-act="addspot">+ Add another spot</button>' : ""}`)}
+    <div class="card plain" id="g-services" data-comp="Card"><span class="gtitle">Services you offer</span>
+      ${SERVICES.map((s) => checkRow(s.l, s.h, D.services.includes(s.v), `svc:${s.v}`)).join("")}${checkRow("Take pets from more than one owner at a time", "", D.multi, "multi")}</div>
+    <div class="card plain" id="g-ai" data-comp="Card"><span class="gtitle">AI replies</span>
+      <div class="seg" role="radiogroup" data-comp="SegmentedControl">${[["manual", "Manual approval"], ["auto", "Auto-send"]].map(([v, l]) => `<button type="button" role="radio" aria-checked="${D.ai === v}" data-ai="${v}">${l}</button>`).join("")}</div>
+      <p class="muted">${D.ai === "auto" ? "Replies that need nothing from you go out in your name after a short delay." : "You tap Send on every reply."}</p>
+      <p class="muted">AI drafts your replies and notes. You approve before anything is sent.</p></div>
+    <div class="group" id="g-answers"><span class="gtitle">Your answers</span><p class="muted">${D.finished ? `${answered()} of ${QUESTIONS.length} answered` : "Not answered yet"}</p><button type="button" class="button secondary" data-act="editanswers">Edit your answers</button></div>
+    <p class="muted">Your address and home notes are shared only after a paid booking.</p></div>
+    <div class="footer"><button type="button" class="button" data-act="saveprofile">Save</button></div>`;
 }
+const checkRow = (label, hint, on, key) => `<button type="button" class="checkrow tap" role="checkbox" aria-checked="${on}" data-check="${key}" data-comp="CheckRow"><span class="box${on ? " on" : ""}">${on ? I.check : ""}</span><span class="txt"><span>${label}</span>${hint ? `<span class="sub">${hint}</span>` : ""}</span></button>`;
+
+// Schedule: SlotCalendar for October, a summary card, "Open or block" pinned; Weekly rules in the header.
+const TODAY = 6, FIRST = 4; // Oct 1 2026 is a Thursday
+function scheduleScreen() {
+  const sel = P.sel, inSel = (d) => sel && d >= sel.from && d <= (sel.to ?? sel.from);
+  const cells = Array.from({ length: FIRST }, () => "<span></span>").concat(Array.from({ length: 31 }, (_, i) => {
+    const d = i + 1, wd = (FIRST + i) % 7, past = d < TODAY;
+    const dots = SLOTS.map(([s]) => `<i class="${D.rules.has(`${wd}-${s}`) || D.blocked.has(`${d}-${s}`) ? "" : "o"}"></i>`).join("");
+    return `<button type="button" class="day${past ? " past" : ""}${inSel(d) ? " sel" : ""}${d === TODAY ? " today" : ""}" ${past ? "disabled" : `data-day="${d}"`} aria-label="October ${d}">${d}<span class="dots">${dots}</span></button>`;
+  })).join("");
+  const days = sel ? (sel.to ?? sel.from) - sel.from + 1 : 0;
+  const summary = !sel ? '<p class="muted">Tap a day to open or block it. Tap a later day for a range.</p>'
+    : `<b class="stitle">${days > 1 ? `Oct ${sel.from} to ${sel.to} · ${days} days` : `Oct ${sel.from}`}</b>${days === 1 ? SLOTS.map(([s, l]) => { const wd = (FIRST + sel.from - 1) % 7, rule = D.rules.has(`${wd}-${s}`), closed = rule || D.blocked.has(`${sel.from}-${s}`);
+      return `<span class="line">${l}: ${closed ? "Closed" : "Open"}${rule ? " · weekly rule" : ""}</span>`; }).join("") : ""}${sel.to == null ? '<p class="muted">Tap a later day to pick a range.</p>' : ""}`;
+  return stackNav("Schedule", `<button type="button" class="navaction" data-act="rules">${I.gear}Weekly rules</button>`) + `<div class="screen">
+    <div class="calendar" data-comp="SlotCalendar"><div class="mhead"><button type="button" class="iconbtn" disabled aria-label="Previous month">${I.back}</button><b>October 2026</b><button type="button" class="iconbtn" data-act="toast" data-msg="November opens the same way." aria-label="Next month">${I.chev}</button></div>
+      <div class="grid">${WD.map((w) => `<span class="wd">${w}</span>`).join("")}${cells}</div>
+      <div class="legend"><span><i class="o"></i>Open</span><span><i></i>Closed</span><span class="muted">Morning · Afternoon · Night</span></div></div>
+    <div class="card plain" data-comp="Card">${summary}</div></div>
+    <div class="footer"><button type="button" class="button" data-act="openblock" ${sel ? "" : "disabled"}>Open or block</button></div>`;
+}
+
+/* Sheets inside a screen: Weekly rules (ClosingRulesSheet), Open or block (ScheduleSheet), Turn on auto-send? (consent) */
+function sheetHTML() {
+  const sh = P.sheet; if (!sh) return "";
+  let title = "", inner = "", foot = "";
+  if (sh.k === "rules") {
+    title = "Weekly rules";
+    inner = `<p class="why">Tap the slots you never take.</p><div class="rulesgrid" data-comp="ClosingRulesSheet grid"><span></span>${WD.map((w) => `<span class="wd">${w}</span>`).join("")}
+      ${SLOTS.map(([s, l]) => `<span class="rl">${l}</span>${WD.map((_, d) => { const on = sh.closed.has(`${d}-${s}`); return `<button type="button" class="cell${on ? " closed" : ""}" role="checkbox" aria-checked="${on}" data-cell="${d}-${s}" aria-label="Close ${l.toLowerCase()} on ${WDS[d]}s">${on ? I.x : ""}</button>`; }).join("")}`).join("")}</div>
+      <button type="button" class="textbutton" data-act="openall" ${sh.closed.size ? "" : "disabled"}>Open everything</button>
+      <b class="stitle">Hours</b><p class="why">Pick a weekday to give it its own hours.</p><div class="summary"><span>Morning</span><b>8:00 AM to 12:00 PM</b></div><div class="summary"><span>Afternoon</span><b>12:00 PM to 6:00 PM</b></div><div class="summary"><span>Night</span><b>6:00 PM to 8:00 AM</b></div>`;
+    foot = '<button type="button" class="button" data-act="apply">Apply</button>';
+  } else if (sh.k === "block") {
+    const s = P.sel, days = (s.to ?? s.from) - s.from + 1;
+    title = days > 1 ? `Oct ${s.from} to ${s.to} · ${days} days` : `Oct ${s.from}`;
+    inner = `<div class="seg" role="radiogroup">${[["open", "Open"], ["block", "Block"]].map(([v, l]) => `<button type="button" role="radio" aria-checked="${sh.mode === v}" data-mode="${v}">${l}</button>`).join("")}</div>
+      <div class="listgroup inset">${SLOTS.map(([k, l]) => checkRow(l, sh.slots.has(k) ? { morning: "8:00 AM to 12:00 PM", afternoon: "12:00 PM to 6:00 PM", overnight: "6:00 PM to 8:00 AM" }[k] : "Closed", sh.slots.has(k), `slot:${k}`)).join("")}</div>`;
+    foot = `<button type="button" class="button" data-act="saveblock" ${sh.slots.size ? "" : "disabled"}>Save</button>`;
+  } else if (sh.k === "consent") {
+    title = "Turn on auto-send?";
+    inner = `<p class="why">Replies go out in your name. You're responsible for what's sent.</p>`;
+    foot = '<button type="button" class="button" data-act="consent">Turn on auto-send</button>';
+  }
+  // Only the first draw slides the sheet up; redraws after a tap inside it stay put.
+  const fresh = !sh.shown; sh.shown = true;
+  return `<div class="sheetlayer${fresh ? " fresh" : ""}"><div class="scrim" data-act="closesheet"></div><div class="sheet" role="dialog" aria-label="${title}" data-comp="Sheet"><span class="grab"></span>
+    <div class="shead"><h3>${title}</h3><button type="button" class="textbutton" data-act="closesheet">Close</button></div>${inner}${foot}</div></div>`;
+}
+
+function drawPage() {
+  const layer = document.querySelector("#prop .pagelayer"); if (!layer) return;
+  if (!P) { layer.innerHTML = ""; return; }
+  const html = (P.kind === "setup" ? setupScreen() : P.kind === "profile" ? profileScreen() : scheduleScreen()) + sheetHTML() + '<div class="toast" id="ptoast" role="status"></div>';
+  let pg = layer.querySelector(".page");
+  if (!pg || pg.dataset.kind !== P.kind) { layer.innerHTML = `<div class="page" data-kind="${P.kind}"></div>`; pg = layer.firstChild; }
+  render(pg, html);
+}
+function ptoast(msg) { const t = document.getElementById("ptoast"); if (!t) return; t.textContent = msg; t.classList.add("on"); clearTimeout(ptoast.t); ptoast.t = setTimeout(() => t.classList.remove("on"), 2000); }
+const FOCUS = { profile: ["photos", []], rules: ["policies", ["policies", "spots"]], park: ["parking", ["parking", "lobby"]], auto: ["ai", []] };
+function openStep(k) {
+  if (k === "answers") P = { kind: "setup", step: D.finished ? "review" : "voice", notes: new Set() };
+  else if (k === "cal") P = { kind: "schedule", sel: null };
+  else { const [, open] = FOCUS[k] || FOCUS.profile; P = { kind: "profile", open: new Set(open) }; }
+  drawPage();
+  if (P.kind === "profile") { const [id] = FOCUS[k] || FOCUS.profile, el = document.getElementById(`g-${id}`), sc = document.querySelector("#prop .page .screen"); if (el && sc) sc.scrollTop = Math.max(0, el.offsetTop - sc.offsetTop - 8); }
+}
+function closePage(msg) { P = null; drawPage(); const req = nDone(); S = req === required.length ? "ready" : req === 0 ? "new" : "half"; prop(); if (msg) toast(msg); }
+function useSaid() { for (const [k, [choice, said]] of Object.entries(HEARD)) { D.answers[k] = { choice, answer: (D.answers[k] || {}).answer || "" }; D.heard[k] = said; } }
+function go(step) { P.step = step; const sc = document.querySelector("#prop .page .screen"); if (sc) sc.scrollTop = 0; drawPage(); }
+const stepBy = (n) => SETUP[Math.max(0, Math.min(SETUP.length - 1, SETUP.indexOf(P.step) + n))];
+
+document.addEventListener("input", (e) => {
+  const b = e.target.dataset && e.target.dataset.bind; if (!b || !e.target.closest("#prop")) return;
+  const v = e.target.value, [k, x] = b.split(":");
+  if (k === "spot") D.spots[+x] = v; else if (k === "note") D.answers[x] = { ...(D.answers[x] || {}), answer: v };
+  else if (k === "cq") D.custom[+x].question = v; else if (k === "ca") D.custom[+x].answer = v; else if (k === "said") P.said = v; else D[k] = v;
+  // The setup footer shows Next once a question has an answer: redraw only when that flips, so typing keeps focus.
+  if (k === "note" && P && P.kind === "setup") { const has = !!document.querySelector("#prop .page [data-act=next]"); if (has !== !!filled(D.answers[x])) { drawPage(); const t = document.querySelector(`#prop [data-bind="${b}"]`); if (t) { t.focus(); t.setSelectionRange(v.length, v.length); } } }
+});
 document.addEventListener("click", (e) => {
   const b = e.target.closest("button, .scrim"); if (!b) return;
-  if (b.dataset.s) { closeSheet(); S = b.dataset.s; done = new Set(STATES[S]); prop(); return; }
+  if (b.dataset.s) { P = null; S = b.dataset.s; D = blank(); STATES[S].forEach((k) => DEMO[k]()); prop(); return; }
   if (!b.closest("#prop")) return;
-  if (b.classList.contains("chip")) { const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", on); b.innerHTML = (on ? I.check : "") + b.textContent; return; }
-  if (b.classList.contains("switch")) { b.setAttribute("aria-checked", b.getAttribute("aria-checked") !== "true"); return; }
-  if (b.dataset.act === "close") { closeSheet(); return; }
-  if (b.dataset.act === "list") { openList(); return; }
-  if (b.dataset.open) { openSheet(b.dataset.open); return; }
-  if (b.dataset.save) {
-    const k = b.dataset.save; done.add(k); closeSheet();
-    const req = nDone(); S = req === required.length ? "ready" : req === 0 ? "new" : "half";
-    prop(); toast(SAVED[k]);
+  const a = b.dataset.act;
+  if (!b.closest(".page")) { if (b.dataset.open) openStep(b.dataset.open); return; }
+  // Inside a pushed screen.
+  if (a === "closesheet") { P.sheet = null; drawPage(); return; }
+  if (a === "back") {
+    if (P.kind === "setup" && P.step !== "voice" && P.step !== "review") { go(stepBy(-1)); return; }
+    closePage(); return;
+  }
+  if (a === "toast") { ptoast(b.dataset.msg); return; }
+  if (P.kind === "setup") {
+    if (a === "next" || a === "skip") { go(stepBy(1)); return; }
+    if (a === "skipall") { closePage("Skipped for now. Your answers are on Home whenever you're ready."); return; }
+    if (a === "mic") { P.busy = true; drawPage(); setTimeout(() => { if (!P || P.step !== "voice") return; P.busy = false; P.typing = true; P.said = SAID; drawPage(); }, 900); return; }
+    if (a === "type") { P.typing = true; P.said = P.said || ""; drawPage(); const t = document.querySelector('#prop [data-bind="said"]'); if (t) t.focus(); return; }
+    if (a === "use") { if (!(P.said || "").trim()) { ptoast("We didn't hear anything. Try again, or type it."); return; } P.busy = true; drawPage(); setTimeout(() => { if (!P) return; P.busy = false; useSaid(); go(SETUP[1]); }, 700); return; }
+    if (a === "note") { if (!P.notes.delete(P.step)) P.notes.add(P.step); drawPage(); return; }
+    if (b.dataset.pick) {
+      const [key, v] = b.dataset.pick.split(":"), q = QUESTIONS.find((x) => x.key === key), cur = D.answers[key] || { answer: "" };
+      if (q.multi) { const s = new Set([].concat(cur.choice || [])); s.has(v) ? s.delete(v) : s.add(v); D.answers[key] = { ...cur, choice: [...s] }; drawPage(); return; }
+      D.answers[key] = { ...cur, choice: v }; drawPage();
+      // A single pick moves on by itself, unless a note is open (then it waits for Next).
+      if (!P.notes.has(key)) { const from = P.step; setTimeout(() => { if (P && P.step === from) go(stepBy(1)); }, 350); }
+      return;
+    }
+    if (a === "addq") { D.custom.push({ question: "", answer: "" }); drawPage(); return; }
+    if (a === "rmq") { D.custom.splice(+b.dataset.i, 1); drawPage(); return; }
+    if (a === "review") { go("review"); return; }
+    if (a === "backedit") { go("intro"); return; }
+    if (a === "finish") { D.finished = true; closePage("Saved. Goldito drafts your replies from these."); return; }
+  }
+  if (P.kind === "profile") {
+    if (b.dataset.tog) { const id = b.dataset.tog; P.open.has(id) ? P.open.delete(id) : P.open.add(id); drawPage(); return; }
+    if (a === "addphoto") { D.photos.push(PHOTOS.find((p) => !D.photos.includes(p))); drawPage(); return; }
+    if (a === "rmphoto") { D.photos.splice(+b.dataset.i, 1); drawPage(); return; }
+    if (a === "addspot") { D.spots.push(""); drawPage(); const t = document.querySelector(`#prop [data-bind="spot:${D.spots.length - 1}"]`); if (t) t.focus(); return; }
+    if (a === "rmspot") { D.spots.splice(+b.dataset.i, 1); if (!D.spots.length) D.spots = [""]; drawPage(); return; }
+    if (b.dataset.check) { const [k, v] = b.dataset.check.split(":"); if (k === "multi") D.multi = !D.multi; else D.services = D.services.includes(v) ? D.services.filter((x) => x !== v) : [...D.services, v]; drawPage(); return; }
+    if (b.dataset.ai) { const m = b.dataset.ai; if (m === D.ai) return; if (m === "auto" && !D.consented) { P.sheet = { k: "consent" }; drawPage(); return; } D.ai = m; drawPage(); ptoast(m === "auto" ? "Auto-send is on" : "You'll tap Send on every reply"); return; }
+    if (a === "consent") { D.ai = "auto"; D.consented = true; P.sheet = null; drawPage(); ptoast("Auto-send is on"); return; }
+    if (a === "editanswers") { P = { kind: "setup", step: D.finished ? "review" : "voice", notes: new Set() }; drawPage(); return; }
+    if (a === "saveprofile") {
+      if (!D.name.trim()) { ptoast("Enter the name others will see."); return; }
+      if (D.exp.trim() && !/^\d+$/.test(D.exp.trim())) { ptoast("Enter whole years, e.g. 3."); return; }
+      if (!D.services.length) { ptoast("Pick at least one service."); return; }
+      closePage("Profile saved"); return;
+    }
+  }
+  if (a === "rules") { P.sheet = { k: "rules", closed: new Set(D.rules) }; drawPage(); return; }
+  if (b.dataset.cell) { const c = P.sheet.closed; c.has(b.dataset.cell) ? c.delete(b.dataset.cell) : c.add(b.dataset.cell); drawPage(); return; }
+  if (a === "openall") { P.sheet.closed.clear(); drawPage(); return; }
+  if (a === "apply") { D.rules = new Set(P.sheet.closed); D.availTouched = true; P.sheet = null; drawPage(); ptoast("Rules applied"); return; }
+  if (P.kind === "schedule") {
+    if (b.dataset.day) { const d = +b.dataset.day, s = P.sel; P.sel = s && s.to == null && d > s.from ? { from: s.from, to: d } : { from: d, to: null }; drawPage(); return; }
+    if (a === "openblock") { if (P.sel.to == null) P.sel.to = P.sel.from; P.sheet = { k: "block", mode: "block", slots: new Set(SLOTS.map(([s]) => s)) }; drawPage(); return; }
+    if (b.dataset.mode) { P.sheet.mode = b.dataset.mode; drawPage(); return; }
+    if (b.dataset.check) { const v = b.dataset.check.split(":")[1], s = P.sheet.slots; s.has(v) ? s.delete(v) : s.add(v); drawPage(); return; }
+    if (a === "saveblock") {
+      for (let d = P.sel.from; d <= P.sel.to; d++) for (const v of P.sheet.slots) P.sheet.mode === "block" ? D.blocked.add(`${d}-${v}`) : D.blocked.delete(`${d}-${v}`);
+      D.schedSaved = true; P.sheet = null; P.sel = null; drawPage(); ptoast("Schedule saved"); return;
+    }
   }
 });
 prop();
@@ -448,11 +760,11 @@ book();
 
 /* For the Figma plugin: E in each state, and the booking moments. */
 window.__ticket = { id: "sitter-home", title: "Sitter Home before the first booking (E: card + trail)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/sitter-home-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "E (card + trail) chosen by Mook, Oct 26; the other variations were dropped" }, { q: "Checklist", a: "Six steps from fields the app already stores; the one primary names the next missing step" }, { q: "Auto-send", a: "A bonus, not part of ready (Mook's lean)" }, { q: "With bookings", a: "The trail becomes the stay's five stages: Ask, Meet, Book, Care, Home" },
+  decisions: [{ q: "Status", a: "E (card + trail) chosen by Mook, Oct 26; the other variations were dropped" }, { q: "Checklist", a: "Five steps that open the real screens: setup questions, Profile (photos, About you; house rules and spots; parking and lobby), Schedule. Done only when saved" }, { q: "Rates", a: "No rate screen yet (#193): the card shows no price until it exists" }, { q: "Auto-send", a: "A bonus, not part of ready (Mook's lean)" }, { q: "With bookings", a: "The trail becomes the stay's five stages: Ask, Meet, Book, Care, Home" },
     { q: "Components", a: "Built from SitterResultCard, ListRow, CheckRow, Card, Tag, Avatar, MessageBubble, BookingTicket, SummaryRow, SectionTitle, Button and RoleTabs; new: StageTrail and its mini version" }],
   notes: [["Tokens and components", [...document.querySelectorAll("#audit tbody tr")].map((r) => [...r.children].map((c) => c.textContent.trim()).join(" · ")).join("\n")]],
   spec: [], specLinks: [] };
 window.__ticketStates = [];
 for (const k of ["booked", "care", "busy"]) window.__ticketStates.push({ cap: `sitter-home-booked-${k}`, on: "sitter-home-booked-request", title: `Sitter Home · E with bookings · ${MOMENTS[k].t.toLowerCase()}`, go: () => { M = k; book(); } });
-for (const s of ["half", "ready"]) window.__ticketStates.push({ cap: `sitter-home-E-${s}`, on: "sitter-home-E-new", title: `Sitter Home · E Card + trail · ${s === "half" ? "halfway" : "all set"}`, go: () => { S = s; done = new Set(STATES[s]); prop(); } });
+for (const s of ["half", "ready"]) window.__ticketStates.push({ cap: `sitter-home-E-${s}`, on: "sitter-home-E-new", title: `Sitter Home · E Card + trail · ${s === "half" ? "halfway" : "all set"}`, go: () => { P = null; S = s; D = blank(); STATES[s].forEach((k) => DEMO[k]()); prop(); } });
 </script></body></html>
