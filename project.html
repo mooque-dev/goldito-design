@@ -175,10 +175,10 @@
   <section aria-labelledby="h-tix" id="tickets">
     <div class="head"><h2 id="h-tix"><span class="en">3 · Design tickets: today's slot</span><span class="ko">3 · 디자인 티켓: 오늘 슬롯</span></h2>
       <p><span class="en">Every open <code>track:design</code> ticket, <span data-checked></span>. Grouped by what happens next. The same list is in the <a href="update-2026-10-23.html#tickets">Oct 23 update</a> and on the Figma Tickets page.</span><span class="ko">열린 <code>track:design</code> 티켓 전부, <span data-checked-ko></span>. 다음에 할 일로 묶었어요. 같은 목록이 <a href="update-2026-10-23.html#tickets">10/23 업데이트</a>와 피그마 Tickets 페이지에 있어요.</span></p></div>
-    <div class="tgroup"><h3><span class="en">Done today</span><span class="ko">오늘 완료</span></h3><div class="tix" id="tix-done"></div></div>
-    <div class="tgroup"><h3><span class="en">In the slot today</span><span class="ko">오늘 할 일</span></h3><div class="tix" id="tix-today"></div></div>
-    <div class="tgroup"><h3><span class="en">Team calls, by Oct 24</span><span class="ko">팀 결정, 10/24까지</span></h3><div class="tix" id="tix-call"></div></div>
-    <div class="tgroup"><h3><span class="en">Ready to close (done)</span><span class="ko">닫을 준비 (완료)</span></h3><div class="tix" id="tix-close"></div></div>
+    <div class="tgroup"><h3><span class="en">Finished</span><span class="ko">끝난 것</span></h3><div class="tix" id="tix-done"></div></div>
+    <div class="tgroup"><h3><span class="en">Being worked on</span><span class="ko">진행 중</span></h3><div class="tix" id="tix-today"></div></div>
+    <div class="tgroup"><h3><span class="en">Waiting on a team call</span><span class="ko">팀 결정 대기</span></h3><div class="tix" id="tix-call"></div></div>
+    <div class="tgroup"><h3><span class="en">Done, but still open on GitHub: close these</span><span class="ko">완료, GitHub에선 아직 열림: 닫기</span></h3><div class="tix" id="tix-close"></div></div>
     <div class="tgroup"><h3><span class="en">After the submission</span><span class="ko">제출 후</span></h3><div class="tix" id="tix-after"></div></div>
   </section>
 
@@ -337,7 +337,8 @@
       `<article class="t${b === "after" ? " dim" : ""}" id="t${t.n}"><div class="top"><span class="num">${iss(t.n)}</span><span class="pill ${KIND[b]}">${both(...t.status)}</span></div>
         <h3>${both(...t.title)}</h3>
         <dl><dt>${both("Where it is", "현재")}</dt><dd>${both(...t.done)}</dd><dt>${both("Next", "다음")}</dt><dd>${both(...t.next)}</dd><dt>${both("Who", "누가")}</dt><dd>${both(...t.owner)}</dd></dl>
-        <div class="foot"><span class="see">${t.links.map(tlink).join(" · ")}</span></div></article>`).join("");
+        <div class="foot"><span class="see">${t.links.map(tlink).join(" · ")}</span></div></article>`).join("");    // A group with nothing in it is hidden, like on the Figma board.
+    $(`tix-${b}`).closest(".tgroup").hidden = !$(`tix-${b}`).children.length;
   }
 
   // ---------- 4 · github ----------

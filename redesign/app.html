@@ -143,6 +143,8 @@ body{padding:0!important}
 .xp *{box-sizing:border-box}
 .xp svg.art{display:block}
 .xp .top{display:flex;align-items:flex-start;justify-content:space-between;padding:18px 20px 8px}
+.xp .tagx{display:inline-flex;align-items:center;border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:700;color:var(--ink)}
+.xp .vtabs{display:flex;gap:24px;margin:0 20px;border-bottom:1.5px solid var(--line)} .xp .vtabs span{min-height:44px;display:flex;align-items:center;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1.5px} .xp .vtabs .on{color:var(--ink);border-bottom-color:var(--ink)}
 .xp .hello{font:600 26px/1.15 var(--display);color:var(--ink);letter-spacing:-.01em;margin:0}
 .xp .hello em{font-style:normal;color:var(--gold-ink)}
 .xp .sub{margin:2px 0 0;color:var(--muted);font-weight:600;font-size:14px}
@@ -290,6 +292,7 @@ body{padding:0!important}
   <symbol id="x-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
   <symbol id="x-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
   <symbol id="x-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+  <symbol id="x-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
   <symbol id="x-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 22H4a2 2 0 0 1-2-2V6"/><path d="m22 13-1.296-1.296a2.41 2.41 0 0 0-3.408 0L11 18"/><circle cx="12" cy="8" r="2"/><rect width="16" height="16" x="6" y="2" rx="2"/></symbol>
   <symbol id="x-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
   <symbol id="x-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
@@ -588,7 +591,7 @@ body{padding:0!important}
     </div>
   </div>
   <div class="pin"><div class="btn">See today's updates</div></div>
-  <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+  <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-bookings"><div class="xp" data-id="owner-bookings">
   <div class="top"><div><h1 class="hello">Bookings</h1><p class="sub">Robert · Owner</p></div>
@@ -611,15 +614,16 @@ body{padding:0!important}
     <div class="block w row" style="padding:14px">
       <span class="ava">C</span>
       <div style="flex:1"><div class="h">Chloe Kim <span class="sm" style="color:var(--gold-ink)">★ 5.0</span></div><div class="sm muted">North York · replies in ~30 s</div></div>
-      <span class="chip t" style="background:var(--mint)">Boarding</span>
+      <span class="tagx" style="background:var(--mint)">Boarding</span>
     </div>
   </div>
   <div class="pin"><div class="btn">Book care</div></div>
-  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab on"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab on"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-feed"><div class="xp" data-id="owner-feed">
-  <div class="top"><div><h1 class="hello">Feed</h1><p class="sub">Robert · Owner</p></div>
+  <div class="top"><div><h1 class="hello">Moments</h1><p class="sub">Robert · Owner</p></div>
     <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">6</span></span><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="vtabs"><span class="on">Photos</span><span>Diary</span></div>
   <div class="body">
     <div class="chips"><span class="chip on"><svg class="art"><use href="#art-paw"/></svg>All</span><span class="chip"><svg class="art"><use href="#art-bowl"/></svg>Meals</span><span class="chip"><svg class="art"><use href="#art-walk"/></svg>Walks</span><span class="chip"><svg class="art"><use href="#art-nap"/></svg>Naps</span></div>
     <div class="sec"><h3>Today · Sat Oct 10</h3><span class="sm muted b">6 photos</span></div>
@@ -628,17 +632,13 @@ body{padding:0!important}
       <div class="photo rel" style="background-image:url(img/pet1.jpg)"><span class="badge"><svg class="art"><use href="#art-walk"/></svg>10:40</span></div>
       <div class="photo rel" style="background-image:url(img/pet2.jpg)"><span class="badge"><svg class="art"><use href="#art-nap"/></svg>1:15</span></div>
     </div>
-    <div class="block y" style="padding:16px">
-      <div class="row" style="gap:8px"><span class="ava" style="width:34px;height:34px;font-size:14px">C</span><div><div class="b">Chloe</div><div class="sm muted">Sitter · 9:02 AM</div></div></div>
-      <div style="margin-top:10px;font-size:15px"><b>Max finished every bit of breakfast</b> and asked for more 🍽️</div>
-      <div class="row" style="margin-top:10px"><span class="chip t" style="min-height:34px">😊 Happy</span><span class="link">♡ Love it</span></div>
-    </div>
   </div>
-  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab on"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab on"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-diary"><div class="xp" data-id="owner-diary">
-  <div class="top"><div><h1 class="hello">Diary</h1><p class="sub">Robert · Owner</p></div>
+  <div class="top"><div><h1 class="hello">Moments</h1><p class="sub">Robert · Owner</p></div>
     <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">6</span></span><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="vtabs"><span>Photos</span><span class="on">Diary</span></div>
   <div class="body">
     <div class="block m">
       <div class="between"><div class="row" style="gap:8px"><span class="ava" style="width:34px;height:34px;font-size:14px">C</span><div><div class="b">Daily note from Chloe</div><div class="sm muted">Sent 6:04 PM</div></div></div>
@@ -653,7 +653,16 @@ body{padding:0!important}
       <div class="it"><svg class="art" style="background:var(--peach)"><use href="#art-bowl"/></svg><div><div class="b">Breakfast</div><div class="sm muted">Finished the bowl ✓</div></div><span class="time">8:12</span></div>
     </div>
   </div>
-  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab on"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab on"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+</div></template>
+<template id="x-owner-chat"><div class="xp" data-id="owner-chat">
+  <div class="top"><div><h1 class="hello">Chat</h1><p class="sub">Robert · Owner</p></div>
+    <div class="icons"><span class="ic"><svg><use href="#x-bell"/></svg><span class="ct">6</span></span><span class="avr"><span class="me">R</span></span></div></div>
+  <div class="body">
+    <div class="block w row" style="gap:12px;padding:14px"><span class="ava" style="width:44px;height:44px;font-size:17px">C</span><div style="flex:1;min-width:0"><div class="between"><span class="b">Chloe</span><span class="sm muted">9:41 AM</span></div><div class="sm" style="margin-top:2px"><b>Want a photo of the walk?</b></div><div class="sm muted">Max and Mochi · staying now</div></div><span class="ct" style="position:static;min-width:22px;height:22px;border-radius:11px;background:var(--terra);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800">2</span></div>
+    <div class="block w row" style="gap:12px;padding:14px"><span class="ava" style="width:44px;height:44px;font-size:17px;background:var(--peach);color:var(--ink)">J</span><div style="flex:1;min-width:0"><div class="between"><span class="b">Jamie</span><span class="sm muted">Oct 2</span></div><div class="sm muted" style="margin-top:2px">Thanks! Max was a star.</div><div class="sm muted">Past stay</div></div></div>
+  </div>
+  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab on"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-snap"><div class="xp" data-id="owner-snap">
   <div class="top"><div><h1 class="hello">Snap</h1><p class="sub">Robert · Owner</p></div>
@@ -669,7 +678,7 @@ body{padding:0!important}
       <div class="it"><svg class="art"><use href="#art-bowl"/></svg><div><div class="h" style="font-size:15px">Sweet potato chew</div><div class="sm muted">Nothing on Max's list</div></div><span class="verdict ok">SAFE</span></div>
     </div>
   </div>
-  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab on"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+  <nav class="tabs"><span class="tab"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab on"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <template id="x-owner-settings"><div class="xp" data-id="owner-settings">
   <div class="top"><div><span class="link">‹ Profile</span><h1 class="hello" style="margin-top:6px">Settings</h1></div><div class="icons"><span class="me">R</span></div></div>
@@ -713,7 +722,7 @@ body{padding:0!important}
       <div class="act"><svg class="art"><use href="#art-bowl"/></svg><div><div class="b">Treat check</div><div class="sm muted">In Snap · checks Max's allergies</div></div><svg class="go"><use href="#x-chev"/></svg></div>
     </div>
   </div>
-  <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Feed</span><span class="tab"><span class="pp"><svg><use href="#x-book"/></svg></span>Diary</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
+  <nav class="tabs"><span class="tab on"><span class="pp"><svg><use href="#x-home"/></svg></span>Home</span><span class="tab"><span class="pp"><svg><use href="#x-cal"/></svg></span>Bookings</span><span class="tab"><span class="pp"><svg><use href="#x-chat"/></svg></span>Chat</span><span class="tab"><span class="pp"><svg><use href="#x-img"/></svg></span>Moments</span><span class="tab"><span class="pp"><svg><use href="#x-cam"/></svg></span>Snap</span></nav>
 </div></template>
 <div id="out"></div>
 <script>

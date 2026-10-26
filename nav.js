@@ -149,6 +149,7 @@
       ["illustrations.html", "Illustrations", "일러스트", "The Goldito spot illustrations (in progress)", "Goldito 일러스트 (진행 중)"],
       ["pixel-pets.html", "Pixel pets", "픽셀 펫", "Pet room sprites (in progress)", "펫 방 스프라이트 (진행 중)"]]],
     ["Updates", "업데이트", [
+      ["update-2026-10-25.html", "Oct 25 update", "10월 25일 업데이트", "Moments merged; photo viewer, Diary views, pet tone and dark mode, playful words, little delights", "모먼츠 머지; 사진 보기, 다이어리 보기, 펫 톤과 다크 모드, 재치 있는 말, 작은 즐거움"],
       ["update-2026-10-24.html", "Oct 24 update", "10월 24일 업데이트", "Feed trial (all pets, stickers, Decorate), View tabs, five stages, two PRs in review", "피드 시안 (모든 펫, 스티커, 꾸미기), 뷰 탭, 다섯 단계, PR 둘 리뷰"],
       ["update-2026-10-23.html", "Oct 23 update", "10월 23일 업데이트", "Design tickets in today's slot, nav trial, Figma decisions and flags, DESIGN.md", "오늘 슬롯의 디자인 티켓, 내비게이션 시안, 피그마 결정과 표시, DESIGN.md"],
       ["update-2026-10-22.html", "Oct 22 update", "10월 22일 업데이트", "Design kit, header C, Lucide, Jakarta, the merge chain", "디자인 키트, 헤더 C, Lucide, Jakarta, 머지 순서"],
@@ -166,6 +167,12 @@
       ["header-trial.html", "Header trial", "헤더 시안", "Who am I signed in as? Now, A and C, playable", "누구로 로그인했는지: 지금, A, C 체험"],
       ["nav-trial.html", "Nav trial", "내비게이션 시안", "Chat got its own tab, Diary inside Feed (shipped #340); compare with before", "채팅 탭, 피드 안 다이어리 (#340 반영); 이전과 비교"],
       ["diary-compare.html", "Diary views", "다이어리 보기", "Live Diary vs today first, a calendar archive and footprints; playable", "라이브 다이어리 vs 오늘 먼저, 캘린더 보관함, 발자취; 체험 가능"],
+      ["ux-calls.html", "UX calls picker", "UX 결정 고르기", "The 12 UX calls drawn as phone screens; tap to pick, copy your picks", "UX 결정 12개를 폰 화면으로; 눌러 고르고 복사"],
+      ["ux-audit.html", "UX patterns audit", "UX 패턴 점검", "Back, close, feedback, confirms, labels and forms on main: 55 findings, 12 calls", "뒤로, 닫기, 피드백, 확인, 라벨, 입력: 발견 55, 결정 12"],
+      ["intro-trial.html", "Intro trial", "인트로 시안", "The first minute: boot, Welcome, how it works, Try the demo, sign up; today vs a proposal; playable", "첫 1분: 부팅, 웰컴, 소개, 데모, 가입; 지금 vs 제안; 체험 가능"],
+      ["delights.html", "Little delights", "작은 즐거움", "Every micro-interaction with variations: paw walks, paw loaders, stamps, bursts, hints; playable", "모든 마이크로 인터랙션과 변형: 발자국 걷기, 발바닥 로더, 도장, 터짐, 힌트; 체험 가능"],
+      ["words-trial.html", "Playful words", "재치 있는 말", "Paw-fect and friends, each shown as a toast, title or empty state; dog and cat words; playable", "파우-펙트 등, 토스트, 제목, 빈 화면으로 보기; 강아지와 고양이 말; 체험 가능"],
+      ["tone-trial.html", "Pet tone trial", "펫 톤 시안", "Colors from the pet's photo or Goldito green, light and dark, and Max's room; playable", "펫 사진의 색 또는 골디토 그린, 라이트와 다크, 맥스의 방; 체험 가능"],
       ["feed-trial.html", "Feed trial", "피드 시안", "Feed and Diary: all pets first, View tabs, stickers from any photo; playable", "피드와 다이어리: 모든 펫 먼저, 뷰 탭, 사진으로 스티커; 체험 가능"],
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [

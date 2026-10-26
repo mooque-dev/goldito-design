@@ -1,0 +1,365 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Little Delights</title>
+<meta name="description" content="Every micro-interaction and cute moment in Goldito in one place: paw walks, paw loaders, stamps, bursts, check-offs, hints and the pet's idle moves. Each one has variations to play with.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.5 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:76rem;margin:0 auto;display:flex;flex-direction:column;gap:1.5rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.15rem/1.2 var(--font-display);margin:0}
+p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.lay{display:grid;grid-template-columns:minmax(0,18.5rem) auto minmax(0,19rem);gap:2rem;align-items:start}
+@media (max-width:1100px){.lay{grid-template-columns:minmax(0,1fr) auto}.ctl{grid-column:1/-1}}
+@media (max-width:760px){.lay{grid-template-columns:minmax(0,1fr)}.stagewrap{order:-1;justify-self:center}.cat{max-height:none}}
+/* catalog */
+.cat{display:flex;flex-direction:column;gap:1rem;position:sticky;top:5.5rem;max-height:calc(100vh - 7rem);overflow:auto;padding-right:4px}
+.find{min-height:44px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);padding:0 16px;font:15px var(--font-ui);width:100%}
+.grp{display:flex;flex-direction:column;gap:4px} .grp>b{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted);margin:4px 0 2px}
+.it{display:flex;align-items:center;gap:10px;min-height:44px;border-radius:14px;border:1.5px solid transparent;background:none;color:var(--color-text);text-align:left;padding:6px 10px;font:600 14.5px var(--font-ui);cursor:pointer;width:100%}
+.it:hover{background:var(--color-surface)} .it[aria-current=true]{background:var(--color-accent);border-color:var(--color-primary)}
+.it svg{width:20px;height:20px;flex:none;color:var(--color-primary)} .it span{flex:1} .it span{line-height:1.25} .it small{font-size:10.5px;font-weight:800;white-space:nowrap;border-radius:999px;padding:1px 7px;background:var(--color-surface);border:1px solid var(--color-border)}
+.it small.new{background:#FBEFC8;color:#6B4A00;border-color:#E9D58A}
+/* stage */
+.stagewrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+.ph{width:360px;max-width:100%;height:720px;border-radius:44px;border:10px solid #1A1A1A;overflow:hidden;position:relative;background:#FBF6EA;color:#1B4332;font:15px/1.45 'Plus Jakarta Sans',sans-serif;box-shadow:0 18px 40px rgba(26,26,26,.18);color-scheme:light;user-select:none;-webkit-user-select:none}
+.ph .sb{display:flex;justify-content:space-between;padding:12px 22px 4px;font-weight:700;font-size:13px;position:relative;z-index:2}
+.ph .sc{position:absolute;inset:36px 0 0 0;display:flex;flex-direction:column}
+.play{min-height:48px;border:0;border-radius:999px;background:var(--color-primary);color:var(--color-primary-text);font:800 15px var(--font-ui);cursor:pointer;padding:0 28px}
+.cap{font-size:13px;color:var(--color-text-muted);text-align:center;max-width:340px}
+/* controls */
+.ctl{display:flex;flex-direction:column;gap:1.1rem;min-width:0;position:sticky;top:5.5rem}
+.ctl h2{font-size:1.35rem;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctl .st{font:800 11px var(--font-ui);border-radius:999px;padding:2px 9px;background:var(--color-surface);border:1px solid var(--color-border)} .ctl .st.new{background:#FBEFC8;color:#6B4A00;border-color:#E9D58A}
+.opt{display:flex;flex-direction:column;gap:6px} .opt>b{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);font:600 13.5px var(--font-ui);cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+.seg button small{font-weight:800;margin-left:4px;color:var(--color-text-muted)}
+.desc{font-size:14px;color:var(--color-text-muted)} .where{font-size:13px;font-weight:600}
+.tog{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600;font-size:14px;cursor:pointer} .tog input{width:20px;height:20px;accent-color:#2D6A4F}
+button:focus-visible,.find:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+.more{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.more a{display:flex;flex-direction:column;gap:2px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;color:var(--color-text);text-decoration:none} .more a b{font-size:14.5px} .more a span{font-size:13px;color:var(--color-text-muted)}
+
+/* ---------- phone pieces (Expressive) ---------- */
+.ph h3{margin:0;font:600 24px/1.1 Fredoka,sans-serif;color:#1B4332} .ph h4{margin:0;font:600 18px Fredoka,sans-serif}
+.pad{padding:8px 18px;display:flex;flex-direction:column;gap:12px}
+.top{padding:10px 18px 4px;flex:none} .top h3{font-size:26px} .top small{display:block;font-size:13.5px;color:#6B5D4A;margin-top:2px}
+.walk.mini{width:150px;height:150px}
+.full{width:100%}
+.mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;position:relative}
+.walk{position:relative;width:240px;height:240px}
+.pp{position:absolute;width:24px;height:24px;color:#2D6A4F;opacity:0;left:0;top:0}
+.wt{opacity:0} .wt h3{font-size:28px} .wt p{font-size:15px;color:#6B5D4A;margin-top:6px}
+.btn{min-height:52px;border-radius:999px;border:0;font:700 15px 'Plus Jakarta Sans',sans-serif;background:#1B4332;color:#fff;padding:0 22px;cursor:pointer;position:relative}
+.btn.s{background:#fff;color:#1B4332;border:1.5px solid #7F6F58}
+.card{background:#fff;border:1px solid #E8DCC4;border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;align-items:center;gap:12px;font-size:15px}
+.cb{width:30px;height:30px;border-radius:9px;border:2px solid #7F6F58;display:grid;place-items:center;flex:none;position:relative;background:#fff}
+.cb svg{width:20px;height:20px;color:#fff;opacity:0}
+.task{border:0;background:#fff;border-radius:18px;padding:14px 16px;min-height:68px;display:flex;align-items:center;gap:12px;font:600 15px 'Plus Jakarta Sans',sans-serif;color:#1B4332;cursor:pointer;width:100%;text-align:left;border:1px solid #E8DCC4}
+.task.done{background:#D8F3DC;border-color:#1B4332} .task.done .cb{background:#1B4332;border-color:#1B4332} .task.done .cb svg{opacity:1}
+.task small{display:block;font-weight:500;color:#6B5D4A;font-size:13px}
+.react{display:flex;gap:8px} .rb{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #7F6F58;background:#fff;font:700 14px 'Plus Jakarta Sans',sans-serif;color:#1B4332;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.rb svg{width:18px;height:18px} .rb.on{background:#FAD6CB;border-color:#9F2E1A;color:#9F2E1A}
+.fx{position:absolute;pointer-events:none;z-index:5}
+.fx svg,.fx img{width:100%;height:100%;display:block}
+.bub{align-self:flex-start;background:#D8F3DC;border-radius:18px 18px 18px 6px;padding:12px 16px;display:flex;align-items:center;gap:6px}
+.bubwrap{display:flex;flex-direction:column;gap:6px} .bubwrap small{font-size:12px;color:#6B5D4A;font-weight:600}
+.tp{width:20px;height:20px;color:#2D6A4F} .bub{padding:14px 18px;gap:8px} .bub.in{background:#fff;border:1px solid #E8DCC4} .bub.out{align-self:flex-end;background:#1B4332;color:#fff;border-radius:18px 18px 6px 18px} .bub.txt{display:block;max-width:80%;font-size:14.5px}
+.upl{width:300px;display:flex;flex-direction:column;gap:14px}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:6px}
+.th{position:relative;aspect-ratio:1;border-radius:14px;overflow:visible} .th img{width:100%;height:100%;object-fit:cover;border-radius:14px;display:block;opacity:.55;transition:opacity .3s} .th.done img{opacity:1}
+.th .ok{position:absolute;right:5px;top:5px;width:24px;height:24px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;border:2px solid #FBF6EA;opacity:0} .th .ok svg{width:14px;height:14px}
+.th .stp{position:absolute;right:3px;bottom:3px;width:30px;height:30px;color:#F4C35A;filter:drop-shadow(0 1px 1px rgba(0,0,0,.3));opacity:0}
+.pgl{display:flex;justify-content:space-between;align-items:baseline;gap:10px} .pgl b{font-size:16px;display:inline-flex;align-items:center;gap:6px} .pgl b svg{width:18px;height:18px;color:#067647} .pgl span{font-size:14px;color:#6B5D4A;font-variant-numeric:tabular-nums}
+.pg{position:relative;height:28px;border-radius:14px;background:#E8DCC4;overflow:hidden} .pg.walker{height:14px;overflow:visible} .pg>b{position:absolute;inset:0 auto 0 0;width:0;background:#1B4332;border-radius:inherit}
+.pgp{position:absolute;top:50%;width:18px;height:18px;color:#A89A82;transform:translate(-50%,-50%);transition:color .2s} .pgp.on{color:#fff}
+.pgw{position:absolute;top:50%;width:30px;height:30px;padding:5px;box-sizing:border-box;border-radius:50%;background:#fff;color:#C9962E;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.pbar{height:12px;border-radius:6px;background:#E8DCC4;position:relative;width:100%} .pbar b{position:absolute;inset:0 auto 0 0;border-radius:6px;background:#1B4332;width:0}
+.ring{position:absolute;width:64px;height:64px;border-radius:50%;border:3px solid #fff;background:rgba(255,255,255,.18)}
+.photo{position:absolute;inset:0;background:#000} .photo img{width:100%;height:100%;object-fit:cover;opacity:.95}
+.lab{position:absolute;left:50%;top:58%;transform:translateX(-50%);background:rgba(10,8,6,.72);color:#fff;font:700 13px 'Plus Jakarta Sans',sans-serif;padding:7px 12px;border-radius:999px;white-space:nowrap}
+.toast{position:absolute;left:16px;right:16px;bottom:30px;background:#1B4332;color:#fff;border-radius:16px;padding:12px 14px;font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px rgba(0,0,0,.2);opacity:0}
+.toast img{width:32px;height:32px;object-fit:contain}
+.stage{position:relative;height:300px;border-radius:24px;background:#D8F3DC;display:grid;place-items:end center;overflow:hidden}
+.stage::before{content:"";position:absolute;left:14%;right:14%;bottom:26px;height:22px;border-radius:50%;background:#B9DDBF}
+.pet{position:relative;height:200px;max-width:88%;object-fit:contain;margin-bottom:30px;transform-origin:50% 100%;filter:drop-shadow(0 3px 4px rgba(0,0,0,.2))}
+.say{position:absolute;left:14px;top:14px;max-width:62%;background:#fff;border-radius:16px 16px 16px 4px;padding:9px 13px;font:700 14px/1.3 'Plus Jakarta Sans',sans-serif;color:#1B4332;box-shadow:0 2px 6px rgba(0,0,0,.08);z-index:1}
+.shelf{display:flex;gap:10px;align-items:flex-end;min-height:64px} .shelf img{width:56px;height:56px;object-fit:contain}
+.ptr{position:relative;flex:1;overflow:hidden}
+.ptrc{position:absolute;inset:0;padding:8px 18px;display:flex;flex-direction:column;gap:10px;background:#FBF6EA}
+.ptrc img{width:100%;height:120px;object-fit:cover;border-radius:16px}
+.ptrz{position:absolute;left:0;right:0;top:0;height:90px;display:grid;place-items:center}
+.ptrz svg{width:30px;height:30px;color:#2D6A4F}
+.tag svg{width:18px;height:18px} .tag{display:inline-flex;align-items:center;gap:6px;background:#F4C35A;color:#1A1A1A;border-radius:999px;padding:8px 16px;font:800 14px 'Plus Jakarta Sans',sans-serif;border:0;cursor:pointer}
+</style><script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:.6rem">
+  <span class="eyebrow">Library · Oct 25</span>
+  <h1><span class="en">Little delights</span><span class="ko">작은 즐거움</span></h1>
+  <p class="lede"><span class="en">Every micro-interaction and cute moment in Goldito, in one place. Pick one, try its variations, then Replay. Tapping inside the phone plays it too. Each one is calm by default and has a still version for Reduce motion.</span><span class="ko">골디토의 마이크로 인터랙션과 귀여운 순간을 한곳에. 하나를 고르고 변형을 바꿔 다시 재생. 폰 안을 눌러도 재생돼요. 모두 기본은 차분하고, 동작 줄이기용 정지 버전이 있어요.</span></p>
+</header>
+<div class="lay">
+  <nav class="cat" aria-label="Micro-interactions">
+    <input class="find" id="find" type="search" placeholder="Search: paw, loading, stamp…" aria-label="Search micro-interactions">
+    <div id="list"></div>
+  </nav>
+  <div class="stagewrap">
+    <div class="ph" id="ph" aria-live="polite" data-cap="delight-welcome" data-title="Little delights · Welcome walk"><div class="sb"><span>6:30</span><span>●●●</span></div><div class="sc" id="sc"></div></div>
+    <button type="button" class="play" id="replay">Replay</button>
+    <p class="cap" id="cap"></p>
+  </div>
+  <div class="ctl" id="ctl"></div>
+</div>
+<section style="display:flex;flex-direction:column;gap:.75rem">
+  <h2><span class="en">Delights that live on their own pages</span><span class="ko">다른 페이지에 있는 즐거움</span></h2>
+  <div class="more">
+    <a href="paw-drawer.html"><b>Paw pulls the drawer</b><span>A paw slides the menu in; five timings to try</span></a>
+    <a href="feed-trial.html"><b>The paw shortcut menu</b><span>Press and hold a photo, + Photo or Snap, slide to a toe</span></a>
+    <a href="feed-trial.html"><b>Make a sticker</b><span>Open a photo: the pet lifts off with a white border</span></a>
+    <a href="tone-trial.html"><b>Max's room</b><span>The tamagotchi that only real care moves</span></a>
+    <a href="pawnote-concept-d-expressive.html#splash"><b>Welcome to Goldito, in the prototype</b><span>The paw walk where it really plays, after sign-up</span></a>
+  </div>
+</section>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="6.2" cy="10.4" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="14.2" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="17.8" cy="10.4" rx="1.9" ry="2.4"/><path d="M12 11.2c-2.6 0-5.4 3.6-5.4 5.9 0 1.6 1.2 2.4 2.6 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.6-.8 2.6-2.4 0-2.3-2.8-5.9-5.4-5.9z"/></g></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3.1 4.5 6.9 4.5c2.1 0 3.6 1.2 5.1 3 1.5-1.8 3-3 5.1-3 3.8 0 6 3.9 4.5 7.3C19.5 16.4 12 21 12 21z"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-star" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2.5 2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 4a1 1 0 1 0 2 0 1 1 0 0 0-2 0M7 21l3-4M16 21l-2-4-3-3 1-6M6 12l2-3 4-1 3 3 3 1"/></symbol>
+<symbol id="i-load" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+<symbol id="i-tap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+</svg>
+
+<script>
+const IMG = (n) => `assets/feed-trial/${n}.jpg`, STK = (n) => `assets/feed-trial/stickers/${n}.png`;
+const ic = (n) => `<svg aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const sc = () => document.getElementById("sc");
+const reduce = () => O.motion === "still" || (O.motion === "system" && matchMedia("(prefers-reduced-motion: reduce)").matches);
+const SPEED = { slow: 1.5, normal: 1, fast: 0.65 };
+const COLOR = { green: "#2D6A4F", gold: "#C9962E", ink: "#1B4332", peach: "#E07B39" };
+const K = () => SPEED[O.speed] || 1;
+// One place to animate: Web Animations, scaled by the Speed option; under Reduce motion it jumps to the end.
+function anim(el, frames, ms, delay = 0, extra = {}) {
+  if (reduce()) { const last = frames[frames.length - 1]; Object.assign(el.style, last); return null; }
+  return el.animate(frames, { duration: ms * K(), delay: delay * K(), fill: "both", easing: "cubic-bezier(.2,.8,.2,1)", ...extra });
+}
+let RUN = 0;
+const later = (fn, ms) => { const r = RUN; if (reduce()) return fn(); setTimeout(() => r === RUN && fn(), ms * K()); };
+const fxAt = (x, y, w, h, html) => { const f = document.createElement("span"); f.className = "fx"; Object.assign(f.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px` }); f.innerHTML = html; sc().appendChild(f); return f; };
+const center = (el) => { const r = el.getBoundingClientRect(), p = sc().getBoundingClientRect(); return [r.left - p.left + r.width / 2, r.top - p.top + r.height / 2]; };
+
+/* ---------- paw paths: centre of each print, and the way it faces ---------- */
+const PATHS = {
+  up: (t) => [0.5, 0.94 - 0.88 * t],
+  across: (t) => [0.06 + 0.88 * t, 0.5],
+  rise: (t) => [0.1 + 0.8 * t, 0.9 - 0.8 * t + Math.sin(t * Math.PI) * 0.06],
+  wander: (t) => [0.5 + Math.sin(t * Math.PI * 2) * 0.28, 0.94 - 0.88 * t],
+  circle: (t) => [0.5 + Math.cos(-Math.PI / 2 + t * Math.PI * 1.75) * 0.36, 0.5 + Math.sin(-Math.PI / 2 + t * Math.PI * 1.75) * 0.36],
+  toward: (t) => [0.5, 0.08 + 0.84 * t],
+};
+function prints(path, n, box, stride) {
+  const f = PATHS[path];
+  return Array.from({ length: n }, (_, i) => {
+    const t = n === 1 ? 0 : i / (n - 1), [x, y] = f(t), [x2, y2] = f(Math.min(1, t + 0.01)), [x0, y0] = f(Math.max(0, t - 0.01));
+    const dx = (x2 - x0) * box, dy = (y2 - y0) * box, a = Math.atan2(dy, dx), side = i % 2 ? 1 : -1;
+    const nx = -Math.sin(a) * side * stride, ny = Math.cos(a) * side * stride;
+    return { x: x * box + nx, y: y * box + ny, r: (a * 180) / Math.PI + 90, s: path === "toward" ? 0.6 + t * 0.9 : 1 };
+  });
+}
+function walkInto(box, o, loop = false) {
+  const size = { small: 22, medium: 30, large: 38 }[o.size] || 30, n = +o.count || 6, W = box.offsetWidth || 240;
+  const ps = prints(o.path, n, W, size * 0.42);
+  box.innerHTML = ps.map((p) => `<svg class="pp" style="width:${size * p.s}px;height:${size * p.s}px;color:${COLOR[o.color]};transform:translate(${p.x - (size * p.s) / 2}px,${p.y - (size * p.s) / 2}px) rotate(${p.r}deg)"><use href="#i-paw"/></svg>`).join("");
+  const step = 140, last = { stay: 1, fade: 0.35, vanish: 0 }[o.trail] ?? 0.35;
+  [...box.children].forEach((el, i) => {
+    const tr = el.style.transform;
+    if (reduce()) { el.style.opacity = last === 0 ? 0.6 : last === 1 ? 1 : 0.6; return; }
+    el.animate([{ opacity: 0, transform: `${tr} scale(.3)` }, { opacity: 1, transform: `${tr} scale(1.15)`, offset: 0.16 }, { opacity: 1, transform: `${tr} scale(1)`, offset: 0.3 }, { opacity: 1, offset: 0.7 }, { opacity: last, transform: `${tr} scale(.95)` }],
+      { duration: 1200 * K(), delay: i * step * K(), fill: "both", easing: "cubic-bezier(.2,.8,.2,1)", ...(loop ? { iterations: Infinity, endDelay: (n * step + 300) * K() } : {}) });
+  });
+  return n * step + 600;
+}
+
+/* ---------- the catalog ---------- */
+const ITEMS = [
+  { g: "Paw walks", id: "welcome", icon: "paw", name: "Welcome walk", st: "Prototype", where: "After sign-up, once. Expressive prototype (#splash)",
+    desc: "A trail of prints walks in, then the greeting rises. The walk you remembered goes bottom to top.",
+    opts: { path: [["up", "Bottom to top ★"], ["across", "Left to right"], ["rise", "Diagonal rise"], ["wander", "Wander"], ["circle", "Circle"], ["toward", "Toward you"]], trail: [["fade", "Fade behind ★"], ["vanish", "Vanish"], ["stay", "Stay"]], count: [["4", "4 ★"], ["6", "6"], ["8", "8"]], size: [["small", "Small"], ["medium", "Medium ★"], ["large", "Large"]], color: [["green", "Green ★"], ["gold", "Gold"], ["peach", "Peach"]] },
+    run(o) { sc().innerHTML = `<div class="mid"><div class="walk" id="wk"></div><div class="wt" id="wt"><h3>Welcome to Goldito</h3><p>Leave your pet. Keep your peace of mind.<br>Max is all set.</p></div></div>`;
+      const ms = walkInto(document.getElementById("wk"), o); anim(document.getElementById("wt"), [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], 450, ms - 300); } },
+  { g: "Paw walks", id: "pawload", icon: "load", name: "Paw loader", st: "New", where: "Any wait over a second: loading photos, writing today's page",
+    desc: "Instead of a spinner, prints walk on the spot and loop. Pair it with what's happening, never only the animation.",
+    opts: { path: [["up", "Walk up ★"], ["circle", "Circle"], ["across", "Across"], ["wander", "Wander"]], count: [["4", "4 ★"], ["6", "6"]], size: [["small", "Small ★"], ["medium", "Medium"]], color: [["green", "Green ★"], ["gold", "Gold"]] },
+    defaults: { trail: "vanish", count: "4", size: "small" },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Today's page</h3><small>Max · Sat, Oct 24</small></div><div class="mid" style="gap:14px"><div class="walk mini" id="wk"></div><b style="font-size:17px">Writing Max's page</b><span style="font-size:14px;color:#6B5D4A">From Chloe's notes and 6 photos</span></div>`;
+      walkInto(document.getElementById("wk"), { ...o, trail: "vanish" }, true); } },
+  { g: "Paw walks", id: "typing", icon: "smile", name: "Typing paws", st: "New", where: "Chat, while Chloe's assistant writes a reply",
+    desc: "The three typing dots become three little paws.",
+    opts: { move: [["hop", "Hop ★"], ["fade", "Fade"], ["step", "Step in turn"]], color: [["green", "Green ★"], ["gold", "Gold"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Chloe</h3><small>Usually replies within an hour</small></div><div class="pad" style="flex:1;justify-content:flex-end;padding-bottom:28px"><div class="bub out txt">Hi Chloe! Could you board Max Oct 22 to 26?</div><div class="bub in txt">Happy to! Let me check my calendar.</div><div class="bub out txt">How much would that be?</div><div class="bubwrap"><small>Chloe's Goldito assistant is writing</small><div class="bub">${[0, 1, 2].map((i) => `<svg class="tp" id="tp${i}" style="color:${COLOR[o.color]}"><use href="#i-paw"/></svg>`).join("")}</div></div></div>`;
+      [0, 1, 2].forEach((i) => { const el = document.getElementById(`tp${i}`);
+        const f = o.move === "fade" ? [{ opacity: 0.25 }, { opacity: 1 }, { opacity: 0.25 }] : o.move === "step" ? [{ transform: "rotate(-12deg) translateY(0)", opacity: 0.4 }, { transform: "rotate(12deg) translateY(-3px)", opacity: 1 }, { transform: "rotate(-12deg) translateY(0)", opacity: 0.4 }] : [{ transform: "translateY(0)" }, { transform: "translateY(-6px)" }, { transform: "translateY(0)" }];
+        anim(el, f, 900, i * 150, { iterations: Infinity, easing: "ease-in-out" }); }); } },
+  { g: "Paw walks", id: "progress", icon: "walk", name: "Paw progress", st: "New", where: "Uploads and the report draft, when we know how far along it is",
+    desc: "One print per photo. Each lights up as its photo finishes, and the photo gets a check, so the bar and the pictures tell the same story.",
+    opts: { style: [["prints", "Prints in the bar ★"], ["walker", "A paw rides the bar"], ["photos", "Stamps on the photos"]] },
+    run(o) {
+      const ns = ["mumu_party_hat", "mumu_lake_walk", "mumu_green_toy", "mumu_window_nap"], dur = 2400;
+      const bar = o.style === "photos" ? "" : `<div class="pg ${o.style}" id="pb"><b id="pf"></b>${o.style === "prints" ? ns.map((_, k) => `<svg class="pgp" id="pp${k}" style="left:${12.5 + k * 25}%"><use href="#i-paw"/></svg>`).join("") : `<svg class="pgw" id="pw"><use href="#i-paw"/></svg>`}</div>`;
+      sc().innerHTML = `<div class="top"><h3>Add photos</h3><small>Max · shared with Robert</small></div><div class="pad" style="padding-top:20px;align-items:center;flex:1"><div class="upl">
+        <div class="thumbs">${ns.map((n, k) => `<span class="th" id="th${k}"><img src="${IMG(n)}" alt=""><i class="ok">${ic("check")}</i><svg class="stp"><use href="#i-paw"/></svg></span>`).join("")}</div>
+        <div class="pgl"><b id="pt">Uploading 4 photos</b><span id="pc">0 of 4</span></div>${bar}</div><button type="button" class="btn full" id="pdone" disabled style="margin-top:auto;margin-bottom:24px;opacity:.5">Uploading…</button></div>`;
+      if (o.style !== "photos") anim(document.getElementById("pf"), [{ width: "0%" }, { width: "100%" }], dur, 0, { easing: "linear" });
+      if (o.style === "walker") anim(document.getElementById("pw"), [{ left: "0%", transform: "translate(0,-50%) rotate(90deg)" }, { left: "100%", transform: "translate(-100%,-50%) rotate(90deg)" }], dur, 0, { easing: "linear" });
+      ns.forEach((_, k) => later(() => {
+        const done = k + 1, pc = document.getElementById("pc"), th = document.getElementById(`th${k}`), pp = document.getElementById(`pp${k}`);
+        if (pc) pc.textContent = `${done} of 4`;
+        if (th) { th.classList.add("done"); anim(th.querySelector(o.style === "photos" ? ".stp" : ".ok"), [{ opacity: 0, transform: o.style === "photos" ? "scale(1.8) rotate(-25deg)" : "scale(.3)" }, { opacity: 1, transform: o.style === "photos" ? "scale(.9) rotate(-10deg)" : "scale(1.2)", offset: 0.6 }, { opacity: 1, transform: o.style === "photos" ? "rotate(-10deg)" : "none" }], 380); }
+        if (pp) { pp.classList.add("on"); anim(pp, [{ transform: "translate(-50%,-50%) scale(.6)" }, { transform: "translate(-50%,-50%) scale(1.3)", offset: 0.5 }, { transform: "translate(-50%,-50%) scale(1)" }], 380); }
+        if (done === 4) { const pt = document.getElementById("pt"); if (pt) { pt.innerHTML = `${ic("check")}4 photos shared with Robert`; pt.classList.add("fin"); } if (pc) pc.textContent = ""; const pd = document.getElementById("pdone"); if (pd) { pd.disabled = false; pd.style.opacity = 1; pd.textContent = "Back to the feed"; } }
+      }, (dur * (k + 1)) / 4 - (o.style === "prints" ? (dur / 4) * 0.5 : 0)));
+    } },
+
+  { g: "Rewards", id: "stamp", icon: "paw", name: "Gold paw stamp", st: "Prototype", where: "Sharing a photo or a diary page",
+    desc: "Goldito's gold paw presses onto the button, like a passport stamp.",
+    opts: { style: [["stamp", "Stamp ★"], ["ring", "Stamp and ripple"], ["seal", "Seal"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Add a photo</h3><small>Max · 6:30 PM</small></div><div class="pad" style="flex:1"><img src="${IMG("mumu_party_hat")}" alt="" style="width:100%;height:330px;object-fit:cover;border-radius:22px"><span style="font-size:14.5px;color:#6B5D4A">Party hat, day 3. He wore it for a whole minute.</span><button type="button" class="btn full" id="go" data-tap="1" style="margin-top:auto;margin-bottom:24px">Share with Robert</button></div>`;
+      const b = document.getElementById("go"), [x, y] = center(b);
+      anim(b, [{ transform: "scale(1)" }, { transform: "scale(.94)", offset: 0.3 }, { transform: "scale(1)" }], 400, 300);
+      const s = o.style === "seal" ? 46 : 34, f = fxAt(x - s / 2, y - s / 2 - 34, s, s, o.style === "seal" ? `<span style="display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:#F4C35A;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.2)"><svg style="width:60%;height:60%;color:#1A1A1A"><use href="#i-paw"/></svg></span>` : `<svg style="color:#F4C35A;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))"><use href="#i-paw"/></svg>`);
+      anim(f, [{ opacity: 0, transform: "scale(1.9) rotate(-30deg)" }, { opacity: 1, transform: "scale(.9) rotate(-8deg)", offset: 0.6 }, { opacity: 1, transform: "scale(1) rotate(-10deg)", offset: 0.8 }, { opacity: 0, transform: "translateY(-10px) scale(1) rotate(-10deg)" }], 1100, 300);
+      if (o.style === "ring") { const r = fxAt(x - 30, y - 30 - 34, 60, 60, `<span style="display:block;width:100%;height:100%;border-radius:50%;border:3px solid #F4C35A"></span>`); anim(r, [{ opacity: 0.9, transform: "scale(.4)" }, { opacity: 0, transform: "scale(1.8)" }], 700, 900); } } },
+  { g: "Rewards", id: "burst", icon: "heart", name: "Reaction burst", st: "Prototype", where: "Happy and Love it on Latest from Chloe, on Home",
+    desc: "A few hearts or paws float up out of the button you tapped.",
+    opts: { icon: [["heart", "Hearts ★"], ["paw", "Paws"], ["mix", "Hearts and paws"]], count: [["5", "5 ★"], ["8", "8"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Home</h3><small>Robert · Owner</small></div><div class="pad"><img src="${IMG("mumu_white_table")}" alt="" style="width:100%;height:230px;object-fit:cover;border-radius:22px"><div class="card"><b style="font-size:15px">Chloe · 9:02 AM</b><span>Max finished every bit of breakfast and asked for more.</span><div class="react"><button type="button" class="rb">${ic("smile")}Happy</button><button type="button" class="rb on" id="love" data-tap="1">${ic("heart")}Love it</button></div></div></div>`;
+      const [x, y] = center(document.getElementById("love")), n = +o.count;
+      anim(document.getElementById("love"), [{ transform: "scale(1)" }, { transform: "scale(1.12)", offset: 0.4 }, { transform: "scale(1)" }], 380);
+      for (let i = 0; i < n; i++) { const a = -Math.PI / 2 + (i - (n - 1) / 2) * 0.35, d = 50 + (i % 3) * 12, kind = o.icon === "mix" ? (i % 2 ? "paw" : "heart") : o.icon;
+        const f = fxAt(x - 9, y - 9, 18, 18, `<svg style="color:${kind === "heart" ? "#C0392B" : "#C9962E"}"><use href="#i-${kind}"/></svg>`);
+        anim(f, [{ opacity: 0, transform: "translate(0,0) scale(.4)" }, { opacity: 1, offset: 0.25 }, { opacity: 0, transform: `translate(${Math.cos(a) * d}px,${Math.sin(a) * d}px) scale(1.1) rotate(${(i - 2) * 10}deg)` }], 900, i * 40); } } },
+  { g: "Rewards", id: "confetti", icon: "star", name: "Home safe confetti", st: "New", where: "Stage 5: Max is home safe",
+    desc: "Paws and stars drift down once when the stay ends well.",
+    opts: { mix: [["gold", "Gold paws ★"], ["mixed", "Paws and stars"], ["gentle", "Just a few"]] },
+    run(o) { sc().innerHTML = `<div class="mid"><img src="${STK("mumu_car_tongue_out")}" alt="" style="height:220px"><h3>Max is home safe</h3><p style="color:#6B5D4A">Chloe dropped him off at 5:02 PM.</p><button type="button" class="btn">Write a review</button></div>`;
+      const n = o.mix === "gentle" ? 8 : 22, cols = ["#F4C35A", "#2D6A4F", "#E07B39", "#C9962E"];
+      for (let i = 0; i < n; i++) { const x = (i * 97) % 340, s = 14 + (i % 3) * 5, kind = o.mix === "mixed" && i % 2 ? "star" : "paw";
+        const f = fxAt(x, -30, s, s, `<svg style="color:${o.mix === "gold" ? "#F4C35A" : cols[i % 4]}"><use href="#i-${kind}"/></svg>`);
+        anim(f, [{ transform: `translate(0,0) rotate(${i * 30}deg)`, opacity: 1 }, { transform: `translate(${(i % 2 ? 1 : -1) * 30}px,720px) rotate(${i * 30 + 240}deg)`, opacity: 1, offset: 0.9 }, { opacity: 0 }], 2600 + (i % 5) * 300, (i % 7) * 120, { easing: "cubic-bezier(.3,.1,.6,1)" }); } } },
+  { g: "Rewards", id: "shelf", icon: "gift", name: "Sticker on the shelf", st: "Prototype", where: "Max's room, each night a day of care ends",
+    desc: "Tonight's sticker joins the shelf.",
+    opts: { move: [["pop", "Pop ★"], ["drop", "Drop in"], ["spin", "Spin"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Max's room</h3><small>With Chloe · Day 3 of 5</small></div><div class="pad"><div class="stage"><img class="pet" src="${STK("mumu_party_hat")}" alt=""></div><div class="card"><b>Max's shelf</b><div class="shelf"><img src="${STK("g_star")}" alt=""><img src="${STK("g_paw")}" alt=""><img id="nw" src="${STK("g_best_day")}" alt=""></div><span style="font-size:14px;font-weight:700">Good pup! Day 3 done</span></div></div>`;
+      const el = document.getElementById("nw");
+      const f = o.move === "drop" ? [{ transform: "translateY(-160px) rotate(-10deg)", opacity: 0 }, { transform: "translateY(0) rotate(4deg)", opacity: 1, offset: 0.7 }, { transform: "translateY(-8px)", offset: 0.85 }, { transform: "none", opacity: 1 }]
+        : o.move === "spin" ? [{ transform: "scale(.2) rotate(-360deg)", opacity: 0 }, { transform: "scale(1.1) rotate(10deg)", opacity: 1, offset: 0.7 }, { transform: "none", opacity: 1 }]
+        : [{ transform: "scale(.2) rotate(-20deg)", opacity: 0 }, { transform: "scale(1.25) rotate(6deg)", opacity: 1, offset: 0.6 }, { transform: "none", opacity: 1 }];
+      anim(el, f, 700, 300); } },
+
+  { g: "Feedback", id: "check", icon: "paw", name: "Care check-off", st: "New", where: "Sitter's Today list: Meal, Walk, Pill",
+    desc: "The row turns mint and the box fills. Tap the rows to tick them.",
+    opts: { mark: [["check", "Check ★"], ["paw", "Paw print"], ["both", "Check, then a paw"]] },
+    run(o) { const rows = [["Breakfast", "8:00 AM · half a cup"], ["Skin pill", "In a treat"], ["Walk", "20 minutes"]];
+      sc().innerHTML = `<div class="top"><h3>Today with Max</h3><small id="ct">0 of 3 done</small></div><div class="pad" style="flex:1">${rows.map(([t, s], i) => `<button type="button" class="task" data-row="${i}"><span class="cb">${o.mark === "paw" ? `<svg style="color:#fff"><use href="#i-paw"/></svg>` : ic("check")}</span><span>${t}<small>${s}</small></span></button>`).join("")}<button type="button" class="btn full" id="send" disabled style="margin-top:auto;margin-bottom:24px;opacity:.5">Tick all three to write today's page</button></div>`;
+      const tick = (b) => { b.classList.toggle("done"); const ct = document.getElementById("ct"); if (ct) ct.textContent = `${sc().querySelectorAll(".task.done").length} of 3 done`; const all = sc().querySelectorAll(".task.done").length === 3, sb = document.getElementById("send"); if (sb) { sb.disabled = !all; sb.style.opacity = all ? 1 : 0.5; sb.textContent = all ? "Write today's page" : "Tick all three to write today's page"; } if (!b.classList.contains("done")) return; const cb = b.querySelector(".cb");
+        anim(cb, [{ transform: "scale(1)" }, { transform: "scale(1.25)", offset: 0.4 }, { transform: "scale(1)" }], 380);
+        if (o.mark === "both") { const [x, y] = center(cb), f = fxAt(x + 4, y - 26, 22, 22, `<svg style="color:#C9962E"><use href="#i-paw"/></svg>`); anim(f, [{ opacity: 0, transform: "scale(.3)" }, { opacity: 1, transform: "scale(1.2)", offset: 0.4 }, { opacity: 0, transform: "translateY(-14px)" }], 800, 120); } };
+      sc().querySelectorAll(".task").forEach((b) => b.addEventListener("click", () => tick(b)));
+      later(() => { const b = sc().querySelector('[data-row="0"]'); if (b) tick(b); }, 350); } },
+  { g: "Feedback", id: "toast", icon: "gift", name: "Toast with a sticker", st: "Prototype", where: "Saved, shared, asked: every small success",
+    desc: "A short message with the pet's sticker. Puns follow the Playful words rules.",
+    opts: { enter: [["up", "Slide up ★"], ["pop", "Pop"], ["drop", "From the top"]], words: [["play", "Paw-fect!"], ["plain", "Plain"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Moments</h3><small>Robert · Owner</small></div><div class="pad"><b style="font:600 17px Fredoka,sans-serif">Today · Sat Oct 24</b>${[["mumu_party_hat", "mumu_lake_walk", "mumu_green_toy"], ["mumu_window_nap", "mumu_red_pillow", "mumu_blossom_basket"]].map((row) => `<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">${row.map((n) => `<img src="${IMG(n)}" alt="" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px">`).join("")}</div>`).join("")}</div><div class="toast" id="ts" ${o.enter === "drop" ? 'style="top:20px;bottom:auto"' : ""}><img src="${STK("mumu_party_hat")}" alt="">${o.words === "play" ? "Paw-fect! Saved to Max's stickers" : "Saved to Max's stickers"}</div>`;
+      const t = document.getElementById("ts"), f = o.enter === "pop" ? [{ opacity: 0, transform: "scale(.8)" }, { opacity: 1, transform: "scale(1.04)", offset: 0.6 }, { opacity: 1, transform: "none" }] : o.enter === "drop" ? [{ opacity: 0, transform: "translateY(-30px)" }, { opacity: 1, transform: "none" }] : [{ opacity: 0, transform: "translateY(30px)" }, { opacity: 1, transform: "none" }];
+      anim(t, f, 420, 200); if (!reduce()) later(() => anim(t, [{ opacity: 1 }, { opacity: 0 }], 300), 2600); } },
+  { g: "Feedback", id: "press", icon: "tap", name: "Button press", st: "Partly in the app", where: "Chips and option cards press today; PressableScale (on a branch, not merged) would bring it to every button",
+    desc: "A small give under your finger so taps feel real. Tap the buttons.",
+    opts: { feel: [["scale", "Scale ★"], ["squish", "Squish"], ["wiggle", "Wiggle"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>Home</h3><small>Robert · Owner</small></div><div class="pad" style="flex:1"><div class="card"><b style="font-size:16px">Max is with Chloe</b><span style="font-size:14px;color:#6B5D4A">Day 3 of 5 · 3 of 5 care done</span><button type="button" class="tag" data-press="1" style="align-self:flex-start">${ic("paw")}GOLDITO</button></div><div style="margin-top:auto;margin-bottom:24px;display:flex;flex-direction:column;gap:10px"><button type="button" class="btn full" data-press="1">Message Chloe</button><button type="button" class="btn s full" data-press="1">Ask for a photo</button></div></div>`;
+      const press = (b) => anim(b, o.feel === "squish" ? [{ transform: "none" }, { transform: "scale(1.06,.9)", offset: 0.35 }, { transform: "scale(.97,1.03)", offset: 0.7 }, { transform: "none" }] : o.feel === "wiggle" ? [{ transform: "none" }, { transform: "rotate(-4deg)", offset: 0.25 }, { transform: "rotate(4deg)", offset: 0.6 }, { transform: "none" }] : [{ transform: "none" }, { transform: "scale(.95)", offset: 0.4 }, { transform: "none" }], 320);
+      sc().querySelectorAll("[data-press]").forEach((b, i) => { b.addEventListener("click", () => press(b)); later(() => press(b), 300 + i * 350); }); } },
+  { g: "Feedback", id: "ptr", icon: "load", name: "Pull to refresh", st: "New", where: "Moments and Home, pulling down",
+    desc: "Pull the feed down and a paw comes along. It plays the pull on Replay.",
+    opts: { paw: [["spin", "Paw spins ★"], ["walk", "Paws walk on the spot"], ["stamp", "Paw stamps"]] },
+    run(o) { sc().innerHTML = `<div class="ptr"><div class="ptrz" id="pz"><svg style="width:30px;height:30px;color:#2D6A4F" id="pzp"><use href="#i-paw"/></svg></div><div class="ptrc" id="pc"><h3>Moments</h3><img src="${IMG("mumu_lake_walk")}" alt=""><img src="${IMG("mumu_green_toy")}" alt=""><img src="${IMG("mumu_window_nap")}" alt=""></div></div>`;
+      const pc = document.getElementById("pc"), pp = document.getElementById("pzp");
+      anim(pc, [{ transform: "translateY(0)" }, { transform: "translateY(90px)", offset: 0.2 }, { transform: "translateY(90px)", offset: 0.8 }, { transform: "translateY(0)" }], 2600, 0, { easing: "ease-in-out" });
+      const f = o.paw === "walk" ? [{ transform: "rotate(-15deg) translateY(0)" }, { transform: "rotate(15deg) translateY(-4px)" }, { transform: "rotate(-15deg) translateY(0)" }] : o.paw === "stamp" ? [{ transform: "scale(1.6)", opacity: 0.3 }, { transform: "scale(1)", opacity: 1 }, { transform: "scale(1)", opacity: 1 }] : [{ transform: "rotate(0)" }, { transform: "rotate(360deg)" }];
+      anim(pp, f, o.paw === "spin" ? 900 : 600, 500, { iterations: 3, easing: o.paw === "spin" ? "linear" : "ease-in-out" }); } },
+
+  { g: "Hints", id: "taphint", icon: "tap", name: "Tap to see all", st: "Prototype", where: "Opened photo, until you've tapped once",
+    desc: "A ring pulses where to tap, with a short label, then fades.",
+    opts: { ring: [["pulse", "Pulse ★"], ["ripple", "Ripple"], ["dot", "Breathing dot"]] },
+    run(o) { sc().innerHTML = `<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="ring" id="rg" style="left:calc(50% - 32px);top:calc(48% - 32px)"></span><span class="lab" id="lb">Tap the photo to see all of it</span>`;
+      const rg = document.getElementById("rg");
+      if (o.ring === "dot") { Object.assign(rg.style, { width: "22px", height: "22px", left: "calc(50% - 11px)", top: "calc(48% - 11px)", background: "#fff" }); anim(rg, [{ transform: "scale(1)", opacity: 0.9 }, { transform: "scale(1.4)", opacity: 0.5 }, { transform: "scale(1)", opacity: 0.9 }], 1400, 0, { iterations: 3, easing: "ease-in-out" }); }
+      else if (o.ring === "ripple") [0, 1, 2].forEach((i) => { const r = rg.cloneNode(); r.removeAttribute("id"); sc().appendChild(r); anim(r, [{ transform: "scale(.5)", opacity: 0.9 }, { transform: "scale(1.8)", opacity: 0 }], 1400, i * 450, { iterations: 2, easing: "ease-out" }); rg.style.opacity = 0; });
+      else anim(rg, [{ transform: "scale(.6)", opacity: 0 }, { opacity: 1, offset: 0.3 }, { transform: "scale(1.25)", opacity: 0 }], 1100, 0, { iterations: 3, easing: "ease-out" });
+      anim(document.getElementById("lb"), [{ opacity: 1 }, { opacity: 1, offset: 0.8 }, { opacity: 0 }], 3400); } },
+
+  { g: "The pet", id: "idle", icon: "smile", name: "Pet idle moves", st: "Prototype", where: "Max's room and the Home pet card",
+    desc: "The sticker is never frozen: a slow breath, a hop on a new check-in, a tilt when napping.",
+    opts: { move: [["breathe", "Breathe ★"], ["hop", "Hop"], ["sleepy", "Sleepy"], ["wag", "Wag"]], pet: [["mumu_party_hat", "Max"], ["orange_cat_lying_relaxed", "Mochi"]] },
+    run(o) { sc().innerHTML = `<div class="top"><h3>${o.pet === "mumu_party_hat" ? "Max" : "Mochi"}'s room</h3><small>With Chloe · Day 3 of 5</small></div><div class="pad"><div class="stage"><img class="pet" id="pt" src="${STK(o.pet)}" alt=""><span class="say">${{ breathe: "Just being here.", hop: "A new check-in from Chloe!", sleepy: "Napping in the sun.", wag: "Somebody said walk." }[o.move]}</span></div></div>`;
+      const pt = document.getElementById("pt"), st = pt.parentElement;
+      if (o.move === "hop") anim(pt, [{ transform: "translateY(0)" }, { transform: "translateY(-28px) scale(1.02,.98)", offset: 0.4 }, { transform: "translateY(0) scale(1.03,.97)", offset: 0.7 }, { transform: "none" }], 700, 200, { iterations: 2 });
+      else if (o.move === "sleepy") { anim(pt, [{ transform: "rotate(-4deg) scale(1,1)" }, { transform: "rotate(-4deg) scale(1.02,.98)" }, { transform: "rotate(-4deg) scale(1,1)" }], 4200, 0, { iterations: Infinity, easing: "ease-in-out" }); const z = document.createElement("img"); z.src = STK("g_zzz"); z.alt = ""; Object.assign(z.style, { position: "absolute", width: "56px", top: "24px", right: "40px" }); st.appendChild(z); anim(z, [{ transform: "translateY(0)", opacity: 0.6 }, { transform: "translateY(-10px)", opacity: 1 }, { transform: "translateY(0)", opacity: 0.6 }], 2600, 0, { iterations: Infinity, easing: "ease-in-out" }); }
+      else if (o.move === "wag") anim(pt, [{ transform: "rotate(0)" }, { transform: "rotate(-5deg)", offset: 0.25 }, { transform: "rotate(5deg)", offset: 0.5 }, { transform: "rotate(-5deg)", offset: 0.75 }, { transform: "rotate(0)" }], 600, 200, { iterations: 3 });
+      else anim(pt, [{ transform: "scale(1,1)" }, { transform: "scale(1.015,.985)" }, { transform: "scale(1,1)" }], 3200, 0, { iterations: Infinity, easing: "ease-in-out" }); } },
+];
+const COMMON = { motion: [["system", "System"], ["full", "Full motion"], ["still", "Reduce motion"]], speed: [["slow", "Slow"], ["normal", "Normal ★"], ["fast", "Fast"]] };
+let CUR = ITEMS[0], O = {};
+function setItem(it) {
+  CUR = it; O = { motion: O.motion || "system", speed: O.speed || "normal" };
+  Object.entries(it.opts).forEach(([k, v]) => (O[k] = (it.defaults && it.defaults[k]) || (v.find((x) => x[1].includes("★")) || v[0])[0]));
+  if (it.defaults) Object.assign(O, Object.fromEntries(Object.entries(it.defaults).filter(([k]) => !(k in it.opts))));
+  try { history.replaceState(null, "", `#${it.id}`); } catch (e) {}
+  list(); controls(); play();
+}
+function list() {
+  const q = document.getElementById("find").value.trim().toLowerCase();
+  const show = ITEMS.filter((x) => !q || `${x.name} ${x.g} ${x.desc} ${x.where}`.toLowerCase().includes(q));
+  const groups = [...new Set(show.map((x) => x.g))];
+  document.getElementById("list").innerHTML = groups.map((g) => `<div class="grp"><b>${g}</b>${show.filter((x) => x.g === g).map((x) => `<button type="button" class="it" data-id="${x.id}" aria-current="${x === CUR}">${ic(x.icon)}<span>${x.name}</span><small class="${x.st === "New" ? "new" : ""}">${x.st === "New" ? "New idea" : x.st}</small></button>`).join("")}</div>`).join("") || `<p class="desc">Nothing matches. Try paw, stamp or loading.</p>`;
+}
+const seg = (k, opts, label) => `<div class="opt"><b>${label}</b><div class="seg" role="group" aria-label="${label}">${opts.map(([v, l]) => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${O[k] === v}">${l}</button>`).join("")}</div></div>`;
+const LABEL = { path: "Path", trail: "Prints left behind", count: "Prints", size: "Size", color: "Color", move: "Move", style: "Style", icon: "What floats", mix: "Mix", mark: "Mark", enter: "Comes in", words: "Words", feel: "Feel", paw: "The paw", ring: "Ring", pet: "Pet" };
+function controls() {
+  const it = CUR;
+  document.getElementById("ctl").innerHTML = `<h2>${it.name}<span class="st ${it.st === "New" ? "new" : ""}">${it.st === "New" ? "New idea" : it.st}</span></h2><p class="desc">${it.desc}</p><p class="where">Where: ${it.where}</p>
+    ${Object.entries(it.opts).map(([k, v]) => seg(k, v, LABEL[k] || k)).join("")}${seg("speed", COMMON.speed, "Speed")}${seg("motion", COMMON.motion, "Motion")}`;
+}
+let timer = null;
+function play() {
+  RUN++; sc().getAnimations?.({ subtree: true }).forEach((a) => a.cancel());
+  CUR.run(O);
+  document.getElementById("cap").textContent = reduce() ? "Reduce motion: everything shows at its end state, nothing moves." : "Tap inside the phone or Replay to play it again.";
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.id) { setItem(ITEMS.find((x) => x.id === b.dataset.id)); if (matchMedia("(max-width:760px)").matches) document.getElementById("ph").scrollIntoView({ block: "center" }); return; }
+  if (b.dataset.k) { O[b.dataset.k] = b.dataset.v; controls(); play(); return; }
+  if (b.id === "replay") { play(); return; }
+});
+// Tapping the phone replays, except where the demo has its own taps (check-offs, buttons).
+document.getElementById("ph").addEventListener("click", (e) => { if (e.target.closest(".task,[data-press]")) return; play(); });
+document.getElementById("find").addEventListener("input", list);
+setItem(ITEMS.find((x) => x.id === location.hash.slice(1)) || ITEMS[0]);
+// For the Figma plugin (Oct 25): each delight at its end state (the capture runs with Reduce motion).
+window.__ticket = { id: "delights", title: "Little delights (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/delights.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "A library to pick from per screen; nothing here is decided except the welcome walk (four prints, bottom to top)" },
+    { q: "Motion", a: "Calm by default; every delight has a still version under Reduce motion; durations 120, 240, 420 ms (DESIGN.md D7)" },
+    { q: "Prints", a: "Paw prints face the way they walk and alternate feet; 22, 30 or 38 px" }],
+  spec: [], specLinks: [],
+  notes: [["Every delight", ITEMS.map((x) => `${x.name} (${x.st}): ${x.where}. Variations: ${Object.entries(x.opts).map(([k, v]) => `${k} ${v.map((o) => o[1]).join(" / ")}`).join("; ")}`).join("\n")]] };
+window.__ticketStates = ITEMS.slice(1).map((x) => ({ cap: `delight-${x.id}`, on: "delight-welcome", title: `Little delights · ${x.name}`, go: () => setItem(x) }));
+addEventListener("hashchange", () => { const it = ITEMS.find((x) => x.id === location.hash.slice(1)); if (it && it !== CUR) setItem(it); });
+</script></body></html>

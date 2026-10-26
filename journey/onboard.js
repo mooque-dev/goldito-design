@@ -456,7 +456,7 @@ const Onboard = (() => {
     if (h === "owner" || h === "sitter") { O.role = h; O.flow = h; O.i = 2; render(); }
     else if (h === "login") { O.flow = "login"; O.i = 1; render(); }
     else if (h === "app") skip();
-    else if (h === "splash") skip(() => A.splash());
+    else if (h === "splash" || h === "splash-across") skip(() => A.splash(h === "splash-across" ? "across" : "up"));
     else if (h === "care" || h === "check" || h === "treat" || /^stage-[1-5]$/.test(h)) {
       const target = /^stage-/.test(h) ? Number(h.slice(6)) - 1 : h;
       skip(() => Journey.jump(target));

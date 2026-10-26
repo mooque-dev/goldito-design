@@ -1,0 +1,868 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pet Tone Trial</title>
+<meta name="description" content="Goldito takes its colors from your pet's photo, or stays Goldito green; light and dark; and Max's room, a tamagotchi that only real care moves. Playable.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:72rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.35rem/1.2 var(--font-display);margin:0;text-wrap:balance} h3{font:600 1.05rem/1.25 var(--font-display);margin:0}
+section{display:flex;flex-direction:column;gap:.875rem;min-width:0} p{margin:0;max-width:68ch} a{color:var(--color-primary)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.lede{font-size:1.05rem;color:var(--color-text-muted)}
+.muted{color:var(--color-text-muted)}
+
+/* ---------- play area ---------- */
+.play{display:grid;grid-template-columns:minmax(0,17rem) auto minmax(0,1fr);gap:1.25rem;align-items:start}
+@media (max-width:1100px){.play{grid-template-columns:minmax(0,1fr) auto}.tokens{grid-column:1/-1}}
+@media (max-width:760px){.play{grid-template-columns:minmax(0,1fr)}.phonewrap{justify-self:center}}
+.ctl{display:flex;flex-direction:column;gap:1.1rem;min-width:0}
+.grp{display:flex;flex-direction:column;gap:.45rem;min-width:0}
+.grp>b{font-size:.8125rem;font-weight:700}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);font:600 14px var(--font-ui);cursor:pointer}
+.seg button[aria-checked=true]{background:var(--color-accent);border-color:var(--color-primary);color:var(--color-text)}
+.seg.col{flex-direction:column} .seg.col button{text-align:left;padding:8px 14px;border-radius:14px;line-height:1.3} .seg.col small{display:block;font-weight:400;color:var(--color-text-muted);font-size:12.5px}
+.thumbs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.thumbs button{aspect-ratio:1;border-radius:12px;overflow:hidden;border:0;padding:0;cursor:pointer;outline-offset:2px;background:var(--color-border)}
+.thumbs button[aria-checked=true]{outline:3px solid var(--color-primary)}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.tests button{background:var(--color-accent);position:relative} .tests img{object-fit:contain;padding:3px} .tests span{position:absolute;left:0;right:0;bottom:2px;font:700 10.5px var(--font-ui);color:var(--color-text);text-align:center;text-shadow:0 0 3px var(--color-surface)}
+.anyc{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:600;font-size:14px;cursor:pointer} .anyc input{width:44px;height:44px;border:1.5px solid var(--color-border-strong);border-radius:12px;padding:2px;background:var(--color-surface);cursor:pointer}
+.sweep{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums} .sweep th,.sweep td{padding:4px 6px;border-bottom:1px solid var(--color-border);text-align:left;white-space:nowrap} .sweep i{display:inline-block;width:16px;height:16px;border-radius:5px;vertical-align:middle;margin-right:6px}
+.up{display:flex;align-items:center;justify-content:center;font:600 12px var(--font-ui);color:var(--color-primary);text-align:center;line-height:1.2;padding:4px}
+.read{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:14px;background:var(--color-surface);border:1px solid var(--color-border)}
+.sw{display:flex;align-items:center;gap:8px;font-size:13px} .sw i{width:22px;height:22px;border-radius:7px;flex:none;border:1px solid rgba(0,0,0,.12)}
+.why{font-size:13px;color:var(--color-text-muted);line-height:1.4}
+
+/* ---------- the phone: every color is a skin token ---------- */
+.phonewrap{display:flex;flex-direction:column;align-items:center;gap:10px;width:360px;max-width:100%;min-width:0}
+.phonewrap>small{text-align:center}
+.ph{width:360px;max-width:100%;height:740px;border-radius:44px;border:10px solid #1A1A1A;overflow:hidden;position:relative;display:flex;flex-direction:column;
+  background:var(--k-background);color:var(--k-text);font:15px/1.45 'Plus Jakarta Sans',sans-serif;box-shadow:0 18px 40px rgba(26,26,26,.18)}
+.ph *{transition:background-color .35s,border-color .35s,color .35s}
+@media (prefers-reduced-motion:reduce){.ph *{transition:none!important;animation:none!important}}
+.sb{display:flex;justify-content:space-between;padding:12px 22px 4px;font:700 13px 'Plus Jakarta Sans',sans-serif;flex:none}
+.scr{flex:1;overflow-y:auto;padding:6px 16px 16px;display:flex;flex-direction:column;gap:12px;scrollbar-width:none}
+.hd{display:flex;align-items:center;gap:10px}
+.hd h4{flex:1;margin:0;font:600 24px/1.1 Fredoka,sans-serif;color:var(--k-text)} .hd small{display:block;font:500 13px 'Plus Jakarta Sans',sans-serif;color:var(--k-text-muted)}
+.ib{width:44px;height:44px;border-radius:50%;border:0;background:none;color:var(--k-text);display:grid;place-items:center;cursor:pointer;flex:none}
+.ib svg,.tb svg,.k-ic svg{width:22px;height:22px}
+.av{width:36px;height:36px;border-radius:50%;background:var(--k-primary);color:var(--k-primary-text);display:grid;place-items:center;font:700 14px 'Plus Jakarta Sans',sans-serif;flex:none}
+.tag{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;background:#F4C35A;color:#1A1A1A;font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.02em}
+.petcard{border-radius:24px;background:var(--k-accent);padding:14px;display:flex;gap:12px;align-items:center;cursor:pointer;border:0;text-align:left;color:var(--k-text);font:inherit}
+.petcard img{width:84px;height:84px;object-fit:contain;flex:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.18))}
+.petcard b{font:600 19px Fredoka,sans-serif;display:block} .petcard small{color:var(--k-text-muted);font-size:13px;display:block}
+.petcard .go{margin-top:6px;display:inline-flex;font-weight:700;font-size:13px;color:var(--k-primary)}
+.card{background:var(--k-surface);border:1px solid var(--k-border);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.card>b{font:600 17px Fredoka,sans-serif}
+.row{display:flex;align-items:center;gap:10px;font-size:14px} .row span:nth-child(2){flex:1} .row .t{color:var(--k-text-muted);font-size:13px;font-variant-numeric:tabular-nums}
+.k-ic{width:34px;height:34px;border-radius:50%;background:var(--k-accent);color:var(--k-text);display:grid;place-items:center;flex:none} .k-ic svg{width:18px;height:18px}
+.btn{min-height:48px;border-radius:999px;border:0;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer;padding:0 18px;width:100%}
+.btn.p{background:var(--k-primary);color:var(--k-primary-text)}
+.btn.s{background:var(--k-surface);color:var(--k-primary);border:1.5px solid var(--k-border-strong)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{min-height:36px;display:inline-flex;align-items:center;padding:0 12px;border-radius:999px;border:1.5px solid var(--k-border-strong);background:var(--k-surface);color:var(--k-text);font:600 13px 'Plus Jakarta Sans',sans-serif}
+.chip.on{background:var(--k-accent);border-color:var(--k-primary)}
+.field{min-height:44px;border-radius:12px;border:1.5px solid var(--k-border-strong);background:var(--k-surface);padding:0 12px;display:flex;align-items:center;color:var(--k-placeholder);font-size:14px}
+.swt{display:flex;align-items:center;gap:10px;font-size:14px} .swt span:first-child{flex:1}
+.trk{width:44px;height:26px;border-radius:13px;background:var(--k-track);position:relative;flex:none} .trk::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.trk.on{background:var(--k-primary)} .trk.on::after{left:21px}
+.st{display:flex;gap:8px;align-items:flex-start;border-radius:14px;padding:10px 12px;font-size:13.5px;line-height:1.35}
+.st svg{width:18px;height:18px;flex:none;margin-top:1px} .st{color:var(--k-text)} .st b{display:block}
+.st.ok{background:var(--k-success-surface)} .st.ok b,.st.ok svg{color:var(--k-success)}
+.st.bad{background:var(--k-error-surface)} .st.bad b,.st.bad svg{color:var(--k-error)}
+.st.warn{background:var(--k-warning-surface)} .st.warn b,.st.warn svg{color:var(--k-warning)}
+.tbar{display:flex;justify-content:space-around;padding:6px 6px 14px;border-top:1px solid var(--k-border);background:var(--k-surface);flex:none}
+.tb{display:flex;flex-direction:column;align-items:center;gap:2px;font:600 11px 'Plus Jakarta Sans',sans-serif;color:var(--k-text-muted);background:none;border:0;min-width:56px;min-height:44px;cursor:pointer}
+.tb.on{color:var(--k-text)} .tb.on svg{background:var(--k-accent);border-radius:999px;padding:2px 12px;width:46px;box-sizing:content-box}
+
+/* ---------- Max's room (the tamagotchi) ---------- */
+.stage{position:relative;height:260px;border-radius:24px;background:var(--k-accent);overflow:hidden;display:grid;place-items:end center}
+.stage::before{content:"";position:absolute;left:12%;right:12%;bottom:22px;height:22px;border-radius:50%;background:var(--k-border);opacity:.9}
+.stage .pet{position:relative;height:160px;margin-bottom:26px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.2));transform-origin:50% 100%;animation:breathe 3.2s ease-in-out infinite}
+.stage.sleepy .pet{animation:breathe 5s ease-in-out infinite;transform:rotate(-4deg)}
+.stage.bouncy .pet{animation:hop .7s ease-out 2}
+.stage .fx{position:absolute;width:54px;top:20px;right:30px;animation:float 2.4s ease-in-out infinite}
+.stage .fx2{position:absolute;width:40px;top:56px;left:28px;animation:float 2.8s ease-in-out infinite .4s}
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.015,.985)}}
+@keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-22px)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.bubble{position:absolute;z-index:2;top:14px;left:14px;max-width:58%;background:var(--k-surface);color:var(--k-text);border-radius:16px 16px 16px 4px;padding:8px 12px;font:600 13.5px/1.3 'Plus Jakarta Sans',sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.meters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.meter{display:flex;flex-direction:column;gap:4px;font:600 12px 'Plus Jakarta Sans',sans-serif;color:var(--k-text-muted)}
+.meter i{display:block;height:10px;border-radius:5px;background:var(--k-track);overflow:hidden} .meter i b{display:block;height:100%;background:var(--k-primary);border-radius:5px;transition:width .5s}
+.demo{border:1.5px dashed var(--k-border-strong);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.demo small{font:700 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--k-text-muted)}
+.demo .chips button{cursor:pointer}
+.shelf{display:flex;gap:6px;align-items:flex-end;min-height:52px}
+.shelf img{width:44px;height:44px;object-fit:contain} .shelf .empty{font-size:13px;color:var(--k-text-muted)}
+
+/* ---------- more screens ---------- */
+.ph{position:relative}
+.ov{position:absolute;inset:0;pointer-events:none;z-index:5} .ov>*{pointer-events:auto}
+.vt2{display:flex;align-items:center;gap:22px;border-bottom:1.5px solid var(--k-border)} .vt2 span{min-height:40px;display:flex;align-items:center;font-weight:700;color:var(--k-text-muted);border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.vt2 .on{color:var(--k-text);border-bottom-color:var(--k-primary)} .vt2 .pp{margin-left:auto;border:1.5px solid var(--k-border-strong);border-radius:999px;padding:0 12px;min-height:36px;font-size:13px;color:var(--k-text);border-bottom-width:1.5px}
+.dh{display:flex;justify-content:space-between;align-items:baseline} .dh b{font:600 17px Fredoka,sans-serif} .dh small{font-size:12.5px;color:var(--k-text-muted)} .lnk{color:var(--k-primary);font-weight:700;text-decoration:underline}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px} .gp{position:relative;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--k-border)} .gp img{width:100%;height:100%;object-fit:cover;display:block}
+.gp .tm{position:absolute;left:5px;bottom:5px;background:rgba(255,255,255,.94);color:#1A1A1A;font:700 11px 'Plus Jakarta Sans',sans-serif;border-radius:999px;padding:2px 7px}
+.gp .nw{position:absolute;right:5px;top:5px;background:#F4C35A;color:#1A1A1A;font:800 10px 'Plus Jakarta Sans',sans-serif;border-radius:999px;padding:2px 7px}
+.fabx{position:absolute;right:16px;bottom:84px;min-height:48px;padding:0 18px;border-radius:999px;border:0;background:var(--k-primary);color:var(--k-primary-text);font:700 15px 'Plus Jakarta Sans',sans-serif;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.who{display:flex;gap:10px;align-items:center} .who small{display:block;color:var(--k-text-muted);font-size:12.5px} .who b{font-size:14.5px}
+.react{display:flex;gap:6px} .react span{min-height:36px;display:inline-flex;align-items:center;padding:0 12px;border-radius:999px;border:1.5px solid var(--k-border-strong);font:600 13px 'Plus Jakarta Sans',sans-serif} .react .on{background:var(--k-accent);border-color:var(--k-primary)}
+.seg3{display:flex;gap:6px} .seg3 span{flex:1;min-height:40px;display:flex;align-items:center;justify-content:center;border-radius:999px;border:1.5px solid var(--k-border-strong);background:var(--k-surface);font:600 13.5px 'Plus Jakarta Sans',sans-serif} .seg3 .on{background:var(--k-accent);border-color:var(--k-primary)}
+.page{background:var(--k-surface);border:1px solid var(--k-border);border-radius:20px;padding:12px;display:flex;flex-direction:column;gap:8px} .page img{width:100%;height:150px;object-fit:cover;border-radius:12px} .page h5{margin:0;font:600 18px Fredoka,sans-serif} .page p{margin:0;font-size:14.5px;line-height:1.5} .page small{color:var(--k-text-muted);font-size:12.5px}
+.msgs{display:flex;flex-direction:column;gap:8px}
+.bub{max-width:82%;padding:9px 12px;border-radius:18px;font-size:14px;line-height:1.4} .bub.in{background:var(--k-surface);border:1px solid var(--k-border);align-self:flex-start;border-bottom-left-radius:6px} .bub.out{background:var(--k-primary);color:var(--k-primary-text);align-self:flex-end;border-bottom-right-radius:6px}
+.bub.ai{background:var(--k-accent);align-self:flex-start;border-bottom-left-radius:6px} .ail{font-size:12px;color:var(--k-text-muted);font-weight:600} .ts{font-size:11.5px;color:var(--k-text-muted);align-self:center}
+.src{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px} .src span{font-size:11.5px;font-weight:700;border:1px solid var(--k-border-strong);border-radius:999px;padding:1px 8px;background:var(--k-surface)}
+.comp{display:flex;gap:8px;align-items:center} .comp .field{flex:1;border-radius:999px} .send{width:44px;height:44px;border-radius:50%;background:var(--k-primary);color:var(--k-primary-text);display:grid;place-items:center;flex:none} .send svg{width:18px;height:18px}
+.qrow{display:flex;justify-content:space-between;font-size:14px;font-variant-numeric:tabular-nums} .qrow span:first-child{color:var(--k-text-muted)} .qrow.tot{border-top:1px solid var(--k-border);padding-top:8px;font-weight:800;font-size:16px} .qrow.tot span:first-child{color:var(--k-text)}
+.cons{display:flex;gap:10px;align-items:flex-start;background:var(--k-surface);border:1px solid var(--k-border);border-radius:14px;padding:10px 12px;font-size:13.5px} .cons b{display:block;font-size:14px} .cons small{color:var(--k-text-muted)}
+.cb{width:22px;height:22px;border-radius:6px;border:2px solid var(--k-border-strong);flex:none;display:grid;place-items:center;margin-top:1px} .cb.on{background:var(--k-primary);border-color:var(--k-primary);color:var(--k-primary-text)} .cb svg{width:14px;height:14px}
+.map{height:220px;border-radius:20px;background:var(--k-accent);position:relative;overflow:hidden} .map svg{position:absolute;inset:0;width:100%;height:100%}
+.eta{font:600 26px Fredoka,sans-serif} .bar2{height:8px;border-radius:4px;background:var(--k-track);overflow:hidden} .bar2 b{display:block;height:100%;width:62%;background:var(--k-primary)}
+.nrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--k-border);font-size:14px} .nrow small{display:block;color:var(--k-text-muted);font-size:12.5px} .nrow span:nth-child(2){flex:1}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--k-primary);flex:none;margin-top:6px} .dot.off{background:transparent}
+.sec{font:700 12px 'Plus Jakarta Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase;color:var(--k-text-muted)}
+.scrim2{position:absolute;inset:0;background:rgba(10,10,10,.5)}
+.modal{position:absolute;left:16px;right:16px;top:150px;background:var(--k-surface);border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:10px;color:var(--k-text)}
+.modal .bigic{width:52px;height:52px;border-radius:50%;background:var(--k-error-surface);color:var(--k-error);display:grid;place-items:center} .modal .bigic svg{width:26px;height:26px}
+.modal h5{margin:0;font:600 21px Fredoka,sans-serif;color:var(--k-error)} .modal p{margin:0;font-size:14.5px} .ing{font-size:13.5px;color:var(--k-text-muted)} .ing mark{background:var(--k-error-surface);color:var(--k-error);font-weight:800;padding:0 3px;border-radius:4px}
+.btn.d{background:var(--k-error);color:var(--k-on-status)}
+.toast2{position:absolute;left:16px;right:16px;bottom:84px;background:var(--k-text);color:var(--k-background);border-radius:14px;padding:12px 14px;font:600 14px 'Plus Jakarta Sans',sans-serif}
+.lrow{display:flex;align-items:center;gap:10px;min-height:48px;border-bottom:1px solid var(--k-border);font-size:14.5px} .lrow span:first-child{flex:1} .lrow .v{color:var(--k-text-muted);font-size:13.5px}
+.rad{width:22px;height:22px;border-radius:50%;border:2px solid var(--k-border-strong);flex:none} .rad.on{border:7px solid var(--k-primary)}
+.lab{font:700 13px 'Plus Jakarta Sans',sans-serif;color:var(--k-text-muted)} .help{font-size:12.5px;color:var(--k-text-muted)} .err{font-size:12.5px;color:var(--k-error);font-weight:600}
+.field.bad{border-color:var(--k-error);color:var(--k-text)}
+.tbtn{color:var(--k-error);font-weight:700;font-size:14.5px}
+.btn[disabled]{opacity:.5}
+.lowc{outline:3px dashed #E8590C!important;outline-offset:1px}
+.screens{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.screens button{min-height:40px;padding:0 11px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);font:600 13px var(--font-ui);cursor:pointer}
+.screens button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+.qa{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.pairg{display:flex;flex-wrap:wrap;gap:12px;padding:10px;border-radius:24px;background:var(--color-surface);border:1px solid var(--color-border)}
+.qa figure{margin:0;display:flex;flex-direction:column;gap:6px} .qa figcaption{font-size:13px;font-weight:600;color:var(--color-text-muted)}
+.qa .ph{height:740px;max-width:calc(100vw - 4rem)} .pairg{max-width:100%;min-width:0}
+.qasum{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.qasum .pill{font-weight:700;font-size:13px;border-radius:999px;padding:4px 12px;background:var(--color-surface);border:1px solid var(--color-border)}
+.seg-btn{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--color-primary);background:var(--color-primary);color:var(--color-primary-text);font:700 14px var(--font-ui);cursor:pointer}
+.qalist{font-size:13px;color:var(--color-text-muted);display:flex;flex-direction:column;gap:2px;max-height:12rem;overflow:auto}
+/* ---------- Expressive screens ---------- */
+.hd2{display:flex;align-items:center;gap:6px} .hd2 h4{flex:1;margin:0;font:600 24px/1.1 Fredoka,sans-serif;color:var(--k-text)} .hd2 h4.sm{font-size:20px} .hd2 small{display:block;font:500 13px 'Plus Jakarta Sans',sans-serif;color:var(--k-text-muted);margin-top:2px}
+.hd2 .ib{position:relative} .badge{position:absolute;top:6px;right:6px;min-width:16px;height:16px;border-radius:8px;background:#B42318;color:#fff;font:800 10px/16px 'Plus Jakarta Sans',sans-serif;text-align:center;padding:0 4px}
+.me{width:40px;height:40px;border-radius:50%;border:2px solid var(--k-primary);background:var(--k-primary);color:var(--k-primary-text);font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer;box-shadow:0 0 0 2px var(--k-background) inset}
+.hero{border:0;text-align:left;font:inherit;cursor:pointer;border-radius:24px;background:var(--k-primary);color:var(--k-primary-text);padding:16px;display:flex;flex-direction:column;gap:6px}
+.hero .hrow{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700}
+.live{display:inline-flex;align-items:center;gap:6px;background:rgba(0,0,0,.18);border-radius:999px;padding:4px 10px;font-size:12.5px} .live i{width:7px;height:7px;border-radius:50%;background:var(--k-gold)}
+.hmid{display:flex;align-items:center;gap:10px} .hmid b{flex:1;font:600 23px/1.15 Fredoka,sans-serif} .hmid img{width:86px;height:86px;object-fit:contain;filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+.hero small{font-size:13px;opacity:.92}
+.prog{display:flex;gap:4px} .prog i{flex:1;height:6px;border-radius:3px;background:rgba(127,127,127,.35)} .prog i.on{background:var(--k-gold)}
+.hgo{font-weight:800;font-size:13.5px}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:0;font:inherit;text-align:left;cursor:pointer;border-radius:22px;padding:10px 12px;display:flex;flex-direction:column;gap:0;min-height:108px;color:var(--k-text)}
+.tile .art{width:38px;height:38px;margin-bottom:4px} .tile b{font:600 24px/1.1 Fredoka,sans-serif} .tile small{font-size:12px;font-weight:600}
+.m{background:var(--k-mint)} .p{background:var(--k-peach)} .y{background:var(--k-butter)} .b{background:var(--k-blush)}
+.latest{display:flex;gap:12px;align-items:center;border:0;text-align:left;font:inherit;cursor:pointer;background:var(--k-surface);border-radius:20px;padding:12px;color:var(--k-text);font-size:14px}
+.latest img{width:56px;height:56px;border-radius:14px;object-fit:cover;flex:none} .ey{display:block;font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--k-text-muted)}
+.between{display:flex;justify-content:space-between;align-items:center} .sh{margin:4px 0 0;font:600 18px Fredoka,sans-serif;color:var(--k-text)}
+.pets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pet{border:0;font:inherit;text-align:left;border-radius:22px;padding:10px;display:flex;align-items:center;gap:8px;color:var(--k-text);cursor:pointer}
+.pet .art,.pet img{width:44px;height:44px;flex:none;object-fit:contain} .pet b{display:block;font:600 17px Fredoka,sans-serif} .pet small{display:block;font-size:12px;color:var(--k-text-muted)} .pet em{font-style:normal;font-size:12px;font-weight:800;color:var(--k-error)}
+.mosaic{display:grid;grid-template-columns:2fr 1fr;grid-auto-rows:84px;gap:6px} .mosaic .gp{aspect-ratio:auto} .mosaic .big{grid-row:span 2}
+.note2{background:var(--k-butter);border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;font-size:14.5px}
+.pimg{position:relative} .pimg .stk{position:absolute;right:8px;bottom:-14px;width:70px;height:auto;transform:rotate(8deg)}
+.quote{background:var(--k-mint);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:6px;position:relative} .qart{position:absolute;right:10px;top:-14px;width:52px;height:52px}
+.quote .qrow span:first-child{color:var(--k-text)} .quote .qrow.tot{border-top-color:rgba(127,127,127,.35)} .quote .qrow.tot span:last-child{font:600 20px Fredoka,sans-serif}
+.btn.sm{min-height:44px;font-size:14px;margin-top:4px}
+.bk{background:var(--k-surface);border:1px solid var(--k-border);border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:8px} .bk>b{font:600 20px Fredoka,sans-serif}
+.pill2{border-radius:999px;padding:3px 10px;font-size:12px;font-weight:800} .pill2.warn{background:var(--k-warning-surface);color:var(--k-warning)} .mut{color:var(--k-text-muted);font-size:13px;font-weight:500}
+.kv{display:flex;align-items:center;gap:8px;font-size:13.5px} .kv svg{width:16px;height:16px;color:var(--k-text-muted)}
+button.cons{font:inherit;text-align:left;cursor:pointer;color:var(--k-text);width:100%}
+.nrow{width:100%;border:0;border-bottom:1px solid var(--k-border);background:none;font:inherit;text-align:left;color:var(--k-text);cursor:pointer;align-items:center}
+.nic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex:none} .nic .art{width:30px;height:30px}
+.vf{height:330px;border-radius:24px;background:#111;position:relative;display:grid;place-items:center;overflow:hidden}
+.vf .lbl{background:#F3E9D2;color:#3A2A14;padding:14px;border-radius:10px;width:70%;font:600 13px/1.4 'Plus Jakarta Sans',sans-serif;transform:rotate(-3deg)} .vf .hint{position:absolute;bottom:12px;color:#fff;font-size:13px;font-weight:700}
+.shut{align-self:center;width:68px;height:68px;border-radius:50%;border:5px solid var(--k-border-strong);background:var(--k-surface)}
+.prof{display:flex;align-items:center;gap:12px;background:var(--k-mint);border-radius:22px;padding:14px} .prof b{font:600 19px Fredoka,sans-serif;display:block} .prof small{color:var(--k-text-muted);font-size:13px} .av.big{width:52px;height:52px;font-size:20px}
+.chip{gap:5px} .chip svg{width:16px;height:16px;flex:none}
+.vt2 button{border:0;background:none;padding:0;font:inherit;font-weight:700;color:var(--k-text-muted);min-height:40px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.qh{display:flex;align-items:center;gap:8px;font:600 17px Fredoka,sans-serif} .qh .art{width:34px;height:34px}
+/* Muted text fails on the color blocks (4.4:1 on blush), so text on a block is always full strength. */
+.m small,.p small,.y small,.b small,.note2 small,.prof small,.quote small{color:var(--k-text)}
+/* ---------- token table ---------- */
+.tokens{min-width:0}
+.tt{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.tt th{text-align:left;font-weight:700;font-size:12px;color:var(--color-text-muted);padding:6px 6px;border-bottom:1px solid var(--color-border)}
+.tt td{padding:5px 6px;border-bottom:1px solid var(--color-border);vertical-align:middle}
+.tt td i{display:inline-block;width:18px;height:18px;border-radius:5px;vertical-align:middle;margin-right:6px;border:1px solid rgba(0,0,0,.12)}
+.tt code{font-size:12.5px}
+.pass{color:var(--color-success,#067647);font-weight:700} .fail{color:var(--color-error,#B42318);font-weight:700}
+.lock{font-size:12px;color:var(--color-text-muted)}
+.tscroll{overflow-x:auto}
+
+/* ---------- explainer ---------- */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px} @media (max-width:760px){.tiers{grid-template-columns:1fr}}
+.tier{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tier .n{font:700 12px var(--font-ui);color:var(--color-text-muted);letter-spacing:.05em;text-transform:uppercase}
+.tier code{font-size:12.5px;overflow-wrap:anywhere}
+.ramp{display:flex;border-radius:8px;overflow:hidden;height:22px} .ramp i{flex:1}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.step{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.step[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+.step .n{width:26px;height:26px;border-radius:50%;background:var(--color-primary);color:var(--color-primary-text);display:grid;place-items:center;font:700 13px var(--font-ui)}
+.step b{font-size:14px} .step span{font-size:13px;color:var(--color-text-muted);line-height:1.4}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.rule{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px} .rule b{font-size:14px} .rule span{font-size:13.5px;color:var(--color-text-muted)}
+.qs{display:flex;flex-direction:column;gap:10px;counter-reset:q}
+.q{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.q b{font-size:14.5px} .q .rec{display:inline-block;align-self:flex-start;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--color-accent);color:var(--color-text)}
+.q span{font-size:13.5px;color:var(--color-text-muted)}
+.langbtn{align-self:flex-start;min-height:36px;padding:0 12px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);font:600 13px var(--font-ui);cursor:pointer}
+</style><script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:.6rem">
+  <span class="eyebrow">Trial · Oct 25</span>
+  <h1><span class="en">Max's colors, or Goldito green</span><span class="ko">맥스의 색, 또는 골디토 그린</span></h1>
+  <p class="lede"><span class="en">Pick a photo and Goldito reads the pet's tone. It only changes the 11 colors a skin may change (the app's <code>themes.ts</code>); warnings and the gold tag never change. Try light and dark, then open Max's room, a tamagotchi that only real care moves.</span><span class="ko">사진을 고르면 골디토가 펫의 톤을 읽어요. 스킨이 바꿀 수 있는 11가지 색만 바뀌고 (앱의 <code>themes.ts</code>), 경고와 금색 태그는 그대로. 라이트와 다크를 써 보고, 진짜 돌봄만 움직이는 다마고치, 맥스의 방을 열어 보세요.</span></p>
+</header>
+
+<section aria-labelledby="play-h">
+  <h2 id="play-h"><span class="en">Play</span><span class="ko">체험</span></h2>
+  <div class="play">
+    <div class="ctl">
+      <div class="grp"><b><span class="en">The pet's photo</span><span class="ko">펫 사진</span></b>
+        <div class="thumbs" role="radiogroup" aria-label="Photo" id="thumbs"></div>
+        <input type="file" id="file" accept="image/*" hidden>
+      </div>
+      <div class="grp"><b><span class="en">Test pets (Max and Mochi, recolored)</span><span class="ko">테스트 펫 (맥스와 모찌, 색만 바꿈)</span></b>
+        <div class="thumbs tests" role="radiogroup" aria-label="Test pets" id="tests"></div>
+        <b style="margin-top:4px"><span class="en">Stress colors: the hardest coats</span><span class="ko">스트레스 색: 가장 어려운 털</span></b>
+        <div class="thumbs tests" role="radiogroup" aria-label="Stress colors" id="stress"></div>
+        <label class="anyc"><input type="color" id="anyc" value="#3BA7F5"><span><span class="en">Any coat color</span><span class="ko">아무 털 색</span></span></label>
+      </div>
+      <div class="grp"><b><span class="en">Colors</span><span class="ko">색</span></b>
+        <div class="seg col" role="radiogroup" aria-label="Colors" data-k="src">
+          <button type="button" role="radio" data-v="goldito">Goldito green<small>The default. Same for every pet.</small></button>
+          <button type="button" role="radio" data-v="tint">Tint ★<small>Grounds and highlights follow the pet. Buttons stay green.</small></button>
+          <button type="button" role="radio" data-v="full">Full<small>Buttons follow the pet too.</small></button>
+        </div>
+      </div>
+      <div class="grp"><b><span class="en">When the coat has no color (white, black, grey)</span><span class="ko">털에 색이 없을 때 (흰색, 검정, 회색)</span></b>
+        <div class="seg" role="radiogroup" aria-label="Neutral coats" data-k="neutral">
+          <button type="button" role="radio" data-v="keep">Keep green ★</button>
+          <button type="button" role="radio" data-v="photo">Borrow from the photo</button>
+        </div>
+      </div>
+      <div class="grp"><b><span class="en">Appearance</span><span class="ko">화면 모드</span></b>
+        <div class="seg" role="radiogroup" aria-label="Appearance" data-k="mode">
+          <button type="button" role="radio" data-v="system">System</button>
+          <button type="button" role="radio" data-v="light">Light</button>
+          <button type="button" role="radio" data-v="dark">Dark</button>
+        </div>
+      </div>
+      <div class="read" aria-live="polite" id="read"></div>
+    </div>
+
+    <div class="phonewrap">
+      <div class="screens" id="screens" role="group" aria-label="Screen"></div>
+      <div class="ph" id="ph" aria-label="Goldito, owner's phone" data-cap="tone-home-max" data-title="Pet tone · Home · Max (no coat color), Tint"></div>
+      <small class="muted"><span class="en">Every color in this phone is a token. Tap the pet card for Max's room.</span><span class="ko">이 폰의 모든 색은 토큰이에요. 펫 카드를 누르면 맥스의 방.</span></small>
+    </div>
+
+    <div class="tokens">
+      <h3 style="margin-bottom:.5rem"><span class="en">The tokens right now</span><span class="ko">지금의 토큰</span></h3>
+      <div class="tscroll"><table class="tt" id="tt"></table></div>
+      <p class="muted" style="font-size:13px;margin-top:.5rem"><span class="en">Each generated color is checked before it's used: text 4.5:1, outlines 3:1. If a pet's color fails, Goldito darkens it (light) or lightens it (dark) until it passes.</span><span class="ko">생성된 색은 쓰기 전에 확인해요: 글자 4.5:1, 테두리 3:1. 통과하지 못하면 라이트에선 어둡게, 다크에선 밝게 조정해요.</span></p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="qa-h">
+  <h2 id="qa-h"><span class="en">Every screen, for a legibility check</span><span class="ko">모든 화면, 가독성 확인용</span></h2>
+  <p><span class="en">The same tokens on ten screens: chat bubbles, a checkout, a trip, alerts, forms. Goldito checks every piece of text against what's behind it; anything under 4.5:1 (3:1 for big text) gets an orange dashed outline.</span><span class="ko">같은 토큰을 화면 열 개에: 채팅 말풍선, 결제, 이동, 경고, 입력. 모든 글자를 뒤의 색과 비교해 4.5:1 미만 (큰 글자는 3:1)이면 주황 점선 테두리.</span></p>
+  <div class="qasum">
+    <div class="seg" role="radiogroup" aria-label="Show" data-k="qa"><button type="button" role="radio" data-v="pair">Light and dark</button><button type="button" role="radio" data-v="mode">This mode only</button></div>
+    <span class="pill" id="qacount" aria-live="polite"></span>
+  </div>
+  <div class="qalist" id="qalist"></div>
+  <div class="qasum"><button type="button" class="seg-btn" id="sweepgo">Sweep every hue</button><span class="muted" style="font-size:13px"><span class="en">Runs 24 coat hues (and 3 neutrals) through Tint and Full, light and dark, and lists the weakest pair for each. No photos needed.</span><span class="ko">털 색상 24개 (와 무채색 3개)를 틴트와 풀, 라이트와 다크로 돌려 각각 가장 약한 쌍을 보여줘요. 사진 없이.</span></span></div>
+  <div class="tscroll" id="sweep"></div>
+  <div class="qa" id="qa"></div>
+</section>
+
+<section aria-labelledby="how-h">
+  <h2 id="how-h"><span class="en">How it's built: three layers of tokens</span><span class="ko">만드는 법: 토큰 세 층</span></h2>
+  <p><span class="en">The photo never touches a component. It picks one seed color; the seed makes a ramp; the ramp fills the same 11 skin roles the app already has, once for light and once for dark. Components only ever ask for a role.</span><span class="ko">사진은 컴포넌트에 직접 닿지 않아요. 씨앗 색 하나를 고르고, 씨앗이 램프를 만들고, 램프가 앱에 이미 있는 스킨 역할 11개를 라이트와 다크로 한 번씩 채워요. 컴포넌트는 역할만 물어요.</span></p>
+  <div class="tiers">
+    <div class="tier"><span class="n">1 · Seed and ramp</span><b><span class="en">One hue from the photo</span><span class="ko">사진에서 색상 하나</span></b><div class="ramp" id="ramp"></div><span class="muted" style="font-size:13px"><span class="en">Built in OKLCH so every step looks evenly lighter, whatever the hue. Chroma is capped so a bright orange cat doesn't shout.</span><span class="ko">OKLCH로 만들어 색상과 상관없이 단계가 고르게 밝아져요. 채도에 상한을 둬서 밝은 주황 고양이도 소리치지 않아요.</span></span></div>
+    <div class="tier"><span class="n">2 · Roles (Figma modes)</span><b><span class="en">The 11 skin colors × light and dark</span><span class="ko">스킨 색 11개 × 라이트, 다크</span></b><code>primary · primaryText · background · surface · accent · border · borderStrong · track · text · textMuted · placeholder</code><span class="muted" style="font-size:13px"><span class="en">Exactly <code>SkinColors</code> in <code>frontend/theme/themes.ts</code>. In Figma: the Color collection gets Light and Dark modes; pet tones are made in code, so Figma keeps two or three sample pet modes to design against.</span><span class="ko"><code>frontend/theme/themes.ts</code>의 <code>SkinColors</code> 그대로. 피그마: Color 컬렉션에 Light, Dark 모드; 펫 톤은 코드에서 만들고 피그마엔 디자인용 샘플 펫 모드 두세 개.</span></span></div>
+    <div class="tier"><span class="n">3 · Components</span><b><span class="en">Buttons ask for primary, never for a hex</span><span class="ko">버튼은 hex가 아닌 primary를 물어요</span></b><code>Button.primary → primary / primaryText<br>Chip.selected → accent + primary edge<br>Switch.off → track · Field hint → placeholder</code><span class="muted" style="font-size:13px"><span class="en">The app already styles through <code>useThemedStyles</code>, so a new theme is a value swap, not a rewrite. Locked: error, success, warning (and surfaces), gold, cream, media.</span><span class="ko">앱은 이미 <code>useThemedStyles</code>로 스타일링해서 새 테마는 값 교체일 뿐. 잠김: error, success, warning (와 표면), gold, cream, media.</span></span></div>
+  </div>
+</section>
+
+<section aria-labelledby="tama-h">
+  <h2 id="tama-h"><span class="en">Max's room: the tamagotchi, as a mirror of real care</span><span class="ko">맥스의 방: 진짜 돌봄을 비추는 다마고치</span></h2>
+  <p><span class="en">The owner can't feed this pet; Chloe's 5-second checks do. So it never asks Robert for chores and never guilts him. It uses the same sticker and the same tone, so the photo, the colors and the room are one idea. Tap a step to see it in the phone.</span><span class="ko">보호자는 이 펫에게 밥을 줄 수 없어요; 클로이의 5초 체크가 줘요. 그래서 로버트에게 일을 시키지도, 죄책감을 주지도 않아요. 같은 스티커와 같은 톤을 써서 사진, 색, 방이 한 아이디어가 돼요. 단계를 누르면 폰에 보여요.</span></p>
+  <div class="flow" id="flow"></div>
+  <div class="rules">
+    <div class="rule"><b><span class="en">A mirror, not a chore</span><span class="ko">일이 아닌 거울</span></b><span><span class="en">Only real check-ins move the meters (meal, walk, nap). No owner buttons, no streaks.</span><span class="ko">진짜 체크인만 미터를 움직여요 (밥, 산책, 낮잠). 보호자 버튼도, 연속 기록도 없어요.</span></span></div>
+    <div class="rule"><b><span class="en">Never sad, never gone</span><span class="ko">슬퍼하지도, 사라지지도 않아요</span></b><span><span class="en">An empty meter reads "Waiting for the walk", not "Max is sad". Meters start fresh each morning.</span><span class="ko">빈 미터는 "맥스가 슬퍼요"가 아니라 "산책 기다리는 중". 매일 아침 새로 시작.</span></span></div>
+    <div class="rule"><b><span class="en">It rests between stays</span><span class="ko">머무는 사이엔 쉬어요</span></b><span><span class="en">When Max is home with Robert, the room sleeps and keeps its shelf: one sticker per day of care.</span><span class="ko">맥스가 로버트와 집에 있으면 방은 잠들고 선반을 지켜요: 돌봄 하루에 스티커 하나.</span></span></div>
+    <div class="rule"><b><span class="en">Calm by default</span><span class="ko">기본은 차분하게</span></b><span><span class="en">Breathing, one hop on a new check-in, all off with Reduce motion. Concept B (Full Tamagotchi) showed how loud this can get.</span><span class="ko">숨쉬기, 새 체크인에 한 번 점프, 동작 줄이기면 모두 꺼져요. 컨셉 B가 얼마나 시끄러워질 수 있는지 보여줬어요.</span></span></div>
+  </div>
+</section>
+
+<section aria-labelledby="q-h">
+  <h2 id="q-h"><span class="en">What we need to decide</span><span class="ko">정해야 할 것</span></h2>
+  <div class="qs">
+    <div class="q"><b><span class="en">1. On by default, or a choice after the first photo?</span><span class="ko">1. 기본으로 켜기, 아니면 첫 사진 후 선택?</span></b><span class="rec">My pick: a choice</span><span><span class="en">After the first photo: "Use Max's colors?" with a preview, Not now keeps Goldito green. Changing the theme without asking feels like the app broke.</span><span class="ko">첫 사진 후 미리보기와 함께 "맥스의 색을 쓸까요?", 나중에는 골디토 그린 유지. 묻지 않고 바꾸면 앱이 고장난 것처럼 느껴져요.</span></span></div>
+    <div class="q"><b><span class="en">2. The whole app, or just the pet's own screens?</span><span class="ko">2. 앱 전체, 아니면 펫 화면만?</span></b><span class="rec">My pick: the pet's screens</span><span><span class="en">Max's room, his Diary, his photos when he's picked. With All pets (Max and Mochi) the app is Goldito green, otherwise it flips between cream and orange.</span><span class="ko">맥스의 방, 다이어리, 맥스를 고른 사진. 모든 펫 (맥스와 모찌)일 땐 골디토 그린, 아니면 크림과 주황 사이를 오가요.</span></span></div>
+    <div class="q"><b><span class="en">3. Tint or Full?</span><span class="ko">3. 틴트 아니면 풀?</span></b><span class="rec">My pick: Tint</span><span><span class="en">Green buttons stay recognisable as Goldito, and a pink or yellow primary is hard to make readable. Full is fun for the room only.</span><span class="ko">초록 버튼이 골디토로 알아보기 쉽고, 분홍이나 노랑 primary는 읽히게 만들기 어려워요. 풀은 방에서만 재미있게.</span></span></div>
+    <div class="q"><b><span class="en">4. White, black and grey coats</span><span class="ko">4. 흰색, 검정, 회색 털</span></b><span class="rec">My pick: keep green</span><span><span class="en">Max is white: his coat has no hue. Borrowing from the photo means the theme changes with the bed he lies on. Keep green, and let the grounds take his coat's warmth.</span><span class="ko">맥스는 흰색이라 털에 색상이 없어요. 사진에서 빌리면 누운 침대에 따라 테마가 바뀌어요. 초록을 유지하고 바탕이 털의 따뜻함을 가져가게.</span></span></div>
+    <div class="q"><b><span class="en">5. Pick once, or follow every new photo?</span><span class="ko">5. 한 번 정하기, 아니면 새 사진마다?</span></b><span class="rec">My pick: once, from the profile photo</span><span><span class="en">The tone comes from the pet's profile photo and stays until that photo changes. Feed photos never change the colors.</span><span class="ko">톤은 펫 프로필 사진에서 오고 그 사진이 바뀔 때까지 그대로. 피드 사진은 색을 바꾸지 않아요.</span></span></div>
+    <div class="q"><b><span class="en">7. The color blocks in dark mode</span><span class="ko">7. 다크 모드의 컬러 블록</span></b><span class="rec">Found while testing</span><span><span class="en">Mint, peach, butter and blush have no dark values yet; this page proposes four. They stay the same for every pet. Muted text failed on blush (4.4:1), so text on a block is always full strength.</span><span class="ko">민트, 피치, 버터, 블러시는 아직 다크 값이 없어요; 이 페이지가 네 개를 제안해요. 모든 펫에 같아요. 블러시 위 흐린 글자가 4.4:1로 떨어져, 블록 위 글자는 항상 진하게.</span></span></div>
+    <div class="q"><b><span class="en">6. Dark mode for the demo?</span><span class="ko">6. 데모에 다크 모드?</span></b><span class="rec">My pick: System, after the freeze</span><span><span class="en">It's one more mode on the same 11 roles plus dark status colors. Real work is checking every screen; before Oct 28 I'd only do it if the team has a free day.</span><span class="ko">같은 11개 역할에 모드 하나와 다크 상태 색을 더하는 일. 진짜 일은 모든 화면 확인; 10월 28일 전엔 여유가 있을 때만.</span></span></div>
+  </div>
+</section>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+<symbol id="i-img" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></symbol>
+<symbol id="i-cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+<symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-meal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+<symbol id="i-walk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z"/><path d="M12 22v-3"/></symbol>
+<symbol id="i-nap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+<style>.pn-o{stroke:#1B4332;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}</style>
+<symbol id="art-dog" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="34" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#FFFFFF" d="M28 50c-10 4-14 22-8 36 4 9 13 10 16 4l4-20z"/>
+    <path class="pn-o" fill="#FFFFFF" d="M92 50c10 4 14 22 8 36-4 9-13 10-16 4l-4-20z"/>
+    <path class="pn-o" fill="#FFFFFF" d="M60 22c-14 0-22 6-26 14-6 2-9 9-6 15-3 8 0 16 5 20 1 14 13 26 27 26s26-12 27-26c5-4 8-12 5-20 3-6 0-13-6-15-4-8-12-14-26-14z"/>
+    <circle cx="48" cy="60" r="4.5" fill="#1B4332"/><circle cx="72" cy="60" r="4.5" fill="#1B4332"/>
+    <circle cx="49.5" cy="58.5" r="1.4" fill="#fff"/><circle cx="73.5" cy="58.5" r="1.4" fill="#fff"/>
+    <path class="pn-o" fill="#1B4332" d="M55 70h10l-5 6z"/>
+    <path class="pn-o" fill="none" d="M60 76v4m-7 1c3 4 11 4 14 0"/>
+    <path class="pn-o" fill="#E76F51" d="M56 83c1 6 7 6 8 0z"/>
+    <circle cx="41" cy="71" r="4" fill="#F4A261" opacity=".55"/><circle cx="79" cy="71" r="4" fill="#F4A261" opacity=".55"/>
+    <path class="pn-o" fill="#E9C46A" d="M60 30l-12-7v14zM60 30l12-7v14z"/><circle class="pn-o" cx="60" cy="30" r="4" fill="#E9C46A"/>
+  </symbol>
+<symbol id="art-cat" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="32" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#F4A261" d="M30 30l8 28h-8zM90 30l-8 28h8z"/>
+    <path class="pn-o" fill="#F4A261" d="M30 30l18 16h24l18-16 2 34c0 20-14 34-32 34S28 84 28 64z"/>
+    <path fill="#FFF9F0" d="M36 38l4 14-6 2zM84 38l-4 14 6 2z"/>
+    <path class="pn-o" fill="#FFF9F0" d="M44 78c4-8 28-8 32 0-2 10-30 10-32 0z"/>
+    <path class="pn-o" fill="none" d="M44 62c3-3 7-3 10 0M66 62c3-3 7-3 10 0"/>
+    <path class="pn-o" fill="#E76F51" d="M56 72h8l-4 4z"/>
+    <path class="pn-o" fill="none" d="M38 74l-14-2m14 6l-13 4m57-8l14-2m-14 6l13 4"/>
+    <path class="pn-o" fill="none" d="M52 46c2 4 2 6 0 8m16-8c-2 4-2 6 0 8"/>
+  </symbol>
+<symbol id="art-bowl" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/>
+    <g class="pn-o" fill="#B5652E"><circle cx="44" cy="56" r="7"/><circle cx="58" cy="50" r="7"/><circle cx="72" cy="55" r="7"/><circle cx="51" cy="62" r="7"/><circle cx="66" cy="62" r="7"/><circle cx="80" cy="62" r="6"/><circle cx="38" cy="64" r="6"/></g>
+    <path class="pn-o" fill="#E76F51" d="M22 64h76l-8 30c-1 4-4 6-8 6H38c-4 0-7-2-8-6z"/>
+    <path class="pn-o" fill="#FFF9F0" d="M18 62h84v6H18z"/>
+    <g fill="#FFF9F0"><circle cx="60" cy="84" r="5"/><circle cx="52" cy="77" r="2.6"/><circle cx="57" cy="74" r="2.6"/><circle cx="63" cy="74" r="2.6"/><circle cx="68" cy="77" r="2.6"/></g>
+  </symbol>
+<symbol id="art-ball" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/>
+    <circle class="pn-o" cx="60" cy="60" r="34" fill="#E9C46A"/>
+    <path fill="none" stroke="#FFF9F0" stroke-width="5" stroke-linecap="round" d="M34 38c14 10 14 34 0 44M86 38c-14 10-14 34 0 44"/>
+    <circle cx="48" cy="44" r="5" fill="#fff" opacity=".6"/>
+  </symbol>
+<symbol id="art-walk" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#B5652E" d="M54 70h12v32H54z"/>
+    <path class="pn-o" fill="#52B788" d="M60 14c-14 0-22 10-20 20-10 2-14 12-10 20 3 8 12 12 20 10 4 6 16 6 20 0 8 2 17-2 20-10 4-8 0-18-10-20 2-10-6-20-20-20z"/>
+    <circle cx="48" cy="40" r="5" fill="#D8F3DC"/><circle cx="72" cy="48" r="4" fill="#D8F3DC"/>
+    <path class="pn-o" fill="none" stroke="#E76F51" d="M80 102c10-4 14-14 10-22-3-6-12-6-14 0-2 5 3 9 8 7"/>
+  </symbol>
+<symbol id="art-camera" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#F4A261" d="M22 42h20l6-10h24l6 10h20c3 0 6 3 6 6v40c0 3-3 6-6 6H22c-3 0-6-3-6-6V48c0-3 3-6 6-6z"/>
+    <circle class="pn-o" cx="60" cy="68" r="19" fill="#FFF9F0"/><circle class="pn-o" cx="60" cy="68" r="10" fill="#2D6A4F"/>
+    <circle cx="56" cy="64" r="3" fill="#fff"/><rect class="pn-o" x="84" y="50" width="8" height="6" rx="2" fill="#E9C46A"/>
+  </symbol>
+<symbol id="art-nap" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="30" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#E9C46A" d="M70 24c-20 2-34 18-32 38s20 34 40 32c6 0 11-2 16-5-18 2-34-12-35-30-1-14 6-27 18-34-2-1-5-1-7-1z"/>
+    <path class="pn-o" fill="none" d="M80 30h12l-12 14h12M94 54h8l-8 9h8"/>
+  </symbol>
+<symbol id="art-home" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="40" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#FFF9F0" d="M26 56l34-28 34 28v42H26z"/>
+    <path class="pn-o" fill="#E76F51" d="M16 60l44-38 44 38-6 6-38-32-38 32z"/>
+    <path class="pn-o" fill="#2D6A4F" d="M52 98V74h16v24z"/>
+    <rect class="pn-o" x="74" y="66" width="12" height="12" rx="2" fill="#D8F3DC"/>
+    <path class="pn-o" fill="#F4A261" d="M38 70c-3-4 0-8 4-6 4-2 7 2 4 6l-4 4z"/>
+  </symbol>
+<symbol id="art-pill" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="30" ry="6" fill="#1B4332" opacity=".12"/>
+    <g transform="rotate(-35 60 60)"><rect class="pn-o" x="26" y="44" width="68" height="32" rx="16" fill="#FFF9F0"/><path class="pn-o" fill="#E76F51" d="M60 44H42a16 16 0 0 0 0 32h18z"/></g>
+    <path fill="#fff" opacity=".7" d="M38 66l10-7 3 4-10 7z"/>
+  </symbol>
+<symbol id="art-heart" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="28" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#E76F51" d="M60 94C38 78 22 64 22 46c0-11 9-20 20-20 8 0 14 4 18 10 4-6 10-10 18-10 11 0 20 9 20 20 0 18-16 32-38 48z"/>
+    <path fill="#fff" opacity=".55" d="M36 42c2-6 7-8 11-8-4 3-6 6-7 10z"/>
+  </symbol>
+<symbol id="art-potty" viewBox="0 0 120 120">
+    <ellipse cx="60" cy="104" rx="38" ry="6" fill="#1B4332" opacity=".12"/>
+    <path class="pn-o" fill="#D8F3DC" d="M18 98c4-14 20-22 42-22s38 8 42 22z"/>
+    <path class="pn-o" fill="#52B788" d="M40 80c-6-16-2-30 10-38 2 14 0 26-10 38zM60 76c0-18 6-30 20-36-2 16-8 28-20 36zM74 84c2-10 10-16 20-16-4 8-10 14-20 16z"/>
+  </symbol>
+<symbol id="art-paw" viewBox="0 0 120 120">
+    <g class="pn-o" fill="#2D6A4F"><ellipse cx="60" cy="74" rx="22" ry="18"/><ellipse cx="34" cy="50" rx="9" ry="11"/><ellipse cx="50" cy="36" rx="9" ry="11"/><ellipse cx="70" cy="36" rx="9" ry="11"/><ellipse cx="86" cy="50" rx="9" ry="11"/></g>
+  </symbol>
+<symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+</svg>
+
+<script>
+/* ---------- color math: OKLCH ⇄ sRGB, WCAG contrast ---------- */
+const toLin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+const toGam = (c) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
+function rgbToOklab([r, g, b]) {
+  [r, g, b] = [r, g, b].map((v) => toLin(v / 255));
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b), m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b), s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
+  return [0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s, 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s, 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s];
+}
+function oklabToLinRgb([L, a, b]) {
+  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3, m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3, s = (L - 0.0894841775 * a - 1.291485548 * b) ** 3;
+  return [4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s, -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s, -0.0041960863 * l - 0.7034186147 * m + 1.707614701 * s];
+}
+const lch2lab = (L, C, h) => [L, C * Math.cos((h * Math.PI) / 180), C * Math.sin((h * Math.PI) / 180)];
+// OKLCH → hex, pulling chroma in until the color fits sRGB.
+function hex(L, C, h) {
+  let c = C, rgb;
+  for (let i = 0; i < 40; i++) { rgb = oklabToLinRgb(lch2lab(L, c, h)); if (rgb.every((v) => v >= -0.0005 && v <= 1.0005)) break; c *= 0.92; }
+  return "#" + rgb.map((v) => Math.round(Math.max(0, Math.min(1, toGam(Math.max(0, v)))) * 255).toString(16).padStart(2, "0")).join("").toUpperCase();
+}
+const hexRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const lum = (h) => { const [r, g, b] = hexRgb(h).map((v) => toLin(v / 255)); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+
+/* ---------- reading a photo ---------- */
+const IMG = (n) => `assets/feed-trial/${n}.jpg`, STK = (n) => `assets/feed-trial/stickers/${n}.png`;
+const PHOTOS = [
+  { n: "mumu_party_hat", pet: "Max", label: "Max, party hat" },
+  { n: "mumu_pink_jacket_bed", pet: "Max", label: "Max on the pink bed" },
+  { n: "mumu_green_toy", pet: "Max", label: "Max with the green toy" },
+  { n: "orange_cat_lying_relaxed", pet: "Mochi", label: "Mochi, orange cat" },
+  { n: "mumu_red_pillow", pet: "Max", label: "Max on the red pillow" },
+  { n: "mumu_lake_walk", pet: "Max", label: "Max by the lake" },
+  { n: "mumu_stroller_hat", pet: "Max", label: "Max in the stroller" },
+];
+// Test pets: Max's and Mochi's cut-outs recolored, so every coat can be tried without new photos.
+const TESTS = [
+  ["Goldie", "#C9973F", "dog"], ["Coco", "#6B3E26", "dog"], ["Ink", "#2A2A2A", "dog"], ["Rusty", "#A8442A", "dog"],
+  ["Ginger", "#E07B39", "cat"], ["Smoky", "#7D8A99", "cat"], ["Biscuit", "#E3CFA3", "dog"], ["Ash", "#9A9A96", "cat"],
+];
+const STRESS = [["Neon", "#FF4FB8", "dog"], ["Lemon", "#F2E33C", "cat"], ["Lime", "#7ED321", "dog"], ["Sky", "#3BA7F5", "cat"], ["Violet", "#8A4FFF", "dog"], ["Teal", "#13A89E", "cat"], ["Cherry", "#D7263D", "dog"]];
+const BASE = { dog: "mumu_party_hat", cat: "orange_cat_lying_relaxed" };
+const made = {};
+async function makePet(name, coat, kind) {
+  const key = name + coat + kind; if (made[key]) return made[key];
+  const im = await load(STK(BASE[kind])), c = document.createElement("canvas");
+  c.width = im.naturalWidth; c.height = im.naturalHeight;
+  const x = c.getContext("2d"); x.drawImage(im, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height), [r, g, b] = hexRgb(coat);
+  // Keep the light and shade of the fur, swap its color: multiply the coat by each pixel's brightness.
+  for (let i = 0; i < d.data.length; i += 4) {
+    if (!d.data[i + 3]) continue;
+    const L = (0.299 * d.data[i] + 0.587 * d.data[i + 1] + 0.114 * d.data[i + 2]) / 255, k = kind === "cat" ? Math.min(1.25, 0.35 + L * 1.3) : 0.3 + L * 0.8;
+    d.data[i] = Math.min(255, r * k); d.data[i + 1] = Math.min(255, g * k); d.data[i + 2] = Math.min(255, b * k);
+  }
+  x.putImageData(d, 0, 0);
+  const stk = c.toDataURL("image/png");
+  // A plain room behind the pet for the "photo".
+  const p = document.createElement("canvas"); p.width = 480; p.height = 600; const y = p.getContext("2d");
+  y.fillStyle = "#EDE6DA"; y.fillRect(0, 0, 480, 600); y.fillStyle = "#C9B79C"; y.fillRect(0, 420, 480, 180);
+  const sc = Math.min(420 / c.width, 460 / c.height); y.drawImage(c, (480 - c.width * sc) / 2, 560 - c.height * sc, c.width * sc, c.height * sc);
+  return (made[key] = { pet: name, label: `${name}, test ${kind}`, stk, src: p.toDataURL("image/jpeg", 0.85), test: true });
+}
+const load = (src) => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+function pixels(img, size = 72) {
+  const c = document.createElement("canvas"), r = img.naturalWidth / img.naturalHeight;
+  c.width = r >= 1 ? size : Math.round(size * r); c.height = r >= 1 ? Math.round(size / r) : size;
+  const x = c.getContext("2d", { willReadFrequently: true }); x.drawImage(img, 0, 0, c.width, c.height);
+  return { d: x.getImageData(0, 0, c.width, c.height).data, w: c.width, h: c.height };
+}
+// The coat: the average of the cut-out pet (or the middle of an uploaded photo), in OKLab.
+function coatOf(px, cut) {
+  let n = 0, A = [0, 0, 0];
+  for (let y = 0; y < px.h; y++) for (let x = 0; x < px.w; x++) {
+    const i = (y * px.w + x) * 4;
+    if (cut ? px.d[i + 3] < 200 : (Math.abs(x / px.w - 0.5) > 0.22 || Math.abs(y / px.h - 0.55) > 0.25)) continue;
+    const lab = rgbToOklab([px.d[i], px.d[i + 1], px.d[i + 2]]); A = A.map((v, k) => v + lab[k]); n++;
+  }
+  const [L, a, b] = A.map((v) => v / Math.max(1, n));
+  return { L, C: Math.hypot(a, b), h: ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360 };
+}
+// The photo's strongest color: hues binned by how colorful they are.
+function sceneOf(px) {
+  const bins = Array.from({ length: 24 }, () => ({ w: 0, a: 0, b: 0, L: 0 }));
+  for (let i = 0; i < px.d.length; i += 4) {
+    const [L, a, b] = rgbToOklab([px.d[i], px.d[i + 1], px.d[i + 2]]), C = Math.hypot(a, b);
+    if (C < 0.05 || L < 0.3 || L > 0.9) continue;
+    const h = ((Math.atan2(b, a) * 180) / Math.PI + 360) % 360, k = bins[Math.floor(h / 15) % 24];
+    k.w += C; k.a += a; k.b += b; k.L += L * C;
+  }
+  const top = bins.reduce((p, q) => (q.w > p.w ? q : p));
+  if (!top.w) return { C: 0, h: 0, L: 0.5 };
+  return { L: top.L / top.w, C: Math.hypot(top.a, top.b) / top.w, h: ((Math.atan2(top.b, top.a) * 180) / Math.PI + 360) % 360 };
+}
+
+/* ---------- making the 11 skin colors ---------- */
+const GOLDITO_H = 158; // the hue of Goldito green #1B4332
+const EXPRESSIVE = { primary: "#1B4332", primaryText: "#FFFFFF", background: "#FBF6EA", accent: "#D8F3DC", surface: "#FFFFFF", border: "#E8DCC4", borderStrong: "#7F6F58", track: "#E8DCC4", text: "#1B4332", textMuted: "#6B5D4A", placeholder: "#807160" };
+const STATUS = {
+  light: { mint: "#D8F3DC", peach: "#FDE2CC", butter: "#FBEFC8", blush: "#FAD6CB", gold: "#F4C35A", error: "#B42318", errorSurface: "#FEF3F2", success: "#067647", successSurface: "#ECFDF3", warning: "#B54708", warningSurface: "#FFFAEB", onStatus: "#FFFFFF" },
+  dark: { mint: "#1F3A2C", peach: "#3F2C1E", butter: "#3A3218", blush: "#40251F", gold: "#F4C35A", error: "#FDA29B", errorSurface: "#3B1612", success: "#75E0A7", successSurface: "#0F2A1C", warning: "#FEC84B", warningSurface: "#33260A", onStatus: "#1A0B09" },
+};
+const LOCKED = { gold: "#F4C35A", cream: "#FBF6EA", media: "#000000" };
+// Darken (light) or lighten (dark) until the pair passes.
+function fit(L, C, h, against, min, dir) { let x = L, c; for (let i = 0; i < 60; i++) { c = hex(x, C, h); if (ratio(c, against) >= min) return c; x += dir * 0.01; } return c; }
+function grounds(h, c, dark) {
+  const t = (k, cap) => Math.min(c * k, cap);
+  if (!dark) {
+    const background = hex(0.972, t(0.22, 0.016), h), surface = "#FFFFFF";
+    return { background, surface, accent: hex(0.93, t(0.5, 0.055), h), border: hex(0.89, t(0.3, 0.025), h), track: hex(0.89, t(0.3, 0.025), h),
+      borderStrong: fit(0.6, t(0.3, 0.03), h, background, 3, -1), text: fit(0.3, t(0.5, 0.06), h, background, 7, -1),
+      textMuted: fit(0.5, t(0.3, 0.03), h, background, 4.5, -1), placeholder: fit(0.56, t(0.25, 0.025), h, surface, 4.5, -1) };
+  }
+  const background = hex(0.18, t(0.12, 0.014), h), surface = hex(0.225, t(0.15, 0.016), h);
+  return { background, surface, accent: hex(0.31, t(0.45, 0.05), h), border: hex(0.32, t(0.2, 0.018), h), track: hex(0.36, t(0.2, 0.018), h),
+    borderStrong: fit(0.55, t(0.25, 0.025), h, surface, 3, 1), text: fit(0.94, t(0.1, 0.012), h, background, 7, 1),
+    textMuted: fit(0.74, t(0.15, 0.02), h, surface, 4.5, 1), placeholder: fit(0.66, t(0.12, 0.018), h, surface, 4.5, 1) };
+}
+function buttons(h, c, dark) {
+  if (!dark) { const primaryText = "#FFFFFF"; return { primary: fit(0.42, Math.max(0.06, Math.min(c, 0.13)), h, primaryText, 4.5, -1), primaryText }; }
+  const primaryText = hex(0.18, 0.02, h); return { primary: fit(0.78, Math.max(0.06, Math.min(c, 0.12)), h, primaryText, 4.5, 1), primaryText };
+}
+function theme(seed, src, dark) {
+  if (src === "goldito" || !seed) return dark ? { ...grounds(GOLDITO_H, 0.08, true), ...buttons(GOLDITO_H, 0.09, true) } : { ...EXPRESSIVE };
+  const g = grounds(seed.h, seed.C, dark);
+  const b = src === "full" && !seed.neutral ? buttons(seed.h, seed.C, dark) : dark ? buttons(GOLDITO_H, 0.09, true) : { primary: EXPRESSIVE.primary, primaryText: "#FFFFFF" };
+  return { ...g, ...b };
+}
+
+/* ---------- state ---------- */
+const S = { hist: [], agree: false, photo: PHOTOS[0], src: "tint", neutral: "keep", mode: "system", qa: "pair", screen: "home", seed: null, read: null, care: { meal: 0, walk: 0, nap: 0 }, last: null, step: 0, shelf: 2, home: false };
+const sys = matchMedia("(prefers-color-scheme: dark)");
+// System follows the site's own Appearance setting (the gear in the site bar), then the device.
+const siteDark = () => { const t = document.documentElement.dataset.theme; return t ? t === "dark" : sys.matches; };
+const isDark = () => (S.mode === "system" ? siteDark() : S.mode === "dark");
+async function readPhoto() {
+  const p = S.photo, img = await load(p.src || IMG(p.n));
+  const coat = p.n || p.stk ? coatOf(pixels(await load(p.n ? STK(p.n) : p.stk)), true) : coatOf(pixels(img), false), scene = sceneOf(pixels(img));
+  const coatHasHue = coat.C >= 0.035;
+  let seed, why;
+  if (coatHasHue) { seed = { h: coat.h, C: Math.min(coat.C * 1.5, 0.14) }; why = `${p.pet}'s coat has a color, so the tone comes from the coat.`; }
+  else if (S.neutral === "photo" && scene.C >= 0.05) { seed = { h: scene.h, C: Math.min(scene.C, 0.13) }; why = `${p.pet}'s coat has no color, so the tone is borrowed from the photo. Try another photo of ${p.pet}: it changes.`; }
+  else { seed = { h: coat.C > 0.008 ? coat.h : GOLDITO_H, C: Math.max(coat.C * 2.5, 0.02), neutral: true }; why = `${p.pet}'s coat has no color, so buttons stay Goldito green and the grounds take the coat's warmth.`; }
+  S.seed = seed; S.read = { coat, scene, why, coatHasHue };
+}
+function paint(el, dark) {
+  const t = theme(S.seed, S.src, dark), st = STATUS[dark ? "dark" : "light"];
+  Object.entries({ ...t, ...st }).forEach(([k, v]) => el.style.setProperty("--k-" + k.replace(/[A-Z]/g, (m) => "-" + m.toLowerCase()), v));
+  return { t, st };
+}
+
+/* ---------- the phone ---------- */
+const ic = (n) => `<svg aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const art = (n, cls = "art") => `<svg class="${cls}" viewBox="0 0 120 120" aria-hidden="true"><use href="#art-${n}"/></svg>`;
+const petName = () => S.photo.pet || "Your pet";
+const petImg = () => (S.photo.n ? STK(S.photo.n) : S.photo.stk || S.photo.src);
+const petPhoto = () => (S.photo.n ? IMG(S.photo.n) : S.photo.src);
+const isCat = () => /cat/.test(S.photo.label || "") || S.photo.n === "orange_cat_lying_relaxed";
+const other = () => (petName() === "Mochi" ? ["Max", "dog", "Maltese · 4 yrs"] : ["Mochi", "cat", "Shorthair · 3 yrs"]);
+const MOOD = {
+  null: ["Waiting for Chloe's first check-in", ""],
+  meal: ["Full belly. Best breakfast ever.", "g_heart"],
+  walk: ["Tired legs, happy heart.", "g_ball"],
+  nap: ["Shh. Napping in the sun.", "g_zzz"],
+};
+// The order the chips show; taps inside the phone move between them like the app.
+const SCREENS = [["home", "Home"], ["room", "Pet's room"], ["feed", "Moments"], ["diary", "Diary"], ["chat", "Chat"], ["bookings", "Bookings"], ["book", "Checkout"], ["notif", "Notifications"], ["alert", "Treat check"], ["settings", "Settings"]];
+const TAB_OF = { home: 0, room: 0, notif: 0, settings: 0, bookings: 1, book: 1, chat: 2, feed: 3, diary: 3, alert: 4 };
+const bar = (t, sub) => `<div class="hd2"><h4>${t}${sub ? `<small>${sub}</small>` : ""}</h4><button type="button" class="ib" data-go="notif" aria-label="Notifications">${ic("bell")}<span class="badge">3</span></button><button type="button" class="me" data-go="settings" aria-label="Settings">R</button></div>`;
+const back = (t, sub, extra = "") => `<div class="hd2"><button type="button" class="ib" data-back="1" aria-label="Back">${ic("back")}</button><h4 class="sm">${t}${sub ? `<small>${sub}</small>` : ""}</h4>${extra}</div>`;
+const done = () => Math.min(5, 1 + S.care.meal + S.care.walk + S.care.nap);
+
+const SCR = {
+  home() {
+    const P = petName(), [o, ok, ob] = other(), d = done();
+    return { body: `${bar("Home", "Robert · Owner")}
+  <button type="button" class="hero" data-go="room">
+    <span class="hrow"><span class="live"><i></i>With Chloe now</span><span>Day 3 of 5</span></span>
+    <span class="hmid"><b>${P} is with Chloe</b><img src="${petImg()}" alt=""></span>
+    <small>Picked up Thu 7:30 AM · photo verified</small>
+    <span class="hrow"><span>Today's care</span><span>${d} of 5 done</span></span>
+    <span class="prog">${Array.from({ length: 5 }, (_, i) => `<i class="${i < d ? "on" : ""}"></i>`).join("")}</span>
+    <span class="hgo">Open ${P}'s room ›</span>
+  </button>
+  <div class="tiles"><button type="button" class="tile m" data-go="feed">${art("bowl")}<b>${d}/5</b><small>care done</small></button><button type="button" class="tile p" data-go="feed">${art("camera")}<b>12</b><small>photos today</small></button><button type="button" class="tile y" data-go="feed">${art("walk")}<b>40m</b><small>of walks</small></button></div>
+  <button type="button" class="latest" data-go="chat"><img src="${petPhoto()}" alt=""><span><small class="ey">Latest from Chloe · 9:02 AM</small><span><b>Breakfast done.</b> ${P} finished every bit and asked for more.</span></span></button>
+  <div class="between"><h5 class="sh">Your pets</h5><span class="lnk">+ Add pet</span></div>
+  <div class="pets"><button type="button" class="pet b" data-go="room">${isCat() ? art("cat") : `<img src="${petImg()}" alt="">`}<span><b>${P}</b><small>${isCat() ? "Shorthair · 3 yrs" : "Maltese · 4 yrs"}</small><em>No chicken</em></span></button><div class="pet p">${art(ok)}<span><b>${o}</b><small>${ob}</small></span></div></div>
+  <button type="button" class="btn p" data-go="feed">See today's updates</button>` };
+  },
+  room() {
+    const P = petName(), m = MOOD[S.last], c = S.care, pct = (v, max) => Math.min(100, Math.round((v / max) * 100)), resting = S.home;
+    const fx = resting ? `<img class="fx" src="${STK("g_zzz")}" alt="">` : m[1] ? `<img class="fx" src="${STK(m[1])}" alt="">` : "";
+    const shelf = Array.from({ length: S.shelf }, (_, i) => `<img src="${STK(["g_star", "g_paw", "g_best_day", "g_sun", "g_bone"][i % 5])}" alt="Day ${i + 1}">`).join("");
+    return { body: `${back(`${P}'s room`, resting ? "Home with you · resting" : "With Chloe · Day 3 of 5")}
+  <div class="stage ${resting || S.last === "nap" ? "sleepy" : ""}"><span class="bubble">${resting ? `${P} is home. The room rests until the next stay.` : m[0]}</span>${fx}<img class="pet" src="${petImg()}" alt="${P}"></div>
+  ${resting ? "" : `<div class="tiles"><span class="tile m">${art("bowl")}<b>${c.meal}/2</b><small>${c.meal ? "meals" : "Waiting"}</small></span><span class="tile y">${art("walk")}<b>${c.walk}/2</b><small>${c.walk ? "walks" : "Waiting"}</small></span><span class="tile p">${art("nap")}<b>${c.nap ? "Done" : "0/1"}</b><small>${c.nap ? "nap" : "Waiting"}</small></span></div>
+  <div class="demo"><small>Demo · as Chloe, a 5-second check</small><div class="chips">
+    <button type="button" class="chip" data-care="meal">Meal</button><button type="button" class="chip" data-care="walk">Walk</button><button type="button" class="chip" data-care="nap">Nap</button></div></div>`}
+  <div class="card"><b>${P}'s shelf</b><span class="mut">One sticker for every day of care.</span><div class="shelf">${shelf || `<span class="empty">The first sticker comes tonight.</span>`}</div></div>
+  <div class="chips"><button type="button" class="chip${resting ? "" : " on"}" data-rest="0">During a stay</button><button type="button" class="chip${resting ? " on" : ""}" data-rest="1">Between stays</button></div>` };
+  },
+  feed() {
+    const ps = [[S.photo.n ? IMG(S.photo.n) : S.photo.src, "6:30", 1], [IMG("mumu_lake_walk"), "9:40"], [IMG("mumu_green_toy"), "10:40"], [IMG("mumu_window_nap"), "1:15"], [IMG("mumu_red_pillow"), "9:10"], [IMG("orange_cat_lying_relaxed"), "11:00"]];
+    return { body: `${bar("Moments", "Robert · Owner")}
+  <div class="vt2"><span class="on">Photos</span><button type="button" data-go="diary">Diary</button><span class="pp">All pets ▾</span></div>
+  <div class="chips"><span class="chip on">All</span><span class="chip">${ic("meal")}Meals</span><span class="chip">${ic("walk")}Walks</span><span class="chip">${ic("nap")}Naps</span></div>
+  <div class="dh"><b>Today · Sat Oct 24</b><small>6 photos</small></div>
+  <div class="mosaic">${ps.map(([src, t, nw], i) => `<span class="gp${i === 0 ? " big" : ""}"><img src="${src}" alt="">${nw ? '<span class="nw">New</span>' : ""}<span class="tm">${t}</span></span>`).join("")}</div>
+`, over: `<button type="button" class="fabx">+ Photo</button>` };
+  },
+  diary() {
+    const P = petName();
+    return { body: `${bar("Moments", "Robert · Owner")}
+  <div class="vt2"><button type="button" data-go="feed">Photos</button><span class="on">Diary</span><span class="pp">${P} ▾</span></div>
+  <div class="seg3"><span class="on">Days</span><span>Calendar</span><span>Footprints</span></div>
+  <div class="chips"><span class="chip on">Today</span><span class="chip">Fri 23</span><span class="chip">Thu 22</span></div>
+  <div class="page"><div class="pimg"><img src="${petPhoto()}" alt=""><img class="stk" src="${STK("g_best_day")}" alt=""></div><h5>${P}'s day</h5><p>${P} ate every bite, took the skin pill in a treat, and we walked 20 minutes by the lake.</p><small>Shared with Robert · 6:04 PM</small>
+  <div class="react"><span class="on">Happy</span><span>Love it</span></div></div>
+  <span class="lnk" style="align-self:flex-start">All of ${P}'s pages (3) ›</span>` };
+  },
+  chat() {
+    const P = petName();
+    return { body: `${back("Chloe", "Usually replies within an hour", `<span class="av">C</span>`)}
+  <div class="msgs">
+    <span class="ts">Thu, Oct 8 · 9:12 AM</span>
+    <div class="bub out">Hi Chloe! Could you board ${P} Oct 22 to 26?</div>
+    <span class="ail">Auto-reply from Chloe's Goldito assistant</span>
+    <div class="bub ai">Yes, Chloe is free those 4 nights. Here's the quote.<div class="src"><span>Schedule</span><span>Rates</span><span>${P}'s record</span></div></div>
+    <div class="quote"><span class="qh">${art("home")}Quote</span><span class="qrow"><span>4 nights × $45</span><span>$180.00</span></span><span class="qrow"><span>Thanksgiving holiday</span><span>$20.00</span></span><span class="qrow tot"><span>Total CAD</span><span>$200.00</span></span><button type="button" class="btn p sm" data-go="bookings">Request these dates</button></div>
+    <div class="bub in">Happy to have ${P}! Does ${isCat() ? "she" : "he"} still take the skin pill with breakfast?</div>
+    <div class="bub out">Yes, in a treat. Thank you!</div>
+  </div>
+  <div class="comp"><div class="field">Message Chloe</div><span class="send">${ic("send")}</span></div>` };
+  },
+  bookings() {
+    const P = petName();
+    return { body: `${bar("Bookings", "Robert · Owner")}
+  <div class="seg3"><span class="on">Upcoming</span><span>Past</span></div>
+  <div class="bk"><span class="hrow"><span class="pill2 warn">Waiting for you</span><span class="mut">Request 3 of 3</span></span>
+    <b>Oct 22 to 26 · Boarding</b>
+    <span class="who"><span class="av">C</span><span><b>Chloe</b><small>Kitsilano · 4.9 ★ · 32 stays</small></span></span>
+    <span class="kv">${ic("cal")}Drop-off Thu 7:30 AM · Chloe drives</span><span class="kv">${ic("home")}Home Mon 5:00 PM · you drive</span>
+    <button type="button" class="btn p" data-go="book">Review and pay</button></div>
+  <div class="st ok">${ic("check")}<span><b>Meet &amp; Greet done</b>Chloe said yes to ${P} on Oct 18.</span></div>
+  <div class="st warn">${ic("alert")}<span><b>Pay by Tue, Oct 20</b>After that Chloe's dates open to others.</span></div>
+  <h5 class="sh">Past stays</h5>
+  <div class="card" style="gap:0"><div class="lrow"><span>Aug 3 to 5 · Chloe</span><span class="v">★ 5</span></div><div class="lrow" style="border:0"><span>Jun 12 to 14 · Chloe</span><span class="v">★ 5</span></div></div>` };
+  },
+  book() {
+    return { body: `${back("Review and pay", "Oct 22 to 26 · Boarding")}
+  <div class="quote"><span class="qh">${art("home")}Quote</span><span class="qrow"><span>4 nights × $45</span><span>$180.00</span></span><span class="qrow"><span>Thanksgiving holiday</span><span>$20.00</span></span><span class="qrow"><span>Service fee</span><span>$12.50</span></span><span class="qrow tot"><span>Total CAD</span><span>$212.50</span></span></div>
+  <h5 class="sh">Agreements · ${S.agree ? 3 : 2} of 3</h5>
+  <div class="cons"><span class="cb on">${ic("check")}</span><span><b>Vet care</b>Chloe may take ${petName()} to a vet in an emergency. <span class="lnk">Read full text</span></span></div>
+  <div class="cons"><span class="cb on">${ic("check")}</span><span><b>Photos</b>Chloe shares photos with you only.</span></div>
+  <button type="button" class="cons" data-agree="1"><span class="cb${S.agree ? " on" : ""}">${S.agree ? ic("check") : ""}</span><span><b>Cancellation</b>Free until 48 hours before. <span class="lnk">Read full text</span></span></button>
+  <div class="cons"><span class="k-ic">${ic("lock")}</span><span><b>Entry info</b><small>Unlocks for Chloe Thu 5:30 AM, 2 hours before</small></span></div>
+  <button type="button" class="btn p" ${S.agree ? "" : "disabled"}>Pay $212.50 (demo)</button>
+  ${S.agree ? "" : `<span class="help" style="text-align:center">Tick all three to pay</span>`}` };
+  },
+  notif() {
+    const rows = [[1, "bowl", "m", "Breakfast · finished the bowl", "Chloe · 8:12 AM", "home"], [1, "camera", "p", "3 new photos of " + petName(), "Chloe · 9:41 AM", "feed"], [1, "home", "y", "Pick-up complete, photo verified", "7:20 AM", "room"], [0, "paw", "b", "Entry info unlocked for Chloe", "Yesterday", "bookings"], [0, "heart", "m", "Booking confirmed, Oct 22 to 26", "Oct 9", "bookings"]];
+    const r = ([u, a, blk, t, d, go]) => `<button type="button" class="nrow" data-go="${go}"><span class="nic ${blk}">${art(a)}</span><span><b style="font-weight:${u ? 700 : 500}">${t}</b><small>${d}</small></span><span class="dot${u ? "" : " off"}"></span></button>`;
+    return { body: `${back("Notifications", "3 new")}<h5 class="sh">Today</h5><div>${rows.slice(0, 3).map(r).join("")}</div><h5 class="sh">Earlier</h5><div>${rows.slice(3).map(r).join("")}</div>` };
+  },
+  alert() {
+    const P = petName();
+    return { body: `${bar("Snap", "Treat check · Sticker · Mood")}
+  <div class="seg3"><span class="on">Treat check</span><span>Sticker</span><span>Mood</span></div>
+  <div class="vf"><span class="lbl">Rice flour, chicken fat, sweet potato, glycerin</span><span class="hint">Point at the ingredients</span></div>
+  <button type="button" class="shut" aria-label="Take photo"></button>`,
+      over: `<div class="scrim2"></div><div class="modal" role="alertdialog" aria-label="Don't feed this treat"><span class="bigic">${ic("alert")}</span><h5>Don't feed this treat</h5><p>It contains chicken, and ${P} is allergic to chicken.</p><span class="ing">Ingredients: rice flour, <mark>chicken</mark> fat, sweet potato, glycerin</span><button type="button" class="btn d" data-go="home">I understand, don't feed</button></div><div class="toast2">Treat check saved to ${P}'s record</div>` };
+  },
+  settings() {
+    return { body: `${back("Settings", "")}
+  <div class="prof"><span class="av big">R</span><span><b>Robert</b><small>Owner · Vancouver</small></span></div>
+  <h5 class="sh">Appearance</h5>
+  <div class="card" style="gap:0"><div class="lrow"><span>System</span><span class="rad on"></span></div><div class="lrow"><span>Light</span><span class="rad"></span></div><div class="lrow" style="border:0"><span>Dark</span><span class="rad"></span></div></div>
+  <h5 class="sh">${petName()}'s colors</h5>
+  <div class="card" style="gap:0"><div class="lrow"><span>Use ${petName()}'s colors</span><span class="trk on"></span></div><div class="lrow" style="border:0"><span>Strength</span><span class="v">Tint ›</span></div></div>
+  <span class="lab">Phone number</span><div class="field">(604) 555-0123</div><span class="help">Chloe sees it only during a stay</span>
+  <span class="lab">Emergency contact</span><div class="field bad">Jamie</div><span class="err">Add a phone number for Jamie</span>
+  <span class="tbtn">Delete account</span>` };
+  },
+};
+function phoneHTML(screen) {
+  const x = SCR[screen]();
+  const tabs = [["home", "Home", "home"], ["cal", "Bookings", "bookings"], ["chat", "Chat", "chat"], ["img", "Moments", "feed"], ["cam", "Snap", "alert"]].map(([i, l, go], k) => `<button type="button" class="tb${k === TAB_OF[screen] ? " on" : ""}" data-go="${go}">${ic(i)}${l}</button>`).join("");
+  return `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="scr">${x.body}</div><nav class="tbar">${tabs}</nav>${x.over ? `<div class="ov">${x.over}</div>` : ""}`;
+}
+// Every piece of text against the first solid color behind it (WCAG: 4.5:1, or 3:1 for large text).
+const toHex = (c) => { const m = c.match(/[\d.]+/g); return m ? { hex: "#" + m.slice(0, 3).map((v) => Math.round(+v).toString(16).padStart(2, "0")).join(""), a: m[3] === undefined ? 1 : +m[3] } : null; };
+function legibility(root) {
+  const bad = [];
+  root.querySelectorAll(".lowc").forEach((e) => e.classList.remove("lowc"));
+  root.querySelectorAll(".scr *, .tbar *, .ov *").forEach((el) => {
+    if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) return;
+    if (el.closest("[disabled]")) return;
+    const cs = getComputedStyle(el), fg = toHex(cs.color); if (!fg) return;
+    let p = el, bg = null;
+    while (p && p !== root.parentElement) { const b = toHex(getComputedStyle(p).backgroundColor); if (b && b.a > 0.5) { bg = b.hex; break; } p = p.parentElement; }
+    if (!bg) return;
+    const size = parseFloat(cs.fontSize), big = size >= 24 || (size >= 18.66 && +cs.fontWeight >= 700);
+    const r = ratio(fg.hex.toUpperCase(), bg.toUpperCase()), need = big ? 3 : 4.5;
+    if (r < need) { el.classList.add("lowc"); bad.push({ text: el.firstChild.textContent.trim().slice(0, 40), r }); }
+  });
+  return bad;
+}
+function draw() {
+  const dark = isDark(), ph = document.getElementById("ph");
+  const { t, st } = paint(ph, dark);
+  ph.innerHTML = phoneHTML(S.screen);
+  if (S.bounce) ph.querySelector(".stage")?.classList.add("bouncy");
+  S.bounce = false;
+  document.getElementById("screens").innerHTML = SCREENS.map(([k, l]) => `<button type="button" aria-pressed="${S.screen === k}" data-scr="${k}">${k === "room" ? `${petName()}'s room` : l}</button>`).join("");
+  // read-out
+  const r = S.read, sw = (o, label) => `<span class="sw"><i style="background:${hex(Math.min(0.92, Math.max(0.35, o.L ?? 0.6)), o.C, o.h)}"></i>${label} · ${o.C < 0.035 ? "no hue" : `hue ${Math.round(o.h)}°`}</span>`;
+  document.getElementById("read").innerHTML = r ? `${sw(r.coat, "Coat")}${sw(r.scene, "Photo")}<span class="sw"><i style="background:${t.accent}"></i>Accent</span><span class="sw"><i style="background:${t.primary}"></i>Primary${S.src === "full" && !S.seed.neutral ? "" : " (Goldito green)"}</span><span class="why">${S.src === "goldito" ? "Goldito green: the photo is read but not used." : r.why}</span>` : "Reading the photo…";
+  // token table
+  const checks = { primary: [t.primary, t.primaryText, 4.5, "on primaryText"], text: [t.text, t.background, 4.5, "on background"], textMuted: [t.textMuted, t.background, 4.5, "on background"], placeholder: [t.placeholder, t.surface, 4.5, "on surface"], borderStrong: [t.borderStrong, t.surface, 3, "on surface"], accent: [t.text, t.accent, 4.5, "text on it"],
+    error: [st.error, st.errorSurface, 4.5, "on its surface"], success: [st.success, st.successSurface, 4.5, "on its surface"], warning: [st.warning, st.warningSurface, 4.5, "on its surface"] };
+  const row = (k, v, lock) => { const c = checks[k]; const rt = c ? ratio(c[0], c[1]) : null; return `<tr><td><code>${k}</code></td><td><i style="background:${v}"></i><code>${v}</code></td><td>${c ? `<span class="${rt >= c[2] ? "pass" : "fail"}">${rt.toFixed(1)}:1</span> <span class="lock">${c[3]}${lock ? ` · ${lock}` : ""}</span>` : lock ? `<span class="lock">${lock}</span>` : ""}</td></tr>`; };
+  document.getElementById("tt").innerHTML = `<thead><tr><th>Skin role</th><th>${dark ? "Dark" : "Light"}</th><th>Check</th></tr></thead><tbody>${Object.keys(EXPRESSIVE).map((k) => row(k, t[k])).join("")}
+    <tr><th colspan="3">Never skinned</th></tr>${row("error", st.error, "fixed")}${row("success", st.success, "fixed")}${row("warning", st.warning, "fixed")}${row("gold", LOCKED.gold, "brand tag")}${["mint", "peach", "butter", "blush"].map((k) => row("block " + k, st[k], dark ? "new dark value" : "color block")).join("")}${row("media", LOCKED.media, "photo letterbox")}</tbody>`;
+  // ramp
+  const h = S.src === "goldito" || !S.seed ? GOLDITO_H : S.seed.h, c = S.src === "goldito" || !S.seed ? 0.09 : Math.max(S.seed.C, 0.03);
+  document.getElementById("ramp").innerHTML = [0.97, 0.93, 0.86, 0.76, 0.65, 0.55, 0.45, 0.36, 0.27, 0.19].map((L) => `<i style="background:${hex(L, c, h)}"></i>`).join("");
+  // controls
+  document.querySelectorAll("[data-k]").forEach((g) => g.querySelectorAll("button").forEach((b) => b.setAttribute("aria-checked", S[g.dataset.k] === b.dataset.v)));
+  document.querySelectorAll("#thumbs [data-i]").forEach((b) => b.setAttribute("aria-checked", PHOTOS[+b.dataset.i] === S.photo));
+  [[TESTS, "t"], [STRESS, "x"]].forEach(([arr, k]) => document.querySelectorAll(`[data-${k}]`).forEach((b) => { const [n, c, kind] = arr[+b.dataset[k]]; b.setAttribute("aria-checked", S.photo === made[n + c + kind]); }));
+  document.querySelectorAll("#flow .step").forEach((b, i) => b.setAttribute("aria-pressed", i === S.step));
+  drawQA();
+}
+// Every hue through the generator: the weakest text pair per mode, so a bad hue shows up without a photo.
+function weakest(t, st) {
+  const pairs = [["primary on primaryText", t.primary, t.primaryText, 4.5], ["text", t.text, t.background, 4.5], ["textMuted", t.textMuted, t.surface, 4.5], ["placeholder", t.placeholder, t.surface, 4.5], ["text on accent", t.text, t.accent, 4.5], ["borderStrong", t.borderStrong, t.surface, 3], ["primary as link text", t.primary, t.background, 4.5], ["link on accent", t.primary, t.accent, 4.5], ["error", st.error, st.errorSurface, 4.5]];
+  return pairs.map(([n, a, b, need]) => ({ n, r: ratio(a, b), need })).sort((p, q) => p.r / p.need - q.r / q.need)[0];
+}
+function sweep() {
+  const hues = [...Array.from({ length: 24 }, (_, i) => ({ h: i * 15, C: 0.13, label: `${i * 15}°` })), { h: 60, C: 0.02, label: "cream", neutral: true }, { h: 250, C: 0.015, label: "grey", neutral: true }, { h: 0, C: 0, label: "black or white", neutral: true }];
+  const cell = (w) => `<td class="${w.r >= w.need ? "pass" : "fail"}">${w.r.toFixed(1)}:1 <span class="lock">${w.n}</span></td>`;
+  let bad = 0;
+  const rows = hues.map((h) => { const seed = { h: h.h, C: h.C, neutral: h.neutral };
+    const cols = [["tint", false], ["tint", true], ["full", false], ["full", true]].map(([src, dark]) => { const w = weakest(theme(seed, src, dark), STATUS[dark ? "dark" : "light"]); if (w.r < w.need) bad++; return cell(w); });
+    return `<tr><td><i style="background:${hex(0.6, h.C, h.h)}"></i>${h.label}</td>${cols.join("")}</tr>`; }).join("");
+  document.getElementById("sweep").innerHTML = `<p style="margin:.5rem 0;font-weight:700" class="${bad ? "fail" : "pass"}">${bad ? `${bad} of ${hues.length * 4} combinations fall under the line` : `All ${hues.length * 4} combinations pass`}</p><table class="sweep"><thead><tr><th>Coat hue</th><th>Tint · light</th><th>Tint · dark</th><th>Full · light</th><th>Full · dark</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+// Every screen at once, in this mode or light and dark side by side.
+function drawQA() {
+  const qa = document.getElementById("qa"), modes = S.qa === "pair" ? [false, true] : [isDark()];
+  qa.innerHTML = SCREENS.map(([k, l]) => `<div class="pairg">${modes.map((d) => `<figure><figcaption>${k === "room" ? `${petName()}'s room` : l} · ${d ? "Dark" : "Light"}</figcaption><div class="ph" inert data-dark="${d}" data-scr="${k}"></div></figure>`).join("")}</div>`).join("");
+  qa.querySelectorAll(".ph").forEach((el) => { paint(el, el.dataset.dark === "true"); el.innerHTML = phoneHTML(el.dataset.scr); });
+  requestAnimationFrame(() => {
+    const all = [...qa.querySelectorAll(".ph")].flatMap((el) => legibility(el).map((b) => ({ ...b, where: el.parentElement.querySelector("figcaption").textContent })));
+    legibility(document.getElementById("ph"));
+    document.getElementById("qacount").textContent = all.length ? `${all.length} under the line` : "Every piece of text passes";
+    document.getElementById("qacount").style.color = all.length ? "var(--color-error, #B42318)" : "var(--color-success, #067647)";
+    document.getElementById("qalist").innerHTML = all.slice(0, 40).map((b) => `<span>${b.where}: "${b.text}" ${b.r.toFixed(1)}:1</span>`).join("");
+  });
+}
+function tests() {
+  const tile = (arr, k) => arr.map(([n, c, kind], i) => `<button type="button" role="radio" data-${k}="${i}" aria-label="${n}, ${kind}, coat ${c}" style="background:color-mix(in oklab, ${c} 22%, var(--color-surface))"><img data-ph="${k}${i}" alt=""><span>${n}</span></button>`).join("");
+  document.getElementById("tests").innerHTML = tile(TESTS, "t");
+  document.getElementById("stress").innerHTML = tile(STRESS, "x");
+  [[TESTS, "t"], [STRESS, "x"]].forEach(([arr, k]) => arr.forEach(async ([n, c, kind], i) => { const p = await makePet(n, c, kind); const im = document.querySelector(`[data-ph="${k}${i}"]`); if (im) im.src = p.stk; }));
+}
+async function pickTest(n, c, kind) { S.photo = await makePet(n, c, kind); S.read = null; draw(); await readPhoto(); draw(); }
+function thumbs() {
+  document.getElementById("thumbs").innerHTML = PHOTOS.map((p, i) => `<button type="button" role="radio" data-i="${i}" aria-label="${p.label}"><img src="${p.n ? IMG(p.n) : p.src}" alt=""></button>`).join("") + `<button type="button" class="up" id="upb">Your own photo</button>`;
+}
+const FLOW = [
+  ["Add a photo", "Robert adds Max's profile photo.", { screen: "home" }],
+  ["Goldito cuts Max out", "The same cut-out as Make a sticker.", { screen: "home" }],
+  ["Use Max's colors?", "A preview, then Yes or Not now.", { screen: "home", src: "tint" }],
+  ["Max's room on Home", "The pet card opens it.", { screen: "room", home: false }],
+  ["Chloe's checks fill it", "Meal, walk, nap move the meters.", { screen: "room", home: false }],
+  ["A sticker each night", "The day goes on the shelf.", { screen: "room", home: false, shelfAdd: true }],
+  ["Home safe: it rests", "Between stays it sleeps.", { screen: "room", home: true }],
+];
+function flow() {
+  document.getElementById("flow").innerHTML = FLOW.map(([t, d], i) => `<button type="button" class="step" data-step="${i}"><span class="n">${i + 1}</span><b>${t}</b><span>${d}</span></button>`).join("");
+}
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.id === "upb") { document.getElementById("file").click(); return; }
+  if (b.dataset.i) { S.photo = PHOTOS[+b.dataset.i]; S.read = null; draw(); await readPhoto(); draw(); return; }
+  if (b.dataset.t) { const [n, c, k] = TESTS[+b.dataset.t]; await pickTest(n, c, k); return; }
+  if (b.dataset.x) { const [n, c, k] = STRESS[+b.dataset.x]; await pickTest(n, c, k); return; }
+  if (b.id === "sweepgo") { sweep(); return; }
+  const g = b.closest("[data-k]");
+  if (g && b.dataset.v) { S[g.dataset.k] = b.dataset.v; if (g.dataset.k === "neutral") await readPhoto(); draw(); return; }
+  if (b.dataset.go) { if (b.dataset.go !== S.screen) S.hist.push(S.screen); S.screen = b.dataset.go; draw(); return; }
+  if (b.dataset.back) { S.screen = S.hist.pop() || "home"; draw(); return; }
+  if (b.dataset.scr) { S.hist = b.dataset.scr === "home" ? [] : ["home"]; S.screen = b.dataset.scr; draw(); return; }
+  if (b.dataset.agree) { S.agree = !S.agree; draw(); return; }
+  if (b.dataset.care) { S.care[b.dataset.care]++; S.last = b.dataset.care; draw(); S.bounce = true; document.querySelector(".stage")?.classList.add("bouncy"); return; }
+  if (b.dataset.rest) { S.home = b.dataset.rest === "1"; draw(); return; }
+  if (b.dataset.step) {
+    const i = +b.dataset.step, f = FLOW[i][2]; S.step = i;
+    Object.assign(S, { screen: f.screen }); if ("home" in f) S.home = f.home; if (f.src) S.src = f.src; if (f.shelfAdd) S.shelf = Math.min(5, S.shelf + 1);
+    draw(); document.getElementById("ph").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" }); return;
+  }
+});
+document.getElementById("file").addEventListener("change", async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const p = { src: URL.createObjectURL(f), pet: "Your pet", label: "Your photo" };
+  PHOTOS.push(p); S.photo = p; thumbs(); await readPhoto(); draw();
+});
+sys.addEventListener("change", () => draw());
+document.getElementById("anyc").addEventListener("change", (e) => pickTest("Your color", e.target.value.toUpperCase(), "dog"));
+window.addEventListener("goldito-theme", () => setTimeout(draw, 0));
+thumbs(); tests(); flow(); draw(); readPhoto().then(draw);
+// For the Figma plugin's Tickets tab (Oct 25): the same screens in Goldito green, a pet's colors, and dark.
+window.__ticket = { id: "tone", title: "Pet tone and dark mode (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/tone-trial.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal, Oct 25; seven calls for the team on the page" },
+    { q: "Tokens", a: "Only the 11 SkinColors in themes.ts change; error, success, warning, gold and media never do; color blocks get dark values" },
+    { q: "Colors", a: "Goldito green (default), Tint (grounds and highlights follow the pet), Full (buttons too); white, black and grey coats keep green" },
+    { q: "Dark mode", a: "The same roles in dark; status colors have dark versions; every text pair checked at 4.5:1 (3:1 for outlines)" },
+    { q: "Max's room", a: "A tamagotchi only real check-ins move: never sad, rests between stays, a sticker a day on its shelf" }],
+  spec: [], specLinks: [],
+  notes: [["Seven calls for the team (recommendations)", [...document.querySelectorAll("#q-h ~ .qs .q")].map((q) => q.querySelector("b .en").textContent + " → " + q.querySelector(".rec").textContent).join("\n")],
+    ["Tokens", "Only the 11 SkinColors in frontend/theme/themes.ts change. Locked: error, success, warning (and surfaces), gold, cream, media. Color blocks need dark values: mint #1F3A2C, peach #3F2C1E, butter #3A3218, blush #40251F. Text on a block is always full strength."]] };
+const tst = async (pick, src, mode, screen) => { S.photo = typeof pick === "number" ? PHOTOS[pick] : await makePet(...pick); Object.assign(S, { src, mode, screen, hist: [] }); await readPhoto(); draw(); };
+const GOLDIE = ["Goldie", "#C9973F", "dog"];
+window.__ticketStates = [
+  { cap: "tone-home-goldito", on: "tone-home-max", title: "Pet tone · Home · Goldito green", go: () => tst(0, "goldito", "light", "home") },
+  { cap: "tone-home-goldie", on: "tone-home-max", title: "Pet tone · Home · Goldie, Tint", go: () => tst(GOLDIE, "tint", "light", "home") },
+  { cap: "tone-home-mochi-full", on: "tone-home-max", title: "Pet tone · Home · Mochi, Full", go: () => tst(3, "full", "light", "home") },
+  { cap: "tone-home-dark", on: "tone-home-max", title: "Pet tone · Home · Goldie, Tint, dark", go: () => tst(GOLDIE, "tint", "dark", "home") },
+  { cap: "tone-room", on: "tone-home-max", title: "Pet tone · Goldie's room", go: () => tst(GOLDIE, "tint", "light", "room") },
+  { cap: "tone-moments", on: "tone-home-max", title: "Pet tone · Moments", go: () => tst(GOLDIE, "tint", "light", "feed") },
+  { cap: "tone-chat", on: "tone-home-max", title: "Pet tone · Chat with a quote", go: () => tst(GOLDIE, "tint", "light", "chat") },
+  { cap: "tone-checkout", on: "tone-home-max", title: "Pet tone · Checkout", go: () => tst(GOLDIE, "tint", "light", "book") },
+  { cap: "tone-treat", on: "tone-home-max", title: "Pet tone · Treat check danger", go: () => tst(GOLDIE, "tint", "light", "alert") },
+  { cap: "tone-settings-dark", on: "tone-home-max", title: "Pet tone · Settings, dark", go: () => tst(GOLDIE, "tint", "dark", "settings") },
+];
+</script></body></html>

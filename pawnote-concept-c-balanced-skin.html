@@ -452,7 +452,7 @@ button{font-family:inherit;color:inherit}
   align-items:center;justify-content:center;gap:.5rem;text-align:center;padding:2rem;opacity:0;pointer-events:none;
   transition:opacity .35s cubic-bezier(.2,.8,.2,1)}
 .welcome.show{opacity:1;pointer-events:auto}
-.welcome .walk{position:relative;width:11rem;height:6rem;margin-bottom:.5rem}
+.welcome .walk{position:relative;width:11rem;height:6rem;margin-bottom:.5rem} .welcome.up .walk{width:6rem;height:11rem}
 .welcome .pp{position:absolute;width:1.5rem;height:1.5rem;color:var(--primary);opacity:0}
 .welcome.show .pp{animation:pawStep 1.2s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:var(--d)}
 @keyframes pawStep{0%{opacity:0;transform:rotate(var(--r)) scale(.3)}16%{opacity:1;transform:rotate(var(--r)) scale(1.15)}
@@ -646,7 +646,7 @@ button{font-family:inherit;color:inherit}
 
     <div class="welcome" id="welcome" aria-live="polite">
       <div class="walk" id="welcomeWalk" aria-hidden="true"></div>
-      <h2 id="welcomeTitle">Welcome home</h2>
+      <h2 id="welcomeTitle">Welcome to Goldito</h2>
       <p id="welcomeSub">Here's today with your sitter.</p>
     </div>
 
@@ -2478,7 +2478,7 @@ const Onboard = (() => {
     if (h === "owner" || h === "sitter") { O.role = h; O.flow = h; O.i = 2; render(); }
     else if (h === "login") { O.flow = "login"; O.i = 1; render(); }
     else if (h === "app") skip();
-    else if (h === "splash") skip(() => A.splash());
+    else if (h === "splash" || h === "splash-across") skip(() => A.splash(h === "splash-across" ? "across" : "up"));
     else if (h === "care" || h === "check" || h === "treat" || /^stage-[1-5]$/.test(h)) {
       const target = /^stage-/.test(h) ? Number(h.slice(6)) - 1 : h;
       skip(() => Journey.jump(target));
@@ -2996,14 +2996,23 @@ function keepTheme(){
 const reduceMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 // A short trail of paw prints walks in once, then the app is revealed. Skipped under Reduce motion.
-function welcomeWalk(){
+function welcomeWalk(dir = "up"){
   if(reduceMotion()) return;
   const w = $("#welcome");
-  $("#welcomeTitle").textContent = `Welcome home, ${petName()}`;
-  $("#welcomeSub").textContent = `You're all set. Plan a stay with ${SITTER.name} whenever you're ready.`;
-  const steps = [[8,62,-18],[30,40,14],[52,58,-14],[74,34,16],[96,50,-10],[118,26,12]];
-  $("#welcomeWalk").innerHTML = steps.map(([x,y,r],i) =>
-    `<svg class="paw pp" style="left:${x}%;top:${y}%;--r:${r}deg;--d:${i*0.13}s"><use href="#i-paw"/></svg>`).join("");
+  $("#welcomeTitle").textContent = "Welcome to Goldito";
+  $("#welcomeSub").textContent = `Leave your pet. Keep your peace of mind. ${petName()} is all set.`;
+  // Four prints, alternating left and right feet, each pointing the way it walks. Every print sits inside the
+  // box (its centre is placed, not its corner), so the trail stays centred on the screen.
+  // "up" (the default) walks bottom to top; "across" walks left to right.
+  const n = 4, prints = Array.from({length:n}, (_, i) => {
+    const t = i / (n - 1), side = i % 2 ? 1 : -1;
+    return dir === "across"
+      ? [12 + t * 76, 50 + side * 14, 90 + side * 8]
+      : [50 + side * 14, 90 - t * 80, side * 8];
+  });
+  $("#welcomeWalk").innerHTML = prints.map(([x,y,r],i) =>
+    `<svg class="paw pp" style="left:calc(${x}% - .75rem);top:calc(${y}% - .75rem);--r:${r}deg;--d:${(i*0.14).toFixed(2)}s"><use href="#i-paw"/></svg>`).join("");
+  $("#welcome").classList.toggle("up", dir !== "across");
   w.classList.add("show");
   setTimeout(() => w.classList.remove("show"), 1900);
 }

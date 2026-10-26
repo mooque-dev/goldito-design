@@ -1,0 +1,180 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UX Calls Picker</title>
+<meta name="description" content="The twelve UX pattern calls from the Oct 25 audit, each drawn as small phone screens. Tap the option you want, then copy your picks.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 6rem}
+.wrap{max-width:70rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.3rem/1.2 var(--font-display);margin:0}
+p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.call{display:flex;flex-direction:column;gap:12px;padding-top:1.5rem;border-top:1px solid var(--color-border)}
+.ch{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap} .ch .n{font:800 13px var(--font-ui);color:var(--color-primary)} .ch .why{font-size:14px;color:var(--color-text-muted);flex-basis:100%}
+.opts{display:flex;flex-wrap:wrap;gap:14px}
+.opt{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px;border-radius:22px;border:2px solid var(--color-border);background:var(--color-surface);cursor:pointer;font:inherit;color:inherit;width:260px;max-width:100%;text-align:center}
+.opt:hover{border-color:var(--color-border-strong)} .opt[aria-checked=true]{border-color:var(--color-primary);background:var(--color-accent)}
+.opt:focus-visible{outline:3px solid var(--color-primary);outline-offset:2px}
+.opt .lb{display:flex;align-items:center;gap:6px;font-weight:700;font-size:15px} .opt .lb i{font-style:normal;width:24px;height:24px;border-radius:50%;border:2px solid var(--color-border-strong);display:inline-grid;place-items:center;font-size:12px;flex:none}
+.opt[aria-checked=true] .lb i{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-primary-text)}
+.opt .sub{font-size:13px;color:var(--color-text-muted);line-height:1.4}
+.opt .star{font-size:12px;font-weight:800;color:var(--color-primary);background:var(--color-accent);border-radius:999px;padding:1px 9px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--color-surface);border-top:1px solid var(--color-border);padding:10px 1rem calc(10px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;gap:10px;align-items:center;flex-wrap:wrap}
+.bar .cnt{font-weight:700;font-size:14px}
+.bar button{min-height:44px;padding:0 18px;border-radius:999px;font:700 14px var(--font-ui);cursor:pointer;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text)}
+.bar button.p{background:var(--color-primary);color:var(--color-primary-text);border-color:var(--color-primary)}
+.bar output{font:600 13px ui-monospace,Menlo,monospace;color:var(--color-text-muted);max-width:44rem;overflow-wrap:anywhere}
+
+/* ---------- mini phone (Expressive, fixed light) ---------- */
+.ph{width:228px;height:404px;border-radius:30px;border:7px solid #1A1A1A;background:#FBF6EA;color:#1B4332;position:relative;overflow:hidden;font:12px/1.4 'Plus Jakarta Sans',sans-serif;text-align:left;color-scheme:light;flex:none}
+.ph .sb{display:flex;justify-content:space-between;padding:7px 14px 2px;font-weight:700;font-size:10px}
+.ph .hd{display:flex;align-items:center;gap:10px;padding:4px 10px;min-height:34px}
+.ph .hd b{font:600 15px Fredoka,sans-serif;flex:1}
+.ph .bk{display:flex;align-items:center;gap:2px;color:#2D6A4F;font-weight:700;font-size:12px} .ph .bk svg{width:15px;height:15px}
+.ph .pad{padding:4px 12px;display:flex;flex-direction:column;gap:8px}
+.ph h5{margin:0;font:600 17px/1.15 Fredoka,sans-serif}
+.ph .card{background:#fff;border:1px solid #E8DCC4;border-radius:14px;padding:9px;display:flex;flex-direction:column;gap:5px}
+.ph .mut{color:#6B5D4A;font-size:11px}
+.ph .btn{min-height:32px;border-radius:999px;border:0;background:#1B4332;color:#fff;font:700 11.5px 'Plus Jakarta Sans',sans-serif;display:grid;place-items:center;padding:0 10px}
+.ph .btn.s{background:#fff;color:#1B4332;border:1.5px solid #7F6F58} .ph .btn.d{background:#B42318}
+.ph .foot{position:absolute;left:10px;right:10px;bottom:12px;display:flex;flex-direction:column;gap:6px}
+.ph .fld{display:flex;flex-direction:column;gap:3px} .ph .fld span{font-weight:700;font-size:10.5px} .ph .in{min-height:30px;border:1.5px solid #7F6F58;border-radius:10px;background:#fff;padding:5px 8px;font-size:11px;color:#1B4332}
+.ph .in.bad{border-color:#B42318} .ph .err{color:#B42318;font-size:10.5px;font-weight:600}
+.ph .scrim{position:absolute;inset:0;background:rgba(10,10,10,.42)}
+.ph .sheet{position:absolute;left:0;right:0;bottom:0;background:#FBF6EA;border-radius:20px 20px 0 0;padding:10px 12px 14px;display:flex;flex-direction:column;gap:7px}
+.ph .sheet .grab{width:30px;height:4px;border-radius:2px;background:#CBBFA8;align-self:center}
+.ph .shd{display:flex;align-items:center} .ph .shd b{flex:1;font:600 14px Fredoka,sans-serif} .ph .shd .cl{color:#1B4332;font-weight:700;font-size:11px}
+.ph .toast{position:absolute;left:10px;right:10px;bottom:14px;background:#1B4332;color:#fff;border-radius:12px;padding:8px 10px;display:flex;align-items:center;gap:7px;font-weight:700;font-size:11px;overflow:hidden}
+.ph .toast .u{margin-left:auto;color:#D8F3DC;text-decoration:underline} .ph .toast.err{background:#B42318} .ph .toast.ok svg{width:14px;height:14px;color:#75E0A7}
+.ph .toast .tb{position:absolute;left:0;bottom:0;height:3px;background:#F4C35A;width:100%}
+.ph .banner{background:#FFFAEB;color:#1B4332;border-radius:10px;padding:7px 9px;font-size:11px} .ph .banner b{color:#B54708;display:block}
+.ph .banner.e{background:#FEF3F2} .ph .banner.e b{color:#B42318}
+.ph .tabbar{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-around;padding:6px 4px 9px;background:#fff;border-top:1px solid #E8DCC4;font:600 8.5px 'Plus Jakarta Sans',sans-serif;color:#6B5D4A}
+.ph .photo{position:absolute;inset:0;background:#000} .ph .photo img{width:100%;height:100%;object-fit:cover}
+.ph .xbtn{position:absolute;top:28px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;font-size:15px;font-weight:700}
+.ph .fade{position:absolute;left:0;right:0;bottom:0;padding:40px 12px 14px;background:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,.8) 40%);color:#fff;font-size:11px}
+.ph .sk{background:linear-gradient(90deg,#EFE6D6 0%,#F8F2E6 50%,#EFE6D6 100%);background-size:200% 100%;border-radius:10px;animation:shim 1.2s linear infinite}
+@keyframes shim{to{background-position:-200% 0}}
+.ph .spin{width:26px;height:26px;border-radius:50%;border:3px solid #E8DCC4;border-top-color:#1B4332;animation:sp .8s linear infinite;margin:150px auto 0}
+@keyframes sp{to{transform:rotate(360deg)}}
+.ph .url{margin:4px 8px 0;background:#fff;border:1px solid #E8DCC4;border-radius:999px;padding:4px 8px;font:600 9.5px ui-monospace,Menlo,monospace;display:flex;gap:6px;align-items:center;color:#4A3F31}
+.ph .url .ar{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;color:#1B4332}
+.ph .prog{height:5px;border-radius:3px;background:#E8DCC4;overflow:hidden} .ph .prog b{display:block;height:100%;background:#1B4332}
+.ph .bigq{font:600 16px/1.2 Fredoka,sans-serif}
+.ph .opt2{border:1.5px solid #7F6F58;border-radius:12px;padding:9px;background:#fff;font-weight:700}
+.ph .chips{display:flex;flex-wrap:wrap;gap:5px} .ph .chip{border:1.5px solid #7F6F58;border-radius:999px;padding:3px 9px;font-weight:600;font-size:10.5px;background:#fff} .ph .chip.on{background:#D8F3DC;border-color:#1B4332}
+.ph .badge{position:absolute;top:30px;right:14px;min-width:16px;height:16px;border-radius:8px;background:#B42318;color:#fff;font:800 9px/16px 'Plus Jakarta Sans',sans-serif;text-align:center;padding:0 4px}
+.ph .bell{position:absolute;top:28px;right:22px;width:20px;height:20px}
+.ph .row{display:flex;align-items:center;gap:6px} .ph .row .sp{flex:1}
+.ph .pill{display:inline-block;border-radius:999px;padding:2px 8px;font-weight:800;font-size:9.5px;background:#FFFAEB;color:#B54708}
+.ph .x{color:#6B5D4A;font-size:10px;text-decoration:line-through}
+@media (prefers-reduced-motion:reduce){.ph *{animation:none!important}}
+</style><script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:.6rem">
+  <span class="eyebrow">Pick · Oct 25</span>
+  <h1><span class="en">Twelve calls, drawn</span><span class="ko">결정 열둘, 그림으로</span></h1>
+  <p class="lede"><span class="en">Each call from the UX audit as small phone screens. Tap the one you want; ★ is my recommendation and what DESIGN.md assumes. Your picks stay in this browser; Copy my picks gives you one line to paste back to me.</span><span class="ko">UX 점검의 결정마다 작은 폰 화면으로. 원하는 것을 누르세요; ★는 제 추천이자 DESIGN.md의 가정. 고른 건 이 브라우저에 남고, 내 선택 복사로 한 줄을 붙여 보내 주세요.</span></p>
+  <p style="font-size:14px"><a href="ux-audit.html#calls">The same calls as a list, with the findings behind each</a></p>
+</header>
+<div id="calls"></div>
+</div>
+<div class="bar"><span class="cnt" id="cnt"></span><output id="out"></output><button type="button" id="reset">Clear</button><button type="button" class="p" id="copy">Copy my picks</button></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="#1B4332" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+</svg>
+<script>
+const IMG = (n) => `assets/feed-trial/${n}.jpg`;
+const ic = (n) => `<svg aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const P = (inner) => `<div class="ph" aria-hidden="true"><div class="sb"><span>6:30</span><span>●●●</span></div>${inner}</div>`;
+const tabs = `<div class="tabbar"><span>Home</span><span>Bookings</span><span>Chat</span><span>Moments</span><span>Snap</span></div>`;
+const bookingBody = `<div class="pad"><div class="card"><b>Oct 22 to 26 · Boarding</b><span class="mut">Chloe · Max and Mochi</span></div><div class="card"><b>Drop-off</b><span class="mut">Thu 7:30 AM · Chloe drives</span></div></div>`;
+const noteForm = (t) => `<div class="hd"><span class="bk">${ic("back")}Back</span><b>Diary page</b></div><div class="pad"><div class="fld"><span>Today with Max</span><div class="in" style="min-height:90px">${t}</div></div></div>`;
+const toast = (txt, cls = "", undo = false, bar = "") => `<div class="toast ${cls}">${cls === "ok" ? ic("check") : ""}<span>${txt}</span>${undo ? '<span class="u">Undo</span>' : ""}${bar}</div>`;
+
+const CALLS = [
+  { n: "U1", q: "Back on detail screens", why: "About 37 screens show the chevron only; DESIGN.md says chevron + Back.", rec: "A",
+    o: [["A", "Chevron + Back", "What Settings and Log in already do", P(`<div class="hd"><span class="bk">${ic("back")}Back</span><b style="text-align:center">Booking</b><span style="width:40px"></span></div>${bookingBody}`)],
+        ["B", "Chevron only", "iOS style; what most screens show now", P(`<div class="hd"><span class="bk">${ic("back")}</span><b style="text-align:center">Booking</b><span style="width:20px"></span></div>${bookingBody}`)]] },
+  { n: "U2", q: "Leaving with something typed", why: "Today every sheet and form drops typed text without asking.", rec: "A",
+    o: [["A", "Keep a draft", "Leave freely; it's waiting when you come back", P(`${noteForm("Max ate every bite, then we walked by the lake and he")}<div class="pad"><span class="pill" style="background:#ECFDF3;color:#067647;align-self:flex-start">Draft kept · 6:31</span></div>`)],
+        ["B", "Ask first", "Leaving shows Discard?", P(`${noteForm("Max ate every bite, then we walked by the lake and he")}<div class="scrim"></div><div class="sheet"><span class="grab"></span><div class="shd"><b>Discard your page?</b></div><span class="mut">What you wrote will be gone.</span><div class="btn">Keep editing</div><div class="btn d">Discard</div></div>`)],
+        ["C", "Both", "Drafts in long flows, ask in sheets", P(`<div class="pad" style="padding-top:20px"><div class="card"><b>Owner setup, care request</b><span class="pill" style="background:#ECFDF3;color:#067647;align-self:flex-start">Draft kept</span></div><div class="card"><b>A sheet with a note</b><span class="mut">Close asks: Discard your note?</span><div class="row"><div class="btn" style="flex:1">Keep editing</div><div class="btn d" style="flex:1">Discard</div></div></div></div>`)]], recOverride: "C" },
+  { n: "U3", q: "How long Undo stays", why: "Today 5 s in DESIGN.md, 6 s in the toast, 8 s in the care request. The bars run in real time.", rec: "B",
+    o: [5, 6, 8].map((sec, k) => [["A", "B", "C"][k], `${sec} seconds`, k === 1 ? "The toast's value today" : k === 0 ? "DESIGN.md before" : "The care request today",
+        P(`<div class="pad"><h5>Moments</h5><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">${["mumu_lake_walk", "mumu_green_toy", "mumu_window_nap"].map((n) => `<img src="${IMG(n)}" alt="" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px">`).join("")}</div></div>${toast("Photo hidden", "", true, `<span class="tb" data-dur="${sec}"></span>`)}`)]) },
+  { n: "U4", q: "Closing a full-screen photo", why: "One viewer has ‹ top left (it reads as Back), the other ✕ top right.", rec: "A",
+    o: [["A", "✕ top left", "Next to where Back usually is; labelled Close", P(`<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="xbtn" style="left:10px">✕</span><div class="fade">Max · 6:30<br>Party hat, day 3</div>`)],
+        ["B", "✕ top right", "Like most photo apps' Close", P(`<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="xbtn" style="right:10px">✕</span><div class="fade">Max · 6:30<br>Party hat, day 3</div>`)],
+        ["C", "‹ top left", "What Moments does today", P(`<div class="photo"><img src="${IMG("mumu_party_hat")}" alt=""></div><span class="xbtn" style="left:10px;font-size:20px">‹</span><div class="fade">Max · 6:30<br>Party hat, day 3</div>`)]] },
+  { n: "U5", q: "Signing out", why: "Today it asks, in a Sheet in Settings and inline in the menu, with a red button.", rec: "A",
+    o: [["A", "No confirm", "Tap Sign out, you're out", P(`<div class="pad" style="padding-top:12px"><h5>Settings</h5><div class="card"><span>Notifications</span><span>Privacy</span></div><div class="btn s">Sign out</div></div>${toast("Signed out", "ok")}`)],
+        ["B", "Confirm in a sheet", "One sheet, a plain primary button", P(`<div class="pad" style="padding-top:12px"><h5>Settings</h5><div class="card"><span>Notifications</span><span>Privacy</span></div><div class="btn s">Sign out</div></div><div class="scrim"></div><div class="sheet"><span class="grab"></span><div class="shd"><b>Sign out?</b><span class="cl">Close</span></div><span class="mut">You can sign back in any time.</span><div class="btn">Sign out</div></div>`)]] },
+  { n: "U6", q: "Where errors show", why: "Today five surfaces, chosen per screen; about 30 errors show a green check.", rec: "A",
+    o: [["A", "By job", "Field under the field, screen in a Banner, a failed tap in a red toast", P(`<div class="pad" style="padding-top:10px"><div class="banner"><b>You're offline</b>Changes send when you're back.</div><div class="fld"><span>Email</span><div class="in bad">robert@example</div><span class="err">Add the part after @, like .com</span></div></div>${toast("Not sent. Your note is kept", "err", false, "")}`)],
+        ["B", "Toasts only", "Everything goes to one red toast", P(`<div class="pad" style="padding-top:10px"><div class="fld"><span>Email</span><div class="in">robert@example</div></div></div>${toast("Enter a valid email address", "err")}`)]] },
+  { n: "U7", q: "Loading a screen", why: "53 screens show a spinner only; DESIGN.md asks for skeletons.", rec: "A",
+    o: [["A", "Skeletons, tab screens after the freeze", "The layout appears at once and fills in", P(`<div class="pad" style="padding-top:10px"><span class="sk" style="height:22px;width:60%"></span><span class="sk" style="height:110px"></span><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px"><span class="sk" style="height:60px"></span><span class="sk" style="height:60px"></span><span class="sk" style="height:60px"></span></div><span class="sk" style="height:46px"></span></div>${tabs}`)],
+        ["B", "Spinner", "What the app does today", P(`<div class="spin"></div>${tabs}`)]] },
+  { n: "U8", q: "Browser Back inside a flow", why: "Steps aren't in the URL, so the browser's Back leaves setup from any step.", rec: "B",
+    o: [["A", "Steps in the URL now", "Browser Back goes to step 2", P(`<div class="url"><span class="ar">←</span>/owner-onboarding?step=3</div><div class="pad" style="padding-top:10px"><div class="prog"><b style="width:30%"></b></div><span class="bigq">How old is Max?</span><div class="opt2">3 years</div><span class="mut">← goes to: What breed is Max?</span></div>`)],
+        ["B", "After the freeze", "Until then, browser Back leaves setup (the draft is kept)", P(`<div class="url"><span class="ar">←</span>/owner-onboarding</div><div class="pad" style="padding-top:10px"><div class="prog"><b style="width:30%"></b></div><span class="bigq">How old is Max?</span><div class="opt2">3 years</div><span class="mut">← goes to: Home (draft kept)</span></div>`)]] },
+  { n: "U9", q: "A notification while your toast is up", why: "Today a notification toast replaces yours, Undo included.", rec: "A",
+    o: [["A", "Badge, then queue", "Your Undo stays; the bell counts; their toast waits its turn", P(`<svg class="bell"><use href="#i-bell"/></svg><span class="badge">1</span><div class="pad"><h5>Moments</h5><span class="mut">Chloe shared 3 photos (on the bell)</span></div>${toast("Photo hidden", "", true)}`)],
+        ["B", "Replace", "What happens today: your Undo is gone", P(`<svg class="bell"><use href="#i-bell"/></svg><div class="pad"><h5>Moments</h5></div>${toast("Chloe shared 3 new photos")}`)]] },
+  { n: "U10", q: "A sheet that applies as you tap", why: "Search pickers apply live, so their Close keeps changes, while other sheets' Close throws them away.", rec: "A",
+    o: [["A", "Done only", "One button that means finished", P(`<div class="scrim"></div><div class="sheet" style="top:120px"><span class="grab"></span><div class="shd"><b>Which pets?</b></div><div class="chips"><span class="chip on">Max</span><span class="chip on">Mochi</span></div><div class="chips"><span class="chip">Dog</span><span class="chip on">Cat</span></div><div class="btn" style="margin-top:auto">Done</div></div>`)],
+        ["B", "Close and Done", "Today: both do the same thing", P(`<div class="scrim"></div><div class="sheet" style="top:120px"><span class="grab"></span><div class="shd"><b>Which pets?</b><span class="cl">Close</span></div><div class="chips"><span class="chip on">Max</span><span class="chip on">Mochi</span></div><div class="chips"><span class="chip">Dog</span><span class="chip on">Cat</span></div><div class="btn" style="margin-top:auto">Done</div></div>`)]] },
+  { n: "U11", q: "Booking detail with several actions", why: "Today up to four filled buttons show at once.", rec: "A",
+    o: [["A", "One primary: the next step", "Card actions become secondary", P(`<div class="hd"><span class="bk">${ic("back")}Back</span><b>Booking</b></div><div class="pad"><div class="card"><b>Meet &amp; Greet</b><span class="mut">Sat 10 AM, the park</span><div class="btn s">Change time</div></div><div class="card"><b>Pick-up trip</b><span class="mut">Thu 7:30 AM</span><div class="btn s">Open trip</div></div></div><div class="foot"><div class="btn">Start trip</div></div>`)],
+        ["B", "A primary per card", "What the screen does today", P(`<div class="hd"><span class="bk">${ic("back")}Back</span><b>Booking</b></div><div class="pad"><div class="card"><b>Meet &amp; Greet</b><span class="mut">Sat 10 AM, the park</span><div class="btn">Accept</div></div><div class="card"><b>Pick-up trip</b><span class="mut">Thu 7:30 AM</span><div class="btn">Start trip</div></div></div><div class="foot"><div class="btn">Change time or place</div></div>`)]] },
+  { n: "U12", q: "The word for yes", why: "Today: Accept, I accept, Approve, Confirm quote, Yes we met, I'd like to book.", rec: "A",
+    o: [["A", "Accept everywhere", "Confirm and pay only at checkout", P(`<div class="pad" style="padding-top:12px">${[["Booking request", "Accept"], ["Care request", "Accept"], ["Quote", "Accept"], ["Handoff time", "Accept"]].map(([t, b]) => `<div class="card"><div class="row"><b>${t}</b><span class="sp"></span><div class="btn" style="min-height:28px">${b}</div></div></div>`).join("")}</div>`)],
+        ["B", "Keep each one", "Each card keeps its own word", P(`<div class="pad" style="padding-top:12px">${[["Booking request", "I accept"], ["Care request", "Approve"], ["Quote", "Confirm quote"], ["Handoff time", "Accept"]].map(([t, b]) => `<div class="card"><div class="row"><b>${t}</b><span class="sp"></span><div class="btn" style="min-height:28px">${b}</div></div></div>`).join("")}</div>`)]] },
+];
+const KEY = "goldito-ux-calls";
+let picks = {}; try { picks = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(picks)); } catch (e) {} };
+function draw() {
+  document.getElementById("calls").innerHTML = CALLS.map((c) => { const rec = c.recOverride || c.rec;
+    return `<section class="call" id="${c.n}"><div class="ch"><span class="n">${c.n}</span><h2>${c.q}</h2><span class="why">${c.why}</span></div>
+    <div class="opts" role="radiogroup" aria-label="${c.n} ${c.q}">${c.o.map(([k, l, sub, viz]) => `<button type="button" class="opt" role="radio" aria-checked="${picks[c.n] === k}" data-c="${c.n}" data-k="${k}">${viz}<span class="lb"><i>${picks[c.n] === k ? "✓" : k}</i>${l}</span><span class="sub">${sub}</span>${k === rec ? '<span class="star">★ Recommended</span>' : ""}</button>`).join("")}</div></section>`; }).join("");
+  bars(); summary();
+  // For the Figma plugin: each option's drawing is a frame at its own size
+  document.querySelectorAll(".opt").forEach((b) => { const ph = b.querySelector(".ph"), c = CALLS.find((x) => x.n === b.dataset.c), o = c.o.find((x) => x[0] === b.dataset.k); ph.dataset.cap = `${c.n}-${o[0]}`; ph.dataset.capKeep = "1"; ph.dataset.title = `${c.n} · ${c.q} · ${o[0]} ${o[1]}${(c.recOverride || c.rec) === o[0] ? " ★" : ""}`; });
+}
+function summary() {
+  const n = Object.keys(picks).length;
+  document.getElementById("cnt").textContent = `${n} of ${CALLS.length} picked`;
+  document.getElementById("out").textContent = n ? CALLS.filter((c) => picks[c.n]).map((c) => `${c.n} ${picks[c.n]}`).join(", ") : "";
+}
+// The Undo bars count down in real time; they loop so you can watch them again.
+function bars() {
+  document.querySelectorAll(".tb[data-dur]").forEach((b) => {
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    b.animate([{ width: "100%" }, { width: "0%" }], { duration: +b.dataset.dur * 1000, iterations: Infinity, easing: "linear" });
+  });
+}
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.c) { picks[b.dataset.c] = b.dataset.k; save(); document.querySelectorAll(`[data-c="${b.dataset.c}"]`).forEach((x) => { const on = x.dataset.k === b.dataset.k; x.setAttribute("aria-checked", on); x.querySelector(".lb i").textContent = on ? "✓" : x.dataset.k; }); summary(); return; }
+  if (b.id === "reset") { picks = {}; save(); draw(); return; }
+  if (b.id === "copy") {
+    const t = `UX calls: ${CALLS.map((c) => `${c.n} ${picks[c.n] || "?"}`).join(", ")}`;
+    try { await navigator.clipboard.writeText(t); b.textContent = "Copied"; } catch (err) { document.getElementById("out").textContent = t; b.textContent = "Select the line to copy"; }
+    setTimeout(() => (b.textContent = "Copy my picks"), 1800);
+  }
+});
+draw();
+window.__ticket = { id: "ux-calls", title: "UX patterns: rules and 12 open calls (proposal)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/ux-calls.html", design: "Mook", code: "Minsik",
+  decisions: [{ q: "Status", a: "Proposal, Oct 25. DESIGN.md §7.8, §7.11, §7.12 and §7.13 (branch docs/ux-patterns) assume each ★ pick until the team says otherwise" },
+    { q: "Back, close, leave", a: "Back goes back (chevron + Back, top left, one per screen); Close dismisses (never saves); the primary finishes; typed input is never dropped silently" },
+    { q: "Feedback", a: "Field errors under the field; screen problems in a Banner; quick results in a toast with a tone; destructive confirms in a Sheet with a danger button; reversible acts get Undo; disabled buttons say why" },
+    { q: "Actions", a: "One primary per screen via Screen footer; one word per job (Save, Done, Mark done, Next, Send, Accept, Decline, Try again, Skip); sheet buttons in the footer; 44 px targets" }],
+  spec: [], specLinks: [],
+  notes: [["The 12 calls", CALLS.map((c) => `${c.n} ${c.q}: ${c.o.map((o) => o[0] + " " + o[1]).join(" / ")} · recommended ${c.recOverride || c.rec}`).join("\n")], ["Audit", "55 findings on main (Oct 25), with file and line: https://mooque-dev.github.io/goldito-design/ux-audit.html"]] };
+</script></body></html>

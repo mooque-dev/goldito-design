@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>UX Patterns Audit</title>
+<meta name="description" content="Every back, close, feedback, confirm, action and form behaviour in the app on main, Oct 25: what differs, the rule it should follow in DESIGN.md, and the twelve calls the team still has to make.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:66rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.35rem/1.2 var(--font-display);margin:0} h3{font:600 1.05rem/1.25 var(--font-display);margin:0}
+p{margin:0;max-width:70ch} .lede{font-size:1.05rem;color:var(--color-text-muted)} section{display:flex;flex-direction:column;gap:.875rem;min-width:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.muted{color:var(--color-text-muted)} a{color:var(--color-primary);font-weight:600}
+code{font:600 .8125rem/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:6px;padding:.0625rem .375rem;overflow-wrap:anywhere}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:10px}
+.stat{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.stat b{font:700 1.8rem/1 var(--font-display);font-variant-numeric:tabular-nums} .stat span{font-size:13.5px;color:var(--color-text-muted)}
+.where{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:10px}
+.where a{display:flex;flex-direction:column;gap:2px;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;text-decoration:none;color:var(--color-text)} .where a b{font-size:14.5px} .where a span{font-size:13px;color:var(--color-text-muted);font-weight:500}
+.calls{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,19rem),1fr));gap:10px}
+.call{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.call b{font-size:15px} .call .n{font:800 12px var(--font-ui);color:var(--color-primary)} .call .o{font-size:13.5px;color:var(--color-text-muted)}
+.rec{align-self:flex-start;font-size:13px;font-weight:700;border-radius:999px;padding:3px 11px;background:var(--color-accent);color:var(--color-text)}
+.filters{display:flex;flex-wrap:wrap;gap:6px}
+.filters button{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);font:600 13.5px var(--font-ui);cursor:pointer}
+.filters button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
+.filters button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
+.tscroll{overflow-x:auto;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px}
+table{width:100%;border-collapse:collapse;font-size:14px} th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--color-border);vertical-align:top} th{font-size:12px;color:var(--color-text-muted);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0} td.w{min-width:12rem} td.f{min-width:18rem}
+.tag{display:inline-block;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 9px;white-space:nowrap}
+.tag.fix{background:var(--color-error-surface,#FEF3F2);color:var(--color-error,#B42318)} .tag.dec{background:var(--color-warning-surface,#FFFAEB);color:var(--color-warning,#B54708)} .tag.ok{background:var(--color-success-surface,#ECFDF3);color:var(--color-success,#067647)}
+.cnt{font-size:13px;color:var(--color-text-muted)}
+</style><script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:.6rem">
+  <span class="eyebrow">Audit · Oct 25 · main @ 7489b42</span>
+  <h1><span class="en">UX patterns audit</span><span class="ko">UX 패턴 점검</span></h1>
+  <p class="lede"><span class="en">How the app goes back, closes, gives feedback, confirms, labels its buttons and runs its forms, screen by screen. Each finding names the rule it should follow in DESIGN.md. Where the team hasn't decided yet, it says so.</span><span class="ko">앱이 뒤로 가고, 닫고, 피드백을 주고, 확인을 묻고, 버튼을 이름 짓고, 입력을 받는 방식을 화면별로. 각 항목은 DESIGN.md의 어떤 규칙을 따라야 하는지 적었고, 아직 정하지 않은 건 그렇게 표시했어요.</span></p>
+</header>
+
+<div class="stats">
+  <div class="stat"><b>55</b><span><span class="en">findings</span><span class="ko">발견</span></span></div>
+  <div class="stat"><b>12</b><span><span class="en">calls for the team</span><span class="ko">팀 결정</span></span></div>
+  <div class="stat"><b>19</b><span><span class="en">back and close behaviours</span><span class="ko">뒤로·닫기 방식</span></span></div>
+  <div class="stat"><b>~30</b><span><span class="en">errors shown with a green check</span><span class="ko">초록 체크로 보인 오류</span></span></div>
+  <div class="stat"><b>53</b><span><span class="en">spinner-only screens</span><span class="ko">스피너만 있는 화면</span></span></div>
+</div>
+
+<section>
+  <h2><span class="en">Where everything lives</span><span class="ko">어디에 있나</span></h2>
+  <div class="where">
+    <a href="https://github.com/minsikpaul92/Goldito/blob/docs/ux-patterns/DESIGN.md#78-back-close-and-leaving" target="_blank" rel="noopener"><b>DESIGN.md §7.8, §7.11 to §7.13</b><span class="en">The rules, on the docs/ux-patterns branch. The link works once the branch is pushed</span><span class="ko">규칙, docs/ux-patterns 브랜치. 브랜치를 푸시하면 링크가 열려요</span></a>
+    <a href="#calls"><b><span class="en">The 12 open calls</span><span class="ko">열린 결정 12</span></b><span class="en">Same list as DESIGN.md §7.13, each with a recommendation</span><span class="ko">DESIGN.md §7.13과 같은 목록, 추천 포함</span></a>
+    <a href="#findings"><b><span class="en">All 55 findings</span><span class="ko">발견 55개</span></b><span class="en">Filter by area or by Fix and Decide</span><span class="ko">영역이나 수정·결정으로 거르기</span></a>
+    <a href="intro-trial.html"><b><span class="en">Intro trial</span><span class="ko">인트로 시안</span></b><span class="en">The first-run audit (12 more findings) and its fixes</span><span class="ko">첫 실행 점검 (12개 더)과 수정안</span></a>
+    <a href="feed-trial.html#to-update"><b><span class="en">Moments: what to update</span><span class="ko">모먼츠: 업데이트할 것</span></b><span class="en">The photo viewer and Add photos fixes</span><span class="ko">사진 보기와 사진 추가 수정</span></a>
+    <a href="update-2026-10-25.html"><b><span class="en">Oct 25 doc</span><span class="ko">10/25 문서</span></b><span class="en">The day's summary and what the team needs to do</span><span class="ko">하루 요약과 팀이 할 일</span></a>
+  </div>
+  <p class="muted"><span class="en">Figma: the plugin's decisions board has a Patterns group with these rules (D14 to D16) and the 12 calls as proposals. Re-run the plugin to see them.</span><span class="ko">피그마: 플러그인 결정 보드의 Patterns 그룹에 이 규칙 (D14~D16)과 결정 12개가 제안으로 있어요. 플러그인을 다시 실행하세요.</span></p>
+</section>
+
+<section id="calls">
+  <h2><span class="en">Calls the team still has to make</span><span class="ko">팀이 정해야 할 것</span></h2>
+  <p><a href="ux-calls.html"><b>Pick them with pictures ›</b></a></p>
+  <p class="muted"><span class="en">DESIGN.md is written assuming each recommendation. Say yes, or pick the other option, and I'll update the rule, the plugin and this page.</span><span class="ko">DESIGN.md는 각 추천을 가정하고 썼어요. 좋다고 하거나 다른 안을 고르면 규칙, 플러그인, 이 페이지를 고칠게요.</span></p>
+  <div class="calls" id="callgrid"></div>
+</section>
+
+<section id="findings">
+  <h2><span class="en">Findings</span><span class="ko">발견</span></h2>
+  <p class="muted"><span class="en">Fix means a rule already says what to do; Decide means it waits on a call above. Paths are under frontend/ on main; line numbers are from Oct 25.</span><span class="ko">수정은 규칙이 이미 있는 것, 결정은 위의 결정을 기다리는 것. 경로는 main의 frontend/ 아래, 줄 번호는 10/25 기준.</span></p>
+  <div class="filters" role="group" aria-label="Filter findings" id="flt"></div>
+  <p class="cnt" id="cnt" aria-live="polite"></p>
+  <div class="tscroll"><table><thead><tr><th>#</th><th>Area</th><th>Finding</th><th>Where</th><th>Rule</th><th>Next</th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+</div>
+<script>
+const CALLS = [
+  ["U1", "Native header Back", "Chevron + the word Back (DESIGN.md), or the chevron only (what about 37 screens show)", "Chevron + Back: one line in RoleTabs headerOptions"],
+  ["U2", "Leaving with typed input", "Keep a draft, or ask \"Discard your note?\"", "Drafts for long flows, ask for sheets and forms"],
+  ["U3", "How long Undo stays", "5 s (DESIGN.md before), 6 s (the toast today), 8 s (care request)", "6 s everywhere"],
+  ["U4", "Where a photo viewer's close goes", "✕ top left, or top right", "✕ top left, labelled Close"],
+  ["U5", "Sign out", "Confirm it (done two ways today), or don't", "No confirm: it isn't destructive"],
+  ["U6", "Error surfaces", "Field, Banner, toast with a tone and ErrorDialog by job (§7.11), or toasts only", "By job, and add ErrorDialog to the component list"],
+  ["U7", "Skeletons", "Replace all 53 spinner screens, tab roots only, or after the freeze", "Tab roots, after the freeze"],
+  ["U8", "Steps in the URL", "So browser Back moves one step: now, or after the freeze", "After the freeze"],
+  ["U9", "Notification toasts", "Toast every notification, or only ones not about this screen, queued", "Only off-screen ones, queued"],
+  ["U10", "Sheets that apply as you tap", "Done only, or Close and Done", "Done only"],
+  ["U11", "Booking detail and chat with many primaries", "One primary for the stay's next step, or one per card", "One primary for the next step"],
+  ["U12", "Saying yes", "Accept, I accept, Approve, Confirm quote", "Accept (Confirm and pay only at checkout)"],
+];
+// [area, finding, where, rule, next] next: "fix" or a call id
+const F = [
+  ["Back", "About 37 detail screens show only a chevron, no \"Back\" word", "components/RoleTabs.tsx:84-85", "§7.8", "U1"],
+  ["Back", "Settings and What's New use BackLink; Profile and Privacy, opened from the same menu, use the native header", "app/_layout.tsx:61-66", "§7.8", "fix"],
+  ["Back", "Sitter setup shows three backs: native header (leaves, drops every answer), top chevron and bottom Back (one step)", "app/_layout.tsx:63, components/ownerOnboarding/StepFrame.tsx:43,61", "§7.8 rule 1", "fix"],
+  ["Back", "Owner setup has a top chevron and a bottom Back on every step, doing the same thing", "components/ownerOnboarding/StepFrame.tsx:43,61-63", "§7.8 rule 1", "fix"],
+  ["Back", "Owner setup step 1 has no Back; the only exit, \"Add a pet later\", marks you onboarded for good", "app/owner-onboarding.tsx:246-266", "§7.8 rule 2", "fix"],
+  ["Back", "Sitter setup Review drops the top Back and uses \"Back to edit\" at the bottom", "components/SitterAnswersForm.tsx:330-369", "§7.8", "fix"],
+  ["Back", "Back named for its destination: \"Back to the booking\", \"Back to my pets\", \"‹ Diaries\"", "review.tsx:63, pets/[petId].tsx:56, features/diary/DiaryBook.tsx:210", "§7.8", "fix"],
+  ["Back", "Log in's Back pushes a new Welcome, so the browser's Back lands on Log in again", "app/(auth)/login.tsx:88", "§7.8 rule 6", "fix"],
+  ["Back", "Log in → Sign up pushes, Sign up → Log in replaces: logins can stack", "login.tsx:164, signup.tsx:236", "§7.8 rule 6", "fix"],
+  ["Back", "Paying replaces checkout with the booking, so Back shows the same booking twice (Trip avoids this with dismissTo)", "app/owner/bookings/[bookingId]/checkout.tsx:157", "§7.8 rule 6", "fix"],
+  ["Back", "Notification and chat taps push tab routes from a stack screen, making a second tab bar with no visible back", "features/notifications/NotificationsCenter.tsx:154, components/ChatCareCards.tsx:64,89", "§7.8 rule 6", "fix"],
+  ["Back", "Leaving loses typed input without asking: Profile, pet forms, entry info, Book care, checkout ticks and name, the review form", "app/profile.tsx:448, app/owner/bookings/new.tsx, checkout.tsx", "§7.8 rule 3", "U2"],
+  ["Back", "Every Sheet drops typed input on Close, scrim tap, drag or Escape (diary page, task memo, booking note, decline note)", "components/ui/Sheet.tsx, features/diary/OwnerEntrySheet.tsx, components/TaskDoneSheet.tsx", "§7.8 rule 3", "U2"],
+  ["Back", "Close keeps changes in some sheets and throws them away in others; in one it means \"decline\"", "SitterSearchBar.tsx, HandoffChangeSheet.tsx, ShareLocationSheet.tsx:52", "§7.8 rule 4", "U10"],
+  ["Back", "Sheets with two dismiss buttons: Close and Cancel, Close and Not now", "app/settings.tsx:124-128, ReturnSheet.tsx:58, MeetGreetCard.tsx:344, ShareLocationSheet.tsx:63", "§7.8", "fix"],
+  ["Back", "Photo viewers close differently: \"‹\" top left (read as Close) and \"✕\" top right; both 40 px", "components/FeedViewer.tsx:269-277,603, components/PhotoViewer.tsx:105-148", "§7.8 rule 8", "U4"],
+  ["Back", "The menu drawer's scrim doesn't close it, unlike every sheet", "components/HeaderMenu.tsx:84", "§7.8 rule 5", "fix"],
+  ["Back", "Checkout's error state Back calls router.back() with no fallback", "checkout.tsx:174", "§7.8 rule 6", "fix"],
+  ["Back", "Steps aren't in the URL (tours, both setups), so the browser's Back leaves the flow from any step", "components/OnboardingTour.tsx, app/owner-onboarding.tsx", "§7.8 rule 6", "U8"],
+  ["Feedback", "About 30 failures show as a toast with the default success tone, so an error gets a green check", "providers/ToastProvider.tsx:55,79, components/FeedBrowser.tsx:147-196, components/CareTasksSection.tsx:101-130", "§7.11", "fix"],
+  ["Feedback", "Partial successes (\"Sent, but the stickers weren't saved\") show as successes", "components/ReportComposer.tsx:298,308, features/diary/OwnerEntrySheet.tsx:90,97", "§7.11", "fix"],
+  ["Feedback", "Five ways to report a failed action, mixed for the same job (toast, ErrorDialog, red text, Banner, EmptyState)", "FeedBrowser vs PageActions; CareTasksSection vs HeadsUpSection", "§7.11", "U6"],
+  ["Feedback", "Raw server and setup text reaches users (backend detail, status text, env variable names)", "lib/api.ts:112-116, app/(auth)/login.tsx:101, app/index.tsx:29", "§7.11", "fix"],
+  ["Feedback", "Silent failures: Cancel trip and Leave chat have no error or success feedback", "features/transit/TripScreen.tsx:140-149, useMyChats.ts:33-40", "§7.11", "fix"],
+  ["Feedback", "Loading skeletons are never used; 53 screens show a spinner only, including every tab", "components/ui/LoadingView.tsx usages", "§7.11, §10", "U7"],
+  ["Feedback", "No \"Still loading…\" at 10 s and no offline Banner anywhere", "components/ui/Banner.tsx (offline tone unused)", "§10", "fix"],
+  ["Feedback", "Busy labels: \"Saving…\" on I accept, Received and Next; \"Working…\", \"Please wait…\"; three dots \"...\"", "app/sitter/bookings/[bookingId]/index.tsx:428-472, components/pet/PetColorsSheet.tsx:76", "§7.11", "fix"],
+  ["Feedback", "Pay keeps its label while paying; Delete sticker has no busy state (double tap possible)", "checkout.tsx:255, features/snap/StickerScreen.tsx:354", "§7.11", "fix"],
+  ["Feedback", "About 15 buttons are disabled with no reason shown (Log in, Sign up, onboarding Next, review, check-in)", "login.tsx:140, signup.tsx:225, owner-onboarding.tsx:251", "§7.11", "fix"],
+  ["Feedback", "Destructive confirms use primary (Cancel booking, Decline, Delete task, Clear all, Reset) while Sign out uses danger", "app/owner/bookings/[bookingId]/index.tsx:397, CareTasksSection.tsx:284, settings.tsx:126", "§7.11", "U5"],
+  ["Feedback", "No confirm and no Undo: pet photo delete, Heads-up remove, Cancel trip, Leave chat, notification delete", "PetAvatarEditor.tsx:110, HeadsUpSection.tsx:64-71, TripScreen.tsx:219", "§7.11", "fix"],
+  ["Feedback", "Undo exists once, as a custom 8 s bar; the toast's 6 s Undo is never used", "app/owner/pets/[petId]/care-request.tsx:36,328", "§7.11", "U3"],
+  ["Feedback", "Swipe-only deletes with no visible button (Leave chat, notifications), labelled \"🗑️ Delete\"", "components/ChatList.tsx:44, NotificationsCenter.tsx:211", "§7.7, §7.11", "fix"],
+  ["Feedback", "Owner Bookings has no empty state (the section hides); not-found screens have no Back", "app/owner/(tabs)/bookings.tsx:244, app/owner/pets/[petId].tsx", "§7.5, §7.11", "fix"],
+  ["Feedback", "Same success, different words: \"was told\", \"gets a notice\", \"can see it\"; two favourite messages", "QuickCheckIn.tsx:74, FavoriteHeart.tsx:36", "§7.11", "fix"],
+  ["Feedback", "Every notification becomes a toast and can replace your own toast or Undo; badge caps differ (9+, 99+, none)", "providers/NotificationsProvider.tsx:118, NotificationBell.tsx:37", "§7.11", "U9"],
+  ["Actions", "Pinned footers built four ways; toasts only rise above one of them, so they can cover Pay", "components/ui/Screen.tsx:322, checkout.tsx:245, home-access.tsx:134", "§7.12", "fix"],
+  ["Actions", "Several filled primaries on booking detail, chat, care request, pet profile and the report", "app/owner/bookings/[bookingId]/index.tsx, app/chat/[threadId].tsx", "§7.1, §7.12", "U11"],
+  ["Actions", "The same action has different weight on sibling screens (Change time or place, Decline)", "owner booking :371 vs sitter booking :347", "§7.12", "fix"],
+  ["Actions", "\"Done\" means four things; \"Next\" also sends a request on the sitter's booking", "SitterSearchBar.tsx:100, TodayTasks.tsx:95, sitter booking :428", "§7.12", "fix"],
+  ["Actions", "Saying yes has six words: Accept, I accept, Approve, Confirm quote, Yes we met, I'd like to book", "ProposalCard.tsx:83, ChatQuoteCard.tsx:100", "§7.12", "U12"],
+  ["Actions", "Skip has five words: Skip, Skip all, Skip all for now, Skip questions, Add a pet later", "StepFrame.tsx:46,57, SitterAnswersForm.tsx:119", "§7.12", "fix"],
+  ["Actions", "Emoji and glyphs in buttons: ✏️ Edit, ↗ Share, ⬇ Download, 🔗 Copy, 📷, 📸, 🏅, + Add, ‹ Diaries", "FeedViewer.tsx:229, SharePageSheet.tsx:112-124", "§7.6, §7.12", "fix"],
+  ["Actions", "Headers come in six styles; sibling screens differ; three screens repeat their title in the page", "RoleTabs.tsx, settings.tsx:73, checkout.tsx:187", "§7.12", "fix"],
+  ["Actions", "Two step frames: StepHeader (documented as the one look) and StepFrame (shipped)", "components/ui/StepHeader.tsx, StepFrame.tsx", "§7.12", "fix"],
+  ["Actions", "Edit, add and confirm surfaces chosen per feature (sheet, screen or inline for the same job)", "CareTasksSection.tsx:369, OwnerNote.tsx:86, PetForm.tsx:143", "§7.12", "fix"],
+  ["Actions", "About 10 sheets put their buttons in the scrolling body, so the confirm can scroll away", "settings.tsx:126, DemoTools.tsx:71, PageActions.tsx:63", "§7.12", "fix"],
+  ["Actions", "Pets are picked six ways; selected looks four ways; selection is announced four ways", "SnapPets.tsx:69, SitterToday.tsx:215, FeedPetPicker.tsx", "§7.12", "fix"],
+  ["Actions", "Screens opened by text links or secondary buttons, and cards that open with no ›", "BookingTicket.tsx:80, LatestCard.tsx:54, pets/[petId].tsx:81", "§6.2, §7.12", "fix"],
+  ["Actions", "Facts drawn as outlined chips (service, Heads-up items) look tappable", "app/owner/bookings/[bookingId]/index.tsx:223, HeadsUpSection.tsx:87", "§6.2", "fix"],
+  ["Actions", "Six fields have no label; optional is marked on some screens and not others; no \"e.g.\" placeholders", "app/profile.tsx:470,516, AddPhotoSheet.tsx:231, home-access.tsx:97-131", "§7.12", "fix"],
+  ["Actions", "Birthday is typed as text \"YYYY-MM-DD\"", "components/PetForm.tsx:107-110", "§7.10", "fix"],
+  ["Actions", "Save errors go to inline text on some screens and a toast on others; validation runs three different ways", "PetForm.tsx:170, home-access.tsx:85", "§7.11, §7.12", "fix"],
+  ["Actions", "Tap targets under 44 px: pet photo − 24, Pager 32, checkbox 28, chip ✕ about 29, filters and pet chips about 40", "PetAvatarEditor.tsx:149, Pager.tsx:153, SitterToday.tsx:422, Chip.tsx", "§9", "fix"],
+  ["Actions", "Two buttons hard-code the brand green, so they don't follow a pet skin", "app/owner/(tabs)/index.tsx:122, bookings.tsx:277", "§7.12", "fix"],
+];
+document.getElementById("callgrid").innerHTML = CALLS.map(([n, t, o, r]) => `<div class="call" id="${n}"><span class="n">${n}</span><b>${t}</b><span class="o">${o}</span><span class="rec">Recommend: ${r}</span></div>`).join("");
+const AREAS = [["all", "All"], ["Back", "Back and close"], ["Feedback", "Feedback and states"], ["Actions", "Actions and forms"], ["fix", "Fix"], ["decide", "Decide"]];
+let cur = "all";
+function draw() {
+  const show = F.map((x, i) => [i + 1, ...x]).filter(([, a, , , , n]) => cur === "all" || cur === a || (cur === "fix" && n === "fix") || (cur === "decide" && n !== "fix"));
+  document.getElementById("rows").innerHTML = show.map(([i, a, f, w, r, n]) => `<tr><td>${i}</td><td>${a}</td><td class="f">${f}</td><td class="w"><code>${w}</code></td><td>${r}</td><td>${n === "fix" ? '<span class="tag fix">Fix</span>' : `<a class="tag dec" href="#${n}">Decide ${n}</a>`}</td></tr>`).join("");
+  document.getElementById("cnt").textContent = `${show.length} of ${F.length} findings`;
+  document.getElementById("flt").innerHTML = AREAS.map(([k, l]) => `<button type="button" data-k="${k}" aria-pressed="${cur === k}">${l}</button>`).join("");
+}
+document.getElementById("flt").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { cur = b.dataset.k; draw(); } });
+draw();
+</script></body></html>

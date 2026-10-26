@@ -46,12 +46,16 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--color-primary);outl
 @media (max-width:520px){.sum .in{flex-wrap:nowrap}.sum .txt{min-width:0}#line{display:none}.sum .ok{display:none}.copy{min-height:44px;padding:0 1rem;font-size:.9375rem}}
 #out{position:absolute;left:-9999px;width:1px;height:1px}
 .ok{font-size:.875rem;font-weight:700;color:var(--color-success)}
+.dpill{align-self:flex-start;font-size:12.5px;font-weight:800;border-radius:999px;padding:3px 11px;background:var(--color-success-surface);color:var(--color-success)}
+.opt.decided{border-color:var(--color-success)!important;box-shadow:0 0 0 2px var(--color-success) inset}
+.dban{background:var(--color-success-surface);color:var(--color-text);border-radius:14px;padding:10px 14px;font-size:14.5px;margin:0}
 </style><script src="nav.js" defer></script>
 </head><body><main class="wrap">
 <div class="bar"><span class="eyebrow">Goldito · <span class="en">Team calls</span><span class="ko">팀 결정</span> · <span class="en">Oct 24</span><span class="ko">10/24</span></span></div>
 <section>
   <h1><span class="en">Play and pick: nine quick calls</span><span class="ko">해 보고 고르기: 빠른 결정 아홉 개</span></h1>
   <p class="lede"><span class="en">We tried a lot today in the Feed trial and the Diary comparison. Before Mook builds anything, pick what you like. It takes about ten minutes, works on your phone, and every card links to the exact thing to try.</span><span class="ko">오늘 피드 시안과 다이어리 비교에서 많이 해 봤어요. 무크가 만들기 전에 마음에 드는 걸 골라 주세요. 10분쯤 걸리고 폰에서도 되며, 카드마다 해 볼 곳으로 바로 가는 링크가 있어요.</span></p>
+  <p class="dban"><span class="en"><b>All nine calls are decided</b> (Minsik, Oct 25). Each card shows the pick; the Moments trial now opens with them.</span><span class="ko"><b>아홉 결정 모두 완료</b> (민식님, 10/25). 각 카드에 결정이 표시되고, 모먼츠 시안은 이제 그대로 열려요.</span></p>
   <div class="steps">
     <div class="step"><span class="n">1</span><span><b><span class="en">Play</span><span class="ko">해 보기</span></b><span class="en">Each card's links open the trial already set up.</span><span class="ko">카드 링크가 시안을 맞춰서 열어요.</span></span></div>
     <div class="step"><span class="n">2</span><span><b><span class="en">Pick</span><span class="ko">고르기</span></b><span class="en">Tap one option per card. ★ is Mook's suggestion, not a default.</span><span class="ko">카드마다 하나씩. ★는 무크의 제안이지 기본값이 아니에요.</span></span></div>
@@ -76,10 +80,10 @@ const CALLS = [
     o: [["A", "First filter chip (All pets ▾)", "A standard pattern; tabs keep their width; hidden with one pet", "feed-trial.html", 1], ["B", "Inside the tabs", "Saves the row, but tabs get squeezed", "feed-trial.html#intabs"], ["C", "Avatar row", "Friendly, costs a full row", "feed-trial.html#avatars"]] },
   { q: ["With two pets, Feed opens on…", "펫이 둘이면 피드는…"], img: "assets/notes-1024/c-pages.jpg", ctx: ["Each photo carries the pet's face; notes and pages name the pet.", "사진마다 펫 얼굴; 노트와 페이지마다 이름."],
     o: [["A", "All pets together", "Everything new at once, then narrow", "feed-trial.html", 1], ["B", "One pet at a time", "Like the live app today", "feed-trial.html#now"]] },
-  { q: ["What should we call the Feed tab?", "피드 탭 이름은?"], viz: [["Feed", ""], ["Moments", "g"], ["Journal", ""]], ctx: ["It holds photos and the diary. Try each name in the trial's tab bar.", "사진과 다이어리가 들어 있어요. 시안 탭 바에서 이름을 바꿔 보세요."],
+  { q: ["What should we call the Feed tab?", "피드 탭 이름은?"], viz: [["Feed", ""], ["Moments", "g"], ["Journal", ""]], ctx: ["Decided Oct 25: Moments, shipped in #346. It holds photos and the diary.", "10/25 결정: Moments, #346에 반영. 사진과 다이어리가 들어 있어요."],
     o: [["A", "Feed", "Familiar, reads like social media", "feed-trial.html"], ["B", "Moments", "Covers photos and pages", "feed-trial.html#moments", 1], ["C", "Journal", "Warm, but repeats Diary", "feed-trial.html#journal"]] },
-  { q: ["How should the Diary look back?", "다이어리는 어떻게 돌아볼까?"], img: "assets/notes-1024/c-diary.jpg", ctx: ["Live today: covers, the book and History (7 days).", "지금 라이브: 표지, 책, 히스토리 (7일)."],
-    o: [["A", "Today first only", "Day strip for this stay", "diary-compare.html#a"], ["B", "Today + Calendar", "A photo behind each day, Day to Year", "diary-compare.html#b"], ["C", "Today + Calendar + Footprints", "Footprints as the end-of-stay recap and the pet's year", "diary-compare.html#c", 1]] },
+  { q: ["How should the Diary look back?", "다이어리는 어떻게 돌아볼까?"], img: "assets/notes-1024/c-diary.jpg", ctx: ["Live today: covers, the book and History (7 days). Each Try opens the trial's Diary with those views; diary-compare.html has them side by side.", "지금 라이브: 표지, 책, 히스토리 (7일). Try는 그 보기로 시안 다이어리를 열어요; diary-compare.html에 나란히 있어요."],
+    o: [["A", "Today first only", "Day strip for this stay", "feed-trial.html#diary-daysonly"], ["B", "Today + Calendar", "A photo behind each day, Week to Year", "feed-trial.html#diary-twoviews-cal"], ["C", "Today + Calendar + Footprints", "Footprints as the end-of-stay recap and the pet's year", "feed-trial.html#diary-footprints", 1]] },
   { q: ["Who sees a sticker someone makes?", "만든 스티커는 누가 봐요?"], img: "assets/notes-1024/c-sticker.jpg", ctx: ["Open a photo and tap Make a sticker, or hold the pet. #346 keeps stickers private to the maker.", "사진을 열고 스티커 만들기, 또는 펫을 길게. #346은 만든 사람만 봐요."],
     o: [["A", "The pet's shared sticker box", "Owner and sitter decorate the same pages; Snap works this way today", "feed-trial.html", 1], ["B", "Only the person who made it", "Simpler, as in #346", GH + "pull/346"]] },
   { q: ["Where can an owner ask for a photo?", "보호자는 사진 요청을 어디서?"], viz: [["Ask for one", "g"], ["Chat only", ""]], ctx: ["#346 moves it to Chat. The trial keeps a small link in today's header.", "#346은 채팅으로 옮겨요. 시안은 오늘 머리에 작은 링크."],
@@ -92,6 +96,8 @@ const CALLS = [
     o: [["A", "Plain", "Clear for everyone", "feed-trial.html"], ["B", "A little playful", "Toasts and empty states only", "feed-trial.html#playful", 1], ["C", "Lots", "Buttons and titles too", ""]] },
 ];
 const KEY = "goldito-picks-1024";
+// Decided Oct 25 by Minsik: each card shows the pick (index → option).
+const DECIDED = { 0: "B", 1: "A", 2: "B", 3: "C", 4: "B", 5: "B", 6: "A", 7: "B", 8: "B" };
 let state = { who: "", picks: {}, note: "" };
 try { state = { ...state, ...JSON.parse(localStorage.getItem(KEY) || "{}") }; } catch (e) {}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
@@ -100,8 +106,8 @@ function cards() {
   document.getElementById("cards").innerHTML = CALLS.map((c, i) => {
     const top = c.img ? `<img src="${c.img}" alt="" loading="lazy">` : `<div class="viz" aria-hidden="true">${c.viz.map(([t, g]) => `<span class="${g}">${t}</span>`).join("")}</div>`;
     const plays = c.o.filter((o) => o[3]).map((o) => `<a href="${o[3]}" target="_blank" rel="noopener">Try ${o[0]} ↗</a>`);
-    return `<article class="card">${top}<div class="cb"><div class="q"><span class="k">${i + 1}</span><b>${L(c.q)}</b></div><p class="ctx">${L(c.ctx)}</p>
-      <div class="opts" role="radiogroup" aria-label="${c.q[0]}">${c.o.map(([k, l, h, , rec]) => `<button type="button" class="opt" role="radio" aria-checked="${state.picks[i] === k}" data-i="${i}" data-k="${k}"><span class="l"><span>${k} · ${l}</span>${h ? `<small>${h}</small>` : ""}</span>${rec ? '<span class="star" aria-label="Mook suggests">★</span>' : ""}</button>`).join("")}</div>
+    return `<article class="card">${top}<div class="cb"><div class="q"><span class="k">${i + 1}</span><b>${L(c.q)}</b></div><span class="dpill">${L(["Decided: " + DECIDED[i] + " · " + c.o.find((o) => o[0] === DECIDED[i])[1], "결정: " + DECIDED[i] + " · " + c.o.find((o) => o[0] === DECIDED[i])[1]])}</span><p class="ctx">${L(c.ctx)}</p>
+      <div class="opts" role="radiogroup" aria-label="${c.q[0]}">${c.o.map(([k, l, h, , rec]) => `<button type="button" class="opt${DECIDED[i] === k ? " decided" : ""}" role="radio" aria-checked="${state.picks[i] === k}" data-i="${i}" data-k="${k}"><span class="l"><span>${k} · ${l}</span>${h ? `<small>${h}</small>` : ""}</span>${rec ? '<span class="star" aria-label="Mook suggests">★</span>' : ""}</button>`).join("")}</div>
       <div class="play">${[...new Set(plays)].join("")}</div></div></article>`;
   }).join("");
 }
