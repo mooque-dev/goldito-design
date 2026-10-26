@@ -8,6 +8,7 @@
                 face: [...],             mask | blaze | tan | points | whiteface | spots | stripes | patches | merle
                 body: [...],             saddle | spots | merle | patches | stripes | brindle | points | socks | tan
                 eyes,                    dark | blue | amber | green | hazel | odd
+                mood,                    idle | perk | calm | sleep | love | excited | wink | content | surprised | shy | teary
                 chest, paws,             base | white | coat | tan | dark
                 tail,                    base | wag | curl | tip | none | cat
                 plain,                   true: leave out the base pet's own markings (husky cheeks, beagle saddle…)
@@ -138,7 +139,7 @@
 
   // ---------- heads ----------
   function frontRaw(P, face) {
-    const b = P.b, f = toGrid(face === "blink" ? b.blink : b.snug), n = toGrid(b.snug);
+    const b = P.b, f = toGrid(face === "blink" ? b.blink : face !== "idle" && b.faces && b.faces[face] ? b.faces[face] : b.snug), n = toGrid(b.snug);
     return f.slice(0, 17).concat(n.slice(17));
   }
   function backRaw(P, rows) {
@@ -459,7 +460,8 @@
       stampBody(g, rows, pm, top);
       paintMarksFront(g, P);
       bodyOps(g, pm, P, view);
-      const h = headFront(P, f === 0 ? "idle" : "blink");
+      const mood = recipe.mood || "idle", open = ["idle", "perk", "surprised", "shy", "teary", "love"].includes(mood);
+      const h = headFront(P, f === 0 || !open ? mood : mood === "idle" ? "blink" : mood);
       head = () => put(g, h.t, 4, hy0 + (f % 2) - h.dy);
     } else if (view === "back") {
       stampBody(g, Object.fromEntries(Object.entries(rows).map(([y, r]) => [y, r.replace(/M/g, "F").replace(/p/g, "s")])), pm, top);
@@ -479,7 +481,9 @@
       const s = sideBody(g, P, action, f, pm);
       sideMarksBody(g, P);
       bodyOps(g, pm, P, view);
-      const h = headSide(P, s.eyes);
+      const MOOD_EYES = { sleep: "closed", content: "closed", calm: "closed", excited: "happy", love: "happy", perk: "happy", wink: "happy" };
+      const eyes = s.eyes === "open" && recipe.mood ? MOOD_EYES[recipe.mood] || "open" : s.eyes;
+      const h = headSide(P, eyes);
       head = () => {
         h.t.forEach((r, dy) => r.forEach((c, dx) => { const x = s.hx + dx, y = s.hy - h.dy + dy; if (c !== "." && inb(x, y)) g[y][x] = c; }));
         sideCollar(g, P, s.hx, s.hy);
