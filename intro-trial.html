@@ -44,7 +44,8 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .howc{display:flex;align-items:center;gap:14px;min-height:64px;padding:10px 16px;border-radius:24px;border:0;background:#FBEFC8;color:#1A1A1A;text-align:left;cursor:pointer;font:inherit;width:100%;flex:none}
 .howc img{width:36px;height:36px;flex:none} .howc b{display:block;font-weight:800;font-size:15.5px} .howc small{display:block;font-size:13.5px;color:#1A1A1A} .howc svg{width:22px;height:22px;margin-left:auto;flex:none}
 .legalrow{display:flex;justify-content:center;align-items:center;gap:2px;font-size:12.5px;color:#6B5D4A;margin-top:-8px} .legalrow button{background:none;border:0;color:#6B5D4A;font:inherit;min-height:44px;padding:0 6px;cursor:pointer}
-.backl{display:inline-flex;align-items:center;gap:4px;min-height:44px;background:none;border:0;color:#1B4332;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer;padding:0 4px} .backl svg{width:20px;height:20px}
+/* Back is the ← arrow alone, 44 px, read aloud as Back (D20) */
+.backl{display:inline-grid;place-items:center;width:44px;height:44px;margin-left:-8px;background:none;border:0;color:#1A1A1A;cursor:pointer;padding:0;flex:none} .backl svg{width:24px;height:24px}
 .lgh{font:700 30px/1.1 Fredoka,sans-serif;color:#1B4332;margin:0} .lgu{font-size:13.5px;color:#6B5D4A;margin-top:-10px}
 .lgc{background:#fff;border:1px solid #E8DCC4;border-radius:16px;overflow:hidden;flex:none} .lgc>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;padding:0 16px;border:0;background:none;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#1A1A1A;cursor:pointer;text-align:left} .lgc>button svg{width:20px;height:20px;color:#6B5D4A;flex:none} .lgc:not(.on)>button svg{transform:rotate(-90deg)} .lgc p{padding:0 16px 14px;font-size:14.5px;line-height:1.55;margin:0}
 .ph button:focus-visible,.ph input:focus-visible{outline:3px solid #F4C35A;outline-offset:2px}
@@ -327,10 +328,12 @@ const roleArt = (role, size = 64) => { const k = size / 64, px = (n) => `${Math.
   return role === "owner"
     ? `<span class="rart" style="width:${px(64)};height:${px(64)}"><img src="${A("house")}" alt="" style="left:0;bottom:0;width:${px(50)}"><img class="ph" src="${IMG("mumu_white_table")}" alt="" style="right:0;top:0;width:${px(34)};height:${px(34)}"></span>`
     : `<span class="rart" style="width:${px(64)};height:${px(64)}"><img src="${STK("mumu_party_hat")}" alt="" style="left:0;bottom:${px(2)};height:${px(56)}"><img src="${STK("orange_cat_lying_relaxed")}" alt="" style="right:${px(-4)};bottom:0;height:${px(26)}"><img src="${A("camera")}" alt="" style="right:0;top:${px(4)};width:${px(24)}"></span>`; };
+// The one Back control (D20): the ← arrow, no word.
+const BACK = `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>`;
 const scoreOf = (pw) => (pw.length >= 6) + (pw.length >= 10) + /[0-9]/.test(pw) + /[^A-Za-z0-9]/.test(pw);
 function screen() {
   const f = P.f;
-  const top = (o = {}) => `<div class="topbar">${o.back ? `<button type="button" class="backl" data-p="${o.back}">${ic("back")}Back</button>` : `<span class="brand"><img src="${A("goldito-coin-tight")}" alt="">Goldito</span>`}${o.prog != null ? `<div class="prog" role="progressbar" aria-valuenow="${o.prog}" aria-valuemin="0" aria-valuemax="100"><b style="width:${o.prog}%"></b></div>` : `<span class="sp"></span>`}${o.skip ? `<button type="button" class="skip" data-p="${o.skip}">Skip</button>` : ""}</div>`;
+  const top = (o = {}) => `<div class="topbar">${o.back ? `<button type="button" class="backl" data-p="${o.back}" aria-label="Back">${BACK}</button>` : `<span class="brand"><img src="${A("goldito-coin-tight")}" alt="">Goldito</span>`}${o.prog != null ? `<div class="prog" role="progressbar" aria-valuenow="${o.prog}" aria-valuemin="0" aria-valuemax="100"><b style="width:${o.prog}%"></b></div>` : `<span class="sp"></span>`}${o.skip ? `<button type="button" class="skip" data-p="${o.skip}">Skip</button>` : ""}</div>`;
   switch (P.s) {
     case "boot": return `<div class="celebrate boot2" id="boot">${walk()}<div class="logo"><img src="${A("goldito-coin-tight")}" alt=""><b>Goldito</b></div></div>`;
     case "welcome": return `${top()}<div class="scroll" style="padding-top:2px">
@@ -338,7 +341,7 @@ function screen() {
       <h3>Leave your pet. Keep your peace of mind.</h3><p>Updates from your sitter without asking. Care notes for sitters without typing.</p><button type="button" class="howc" data-p="story"><img src="${A("sticker-paw")}" alt=""><span><b>How it works</b><small>Three short pages, about a minute</small></span>${CHEV_R}</button></div>
       <div class="foot"><button type="button" class="btn" data-p="demo">Try the demo</button>${P.soc ? SOC : ""}<div class="pair"><button type="button" data-p="signup">Sign up with email</button><i aria-hidden="true"></i><button type="button" data-p="login">Log in</button></div><div class="legalrow"><button type="button" data-p="privacy">Privacy</button><span aria-hidden="true">·</span><button type="button" data-p="terms">Terms</button></div></div>`;
     case "privacy": case "terms": { const [title, secs] = LEGAL[P.s];
-      return `<div class="topbar"><button type="button" class="backl" data-p="welcome">${ic("back")}Back</button><span class="sp"></span></div><div class="scroll"><h3 class="lgh">${title}</h3><p class="lgu">Last updated October 24, 2026</p>
+      return `<div class="topbar"><button type="button" class="backl" data-p="welcome" aria-label="Back">${BACK}</button><span class="sp"></span></div><div class="scroll"><h3 class="lgh">${title}</h3><p class="lgu">Last updated October 24, 2026</p>
         ${secs.map(([h, body], i) => `<div class="lgc${P.open === i ? " on" : ""}"><button type="button" data-lg="${i}" aria-expanded="${P.open === i}">${h}${CHEV_D}</button>${P.open === i ? `<p>${body || "The full text is in the app."}</p>` : ""}</div>`).join("")}</div>`; }
     case "story": { const st = STORIES[P.story], last = P.story === STORIES.length - 1;
       return `${top({ back: P.story ? "storyprev" : "welcome", skip: "welcome" })}<div class="story"><div class="vis ${st.bg}">${st.vis}</div><h3 style="font-size:28px">${st.title}</h3><p>${st.body}</p></div>
