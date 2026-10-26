@@ -344,6 +344,16 @@ html.embed main.wrap :has(> .phones)>:not(.phones){display:none!important}
 html.embed main.wrap :has(.phones){margin:0;padding:0;border:0;background:none;box-shadow:none}
 html.embed main.wrap :has(> .phones){display:block!important;width:auto;max-width:none}
 html.embed .phones{grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),24rem));justify-content:center;gap:2rem}
+
+/* Diary page: a sticker icon button for Decorate; the sitter's floating Send */
+.page .top .pgi{display:flex;align-items:center;gap:0;margin-left:auto;flex:none}
+.page .dcb{color:#6B5D4A} .page .dcb.on{background:#D8F3DC;color:#1B4332}
+.pedit{display:inline-flex;align-items:center;gap:6px;align-self:center;min-height:44px;padding:0 12px;border:0;background:none;color:#1B4332;font:700 14px 'Plus Jakarta Sans',sans-serif;cursor:pointer}
+.pedit svg{width:16px;height:16px}
+.fab.send{left:16px;right:16px;justify-content:center}
+.bd.hasfab{padding-bottom:84px}
+.fab.send .go{display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 22px;font-size:16px}
+.fab.send svg{width:18px;height:18px}
 </style><script src="nav.js" defer></script><script src="series.js" defer></script>
 </head><body><main class="wrap">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -449,7 +459,7 @@ html.embed .phones{grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),
     <div class="nt"><b><span class="n">10</span><span class="en">More than one sitter</span><span class="ko">시터가 여럿일 때</span></b><span class="en">Each note and page says who it's from, and Ask for a photo goes to every sitter on the screen. A sitter only ever sees the pets they're sitting. Try "Mochi's sitter: Sam" in the panel: Chloe's phone drops to Max alone and its switcher disappears.</span><span class="ko">노트와 페이지마다 누가 보냈는지 쓰고, 사진 요청은 화면의 모든 시터에게. 시터는 자기가 맡은 펫만 봐요. 패널에서 "모찌의 시터: 샘"을 눌러 보세요: 클로이 폰은 맥스만, 스위처는 사라져요.</span><span class="src">Mook, Oct 24</span></div>
     <div class="nt"><b><span class="n">11</span><span class="en">What to call the tab</span><span class="ko">탭 이름</span></b><span class="en">"Feed" reads like social media and says nothing about the diary inside. Moments covers photos and the day's pages, and sits well beside Photos · Diary. Journal is warm but repeats Diary. Decided: Moments, and the trial opens with it.</span><span class="ko">"피드"는 SNS처럼 읽히고 안의 다이어리를 말해 주지 않아요. Moments는 사진과 그날 페이지를 다 담고 사진 · 다이어리 옆에 잘 어울려요. Journal은 따뜻하지만 Diary와 겹쳐요. 결정: Moments.</span><span class="src">Decided Oct 25 · shipped in #346</span></div>
     <div class="nt"><b><span class="n">12</span><span class="en">New parts for the kit</span><span class="ko">키트의 새 부품</span></b><span class="en">View tabs, Pet filter chip, Share switch, Share pill and Sticker tray are marked as components, so the Figma plugin draws them from this page and the kit page.</span><span class="ko">뷰 탭, 펫 필터 칩, 공유 스위치, 공유 알약, 스티커 트레이를 컴포넌트로 표시해서, Figma 플러그인이 이 페이지와 키트 페이지에서 그려요.</span><span class="src">Plugin › Tickets · kit.html</span></div>
-    <div class="nt"><b><span class="n">13</span><span class="en">Share or keep, for photos and pages</span><span class="ko">공유 또는 보관, 사진과 페이지 모두</span></b><span class="en">One switch says who sees it: their face and "Share with Robert", or a lock and "Only you". A sitter's diary page starts shared with the owner (decided Oct 25); the sitter can make it private any time. Sharing lands on the other phone right away (New badge, bell, a message) and Goldito's gold paw stamps the button.</span><span class="ko">스위치 하나가 누가 보는지 말해요: 얼굴과 "로버트와 공유", 또는 자물쇠와 "나만". 시터는 다이어리 페이지를 보관하거나 언제든 공유. 공유하면 상대 폰에 바로 (New 배지, 알림, 메시지), 금색 발바닥이 버튼에 찍혀요.</span><span class="src">Mook, Oct 24 · #346 add sheet</span></div>
+    <div class="nt"><b><span class="n">13</span><span class="en">Share or keep, for photos and pages</span><span class="ko">공유 또는 보관, 사진과 페이지 모두</span></b><span class="en">One switch says who sees it: their face and "Share with Robert", or a lock and "Only you". Diary pages (trial, Oct 26): the day's page is the sitter's draft until she taps the floating Send to Robert, as the README's daily note asks (she approves it, then it posts); Minsik's D17 had pages shared from the start. Decorate is one sticker icon on the page, for both sides. Sharing lands on the other phone right away (New badge, bell, a message) and Goldito's gold paw stamps the button.</span><span class="ko">스위치 하나가 누가 보는지 말해요: 얼굴과 "로버트와 공유", 또는 자물쇠와 "나만". 시터는 다이어리 페이지를 보관하거나 언제든 공유. 공유하면 상대 폰에 바로 (New 배지, 알림, 메시지), 금색 발바닥이 버튼에 찍혀요. 다이어리 페이지(10/26 시험): 시터가 떠 있는 Robert에게 보내기를 누르기 전까지 초안이에요(README의 데일리 노트처럼 승인 후 게시). 민식님의 D17은 처음부터 공유였어요. 꾸미기는 페이지의 스티커 아이콘 하나로.</span><span class="src">Mook, Oct 24 · #346 add sheet</span></div>
     <div class="nt"><b><span class="n">14</span><span class="en">Reactions you can feel</span><span class="ko">느껴지는 반응</span></b><span class="en">Love it fills the heart and floats a few hearts; Happy turns butter and floats smiles; the screen stays where you were. Nothing moves with Reduce motion on.</span><span class="ko">Love it은 하트가 차고 작은 하트가 떠올라요; Happy는 버터색과 웃음; 화면은 그 자리. 동작 줄이기에선 움직이지 않아요.</span><span class="src">Mook, Oct 24</span></div>
     <div class="nt"><b><span class="n">15</span><span class="en">The paw: press and hold for three shortcuts</span><span class="ko">발바닥: 길게 눌러 지름길 셋</span></b><span class="en">Pinterest's hold menu, shaped like a paw: a gold pad under your finger, three toes above it. Slide to a toe and let go. A photo gives Make a sticker · Mood · Use on today's page; + Photo gives Photo · Sticker · Today's page; the Snap tab gives Treat check · Mood · Sticker. Always a shortcut: every toe is also a plain tap away. Let go without sliding and it stays open to tap; toes lean away from screen edges; moving first scrolls instead.</span><span class="ko">핀터레스트의 길게 누르기 메뉴를 발바닥 모양으로: 손가락 아래 금색 패드, 위에 발가락 셋. 발가락으로 밀고 떼기. 사진은 스티커 · 기분 · 오늘 페이지에; + 사진은 사진 · 스티커 · 오늘 페이지; 스냅 탭은 간식 확인 · 기분 · 스티커. 항상 지름길: 모든 발가락은 그냥 탭으로도 가능. 밀지 않고 떼면 열린 채로 탭; 화면 끝에선 안쪽으로; 먼저 움직이면 스크롤.</span><span class="src">Mook, Oct 24 · Pinterest hold menu · After the freeze (Minsik, Oct 25)</span></div>
     <div class="nt"><b><span class="n">16</span><span class="en">Playful words, with rules</span><span class="ko">장난스러운 말투, 규칙과 함께</span></b><span class="en">Words: Playful puts one pet pun in front of the plain meaning ("Paw-fect! Saved to Max's stickers", "Pawsted! Robert can see it"), at most one per screen. Never in safety (treat check, allergies), money, consents, errors or sign-in: danger stays loud and plain.</span><span class="ko">말투: 장난스럽게는 쉬운 뜻 앞에 펫 말장난 하나 ("Paw-fect! 맥스 스티커에 저장", "Pawsted! 로버트가 볼 수 있어요"), 화면당 최대 하나. 안전 (간식 확인, 알레르기), 결제, 동의, 오류, 로그인에는 절대 안 써요: 위험은 크고 쉽게.</span><span class="src">Mook, Oct 24 · CLAUDE.md §3 (4) · A little playful: decided Oct 25 (Minsik)</span></div>
@@ -500,7 +510,7 @@ const PETS = {
       { n: "mumu_window_nap", t: "1:15", c: "nap", day: 0 },
       { n: "mumu_red_pillow", t: "9:10", c: "nap", day: 1 }, { n: "mumu_blossom_basket", t: "11:20", c: "walk", day: 1 }, { n: "mumu_car_tongue_out", t: "2:40", c: "mood", day: 1 }, { n: "mumu_leather_chair", t: "6:15", c: "none", day: 1 }],
     note: "Max finished every bit of breakfast and asked for more.", noteAt: "9:02 AM",
-    page: "Max ate every bite, took his skin pill in a treat, and we walked 20 minutes by the lake. He spotted a squirrel and got so excited!", pageAt: "6:04 PM", pagePic: "mumu_lake_walk", pageShared: true,
+    page: "Max ate every bite, took his skin pill in a treat, and we walked 20 minutes by the lake. He spotted a squirrel and got so excited!", pageAt: "6:04 PM", pagePic: "mumu_lake_walk", pageShared: false,
     updates: [["nap", "Long nap", "On his favourite blanket", "1:15", "#FBEFC8"], ["pill", "Skin pill", "In a treat · photo", "11:58", "#FAD6CB"], ["walk", "Walk · 20 min", "All good, one squirrel", "9:40", "#D8F3DC"], ["meal", "Breakfast", "Finished the bowl", "8:12", "#FDE2CC"]],
     pages: [["Sat, Oct 24", "mumu_lake_walk"], ["Fri, Oct 23", "mumu_blossom_basket", "Max sniffed every blossom in the park, rode home with his tongue out, and slept on the red pillow."], ["Thu, Oct 22", "mumu_car_tongue_out", "Max rode to my place with his tongue out the whole way, then checked every corner and picked the sunny one."]] },
   mochi: { name: "Mochi", face: "orange_cat_lying_relaxed", emoji: "🐱",
@@ -682,15 +692,16 @@ function layer(pet, role, s) {
 }
 const bookPage = (pet, s, role) => { const P = PETS[pet]; return `<div class="page"><div class="top"><span>${P.pages[s.page][0]}</span><b>${P.name}'s day</b></div><div class="pic"><img src="${IMG(P.pages[s.page][1])}" alt=""></div><div class="hand">${P.pages[s.page][2] || P.page}</div>${s.page === 0 ? layer(pet, role, s) : ""}</div>`; };
 const decoTip = (role, k) => `<p class="tipd">Your stickers move; ${otherOf(role, k)}'s stay put. Both of you see both.</p>`;
+// One icon button opens the stickers (the tray comes up and the page's stickers come alive); tap again or Done to finish.
+const decoBtn = (k, on) => `<button type="button" class="ib dcb${on ? " on" : ""}" aria-pressed="${!!on}" aria-label="${on ? "Done decorating" : "Decorate with stickers"}" data-a="${on ? "decodone" : "deco"}" data-v="${k}">${ic("sticker")}</button>`;
+// The sitter's today pages still waiting to be sent (the floating Send button).
+const unsent = (s) => keysOf("sitter", s).filter((k) => !PETS[k].pageShared && pageIdx(k, TODAY) >= 0);
 function todayPage(role, s, k) {
   const P = PETS[k], r = s.re[k] || {}, deco = s.deco === k;
   const top = role === "owner"
-    ? `<span><b class="pt">${P.name}'s day</b><br>From ${sitterOf(k)} · Sent ${P.pageAt}</span><button type="button" class="ib" style="color:${r.love ? "#B42318" : "#6B5D4A"}" aria-pressed="${!!r.love}" aria-label="Love it" data-a="re" data-v="love" data-pet="${k}">${ic(r.love ? "heart-on" : "heart")}</button>`
-    : `<span><b class="pt">${P.name}'s day</b><br>${P.pageShared ? `Shared with Robert · ${P.pageAt}` : "Only you · not shared"}</span>${P.pageShared ? "" : `<span class="lk2 pin" aria-hidden="true">${ic("lock")}</span>`}`;
-  const under = deco ? decoTip(role, k) : role === "owner"
-    ? `<button type="button" class="wide" data-a="deco" data-v="${k}">Decorate ${keysOf(role, s).length > 1 ? `${P.name}'s page` : ""}</button>`
-    : `${shareSwitch(role, P.pageShared, [k], "pageshare", k, { on: "Shared with Robert", onSub: "Robert can read and react", offSub: "Keep it for yourself, or share any time" })}
-      <div class="duo"><button type="button" class="wide" data-a="deco" data-v="${k}">Decorate</button><button type="button" class="wide" data-a="hint">Edit the page</button></div>`;
+    ? `<span><b class="pt">${P.name}'s day</b><br>From ${sitterOf(k)} · Sent ${P.pageAt}</span><span class="pgi">${decoBtn(k, deco)}<button type="button" class="ib" style="color:${r.love ? "#B42318" : "#6B5D4A"}" aria-pressed="${!!r.love}" aria-label="Love it" data-a="re" data-v="love" data-pet="${k}">${ic(r.love ? "heart-on" : "heart")}</button></span>`
+    : `<span><b class="pt">${P.name}'s day</b><br>${P.pageShared ? `Sent to Robert · ${P.pageAt}` : "Draft · only you until you send it"}</span><span class="pgi">${decoBtn(k, deco)}</span>`;
+  const under = deco ? decoTip(role, k) : role === "owner" ? "" : `<button type="button" class="pedit" data-a="hint">${ic("pen")}Edit the page</button>`;
   return `<div class="page${deco ? " deco" : ""}"><div class="top">${top}</div><div class="pic"><img src="${IMG(P.pagePic)}" alt=""></div><div class="hand">${P.page}</div>${layer(k, role, s)}</div>${under}`;
 }
 function dayStrip(role, s) {
@@ -906,8 +917,11 @@ function phone(el) {
   if (V === "now") body = role === "owner" ? nowOwner(s, one(role, s)) : nowSitter(s, one(role, s));
   else body = `${viewTabs(role, s)}${petRow(role, s)}${s.tab === "photos" ? photosNew(role, s) : diaryNew(role, s)}`;
   const deco = V === "new" && s.tab === "diary" && s.deco && !s.book;
-  const fab = s.tab === "photos" && (V === "new" || role === "owner")
+  const toSend = V === "new" && role === "sitter" && s.tab === "diary" && !deco && !s.book && (s.lens || "days") === "days" && s.date === TODAY ? unsent(s) : [];
+  const sendFab = toSend.length ? `<div class="fab send"><button type="button" class="go" data-a="send" data-v="${toSend.join(",")}">${ic("send")}Send to Robert</button></div>` : "";
+  const photoFab = s.tab === "photos" && (V === "new" || role === "owner")
     ? `<div class="fab">${V === "new" ? "" : role === "owner" ? `<button type="button" class="soft" data-a="hint">Only you</button>` : `<button type="button" class="soft" data-a="hint">✓ Share with Robert</button>`}<button type="button" class="go" data-a="${V === "new" ? "addphoto" : "hint"}" ${V === "new" ? 'data-paw="add"' : ""}>+ Photo</button></div>` : "";
+  const fab = sendFab || photoFab;
   const over = V === "new" ? (s.view ? viewer(role, s) : "") + (s.edit ? editSheet(role, s) : "") + (s.del ? delSheet(role, s) : "") + (s.sheet ? sheet(role, s) : "") + (s.add ? addSheet(role, s) : "") + (s.mood ? moodSheet(role, s) : "") + (s.day && s.tab === "diary" ? daySheet(role, s) : "") : "";
   // A redraw of the same screen keeps where you were scrolled (down the page and along the chip rows).
   const key = [V, s.tab, s.pet, s.book, s.page, s.cat, s.date, s.deco, PICK, NPETS, SITTER2, DVIEWS, s.lens, s.zoom, s.ym, s.fp].join("|"), same = el._key === key;
@@ -915,7 +929,7 @@ function phone(el) {
   const rowKey = [V, s.tab, s.pet, PICK, NPETS, SITTER2, DVIEWS, s.lens].join("|"), sameRow = el._rowKey === rowKey;
   const top = same ? el.querySelector(".bd")?.scrollTop || 0 : 0, lefts = sameRow ? [...el.querySelectorAll(".bd .chips")].map((c) => c.scrollLeft) : [];
   el._key = key; el._rowKey = rowKey;
-  el.innerHTML = `${head(role)}<div class="bd${deco ? " deco" : ""}">${body}</div>${fab}${deco ? tray(role, s) : ""}${tabbar()}${over}<div class="toast" role="status"></div>`;
+  el.innerHTML = `${head(role)}<div class="bd${deco ? " deco" : ""}${sendFab ? " hasfab" : ""}">${body}</div>${fab}${deco ? tray(role, s) : ""}${tabbar()}${over}<div class="toast" role="status"></div>`;
   if (same) el.querySelector(".bd").scrollTop = top;
   if (sameRow) el.querySelectorAll(".bd .chips").forEach((c, i) => { c.scrollLeft = lefts[i] || 0; });
   el.querySelectorAll(".chips").forEach(edges);
@@ -981,6 +995,14 @@ document.querySelector(".phones").addEventListener("click", (e) => {
     return;
   }
   else if (a === "share") { s.share = !s.share; render(); const who = names(shareTo(role, keysOf(role, s))); toast(ph, s.share ? `New photos go to ${who}` : "New photos stay with you"); return; }
+  else if (a === "send") {
+    const ks = v.split(","), names = ks.map((k) => PETS[k].name).join(" and ");
+    for (const k of ks) Object.assign(PETS[k], { pageShared: true, pageAt: "6:30 PM" });
+    R.owner.badge += 1;
+    toast(ph, w(`Sent to Robert: ${names}'s day`, `Pawsted! Robert has ${names}'s day`));
+    toast(document.querySelector('.ph[data-role="owner"]'), `Chloe sent ${names}'s day`);
+  }
+  else if (a === "decodone") Object.assign(s, { deco: false, sel: null });
   else if (a === "pageshare") {
     const P = PETS[v]; P.pageShared = !P.pageShared;
     if (P.pageShared) R.owner.badge += 1;
