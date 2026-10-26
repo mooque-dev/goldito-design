@@ -1257,5 +1257,7 @@ window.__ticketStates = [
   { cap: "diary-days", on: "feed-owner", title: "Moments · Owner · Diary · Days", go: () => tstate("owner", { tab: "diary", lens: "days" }) },
   { cap: "diary-cal", on: "feed-owner", title: "Moments · Owner · Diary · Calendar", go: () => tstate("owner", { tab: "diary", lens: "cal", zoom: "month", ym: 9 }) },
   { cap: "diary-steps", on: "feed-owner", title: "Moments · Owner · Diary · Footprints", go: () => tstate("owner", { tab: "diary", lens: "steps", fp: "year" }) },
+  { cap: "diary-send", on: "feed-sitter", title: "Moments · Sitter · Diary · draft and Send to Robert", go: () => tstate("sitter", { tab: "diary", lens: "days", date: TODAY, pet: "all" }) },
+  { cap: "diary-deco", on: "feed-sitter", title: "Moments · Sitter · Diary · Decorate (sticker icon)", go: () => tstate("sitter", { tab: "diary", lens: "days", date: TODAY, pet: "max", deco: "max", tray: "pet" }) },
 ];
 </script></body></html>
