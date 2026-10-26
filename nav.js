@@ -172,6 +172,7 @@
       ["ux-calls.html", "UX calls (decided)", "UX 결정 (확정)", "The 12 UX calls drawn as phone screens, decided by Mook on Oct 25", "UX 결정 12개를 폰 화면으로, 10/25 Mook 확정"],
       ["video-plan.html", "Demo video plan", "데모 영상 계획", "Four storyboards, the model lines to say, and the recording checklist (#116)", "스토리보드 네 가지, 모델 설명 대본, 촬영 체크리스트 (#116)"],
       ["ux-audit.html", "UX patterns audit", "UX 패턴 점검", "Back, close, feedback, confirms, labels and forms on main: 55 findings, 12 calls", "뒤로, 닫기, 피드백, 확인, 라벨, 입력: 발견 55, 결정 12"],
+      ["copy-audit.html", "Copy audit", "카피 점검", "Words, errors, emoji and playful words on main: 12 findings, Log in / Log out, Diary page, and the Playful words switch", "단어, 오류, 이모지, 재치 있는 말: 발견 12, Log in / Log out, 다이어리 페이지, 재치 있는 말 스위치"],
       ["intro-trial.html", "Intro trial", "인트로 시안", "The first minute: boot, Welcome, how it works, Try the demo, sign up; today vs a proposal; playable", "첫 1분: 부팅, 웰컴, 소개, 데모, 가입; 지금 vs 제안; 체험 가능"],
       ["sitter-home-trial.html", "Sitter Home trial", "시터 홈 시안", "A new sitter's Home before and after the first booking: a card that fills in, a paw trail that carries on as the stay's stages", "첫 예약 전후 새 시터의 홈: 채워지는 카드, 머무름 단계로 이어지는 발자국 길"],
       ["delights.html", "Little delights", "작은 즐거움", "Every micro-interaction with variations: paw walks, paw loaders, stamps, bursts, hints; playable", "모든 마이크로 인터랙션과 변형: 발자국 걷기, 발바닥 로더, 도장, 터짐, 힌트; 체험 가능"],
