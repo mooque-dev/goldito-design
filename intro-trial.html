@@ -168,7 +168,7 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
   <span class="eyebrow">Ready to build · Oct 25</span>
   <h1><span class="en">The first minute of Goldito</span><span class="ko">골디토의 첫 1분</span></h1>
   <p class="lede"><span class="en">Boot, Welcome, how it works, Try the demo, sign up and log in: what every new visitor, and every judge, sees first. Left is today's app (from the code on main), right is the new flow you can tap through.</span><span class="ko">부팅, 웰컴, 소개, 데모, 가입과 로그인: 모든 새 방문자와 심사위원이 가장 먼저 보는 것. 왼쪽은 오늘의 앱 (main 코드 기준), 오른쪽은 눌러 볼 수 있는 제안.</span></p>
-  <div class="ready"><b><span class="en">Ready for the devs</span><span class="ko">개발 준비 완료</span></b><span><span class="en">Mook approved this flow on Oct 25: build the right column. Figma has every screen on the Dev reference page, with the notes. Apple and Google sign-in (#362) and the Terms page (#375) stay "Coming soon" until the backend has them.</span><span class="ko">Mook이 10월 25일에 승인했어요: 오른쪽 흐름을 만들어 주세요. Figma의 Dev reference 페이지에 모든 화면과 메모가 있어요. Apple·Google 로그인(#362)과 약관 페이지(#375)는 백엔드가 준비될 때까지 "곧 제공"으로 둬요.</span></span></div>
+  <div class="ready"><b><span class="en">Ready for the devs</span><span class="ko">개발 준비 완료</span></b><span><span class="en">Mook approved this flow on Oct 25: build the right column. Figma has every screen on the Dev reference page, with the notes. Apple and Google sign-in keep their "Coming soon" toast (#362) until the backend has them; the Terms page is in the app now (#375), so link to it from sign-up. Tracked in #374; the build is in review as <a href="https://github.com/minsikpaul92/Goldito/pull/384">PR #384</a>.</span><span class="ko">Mook이 10월 25일에 승인했어요: 오른쪽 흐름을 만들어 주세요. Figma의 Dev reference 페이지에 모든 화면과 메모가 있어요. Apple·Google 로그인은 백엔드가 준비될 때까지 "곧 제공" 토스트를 유지해요(#362). 약관 페이지는 이제 앱에 있으니(#375) 가입에서 연결해 주세요. #374에서 진행하고, 구현은 <a href="https://github.com/minsikpaul92/Goldito/pull/384">PR #384</a>에서 리뷰 중이에요.</span></span></div>
 </header>
 
 <section>
@@ -386,7 +386,7 @@ document.getElementById("prop").addEventListener("input", (e) => {
 });
 today(); prop();
 // For the Figma plugin's Tickets tab (Oct 25): the proposal's screens, captured one by one.
-window.__ticket = { id: "intro", title: "Intro: the first minute (ready to build)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/intro-trial.html", design: "Mook", code: "Minsik",
+window.__ticket = { id: "intro", title: "Intro: the first minute (ready to build)", issue: "https://github.com/minsikpaul92/Goldito/issues/374", workbench: "https://mooque-dev.github.io/goldito-design/intro-trial.html", design: "Mook", code: "Minsik",
   decisions: [{ q: "Status", a: "Ready to build, approved by Mook on Oct 25. Today's first run is audited on the page (12 findings)" },
     { q: "Welcome", a: "Try the demo first (as the README promises), then Continue with Apple, Continue with Google, Sign up with email, Log in; How it works under the headline" },
     { q: "How it works", a: "Three pages: the problem, two roles, one stay (the five stages); real pictures from the app, never placeholder boxes; Skip top right" },
