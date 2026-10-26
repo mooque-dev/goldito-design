@@ -13,7 +13,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--font-ui,
 main{max-width:1240px;margin:0 auto;padding-block:24px 64px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 h1,h2,h3{font-family:var(--font-display,system-ui)} h1{font-size:26px;margin:0 0 4px} h2{font-size:17px;margin:0 0 8px} h3{font-size:14px;margin:12px 0 6px;font-family:var(--font-ui,system-ui)}
 p{margin:0 0 8px;color:var(--muted)}
-.cols{display:grid;grid-template-columns:minmax(0,370px) minmax(0,1fr);gap:16px;align-items:start;margin-top:12px}
+.cols{display:grid;gap:16px;align-items:start;margin-top:12px}
 @media (max-width:900px){.cols{grid-template-columns:1fr}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
 .drop{position:relative;border:2px dashed var(--line);border-radius:14px;min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);overflow:hidden;background:var(--bg)}
@@ -23,7 +23,7 @@ p{margin:0 0 8px;color:var(--muted)}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
 button,.btn{font:600 14px var(--font-ui,system-ui);border:2px solid transparent;background:var(--bg);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 .btn.primary{background:var(--color-primary,#2D6A4F);color:var(--color-primary-text,#fff)}
-.btn.primary:disabled{opacity:.45;cursor:default}
+button:disabled,.btn.primary:disabled{opacity:.45;cursor:default}
 button[aria-pressed=true]{border-color:var(--on)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chips button{padding:5px 12px;font-size:13px}
@@ -43,7 +43,8 @@ input[type=search]{width:100%;font:inherit;padding:8px 12px;border-radius:999px;
 .v span{position:absolute;left:8px;top:5px;font-size:12px;font-weight:600;color:var(--muted)}
 .walk img{animation:stroll 6s linear infinite}
 @keyframes stroll{0%{left:22%;transform:translateX(-50%)}49%{left:78%;transform:translateX(-50%)}50%{left:78%;transform:translateX(-50%) scaleX(-1)}99%{left:22%;transform:translateX(-50%) scaleX(-1)}100%{left:22%;transform:translateX(-50%)}}
-.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:2px 18px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px 18px}
+.opts .wide{grid-column:1 / -1}
 .dot{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.2)}
 input[type=range]{width:100%;accent-color:var(--on)}
 .kg{color:var(--muted);font-weight:400}
@@ -51,63 +52,186 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 .cover{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px 16px;font-size:14px}
 .cover b{display:block}
 .cover span{color:var(--muted)}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5}
+.lead{max-width:62ch}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.cols{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
+.stage{position:sticky;top:max(12px, env(safe-area-inset-top, 0px));align-self:start}
+@media (max-width:900px){.stage{position:static}}
+.stage .drop{min-height:160px}
+.stage .drop canvas{max-height:230px}
+.pickhint{position:absolute;left:8px;bottom:8px;background:var(--card);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.2);pointer-events:none}
+.name{width:100%;font:600 18px var(--font-display,system-ui);border:0;border-bottom:2px solid var(--line);background:none;color:var(--ink);padding:2px 0 6px;margin-bottom:10px}
+.name:focus{outline:none;border-color:var(--on)}
+.hero{background:var(--stage);border-radius:14px;height:236px;position:relative;overflow:hidden}
+.hero img{image-rendering:pixelated;width:224px;height:224px;position:absolute;left:50%;bottom:6px;transform:translateX(-50%)}
+.hero.walk img{animation:stroll 6s linear infinite}
+.hero span{position:absolute;left:10px;top:8px;font-size:12px;font-weight:600;color:var(--muted)}
+.strip{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px;margin-top:6px}
+.strip button{padding:0;border-radius:8px;background:var(--stage);aspect-ratio:1;display:block;overflow:hidden;border:2px solid transparent}
+.strip button[aria-pressed=true]{border-color:var(--on)}
+.strip img{image-rendering:pixelated;width:100%;height:100%;display:block}
+.step{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--on);color:#3A2A14;font:700 13px var(--font-ui,system-ui);margin-right:8px;vertical-align:2px}
+.note{font-size:13px;margin:8px 0 0}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:4px 0 6px}
+.tabs button{border-radius:10px 10px 0 0;background:none;border:0;border-bottom:3px solid transparent;padding:8px 14px}
+.tabs button[aria-selected=true]{border-bottom-color:var(--on)}
+.fold summary{cursor:pointer;display:flex;align-items:center;gap:10px;list-style:none}
+.fold summary::-webkit-details-marker{display:none}
+.fold summary::after{content:"+";margin-left:auto;font-weight:700;color:var(--muted)}
+.fold[open] summary::after{content:"–"}
+.h2{font:600 17px var(--font-display,system-ui)}
+.tag{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--bg);color:var(--muted)}
+.dev{max-width:78ch}
+.dev h3{margin-top:18px}
+.flow{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;counter-reset:f}
+.flow li{background:var(--bg);border-radius:12px;padding:10px;font-size:13px;color:var(--muted)}
+.flow b{display:block;color:var(--ink);font-size:14px}
+.files{padding-left:18px;margin:0;font-size:14px}
+.files a{font-weight:600}
+.steps{padding-left:20px;margin:0;font-size:14px}
+.steps li{margin:4px 0}
+code{font:12.5px ui-monospace,SFMono-Regular,Menlo,monospace}
+pre.code{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border-radius:10px;padding:12px;overflow:auto;max-height:340px;white-space:pre}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;font-size:13px;min-width:420px}
+th,td{text-align:left;padding:5px 12px 5px 0;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+td{font-variant-numeric:tabular-nums}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5}
 .toast.on{opacity:1}
 </style></head><body><main>
 <h1>Pet maker</h1>
-<p>Paste a photo of your dog or cat and press Make my pet. Then fine-tune it below. The photo stays in your browser.</p>
+<p class="lead">Paste a photo of your dog or cat, make the pet, then adjust anything. The photo stays in your browser.</p>
 
 <div class="cols">
-  <div>
+  <aside class="stage">
     <div class="card">
       <div class="drop" id="drop" tabindex="0" aria-label="Photo. Paste, drop or choose a photo">
         <div class="hint" id="hint"><b>Paste a photo</b>⌘V or Ctrl+V, or drop it here</div>
         <canvas id="photo" hidden></canvas>
+        <span class="pickhint" id="pickhint" hidden>Click to set: <b id="pickname">Coat</b></span>
       </div>
-      <div class="row">
-        <div class="chips" id="species" role="group" aria-label="Species"><button type="button" data-v="dog" aria-pressed="true">Dog</button><button type="button" data-v="cat" aria-pressed="false">Cat</button></div>
-        <label class="btn" for="file">Choose photo</label><input type="file" id="file" accept="image/*" hidden>
-      </div>
-      <button type="button" class="btn primary" id="make" style="width:100%;justify-content:center;margin-top:10px;padding:10px" disabled>Make my pet</button>
-      <p id="makenote" style="margin:8px 0 0;font-size:13px" hidden></p>
-      <h3>From the photo</h3>
-      <div class="swatches" id="auto"><p>Colors show here after you add a photo.</p></div>
+      <div class="row"><label class="btn" for="file">Choose photo</label><input type="file" id="file" accept="image/*" hidden><span class="swatches" id="auto"></span></div>
     </div>
     <div class="card">
-      <h2>Start from a breed</h2>
+      <label class="sr" for="pname">Pet name</label>
+      <input type="text" id="pname" class="name" placeholder="Your pet" maxlength="24" autocomplete="off">
+      <div class="hero" id="herobox"><img id="hero" alt="Your pet"><span id="herolabel">Turn</span></div>
+      <div class="strip" id="views" role="group" aria-label="Pose"></div>
+      <div class="row">
+        <button type="button" class="btn primary" id="save">Save sprite sheet</button>
+        <button type="button" class="btn" id="undo" disabled>Undo</button>
+        <button type="button" class="btn" id="reset">Start over</button>
+      </div>
+    </div>
+  </aside>
+
+  <div class="controls">
+    <section class="card">
+      <h2><span class="step">1</span>Make it from a photo</h2>
+      <div class="row" style="margin-top:0">
+        <div class="chips" id="species" role="group" aria-label="Species"><button type="button" data-v="dog" aria-pressed="true">Dog</button><button type="button" data-v="cat" aria-pressed="false">Cat</button></div>
+        <button type="button" class="btn primary" id="make" disabled>Add a photo first</button>
+      </div>
+      <p id="makenote" class="note" hidden></p>
+      <div id="suggest" hidden>
+        <p class="note" id="suggestline"></p>
+        <div class="chips" id="alts"></div>
+      </div>
+      <p id="gap" class="note" hidden></p>
+    </section>
+
+    <section class="card">
+      <h2><span class="step">2</span>Adjust</h2>
+      <div class="tabs" role="tablist" aria-label="Adjust">
+        <button type="button" role="tab" id="tab-shape" aria-controls="p-shape" aria-selected="true">Shape</button>
+        <button type="button" role="tab" id="tab-marks" aria-controls="p-marks" aria-selected="false">Markings</button>
+        <button type="button" role="tab" id="tab-colors" aria-controls="p-colors" aria-selected="false">Colors</button>
+      </div>
+      <div role="tabpanel" id="p-shape" aria-labelledby="tab-shape"><div class="opts" id="opts-shape"></div></div>
+      <div role="tabpanel" id="p-marks" aria-labelledby="tab-marks" hidden><div class="opts" id="opts-marks"></div></div>
+      <div role="tabpanel" id="p-colors" aria-labelledby="tab-colors" hidden>
+        <p class="note">Pick a part, then click the photo or a photo color.</p>
+        <div class="slots" id="slots"></div>
+      </div>
+    </section>
+
+    <details class="card fold" id="breedbox">
+      <summary><span class="h2">Start from a breed</span><span class="tag">Optional</span></summary>
+      <p class="note">Picking a breed replaces the current look with that breed's. Undo brings yours back.</p>
       <input type="search" id="q" placeholder="Search breeds" aria-label="Search breeds">
       <div class="breeds" id="breeds"></div>
-    </div>
-  </div>
+    </details>
 
-  <div>
-    <div class="card">
-      <h2 id="petname">Your pet</h2>
-      <p id="gap" hidden></p>
-      <div class="chips" id="alts" style="margin-bottom:10px" hidden></div>
-      <div class="views" id="views"></div>
-      <div class="row">
-        <button type="button" class="btn primary" id="copy">Copy recipe</button>
-        <button type="button" class="btn" id="save">Save sprite sheet</button>
-        <button type="button" class="btn" id="reset">Reset</button>
+    <details class="card fold" id="devbox">
+      <summary><span class="h2">For developers</span><span class="tag">How it's made</span></summary>
+      <div class="dev">
+        <h3>How a pet is made</h3>
+        <ol class="flow">
+          <li><b>Recipe</b><span>A small JSON object: head shape, ears, coat, markings, eyes, body, colors.</span></li>
+          <li><b>Frame</b><span><code>PetGen.frame(recipe, view, action, f)</code> draws a 32 × 32 grid of parts.</span></li>
+          <li><b>Palette</b><span><code>PetGen.palette(recipe)</code> turns the recipe's colors into one color per part.</span></li>
+          <li><b>Pixels</b><span><code>PetGen.pixels(grid, palette)</code> gives RGBA, ready for a canvas or the app's sprite.</span></li>
+        </ol>
+        <h3>Files</h3>
+        <ul class="files">
+          <li><a href="https://mooque-dev.github.io/goldito-design/petgen/petgen.js">petgen.js</a> the drawing code, no dependencies, works in the browser and in node</li>
+          <li><a href="https://mooque-dev.github.io/goldito-design/petgen/petgen-data.json">petgen-data.json</a> heads, bodies, tails and shapes (about 100 KB)</li>
+          <li><a href="https://mooque-dev.github.io/goldito-design/petgen/presets.js">presets.js</a> the 55 breeds, each a recipe</li>
+        </ul>
+        <p class="note">Source: <code>design/pixel-bodies/</code> in the prototypes repo (branch design/combined-viewer). It is a port of <code>tama360.py</code>, checked pixel for pixel by <code>test_petgen.mjs</code> (2448 of 2448 frames).</p>
+
+        <h3>Poses match the app</h3>
+        <div class="tablewrap"><table>
+          <thead><tr><th>Pose</th><th>view</th><th>action</th><th>frames</th><th>ms per frame</th></tr></thead>
+          <tbody id="posetable"></tbody>
+        </table></div>
+        <p class="note">The same names as <code>Pose</code> in <code>frontend/features/pets/sprites/scene.ts</code>. Side faces right; for left, reverse each row.</p>
+
+        <h3>Use it in the app</h3>
+<pre class="code"><code>import PetGen from "./petgen";            // petgen.js
+import data from "./petgen-data.json";
+PetGen.init(data);
+
+// rows of CSS colors, null = transparent: the shape spriteScene() returns today,
+// so PetSprite.tsx can draw a recipe pet without changes
+export function petRows(recipe, pose, facing = "right") {
+  const px = PetGen.pixels(PetGen.frame(recipe, pose.view, pose.action, pose.frame), PetGen.palette(recipe));
+  const rows = [];
+  for (let y = 0; y &lt; 32; y++) {
+    const row = [];
+    for (let x = 0; x &lt; 32; x++) {
+      const i = (y * 32 + x) * 4;
+      row.push(px[i + 3] ? `rgb(${px[i]},${px[i + 1]},${px[i + 2]})` : null);
+    }
+    rows.push(facing === "left" ? row.reverse() : row);
+  }
+  return rows;
+}</code></pre>
+        <h3>This pet's recipe</h3>
+        <pre class="code" id="recipe"></pre>
+        <div class="row"><button type="button" class="btn" id="copy">Copy recipe</button></div>
+
+        <h3>From a photo (backend)</h3>
+        <p class="note">On claude.ai this page asks Claude with the prompt below and keeps only the options it knows (<code>fromReply</code> in this page). In the app this belongs on the backend with the vision model, for example <code>POST /api/ai/pet-photo</code> returning a recipe, so keys never reach the client.</p>
+        <pre class="code" id="promptbox"></pre>
+        <div class="row"><button type="button" class="btn" id="copyprompt">Copy prompt</button></div>
+
+        <h3>To bring it into the app</h3>
+        <ol class="steps">
+          <li>Add <code>petgen.js</code> and its data under <code>frontend/features/pets/sprites/</code>, with types for the recipe.</li>
+          <li>Where <code>spriteScene()</code> is called, draw <code>petRows()</code> when the pet has a recipe.</li>
+          <li>Store the recipe on the pet (a JSON column), set by the owner here or by the photo step.</li>
+          <li>Add the photo step on the backend with the prompt above.</li>
+        </ol>
       </div>
-    </div>
-    <div class="card">
-      <h2>Looks</h2>
-      <div class="opts" id="opts"></div>
-    </div>
-    <div class="card">
-      <h2>Colors</h2>
-      <p>Pick a part, then click the photo or a swatch.</p>
-      <div class="slots" id="slots"></div>
-    </div>
-  </div>
-</div>
+    </details>
 
-<div class="card">
-  <h2>What a pet can be</h2>
-  <div class="cover" id="cover"></div>
-  <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:600">Recipe</summary><pre id="recipe"></pre></details>
+    <details class="card fold">
+      <summary><span class="h2">What the template covers</span></summary>
+      <div class="cover" id="cover"></div>
+    </details>
+  </div>
 </div>
 <div class="toast" id="toast" role="status"></div>
 </main>
@@ -743,79 +867,102 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
     patch: "Patch", patch2: "Second patch", stripe: "Stripes", spot: "Spots", points: "Points", mark: "Face mark", nose: "Nose", outline: "Outline" };
   var EYE_HEX = PG.EYES;
 
-  var st = { recipe: null, preset: null, kg: 30, active: "coat", outlineAuto: true, species: "dog" };
+  var START = { base: "dog", colors: {} };
+  var st = { recipe: clone(START), started: null, kg: 30, active: "coat", outlineAuto: true, species: "dog", pose: 0, tab: "shape", hist: [], last: null };
   var timers = [];
+  function clone(o) { return JSON.parse(JSON.stringify(o)); }
   var cv = document.createElement("canvas"); cv.width = cv.height = 32; var cx = cv.getContext("2d");
   function url(g, pp) { var img = cx.createImageData(32, 32); img.data.set(PG.pixels(g, pp)); cx.putImageData(img, 0, 0); return cv.toDataURL(); }
-  function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function base(r) { var b = clone(r); delete b.name; b.colors = b.colors || {}; return b; }
 
-  // ---- preview ----
+  // ---- preview: one big pose, the rest as a strip ----
+  var POSES = [["Turn"]].concat(PG.MOTIONS);
   function draw() {
     timers.forEach(clearInterval); timers = [];
-    var r = st.recipe, pp = PG.palette(r), views = $("views"); views.innerHTML = "";
+    var r = st.recipe, pp = PG.palette(r), now = JSON.stringify(r);
+    if (st.last && st.last !== now && !st.undoing) { st.hist.push(st.last); if (st.hist.length > 60) st.hist.shift(); }
+    st.last = now; st.undoing = false; $("undo").disabled = !st.hist.length;
     var sets = PG.MOTIONS.map(function (m) { var a = []; for (var f = 0; f < m[3]; f++) a.push(url(PG.frame(r, m[1], m[2], f), pp)); return a; });
-    // a full turn first: front, side, back, the other side
-    var turn = document.createElement("div"); turn.className = "v"; turn.innerHTML = '<span>Turn</span><img alt="Your pet turning around">';
-    views.appendChild(turn);
-    var ti = turn.querySelector("img"), seq = [[sets[0][0], 1], [sets[2][0], 1], [sets[1][0], 1], [sets[2][0], -1]], t = 0;
-    ti.src = seq[0][0];
-    timers.push(setInterval(function () { t = (t + 1) % 4; ti.src = seq[t][0]; ti.style.transform = "translateX(-50%) scaleX(" + seq[t][1] + ")"; }, 600));
-    PG.MOTIONS.forEach(function (m, i) {
-      var v = document.createElement("div"); v.className = "v" + (m[2] === "walk" ? " walk" : "");
-      v.innerHTML = "<span>" + m[0] + '</span><img alt="Your pet, ' + m[0] + '" src="' + sets[i][0] + '">';
-      views.appendChild(v);
-      if (sets[i].length > 1) { var img = v.querySelector("img"), n = 0; timers.push(setInterval(function () { n = (n + 1) % sets[i].length; img.src = sets[i][n]; }, m[4])); }
+    // Turn: front, side, back, the other side
+    var turn = [[sets[0][0], 1], [sets[2][0], 1], [sets[1][0], 1], [sets[2][0], -1]];
+    var strip = $("views"); strip.innerHTML = "";
+    POSES.forEach(function (m, i) {
+      var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-pressed", String(st.pose === i)); b.title = m[0];
+      b.setAttribute("aria-label", m[0]);
+      b.innerHTML = '<img alt="" src="' + (i ? sets[i - 1][0] : sets[0][0]) + '">';
+      b.onclick = function () { st.pose = i; draw(); };
+      strip.appendChild(b);
     });
+    var hero = $("hero"), box = $("herobox"), i = st.pose, n = 0;
+    $("herolabel").textContent = POSES[i][0];
+    box.classList.toggle("walk", i > 0 && POSES[i][2] === "walk");
+    hero.style.transform = "";
+    if (i === 0) {
+      hero.src = turn[0][0];
+      timers.push(setInterval(function () { n = (n + 1) % 4; hero.src = turn[n][0]; hero.style.transform = "translateX(-50%) scaleX(" + turn[n][1] + ")"; }, 600));
+    } else {
+      var fr = sets[i - 1]; hero.src = fr[0];
+      if (fr.length > 1) timers.push(setInterval(function () { n = (n + 1) % fr.length; hero.src = fr[n]; }, POSES[i][4]));
+    }
+    hero.alt = petName() + ", " + POSES[i][0];
     // sprite sheet: 16 frames in a row, 4x
     var all = [].concat.apply([], sets), sh = document.createElement("canvas"); sh.width = 128 * all.length; sh.height = 128;
-    var sx = sh.getContext("2d"); sx.imageSmoothingEnabled = false; var k = 0;
-    PG.MOTIONS.forEach(function (m) { for (var f = 0; f < m[3]; f++) { var img = cx.createImageData(32, 32); img.data.set(PG.pixels(PG.frame(r, m[1], m[2], f), pp)); cx.putImageData(img, 0, 0); sx.drawImage(cv, k++ * 128, 0, 128, 128); } });
+    var sx = sh.getContext("2d"); sx.imageSmoothingEnabled = false;
+    all.forEach(function (u, k) { var im = new Image(); im.onload = function () { sx.drawImage(im, k * 128, 0, 128, 128); }; im.src = u; });
     st.sheet = sh;
-    $("petname").textContent = st.preset ? st.preset : "Your pet";
     $("recipe").textContent = JSON.stringify(r, null, 1);
-    drawOpts(); drawSlots(pp);
+    drawOpts(); drawSlots(pp); markBreed();
   }
+  function petName() { return $("pname").value.trim() || "Your pet"; }
 
   // ---- looks: every option as chips ----
+  var GROUPS = { shape: ["head", "ears", "build", "legs", "length", "weight", "tail"], marks: ["coat", "face", "body", "chest", "paws", "eyes"] };
   function drawOpts() {
-    var r = st.recipe, box = $("opts"); box.innerHTML = "";
-    var head = document.createElement("div"); head.innerHTML = "<h3>Head</h3>";
-    var hc = document.createElement("div"); hc.className = "chips";
+    var r = st.recipe;
+    Object.keys(GROUPS).forEach(function (g) {
+      var box = $("opts-" + g); box.innerHTML = "";
+      GROUPS[g].forEach(function (key) { box.appendChild(key === "head" ? headChips(r) : key === "weight" ? weightSlider(r) : optChips(r, key)); });
+    });
+  }
+  function headChips(r) {
+    var d = document.createElement("div"); d.className = "wide"; d.innerHTML = "<h3>Head</h3>";
+    var c = document.createElement("div"); c.className = "chips"; c.setAttribute("role", "group"); c.setAttribute("aria-label", "Head");
     Object.keys(BASES).forEach(function (k) {
       var b = document.createElement("button"); b.type = "button"; b.textContent = BASES[k].label; b.setAttribute("aria-pressed", String(r.base === k));
       b.onclick = function () { var keep = st.recipe; st.recipe = Object.assign({}, keep, { base: k, ears: "default" }); if (BASES[k].cat !== BASES[keep.base].cat) st.recipe.tail = "base"; draw(); };
-      hc.appendChild(b);
+      c.appendChild(b);
     });
-    head.appendChild(hc); head.style.gridColumn = "1 / -1"; box.appendChild(head);
-    Object.keys(OPT).forEach(function (key) {
-      var o = OPT[key], d = document.createElement("div"); d.innerHTML = "<h3>" + o.label + "</h3>";
-      var c = document.createElement("div"); c.className = "chips"; c.setAttribute("role", "group"); c.setAttribute("aria-label", o.label);
-      var cur = r[key];
-      o.list(r).forEach(function (it) {
-        var v = it[0], b = document.createElement("button"); b.type = "button";
-        b.innerHTML = (key === "eyes" ? '<i class="dot" style="background:' + (v === "odd" ? "linear-gradient(90deg,#4F9FE0 50%,#C98A2E 50%)" : EYE_HEX[v]) + '"></i>' : "") + it[1];
-        var on = o.one ? String(cur == null ? defaultOf(key) : cur) === String(v) : (cur || []).indexOf(v) >= 0;
-        b.setAttribute("aria-pressed", String(!!on));
-        b.onclick = function () {
-          if (o.one) st.recipe[key] = v;
-          else { var a = (st.recipe[key] || []).slice(), i = a.indexOf(v); if (i >= 0) a.splice(i, 1); else a.push(v); st.recipe[key] = a; }
-          if (key === "build") st.kg = Math.round(BASES[r.base].kg * (v < 0 ? 0.75 : v > 0 ? 1.35 : 1));
-          draw();
-        };
-        c.appendChild(b);
-      });
-      d.appendChild(c); box.appendChild(d);
+    d.appendChild(c); return d;
+  }
+  function optChips(r, key) {
+    var o = OPT[key], d = document.createElement("div"); d.innerHTML = "<h3>" + o.label + (o.one ? "" : ' <span class="kg">any</span>') + "</h3>";
+    var c = document.createElement("div"); c.className = "chips"; c.setAttribute("role", "group"); c.setAttribute("aria-label", o.label);
+    var cur = r[key];
+    o.list(r).forEach(function (it) {
+      var v = it[0], b = document.createElement("button"); b.type = "button";
+      b.innerHTML = (key === "eyes" ? '<i class="dot" style="background:' + (v === "odd" ? "linear-gradient(90deg,#4F9FE0 50%,#C98A2E 50%)" : EYE_HEX[v]) + '"></i>' : "") + it[1];
+      var on = o.one ? String(cur == null ? defaultOf(key) : cur) === String(v) : (cur || []).indexOf(v) >= 0;
+      b.setAttribute("aria-pressed", String(!!on));
+      b.onclick = function () {
+        if (o.one) st.recipe[key] = v;
+        else { var a = (st.recipe[key] || []).slice(), i = a.indexOf(v); if (i >= 0) a.splice(i, 1); else a.push(v); st.recipe[key] = a; }
+        if (key === "build") st.kg = Math.round(BASES[r.base].kg * (v < 0 ? 0.75 : v > 0 ? 1.35 : 1));
+        draw();
+      };
+      c.appendChild(b);
     });
+    d.appendChild(c); return d;
+  }
+  function weightSlider(r) {
     var w = document.createElement("div");
     var b0 = BASES[r.base], lo = Math.max(1, Math.round(b0.kg * 0.4)), hi = Math.round(b0.kg * 1.8);
-    w.innerHTML = '<h3><label for="kg">Weight <span class="kg">' + st.kg + ' kg</span></label></h3><input type="range" id="kg" min="' + lo + '" max="' + hi + '" value="' + st.kg + '">';
-    box.appendChild(w);
+    w.innerHTML = '<h3><label for="kg">Weight <span class="kg">' + st.kg + ' kg · sets the build</span></label></h3><input type="range" id="kg" min="' + lo + '" max="' + hi + '" value="' + st.kg + '">';
     w.querySelector("input").oninput = function (e) {
-      st.kg = +e.target.value; w.querySelector(".kg").textContent = st.kg + " kg";
+      st.kg = +e.target.value; w.querySelector(".kg").textContent = st.kg + " kg · sets the build";
       var u = BASES[st.recipe.base].kg, nb = st.kg < u * 0.85 ? -1 : st.kg > u * 1.2 ? 1 : 0;
       if (nb !== (st.recipe.build == null ? BASES[st.recipe.base].body[0] : st.recipe.build)) { st.recipe.build = nb; draw(); }
     };
+    return w;
   }
   function defaultOf(key) {
     var b = BASES[st.recipe.base];
@@ -851,6 +998,7 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
       d.innerHTML = '<i style="background:' + hex + '"></i>' + NAMES[k] + (k === "outline" && st.outlineAuto ? ' <span class="kg">auto</span>' : "") + '<input type="color" aria-label="' + NAMES[k] + ' color" value="' + hex.toLowerCase() + '">';
       d.onclick = function (e) { if (e.target.tagName === "INPUT") return; st.active = k; drawSlots(PG.palette(st.recipe)); };
       d.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); st.active = k; drawSlots(PG.palette(st.recipe)); } };
+      if (st.active === k) $("pickname").textContent = NAMES[k];
       d.querySelector("input").oninput = function (e) { setColor(k, e.target.value.toUpperCase()); };
       box.appendChild(d);
     });
@@ -865,13 +1013,13 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 
   // ---- breeds ----
   function usePreset(p) {
-    $("alts").hidden = true; $("gap").hidden = true;
-    st.recipe = base(p); st.preset = p.name; st.outlineAuto = true;
+    $("suggest").hidden = true; $("gap").hidden = true;
+    st.recipe = base(p); st.started = p.name; st.outlineAuto = true;
     var b = BASES[p.base]; st.kg = Math.round(b.kg * (p.build < 0 ? 0.75 : p.build > 0 ? 1.35 : 1));
     st.species = b.cat ? "cat" : "dog"; press("species", st.species);
-    draw(); markBreed();
+    draw(); toast("Started from " + p.name);
   }
-  function markBreed() { $("breeds").querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === st.preset)); }); }
+  function markBreed() { $("breeds").querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === st.started)); }); }
   function drawBreeds() {
     var box = $("breeds"), q = $("q").value.trim().toLowerCase(); box.innerHTML = "";
     [["Dogs", false], ["Cats", true]].forEach(function (g) {
@@ -901,8 +1049,8 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
       var w = Math.min(720, im.naturalWidth), h = Math.round(im.naturalHeight * w / im.naturalWidth);
       photo.width = w; photo.height = h; pcx.drawImage(im, 0, 0, w, h);
       photo.hidden = false; $("hint").hidden = true; URL.revokeObjectURL(u);
-      swatches(); $("make").disabled = false; make();
-      if (ask) { $("makenote").textContent = "Colors picked a first look. Press the button to let Claude look closer."; $("makenote").hidden = false; }
+      swatches(); $("pickhint").hidden = false; makeLabel(); make();
+      if (ask) { $("makenote").textContent = "Colors made a first try. Press the button to let Claude look closer."; $("makenote").hidden = false; }
     };
     im.src = u;
   }
@@ -993,14 +1141,15 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
       if (s < bs) { bs = s; best = p; }
     });
     scored.sort(function (a, b) { return a[0] - b[0]; });
-    var alts = $("alts"); alts.innerHTML = '<span class="kg" style="align-self:center;font-size:13px">Also close:</span>';
+    var alts = $("alts"); alts.innerHTML = "";
     scored.slice(1, 4).forEach(function (x) {
       var b = document.createElement("button"); b.type = "button"; b.innerHTML = '<img class="thumb" alt="" src="' + thumbs[x[1].name] + '">' + x[1].name;
-      b.onclick = function () { applyPhoto(x[1], r); }; alts.appendChild(b);
+      b.onclick = function () { applyPhoto(x[1], r); $("suggestline").textContent = "Started from " + x[1].name + ". Or try:"; }; alts.appendChild(b);
     });
-    alts.hidden = false; $("gap").hidden = true;
+    $("suggestline").textContent = "Started from " + best.name + ", the closest breed by color. Not right? Try:";
+    $("suggest").hidden = false; $("gap").hidden = true;
     applyPhoto(best, r);
-    toast("Closest look by color: " + best.name);
+    toast("Made from your photo");
   }
   function applyPhoto(p, r) {
     var white = [255, 255, 255], black = [0, 0, 0];
@@ -1015,16 +1164,16 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
     if (BASES[p.base].keys.stripe) c.stripe = hex(mix(coat, black, 0.3));
     if (BASES[p.base].keys.patch) { c.coat = hex(r.light || white); c.patch = hex(coat); c.patch2 = hex(r.dark || mix(coat, black, 0.5)); }
     c.outline = hex(PG.hex2rgb(c.coat).map(function (v) { return v * 0.38; }));
-    st.recipe = rec; st.preset = p.name + " look"; st.outlineAuto = true;
+    st.recipe = rec; st.started = null; st.outlineAuto = true;
     var b = BASES[p.base]; st.kg = Math.round(b.kg * (p.build < 0 ? 0.75 : p.build > 0 ? 1.35 : 1));
-    draw(); markBreed();
-    if (window.innerWidth < 900) $("views").scrollIntoView({ behavior: "smooth", block: "center" });
+    draw();
+    if (window.innerWidth < 900) $("herobox").scrollIntoView({ behavior: "smooth", block: "center" });
   }
   // ---- Claude looks at the photo (only where the page runs as a claude.ai artifact that may ask Claude) ----
   var ask = null;
   if (window.claude && window.claude.use) window.claude.use("sample").then(function (fn) {
     if (!fn) return null;
-    return fn.limits().then(function (l) { if (l && l.images) { ask = fn; $("make").textContent = "Make my pet with Claude"; } }, function () {});
+    return fn.limits().then(function (l) { if (l && l.images) { ask = fn; makeLabel(); } }, function () {});
   }).catch(function () {});
   var ENUM = {
     ears: ["default", "big", "tufts", "lynx", "tipped", "folded", "long"], coat: ["smooth", "fluffy", "long"],
@@ -1075,20 +1224,24 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
       ask.json(prompt(), { images: [blob] }).then(function (j) {
         var r = fromReply(j);
         if (!r) throw { code: "invalid_json" };
-        st.recipe = r.rec; st.preset = r.name + " look"; st.outlineAuto = true;
+        st.recipe = r.rec; st.started = null; st.outlineAuto = true;
         var b = BASES[r.rec.base]; st.kg = Math.round(b.kg * (r.rec.build < 0 ? 0.75 : r.rec.build > 0 ? 1.35 : 1));
-        $("alts").hidden = true;
+        $("suggest").hidden = false; $("suggestline").textContent = "Claude started from " + r.name + " and set the rest from your photo."; $("alts").innerHTML = "";
         $("gap").hidden = !r.notes; $("gap").textContent = r.notes ? "Not in the template yet: " + r.notes : "";
-        draw(); markBreed(); toast("Made by Claude from your photo");
-        if (window.innerWidth < 900) $("views").scrollIntoView({ behavior: "smooth", block: "center" });
+        draw(); toast("Made by Claude from your photo");
+        if (window.innerWidth < 900) $("herobox").scrollIntoView({ behavior: "smooth", block: "center" });
       }).catch(function (e) {
         var code = e && e.code;
         if (code === "not_granted" || code === "sampling_disabled" || code === "images_unavailable" || code === "not_declared") { ask = null; note.textContent = "Claude isn't available here, so colors pick the closest look."; }
         else if (code === "rate_limited") note.textContent = "Claude is busy. Try again in a bit.";
-        else note.textContent = "That didn't work. Try again, or pick a breed below.";
+        else note.textContent = "That didn't work. Try again, or start from a breed below.";
         note.hidden = false; make();
-      }).then(function () { btn.disabled = false; btn.textContent = ask ? "Make my pet with Claude" : "Make my pet"; });
+      }).then(function () { makeLabel(); });
     }, "image/jpeg", 0.88);
+  }
+  function makeLabel() {
+    var b = $("make"), has = !photo.hidden;
+    b.disabled = !has; b.textContent = !has ? "Add a photo first" : ask ? "Make my pet with Claude" : "Make my pet";
   }
   $("make").onclick = function () { if (ask) askClaude(); else make(); };
   function press(id, v) { $(id).querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === String(v))); }); }
@@ -1098,7 +1251,7 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
   var dl = null;
   if (window.claude && window.claude.use) window.claude.use("downloads").then(function (d) { dl = d; }).catch(function () {});
   $("save").onclick = function () {
-    var name = "goldito-" + (st.preset || "pet").toLowerCase().replace(/ look$/, "").replace(/[^a-z0-9]+/g, "-") + ".png";
+    var name = "goldito-" + (($("pname").value.trim() || "pet").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "pet") + ".png";
     st.sheet.toBlob(function (blob) {
       if (dl) { dl.save({ filename: name, data: blob }).then(function () { toast("Saved"); }, function (e) { if (e && e.code !== "declined") toast("Saving isn't available here"); }); return; }
       var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove();
@@ -1107,9 +1260,31 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
   };
   $("copy").onclick = function () {
     var t = JSON.stringify(st.recipe, null, 1);
-    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast("Recipe copied"); }, function () { toast("Copy didn't work. Open Recipe below."); });
+    copyText(t, "Recipe copied");
   };
-  $("reset").onclick = function () { var p = PRESETS.filter(function (x) { return x.name === (st.preset || "").replace(/ look$/, ""); })[0] || PRESETS[0]; usePreset(p); };
+  $("reset").onclick = function () { st.recipe = clone(START); st.started = null; st.outlineAuto = true; st.kg = BASES.dog.kg; $("suggest").hidden = true; $("gap").hidden = true; draw(); toast("Started over. Undo brings it back."); };
+  $("undo").onclick = function () { if (!st.hist.length) return; st.undoing = true; st.recipe = JSON.parse(st.hist.pop()); st.last = null; draw(); };
+  document.addEventListener("keydown", function (e) { if ((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key === "z" && !/INPUT|TEXTAREA/.test((e.target || {}).tagName || "")) { e.preventDefault(); $("undo").click(); } });
+  $("pname").oninput = function () { $("hero").alt = petName() + ", " + POSES[st.pose][0]; };
+  // tabs: arrow keys move between them
+  var TABS = ["shape", "marks", "colors"];
+  function tab(t, focus) {
+    st.tab = t;
+    TABS.forEach(function (k) { var on = k === t, b = $("tab-" + k); b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1; $("p-" + k).hidden = !on; if (on && focus) b.focus(); });
+    try { localStorage.setItem("goldito-petmaker-tab", t); } catch (e) {}
+  }
+  TABS.forEach(function (k, i) {
+    var b = $("tab-" + k);
+    b.onclick = function () { tab(k); };
+    b.onkeydown = function (e) { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); tab(TABS[(i + (e.key === "ArrowRight" ? 1 : 2)) % 3], true); } };
+  });
+  try { var savedTab = localStorage.getItem("goldito-petmaker-tab"); if (TABS.indexOf(savedTab) >= 0) st.tab = savedTab; } catch (e) {}
+  tab(st.tab);
+  // for developers: the poses and the prompt, from the same code the page runs
+  $("posetable").innerHTML = PG.MOTIONS.map(function (m) { return "<tr><td>" + m[0] + "</td><td><code>" + m[1] + "</code></td><td><code>" + m[2] + "</code></td><td>" + m[3] + "</td><td>" + m[4] + "</td></tr>"; }).join("");
+  $("promptbox").textContent = prompt();
+  function copyText(t, done) { (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { toast(done); }, function () { toast("Copy didn't work. Select the text instead."); }); }
+  $("copyprompt").onclick = function () { copyText(prompt(), "Prompt copied"); };
 
   // ---- coverage: what the template can make ----
   (function () {
@@ -1123,7 +1298,7 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 
   var tt; function toast(m) { var t = $("toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove("on"); }, 1600); }
   drawBreeds();
-  usePreset(PRESETS[0]);
+  draw();
 })();
 </script>
 </body></html>
