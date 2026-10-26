@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sitter Home Trial</title>
-<meta name="description" content="A new sitter's Home before any booking: today's empty screen next to E, the card owners will see filling in over a paw trail, and the same Home once bookings come in.">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&display=swap">
+<meta name="description" content="A new sitter's Home before any booking: today's empty screen next to E, the search card owners will see filling in over a paw trail, and the same Home once bookings come in. Built only from the app's tokens and components.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Inter:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="ds.css">
 <style>
 *{box-sizing:border-box}
@@ -18,139 +18,158 @@ section{display:flex;flex-direction:column;gap:.875rem;min-width:0}
 .jump{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .jump button{min-height:44px;padding:0 14px;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);color:var(--color-text);font:600 13px var(--font-ui);cursor:pointer}
 .jump button[aria-pressed=true]{background:var(--color-accent);border-color:var(--color-primary)}
-.jump.v button{font-weight:700}
 button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .notes{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,16rem),1fr));gap:10px}
 .nt{background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
 .nt>b{display:flex;gap:8px;align-items:baseline;font-size:15px} .nt .n{flex:none;width:22px;height:22px;border-radius:50%;background:var(--color-primary);color:var(--color-primary-text);display:grid;place-items:center;font-size:12px}
 .nt>span{font-size:13.5px;color:var(--color-text-muted)}
-.nt .rec{font-size:12.5px;font-weight:700;color:var(--color-primary)}
-.nt .pro{font-size:13px;color:var(--color-text)}
+.tscroll{overflow-x:auto;background:var(--color-surface);border:1px solid var(--color-border);border-radius:16px}
+.audit{width:100%;border-collapse:collapse;font-size:13.5px;min-width:640px} .audit th,.audit td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--color-border);vertical-align:top}
+.audit th{font-size:12px;color:var(--color-text-muted);font-weight:700;background:var(--color-background)} .audit tr:last-child td{border-bottom:0}
+.audit code{font:600 12px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--color-track);border-radius:4px;padding:0 4px}
+.kind{display:inline-block;font-size:11.5px;font-weight:800;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.kind.app{background:var(--color-success-surface,#ECFDF3);color:var(--color-success,#067647)} .kind.new{background:var(--color-warning-surface,#FFFAEB);color:var(--color-warning,#B54708)} .kind.frame{background:var(--color-track);color:var(--color-text-muted)}
 
-/* ---------- the phone (Expressive) ---------- */
-.ph{width:360px;max-width:100%;height:740px;border-radius:44px;border:10px solid #1A1A1A;overflow:hidden;position:relative;background:#FBF6EA;color:#1B4332;font:15px/1.45 'Plus Jakarta Sans',sans-serif;box-shadow:0 18px 40px rgba(26,26,26,.18);color-scheme:light;display:flex;flex-direction:column}
+/* ============ The phone. Every value below is a token from frontend/theme (Expressive skin), the Home scale
+   (frontend/components/home/homeType.ts, HOME_TEXT), or a named app component's own value. Nothing else. ============ */
+.ph{
+  /* color: themes.expressive + tokens.color */
+  --c-bg:#FBF6EA; --c-surface:#FFFFFF; --c-text:#1B4332; --c-muted:#6B5D4A; --c-placeholder:#807160;
+  --c-primary:#1B4332; --c-on-primary:#FFFFFF; --c-border:#E8DCC4; --c-border-strong:#7F6F58; --c-track:#E8DCC4;
+  --c-accent:#D8F3DC; --c-success:#067647; --c-success-surface:#ECFDF3; --c-gold:#F4C35A;
+  --b-mint:#D8F3DC; --b-peach:#FDE2CC; --b-butter:#FBEFC8; --b-blush:#FAD6CB;
+  /* spacing, radius (theme.ui.radius for Expressive: card lg, block xl, pills) */
+  --s-xs:4px; --s-sm:8px; --s-md:16px; --s-lg:24px;
+  --r-md:12px; --r-lg:16px; --r-xl:24px; --r-pill:999px;
+  /* type: tokens.fontSize / lineHeight, then HOME_TEXT */
+  --f-caption:11px; --f-small:14px; --f-body:16px; --f-lead:18px; --f-option:20px; --f-section:21px; --f-title:24px;
+  --lh-caption:14px; --lh-small:20px; --lh-body:22px; --lh-lead:24px; --lh-option:26px; --lh-section:26px; --lh-title:30px;
+  --home-kicker:11px; --home-body:12.5px; --home-row:15px; --home-name:17px; --home-date:34px;
+  --ui:'Plus Jakarta Sans',system-ui,sans-serif; --display:Fredoka,var(--ui);
+  /* sizes: tokens.icon, tokens.layout, Expressive button */
+  --icon-sm:22px; --icon-md:28px; --icon-hero:40px; --touch:44px; --btn-h:52px; --tabbar-h:60px;
+  width:360px;max-width:100%;height:740px;border-radius:44px;border:10px solid #1A1A1A;overflow:hidden;position:relative;background:var(--c-bg);color:var(--c-text);font:var(--f-body)/var(--lh-body) var(--ui);box-shadow:0 18px 40px rgba(26,26,26,.18);color-scheme:light;display:flex;flex-direction:column}
+/* device frame (not the app): status bar */
 .ph .sb{display:flex;justify-content:space-between;padding:12px 22px 4px;font-weight:700;font-size:13px;flex:none}
-.ph .hd{display:flex;align-items:center;gap:8px;padding:6px 18px 8px;flex:none}
-.ph .hd .t{flex:1;min-width:0} .ph .hd .t b{display:block;font:600 26px/1.1 Fredoka,sans-serif;color:#1B4332} .ph .hd .t small{font-size:13px;font-weight:600;color:#6B5D4A}
-.ph .ib{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#1B4332} .ph .ib svg{width:22px;height:22px}
-.ph .av{width:36px;height:36px;border-radius:50%;background:#D8F3DC;display:grid;place-items:center;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#1B4332}
-.scroll{flex:1;overflow-y:auto;padding:4px 18px 16px;display:flex;flex-direction:column;gap:14px;scrollbar-width:none}
-.foot{flex:none;padding:8px 18px 10px;display:flex;flex-direction:column;gap:8px;background:linear-gradient(rgba(251,246,234,0),#FBF6EA 22%)}
-.btn{min-height:52px;border-radius:999px;border:0;font:700 16px 'Plus Jakarta Sans',sans-serif;background:#1B4332;color:#fff;padding:0 22px;cursor:pointer;width:100%}
-.btn.s{background:#fff;color:#1B4332;border:1.5px solid #7F6F58;min-height:44px}
-.tabs{flex:none;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #E8DCC4;background:#fff;padding:6px 4px 14px}
-.tabs span{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:#7F6F58} .tabs svg{width:22px;height:22px}
-.tabs span.on{color:#1B4332}
-.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;padding:0 28px}
-.empty .em{font-size:44px} .empty b{font-size:17px;color:#1A1A1A} .empty span{font-size:14.5px;color:#5C5C5C}
-.sec{font:600 19px/1.2 Fredoka,sans-serif;color:#1B4332}
-.toast{position:absolute;left:18px;right:18px;bottom:150px;background:#1B4332;color:#fff;border-radius:14px;padding:10px 14px;font-size:14px;font-weight:600;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none;z-index:5}
-.toast.on{opacity:1;transform:none}
+.ph b,.ph strong{font-weight:700}
+.ph svg{flex:none}
 
-/* the compact checklist, shared by A, C and D */
-.card{background:#fff;border-radius:24px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 0 #E8DCC4,0 6px 18px rgba(27,67,50,.06)}
-.card .top{display:flex;align-items:center;gap:10px} .card .top div{flex:1} .card .top b{display:block;font:600 18px/1.2 Fredoka,sans-serif;color:#1B4332} .card .top small{font-size:13px;color:#6B5D4A}
-.bar{height:8px;border-radius:4px;background:#EFE5CF;overflow:hidden} .bar i{display:block;height:100%;background:linear-gradient(90deg,#2D6A4F,#067647);border-radius:4px;transition:width .4s cubic-bezier(.2,.8,.2,1)}
-.opt{font-size:10.5px;font-weight:800;color:#6B5D4A;background:#F3EBD8;border-radius:999px;padding:1px 7px;margin-left:6px;vertical-align:1px}
-.next3{display:flex;flex-direction:column;gap:8px}
-.next3 div{display:flex;gap:10px;align-items:center;font-size:14px;color:#1A1A1A} .next3 i{flex:none;width:24px;height:24px;border-radius:50%;background:#1B4332;color:#fff;display:grid;place-items:center;font:800 12px 'Plus Jakarta Sans',sans-serif;font-style:normal}
+/* RoleTabs header: title (fontSize.title, display), "Name · Role" (small, semibold, muted), bell icon.sm, Avatar 40 */
+.hdr{display:flex;align-items:center;gap:var(--s-sm);padding:var(--s-xs) var(--s-md) var(--s-sm);flex:none}
+.hdr .t{flex:1;min-width:0} .hdr h1{margin:0;font:600 var(--f-title)/var(--lh-title) var(--display);color:var(--c-text)}
+.hdr small{display:block;font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)}
+.iconbtn{width:var(--touch);height:var(--touch);display:grid;place-items:center;color:var(--c-text)} .iconbtn svg{width:var(--icon-sm);height:var(--icon-sm)}
+/* Avatar: round, default 40; initials on accent */
+.avatar{--size:40px;width:var(--size);height:var(--size);border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;background:var(--c-accent);color:var(--c-text);font:700 var(--f-small)/1 var(--ui)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+
+/* Screen: scrolling content, md side padding, md between blocks; a pinned footer (Screen footer=) */
+.screen{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:var(--s-xs) var(--s-md) var(--s-md);display:flex;flex-direction:column;gap:var(--s-md);scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}
+.screen>*{flex:none}
+.footer{flex:none;padding:var(--s-sm) var(--s-md);background:linear-gradient(rgba(251,246,234,0),var(--c-bg) 24%)}
+/* Button (Expressive): 52 tall, pill, body bold; secondary = white with a 2 px ink outline */
+.button{width:100%;min-height:var(--btn-h);border-radius:var(--r-pill);border:0;background:var(--c-primary);color:var(--c-on-primary);font:700 var(--f-body)/var(--lh-body) var(--ui);cursor:pointer;padding:0 var(--s-lg)}
+.button.secondary{background:var(--c-surface);color:var(--c-text);border:2px solid var(--c-text)}
+.textbutton{min-height:var(--touch);display:inline-flex;align-items:center;padding:0 var(--s-sm);font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-text);border:0;background:none}
+/* RoleTabs tab bar: tabBarHeight 60, icon.sm, label 11.5/16 bold (RoleTabs tabBarLabelStyle) */
+.tabbar{flex:none;height:var(--tabbar-h);display:grid;grid-template-columns:repeat(5,1fr);align-items:center;border-top:1px solid var(--c-border);background:var(--c-surface)}
+.tabbar span{display:flex;flex-direction:column;align-items:center;gap:var(--s-xs);font:700 11.5px/16px var(--ui);color:var(--c-muted)} .tabbar svg{width:var(--icon-sm);height:var(--icon-sm)}
+.tabbar span.on{color:var(--c-text)}
+
+/* Kicker: HOME_TEXT.kicker, the label above a Home block */
+.kicker{display:flex;align-items:center;gap:var(--s-sm);font:700 var(--home-kicker)/var(--lh-caption) var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted)}
+.kicker .tag{margin-left:auto}
+.kicker>svg{width:var(--lh-caption);height:var(--lh-caption)} /* sized to the label's line */
+/* Tag: read-only, flat; small, xs × sm padding, pill */
+.tag{display:inline-flex;align-items:center;gap:var(--s-xs);padding:var(--s-xs) var(--s-sm);border-radius:var(--r-pill);font:700 var(--f-small)/var(--lh-small) var(--ui);letter-spacing:0;text-transform:none}
+.tag svg{width:var(--f-small);height:var(--f-small)}
+.tag.brand{background:var(--c-accent);color:var(--c-primary)} .tag.success{background:var(--c-success-surface);color:var(--c-success)} .tag.gold{background:var(--c-gold);color:var(--c-text)}
+/* Card: white (radius card = lg) or a color block (radius block = xl), md padding */
+.card{background:var(--c-surface);border-radius:var(--r-xl);padding:var(--s-md);display:flex;flex-direction:column;gap:var(--s-sm)}
+.card.mint{background:var(--b-mint)} .card.butter{background:var(--b-butter)} .card.peach{background:var(--b-peach)}
+/* SectionTitle: fontSize.section, display */
+.sectiontitle{display:flex;justify-content:space-between;align-items:center;min-height:var(--touch)} .sectiontitle h2{margin:0;font:600 var(--f-section)/var(--lh-section) var(--display);color:var(--c-text)}
+
+/* SitterResultCard (what owners see in search): Avatar 52, name body bold, facts small muted, availability caption on
+   successSurface, price option (display) + "per night" caption; radius xl, md padding, md gap */
+.sittercard{display:flex;align-items:center;gap:var(--s-md);padding:var(--s-md);border-radius:var(--r-xl);background:var(--c-surface)}
+.sittercard .avatar{--size:52px;font-size:var(--f-body)}
+.sittercard .body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.sittercard .name{font:700 var(--f-body)/var(--lh-body) var(--ui);color:var(--c-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sittercard .meta{font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)}
+.sittercard .avail{align-self:flex-start;margin-top:2px;padding:2px var(--s-sm);border-radius:var(--r-pill);background:var(--c-success-surface);color:var(--c-success);font:700 var(--f-caption)/var(--lh-caption) var(--ui)}
+.sittercard .price{display:flex;flex-direction:column;align-items:flex-end}
+.sittercard .amount{font:600 var(--f-option)/var(--lh-option) var(--display);color:var(--c-text)} .sittercard .per{font:400 var(--f-caption)/var(--lh-caption) var(--ui);color:var(--c-muted)}
+
+/* ListRow (Figma Settings list): white group (radius block), rows 54 min, 13 × md padding, title 15/21, subtitle 12.5/17.5 */
+.listgroup{background:var(--c-surface);border-radius:var(--r-xl);overflow:hidden}
+.listrow{display:flex;align-items:center;gap:var(--s-sm);min-height:54px;padding:13px var(--s-md);border-top:1px solid var(--c-border);width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left;font:inherit;color:inherit}
+.listrow:first-child{border-top:0}
+.listrow .tile{width:var(--touch);height:var(--touch);border-radius:var(--r-md);display:grid;place-items:center;flex:none;color:var(--c-text)} .listrow .tile svg{width:var(--icon-sm);height:var(--icon-sm)}
+.listrow .txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.listrow .title{font:700 var(--home-row)/21px var(--ui);color:var(--c-text)} .listrow .sub{font:400 var(--home-body)/17.5px var(--ui);color:var(--c-muted)}
+.listrow .kicker{margin-bottom:2px}
+.listrow .end{font:600 var(--home-body)/17.5px var(--ui);color:var(--c-muted);white-space:nowrap}
+/* CheckRow: 44 min, a 22 check, body label */
+.checkrow{display:flex;align-items:center;gap:var(--s-sm);min-height:var(--touch);padding:0 var(--s-md);border-top:1px solid var(--c-border);font:400 var(--f-small)/var(--lh-small) var(--ui)}
+.checkrow:first-child{border-top:0}
+.checkrow .box{width:var(--icon-sm);height:var(--icon-sm);border-radius:50%;border:2px solid var(--c-border-strong);display:grid;place-items:center;flex:none}
+.checkrow .box.on{background:var(--c-success);border-color:var(--c-success);color:var(--c-on-primary)} .checkrow .box svg{width:var(--f-small);height:var(--f-small)}
+.checkrow .end{margin-left:auto;font:600 var(--home-body)/17.5px var(--ui);color:var(--c-muted)}
+/* SummaryRow: label small muted, value small bold (one line each), sm vertical padding */
+.summary{display:flex;justify-content:space-between;gap:var(--s-md);font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)} .summary b{color:var(--c-text)}
+/* MessageBubble ("me"): 12 × 14 padding, radius lg with a 4 px tail corner, body 16 at 1.45 */
+.bubble{align-self:flex-end;max-width:88%;background:var(--c-primary);color:var(--c-on-primary);border-radius:var(--r-lg);border-bottom-right-radius:4px;padding:12px 14px;font:400 var(--f-body)/23px var(--ui)}
+.bubblemeta{align-self:flex-end;display:flex;align-items:center;gap:var(--s-xs);font:600 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)} .bubblemeta img{width:var(--f-small);height:var(--f-small)}
+/* BookingTicket (Home): butter block, kicker, pet names HOME_TEXT.name, dates HOME_TEXT.date (display), radius 28 as on main */
+.ticket{background:var(--b-butter);border-radius:28px;padding:var(--s-md);display:flex;flex-direction:column;gap:var(--s-sm);position:relative}
+.ticket .pets{font:600 var(--home-name)/var(--lh-lead) var(--display);color:var(--c-text)}
+.ticket .dates{display:flex;align-items:flex-end;gap:var(--s-sm)} .ticket .dates small{display:block;font:700 var(--home-kicker)/var(--lh-caption) var(--ui);letter-spacing:.06em;color:var(--c-muted)}
+.ticket .dates span{font:600 var(--home-date)/1 var(--display);color:var(--c-text)} .ticket .dates i{font-style:normal;font:600 var(--f-option)/1 var(--display);color:var(--c-muted);padding-bottom:var(--s-xs)}
+.ticket .art{position:absolute;right:var(--s-md);top:var(--s-md);width:var(--icon-hero);height:var(--icon-hero)}
+
+/* ---------- NEW component: StageTrail. A mint color block (Card tone, radius xl) with five stops on a dashed path.
+   Stops are touch targets (44) with an icon.sm glyph; labels are caption pills; the paw is icon.sm. The path's
+   coordinates are artwork (like the pixel pets), so they are not tokens. ---------- */
+.trail{position:relative;height:120px;border-radius:var(--r-xl);background:var(--b-mint);overflow:hidden}
+.ticket .trail{background:rgba(255,255,255,.55)}
+.trail .ground{position:absolute;left:-10%;right:-10%;bottom:-48px;height:84px;border-radius:50%;background:var(--c-primary);opacity:.16} /* the Welcome hero's ground */
+.ticket .trail .ground{display:none}
+.trail svg.road{position:absolute;inset:0;width:100%;height:100%}
+.trail .art{position:absolute;width:var(--icon-md);height:var(--icon-md)}
+.stop{position:absolute;transform:translate(-50%,-50%);width:var(--touch);height:var(--touch);border-radius:50%;display:grid;place-items:center;border:2px solid var(--c-surface);padding:0;cursor:pointer;color:var(--c-text)}
+.stop svg{width:var(--icon-sm);height:var(--icon-sm)}
+.stop.done{background:var(--c-surface);border-color:var(--c-gold)} .stop.done img{width:36px;height:36px;image-rendering:pixelated} /* the coin fills the circle inside its 2 px ring and 2 px of air */
+/* the coin pops, never the stop: the stop's own transform keeps it centred on the path */
+.stop.done img{animation:pop 240ms ease-out}
+.stop.here{box-shadow:0 0 0 var(--s-xs) var(--c-gold)}
+.stop small{position:absolute;left:50%;top:calc(100% + var(--s-xs));transform:translateX(-50%);white-space:nowrap;padding:2px var(--s-sm);border-radius:var(--r-pill);background:var(--c-surface);font:700 var(--f-caption)/var(--lh-caption) var(--ui);color:var(--c-text)}
+.stop.up small{top:auto;bottom:calc(100% + var(--s-xs))}
+.walker{position:absolute;width:var(--icon-sm);height:var(--icon-sm);color:var(--c-text);transform:translate(-50%,-50%);transition:left 240ms,top 240ms;pointer-events:none}
 @keyframes pop{0%{transform:scale(.4)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-
-/* A · the waiting tamagotchi (same device as the real pet room) */
-@keyframes breathe{0%,100%{transform:translateX(-50%) scale(1,1)}50%{transform:translateX(-50%) scale(1.03,.97)}}
-@keyframes hop{0%,100%{transform:translateX(-50%) translateY(0)}45%{transform:translateX(-50%) translateY(-10px)}}
-@keyframes blink{50%{opacity:0}}
-
-/* B · your card, as owners see it */
-.pcard{background:#fff;border-radius:24px;padding:16px;display:flex;flex-direction:column;gap:12px;position:relative;box-shadow:0 1px 0 #E8DCC4,0 10px 26px rgba(27,67,50,.08);flex:none}
-.pcard .lbl{display:flex;align-items:center;gap:6px;font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#6B5D4A} .pcard .lbl svg{width:15px;height:15px}
-.pcard .who{display:flex;gap:14px;align-items:center}
-.ring{--p:0;width:76px;height:76px;border-radius:50%;flex:none;display:grid;place-items:center;background:conic-gradient(#067647 calc(var(--p)*1%),#EFE5CF 0);transition:--p .4s}
-.ring .pv{width:64px;height:64px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden;border:3px solid #fff}
-.ring .pv img{width:100%;height:100%;object-fit:cover} .ring .pv.blank{border:2px dashed #CBBFA8;color:#9A8B73} .ring .pv.blank svg{width:24px;height:24px}
-.pcard .nm b{display:block;font:600 22px/1.15 Fredoka,sans-serif;color:#1B4332}
-.newtag{display:inline-flex;align-items:center;gap:4px;background:#F4C35A;color:#1A1A1A;border-radius:999px;padding:2px 9px;font:800 11.5px 'Plus Jakarta Sans',sans-serif}
-.pcard .nm small{display:block;font-size:13px;color:#6B5D4A;margin-top:3px}
-.facts{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;font-size:13.5px;align-items:baseline}
-.facts span{color:#6B5D4A;font-weight:600} .facts b{color:#1A1A1A;font-weight:700}
-.facts i{font-style:normal;color:#9A8B73;border:1.5px dashed #CBBFA8;border-radius:8px;padding:1px 8px;font-weight:600;font-size:12.5px;justify-self:start}
-.pcard .stk{position:absolute;width:30px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
-
-/* C · paw path */
-.stop{position:absolute;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 3px 8px rgba(27,67,50,.18);cursor:pointer;padding:0}
-.stop svg{width:20px;height:20px;color:#1B4332;stroke-width:2.25} .stop img{width:44px;height:44px;image-rendering:pixelated;border-radius:50%}
-.stop.done{border-color:#F4C35A} .stop.done img{width:38px;height:38px}
-.stop.done{background:#fff} .stop.done img{animation:pop .35s ease-out} .stop.here{box-shadow:0 0 0 6px rgba(244,195,90,.55),0 3px 8px rgba(27,67,50,.18);animation:pulse 1.6s ease-in-out infinite}
-.stop small{position:absolute;top:47px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 10.5px/1 'Plus Jakarta Sans',sans-serif;color:#1B4332;background:#fff;border-radius:999px;padding:4px 8px;box-shadow:0 1px 3px rgba(27,67,50,.12)}
-.goal{position:absolute;right:14px;top:12px;display:flex;flex-direction:column;align-items:center;gap:2px}
-.goal small{font:800 10.5px 'Plus Jakarta Sans',sans-serif;color:#1B4332;background:#fff;border-radius:999px;padding:2px 8px}
-.walker{position:absolute;width:22px;height:22px;transform:translate(-50%,-175%);filter:drop-shadow(0 2px 0 #fff);transition:left .5s,top .5s;color:#1B4332;z-index:2}
-@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(244,195,90,.25),0 3px 8px rgba(27,67,50,.18)}}
-
-/* D · stamp card */
-@keyframes press{0%{transform:scale(1.6) rotate(-20deg);opacity:0}100%{transform:scale(1) rotate(var(--r,0deg));opacity:1}}
-/* E · card + trail */
-.trail{position:relative;height:122px;border-radius:22px;background:#D8F3DC;overflow:hidden;flex:none}
-.trail .hill{position:absolute;left:-10%;right:-10%;bottom:-46px;height:84px;border-radius:50%;background:#B9DDBF}
-.trail svg.road{position:absolute;inset:0}
-.trail .stop{width:40px;height:40px} .trail .stop svg{width:18px;height:18px} .trail .stop.done img{width:34px;height:34px}
-.trail .stop small{top:43px;font-size:10px;padding:3px 7px}
-.trail .home{position:absolute;right:8px;top:8px;width:40px}
-.trail .tree{position:absolute;width:30px;opacity:.9}
-.pcard.compact{padding:12px 14px;gap:8px}
-.step{display:flex;align-items:center;gap:12px;width:100%;padding:12px 14px;border:0;border-radius:20px;background:#fff;box-shadow:0 1px 0 #E8DCC4,0 6px 18px rgba(27,67,50,.06);text-align:left;font:inherit;color:inherit;cursor:pointer;flex:none}
-.step .ic{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none} .step .ic svg{width:22px;height:22px;color:#1B4332}
-.step .tx{flex:1;min-width:0} .step .eb{display:block;font:800 10.5px 'Plus Jakarta Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#067647}
-.step b{display:block;font:600 16px/1.2 Fredoka,sans-serif;color:#1B4332} .step small{display:block;font-size:12.5px;color:#6B5D4A}
-.step .go{width:22px;height:22px;color:#9A8B73;flex:none} .step .go svg{width:22px;height:22px}
-.pcard.compact .ring{width:56px;height:56px} .pcard.compact .ring .pv{width:47px;height:47px} .pcard.compact .nm b{font-size:20px}
-.pcard.compact .facts{gap:4px 12px;font-size:12.5px} .pcard.compact .facts i{font-size:12px;padding:0 7px}
-/* F · path to your card */
-.pcard .who .ic svg{width:22px;height:22px;color:#1B4332}
-/* With bookings */
-.slim{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:#fff;box-shadow:0 1px 0 #E8DCC4;flex:none}
-.slim .ring{width:40px;height:40px} .slim .ring .pv{width:33px;height:33px;border-width:2px}
-.slim .tx{flex:1;min-width:0} .slim b{display:block;font-size:14px;color:#1A1A1A} .slim small{display:block;font-size:12px;color:#6B5D4A}
-.slim .ed{font:700 13px 'Plus Jakarta Sans',sans-serif;color:#1B4332;min-height:44px;display:flex;align-items:center;padding:0 4px}
-.req{background:#fff;border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 1px 0 #E8DCC4,0 8px 20px rgba(27,67,50,.07);flex:none}
-.req .who{display:flex;gap:10px;align-items:center} .req .who .av2{width:40px;height:40px;border-radius:50%;background:#FDE2CC;display:grid;place-items:center;font:800 15px 'Plus Jakarta Sans',sans-serif;color:#1B4332;flex:none}
-.req .who b{display:block;font:600 17px/1.2 Fredoka,sans-serif;color:#1B4332} .req .who small{display:block;font-size:12.5px;color:#6B5D4A}
-.req .new{margin-left:auto;align-self:flex-start;font:800 10.5px 'Plus Jakarta Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase;background:#F4C35A;color:#1A1A1A;border-radius:999px;padding:3px 8px}
-.draft{background:#ECF7EE;border-radius:16px 16px 16px 4px;padding:10px 12px;font-size:13.5px;line-height:1.45;color:#1A1A1A}
-.draft .lab{display:flex;align-items:center;gap:6px;font:800 10.5px 'Plus Jakarta Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase;color:#067647;margin-bottom:4px} .draft .lab img{width:16px}
-.tix{background:#FBEFC8;border-radius:24px;padding:14px;display:flex;flex-direction:column;gap:10px;flex:none;position:relative;overflow:hidden}
-.tix .k{font:800 11px 'Plus Jakarta Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#8A6A12} .tix .h{font:600 22px/1.1 Fredoka,sans-serif;color:#1B4332}
-.tix .dates{display:flex;align-items:flex-end;gap:10px} .tix .dates small{display:block;font:800 10px 'Plus Jakarta Sans',sans-serif;letter-spacing:.06em;color:#6B5D4A} .tix .dates span{font:600 26px/1 Fredoka,sans-serif;color:#1B4332} .tix .dates i{font-style:normal;font-size:20px;color:#8A6A12;padding-bottom:2px}
-.tix .art{position:absolute;right:10px;top:8px;width:64px}
-.tix .trail{background:rgba(255,255,255,.55);height:112px}
-.tix .trail .hill{display:none}
-.kv{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#4A3F31} .kv b{color:#1A1A1A}
-.care{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:none}
-.care .pt{display:flex;align-items:center;gap:8px;padding:10px;border-radius:18px;background:#fff;box-shadow:0 1px 0 #E8DCC4}
-.care .pt img{width:44px;height:44px;border-radius:14px;object-fit:cover} .care .pt b{display:block;font-size:14px} .care .pt small{display:block;font-size:11.5px;color:#6B5D4A}
-.tasks{background:#fff;border-radius:20px;padding:4px 14px;box-shadow:0 1px 0 #E8DCC4;flex:none}
-.tasks div{display:flex;align-items:center;gap:10px;min-height:44px;border-top:1px solid #F3EBD8;font-size:14px} .tasks div:first-child{border-top:0}
-.tasks .ck{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none;border:2px solid #CBBFA8} .tasks .ck.on{background:#067647;border-color:#067647;color:#fff} .tasks .ck svg{width:15px;height:15px}
-.tasks span.t{margin-left:auto;font-size:12.5px;color:#6B5D4A;font-weight:700}
-.list{display:flex;flex-direction:column;gap:8px;flex:none}
-.lrow{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:#fff;box-shadow:0 1px 0 #E8DCC4}
-.lrow .tx{flex:1;min-width:0} .lrow b{display:block;font-size:14px;color:#1A1A1A} .lrow small{display:block;font-size:12px;color:#6B5D4A}
-.dots{display:flex;gap:4px;align-items:center} .dots i{width:16px;height:16px;border-radius:50%;background:#EFE5CF;display:block} .dots i.d{background:#F4C35A url(assets/intro/goldito-coin-tight.svg) center/14px no-repeat} .dots i.h{background:#fff;box-shadow:0 0 0 2px #F4C35A}
-.secrow{display:flex;justify-content:space-between;align-items:baseline} .secrow a{font:700 13px 'Plus Jakarta Sans',sans-serif;color:#1B4332;text-decoration:none}
+/* NEW, the mini StageTrail for list rows: five 16 px dots (sm × 2), xs apart */
+.minitrail{display:flex;gap:var(--s-xs);align-items:center;flex:none} .minitrail i{width:16px;height:16px;border-radius:50%;background:var(--c-track);display:block}
+.minitrail i.d{background:var(--c-gold) url(assets/intro/goldito-coin-tight.svg) center/12px no-repeat} .minitrail i.h{background:var(--c-surface);box-shadow:inset 0 0 0 2px var(--c-gold)}
+/* "What happens next": number badges sized to lineHeight.lead (24) */
+.steps{display:flex;flex-direction:column;gap:var(--s-sm)} .steps div{display:flex;gap:var(--s-sm);align-items:center;font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-text)}
+.steps i{flex:none;width:var(--lh-lead);height:var(--lh-lead);border-radius:50%;background:var(--c-primary);color:var(--c-on-primary);display:grid;place-items:center;font:700 var(--f-caption)/1 var(--ui);font-style:normal}
+.card h3{margin:0;font:600 var(--f-section)/var(--lh-section) var(--display);color:var(--c-text)} .card p{margin:0;font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)}
+/* EmptyState (today, from main): hero emoji, lead title, small message */
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s-sm);text-align:center;padding:0 var(--s-lg)}
+.empty .em{font-size:var(--icon-hero);line-height:1} .empty b{font:700 var(--f-lead)/var(--lh-lead) var(--ui)} .empty span{font:400 var(--f-small)/var(--lh-small) var(--ui);color:var(--c-muted)}
+.empty .button{width:auto;margin-top:var(--s-sm)}
+/* Toast: primary ground, radius lg, sm × md padding, small semibold; sits above the pinned footer */
+.toast{position:absolute;left:var(--s-md);right:var(--s-md);bottom:calc(var(--tabbar-h) + var(--btn-h) + var(--s-md) + var(--s-sm));background:var(--c-primary);color:var(--c-on-primary);border-radius:var(--r-lg);padding:var(--s-sm) var(--s-md);font:600 var(--f-small)/var(--lh-small) var(--ui);opacity:0;transform:translateY(var(--s-sm));transition:opacity 240ms,transform 240ms;pointer-events:none;z-index:5}
+.toast.on{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.ph *{animation:none!important;transition:none!important}}
-.trail .stop.up small{top:auto;bottom:43px}
-.step{cursor:default}
-.readytag{position:absolute;right:14px;top:12px;display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:999px;background:#ECFDF3;color:#067647;font:800 11.5px 'Plus Jakarta Sans',sans-serif;animation:pop .35s ease-out}
-.readytag svg{width:13px;height:13px}
-/* on a higher stop the label sits above, so the paw stands beside the coin */
-.trail .walker.side{transform:translate(-210%,-55%)}
 </style>
 <script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
 <div class="wrap">
 <header style="display:flex;flex-direction:column;gap:.6rem">
   <span class="eyebrow">Trial · E chosen Oct 26</span>
   <h1><span class="en">A sitter's Home before the first booking</span><span class="ko">첫 예약 전 시터의 홈</span></h1>
-  <p class="lede"><span class="en">Today a new sitter lands on a weather emoji and "No pets in your care today". This Home turns the wait into getting booked: the card owners will see fills in at the top, a paw trail turns each finished step into a coin on the way to the first guest, and one button always opens the next missing step. Tap the coins or the button to fill them, or jump between states.</span><span class="ko">지금 새 시터는 날씨 이모지와 "오늘 돌보는 펫이 없어요"만 봐요. 이 홈은 기다림을 예약 준비로 바꿔요: 위에는 보호자가 볼 카드가 채워지고, 발자국 길은 끝낸 단계마다 코인이 되어 첫 손님까지 이어지며, 버튼 하나가 늘 다음 빠진 단계를 열어요. 코인이나 버튼을 눌러 채우거나 상태를 골라 보세요.</span></p>
+  <p class="lede"><span class="en">Today a new sitter lands on a weather emoji and "No pets in your care today". This Home turns the wait into getting booked: the search card owners will see fills in at the top, a paw trail turns each finished step into a coin on the way to the first guest, and one button always opens the next missing step. Tap the coins or the button to fill them, or jump between states. Every size, color and font comes from the app's tokens or an existing component; the audit is under the phones.</span><span class="ko">지금 새 시터는 날씨 이모지와 "오늘 돌보는 펫이 없어요"만 봐요. 이 홈은 기다림을 예약 준비로 바꿔요: 위에는 보호자가 검색에서 볼 카드가 채워지고, 발자국 길은 끝낸 단계마다 코인이 되어 첫 손님까지 이어지며, 버튼 하나가 늘 다음 빠진 단계를 열어요. 모든 크기, 색, 글꼴은 앱의 토큰이나 기존 컴포넌트에서 왔어요; 점검표는 폰 아래에 있어요.</span></p>
 </header>
 
 <section>
@@ -172,11 +191,36 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 <section>
   <h2><span class="en">How it works</span><span class="ko">어떻게 동작하나</span></h2>
   <div class="notes">
-    <div class="nt"><b><span class="n">1</span><span class="en">Your card, filling in</span><span class="ko">채워지는 내 카드</span></b><span><span class="en">The card owners choose from: photo and bio, rate, open days, house rules, where you meet. Missing parts show as dashed "add" chips; a ring around the photo shows how close you are, and a Ready tag lands when the five are in.</span><span class="ko">보호자가 고르는 카드: 사진과 소개, 요금, 가능한 날, 규칙, 만나는 곳. 빠진 곳은 점선 "추가" 칩, 사진 둘레 링이 진행도, 다섯 개가 차면 Ready 태그.</span></span></div>
-    <div class="nt"><b><span class="n">2</span><span class="en">The paw trail</span><span class="ko">발자국 길</span></b><span><span class="en">Five stops, one per step; a finished step becomes a Goldito coin and the paw walks on to the house. When requests come in, the same trail becomes the stay's five stages: Ask, Meet, Book, Care, Home.</span><span class="ko">단계마다 정류장 다섯; 끝낸 단계는 골디토 코인이 되고 발자국이 집까지 걸어가요. 요청이 오면 같은 길이 머무름의 다섯 단계가 돼요: 문의, 만남, 예약, 돌봄, 귀가.</span></span></div>
-    <div class="nt"><b><span class="n">3</span><span class="en">One button</span><span class="ko">버튼 하나</span></b><span><span class="en">The pinned button names the next missing step and opens where it's set (Profile or Schedule). Auto-send is a bonus, not part of ready. All set, the button becomes Edit your answers.</span><span class="ko">고정 버튼은 다음 빠진 단계의 이름으로 그 화면(프로필, 일정)을 열어요. 자동 보내기는 보너스. 다 되면 버튼은 답변 수정이 돼요.</span></span></div>
+    <div class="nt"><b><span class="n">1</span><span class="en">The card owners see</span><span class="ko">보호자가 보는 카드</span></b><span><span class="en">The top card is SitterResultCard, the one owners pick from in search, filling in as you go: photo, then rate and the "Free on your dates" pill. A Ready tag lands when the five steps are in.</span><span class="ko">위 카드는 보호자가 검색에서 고르는 SitterResultCard 그대로, 단계가 채워질수록 사진, 요금, "가능" 표시가 나타나요. 다섯 단계가 차면 Ready 태그.</span></span></div>
+    <div class="nt"><b><span class="n">2</span><span class="en">The paw trail</span><span class="ko">발자국 길</span></b><span><span class="en">Five stops, one per step; a finished step becomes a Goldito coin and the paw walks on to the house. When requests come in, the same trail becomes the stay's five stages: Ask, Meet, Book, Care, Home.</span><span class="ko">단계마다 정류장 다섯; 끝낸 단계는 골디토 코인이 되고 발자국이 집까지 걸어가요. 요청이 오면 같은 길이 머무름의 다섯 단계가 돼요.</span></span></div>
+    <div class="nt"><b><span class="n">3</span><span class="en">One button</span><span class="ko">버튼 하나</span></b><span><span class="en">The pinned button names the next missing step and opens where it's set (Profile or Schedule). Auto-send is a bonus, not part of ready. All set, it becomes Edit your answers.</span><span class="ko">고정 버튼은 다음 빠진 단계의 이름으로 그 화면을 열어요. 자동 보내기는 보너스. 다 되면 답변 수정이 돼요.</span></span></div>
   </div>
   <div class="nt" style="max-width:68ch"><b><span class="en">Still open</span><span class="ko">남은 결정</span></b><span><span class="en">Ship before the Oct 28 freeze, or after? Where the pet room goes once the tamagotchi visuals land: behind the ticket, or on top of it.</span><span class="ko">10/28 동결 전, 후? 다마고치 비주얼이 정해지면 펫 방은 어디에: 티켓 뒤, 또는 위.</span></span></div>
+</section>
+
+<section id="audit">
+  <h2><span class="en">Tokens and components</span><span class="ko">토큰과 컴포넌트</span></h2>
+  <p><span class="en">Every part of the three phones, the app component it is, and where its numbers come from. Only two parts are new (the trail and its mini version); everything else is a component that already ships. Values outside the token scale are listed with the component or Figma frame that sets them, the same way the app marks them <code>tokens-ok</code>.</span><span class="ko">세 폰의 모든 부분, 그것이 어떤 앱 컴포넌트인지, 숫자가 어디서 왔는지. 새로 만드는 건 두 가지(발자국 길과 그 미니 버전)뿐이고 나머지는 이미 있는 컴포넌트예요. 토큰 밖의 값은 그 값을 정한 컴포넌트나 피그마 프레임과 함께 적었어요(앱의 <code>tokens-ok</code>와 같은 방식).</span></p>
+  <div class="tscroll"><table class="audit">
+    <thead><tr><th>Part</th><th>Component</th><th>Values</th><th>Outside the scale, and why</th></tr></thead>
+    <tbody>
+      <tr><td>Header</td><td><span class="kind app">app</span> RoleTabs header · Avatar</td><td>title <code>fontSize.title</code>/30 display · "Sam · Sitter" <code>small</code>/20 semibold muted · bell <code>icon.sm</code> in a 44 target · Avatar 40 (its default)</td><td>none</td></tr>
+      <tr><td>"Owners will see"</td><td><span class="kind app">app</span> Kicker (Home) · Tag</td><td><code>HOME_TEXT.kicker</code> 11/14 caps · Tag success: <code>small</code>/20, <code>xs</code>×<code>sm</code>, pill</td><td>11 is <code>HOME_TEXT.kicker</code> (Figma Home label)</td></tr>
+      <tr><td>The card owners see</td><td><span class="kind app">app</span> SitterResultCard</td><td>Avatar 52 · name <code>body</code> bold · facts <code>small</code> muted · "Free…" <code>caption</code> on <code>successSurface</code> · price <code>option</code> display + "per night" <code>caption</code> · radius <code>xl</code>, <code>md</code> padding and gap</td><td>Avatar 52 and the pill's 2 px padding are SitterResultCard's own</td></tr>
+      <tr><td>Paw trail</td><td><span class="kind new">new</span> StageTrail</td><td>mint block, radius <code>xl</code> · stops = <code>layout.touchTarget</code> 44 · glyphs <code>icon.sm</code> · labels <code>caption</code> pills, <code>xs</code> from the stop · paw <code>icon.sm</code> · halo <code>xs</code> in <code>gold</code> · trees and house <code>icon.md</code> · ground = the Welcome hero's (<code>primary</code> at 16%)</td><td>height 120 and the path's points are artwork (like the pixel pets, which the token check skips) · coin 36 fills the 44 stop inside its 2 px ring</td></tr>
+      <tr><td>Next step</td><td><span class="kind app">app</span> ListRow</td><td>54 min, 13×<code>md</code> padding, title 15/21, subtitle 12.5/17.5, tile 44 radius <code>md</code> in the step's block color, glyph <code>icon.sm</code></td><td>15, 12.5, 54 and 13 are ListRow's (Figma Settings list) = <code>HOME_TEXT.row</code> / <code>.body</code></td></tr>
+      <tr><td>Pinned button</td><td><span class="kind app">app</span> Button in <code>Screen footer</code></td><td>Expressive: 52 tall, pill, <code>body</code> bold; secondary = 2 px ink outline</td><td>none</td></tr>
+      <tr><td>You're ready</td><td><span class="kind app">app</span> Card</td><td>title <code>section</code>/26 display · text <code>small</code>/20 · number badges <code>lineHeight.lead</code> 24, <code>caption</code> bold</td><td>none</td></tr>
+      <tr><td>Request</td><td><span class="kind app">app</span> Card · Avatar · Tag brand · MessageBubble</td><td>Avatar 40 · Tag brand (<code>accent</code>/<code>primary</code>) · bubble 12×14, radius <code>lg</code> with a 4 px tail, <code>body</code>/23</td><td>12×14 and 23 are MessageBubble's (Figma Message Bubble)</td></tr>
+      <tr><td>Stay ticket</td><td><span class="kind app">app</span> BookingTicket · SummaryRow</td><td>butter block · kicker 11 · pets <code>HOME_TEXT.name</code> 17 display · dates <code>HOME_TEXT.date</code> 34 display · rows <code>small</code>/20</td><td>radius 28, 17 and 34 are BookingTicket's on main (Figma Bookings)</td></tr>
+      <tr><td>Your card is live · pets</td><td><span class="kind app">app</span> ListRow · Avatar · TextButton</td><td>as ListRow above; Edit = TextButton, 44 target</td><td>none beyond ListRow</td></tr>
+      <tr><td>Today's care</td><td><span class="kind app">app</span> CheckRow</td><td>44 min, check <code>icon.sm</code>, label <code>small</code>/20, time 12.5 muted</td><td>12.5 = <code>HOME_TEXT.body</code></td></tr>
+      <tr><td>Requests · Upcoming</td><td><span class="kind app">app</span> SectionTitle · ListRow · <span class="kind new">new</span> mini StageTrail</td><td>title <code>section</code> display · rows as ListRow · five dots 16, <code>xs</code> apart</td><td>dot 16 = <code>sm</code> × 2, coin 12 inside it</td></tr>
+      <tr><td>Tab bar</td><td><span class="kind app">app</span> RoleTabs</td><td><code>layout.tabBarHeight</code> 60 · <code>icon.sm</code> · label 11.5/16 bold</td><td>11.5/16 is RoleTabs' <code>tabBarLabelStyle</code></td></tr>
+      <tr><td>Toast</td><td><span class="kind app">app</span> ToastProvider</td><td><code>primary</code>, radius <code>lg</code>, <code>sm</code>×<code>md</code>, <code>small</code> semibold; sits above the footer</td><td>none</td></tr>
+      <tr><td>Status bar, bezel</td><td><span class="kind frame">frame</span> phone frame</td><td>12 × 22, 13 px, 10 px bezel</td><td>the desktop phone frame, not the app</td></tr>
+    </tbody></table></div>
+  <p><span class="en">Motion: <code>motion.base</code> 240 ms for the coin pop, the paw and the toast; the coin pops inside its stop so nothing shifts. Scrolling: each phone keeps its place when you tap, never scrolls the page behind it, and only scrolls when a state truly has more to show (All set, Busy week).</span><span class="ko">모션: 코인 팝, 발자국, 토스트 모두 <code>motion.base</code> 240ms; 코인은 정류장 안에서 튀어 아무것도 밀리지 않아요. 스크롤: 눌러도 위치가 그대로, 뒤의 페이지를 끌고 가지 않고, 정말 더 보여줄 게 있는 상태(다 됨, 바쁜 주)에서만 스크롤돼요.</span></p>
 </section>
 </div>
 
@@ -184,7 +228,7 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
   <symbol id="i-paw" viewBox="0 0 24 24"><g fill="currentColor"><ellipse cx="6.2" cy="10.4" rx="1.9" ry="2.4"/><ellipse cx="9.8" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="14.2" cy="6.6" rx="1.9" ry="2.5"/><ellipse cx="17.8" cy="10.4" rx="1.9" ry="2.4"/><path d="M12 11.2c-2.6 0-5.4 3.6-5.4 5.9 0 1.6 1.2 2.4 2.6 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.6-.8 2.6-2.4 0-2.3-2.8-5.9-5.4-5.9z"/></g></symbol>
 </svg>
 <script>
-// Lucide icons (stroke), as the app uses them.
+// Lucide icons (stroke 2), as the app's Icon draws them.
 const L = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const I = {
   bell: L('<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>'),
@@ -193,11 +237,7 @@ const I = {
   chat: L('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>'),
   img: L('<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>'),
   cam: L('<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>'),
-  user: L('<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
-  rules: L('<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><path d="M14 2v6h6M8 13h8M8 17h5"/>'),
   pin: L('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
-  car: L('<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/>'),
-  zap: L('<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>'),
   check: L('<path d="M20 6 9 17l-5-5"/>'),
   calok: L('<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="m9 16 2 2 4-4"/>'),
   scroll: L('<path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/>'),
@@ -206,68 +246,78 @@ const I = {
   handshake: L('<path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/>'),
   card: L('<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>'),
   heart: L('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
-  clock: L('<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>'),
   eye: L('<path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/>'),
-  chev: L('<path d="m9 18 6-6-6-6"/>'),
 };
 const COIN = "assets/intro/goldito-coin-tight.svg";
+const B = { mint: "var(--b-mint)", peach: "var(--b-peach)", butter: "var(--b-butter)", blush: "var(--b-blush)" };
 
-/* ---------- shared bits ---------- */
-const tabs = () => `<div class="tabs">${[["home", "Home"], ["cal", "Bookings"], ["chat", "Chat"], ["img", "Moments"], ["cam", "Snap"]].map(([i, l], k) => `<span class="${k === 0 ? "on" : ""}">${I[i]}${l}</span>`).join("")}</div>`;
-const head = (name) => `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="hd"><span class="t"><b>Home</b><small>${name} · Sitter</small></span><span class="ib">${I.bell}</span><span class="av">${name[0]}</span></div>`;
+/* ---------- shared parts, named after the app components they stand for ---------- */
+const tabbar = () => `<div class="tabbar" data-comp="Tab Bar">${[["home", "Home"], ["cal", "Bookings"], ["chat", "Chat"], ["img", "Moments"], ["cam", "Snap"]].map(([i, l], k) => `<span class="${k === 0 ? "on" : ""}">${I[i]}${l}</span>`).join("")}</div>`;
+const header = () => `<div class="sb"><span>6:30</span><span>●●●</span></div><div class="hdr" data-comp="Header"><span class="t"><h1>Home</h1><small>Sam · Sitter</small></span><span class="iconbtn">${I.bell}</span><span class="avatar">S</span></div>`;
+const avatar = (size, inner, bg) => `<span class="avatar" style="--size:${size}px${bg ? `;background:${bg}` : ""}">${inner}</span>`;
+const tag = (tone, label, icon = "") => `<span class="tag ${tone}" data-comp="Tag">${icon}${label}</span>`;
+// Render a phone and keep its scroll position, so a tap never jumps the list back to the top.
+function render(ph, html) {
+  const old = ph.querySelector(".screen"), top = old ? old.scrollTop : 0;
+  ph.innerHTML = html;
+  const fresh = ph.querySelector(".screen"); if (fresh) fresh.scrollTop = top;
+}
 
-document.getElementById("today").innerHTML = head("Sam") + `<div class="empty"><span class="em">🌤️</span><b>No pets in your care today</b><span>Open your schedule to take bookings.</span><button type="button" class="btn" style="width:auto;margin-top:8px">Open your schedule</button></div>` + tabs();
+document.getElementById("today").innerHTML = header() + `<div class="empty" data-comp="EmptyState"><span class="em">🌤️</span><b>No pets in your care today</b><span>Open your schedule to take bookings.</span><button type="button" class="button">Open your schedule</button></div>` + tabbar();
 
 // The six things Goldito needs before a sitter can answer owners well; each opens the screen where it's set.
 const ROWS = [
-  { k: "bio", icon: "cam", bg: "#FDE2CC", t: "Your photo and a short bio", short: "Photo & bio", why: "Owners choose a sitter from this", go: "Profile", btn: "Add your photo and bio" },
-  { k: "cal", icon: "calok", bg: "#D8F3DC", t: "Open days and your rates", short: "Days & rates", why: "Goldito quotes from these, never guesses", go: "Schedule", btn: "Set your days and rates" },
-  { k: "rules", icon: "scroll", bg: "#FBEFC8", t: "House rules", short: "House rules", why: "Your auto-reply reads them and shows owners", go: "Profile", btn: "Write your house rules" },
-  { k: "meet", icon: "pin", bg: "#FAD6CB", t: "Places to meet", short: "Meet spot", why: "Picked for the first Meet & Greet", go: "Profile", btn: "Add a place to meet" },
-  { k: "park", icon: "park", bg: "#D8F3DC", t: "Parking and lobby notes", short: "Parking", why: "Shared with the owner only after payment", go: "Profile", btn: "Add parking notes" },
-  { k: "auto", icon: "send", bg: "#FBEFC8", t: "Auto-send replies", short: "Auto-send", why: "Answers go out while you sleep; you can edit", go: "Profile", btn: "Turn on auto-send", optional: true },
+  { k: "bio", icon: "cam", bg: B.peach, t: "Your photo and a short bio", short: "Photo & bio", why: "Owners choose a sitter from this", go: "Profile", btn: "Add your photo and bio" },
+  { k: "cal", icon: "calok", bg: B.mint, t: "Open days and your rates", short: "Days & rates", why: "Goldito quotes from these, never guesses", go: "Schedule", btn: "Set your days and rates" },
+  { k: "rules", icon: "scroll", bg: B.butter, t: "House rules", short: "House rules", why: "Your auto-reply reads them and shows owners", go: "Profile", btn: "Write your house rules" },
+  { k: "meet", icon: "pin", bg: B.blush, t: "Places to meet", short: "Meet spot", why: "Picked for the first Meet & Greet", go: "Profile", btn: "Add a place to meet" },
+  { k: "park", icon: "park", bg: B.mint, t: "Parking and lobby notes", short: "Parking", why: "Shared with the owner only after payment", go: "Profile", btn: "Add parking notes" },
+  { k: "auto", icon: "send", bg: B.butter, t: "Auto-send replies", short: "Auto-send", why: "Answers go out while you sleep; you can edit", go: "Profile", btn: "Turn on auto-send", optional: true },
 ];
 const required = ROWS.filter((r) => !r.optional);
 const STATES = { new: [], half: ["bio", "cal", "rules"], ready: ROWS.map((r) => r.k) };
-const VARS = { E: "Card + trail" };
-const CAPS = {
-  E: "Your card on top fills in as you go; the paw trail under it turns each done step into a coin on the way to your first guest. The button always opens the next missing step.",
-};
-let V = "E", S = "new", done = new Set(), toastT;
-const left = () => ROWS.filter((r) => !done.has(r.k));
-const nextReq = () => left().find((r) => !r.optional);
+const CAP = "The search card owners will see fills in as you go; the paw trail under it turns each done step into a coin on the way to your first guest. The button always opens the next missing step.";
+let S = "new", done = new Set(), toastT;
+const nextReq = () => required.find((r) => !done.has(r.k));
 const nDone = () => required.filter((r) => done.has(r.k)).length;
 
-const readyCard = () => `<div class="card"><div class="top"><img src="${COIN}" alt="" style="width:34px"><div><b>You're ready for requests</b><small>Owners can find and book you now.</small></div></div>
-  <div class="next3"><div><i>1</i>An owner asks about dates and pets</div><div><i>2</i>Goldito drafts the reply in your words, with the quote</div><div><i>3</i>You tap Send${done.has("auto") ? ", or it sends itself" : ""}</div></div>
-  </div>`;
+/* SitterResultCard, as owners would see it today: the photo after step 1, the rate and "Free on your dates" after step 2. */
+const sitterCard = () => {
+  const photo = done.has("bio"), rate = done.has("cal");
+  return `<div class="sittercard" data-comp="SitterResultCard">${photo ? avatar(52, '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">') : avatar(52, "S")}
+    <span class="body"><span class="name">Sam</span><span class="meta">2 km · ${photo ? "5 yrs exp" : "New sitter"}</span>${rate ? '<span class="avail">Free Oct 9 to 12</span>' : ""}</span>
+    ${rate ? '<span class="price"><span class="amount">$48</span><span class="per">per night</span></span>' : ""}</div>`;
+};
 
-/* ---------- B · Your card ---------- */
-const ringAvatar = () => `<span class="ring" style="--p:${Math.round((nDone() / required.length) * 100)}"><span class="pv${done.has("bio") ? "" : " blank"}">${done.has("bio") ? '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">' : I.cam}</span></span>`;
-const factRows = () => { const f = (k, val, ask) => (done.has(k) ? `<b>${val}</b>` : `<i>${ask}</i>`);
-  return `<div class="facts"><span>Rate</span>${f("cal", "$48 a night", "add your rate")}<span>Open</span>${f("cal", "Oct 9 to 12, Oct 20 on", "pick open days")}<span>House rules</span>${f("rules", "No dogs on the sofa", "write a few")}<span>Meets at</span>${f("meet", "High Park, east gate", "add a place")}</div>`; };
-/* ---------- E · Card + trail (B's card, C's path) ---------- */
-const TSTOPS = [[40, 82], [92, 50], [144, 82], [196, 50], [248, 82]]; // in the 300 x 118 trail
-function varE(ready) {
-  const here = required.findIndex((r) => !done.has(r.k));
-  const d = "M40 82 C 60 82, 74 50, 92 50 S 126 82, 144 82 S 178 50, 196 50 S 230 82, 248 82 S 280 56, 288 40";
-  const at = here < 0 ? [288, 40] : TSTOPS[here];
-  const card = `<div class="pcard compact"><span class="lbl">${I.eye}Owners will see</span>${ready ? `<span class="readytag">${I.check}Ready</span>` : ""}
-      <div class="who">${ringAvatar()}<span class="nm"><b>Sam</b><span class="newtag"><svg viewBox="0 0 24 24" width="12" height="12"><use href="#i-paw"/></svg>New sitter</span><small>${done.has("bio") ? "Loves long walks and lazy cats." : "Add a line about you"}</small></span></div>${factRows()}</div>`;
-  const trail = `<div class="trail"><span class="hill"></span>
-      <svg class="road" viewBox="0 0 300 132" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".75"/><path d="${d}" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/></svg>
-      <img class="home" src="assets/intro/house.svg" alt=""><img class="tree" src="assets/intro/tree.svg" alt="" style="left:8px;top:6px">
-      ${required.map((r, i) => `<button type="button" class="stop${i % 2 ? " up" : ""}${done.has(r.k) ? " done" : i === here ? " here" : ""}" data-k="${r.k}" style="left:${(TSTOPS[i][0] / 300) * 100}%;top:${(TSTOPS[i][1] / 132) * 100}%;background:${done.has(r.k) ? "#fff" : r.bg}" aria-label="${r.t}">${done.has(r.k) ? `<img src="${COIN}" alt="">` : I[r.icon]}<small>${r.short}</small></button>`).join("")}
-      <svg class="walker${here % 2 ? " side" : ""}" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 132) * 100}%"><use href="#i-paw"/></svg></div>`;
-  return card + trail + (ready ? readyCard() : `<div class="step"><span class="ic" style="background:${required[here].bg}">${I[required[here].icon]}</span><span class="tx"><small class="eb">Next · step ${here + 1} of ${required.length}</small><b>${required[here].t}</b><small>${required[here].why}</small></span></div>`);
+/* NEW · StageTrail: five stops on a dashed path; coordinates are artwork in a 300 x 120 box. */
+const PTS = [[40, 74], [92, 44], [144, 74], [196, 44], [248, 74]];
+const ROAD = "M40 74 C 60 74, 74 44, 92 44 S 126 74, 144 74 S 178 44, 196 44 S 230 74, 248 74 S 278 52, 284 36";
+function trail(stops, doneN, opts = {}) {
+  const here = doneN < stops.length ? doneN : -1;
+  const pct = ([x, y]) => `left:${(x / 300) * 100}%;top:${(y / 120) * 100}%`;
+  // The paw stands just past the current stop (or at the house when everything is done).
+  const paw = here < 0 ? [262, 30] : [PTS[here][0] + 30, PTS[here][1] + (here % 2 ? 22 : -22)];
+  const tagName = opts.button ? "button" : "span";
+  return `<div class="trail" data-comp="StageTrail"><span class="ground"></span>
+    <svg class="road" viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path d="${ROAD}" fill="none" stroke="var(--c-surface)" stroke-width="12" stroke-linecap="round" opacity=".8"/><path d="${ROAD}" fill="none" stroke="var(--c-text)" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/></svg>
+    ${opts.scenery ? `<img class="art" src="assets/intro/tree.svg" alt="" style="left:var(--s-sm);top:var(--s-sm)"><img class="art" src="assets/intro/house.svg" alt="" style="right:var(--s-sm);top:var(--s-sm)">` : ""}
+    ${stops.map((s, i) => `<${tagName} ${opts.button ? 'type="button" ' : ""}class="stop${i % 2 ? " up" : ""}${i < doneN ? " done" : i === here ? " here" : ""}" ${opts.button ? `data-k="${s.k}" aria-label="${s.t}"` : ""} style="${pct(PTS[i])};background:${i < doneN ? "var(--c-surface)" : s.bg}">${i < doneN ? `<img src="${COIN}" alt="">` : I[s.icon]}<small>${i === here && opts.label ? opts.label : s.short}</small></${tagName}>`).join("")}
+    <svg class="walker" style="${pct(paw)}" aria-hidden="true"><use href="#i-paw"/></svg></div>`;
 }
 
+/* ListRow: the next step, information only (the pinned button is the action) */
+const nextRow = (r, i) => `<div class="listgroup"><div class="listrow" data-comp="ListRow"><span class="tile" style="background:${r.bg}">${I[r.icon]}</span>
+  <span class="txt"><span class="kicker">Next · step ${i + 1} of ${required.length}</span><span class="title">${r.t}</span><span class="sub">${r.why}</span></span></div></div>`;
+const readyCard = () => `<div class="card" data-comp="Card"><h3>You're ready for requests</h3>
+  <div class="steps"><div><i>1</i>An owner asks about dates and pets</div><div><i>2</i>Goldito drafts your reply, with the quote</div><div><i>3</i>You tap Send${done.has("auto") ? ", or it sends itself" : ""}</div></div></div>`;
+
 function prop() {
-  const ph = document.getElementById("prop");
-  const nr = nextReq(), ready = !nr;
-  const body = varE(ready);
-  ph.innerHTML = head("Sam") + `<div class="scroll">${body}</div>` + (ready ? `<div class="foot"><button type="button" class="btn s" data-act="edit">Edit your answers</button></div>` : `<div class="foot"><button type="button" class="btn" data-k="${nr.k}" data-act="next">${nr.btn}</button></div>`) + `<div class="toast" id="toast" role="status"></div>` + tabs();
-  document.getElementById("pcap").textContent = CAPS[V];
+  const ph = document.getElementById("prop"), nr = nextReq(), ready = !nr;
+  const kicker = `<div class="kicker">${I.eye}Owners will see${ready ? tag("success", "Ready", I.check) : ""}</div>`;
+  const body = kicker + sitterCard() + trail(required, nDone(), { button: true, scenery: true }) + (ready ? readyCard() : nextRow(nr, required.indexOf(nr)));
+  const foot = ready ? `<button type="button" class="button secondary" data-act="edit">Edit your answers</button>` : `<button type="button" class="button" data-k="${nr.k}" data-act="next">${nr.btn}</button>`;
+  render(ph, header() + `<div class="screen">${body}</div><div class="footer">${foot}</div><div class="toast" id="toast" role="status"></div>` + tabbar());
+  document.getElementById("pcap").textContent = CAP;
   document.getElementById("sj").innerHTML = [["new", "New sitter"], ["half", "Halfway"], ["ready", "All set"]].map(([k, l]) => `<button type="button" aria-pressed="${S === k}" data-s="${k}">${l}</button>`).join("");
 }
 function toast(msg) { const t = document.getElementById("toast"); if (!t) return; t.textContent = msg; t.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 1800); }
@@ -287,62 +337,56 @@ document.addEventListener("click", (e) => {
 });
 prop();
 
-/* ---------- When bookings come in: the trail carries on as the stay's five stages ---------- */
-const STAGES = [{ k: "ask", t: "Ask", icon: "chat", bg: "#FDE2CC" }, { k: "meet", t: "Meet", icon: "handshake", bg: "#D8F3DC" }, { k: "book", t: "Book", icon: "card", bg: "#FAD6CB" }, { k: "care", t: "Care", icon: "heart", bg: "#FBEFC8" }, { k: "home", t: "Home", icon: "home", bg: "#D8F3DC" }];
-function stageTrail(doneN, label) {
-  const d = "M40 82 C 60 82, 74 50, 92 50 S 126 82, 144 82 S 178 50, 196 50 S 230 82, 248 82 S 280 56, 288 40";
-  const here = doneN < STAGES.length ? doneN : -1, at = here < 0 ? [288, 40] : TSTOPS[here];
-  return `<div class="trail"><span class="hill"></span>
-    <svg class="road" viewBox="0 0 300 132" preserveAspectRatio="none"><path d="${d}" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".75"/><path d="${d}" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-dasharray="2 8" stroke-linecap="round"/></svg>
-    ${STAGES.map((g, i) => `<span class="stop${i % 2 ? " up" : ""}${i < doneN ? " done" : i === here ? " here" : ""}" style="left:${(TSTOPS[i][0] / 300) * 100}%;top:${(TSTOPS[i][1] / 132) * 100}%;background:${i < doneN ? "#fff" : g.bg}">${i < doneN ? `<img src="${COIN}" alt="">` : I[g.icon]}<small>${i === here && label ? label : g.t}</small></span>`).join("")}
-    <svg class="walker${here % 2 ? " side" : ""}" style="left:${(at[0] / 300) * 100}%;top:${(at[1] / 132) * 100}%"><use href="#i-paw"/></svg></div>`;
-}
-const slimCard = `<div class="slim"><span class="ring" style="--p:100"><span class="pv"><img src="assets/feed-trial/mumu_lake_walk.jpg" alt=""></span></span><span class="tx"><b>Your card is live</b><small>Owners can find and book you</small></span><span class="ed">Edit</span></div>`;
+/* ---------- When bookings come in: the same trail, now the stay's five stages ---------- */
+const STAGES = [{ k: "ask", t: "Ask", short: "Ask", icon: "chat", bg: B.peach }, { k: "meet", t: "Meet", short: "Meet", icon: "handshake", bg: B.mint }, { k: "book", t: "Book", short: "Book", icon: "card", bg: B.blush }, { k: "care", t: "Care", short: "Care", icon: "heart", bg: B.butter }, { k: "home", t: "Home", short: "Home", icon: "home", bg: B.mint }];
+const ticket = (kicker, inner) => `<div class="ticket" data-comp="BookingTicket"><span class="kicker">${kicker}</span>${inner}</div>`;
+const row = (av, title, sub, end = "") => `<div class="listrow" data-comp="ListRow">${av}<span class="txt"><span class="title">${title}</span><span class="sub">${sub}</span></span>${end}</div>`;
+const cardLive = `<div class="listgroup">${row(avatar(40, '<img src="assets/feed-trial/mumu_lake_walk.jpg" alt="">'), "Your card is live", "Owners can find and book you", '<button type="button" class="textbutton" data-comp="TextButton">Edit</button>')}</div>`;
 const MOMENTS = {
-  request: { t: "First request", cap: "Robert asks about Oct 9 to 12. Goldito has already drafted your reply from your calendar, rates and house rules; you review and send. The trail now shows this stay: Ask is where you are.",
-    btn: "Review and send", html: () => `${slimCard}
-      <div class="req"><div class="who"><span class="av2">R</span><span><b>Robert · Max and Mochi</b><small>Oct 9 to 12 · Boarding · a dog and a cat</small></span><span class="new">New</span></div>
-        <div class="draft"><span class="lab"><img src="${COIN}" alt="">Drafted in your words</span>Hi Robert! I'm free Oct 9 to 12 and would love to have Max and Mochi. It's $268.13 for the four nights, holiday rate included. Want to meet first?</div></div>
-      <div class="tix"><span class="k">Robert's request</span>${stageTrail(0, "Reply")}</div>` },
+  request: { t: "First request", cap: "Robert asks about Oct 9 to 12. Goldito has already drafted your reply from your calendar, rates and house rules; you review and send. The request's trail starts at Ask.",
+    btn: "Review and send", html: () => `
+      <div class="card" data-comp="Card"><div class="listrow" style="padding:0;min-height:0">${avatar(40, "R", B.peach)}<span class="txt"><span class="title">Robert · Max and Mochi</span><span class="sub">Oct 9 to 12 · Boarding · 2 pets</span></span>${tag("brand", "New")}</div>
+        <span class="bubblemeta"><img src="${COIN}" alt="">Drafted in your words</span>
+        <div class="bubble" data-comp="MessageBubble">Hi Robert! I'm free Oct 9 to 12 and would love to have Max and Mochi. It's $268.13 for the four nights, holiday rate included. Want to meet first?</div></div>
+      ${ticket("Robert's request", trail(STAGES, 0, { label: "Reply" }))}` },
   booked: { t: "Booked", cap: "After the Meet & Greet and payment, the request becomes the stay's ticket, with the same trail as its stage row: Ask, Meet and Book are coins; Care is next.",
     btn: "See the care checklist", html: () => `
-      <div class="tix"><img class="art" src="assets/intro/house.svg" alt=""><span class="k">Boarding at your place</span><span class="h">Max &amp; Mochi</span>
+      ${ticket("Boarding at your place", `<img class="art" src="assets/intro/house.svg" alt=""><span class="pets">Max &amp; Mochi</span>
         <div class="dates"><div><small>DROP-OFF</small><span>OCT 9</span></div><i>→</i><div><small>PICK-UP</small><span>OCT 12</span></div></div>
-        ${stageTrail(3, "Care · Fri")}
-        <div class="kv"><span>Drop-off · Robert drives</span><b>Fri 7:30 AM</b></div><div class="kv"><span>Paid · 5 consents signed</span><b>$268.13 CAD</b></div></div>
-      ${slimCard}` },
-  care: { t: "In care", cap: "Day 2 of 4: Care is where you are. Today's care and the pets sit right under the ticket; the button is the 5-second check. (The pet room comes from the tamagotchi exploration.)",
+        ${trail(STAGES, 3, { label: "Care · Fri" })}
+        <div class="summary" data-comp="SummaryRow"><span>Drop-off · Robert drives</span><b>Fri 7:30 AM</b></div><div class="summary" data-comp="SummaryRow"><span>Paid · 5 consents signed</span><b>$268.13 CAD</b></div>`)}
+      ${cardLive}` },
+  care: { t: "In care", cap: "Day 2 of 4: Care is where you are. The pets and today's care sit right under the ticket; the button is the 5-second check. (The pet room comes from the tamagotchi exploration.)",
     btn: "Do a 5-second check", html: () => `
-      <div class="tix"><span class="k">Max &amp; Mochi · with you</span><span class="h">Day 2 of 4</span>${stageTrail(3, "Care · day 2")}</div>
-      <div class="care"><div class="pt"><img src="assets/feed-trial/mumu_white_table.jpg" alt=""><span><b>Max</b><small>No chicken</small></span></div><div class="pt"><img src="assets/feed-trial/stickers/orange_cat_lying_relaxed.png" alt="" style="object-fit:contain;background:#FDE2CC"><span><b>Mochi</b><small>Shy at first</small></span></div></div>
-      <div class="tasks"><div><span class="ck on">${I.check}</span>Breakfast, both<span class="t">8:12 AM</span></div><div><span class="ck on">${I.check}</span>Walk, Max<span class="t">9:40 AM</span></div><div><span class="ck"></span>Pill in a treat, Max<span class="t">2 PM</span></div><div><span class="ck"></span>Litter, Mochi<span class="t">Evening</span></div></div>` },
-  busy: { t: "Busy week", cap: "Several stays at once: the one in care stays on top with its trail; new requests and upcoming stays are rows with a mini trail of five coins.",
+      ${ticket("With you · day 2 of 4", `<span class="pets">Max &amp; Mochi</span>${trail(STAGES, 3, { label: "Care · day 2" })}`)}
+      <div class="listgroup">${row(avatar(40, '<img src="assets/feed-trial/mumu_white_table.jpg" alt="">'), "Max and Mochi", "No chicken for Max · Mochi is shy at first")}</div>
+      <div class="listgroup">${[["Breakfast, both", "8:12 AM", true], ["Walk, Max", "9:40 AM", true], ["Pill in a treat, Max", "2 PM", false]].map(([t, at, on]) => `<div class="checkrow" data-comp="CheckRow"><span class="box${on ? " on" : ""}">${on ? I.check : ""}</span>${t}<span class="end">${at}</span></div>`).join("")}</div>` },
+  busy: { t: "Busy week", cap: "Several stays at once: the one in care stays on top with its trail; requests and upcoming stays are rows with a mini trail. This one scrolls, because there is more below.",
     btn: "Reply to Priya", html: () => `
-      <div class="tix"><span class="k">With you now</span><span class="h">Max &amp; Mochi · Day 2 of 4</span>${stageTrail(3, "Care · day 2")}</div>
-      <div class="secrow"><span class="sec">Requests (2)</span><a>See all</a></div>
-      <div class="list"><div class="lrow"><span class="av" style="background:#FAD6CB">P</span><span class="tx"><b>Priya · Biscuit</b><small>Oct 20 to 22 · draft ready</small></span><span class="dots"><i class="h"></i><i></i><i></i><i></i><i></i></span></div>
-        <div class="lrow"><span class="av" style="background:#D8F3DC">J</span><span class="tx"><b>Jun · Luna</b><small>Nov 1 to 3 · asked about the price</small></span><span class="dots"><i class="h"></i><i></i><i></i><i></i><i></i></span></div></div>
-      <div class="secrow"><span class="sec">Upcoming</span><a>Calendar</a></div>
-      <div class="list"><div class="lrow"><span class="av" style="background:#FBEFC8">A</span><span class="tx"><b>Alex · Cooper</b><small>Oct 15 to 18 · meet Sat 10 AM</small></span><span class="dots"><i class="d"></i><i class="h"></i><i></i><i></i><i></i></span></div></div>` },
+      ${ticket("With you · day 2 of 4", `<span class="pets">Max &amp; Mochi</span>${trail(STAGES, 3, { label: "Care · day 2" })}`)}
+      <div class="sectiontitle" data-comp="SectionTitle"><h2>Requests (2)</h2><button type="button" class="textbutton">See all</button></div>
+      <div class="listgroup">${row(avatar(40, "P", B.blush), "Priya · Biscuit", "Oct 20 to 22 · draft ready", mini(0))}${row(avatar(40, "J", B.mint), "Jun · Luna", "Nov 1 to 3 · asked the price", mini(0))}</div>
+      <div class="sectiontitle" data-comp="SectionTitle"><h2>Upcoming</h2><button type="button" class="textbutton">Calendar</button></div>
+      <div class="listgroup">${row(avatar(40, "A", B.butter), "Alex · Cooper", "Oct 15 to 18 · meet Sat 10 AM", mini(1))}${row(avatar(40, "D", B.peach), "Dana · Pepper", "Oct 24 to 26 · booked", mini(3))}</div>` },
 };
+function mini(doneN) { return `<span class="minitrail" data-comp="StageTrail mini" aria-label="${["Ask", "Meet", "Book", "Care", "Home"][Math.min(doneN, 4)]} next">${[0, 1, 2, 3, 4].map((i) => `<i class="${i < doneN ? "d" : i === doneN ? "h" : ""}"></i>`).join("")}</span>`; }
 let M = "request";
 function book() {
   const m = MOMENTS[M], ph = document.getElementById("book");
-  ph.innerHTML = head("Sam") + `<div class="scroll">${m.html()}</div><div class="foot"><button type="button" class="btn">${m.btn}</button></div>` + tabs();
+  render(ph, header() + `<div class="screen">${m.html()}</div><div class="footer"><button type="button" class="button">${m.btn}</button></div>` + tabbar());
   document.getElementById("bcap").textContent = m.cap;
   document.getElementById("bj").innerHTML = Object.entries(MOMENTS).map(([k, v]) => `<button type="button" aria-pressed="${M === k}" data-m="${k}">${v.t}</button>`).join("");
 }
-document.addEventListener("click", (e) => { const b = e.target.closest("button[data-m]"); if (b) { M = b.dataset.m; book(); } });
+document.addEventListener("click", (e) => { const b = e.target.closest("button[data-m]"); if (b) { M = b.dataset.m; const sc = document.querySelector("#book .screen"); if (sc) sc.scrollTop = 0; book(); } });
 book();
 
 /* For the Figma plugin: E in each state, and the booking moments. */
 window.__ticket = { id: "sitter-home", title: "Sitter Home before the first booking (E: card + trail)", issue: "", workbench: "https://mooque-dev.github.io/goldito-design/sitter-home-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "E (card + trail) chosen by Mook, Oct 26; the other variations were dropped" }, { q: "Checklist", a: "Six steps from fields the app already stores; the one primary names the next missing step" }, { q: "Auto-send", a: "A bonus, not part of ready (Mook's lean)" }, { q: "With bookings", a: "The trail becomes the stay's five stages: Ask, Meet, Book, Care, Home" }],
+  decisions: [{ q: "Status", a: "E (card + trail) chosen by Mook, Oct 26; the other variations were dropped" }, { q: "Checklist", a: "Six steps from fields the app already stores; the one primary names the next missing step" }, { q: "Auto-send", a: "A bonus, not part of ready (Mook's lean)" }, { q: "With bookings", a: "The trail becomes the stay's five stages: Ask, Meet, Book, Care, Home" },
+    { q: "Components", a: "Built from SitterResultCard, ListRow, CheckRow, Card, Tag, Avatar, MessageBubble, BookingTicket, SummaryRow, SectionTitle, Button and RoleTabs; new: StageTrail and its mini version" }],
+  notes: [["Tokens and components", [...document.querySelectorAll("#audit tbody tr")].map((r) => [...r.children].map((c) => c.textContent.trim()).join(" · ")).join("\n")]],
   spec: [], specLinks: [] };
 window.__ticketStates = [];
 for (const k of ["booked", "care", "busy"]) window.__ticketStates.push({ cap: `sitter-home-booked-${k}`, on: "sitter-home-booked-request", title: `Sitter Home · E with bookings · ${MOMENTS[k].t.toLowerCase()}`, go: () => { M = k; book(); } });
-for (const v of Object.keys(VARS)) for (const s of ["new", "half", "ready"]) {
-  if (v === "E" && s === "new") continue; // the page opens on E · new
-  window.__ticketStates.push({ cap: `sitter-home-${v}-${s}`, on: "sitter-home-E-new", title: `Sitter Home · ${v} ${VARS[v]} · ${s === "new" ? "new" : s === "half" ? "halfway" : "all set"}`, go: () => { V = v; S = s; done = new Set(STATES[s]); prop(); } });
-}
+for (const s of ["half", "ready"]) window.__ticketStates.push({ cap: `sitter-home-E-${s}`, on: "sitter-home-E-new", title: `Sitter Home · E Card + trail · ${s === "half" ? "halfway" : "all set"}`, go: () => { S = s; done = new Set(STATES[s]); prop(); } });
 </script></body></html>
