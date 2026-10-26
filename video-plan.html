@@ -76,6 +76,15 @@
   .sk .chips { display: flex; flex-wrap: wrap; gap: 4px } .sk .chips span { background: #D8F3DC; border-radius: 999px; padding: 2px 7px; font-weight: 700 }
   .sk .split { position: absolute; inset: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3px; background: #1A1A1A }
   .sk .split > div { background: #FBF6EA; padding: 24px 5px 5px; display: flex; flex-direction: column; gap: 4px; font-size: 9px }
+  .sk .room { position: relative; height: 90px; border-radius: 10px; background: linear-gradient(#E9F2FB 0 58%, #E6CFA6 58% 100%); overflow: hidden; flex: none }
+  .sk .room img { position: absolute; image-rendering: pixelated }
+  .sk .room .bowl { position: absolute; width: 18px; height: 7px; border-radius: 0 0 9px 9px; background: #E36D4C; bottom: 12px }
+  .sk .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px } .sk .tiles span { background: #fff; border-radius: 8px; text-align: center; padding: 5px 0; font-weight: 800 }
+  .sk .ticket { border-radius: 10px; padding: 7px 8px; background: #1B4332; color: #fff } .sk .ticket b { display: block; font: 700 12px var(--display) }
+  .split .room { height: 64px }
+  .tl .parts { display: flex; height: 22px; border-radius: 999px; overflow: hidden; font: 800 11px var(--body); color: #1B4332 }
+  .tl .parts i { display: flex; align-items: center; justify-content: center; font-style: normal; border-right: 2px solid #FBEFC8; background: rgba(255,255,255,.75) } .tl .parts i:last-child { border-right: 0 }
+  .tl .parts i.both { background: #1B4332; color: #fff }
   .card-big { font: 700 16px var(--display); color: #1B4332; text-align: center; margin: auto 0 }
   .say { background: var(--mint); color: #1B4332; border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 10px }
   .say p { color: #1B4332; font-size: 15.5px } .say b { color: #1B4332 }
@@ -90,7 +99,7 @@
   <header class="sh">
     <span class="eyebrow"><span class="en">Goldito · Demo video · #116 · recorded by Minsik, edited by Mook</span><span class="ko">골디토 · 데모 영상 · #116 · 촬영 민식, 편집 Mook</span></span>
     <h1><span class="en">The demo video plan</span><span class="ko">데모 영상 계획</span></h1>
-    <p class="lede"><span class="en">Three storyboards for the under-3-minute video, built on the README's demo path (<i>A Stay with Goldito</i>) and on everything we changed this week. Pick one, record each frame as its own clip, then edit. Version A is my pick.</span><span class="ko">3분 이내 영상을 위한 스토리보드 세 가지. README의 데모 경로(<i>A Stay with Goldito</i>)와 이번 주 바꾼 것들을 바탕으로 했어요. 하나 고르고, 프레임마다 따로 찍은 뒤 편집하세요. 추천은 A안.</span></p>
+    <p class="lede"><span class="en">Four storyboards for the under-3-minute video, built on the README's demo path (<i>A Stay with Goldito</i>) and on everything we changed this week. Pick one, record each frame as its own clip, then edit. A follows the README most closely; D shows each app whole and saves the two phones for what they share.</span><span class="ko">3분 이내 영상을 위한 스토리보드 네 가지. README의 데모 경로(<i>A Stay with Goldito</i>)와 이번 주 바꾼 것들을 바탕으로 했어요. 하나 고르고, 프레임마다 따로 찍은 뒤 편집하세요. 추천은 A안.</span></p>
   </header>
 
   <section>
@@ -121,6 +130,7 @@
         <tr><td>The stay's ticket on Home; Bookings as a plain list</td><td>④ Robert's Home during the stay</td><td><span class="chip built">In the app · #389</span></td></tr>
         <tr><td>Moments: Photos and Diary, notes on photos, Hide, Edit, Delete</td><td>④ Care: photos arrive with captions</td><td><span class="chip built">In the app · #346</span></td></tr>
         <tr><td>Diary page: tap the picture box, stickers you can resize</td><td>④ The daily page</td><td><span class="chip built">In the app · #386</span></td></tr>
+        <tr><td>Pet room: Max and Mochi as 8-bit pets on both Homes; Chloe's Feed, Walk, Poop and Nap move them</td><td>D: the shared, just-for-fun beat</td><td><span class="chip built">In the app</span></td></tr>
         <tr><td>Snap: treat check with the red DANGER alert</td><td>④ The safety beat</td><td><span class="chip built">In the app</span></td></tr>
         <tr><td>Playful words in toasts and empty states</td><td>Only if built by the recording</td><td><span class="chip notyet">Decided, not built</span></td></tr>
         <tr><td>Pet tone and dark mode; most little delights; pet setup start and finish</td><td>Leave out</td><td><span class="chip later">After the freeze</span></td></tr>
@@ -129,7 +139,7 @@
   </section>
 
   <section>
-    <div class="sh"><span class="eyebrow"><span class="en">Storyboards</span><span class="ko">스토리보드</span></span><h2><span class="en">Three ways to tell one stay</span><span class="ko">한 번의 스테이를 말하는 세 가지 방법</span></h2></div>
+    <div class="sh"><span class="eyebrow"><span class="en">Storyboards</span><span class="ko">스토리보드</span></span><h2><span class="en">Four ways to tell one stay</span><span class="ko">한 번의 스테이를 말하는 네 가지 방법</span></h2></div>
     <div class="tabs" role="tablist" id="tabs"></div>
     <div id="version"></div>
   </section>
@@ -166,7 +176,10 @@
 <script>
 const IMG = (n) => `assets/rundown-1025/${n}.jpg`;
 // Stage colors follow the app's color blocks; the frames without a stage (hook, models, end) stay neutral.
-const STAGES = { "①": ["Stage 1 · Inquiry", "#FDE2CC"], "②": ["Stage 2 · Meet & Greet", "#D8F3DC"], "①②": ["Stages 1 and 2 · Ask and plan", "#FDE2CC"], "③": ["Stage 3 · Booking", "#FBEFC8"], "④": ["Stage 4 · Care & Transit", "#B9DDBF"], "⑤": ["Stage 5 · Completion", "#FAD6CB"], "": ["Story", "#E6DCC4"] };
+const PIX = (n) => `assets/pixel-pets/${n}.png`;
+// Each sprite is a strip of two 192 px frames; show the first through a square window.
+const pet = (n, size, left, bottom) => `<span style="position:absolute;left:${left}px;bottom:${bottom}px;width:${size}px;height:${size}px;overflow:hidden"><img src="${PIX(n)}" alt="" style="left:0;top:0;width:${size * 2}px;height:${size}px"></span>`;
+const STAGES = { "both": ["Together · both phones", "#F6D98B"], "①": ["Stage 1 · Inquiry", "#FDE2CC"], "②": ["Stage 2 · Meet & Greet", "#D8F3DC"], "①②": ["Stages 1 and 2 · Ask and plan", "#FDE2CC"], "③": ["Stage 3 · Booking", "#FBEFC8"], "④": ["Stage 4 · Care & Transit", "#B9DDBF"], "⑤": ["Stage 5 · Completion", "#FAD6CB"], "": ["Story", "#E6DCC4"] };
 const secs = (tc) => { const [m, x] = tc.split(":").map(Number); return m * 60 + x; };
 const img = (n) => `<img class="full" src="${IMG(n)}" alt="" loading="lazy">`;
 // Current intro screens, captured from the intro trial (Oct 26).
@@ -192,6 +205,12 @@ const S = {
   models: sk(`<div class="t">Under the hood</div><div class="b">Nebius Token Factory</div><div class="b">Nemotron 3 Nano · reply</div><div class="b">Nemotron 3 Super · checklist, note, record</div><div class="b">Nemotron 3 Ultra · treat check</div><div class="b">MiniCPM-V 4.5 · photos</div><div class="b">Qwen3 Embedding · memory</div>`),
   end: sk(`<div class="card-big" style="font-size:22px">Leave your pet.<br>Keep your peace of mind.</div><div class="card-big" style="font-size:13px">goldito-petcare.vercel.app<br>NVIDIA Nemotron on Nebius Token Factory</div>`),
   split: (l, r) => `<div class="sk"><div class="split"><div><b>Robert</b>${l}</div><div><b>Chloe</b>${r}</div></div></div>`,
+  ownerHome: sk(`<div class="t">Home · Robert</div><div class="ticket"><b>Max and Mochi are with Chloe</b>Day 2 of 3 · home Sun 5 PM</div><div class="b">8:12 AM · Max ate every bite</div><div class="b">9:40 AM · Walk, 20 minutes, with a photo</div><div class="b">2:04 PM · Pill given, with a photo</div>`),
+  dailyNote: sk(`<div class="t">Today's note · draft</div><div class="chips"><span>Ate well</span><span>Long walk</span><span>Napped</span></div><span class="tag">Nemotron · in Chloe's voice</span><div class="ai">Max had a big day! He finished breakfast, chased the ball by the lake and napped in the sun.</div><div class="btn">Approve and send</div>`),
+  sitterRoom: sk(`<div class="t">Max's room · Chloe</div><div class="room">${pet("dog-white-excited", 52, 22, 4)}${pet("cat-orange-calm", 40, 112, 4)}<span class="bowl" style="left:84px"></span></div><div class="tiles"><span>Feed</span><span>Walk</span><span>Poop</span><span>Nap</span></div>`),
+  splitDiary: `<div class="sk"><div class="split"><div><b>Robert</b><div class="b"><b>Chloe's page</b> Max's big day</div><div class="b"><b>My page</b> Missing you, Max ★</div></div><div><b>Chloe</b><div class="b"><b>Daily note sent</b></div><div class="b">Sticker on the photo ★</div></div></div></div>`,
+  splitRoom: `<div class="sk"><div class="split"><div><b>Robert</b><div class="room">${pet("dog-white-calm", 40, 10, 2)}<span class="bowl" style="left:50px;bottom:8px"></span></div><div class="b">Max is eating</div></div><div><b>Chloe</b><div class="room">${pet("dog-white-hungry", 40, 10, 2)}<span class="bowl" style="left:50px;bottom:8px"></span></div><div class="tiles" style="grid-template-columns:1fr 1fr"><span>Feed ✓</span><span>Walk</span></div></div></div></div>`,
+  splitMoments: `<div class="sk"><div class="split"><div><b>Robert</b><div class="b">3 new photos</div><div class="b">Walk · 9:40 AM</div></div><div><b>Chloe</b><div class="b">Snap → shared</div><div class="b">Caption written for her</div></div></div></div>`,
   howitworks: sk(`<div class="t">How it works · 1 of 3</div><div class="me" style="opacity:.55;text-decoration:line-through">How's Max?</div><div class="me" style="opacity:.55;text-decoration:line-through">Did he eat?</div><div class="b"><b>Breakfast, every bite</b><br>Chloe · 8:12 AM</div><div class="b"><b>Walk, 20 minutes</b><br>Chloe · 9:40 AM</div>`),
 };
 const V = [
@@ -239,6 +258,25 @@ const V = [
       ["2:08", "⑤", S.home, "Home safe and the Life Record", "Max comes home, and his story stays."],
       ["2:20", "", S.next, "Next time, a new sitter knows him", "Next time, any sitter starts informed."],
       ["2:35", "", S.end, "End card", "Leave your pet. Keep your peace of mind."]] },
+  { id: "d", name: "D · Two journeys, then together", ko: "D · 두 여정, 그리고 함께", pitch: "Robert's side first, stage by stage, then Chloe's, so each app is shown whole. The two phones meet only for what they share: the Diary, the pet room and Moments. Ends on the Life Record that both of them made.", len: "2:45",
+    parts: [["Intro", "0:00", "0:16"], ["Robert", "0:16", "1:12"], ["Chloe", "1:12", "1:46"], ["Both", "1:46", "2:22", "both"], ["Close", "2:22", "2:45"]],
+    frames: [
+      ["0:00", "", S.hook, "The problem, in Robert's texts", "Leaving your pet usually means a weekend of texting."],
+      ["0:06", "", S.boot, "Boot: the paw walk and the coin", "Goldito is one app with two sides."],
+      ["0:09", "", S.demoSheet, "Try the demo: Robert or Chloe", "The owner who leaves, and the sitter who cares. First, Robert."],
+      ["0:16", "①", S.inquiry, "Robert asks; Chloe's reply drafts itself", "He asks Chloe about Thanksgiving. Nemotron drafts her reply in her own voice, with the server's quote."],
+      ["0:30", "②", S.checklist, "His care note becomes a checklist", "His care note becomes a timed checklist and Heads-up cards."],
+      ["0:42", "③", S.booking, "Accept, then Confirm and pay", "He accepts, signs and pays. Prices and the entry code come from rules, not the model."],
+      ["0:52", "④", S.ownerHome, "Robert's Home during the stay", "Then he just lives his weekend. Every update arrives on Home, without asking."],
+      ["1:02", "④", S.moments, "Moments: photos, captioned", "Photos land in Moments, captioned and sorted by a vision model."],
+      ["1:12", "④", S.sitterHome, "Chloe's Today: tap the care", "Now Chloe. Her day is a checklist and a few taps."],
+      ["1:24", "④", S.danger, "Treat check: DANGER", "Snap reads a treat label and stops the chicken Max is allergic to."],
+      ["1:34", "④", S.dailyNote, "The daily note, drafted for her", "At night, Nemotron drafts the note from her taps and photos. She approves it."],
+      ["1:46", "both", S.splitDiary, "Together: the Diary", "Some things belong to both of them. Chloe's page lands in Robert's Diary, and he adds his own."],
+      ["2:00", "both", S.splitRoom, "Together: Max's pet room", "And for fun, Max lives in a little 8-bit room. When Chloe taps Feed, Robert sees him eat."],
+      ["2:12", "⑤", S.home, "Home safe, and the Life Record", "Home safe. Everything they shared becomes Max's Life Record, for any sitter next time."],
+      ["2:22", "", S.models, "Model card (the required lines)", "Every AI call runs on Nebius Token Factory… (the 25 s lines, shortened to fit)"],
+      ["2:38", "", S.end, "End card", "Leave your pet. Keep your peace of mind."]] },
 ];
 let cur = 0;
 try { cur = Math.max(0, V.findIndex((v) => v.id === (location.hash.slice(1) || localStorage.getItem("goldito-video-v") || "a"))); } catch (e) {}
@@ -251,7 +289,7 @@ function draw() {
   const words = v.frames.reduce((w, f) => w + f[4].split(/\s+/).length, 0);
   document.getElementById("version").innerHTML = `<div style="display:flex;flex-direction:column;gap:14px"><div class="vhead"><h3>${v.name} · ${v.len}${v.id === "a" ? " · recommended" : ""}</h3><p>${v.pitch}</p>
     <div class="meta"><span>${n} shots</span><span>${used.filter(Boolean).length} stage beats</span><span>about ${words} spoken words</span></div>
-    <div class="tl"><div class="bar" aria-label="Timeline of ${v.name}">${bar}</div><div class="ticks"><span>0:00</span><span>1:00</span><span>2:00</span><span>${v.len}</span></div></div>
+    <div class="tl">${v.parts ? `<div class="parts" aria-label="Whose turn">${v.parts.map(([who, a, b, k]) => `<i class="${k || ""}" style="width:${((secs(b) - secs(a)) / end) * 100}%">${who}</i>`).join("")}</div>` : ""}<div class="bar" aria-label="Timeline of ${v.name}">${bar}</div><div class="ticks"><span>0:00</span><span>1:00</span><span>2:00</span><span>${v.len}</span></div></div>
     <div class="legend">${used.map((st) => `<span><i style="background:${STAGES[st][1]}"></i>${STAGES[st][0]}</span>`).join("")}</div></div>
     <div class="board">${v.frames.map(([tc, st, shot, what, vo], i) => `<div class="frame"><div class="shot" style="background:${shot.includes('class="full"') ? "#1A1A1A" : STAGES[st][1]}"><span class="tc">${tc}</span><span class="num">${i + 1}/${n}</span>${shot}</div><span class="st" style="background:${STAGES[st][1]}">${STAGES[st][0]}</span><span class="what">${what}</span><span class="vo">${vo}</span></div>`).join("")}</div></div>`;
 }
