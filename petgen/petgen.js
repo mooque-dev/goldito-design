@@ -9,6 +9,9 @@
                 body: [...],             saddle | spots | merle | patches | stripes | brindle | points | socks | tan
                 eyes,                    dark | blue | amber | green | hazel | odd
                 mood,                    idle | perk | calm | sleep | love | excited | wink | content | surprised | shy | teary
+                earType,                 dogs only: up | floppy (swaps the base head's ears)
+                cheeks,                  regular | ruff (fluffy fur around the face)
+                nose,                    base | black | brown | pink | liver
                 chest, paws,             base | white | coat | tan | dark
                 tail,                    base | wag | curl | tip | none | cat
                 plain,                   true: leave out the base pet's own markings (husky cheeks, beagle saddle…)
@@ -88,7 +91,15 @@
     let tail = r.tail && r.tail !== "base" ? r.tail : (b.cat ? "cat" : spec.tail);
     const build = r.build == null ? b.body[0] : r.build, legs = r.legs == null ? b.body[1] : r.legs;
     return { r, b, base: r.base, cat: b.cat, spec, tail, build, legs, length: r.length || 0, kind: r.plain ? "" : r.base,
-      face: new Set(r.face || []), body: new Set(r.body || []), ears: r.ears || "default", coat: r.coat || "smooth" };
+      face: new Set(r.face || []), body: new Set(r.body || []), ears: r.ears || "default", coat: r.coat || "smooth",
+      head: headType(b, r) };
+  }
+  /** The head type drawn: the base's, unless a dog's ears were swapped (up <-> floppy). */
+  const SWAPPABLE_FLOPPY = ["dog", "blacklab", "beagle", "dalmatian", "maltese"], SWAPPABLE_UP = ["shiba", "jindo", "corgi", "husky", "frenchie"];
+  function headType(b, r) {
+    if (r.earType === "up" && SWAPPABLE_FLOPPY.includes(r.base)) return "pointy";
+    if (r.earType === "floppy" && SWAPPABLE_UP.includes(r.base)) return "floppy";
+    return b.head;
   }
 
   // ---------- front body ----------
@@ -140,7 +151,28 @@
   // ---------- heads ----------
   function frontRaw(P, face) {
     const b = P.b, f = toGrid(face === "blink" ? b.blink : face !== "idle" && b.faces && b.faces[face] ? b.faces[face] : b.snug), n = toGrid(b.snug);
-    return f.slice(0, 17).concat(n.slice(17));
+    const rows = f.slice(0, 17).concat(n.slice(17));
+    return P.head !== b.head ? swapEars(P, rows) : rows;
+  }
+  const UP_EAR = ["..O...", ".OFO..", ".OBFO.", "OBBFFO", "OBBFFF", "OFFFFF"];
+  /** Up ears on a floppy head, or floppy ears (the golden pup's) on an up-eared head. */
+  function swapEars(P, rows) {
+    rows = rows.map((r) => r.slice());
+    const W2 = rows[0].length;
+    if (P.head === "pointy") {
+      for (let y = 4; y < 18; y++) for (let x = 0; x < W2; x++) if (x <= 4 || x >= 19) rows[y][x] = ".";
+      // close the face where the ears were
+      for (let y = 4; y < 17; y++) for (const x of [5, 18]) if (rows[y][x] !== "." && rows[y][x] !== "O") rows[y][x] = "O";
+      const put2 = (stamp, x0, flip) => stamp.forEach((r, dy) => [...r].forEach((c, dx) => { const x = flip ? x0 + stamp[0].length - 1 - dx : x0 + dx; if (c !== ".") rows[dy][x] = c; }));
+      put2(UP_EAR, 4, false); put2(UP_EAR, 14, true);
+      return rows;
+    }
+    // floppy: drop the ears above the skull, hang the golden pup's ears at the sides
+    const top = skullTop(rows);
+    for (let y = 0; y < top; y++) rows[y] = rows[y].map(() => ".");
+    const dog = toGrid(D.bases.dog.snug);
+    for (let y = 4; y < 17; y++) for (let x = 0; x < W2; x++) if ((x <= 5 || x >= 18) && "SO".includes(dog[y][x]) && (dog[y][x] === "S" || x <= 4 || x >= 19)) rows[y][x] = dog[y][x];
+    return rows;
   }
   function backRaw(P, rows) {
     rows = rows.map((r) => r.slice());
@@ -157,12 +189,12 @@
     return rows;
   }
   function sideRaw(P, eyes) {
-    const rows = D.side[P.b.head].map((r) => r.split(""));
+    const rows = D.side[P.head].map((r) => r.split(""));
     const wy = rows.findIndex((r) => r.includes("W")), wx = rows[wy].indexOf("W");
     if (eyes === "closed") { rows[wy][wx] = rows[wy][wx + 1] = "F"; rows[wy + 1][wx] = rows[wy + 1][wx + 1] = "K"; }
     else if (eyes === "happy") { rows[wy][wx] = "F"; rows[wy][wx + 1] = "K"; rows[wy + 1][wx] = "K"; rows[wy + 1][wx + 1] = "F"; }
     else if (eyes === "squeeze") { rows[wy][wx] = "K"; rows[wy][wx + 1] = "F"; rows[wy + 1][wx] = "F"; rows[wy + 1][wx + 1] = "K"; }
-    if (eyes !== "open") rows.forEach((r) => r.forEach((c, x) => { if (c === "T") r[x] = ["cat", "fold"].includes(P.b.head) ? "F" : "M"; }));
+    if (eyes !== "open") rows.forEach((r) => r.forEach((c, x) => { if (c === "T") r[x] = ["cat", "fold"].includes(P.head) ? "F" : "M"; }));
     marksSideHead(P, rows);
     return { rows, eye: [wx, wy] };
   }
@@ -181,7 +213,7 @@
   function sideMap(P) {
     const pal = P.b.pal, has = (k) => k in pal, kind = P.r.base;
     const eye = ["husky", "siamese"].includes(kind) ? "E" : "K";
-    const m = { O: "#O", F: "#F", H: has("H") ? "#H" : "#F", S: has("S") ? "#S" : "#F", E: has("B") ? "#B" : "#F", M: "#M", K: "#K",
+    const m = { O: "#O", F: "#F", H: has("H") ? "#H" : "#F", S: has("S") || P.head !== P.b.head ? "#S" : "#F", E: has("B") ? "#B" : "#F", M: "#M", K: "#K",
       W: "#W", e: "#" + eye, B: "#B", N: has("N") ? "#N" : "#K", T: "#T", C: "#C", G: "#G", k: "#K", s: "s", U: "#U", V: "#V", q: "k" };
     if (kind === "siamese") Object.assign(m, { E: "#S", M: "#S", S: "#S" });
     if (kind === "jindo") m.E = "#B";
@@ -239,7 +271,7 @@
   }
   function earOps(P, rows, view) {
     let dy = 0, e = P.ears;
-    const up = !["floppy", "pug"].includes(P.b.head);
+    const up = !["floppy", "pug"].includes(P.head);
     if (up && (e === "big" || e === "lynx")) { const o = earsBig(rows, view); rows = o.rows; dy += o.dy; }
     if (up && (e === "tufts" || e === "lynx")) { const o = earsTufts(rows); rows = o.rows; dy += o.dy; }
     if (up && (e === "tipped" || e === "folded")) rows = earsFold(rows, e === "tipped");
@@ -301,6 +333,33 @@
       if (!isCoat(at(x, y))) continue;
       const v = hash(Math.floor(x / 3), Math.floor(y / 2), 11);
       if (v < 0.22) t[y][x] = "k"; else if (v < 0.45) t[y][x] = "g";
+    }
+    // nose color: the dark nose pixels below the eyes (front), at the snout tip (side)
+    if (P.r.nose && P.r.nose !== "base" && view !== "back") {
+      const isNose = (c) => c === "#K" || c === "#N";
+      if (view === "front") {
+        let ny = -1;
+        for (let y = ey + 2; y < H2 && ny < 0; y++) for (let x = 9; x <= 14; x++) if (isNose(at(x, y))) { ny = y; break; }
+        if (ny >= 0) for (let y = ny; y <= ny + 1; y++) for (let x = 9; x <= 14; x++) setIf(x, y, "n", isNose);
+      } else {
+        for (let y = ey + 1; y <= ey + 3; y++) { let x = W2 - 1; while (x >= 0 && !isNose(at(x, y))) x--; if (x > eye[0] + 2) { t[y][x] = "n"; if (isNose(at(x - 1, y))) t[y][x - 1] = "n"; } }
+      }
+    }
+    // ruff: tufts of fur round the cheeks and under the chin
+    if (P.r.cheeks === "ruff" && view !== "back") {
+      const adds = [];
+      for (let y = ey; y < Math.min(H2, ey + 9); y++) {
+        const row = t[y]; let l = row.findIndex((c) => c !== "."), r = row.length - 1 - [...row].reverse().findIndex((c) => c !== ".");
+        if (l < 0) continue;
+        if ((y + 1) % 2 === 0) {
+          if (l >= 2) adds.push([l - 1, y, "#F"], [l - 2, y, "#O"]);
+          if (view === "front" && r <= W2 - 3) adds.push([r + 1, y, "#F"], [r + 2, y, "#O"]);
+        } else {
+          if (l >= 1) adds.push([l - 1, y, "#O"]);
+          if (view === "front" && r <= W2 - 2) adds.push([r + 1, y, "#O"]);
+        }
+      }
+      for (const [x, y, c] of adds) if (t[y][x] === "." || c === "#F") t[y][x] = c;
     }
     // eye color on open eyes
     if (P.r.eyes && P.r.eyes !== "dark" && view !== "back") eyes.forEach(([ex, eyy], i) => {
@@ -391,7 +450,7 @@
     if (k === "husky") for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (g[y][x] === "s" && y > 22) g[y][x] = "M";
   }
   function sideCollar(g, P, hx, hy) {
-    const [a, b] = D.neck[P.b.head], y = hy + 16;
+    const [a, b] = D.neck[P.head], y = hy + 16;
     for (let x = a; x <= b; x++) {
       const X = hx + x;
       if (X >= 0 && X < W) { if (y >= 0 && y < H) g[y][X] = x === a || x === b ? "#O" : "#C"; if (y + 1 >= 0 && y + 1 < H) g[y + 1][X] = "#O"; }
@@ -500,6 +559,7 @@
   const hex2rgb = (h) => { h = h.replace("#", ""); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); };
   const rgb2hex = (c) => "#" + c.map((v) => ("0" + Math.max(0, Math.min(255, Math.round(v))).toString(16)).slice(-2)).join("").toUpperCase();
   const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+  const NOSES = { black: "#1E1A18", brown: "#6B4532", pink: "#E8A0A4", liver: "#8A4A3A" };
   const EYES = { dark: "#2B1A0C", blue: "#4F9FE0", amber: "#D99A2E", green: "#8DBF45", hazel: "#A0783C", odd: "#4F9FE0" };
   /** The palette a recipe paints with: the base pet's letters, the recipe's colors on top, then the body roles. */
   function palette(recipe) {
@@ -507,6 +567,8 @@
     for (const k in b.pal) pal[k] = hex2rgb(b.pal[k]);
     for (const key in c) { const letters = b.keys[key]; if (letters) for (const l of letters) pal[l] = hex2rgb(c[key]); }
     const coat = pal.F, sum = coat[0] + coat[1] + coat[2];
+    // ears swapped onto a head that has no ear color of its own: a little darker than the coat, or the recipe's
+    if (!pal.S || (c.ear && !b.keys.ear)) pal.S = c.ear ? hex2rgb(c.ear) : mix(coat, [0, 0, 0], 0.22);
     let shade = sum > 200 ? coat.map((v) => Math.floor(v * 0.82)) : coat.map((v) => Math.min(255, Math.floor(v * 0.75 + 10)));
     if (sum > 690) shade = [226, 216, 204];
     const dark = c.dark ? hex2rgb(c.dark) : mix(coat, [20, 16, 14], 0.7);
@@ -515,7 +577,7 @@
     const pick = (v, fallback) => ({ white, coat, tan, dark }[v] || fallback);
     const roles = { O: pal.O, F: coat, s: shade, H: pal.H || coat, M: pick(recipe.chest, pal[P.spec.chest]), p: pick(recipe.paws, pal[P.spec.paw]),
       k: dark, t: tan, w: white, g: mix(coat, dark, 0.45), u: c.patch ? hex2rgb(c.patch) : [226, 138, 60],
-      e: hex2rgb(EYES[recipe.eyes] || EYES.dark), j: hex2rgb("#C98A2E"), R: [232, 109, 79], r: [184, 72, 52], x: [150, 96, 52], y: [200, 140, 80] };
+      e: hex2rgb(EYES[recipe.eyes] || EYES.dark), n: hex2rgb(NOSES[recipe.nose] || NOSES.black), j: hex2rgb("#C98A2E"), R: [232, 109, 79], r: [184, 72, 52], x: [150, 96, 52], y: [200, 140, 80] };
     if (!pal.W) pal.W = [255, 255, 255];
     return { pal, roles };
   }

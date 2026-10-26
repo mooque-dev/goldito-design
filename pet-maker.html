@@ -53,6 +53,16 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 .cover b{display:block}
 .cover span{color:var(--muted)}
 .lead{max-width:62ch}
+.pagetabs{display:flex;gap:6px;margin:14px 0 4px;flex-wrap:wrap}
+.pagetabs button{background:var(--card);border:1px solid var(--line)}
+.pagetabs button[aria-selected=true]{border:2px solid var(--on)}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:6px;margin-top:10px}
+.bgrid button{flex-direction:column;gap:2px;padding:6px 4px 8px;border-radius:12px;background:var(--card);font-size:12px;line-height:1.25;text-align:center}
+.bgrid img{width:48px;height:48px;image-rendering:pixelated;object-fit:cover;object-position:50% 15%;border-radius:10px;background:var(--stage)}
+.more{margin-top:8px;font-size:13px}
+.heads{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px}
+.heads button{flex-direction:column;gap:2px;padding:5px 3px 7px;border-radius:12px;font-size:11px;line-height:1.2;text-align:center}
+.heads img{width:44px;height:44px;image-rendering:pixelated;object-fit:cover;object-position:50% 12%;border-radius:10px;background:var(--stage)}
 .starts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:14px;margin-top:6px}
 @media (max-width:1100px){.starts{grid-template-columns:1fr}}
 .start{background:var(--bg);border-radius:12px;padding:12px;min-width:0}
@@ -77,7 +87,7 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 .strip button{padding:0;border-radius:8px;background:var(--stage);aspect-ratio:1;display:block;overflow:hidden;border:2px solid transparent}
 .strip button[aria-pressed=true]{border-color:var(--on)}
 .strip img{image-rendering:pixelated;width:100%;height:100%;display:block}
-.moods{display:flex;gap:4px;overflow-x:auto;margin-top:8px;padding-bottom:2px;scrollbar-width:thin}
+.moods{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
 .moods button{flex:none;padding:2px 10px 2px 2px;font-size:12px;gap:4px;background:var(--bg)}
 .moods img{width:28px;height:28px;image-rendering:pixelated;object-fit:cover;object-position:50% 8%;border-radius:50%;background:var(--stage)}
 .zones{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:2px}
@@ -114,6 +124,12 @@ td{font-variant-numeric:tabular-nums}
 </style></head><body><main>
 <h1>Pet maker</h1>
 <p class="lead">Paste a photo of your dog or cat, make the pet, then adjust anything. The photo stays in your browser.</p>
+<div class="pagetabs" role="tablist" aria-label="Page">
+  <button type="button" role="tab" id="pt-make" aria-controls="view-make" aria-selected="true">Make a pet</button>
+  <button type="button" role="tab" id="pt-dev" aria-controls="view-dev" aria-selected="false">For developers</button>
+  <button type="button" role="tab" id="pt-cover" aria-controls="view-cover" aria-selected="false">What it covers</button>
+</div>
+<div role="tabpanel" id="view-make" aria-labelledby="pt-make">
 
 <div class="cols">
   <aside class="stage">
@@ -158,9 +174,13 @@ td{font-variant-numeric:tabular-nums}
           <p id="gap" class="note" hidden></p>
         </div>
         <div class="start" id="breedbox">
-          <h3>From a breed <span class="kg">55 dogs and cats</span></h3>
-          <input type="search" id="q" placeholder="Search breeds" aria-label="Search breeds">
-          <div class="breeds" id="breeds"></div>
+          <h3>From a breed</h3>
+          <div class="row" style="margin-top:0">
+            <div class="chips" id="bkind" role="group" aria-label="Dogs or cats"><button type="button" data-v="dog" aria-pressed="true">Dogs</button><button type="button" data-v="cat" aria-pressed="false">Cats</button></div>
+            <input type="search" id="q" placeholder="Search" aria-label="Search breeds" style="flex:1;min-width:120px;margin:0">
+          </div>
+          <div class="bgrid" id="breeds"></div>
+          <button type="button" class="btn more" id="bmore" hidden></button>
         </div>
       </div>
     </section>
@@ -181,8 +201,11 @@ td{font-variant-numeric:tabular-nums}
       </div>
     </section>
 
-    <details class="card fold" id="devbox">
-      <summary><span class="h2">For developers</span><span class="tag">How it's made</span></summary>
+  </div>
+</div>
+</div>
+<div role="tabpanel" id="view-dev" aria-labelledby="pt-dev" hidden>
+  <section class="card">
       <div class="dev">
         <h3>How a pet is made</h3>
         <ol class="flow">
@@ -243,13 +266,13 @@ export function petRows(recipe, pose, facing = "right") {
           <li>Add the photo step on the backend with the prompt above.</li>
         </ol>
       </div>
-    </details>
-
-    <details class="card fold">
-      <summary><span class="h2">What the template covers</span></summary>
+  </section>
+</div>
+<div role="tabpanel" id="view-cover" aria-labelledby="pt-cover" hidden>
+  <section class="card">
+    <h2>What the template covers</h2>
       <div class="cover" id="cover"></div>
-    </details>
-  </div>
+  </section>
 </div>
 <div class="toast" id="toast" role="status"></div>
 </main>
@@ -265,6 +288,9 @@ export function petRows(recipe, pose, facing = "right") {
                 body: [...],             saddle | spots | merle | patches | stripes | brindle | points | socks | tan
                 eyes,                    dark | blue | amber | green | hazel | odd
                 mood,                    idle | perk | calm | sleep | love | excited | wink | content | surprised | shy | teary
+                earType,                 dogs only: up | floppy (swaps the base head's ears)
+                cheeks,                  regular | ruff (fluffy fur around the face)
+                nose,                    base | black | brown | pink | liver
                 chest, paws,             base | white | coat | tan | dark
                 tail,                    base | wag | curl | tip | none | cat
                 plain,                   true: leave out the base pet's own markings (husky cheeks, beagle saddle…)
@@ -344,7 +370,15 @@ export function petRows(recipe, pose, facing = "right") {
     let tail = r.tail && r.tail !== "base" ? r.tail : (b.cat ? "cat" : spec.tail);
     const build = r.build == null ? b.body[0] : r.build, legs = r.legs == null ? b.body[1] : r.legs;
     return { r, b, base: r.base, cat: b.cat, spec, tail, build, legs, length: r.length || 0, kind: r.plain ? "" : r.base,
-      face: new Set(r.face || []), body: new Set(r.body || []), ears: r.ears || "default", coat: r.coat || "smooth" };
+      face: new Set(r.face || []), body: new Set(r.body || []), ears: r.ears || "default", coat: r.coat || "smooth",
+      head: headType(b, r) };
+  }
+  /** The head type drawn: the base's, unless a dog's ears were swapped (up <-> floppy). */
+  const SWAPPABLE_FLOPPY = ["dog", "blacklab", "beagle", "dalmatian", "maltese"], SWAPPABLE_UP = ["shiba", "jindo", "corgi", "husky", "frenchie"];
+  function headType(b, r) {
+    if (r.earType === "up" && SWAPPABLE_FLOPPY.includes(r.base)) return "pointy";
+    if (r.earType === "floppy" && SWAPPABLE_UP.includes(r.base)) return "floppy";
+    return b.head;
   }
 
   // ---------- front body ----------
@@ -396,7 +430,28 @@ export function petRows(recipe, pose, facing = "right") {
   // ---------- heads ----------
   function frontRaw(P, face) {
     const b = P.b, f = toGrid(face === "blink" ? b.blink : face !== "idle" && b.faces && b.faces[face] ? b.faces[face] : b.snug), n = toGrid(b.snug);
-    return f.slice(0, 17).concat(n.slice(17));
+    const rows = f.slice(0, 17).concat(n.slice(17));
+    return P.head !== b.head ? swapEars(P, rows) : rows;
+  }
+  const UP_EAR = ["..O...", ".OFO..", ".OBFO.", "OBBFFO", "OBBFFF", "OFFFFF"];
+  /** Up ears on a floppy head, or floppy ears (the golden pup's) on an up-eared head. */
+  function swapEars(P, rows) {
+    rows = rows.map((r) => r.slice());
+    const W2 = rows[0].length;
+    if (P.head === "pointy") {
+      for (let y = 4; y < 18; y++) for (let x = 0; x < W2; x++) if (x <= 4 || x >= 19) rows[y][x] = ".";
+      // close the face where the ears were
+      for (let y = 4; y < 17; y++) for (const x of [5, 18]) if (rows[y][x] !== "." && rows[y][x] !== "O") rows[y][x] = "O";
+      const put2 = (stamp, x0, flip) => stamp.forEach((r, dy) => [...r].forEach((c, dx) => { const x = flip ? x0 + stamp[0].length - 1 - dx : x0 + dx; if (c !== ".") rows[dy][x] = c; }));
+      put2(UP_EAR, 4, false); put2(UP_EAR, 14, true);
+      return rows;
+    }
+    // floppy: drop the ears above the skull, hang the golden pup's ears at the sides
+    const top = skullTop(rows);
+    for (let y = 0; y < top; y++) rows[y] = rows[y].map(() => ".");
+    const dog = toGrid(D.bases.dog.snug);
+    for (let y = 4; y < 17; y++) for (let x = 0; x < W2; x++) if ((x <= 5 || x >= 18) && "SO".includes(dog[y][x]) && (dog[y][x] === "S" || x <= 4 || x >= 19)) rows[y][x] = dog[y][x];
+    return rows;
   }
   function backRaw(P, rows) {
     rows = rows.map((r) => r.slice());
@@ -413,12 +468,12 @@ export function petRows(recipe, pose, facing = "right") {
     return rows;
   }
   function sideRaw(P, eyes) {
-    const rows = D.side[P.b.head].map((r) => r.split(""));
+    const rows = D.side[P.head].map((r) => r.split(""));
     const wy = rows.findIndex((r) => r.includes("W")), wx = rows[wy].indexOf("W");
     if (eyes === "closed") { rows[wy][wx] = rows[wy][wx + 1] = "F"; rows[wy + 1][wx] = rows[wy + 1][wx + 1] = "K"; }
     else if (eyes === "happy") { rows[wy][wx] = "F"; rows[wy][wx + 1] = "K"; rows[wy + 1][wx] = "K"; rows[wy + 1][wx + 1] = "F"; }
     else if (eyes === "squeeze") { rows[wy][wx] = "K"; rows[wy][wx + 1] = "F"; rows[wy + 1][wx] = "F"; rows[wy + 1][wx + 1] = "K"; }
-    if (eyes !== "open") rows.forEach((r) => r.forEach((c, x) => { if (c === "T") r[x] = ["cat", "fold"].includes(P.b.head) ? "F" : "M"; }));
+    if (eyes !== "open") rows.forEach((r) => r.forEach((c, x) => { if (c === "T") r[x] = ["cat", "fold"].includes(P.head) ? "F" : "M"; }));
     marksSideHead(P, rows);
     return { rows, eye: [wx, wy] };
   }
@@ -437,7 +492,7 @@ export function petRows(recipe, pose, facing = "right") {
   function sideMap(P) {
     const pal = P.b.pal, has = (k) => k in pal, kind = P.r.base;
     const eye = ["husky", "siamese"].includes(kind) ? "E" : "K";
-    const m = { O: "#O", F: "#F", H: has("H") ? "#H" : "#F", S: has("S") ? "#S" : "#F", E: has("B") ? "#B" : "#F", M: "#M", K: "#K",
+    const m = { O: "#O", F: "#F", H: has("H") ? "#H" : "#F", S: has("S") || P.head !== P.b.head ? "#S" : "#F", E: has("B") ? "#B" : "#F", M: "#M", K: "#K",
       W: "#W", e: "#" + eye, B: "#B", N: has("N") ? "#N" : "#K", T: "#T", C: "#C", G: "#G", k: "#K", s: "s", U: "#U", V: "#V", q: "k" };
     if (kind === "siamese") Object.assign(m, { E: "#S", M: "#S", S: "#S" });
     if (kind === "jindo") m.E = "#B";
@@ -495,7 +550,7 @@ export function petRows(recipe, pose, facing = "right") {
   }
   function earOps(P, rows, view) {
     let dy = 0, e = P.ears;
-    const up = !["floppy", "pug"].includes(P.b.head);
+    const up = !["floppy", "pug"].includes(P.head);
     if (up && (e === "big" || e === "lynx")) { const o = earsBig(rows, view); rows = o.rows; dy += o.dy; }
     if (up && (e === "tufts" || e === "lynx")) { const o = earsTufts(rows); rows = o.rows; dy += o.dy; }
     if (up && (e === "tipped" || e === "folded")) rows = earsFold(rows, e === "tipped");
@@ -557,6 +612,33 @@ export function petRows(recipe, pose, facing = "right") {
       if (!isCoat(at(x, y))) continue;
       const v = hash(Math.floor(x / 3), Math.floor(y / 2), 11);
       if (v < 0.22) t[y][x] = "k"; else if (v < 0.45) t[y][x] = "g";
+    }
+    // nose color: the dark nose pixels below the eyes (front), at the snout tip (side)
+    if (P.r.nose && P.r.nose !== "base" && view !== "back") {
+      const isNose = (c) => c === "#K" || c === "#N";
+      if (view === "front") {
+        let ny = -1;
+        for (let y = ey + 2; y < H2 && ny < 0; y++) for (let x = 9; x <= 14; x++) if (isNose(at(x, y))) { ny = y; break; }
+        if (ny >= 0) for (let y = ny; y <= ny + 1; y++) for (let x = 9; x <= 14; x++) setIf(x, y, "n", isNose);
+      } else {
+        for (let y = ey + 1; y <= ey + 3; y++) { let x = W2 - 1; while (x >= 0 && !isNose(at(x, y))) x--; if (x > eye[0] + 2) { t[y][x] = "n"; if (isNose(at(x - 1, y))) t[y][x - 1] = "n"; } }
+      }
+    }
+    // ruff: tufts of fur round the cheeks and under the chin
+    if (P.r.cheeks === "ruff" && view !== "back") {
+      const adds = [];
+      for (let y = ey; y < Math.min(H2, ey + 9); y++) {
+        const row = t[y]; let l = row.findIndex((c) => c !== "."), r = row.length - 1 - [...row].reverse().findIndex((c) => c !== ".");
+        if (l < 0) continue;
+        if ((y + 1) % 2 === 0) {
+          if (l >= 2) adds.push([l - 1, y, "#F"], [l - 2, y, "#O"]);
+          if (view === "front" && r <= W2 - 3) adds.push([r + 1, y, "#F"], [r + 2, y, "#O"]);
+        } else {
+          if (l >= 1) adds.push([l - 1, y, "#O"]);
+          if (view === "front" && r <= W2 - 2) adds.push([r + 1, y, "#O"]);
+        }
+      }
+      for (const [x, y, c] of adds) if (t[y][x] === "." || c === "#F") t[y][x] = c;
     }
     // eye color on open eyes
     if (P.r.eyes && P.r.eyes !== "dark" && view !== "back") eyes.forEach(([ex, eyy], i) => {
@@ -647,7 +729,7 @@ export function petRows(recipe, pose, facing = "right") {
     if (k === "husky") for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (g[y][x] === "s" && y > 22) g[y][x] = "M";
   }
   function sideCollar(g, P, hx, hy) {
-    const [a, b] = D.neck[P.b.head], y = hy + 16;
+    const [a, b] = D.neck[P.head], y = hy + 16;
     for (let x = a; x <= b; x++) {
       const X = hx + x;
       if (X >= 0 && X < W) { if (y >= 0 && y < H) g[y][X] = x === a || x === b ? "#O" : "#C"; if (y + 1 >= 0 && y + 1 < H) g[y + 1][X] = "#O"; }
@@ -756,6 +838,7 @@ export function petRows(recipe, pose, facing = "right") {
   const hex2rgb = (h) => { h = h.replace("#", ""); return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)); };
   const rgb2hex = (c) => "#" + c.map((v) => ("0" + Math.max(0, Math.min(255, Math.round(v))).toString(16)).slice(-2)).join("").toUpperCase();
   const mix = (a, b, t) => a.map((v, i) => v + (b[i] - v) * t);
+  const NOSES = { black: "#1E1A18", brown: "#6B4532", pink: "#E8A0A4", liver: "#8A4A3A" };
   const EYES = { dark: "#2B1A0C", blue: "#4F9FE0", amber: "#D99A2E", green: "#8DBF45", hazel: "#A0783C", odd: "#4F9FE0" };
   /** The palette a recipe paints with: the base pet's letters, the recipe's colors on top, then the body roles. */
   function palette(recipe) {
@@ -763,6 +846,8 @@ export function petRows(recipe, pose, facing = "right") {
     for (const k in b.pal) pal[k] = hex2rgb(b.pal[k]);
     for (const key in c) { const letters = b.keys[key]; if (letters) for (const l of letters) pal[l] = hex2rgb(c[key]); }
     const coat = pal.F, sum = coat[0] + coat[1] + coat[2];
+    // ears swapped onto a head that has no ear color of its own: a little darker than the coat, or the recipe's
+    if (!pal.S || (c.ear && !b.keys.ear)) pal.S = c.ear ? hex2rgb(c.ear) : mix(coat, [0, 0, 0], 0.22);
     let shade = sum > 200 ? coat.map((v) => Math.floor(v * 0.82)) : coat.map((v) => Math.min(255, Math.floor(v * 0.75 + 10)));
     if (sum > 690) shade = [226, 216, 204];
     const dark = c.dark ? hex2rgb(c.dark) : mix(coat, [20, 16, 14], 0.7);
@@ -771,7 +856,7 @@ export function petRows(recipe, pose, facing = "right") {
     const pick = (v, fallback) => ({ white, coat, tan, dark }[v] || fallback);
     const roles = { O: pal.O, F: coat, s: shade, H: pal.H || coat, M: pick(recipe.chest, pal[P.spec.chest]), p: pick(recipe.paws, pal[P.spec.paw]),
       k: dark, t: tan, w: white, g: mix(coat, dark, 0.45), u: c.patch ? hex2rgb(c.patch) : [226, 138, 60],
-      e: hex2rgb(EYES[recipe.eyes] || EYES.dark), j: hex2rgb("#C98A2E"), R: [232, 109, 79], r: [184, 72, 52], x: [150, 96, 52], y: [200, 140, 80] };
+      e: hex2rgb(EYES[recipe.eyes] || EYES.dark), n: hex2rgb(NOSES[recipe.nose] || NOSES.black), j: hex2rgb("#C98A2E"), R: [232, 109, 79], r: [184, 72, 52], x: [150, 96, 52], y: [200, 140, 80] };
     if (!pal.W) pal.W = [255, 255, 255];
     return { pal, roles };
   }
@@ -858,6 +943,24 @@ export function petRows(recipe, pose, facing = "right") {
     { name: "Oriental", base: "siamese", ears: "big", build: -1, legs: 1, eyes: "blue", colors: { coat: "#EFE3D2", points: "#D9B48F" } },
     { name: "Sphynx", base: "tabby", plain: true, ears: "big", build: -1, eyes: "green", colors: { coat: "#EBC2B4", light: "#F2D2C6", stripe: "#E0B2A4", muzzle: "#F2D2C6", outline: "#8C5E52" } },
     { name: "Abyssinian", base: "tabby", plain: true, ears: "big", eyes: "green", colors: { coat: "#B86F3C", light: "#CF8A50", stripe: "#B86F3C", muzzle: "#E8C29A" } },
+    { name: "Bombay", base: "tuxedo", chest: "coat", paws: "coat", eyes: "amber", build: 0, colors: { coat: "#1C1A1E", light: "#2A272D", muzzle: "#1C1A1E", outline: "#08070A" } },
+    { name: "Birman", base: "persian", plain: true, coat: "long", face: ["points"], body: ["points", "socks"], chest: "white", eyes: "blue", colors: { coat: "#EFE4D4", light: "#F7EFE4", dark: "#7A5E4E", white: "#FFFFFF" } },
+    { name: "Himalayan", base: "persian", plain: true, coat: "long", cheeks: "ruff", face: ["points"], body: ["points"], eyes: "blue", build: 1, legs: -2, colors: { coat: "#F2E8DA", light: "#FAF3EA", dark: "#5E4638" } },
+    { name: "Exotic shorthair", base: "persian", plain: true, build: 1, legs: -2, eyes: "amber", colors: { coat: "#D9A464", light: "#E6BA80", muzzle: "#EBCB9E" } },
+    { name: "Burmese", base: "tabby", plain: true, eyes: "amber", colors: { coat: "#6A4A34", light: "#7E5A40", stripe: "#6A4A34", muzzle: "#7E5A40", outline: "#2A1C12" } },
+    { name: "Tonkinese", base: "siamese", eyes: "green", colors: { coat: "#C9AE8E", light: "#D6BE9F", points: "#6E5240" } },
+    { name: "Cornish rex", base: "tabby", plain: true, ears: "big", coat: "fluffy", build: -1, legs: 1, eyes: "amber", colors: { coat: "#E9E2D8", light: "#F4EFE8", stripe: "#E9E2D8", muzzle: "#F4EFE8" } },
+    { name: "Devon rex", base: "tabby", plain: true, ears: "big", build: -1, eyes: "green", colors: { coat: "#A79C92", light: "#B9AFA6", stripe: "#A79C92", muzzle: "#C9C0B8" } },
+    { name: "Norwegian forest cat", base: "tabby", coat: "long", cheeks: "ruff", ears: "tufts", build: 1, chest: "white", eyes: "green", colors: { coat: "#9A8268", light: "#B09A80", stripe: "#5E4C3C", muzzle: "#F2EEE8", white: "#F2EEE8" } },
+    { name: "Siberian", base: "tabby", coat: "long", cheeks: "ruff", build: 1, eyes: "amber", colors: { coat: "#B08A62", light: "#C4A07A", stripe: "#6E5440", muzzle: "#EADCC8" } },
+    { name: "Turkish angora", base: "persian", plain: true, coat: "long", build: -1, eyes: "odd", colors: { coat: "#FBFAF8", light: "#FFFFFF", muzzle: "#FFFFFF", outline: "#8C8278" } },
+    { name: "Turkish van", base: "calico", eyes: "amber", colors: { coat: "#FAF8F4", patch: "#C2723A", patch2: "#C2723A" } },
+    { name: "Manx", base: "tabby", tail: "none", build: 1, eyes: "amber", colors: { coat: "#9C9C9E", light: "#B4B4B6", stripe: "#5C5C60", muzzle: "#E6E6E8", outline: "#36363A" } },
+    { name: "Japanese bobtail", base: "calico", tail: "none", eyes: "amber" },
+    { name: "Egyptian mau", base: "tabby", plain: true, face: ["spots", "stripes"], body: ["spots"], eyes: "green", colors: { coat: "#B9B4AA", light: "#CCC8C0", stripe: "#3E3A36", muzzle: "#DCD8D0", dark: "#3E3A36" } },
+    { name: "Chartreux", base: "persian", plain: true, build: 1, eyes: "amber", colors: { coat: "#7E8896", light: "#909AA6", muzzle: "#7E8896", outline: "#2E333B" } },
+    { name: "Snowshoe", base: "siamese", body: ["socks"], face: ["whiteface"], eyes: "blue", colors: { coat: "#E6DACA", points: "#5E4636", white: "#FFFFFF" } },
+    { name: "Ginger and white", base: "tabby", face: ["whiteface"], body: ["socks"], chest: "white", eyes: "amber", colors: { white: "#FBF8F2" } },
   ];
   if (typeof module !== "undefined" && module.exports) module.exports = P; else root.PET_PRESETS = P;
 })(typeof window !== "undefined" ? window : globalThis);
@@ -870,10 +973,15 @@ export function petRows(recipe, pose, facing = "right") {
   var $ = function (id) { return document.getElementById(id); };
   var BASES = DATA.bases;
   var UP = function (b) { return ["floppy", "pug"].indexOf(BASES[b].head) < 0; };
+  var SWAP = ["dog", "blacklab", "beagle", "dalmatian", "maltese", "shiba", "jindo", "corgi", "husky", "frenchie"];
+  var isUp = function (r) { return ["floppy", "pug"].indexOf(PG.resolve(r).head) < 0; };
 
   // ---- the options, in the words the page shows ----
   var OPT = {
-    ears: { label: "Ears", one: true, list: function (r) { return UP(r.base) ? [["default", "As drawn"], ["big", "Big"], ["tufts", "Tufts"], ["lynx", "Big + tufts"], [BASES[r.base].cat ? "folded" : "tipped", BASES[r.base].cat ? "Folded" : "Tipped over"]] : [["default", "As drawn"], ["long", "Long"]]; } },
+    earType: { label: "Ear type", one: true, show: function (r) { return SWAP.indexOf(r.base) >= 0; }, list: function () { return [["up", "Up"], ["floppy", "Floppy"]]; } },
+    cheeks: { label: "Cheeks", one: true, list: function () { return [["regular", "Regular"], ["ruff", "Fluffy ruff"]]; } },
+    nose: { label: "Nose", one: true, list: function () { return [["base", "As drawn"], ["black", "Black"], ["brown", "Brown"], ["pink", "Pink"], ["liver", "Liver"]]; } },
+    ears: { label: "Ears", one: true, list: function (r) { return isUp(r) ? [["default", "As drawn"], ["big", "Big"], ["tufts", "Tufts"], ["lynx", "Big + tufts"], [BASES[r.base].cat ? "folded" : "tipped", BASES[r.base].cat ? "Folded" : "Tipped over"]] : [["default", "As drawn"], ["long", "Long"]]; } },
     coat: { label: "Coat", one: true, list: function () { return [["smooth", "Smooth"], ["fluffy", "Fluffy"], ["long", "Long"]]; } },
     face: { label: "Face", one: false, list: function () { return [["mask", "Dark mask"], ["blaze", "White blaze"], ["whiteface", "White lower face"], ["tan", "Tan eyebrows"], ["points", "Color points"], ["spots", "Spots"], ["stripes", "Stripes"], ["patches", "Patches"], ["merle", "Merle"]]; } },
     body: { label: "Body", one: false, list: function () { return [["saddle", "Dark saddle"], ["spots", "Spots"], ["stripes", "Stripes"], ["brindle", "Brindle"], ["merle", "Merle"], ["patches", "Patches"], ["points", "Color points"], ["socks", "White socks"], ["tan", "Tan legs"]]; } },
@@ -954,20 +1062,26 @@ export function petRows(recipe, pose, facing = "right") {
   function petName() { return $("pname").value.trim() || "Your pet"; }
 
   // ---- looks: every option as chips ----
-  var GROUPS = { shape: ["head", "ears", "build", "legs", "length", "weight", "tail"], marks: ["coat", "face", "body", "chest", "paws", "eyes"] };
+  var GROUPS = { shape: ["head", "earType", "ears", "cheeks", "nose", "build", "legs", "length", "weight", "tail"], marks: ["coat", "face", "body", "chest", "paws", "eyes"] };
   function drawOpts() {
     var r = st.recipe;
     Object.keys(GROUPS).forEach(function (g) {
       var box = $("opts-" + g); box.innerHTML = "";
-      GROUPS[g].forEach(function (key) { box.appendChild(key === "head" ? headChips(r) : key === "weight" ? weightSlider(r) : optChips(r, key)); });
+      GROUPS[g].forEach(function (key) {
+        if (OPT[key] && OPT[key].show && !OPT[key].show(r)) return;
+        box.appendChild(key === "head" ? headChips(r) : key === "weight" ? weightSlider(r) : optChips(r, key));
+      });
     });
   }
+  var headThumbs = {};
+  Object.keys(BASES).forEach(function (k) { var r = { base: k }; headThumbs[k] = url(PG.frame(r, "front", "idle", 0), PG.palette(r)); });
   function headChips(r) {
-    var d = document.createElement("div"); d.className = "wide"; d.innerHTML = "<h3>Head</h3>";
-    var c = document.createElement("div"); c.className = "chips"; c.setAttribute("role", "group"); c.setAttribute("aria-label", "Head");
+    var d = document.createElement("div"); d.className = "wide"; d.innerHTML = "<h3>Head shape</h3>";
+    var c = document.createElement("div"); c.className = "heads chips"; c.setAttribute("role", "group"); c.setAttribute("aria-label", "Head shape");
     Object.keys(BASES).forEach(function (k) {
-      var b = document.createElement("button"); b.type = "button"; b.textContent = BASES[k].label; b.setAttribute("aria-pressed", String(r.base === k));
-      b.onclick = function () { var keep = st.recipe; st.recipe = Object.assign({}, keep, { base: k, ears: "default" }); if (BASES[k].cat !== BASES[keep.base].cat) st.recipe.tail = "base"; draw(); };
+      var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-pressed", String(r.base === k));
+      b.innerHTML = '<img alt="" src="' + headThumbs[k] + '">' + BASES[k].label;
+      b.onclick = function () { var keep = st.recipe; st.recipe = Object.assign({}, keep, { base: k, ears: "default" }); delete st.recipe.earType; if (BASES[k].cat !== BASES[keep.base].cat) st.recipe.tail = "base"; draw(); };
       c.appendChild(b);
     });
     d.appendChild(c); return d;
@@ -982,6 +1096,7 @@ export function petRows(recipe, pose, facing = "right") {
       var on = o.one ? String(cur == null ? defaultOf(key) : cur) === String(v) : (cur || []).indexOf(v) >= 0;
       b.setAttribute("aria-pressed", String(!!on));
       b.onclick = function () {
+        if (key === "earType") st.recipe.ears = "default";
         if (o.one) st.recipe[key] = v;
         else { var a = (st.recipe[key] || []).slice(), i = a.indexOf(v); if (i >= 0) a.splice(i, 1); else a.push(v); st.recipe[key] = a; }
         if (key === "build") st.kg = Math.round(BASES[r.base].kg * (v < 0 ? 0.75 : v > 0 ? 1.35 : 1));
@@ -1013,14 +1128,15 @@ export function petRows(recipe, pose, facing = "right") {
   }
   function defaultOf(key) {
     var b = BASES[st.recipe.base];
-    return { ears: "default", coat: "smooth", eyes: "dark", chest: "base", paws: "base", tail: "base", build: b.body[0], legs: b.body[1], length: 0 }[key];
+    return { ears: "default", coat: "smooth", eyes: "dark", chest: "base", paws: "base", tail: "base", build: b.body[0], legs: b.body[1], length: 0,
+      earType: UP(st.recipe.base) ? "up" : "floppy", cheeks: "regular", nose: "base" }[key];
   }
 
   // ---- colors: only the parts this pet uses ----
   function slotKeys() {
     var r = st.recipe, b = BASES[r.base], f = r.face || [], y = r.body || [], has = function (a, l) { return l.some(function (x) { return a.indexOf(x) >= 0; }); };
     var keys = ["coat", "light", "muzzle"];
-    if (b.keys.ear) keys.push("ear");
+    if (b.keys.ear || !isUp(r)) keys.push("ear");
     var usesWhite = has(f, ["blaze", "whiteface"]) || has(y, ["socks"]) || r.chest === "white" || r.paws === "white";
     var usesDark = has(f, ["mask", "points", "spots", "patches", "merle"]) || has(y, ["saddle", "spots", "merle", "patches", "brindle", "points"]) || r.chest === "dark" || r.paws === "dark" || r.ears === "tipped";
     var usesTan = has(f, ["tan"]) || has(y, ["tan"]) || r.chest === "tan" || r.paws === "tan";
@@ -1067,22 +1183,24 @@ export function petRows(recipe, pose, facing = "right") {
     draw(); toast("Started from " + p.name);
   }
   function markBreed() { $("breeds").querySelectorAll("button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.v === st.started)); }); }
+  var bkind = "dog", bAll = false;
   function drawBreeds() {
     var box = $("breeds"), q = $("q").value.trim().toLowerCase(); box.innerHTML = "";
-    [["Dogs", false], ["Cats", true]].forEach(function (g) {
-      var list = PRESETS.filter(function (p) { return BASES[p.base].cat === g[1] && (!q || p.name.toLowerCase().indexOf(q) >= 0); });
-      if (!list.length) return;
-      var h = document.createElement("h3"); h.textContent = g[0] + " · " + list.length; box.appendChild(h);
-      var c = document.createElement("div"); c.className = "chips";
-      list.forEach(function (p) {
-        var b = document.createElement("button"); b.type = "button"; b.dataset.v = p.name;
-        b.innerHTML = '<img class="thumb" alt="" src="' + thumbs[p.name] + '">' + p.name;
-        b.onclick = function () { usePreset(p); }; c.appendChild(b);
-      });
-      box.appendChild(c);
+    var list = PRESETS.filter(function (p) { return q ? p.name.toLowerCase().indexOf(q) >= 0 : BASES[p.base].cat === (bkind === "cat"); });
+    var shown = q || bAll ? list : list.slice(0, 12);
+    shown.forEach(function (p) {
+      var b = document.createElement("button"); b.type = "button"; b.dataset.v = p.name;
+      b.innerHTML = '<img alt="" src="' + thumbs[p.name] + '">' + p.name;
+      b.onclick = function () { usePreset(p); }; box.appendChild(b);
     });
+    var more = $("bmore");
+    more.hidden = !!q || list.length <= 12;
+    more.textContent = bAll ? "Show fewer" : "Show all " + list.length + " " + (bkind === "cat" ? "cats" : "dogs");
+    if (!list.length) box.innerHTML = '<p class="note">No breed matches. Try another word.</p>';
     markBreed();
   }
+  $("bmore").onclick = function () { bAll = !bAll; drawBreeds(); };
+  $("bkind").addEventListener("click", function (e) { var b = e.target.closest("button"); if (!b) return; bkind = b.dataset.v; bAll = false; press("bkind", bkind); drawBreeds(); });
   var thumbs = {};
   PRESETS.forEach(function (p) { thumbs[p.name] = url(PG.frame(p, "front", "idle", 0), PG.palette(p)); });
   $("q").oninput = drawBreeds;
@@ -1228,6 +1346,8 @@ export function petRows(recipe, pose, facing = "right") {
     body: ["saddle", "spots", "stripes", "brindle", "merle", "patches", "points", "socks", "tan"],
     eyes: ["dark", "amber", "hazel", "green", "blue", "odd"], chest: ["base", "white", "coat", "tan", "dark"], paws: ["base", "white", "coat", "tan", "dark"],
     tail: ["base", "wag", "curl", "tip", "none", "cat"], build: [-1, 0, 1], legs: [-2, 0, 1], length: [0, 1],
+    earType: ["up", "floppy"], cheeks: ["regular", "ruff"], nose: ["base", "black", "brown", "pink", "liver"],
+    mood: ["idle", "perk", "calm", "sleep", "love", "excited", "wink", "content", "surprised", "shy", "teary"],
   };
   var COLOR_KEYS = ["coat", "light", "muzzle", "ear", "white", "dark", "tan", "patch", "nose"];
   function prompt() {
@@ -1237,6 +1357,8 @@ export function petRows(recipe, pose, facing = "right") {
       "Start from the closest breed in this list (copy the name exactly):", names, "",
       "Then set the options so the pixel pet matches the photo:",
       "ears: default (as the breed draws them) | big | tufts (lynx hairs on the tips) | lynx (big + tufts) | tipped (dog ears that fold over at the tip) | folded (cat) | long (floppy ears only). Ears-up breeds can use big, tufts, lynx, tipped or folded; floppy-eared breeds only default or long.",
+      "earType (dogs only, to swap the breed's ears): up | floppy. cheeks: regular | ruff (fluffy fur around the face). nose: base | black | brown | pink | liver.",
+      "mood: the expression the photo shows: idle (happy) | perk | calm | sleep | love | excited | wink | content | surprised | shy | teary.",
       "coat: smooth | fluffy | long.",
       "face: any of mask (dark muzzle and eyes), blaze (white stripe up the face), whiteface (white lower face), tan (tan eyebrows and muzzle), points (dark face center and ears), spots, stripes, patches, merle.",
       "body: any of saddle (dark back), spots, stripes, brindle, merle, patches, points (dark legs and tail), socks (white paws), tan (tan legs).",
@@ -1253,11 +1375,12 @@ export function petRows(recipe, pose, facing = "right") {
     var p = PRESETS.filter(function (x) { return j && x.name === j.preset; })[0];
     if (!p) return null;
     var rec = base(p);
-    ["ears", "coat", "eyes", "chest", "paws", "tail"].forEach(function (k) { if (ENUM[k].indexOf(j[k]) >= 0) rec[k] = j[k]; });
+    ["ears", "coat", "eyes", "chest", "paws", "tail", "cheeks", "nose", "mood"].forEach(function (k) { if (ENUM[k].indexOf(j[k]) >= 0) rec[k] = j[k]; });
+    if (SWAP.indexOf(p.base) >= 0 && ENUM.earType.indexOf(j.earType) >= 0) rec.earType = j.earType;
     ["build", "legs", "length"].forEach(function (k) { var v = Number(j[k]); if (ENUM[k].indexOf(v) >= 0) rec[k] = v; });
     ["face", "body"].forEach(function (k) { if (Array.isArray(j[k])) rec[k] = j[k].filter(function (v) { return ENUM[k].indexOf(v) >= 0; }); });
-    if (!UP(p.base) && ["default", "long"].indexOf(rec.ears) < 0) rec.ears = "default";
-    if (UP(p.base) && rec.ears === "long") rec.ears = "default";
+    if (!isUp(rec) && ["default", "long"].indexOf(rec.ears) < 0) rec.ears = "default";
+    if (isUp(rec) && rec.ears === "long") rec.ears = "default";
     var c = j.colors || {};
     COLOR_KEYS.forEach(function (k) { if (/^#[0-9a-f]{6}$/i.test(c[k] || "")) rec.colors[k] = c[k].toUpperCase(); });
     if (BASES[p.base].keys.patch && rec.colors.patch) { /* calico-type heads paint patches from their own letters */ }
@@ -1327,6 +1450,16 @@ export function petRows(recipe, pose, facing = "right") {
   });
   try { var savedTab = localStorage.getItem("goldito-petmaker-tab"); if (TABS.indexOf(savedTab) >= 0) st.tab = savedTab; } catch (e) {}
   tab(st.tab);
+  var PAGES = ["make", "dev", "cover"];
+  function page(v) {
+    PAGES.forEach(function (k) { var on = k === v, b = $("pt-" + k); b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1; $("view-" + k).hidden = !on; });
+    if (location.hash.slice(1) !== v) try { history.replaceState(null, "", v === "make" ? location.pathname : "#" + v); } catch (e) {}
+  }
+  PAGES.forEach(function (k, i) {
+    var b = $("pt-" + k); b.onclick = function () { page(k); };
+    b.onkeydown = function (e) { if (e.key === "ArrowRight" || e.key === "ArrowLeft") { e.preventDefault(); var n = PAGES[(i + (e.key === "ArrowRight" ? 1 : 2)) % 3]; page(n); $("pt-" + n).focus(); } };
+  });
+  if (PAGES.indexOf(location.hash.slice(1)) > 0) page(location.hash.slice(1));
   // for developers: the poses and the prompt, from the same code the page runs
   $("posetable").innerHTML = PG.MOTIONS.map(function (m) { return "<tr><td>" + m[0] + "</td><td><code>" + m[1] + "</code></td><td><code>" + m[2] + "</code></td><td>" + m[3] + "</td><td>" + m[4] + "</td></tr>"; }).join("");
   $("promptbox").textContent = prompt();
