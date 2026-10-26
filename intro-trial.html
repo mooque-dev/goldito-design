@@ -41,6 +41,12 @@ button:focus-visible{outline:2px solid var(--color-primary);outline-offset:2px}
 .btn{min-height:54px;border-radius:999px;border:0;font:700 16px 'Plus Jakarta Sans',sans-serif;background:#1B4332;color:#fff;padding:0 22px;cursor:pointer;width:100%}
 .btn.s{background:#fff;color:#1B4332;border:1.5px solid #7F6F58} .btn.t{background:none;color:#1B4332;min-height:44px;text-decoration:underline;text-underline-offset:3px}
 .btn:disabled{opacity:.45;cursor:default}
+.howc{display:flex;align-items:center;gap:14px;min-height:64px;padding:10px 16px;border-radius:24px;border:0;background:#FBEFC8;color:#1A1A1A;text-align:left;cursor:pointer;font:inherit;width:100%;flex:none}
+.howc img{width:36px;height:36px;flex:none} .howc b{display:block;font-weight:800;font-size:15.5px} .howc small{display:block;font-size:13.5px;color:#1A1A1A} .howc svg{width:22px;height:22px;margin-left:auto;flex:none}
+.legalrow{display:flex;justify-content:center;align-items:center;gap:2px;font-size:12.5px;color:#6B5D4A;margin-top:-8px} .legalrow button{background:none;border:0;color:#6B5D4A;font:inherit;min-height:44px;padding:0 6px;cursor:pointer}
+.backl{display:inline-flex;align-items:center;gap:4px;min-height:44px;background:none;border:0;color:#1B4332;font:700 15px 'Plus Jakarta Sans',sans-serif;cursor:pointer;padding:0 4px} .backl svg{width:20px;height:20px}
+.lgh{font:700 30px/1.1 Fredoka,sans-serif;color:#1B4332;margin:0} .lgu{font-size:13.5px;color:#6B5D4A;margin-top:-10px}
+.lgc{background:#fff;border:1px solid #E8DCC4;border-radius:16px;overflow:hidden;flex:none} .lgc>button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;padding:0 16px;border:0;background:none;font:700 15px 'Plus Jakarta Sans',sans-serif;color:#1A1A1A;cursor:pointer;text-align:left} .lgc>button svg{width:20px;height:20px;color:#6B5D4A;flex:none} .lgc:not(.on)>button svg{transform:rotate(-90deg)} .lgc p{padding:0 16px 14px;font-size:14.5px;line-height:1.55;margin:0}
 .ph button:focus-visible,.ph input:focus-visible{outline:3px solid #F4C35A;outline-offset:2px}
 .brand{display:flex;align-items:center;gap:8px;font:700 20px Fredoka,sans-serif;color:#1B4332} .brand img{width:26px;height:26px;image-rendering:pixelated}
 .topbar{display:flex;align-items:center;gap:6px;padding:4px 12px 0;flex:none;min-height:48px}
@@ -264,11 +270,14 @@ function today() {
 }
 
 /* ---------- the proposal ---------- */
-const P = { s: "boot", story: 0, role: null, step: 0, sheet: false, f: { first: "", last: "", email: "", pw: "" }, as: null };
-const JUMP = [["boot", "Boot"], ["welcome", "Welcome"], ["story", "How it works"], ["demo", "Try the demo"], ["signup", "Sign up"], ["login", "Log in"], ["petstart", "Pet setup start"], ["done", "Finish"]];
+const P = { s: "boot", story: 0, open: 0, soc: false, role: null, step: 0, sheet: false, f: { first: "", last: "", email: "", pw: "" }, as: null };
+const JUMP = [["boot", "Boot"], ["welcome", "Welcome"], ["story", "How it works"], ["demo", "Try the demo"], ["signup", "Sign up"], ["login", "Log in"], ["privacy", "Privacy and Terms"], ["welcome-soc", "With Apple and Google"], ["petstart", "Pet setup start"], ["done", "Finish"]];
 const CAP = {
   boot: "The same paw walk as the finish, with the logo under it instead of the welcome. No spinner jump.",
-  welcome: "Max and Mochi on the first screen. Try the demo is the main button, then Apple, Google, email and Log in.",
+  welcome: "Max and Mochi on the first screen. How it works is a card under the tagline; Try the demo is the main button, then email and Log in, and a small Privacy · Terms line.",
+  privacy: "Privacy and Terms: Back, the title with its date, one card per section with a chevron, one open at a time. Same page for both.",
+  "welcome-soc": "Apple and Google go under Try the demo once they work. Until then the app hides them (#362), so Welcome, Sign up and Log in show email only.",
+  terms: "Privacy and Terms: Back, the title with its date, one card per section with a chevron, one open at a time. Same page for both.",
   story: "Three pages from the onboarding plan: the problem, two roles, one stay. Swipe with Next, or Skip.",
   demo: "One tap picks who to be. The paw walks while the demo account opens.",
   signup: "Three short steps: who you are, Apple, Google or email, a password. One progress bar, one Back.",
@@ -289,6 +298,13 @@ const STORIES = [
 const SOC = `<div class="soc"><button type="button" class="sbtn apple" data-p="social" data-v="Apple"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.02-1.5-2.62-1.7-3.19-1.72-1.36-.14-2.65.8-3.34.8-.69 0-1.75-.78-2.88-.76-1.48.02-2.85.86-3.61 2.19-1.54 2.67-.39 6.62 1.11 8.79.73 1.06 1.6 2.25 2.75 2.21 1.1-.04 1.52-.71 2.85-.71 1.33 0 1.71.71 2.88.69 1.19-.02 1.94-1.08 2.67-2.14.84-1.23 1.19-2.42 1.21-2.48-.03-.01-2.32-.89-2.33-3.56zM14.19 6.15c.61-.74 1.02-1.76.91-2.78-.88.04-1.94.59-2.57 1.32-.56.65-1.06 1.69-.93 2.69.98.08 1.98-.5 2.59-1.23z"/></svg>Continue with Apple</button><button type="button" class="sbtn google" data-p="social" data-v="Google"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.5 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.9a5.04 5.04 0 0 1-2.19 3.31v2.75h3.54c2.08-1.92 3.25-4.74 3.25-8.07z"/><path fill="#34A853" d="M12 23c2.96 0 5.45-.98 7.26-2.66l-3.54-2.75c-.98.66-2.24 1.05-3.72 1.05-2.86 0-5.28-1.93-6.15-4.53H2.2v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.85 14.11a6.6 6.6 0 0 1 0-4.22V7.05H2.2a11 11 0 0 0 0 9.9l3.65-2.84z"/><path fill="#EA4335" d="M12 5.36c1.61 0 3.06.55 4.2 1.64l3.15-3.15C17.45 2.09 14.96 1 12 1A11 11 0 0 0 2.2 7.05l3.65 2.84C6.72 7.29 9.14 5.36 12 5.36z"/></svg>Continue with Google</button></div>`;
 // One paw walk for Boot and Finish: four prints rise bottom to top; Boot shows the logo under it, Finish the welcome.
 const walk = () => `<div class="walkx" aria-hidden="true">${[0, 1, 2, 3].map((k) => { const side = k % 2 ? 1 : -1; return `<svg style="left:${40 + side * 14}px;top:${120 - k * 36}px;--t:rotate(${side * 8}deg);animation-delay:${k * 0.14}s"><use href="#i-paw"/></svg>`; }).join("")}</div>`;
+const CHEV_R = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const CHEV_D = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+// Privacy and Terms as the app has them (frontend/app/privacy.tsx, terms.tsx): only the first section's text is shown here.
+const LEGAL = {
+  privacy: ["Privacy", [["What this is", "Goldito is a pet-care app built for the Nebius x NVIDIA Global AI Hackathon. It is a prototype: please do not enter real payment details or anything you would not want a demo to hold. The demo accounts use fictional people, pets and addresses."], ["What we store"], ["Who can see it"], ["AI"], ["Other services that receive data"], ["Google Calendar and Meet"], ["On your device"], ["How long, and your choices"]]],
+  terms: ["Terms of Service", [["1. About this prototype", "Goldito is a pet-care prototype developed for the Nebius x NVIDIA Global AI Hackathon. It is created for demonstration and judging purposes."], ["2. Pet care and responsibilities"], ["3. AI suggestions and veterinary disclaimer"], ["4. User content and photos"], ["5. Service availability and changes"]]],
+};
 const scoreOf = (pw) => (pw.length >= 6) + (pw.length >= 10) + /[0-9]/.test(pw) + /[^A-Za-z0-9]/.test(pw);
 function screen() {
   const f = P.f;
@@ -296,9 +312,12 @@ function screen() {
   switch (P.s) {
     case "boot": return `<div class="celebrate boot2" id="boot">${walk()}<div class="logo"><img src="${A("goldito-coin-tight")}" alt=""><b>Goldito</b></div></div>`;
     case "welcome": return `${top()}<div class="scroll" style="padding-top:2px">
-      <div class="hero" style="height:150px"><span class="sun"></span><span class="ground"></span><span class="tagg" style="left:auto;right:14px;top:14px">${ic("paw")}Booked with Chloe</span><img class="stk s1" src="${STK("g_star")}" alt=""><img class="stk s2" src="${STK("g_heart")}" alt=""><img class="stk s3" src="${STK("g_ball")}" alt=""><img class="stk s4" src="${STK("g_sun")}" alt=""><img class="pet p1" src="${STK("mumu_party_hat")}" alt="Max, a white dog" style="height:108px;bottom:14px"><img class="pet p2" src="${STK("orange_cat_lying_relaxed")}" alt="Mochi, an orange cat" style="height:66px;bottom:18px"></div>
-      <h3>Leave your pet. Keep your peace of mind.</h3><p>Updates from your sitter without asking. Care notes for sitters without typing.</p><button type="button" class="btn t" style="width:auto;align-self:flex-start;padding:0;min-height:44px" data-p="story">How it works ›</button></div>
-      <div class="foot"><button type="button" class="btn" data-p="demo">Try the demo</button>${SOC}<div style="display:flex;justify-content:space-between"><button type="button" class="btn t" style="width:auto" data-p="signup">Sign up with email</button><button type="button" class="btn t" style="width:auto" data-p="login">Log in</button></div></div>`;
+      <div class="hero" style="height:132px"><span class="sun"></span><span class="ground"></span><span class="tagg" style="left:auto;right:14px;top:14px">${ic("paw")}Booked with Chloe</span><img class="stk s1" src="${STK("g_star")}" alt=""><img class="stk s2" src="${STK("g_heart")}" alt=""><img class="stk s3" src="${STK("g_ball")}" alt=""><img class="stk s4" src="${STK("g_sun")}" alt=""><img class="pet p1" src="${STK("mumu_party_hat")}" alt="Max, a white dog" style="height:94px;bottom:10px"><img class="pet p2" src="${STK("orange_cat_lying_relaxed")}" alt="Mochi, an orange cat" style="height:56px;bottom:12px"></div>
+      <h3>Leave your pet. Keep your peace of mind.</h3><p>Updates from your sitter without asking. Care notes for sitters without typing.</p><button type="button" class="howc" data-p="story"><img src="${A("sticker-paw")}" alt=""><span><b>How it works</b><small>Three short pages, about a minute</small></span>${CHEV_R}</button></div>
+      <div class="foot"><button type="button" class="btn" data-p="demo">Try the demo</button>${P.soc ? SOC : ""}<div style="display:flex;justify-content:space-between"><button type="button" class="btn t" style="width:auto" data-p="signup">Sign up with email</button><button type="button" class="btn t" style="width:auto" data-p="login">Log in</button></div><div class="legalrow"><button type="button" data-p="privacy">Privacy</button><span aria-hidden="true">·</span><button type="button" data-p="terms">Terms</button></div></div>`;
+    case "privacy": case "terms": { const [title, secs] = LEGAL[P.s];
+      return `<div class="topbar"><button type="button" class="backl" data-p="welcome">${ic("back")}Back</button><span class="sp"></span></div><div class="scroll"><h3 class="lgh">${title}</h3><p class="lgu">Last updated October 24, 2026</p>
+        ${secs.map(([h, body], i) => `<div class="lgc${P.open === i ? " on" : ""}"><button type="button" data-lg="${i}" aria-expanded="${P.open === i}">${h}${CHEV_D}</button>${P.open === i ? `<p>${body || "The full text is in the app."}</p>` : ""}</div>`).join("")}</div>`; }
     case "story": { const st = STORIES[P.story], last = P.story === STORIES.length - 1;
       return `${top({ back: P.story ? "storyprev" : "welcome", skip: "welcome" })}<div class="story"><div class="vis ${st.bg}">${st.vis}</div><h3 style="font-size:28px">${st.title}</h3><p>${st.body}</p></div>
       <div class="foot"><div class="dots">${STORIES.map((_, k) => `<i class="${k === P.story ? "on" : ""}"></i>`).join("")}</div>${last ? `<button type="button" class="btn" data-p="demo">Try the demo</button><button type="button" class="btn s" data-p="signup">Create account</button>` : `<button type="button" class="btn" data-p="storynext">Next</button>`}</div>`; }
@@ -309,7 +328,7 @@ function screen() {
         <button type="button" role="radio" class="rolec p" aria-checked="${P.role === "owner"}" data-role="owner"><img src="${A("pet-dog")}" alt=""><span><b>I have a pet</b><small>Book a sitter and get updates without asking.</small></span><span class="rd"></span></button>
         <button type="button" role="radio" class="rolec m" aria-checked="${P.role === "sitter"}" data-role="sitter"><img src="${A("five-second")}" alt=""><span><b>I'm a pet sitter</b><small>Care, snap, tap. Goldito writes the day.</small></span><span class="rd"></span></button></div></div>
         <div class="foot"><button type="button" class="btn" data-p="stepnext" ${P.role ? "" : "disabled"}>${P.role ? "Continue" : "Pick one to continue"}</button></div>`;
-      if (P.step === 1) return `${top({ back, prog })}<div class="scroll"><h3>Create your account</h3><p>${P.role === "owner" ? "Your sitter sees your first name." : "Owners see your first name."}</p>${SOC}<div class="or">or with email</div>
+      if (P.step === 1) return `${top({ back, prog })}<div class="scroll"><h3>Create your account</h3><p>${P.role === "owner" ? "Your sitter sees your first name." : "Owners see your first name."}</p>${P.soc ? `${SOC}<div class="or">or with email</div>` : ""}
         <div class="row2"><div class="fld"><label for="f1">First name</label><input id="f1" data-f="first" value="${esc(f.first)}" autocomplete="given-name"></div><div class="fld"><label for="f2">Last name</label><input id="f2" data-f="last" value="${esc(f.last)}" autocomplete="family-name"></div></div>
         <div class="fld"><label for="f3">Email</label><input id="f3" data-f="email" type="email" value="${esc(f.email)}" placeholder="you@example.com" autocomplete="email"></div></div>
         <div class="foot"><button type="button" class="btn" data-p="stepnext" data-need="first,email">Continue</button></div>`;
@@ -318,7 +337,7 @@ function screen() {
         <div class="fld"><label for="f4">Password</label><input id="f4" data-f="pw" type="password" value="${esc(f.pw)}" autocomplete="new-password"><div class="str" aria-hidden="true">${[1, 2, 3, 4].map((k) => `<i class="${k <= sc ? "on" : ""}"></i>`).join("")}</div><small id="strw">${["Too short", "Okay", "Good", "Strong", "Strong"][sc]}</small></div>
         <p class="legal">By creating an account you agree to the <a href="#" onclick="return false">Terms</a> and <a href="#" onclick="return false">Privacy Policy</a>.</p></div>
         <div class="foot"><button type="button" class="btn" data-p="create" data-need="pw">Create account</button></div>`; }
-    case "login": return `${top({ back: "welcome" })}<div class="scroll"><h3>Welcome back</h3><p>Log in to see today with your pet.</p>${SOC}<div class="or">or with email</div>
+    case "login": return `${top({ back: "welcome" })}<div class="scroll"><h3>Welcome back</h3><p>Log in to see today with your pet.</p>${P.soc ? `${SOC}<div class="or">or with email</div>` : ""}
       <div class="fld"><label for="l1">Email</label><input id="l1" type="email" placeholder="you@example.com" autocomplete="email"></div>
       <div class="fld"><label for="l2">Password</label><input id="l2" type="password" autocomplete="current-password"></div>
       <div style="display:flex;justify-content:space-between;align-items:center"><button type="button" class="btn t" style="width:auto;padding:0" data-p="forgot">Forgot password?</button><button type="button" class="btn" style="width:auto;min-height:50px" data-p="forgot">Log in</button></div>
@@ -348,7 +367,7 @@ let bootT = null, loadT = null;
 function prop() {
   const ph = document.getElementById("prop");
   ph.innerHTML = SB + `<div class="sc">${screen()}${P.sheet ? demoSheet() : ""}${P.loading ? `<div class="load"><div class="walkmini go">${[0, 1, 2, 3].map((k) => `<svg style="left:${k % 2 ? 32 : 10}px;top:${52 - k * 16}px;animation-delay:${k * 0.25}s"><use href="#i-paw"/></svg>`).join("")}</div><b>Opening ${P.loading === "owner" ? "Robert's" : "Chloe's"} Goldito</b><span style="font-size:14px;color:#6B5D4A">${P.loading === "owner" ? "Max and Mochi, day 3 with Chloe" : "Max and Mochi, day 3 in your care"}</span></div>` : ""}</div>`;
-  const key = P.s === "story" ? "story" : P.sheet || P.loading ? "demo" : P.s;
+  const key = P.s === "story" ? "story" : P.sheet || P.loading ? "demo" : P.s === "welcome" && P.soc ? "welcome-soc" : P.s;
   document.getElementById("pcap").textContent = CAP[key] || "";
   document.getElementById("jump").innerHTML = JUMP.map(([k, l]) => `<button type="button" aria-pressed="${key === k}" data-j="${k}">${l}</button>`).join("");
   need();
@@ -362,9 +381,10 @@ function go(s, extra = {}) { Object.assign(P, { s, sheet: false, loading: null }
 document.addEventListener("click", (e) => {
   const b = e.target.closest("button"); if (!b) return;
   if (b.dataset.t) { ti = Math.max(0, Math.min(TODAY.length - 1, ti + +b.dataset.t)); today(); return; }
-  if (b.dataset.j) { const j = b.dataset.j; if (j === "demo") { go("welcome", { sheet: true }); P.sheet = true; prop(); } else if (j === "story") go("story", { story: 0 }); else if (j === "signup") go("signup", { step: 0 }); else go(j); return; }
+  if (b.dataset.j) { const j = b.dataset.j; P.soc = j === "welcome-soc"; if (j === "demo") { go("welcome", { sheet: true }); P.sheet = true; prop(); } else if (j === "story") go("story", { story: 0 }); else if (j === "signup") go("signup", { step: 0 }); else if (j === "privacy") go("privacy", { open: 0 }); else if (j === "welcome-soc") go("welcome", { soc: true }); else if (j === "welcome") go("welcome", { soc: false }); else go(j); return; }
   if (!b.closest("#prop")) return;
   if (b.dataset.role) { P.role = b.dataset.role; prop(); return; }
+  if (b.dataset.lg) { const i = +b.dataset.lg; P.open = P.open === i ? -1 : i; prop(); return; }
   if (b.dataset.as) { const as = b.dataset.as; Object.assign(P, { sheet: false, loading: as }); prop(); clearTimeout(loadT); loadT = setTimeout(() => go("home", { as }), reduce() ? 300 : 1600); return; }
   const p = b.dataset.p; if (!p) return;
   if (p === "demo") { P.sheet = true; prop(); }
@@ -372,6 +392,7 @@ document.addEventListener("click", (e) => {
   else if (p === "storynext") { P.story++; prop(); }
   else if (p === "storyprev") { P.story--; prop(); }
   else if (p === "story") go("story", { story: 0 });
+  else if (p === "privacy" || p === "terms") go(p, { open: 0 });
   else if (p === "signup") go("signup", { step: 0 });
   else if (p === "stepnext") { P.step++; prop(); }
   else if (p === "stepprev") { P.step--; prop(); }
@@ -387,7 +408,7 @@ document.getElementById("prop").addEventListener("input", (e) => {
 today(); prop();
 // For the Figma plugin's Tickets tab (Oct 25): the proposal's screens, captured one by one.
 window.__ticket = { id: "intro", title: "Intro: the first minute (ready to build)", issue: "https://github.com/minsikpaul92/Goldito/issues/374", workbench: "https://mooque-dev.github.io/goldito-design/intro-trial.html", design: "Mook", code: "Minsik",
-  decisions: [{ q: "Status", a: "Ready to build, approved by Mook on Oct 25. Today's first run is audited on the page (12 findings)" },
+  decisions: [{ q: "Built in", a: "PR #384 (in review with Minsik): Boot, Welcome, How it works, Log in, Sign up, Privacy and Terms" }, { q: "How it works", a: "A butter card under the tagline so first-time visitors see it (Mook, Oct 25)" }, { q: "Privacy and Terms", a: "One page: Back, the title with its date, one card per section with a chevron; a small Privacy · Terms line on Welcome" }, { q: "Status", a: "Ready to build, approved by Mook on Oct 25. Today's first run is audited on the page (12 findings)" },
     { q: "Welcome", a: "Try the demo first (as the README promises), then Continue with Apple, Continue with Google, Sign up with email, Log in; How it works under the headline" },
     { q: "How it works", a: "Three pages: the problem, two roles, one stay (the five stages); real pictures from the app, never placeholder boxes; Skip top right" },
     { q: "Try the demo", a: "A sheet picks Robert or Chloe; the paw walk while it opens; a banner says whose phone you're on, with Switch" },
@@ -408,6 +429,9 @@ window.__ticketStates = [
   { cap: "intro-signup-2", on: "intro-welcome", title: "Intro · Sign up 2 · account", go: () => ist("signup", { step: 1, role: "owner" }, { first: "Robert", email: "robert@example.com" }) },
   { cap: "intro-signup-3", on: "intro-welcome", title: "Intro · Sign up 3 · password", go: () => ist("signup", { step: 2, role: "owner" }, { pw: "goldito-12" }) },
   { cap: "intro-login", on: "intro-welcome", title: "Intro · Log in", go: () => ist("login") },
+  { cap: "intro-welcome-social", on: "intro-welcome", title: "Intro · Welcome with Apple and Google (when they work)", go: () => ist("welcome", { soc: true }) },
+  { cap: "intro-privacy", on: "intro-welcome", title: "Intro · Privacy", go: () => ist("privacy", { open: 0 }) },
+  { cap: "intro-terms", on: "intro-welcome", title: "Intro · Terms", go: () => ist("terms", { open: 0 }) },
   { cap: "intro-petstart", on: "intro-welcome", title: "Intro · Setup start", go: () => ist("petstart") },
   { cap: "intro-done", on: "intro-welcome", title: "Intro · Welcome to Goldito", go: () => ist("done") },
 ];
