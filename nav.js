@@ -179,6 +179,8 @@
       ["delights.html", "Little delights", "작은 즐거움", "Every micro-interaction with variations: paw walks, paw loaders, stamps, bursts, hints; playable", "모든 마이크로 인터랙션과 변형: 발자국 걷기, 발바닥 로더, 도장, 터짐, 힌트; 체험 가능"],
       ["words-trial.html", "Playful words", "재치 있는 말", "Paw-fect and friends, each shown as a toast, title or empty state; dog and cat words; playable", "파우-펙트 등, 토스트, 제목, 빈 화면으로 보기; 강아지와 고양이 말; 체험 가능"],
       ["tone-trial.html", "Pet tone trial", "펫 톤 시안", "Colors from the pet's photo or Goldito green, light and dark, and Max's room; playable", "펫 사진의 색 또는 골디토 그린, 라이트와 다크, 맥스의 방; 체험 가능"],
+      ["home-flip.html", "Home flip", "홈 뒤집기", "Finding the pet room instead of the refresh icon: Today | Pet room tabs, Max peeks in with news", "새로고침 아이콘 대신 펫 방 찾기: Today | Pet room 탭, 소식이 있으면 Max가 살짝"],
+      ["room-trial.html", "Pet room trial", "펫 방 시안", "Max's room with life: the room, one sentence, stat tiles, wardrobe, sitter notes; playable at any text size", "생기 있는 Max의 방: 방, 한 문장, 숫자 타일, 옷장, 시터 메모; 모든 글자 크기에서 체험 가능"],
       ["feed-trial.html", "Feed trial", "피드 시안", "Feed and Diary: all pets first, View tabs, stickers from any photo; playable", "피드와 다이어리: 모든 펫 먼저, 뷰 탭, 사진으로 스티커; 체험 가능"],
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [

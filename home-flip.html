@@ -70,13 +70,19 @@ th{font-size:12px;color:var(--color-text-muted);font-weight:700;background:var(-
 .btn44{min-height:44px;border:0;cursor:pointer;font:700 15px var(--ui)}
 
 /* A · labeled switch */
-.segA{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;padding:4px;border-radius:999px;background:var(--c-surface);border:1.5px solid var(--c-border)}
-.segA button{min-height:44px;border:0;border-radius:999px;background:transparent;color:var(--c-text);font:700 15px var(--ui);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;position:relative}
-.segA button[aria-selected=true]{background:var(--c-primary);color:var(--c-on)}
+/* SegmentedControl (Expressive, DESIGN §6.1): 44 tall pills, borderStrong outline; selected = primary border + accent */
+.vtA{display:flex;gap:24px;width:100%;border-bottom:1px solid var(--c-border);margin:0 4px}
+.vtA button{min-height:44px;border:0;border-bottom:3px solid transparent;margin-bottom:-1px;background:none;padding:0;font:600 16px var(--ui);color:#6B5D4A;cursor:pointer;position:relative}
+.vtA button[aria-selected=true]{border-bottom-color:var(--c-primary);color:var(--c-text);font-weight:700}
+.vtA .new{position:absolute;top:8px;right:-12px;width:9px;height:9px;border-radius:50%;background:var(--c-red);opacity:0;transform:scale(.4);transition:.25s}
+.ph.newsA .vtA .new{opacity:1;transform:none}
+.segA{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.segA button{min-height:44px;border:1.5px solid #7F6F58;border-radius:999px;background:var(--c-surface);color:var(--c-text);font:600 16px var(--ui);display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;position:relative}
+.segA button[aria-selected=true]{background:var(--c-accent);border:2px solid var(--c-primary)}
 .segA .mh{width:24px;height:24px}
-.segA .new{position:absolute;top:8px;right:14px;width:9px;height:9px;border-radius:50%;background:var(--c-red);box-shadow:0 0 0 2px var(--c-surface);opacity:0;transform:scale(.4);transition:.25s}
+.segA .new{position:absolute;top:6px;right:12px;width:10px;height:10px;border-radius:50%;background:var(--c-red);box-shadow:0 0 0 2px var(--c-surface);opacity:0;transform:scale(.4);transition:.25s}
 .ph.newsA .segA .new{opacity:1;transform:none}
-.ph.nudgeA .segA .mh{animation:hop .5s ease 3}
+.ph.nudgeA .segA .mh,.ph.nudgeA .segA .paw{animation:hop .5s ease 3}
 @keyframes hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-7px)}70%{transform:translateY(1px)}}
 
 /* B · peeking pet */
@@ -213,10 +219,10 @@ const star = '<svg viewBox="0 0 10 10" aria-hidden="true"><path fill="currentCol
 
 const V = [
   { v: "AB", name: ["A + B's peek", "A + B 빼꼼"], tag: "decided",
-    cap: ["The switch names both sides and fills the row the icon used. When Max has news (a mood change, a new hat, a sitter photo in his room), he also peeks in from the edge with one line. Visiting his room clears it.", "스위치가 양쪽 이름을 보여주고 아이콘이 쓰던 줄을 채워요. Max에게 소식이 있을 때(기분 변화, 새 모자, 방에 시터 사진)만 가장자리에서 빼꼼 한 줄. 방에 들어가면 사라져요."],
-    how: [["Find", "Switch, always visible"], ["Nudge", "Hop on first visits; peek, bubble and dot with news"], ["Back", "Tap Today"]],
+    cap: ["The refresh icon becomes the same underline tabs as Moments (Photos | Diary): Today | Pet room. On the Pet room side, the Moments pet chip picks whose room it is. When Max has news (a mood change, a new hat, a sitter photo in his room), he also peeks in from the edge with one line. Visiting his room clears it.", "새로고침 아이콘이 Moments(Photos | Diary)와 같은 밑줄 탭으로: Today | Pet room. Pet room 쪽에서는 Moments의 펫 칩으로 누구의 방인지 골라요. Max에게 소식이 있을 때(기분 변화, 새 모자, 방에 시터 사진)만 가장자리에서 빼꼼 한 줄. 방에 들어가면 사라져요."],
+    how: [["Find", "Tabs, always visible, same as Moments"], ["Nudge", "Dot on Pet room; Max peeks in with news"], ["Back", "Tap Today"]],
     bub: "Max is sleepy. Come say hi?",
-    ctrl: () => `<div class="segA" role="tablist" aria-label="Home sides"><button role="tab" aria-selected="true" data-go="0">${sun.replace('aria-hidden','width="20" height="20" aria-hidden')}Today</button><button role="tab" aria-selected="false" data-go="1"><span class="mh"></span>Max's room<span class="new"></span></button></div>` },
+    ctrl: () => `<div class="vtA" role="tablist" aria-label="Home"><button role="tab" aria-selected="true" data-go="0">Today</button><button role="tab" aria-selected="false" data-go="1">Pet room<span class="new"></span></button></div>` },
   { v: "A", name: ["Labeled switch", "라벨 스위치"], tag: "pick",
     cap: ["The refresh icon becomes a two-part switch: Today and Max's room, each with its own face. Max hops on the first visits; a red dot means news.", "새로고침 아이콘이 두 칸 스위치로. Today와 Max's room. 처음 몇 번은 Max가 통통 뛰고, 빨간 점은 새 소식."],
     how: [["Find", "Always visible, named"], ["Nudge", "Max hops 3 times; dot for news"], ["Back", "Tap Today"]],
