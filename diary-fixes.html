@@ -1,0 +1,235 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diary Fixes</title>
+<meta name="description" content="A UX audit of the live Diary (owner and sitter), each problem shown live next to the fix: one Back, Today first, a book as its own screen, the page footer, Decorate as a sheet, and the words.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Gaegu:wght@400;700&family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:76rem;margin:0 auto;display:flex;flex-direction:column;gap:3rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.35rem/1.2 var(--font-display);margin:0;text-wrap:balance}
+p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)}
+section{display:flex;flex-direction:column;gap:1rem;min-width:0}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.when{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:2px 10px;margin-left:.5rem;vertical-align:middle}
+.when.now{background:var(--color-success-surface,#ECFDF3);color:var(--color-success,#067647)} .when.later{background:var(--color-track);color:var(--color-text-muted)}
+.problems{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.3rem;max-width:68ch}
+.pair{display:flex;flex-wrap:wrap;gap:1.5rem 2rem;justify-content:center;align-items:flex-start}
+.col{display:flex;flex-direction:column;align-items:center;gap:10px;width:340px;max-width:100%}
+.col>b{font:600 1rem var(--font-display)} .col>b.fix{color:var(--color-success,#067647)}
+.col .cap{font-size:13.5px;color:var(--color-text-muted);text-align:center;max-width:330px}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem}
+.box{display:flex;flex-direction:column;gap:.4rem;padding:1rem 1.1rem;border-radius:16px;background:var(--color-surface);min-width:0}
+.box b{font-weight:700} .box ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.25rem}
+.tscroll{overflow-x:auto} table{border-collapse:collapse;width:100%;min-width:40rem;font-size:14px} th,td{text-align:left;vertical-align:top;padding:.6rem .75rem;border-bottom:1px solid var(--color-border)} th{font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--color-text-muted)}
+td.fix{color:var(--color-success,#067647);font-weight:600}
+
+/* The phone. Values are the app's tokens (Expressive skin); dashed = what changes. */
+.ph{--c-bg:#FBF6EA;--c-surface:#FFFFFF;--c-text:#1B4332;--c-muted:#6B5D4A;--c-border:#E8DCC4;--c-border-strong:#7F6F58;--c-accent:#D8F3DC;--c-track:#E8DCC4;--c-danger:#B42318;--c-ruled:#D9E6DE;--c-success:#067647;
+  --s-xs:4px;--s-sm:8px;--s-md:16px;--s-lg:24px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-pill:999px;--touch:44px;--btn-h:52px;--ui:'Plus Jakarta Sans',system-ui,sans-serif;--display:Fredoka,var(--ui);--hand:Gaegu,"Comic Sans MS",system-ui,sans-serif;
+  width:340px;max-width:100%;height:640px;border-radius:40px;border:9px solid #1A1A1A;overflow:hidden;background:var(--c-bg);color:var(--c-text);font:400 16px/22px var(--ui);display:flex;flex-direction:column;color-scheme:light;position:relative}
+.ph svg{width:22px;height:22px;flex:none}
+.sb{display:flex;justify-content:space-between;padding:11px 20px 4px;font-weight:700;font-size:13px;flex:none}
+.hdr{display:flex;align-items:center;gap:var(--s-sm);padding:var(--s-xs) var(--s-md) var(--s-sm);flex:none} .hdr .t{flex:1} .hdr h3{margin:0;font:600 24px/30px var(--display)} .hdr small{display:block;font:600 14px/20px var(--ui);color:var(--c-muted)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--c-accent);display:grid;place-items:center;font:700 14px/1 var(--ui)}
+.stack{display:flex;align-items:center;gap:var(--s-xs);padding:0 var(--s-sm);min-height:var(--touch);flex:none} .stack h3{flex:1;margin:0;font:600 21px/26px var(--display)} .stack .ib svg{width:28px;height:28px}
+.ib{width:var(--touch);height:var(--touch);display:grid;place-items:center;flex:none;color:var(--c-text)}
+.vt{display:flex;align-items:center;gap:var(--s-lg);margin:0 var(--s-md);border-bottom:1px solid var(--c-border);flex:none} .vt>span{padding:var(--s-sm) 2px;font:600 16px/22px var(--ui);color:var(--c-muted)} .vt>span.on{color:var(--c-text);box-shadow:inset 0 -2px var(--c-text)}
+.toggle{margin-left:auto;display:inline-flex;align-items:center;gap:var(--s-xs);min-height:var(--touch);padding:0 var(--s-xs);font:600 14px/20px var(--ui);color:var(--c-text)} .toggle svg{width:16px;height:16px}
+.scr{flex:1;min-height:0;overflow:hidden;padding:var(--s-md);display:flex;flex-direction:column;gap:12px;position:relative}
+.scr>*{flex:none}
+.tabbar{flex:none;height:60px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;border-top:1px solid var(--c-border);background:var(--c-surface)}
+.tabbar span{display:flex;flex-direction:column;align-items:center;gap:var(--s-xs);font:700 11.5px/16px var(--ui);color:var(--c-muted)} .tabbar span.on{color:var(--c-text)}
+.button{min-height:var(--btn-h);border-radius:var(--r-pill);border:2px solid var(--c-text);background:var(--c-surface);font:700 16px/22px var(--ui);color:var(--c-text);display:grid;place-items:center}
+.button.primary{background:var(--c-text);color:#fff}
+.textbtn{align-self:center;min-height:var(--touch);display:inline-flex;align-items:center;gap:var(--s-xs);font:600 14px/20px var(--ui);color:var(--c-text)}
+.danger{align-self:center;min-height:var(--touch);display:inline-flex;align-items:center;font:600 14px/20px var(--ui);color:var(--c-danger)}
+.covers{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md)}
+.cover{position:relative;border:4px solid var(--c-text);border-radius:var(--r-md);background:var(--c-text);padding:4px;display:flex;flex-direction:column;gap:4px;margin-left:12px}
+.cover img{width:100%;aspect-ratio:1.05;object-fit:cover;border-radius:6px;display:block}
+.cover .lab{background:var(--c-surface);border-radius:6px;text-align:center;padding:4px 0} .cover .lab b{display:block;font:700 15px/18px var(--hand)} .cover .lab small{font:400 12px/16px var(--ui);color:var(--c-muted)}
+.cover::before{content:"";position:absolute;left:-16px;top:8px;bottom:8px;width:14px;background:repeating-linear-gradient(var(--c-bg) 0 6px,transparent 6px 7px,var(--c-border-strong) 7px 9px,transparent 9px 14px)}
+.pnav{display:flex;align-items:center;gap:var(--s-sm)} .pnav .mid{flex:1;min-width:0;text-align:center} .pnav .mid b{display:block;font:700 16px/22px var(--ui)} .pnav .mid small{font:400 13px/18px var(--ui);color:var(--c-muted)}
+.circ{width:var(--touch);height:var(--touch);border-radius:50%;background:var(--c-surface);display:grid;place-items:center;flex:none} .circ.off{opacity:.4}
+/* Byline: the app's Avatar at 24 and small (14/20) text; who in text colour, when in muted */
+.byline{display:flex;align-items:center;gap:var(--s-sm);font:600 14px/20px var(--ui);color:var(--c-text)} .byline .mini{width:24px;height:24px;border-radius:50%;background:#FAD6CB;display:grid;place-items:center;font:700 11px/1 var(--ui);flex:none} .byline .when2{font-weight:400;color:var(--c-muted)}
+.stack .hact{display:flex}
+.button.sec{display:flex;align-items:center;justify-content:center;gap:var(--s-sm)} .button.sec svg{width:20px;height:20px}
+.dayhead{display:flex;align-items:baseline;justify-content:space-between;gap:var(--s-sm)} .dayhead b{font:600 21px/26px var(--display)} .dayhead small{font:400 13px/18px var(--ui);color:var(--c-muted)}
+.page{background:var(--c-surface);border-radius:var(--r-md);padding:var(--s-sm) var(--s-sm) var(--s-md) 28px;position:relative;display:flex;flex-direction:column;gap:6px}
+.page::before{content:"";position:absolute;left:-6px;top:12px;bottom:12px;width:20px;background:repeating-linear-gradient(transparent 0 6px,var(--c-border-strong) 6px 8px,transparent 8px 14px);border-radius:4px}
+.page .pt{display:flex;justify-content:space-between;font:700 13px/18px var(--hand)}
+.page .pic{width:100%;aspect-ratio:1.75;object-fit:cover;border:2px solid var(--c-text);border-radius:8px;display:block}
+.page .empty{width:100%;aspect-ratio:1.75;border:2px solid var(--c-text);border-radius:8px;background:#DCF0E0;display:grid;place-items:center;font-size:30px}
+.page .empty.add{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s-xs);font:600 14px/20px var(--ui);color:var(--c-text)} .page .empty.add svg{width:28px;height:28px}
+.page .words{font:400 17px/24px var(--hand);background:repeating-linear-gradient(transparent 0 23px,var(--c-ruled) 23px 24px);min-height:72px}
+.page .words.ph1{color:var(--c-muted)}
+.page .stk{position:absolute;width:52px;height:52px}
+.page.dim{opacity:.5}
+/* Page actions (fixed): matching 44-tall pill buttons, 1.5 px outline like Chip; ⋯ is a round 44 icon button */
+.pacts{display:flex;align-items:center;gap:var(--s-sm)} .abtn{min-height:var(--touch);display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 var(--s-md);border:1.5px solid var(--c-border-strong);border-radius:var(--r-pill);background:var(--c-surface);font:600 14px/20px var(--ui);color:var(--c-text)} .abtn svg{width:18px;height:18px} .abtn.icon{width:var(--touch);padding:0;margin-left:auto}
+.acts{display:flex;align-items:center;gap:var(--s-md);font:700 15px/20px var(--ui)} .acts>span{display:inline-flex;align-items:center;gap:6px;min-height:var(--touch)} .acts svg{width:18px;height:18px} .acts .more{margin-left:auto}
+.meta{font:400 13px/18px var(--ui);color:var(--c-muted)}
+.plain{font:400 14px/20px var(--ui);color:var(--c-text)}
+.card{background:var(--c-surface);border-radius:var(--r-lg);overflow:hidden}
+.card .ct{display:block;padding:var(--s-sm) var(--s-md) 0;font:700 11px/14px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted)}
+.check{display:flex;align-items:center;gap:var(--s-sm);min-height:var(--touch);padding:0 var(--s-md);border-top:1px solid var(--c-border);font:400 14px/20px var(--ui)} .check:first-of-type{border-top:0}
+.check .cbox{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--c-success);color:#fff} .check .cbox svg{width:14px;height:14px} .check .cbox.miss{background:none;border:2px solid var(--c-border-strong)}
+.check .end{margin-left:auto;font:600 12.5px/17.5px var(--ui);color:var(--c-muted)}
+.label{font:600 14px/20px var(--ui);color:var(--c-muted)}
+.tray{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s-sm)} .tray span{aspect-ratio:1;border-radius:var(--r-md);background:var(--c-accent);display:grid;place-items:center} .tray img{width:72%;height:auto;aspect-ratio:1;object-fit:contain} .tray span.make{background:var(--c-surface);border:1.5px dashed var(--c-border-strong);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 11px/14px var(--ui);text-align:center;color:var(--c-text)} .tray span.make svg{width:20px;height:20px}
+.hint{margin:0;font:400 13px/18px var(--ui);color:var(--c-muted)} .seg small{font:400 13px/18px var(--ui);color:var(--c-muted);margin-left:6px} .seg.counts span{display:flex;align-items:center;justify-content:center} .tray.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sheetwrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;z-index:3}
+.scrim{position:absolute;inset:0;background:rgba(26,26,26,.4)} .scrim.light{background:rgba(26,26,26,.12)}
+.sheet{position:relative;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:var(--s-sm) var(--s-md) var(--s-md);display:flex;flex-direction:column;gap:12px}
+.sheet .grab{align-self:center;width:36px;height:4px;border-radius:var(--r-pill);background:var(--c-track)}
+.sheet .sh{display:flex;align-items:center;justify-content:space-between} .sheet .sh h4{margin:0;font:600 21px/26px var(--display)}
+.menu .row{display:flex;align-items:center;gap:var(--s-sm);min-height:52px;border-top:1px solid var(--c-border);font:600 16px/22px var(--ui)} .menu .row:first-of-type{border-top:0} .menu .row.red{color:var(--c-danger)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm)} .seg span{min-height:var(--touch);border-radius:var(--r-pill);border:2px solid var(--c-border-strong);display:grid;place-items:center;font:600 15px/20px var(--ui)} .seg span.on{background:var(--c-accent);border-color:var(--c-text)}
+.ghost{color:var(--c-muted)}
+.mark{outline:2.5px dashed #D97706;outline-offset:3px;border-radius:10px}
+.bad{outline:2.5px solid #D92D20;outline-offset:3px;border-radius:10px}
+/* the outlines never change a control's own shape */
+.button.mark,.button.bad,.abtn.mark,.segc.mark{border-radius:var(--r-pill)}
+/* SegmentedControl (app): track ground, pill, 44 tall; the selected option is surface + text colour */
+.segc{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-xs);padding:var(--s-xs);border-radius:var(--r-pill);background:var(--c-track);flex:none}
+.segc span{min-height:36px;border-radius:var(--r-pill);display:grid;place-items:center;font:600 14px/20px var(--ui);color:var(--c-muted)} .segc span.on{background:var(--c-surface);color:var(--c-text)}
+.n{display:inline-grid;place-items:center;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--color-text);color:var(--color-background);font:700 .8rem/1 var(--font-ui);margin-right:.4rem}
+</style>
+<script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:.7rem">
+  <span class="eyebrow">Diary audit · live app, Oct 27 · for Minsik</span>
+  <h1><span class="en">The Diary, live next to fixed</span><span class="ko">다이어리, 라이브와 수정안 나란히</span></h1>
+  <p class="lede"><span class="en">I walked the live Diary as Robert (covers, the book, a page opened from chat, Decorate, Write a page, History) and read the sitter's code. The notebook page, the covers and Decorate are Minsik's and they stay. What breaks is the way between them. Red outlines are the problem on the live screen; dashed outlines are what changes.</span><span class="ko">로버트로 라이브 다이어리(표지, 책, 채팅에서 연 페이지, 꾸미기, 페이지 쓰기, 히스토리)를 걸어보고 시터 코드를 읽었어요. 노트 페이지, 표지, 꾸미기는 민식님 작업 그대로. 문제는 그 사이를 오가는 길이에요. 빨간 테두리는 라이브의 문제, 점선은 바뀌는 부분.</span></p>
+  <div class="summary">
+    <div class="box"><b><span class="en">Small, before the Oct 28 freeze</span><span class="ko">작은 것, 10/28 동결 전</span></b><ul>
+      <li><span class="en">A page from chat opens straight in the book; "‹ Diaries" goes (3)</span><span class="ko">채팅에서 연 페이지는 책으로 바로; "‹ Diaries" 삭제 (3)</span></li>
+      <li><span class="en">A byline above the page; Decorate as the one button; Share and ⋯ in the header; tasks as check rows (4)</span><span class="ko">작성자는 제목 아래; 할 일은 체크 행; 숨기기·삭제는 ⋯ (4)</span></li>
+      <li><span class="en">Words, emoji and loading (6)</span><span class="ko">문구, 이모지, 로딩 (6)</span></li></ul></div>
+    <div class="box"><b><span class="en">Bigger, after the freeze</span><span class="ko">큰 것, 동결 후</span></b><ul>
+      <li><span class="en">Owners open on Today, like sitters (1)</span><span class="ko">보호자도 시터처럼 오늘로 열기 (1)</span></li>
+      <li><span class="en">A book is its own screen with the header ← (2)</span><span class="ko">책은 헤더 ←가 있는 별도 화면 (2)</span></li>
+      <li><span class="en">Decorate as a sheet over the page (5)</span><span class="ko">꾸미기는 페이지 위 시트 (5)</span></li></ul></div>
+    <div class="box"><b><span class="en">Not seen yet</span><span class="ko">아직 못 본 것</span></b><span class="en">The sitter's page composer only shows during a stay, and the demo sitter has none today. From the code it has seven controls (photo, write from chips, highlights, + Add a line, Fix a recorded value, Decorate, Send). It needs a look on a local build before we judge it.</span><span class="ko">시터의 페이지 작성 화면은 돌봄 중에만 보여요(데모 시터는 오늘 없음). 코드상 컨트롤 7개. 로컬 빌드로 본 뒤 판단해요.</span></div>
+  </div>
+</header>
+
+<section>
+  <h2><span class="n">1</span><span class="en">Opening the Diary: today's page, not the covers</span><span class="ko">다이어리 열기: 표지 말고 오늘 페이지</span><span class="when later">after freeze</span></h2>
+  <ul class="problems"><li><span class="en">Today's page is always a cover tap away, inside a book.</span><span class="ko">오늘 페이지는 늘 표지를 눌러 책 안에.</span></li><li><span class="en">"Write a page" takes the top spot, above what the owner came to read.</span><span class="ko">"Write a page"가 읽으러 온 내용 위 맨 위 자리를 차지.</span></li><li><span class="en">The sitter's Diary already opens on Today with a toggle at the end of the tabs (#412), but the toggle names the other view ("Book" while you're on Today), so it never says where you are. The owner's has no toggle.</span><span class="ko">시터 다이어리는 이미 오늘 | 책 전환으로 오늘부터(#412); 보호자는 아님.</span></li></ul>
+  <div class="pair">
+    <div class="col"><b><span class="en">Live</span><span class="ko">라이브</span></b><div class="ph" id="a-live"></div><p class="cap"><span class="en">Covers first, Write a page on top.</span><span class="ko">표지 먼저, 페이지 쓰기가 맨 위.</span></p></div>
+    <div class="col"><b class="fix"><span class="en">Fixed</span><span class="ko">수정</span></b><div class="ph" id="a-fix"></div><p class="cap"><span class="en">Today | Book is the app's SegmentedControl under the tabs, so you always see which view you're in. Book is the covers as they are. The sitter's icon toggle (it names the other view) becomes the same control.</span><span class="ko">오늘 | 책은 탭 아래 앱의 SegmentedControl, 지금 어느 보기인지 늘 보여요. 책은 지금 표지 그대로. 시터의 아이콘 전환(다른 보기 이름을 보여줌)도 같은 컨트롤로.</span></p></div>
+    <div class="col"><b class="fix"><span class="en">Fixed · end of Today</span><span class="ko">수정 · 오늘의 끝</span></b><div class="ph" id="a-end"></div><p class="cap"><span class="en">Write a page lives here and only here: after today's pages, where an owner who wants to add their own has just finished reading. Not on the book screen, not from chat.</span><span class="ko">페이지 쓰기는 여기에만: 오늘 페이지를 다 읽은 바로 그 자리. 책 화면이나 채팅에서 연 화면엔 없음.</span></p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">2</span><span class="en">One Back: a book is its own screen</span><span class="ko">뒤로 하나: 책은 별도 화면</span><span class="when later">after freeze</span><span class="n" style="margin-left:1rem">3</span><span class="en">From chat, straight to the page</span><span class="ko">채팅에서 페이지로 바로</span><span class="when now">before freeze</span></h2>
+  <ul class="problems"><li><span class="en">Inside the tab, "‹ Diaries" flips the same screen between covers and book, so it isn't a real Back.</span><span class="ko">탭 안에서 "‹ Diaries"는 같은 화면을 표지↔책으로 뒤집을 뿐, 진짜 뒤로가 아님.</span></li><li><span class="en">From a chat card the page opens on a separate "Diary" screen with three back-like controls: the header ←, "‹ Diaries" and the page arrows. Write a page shows up there too.</span><span class="ko">채팅 카드에서는 별도 "Diary" 화면에 뒤로 같은 컨트롤 셋: 헤더 ←, "‹ Diaries", 페이지 화살표. 페이지 쓰기도 또.</span></li></ul>
+  <div class="pair">
+    <div class="col"><b><span class="en">Live · in the tab</span><span class="ko">라이브 · 탭 안</span></b><div class="ph" id="b-tab"></div></div>
+    <div class="col"><b><span class="en">Live · from a chat card</span><span class="ko">라이브 · 채팅 카드에서</span></b><div class="ph" id="b-chat"></div></div>
+    <div class="col"><b class="fix"><span class="en">Fixed · one screen for both</span><span class="ko">수정 · 둘 다 같은 화면</span></b><div class="ph" id="b-fix"></div><p class="cap"><span class="en">A cover tap and a chat card open the same screen, titled "Max's diary". The header ← is the only Back and goes back where you came from; Share and ⋯ sit on the header's right. The arrows only turn pages, and the greyed › says it's the last one, so no page count. The byline uses the Avatar and small text. Decorate is the screen's one button. Before the freeze, just the chat route changes: open in the book and hide "‹ Diaries".</span><span class="ko">표지 탭과 채팅 카드가 같은 화면 "Max's diary"를 열어요. 헤더 ←가 유일한 뒤로, 온 곳(표지나 채팅)으로. 화살표는 페이지만 넘겨요. 동결 전엔 채팅 경로만: 책으로 열고 "‹ Diaries" 숨기기.</span></p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">4</span><span class="en">Under the page: who wrote it, what got done, and Delete</span><span class="ko">페이지 아래: 누가 썼는지, 한 일, 삭제</span><span class="when now">before freeze</span></h2>
+  <ul class="problems"><li><span class="en">"From Chloe" sits small below Decorate and Share, after you've read the page.</span><span class="ko">"From Chloe"는 꾸미기·공유 아래 작게, 다 읽은 뒤에야.</span></li><li><span class="en">The day's tasks are plain text with ✓ and ✗.</span><span class="ko">그날 할 일은 ✓ ✗가 붙은 일반 글자.</span></li><li><span class="en">"Page 10 of 10" counts the owner's private pages with Chloe's, so the sitter sees "8 of 8" for the same book. The count adds little: the arrows already show where you are.</span><span class="ko">"Page 10 of 10"은 보호자 비공개 페이지까지 세서 시터는 같은 책을 "8 of 8"로 봐요.</span></li></ul>
+  <div class="pair">
+    <div class="col"><b><span class="en">Live · scrolled under the page</span><span class="ko">라이브 · 페이지 아래로 스크롤</span></b><div class="ph" id="c-live"></div></div>
+    <div class="col"><b class="fix"><span class="en">Fixed</span><span class="ko">수정</span></b><div class="ph" id="c-fix"></div><p class="cap"><span class="en">The byline sits above the page in text colour, not muted under the buttons. Decorate is the one button; the tasks use the app's CheckRow in a card. Share and ⋯ moved to the header.</span><span class="ko">작성자는 페이지 위 본문 색으로. 꾸미기 버튼 하나; 할 일은 카드 속 CheckRow. 공유와 ⋯는 헤더로.</span></p></div>
+    <div class="col"><b class="fix"><span class="en">Fixed · ⋯ open</span><span class="ko">수정 · ⋯ 열림</span></b><div class="ph" id="c-menu"></div><p class="cap"><span class="en">Hide page on Chloe's pages; Delete page on your own. Rarely used, so it lives behind ⋯.</span><span class="ko">Chloe 페이지엔 숨기기, 내 페이지엔 삭제. 드물게 쓰니 ⋯ 뒤에.</span></p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">5</span><span class="en">Decorate: the page and the stickers on one screen</span><span class="ko">꾸미기: 페이지와 스티커를 한 화면에</span><span class="when later">after freeze</span></h2>
+  <ul class="problems"><li><span class="en">The tray sits under the page: scroll down to pick a sticker, back up to place it. Page and tray are never visible together.</span><span class="ko">트레이가 페이지 아래: 스티커 고르러 내려가고 붙이러 올라와요. 둘이 함께 보이지 않음.</span></li><li><span class="en">"Delete page" stays right under "Save stickers".</span><span class="ko">"Delete page"가 "Save stickers" 바로 아래 그대로.</span></li><li><span class="en">Write a page stays live while decorating.</span><span class="ko">꾸미는 동안에도 페이지 쓰기가 눌려요.</span></li></ul>
+  <div class="pair">
+    <div class="col"><b><span class="en">Live · picking a sticker</span><span class="ko">라이브 · 스티커 고르기</span></b><div class="ph" id="d-live"></div></div>
+    <div class="col"><b class="fix"><span class="en">Fixed</span><span class="ko">수정</span></b><div class="ph" id="d-fix"></div><p class="cap"><span class="en">Decorate opens a sheet; the page stays above it, so you drag a sticker straight up onto it. Max's own stickers come first, newest first, with New to cut one from a photo; Goldito's set is the second tab. Cancel and Save sit together, and nothing else is tappable while it's open.</span><span class="ko">꾸미기는 트레이 시트를 열고 페이지는 그 위에 그대로, 스티커를 바로 끌어 올려요. 취소와 저장은 시트에 함께. 열려 있는 동안 다른 건 안 눌려요.</span></p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="n">6</span><span class="en">Words, emoji and loading</span><span class="ko">문구, 이모지, 로딩</span><span class="when now">before freeze</span></h2>
+  <div class="pair">
+    <div class="col"><b><span class="en">Live · Write a page</span><span class="ko">라이브 · 페이지 쓰기</span></b><div class="ph" id="e-live"></div></div>
+    <div class="col"><b class="fix"><span class="en">Fixed</span><span class="ko">수정</span></b><div class="ph" id="e-fix"></div><p class="cap"><span class="en">The picture box says what it does, with a Lucide icon instead of the crayon. While a photo loads, the box shows the app's skeleton, not a flat mint block.</span><span class="ko">사진 칸은 크레용 대신 Lucide 아이콘과 할 일을 말해요. 사진이 로딩 중이면 평평한 민트 대신 스켈레톤.</span></p></div>
+  </div>
+  <div class="tscroll"><table>
+    <thead><tr><th><span class="en">Where</span><span class="ko">위치</span></th><th><span class="en">Live</span><span class="ko">라이브</span></th><th><span class="en">Fixed</span><span class="ko">수정</span></th></tr></thead>
+    <tbody>
+      <tr><td><span class="en">Empty Diary (owner)</span><span class="ko">빈 다이어리 (보호자)</span></td><td>📔 "When a stay is on, updates show up here live. Everything your sitter did is in History." · Open History</td><td class="fix">"No pages yet. Chloe's pages show up here during a stay." · Lucide book icon, no History link</td></tr>
+      <tr><td>History</td><td>"What Robert did · today and the last 7 days" (only the owner's own activity, so the Diary's pointer is wrong)</td><td class="fix"><span class="en">Keep History as is; stop pointing the Diary at it. Looking back lives in Book.</span><span class="ko">히스토리는 그대로, 다이어리에서 가리키지 않기. 돌아보기는 책에서.</span></td></tr>
+      <tr><td><span class="en">Sitter's empty Diary</span><span class="ko">시터 빈 다이어리</span></td><td>📔 "When you're caring for a pet, you can write and send the day's page from here."</td><td class="fix"><span class="en">Same words, Lucide icon</span><span class="ko">같은 문구, Lucide 아이콘</span></td></tr>
+      <tr><td><span class="en">Handwriting</span><span class="ko">손글씨</span></td><td><span class="en">Gaegu loads after the page draws, so the words jump from a system font</span><span class="ko">Gaegu가 늦게 로드돼 글자가 시스템 폰트에서 바뀌며 튐</span></td><td class="fix"><span class="en">Load Gaegu with the app's other fonts at start</span><span class="ko">앱 시작 시 다른 폰트와 함께 Gaegu 로드</span></td></tr>
+      <tr><td><span class="en">Page turns</span><span class="ko">페이지 넘기기</span></td><td><span class="en">Swipe works but nothing says so</span><span class="ko">스와이프가 되지만 알려주지 않음</span></td><td class="fix"><span class="en">Peek the next page's edge on the right</span><span class="ko">오른쪽에 다음 페이지 가장자리 살짝</span></td></tr>
+    </tbody></table></div>
+</section>
+</div>
+
+<script>
+const L = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const I = { prev: L('<path d="m15 18-6-6 6-6"/>'), next: L('<path d="m9 18 6-6-6-6"/>'), back: L('<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>'), share: L('<path d="M7 17 17 7"/><path d="M7 7h10v10"/>'),
+  book: L('<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/>'),
+  more: L('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'), sticker: L('<path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v4a2 2 0 0 0 2 2h4"/><path d="M8 13h.01"/><path d="M16 13h.01"/><path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/>'),
+  check: L('<path d="M20 6 9 17l-5-5"/>'), plus: L('<path d="M5 12h14"/><path d="M12 5v14"/>'), x: L('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'), eye: L('<path d="M10.7 5.1A10.7 10.7 0 0 1 21.9 11.6a1 1 0 0 1 0 .7 10.8 10.8 0 0 1-1.4 2.6"/><path d="M14.1 14.2a3 3 0 0 1-4.2-4.2"/><path d="M17.5 17.5A10.8 10.8 0 0 1 2.1 12.3a1 1 0 0 1 0-.7 10.8 10.8 0 0 1 4.4-5.1"/><path d="m2 2 20 20"/>'),
+  trash: L('<path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>'), imgplus: L('<path d="M16 5h6"/><path d="M19 2v6"/><path d="M21 11.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/><circle cx="9" cy="9" r="2"/>'),
+  home: L('<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'), cal: L('<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
+  chat: L('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>'), img: L('<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>'), cam: L('<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>') };
+const IMG = (n) => `assets/feed-trial/${n}.jpg`, STK = (n) => `assets/feed-trial/stickers/${n}.png`;
+const sb = '<div class="sb"><span>11:06</span><span>●●●</span></div>';
+const tabHead = (right = "") => sb + `<div class="hdr"><span class="t"><h3>Moments</h3><small>Robert · Owner</small></span><span class="av">R</span></div><div class="vt"><span>Photos</span><span class="on">Diary</span>${right}</div>`;
+const stackHead = (title, cls = "", act = "") => sb + `<div class="stack"><span class="ib ${cls}" aria-label="Back">${I.back}</span><h3>${title}</h3>${act !== "" ? `<span class="hact ${act === "mark" ? "mark" : ""}"><span class="ib" aria-label="Share">${I.share}</span><span class="ib" aria-label="More">${I.more}</span></span>` : ""}</div>`;
+// Fixed page screen: the date alone between the arrows, then the byline.
+const dnav = (date, { next = false } = {}) => `<div class="pnav"><span class="circ">${I.prev}</span><span class="mid"><b>${date}</b></span><span class="circ${next ? "" : " off"}">${I.next}</span></div>`;
+const byline = (who = "Chloe", when = "6:40 PM", mark = "") => `<div class="byline ${mark}"><span class="mini">${who === "You" ? "R" : who[0]}</span>${who === "You" ? "Your page" : `From ${who}`}<span class="when2">· ${when}</span></div>`;
+const decorate = (mark = "") => `<div class="button sec ${mark}">${I.sticker}Decorate</div>`;
+const tabbar = `<div class="tabbar">${[["home", "Home"], ["cal", "Bookings"], ["chat", "Chat"], ["img", "Moments"], ["cam", "Snap"]].map(([i, l]) => `<span class="${l === "Moments" ? "on" : ""}">${I[i]}${l}</span>`).join("")}</div>`;
+const covers = `<div class="covers"><div class="cover"><img src="${IMG("mumu_stroller_hat")}" alt=""><span class="lab"><b>Max's diary</b><small>10 pages</small></span></div><div class="cover"><img src="${IMG("orange_cat_lying_relaxed")}" alt=""><span class="lab"><b>Mochi's diary</b><small>9 pages</small></span></div></div>`;
+const page = ({ day = "Monday, Oct 26", pet = "Max", img = "mumu_stroller_hat", words = "Max learned to wait at the door. A treat after every walk.", stickers = "", dim = false, mark = "" } = {}) =>
+  `<div class="page${dim ? " dim" : ""}${mark ? " " + mark : ""}"><span class="pt"><span>${day}</span><span>${pet}'s day</span></span>${img ? `<img class="pic" src="${IMG(img)}" alt="">` : ""}<div class="words">${words}</div>${stickers}</div>`;
+const pnav = (title, sub, { prev = true, next = false, subMark = "" } = {}) => `<div class="pnav"><span class="circ${prev ? "" : " off"}">${I.prev}</span><span class="mid"><b>${title}</b><small class="${subMark}">${sub}</small></span><span class="circ${next ? "" : " off"}">${I.next}</span></div>`;
+const acts = (mark = "") => `<div class="pacts${mark ? " " + mark : ""}"><span class="abtn">${I.sticker}Decorate</span><span class="abtn">${I.share}Share</span><span class="abtn icon" aria-label="More">${I.more}</span></div>`;
+const set = (id, html) => { document.getElementById(id).innerHTML = html; };
+
+// 1 · Opening the Diary
+set("a-live", tabHead() + `<div class="scr"><div class="button bad">Write a page</div>${covers.replace('<div class="covers">', '<div class="covers bad">')}</div>` + tabbar);
+set("a-fix", tabHead() + `<div class="scr"><div class="segc mark"><span class="on">Today</span><span>Book</span></div><div class="dayhead"><b>Max's day</b></div>${byline("Chloe", "6:40 PM", "mark")}${page()}<div class="dayhead"><b>Mochi's day</b></div>${byline("Chloe", "6:42 PM")}${page({ pet: "Mochi", img: "orange_cat_lying_relaxed", words: "Mochi came out for dinner and sat by the window." })}</div>` + tabbar);
+set("a-end", tabHead() + `<div class="scr" style="justify-content:flex-end">${page({ pet: "Mochi", img: "orange_cat_lying_relaxed", words: "Mochi came out for dinner and sat by the window." })}<span class="meta" style="align-self:center">That's today. Tap a page to open it in the book.</span><div class="button mark">Write your own page</div></div>` + tabbar);
+// 2 · 3 · One Back
+set("b-tab", tabHead() + `<div class="scr"><div class="button">Write a page</div><span class="textbtn bad">‹ Diaries</span>${pnav("Max · Oct 26", "Page 10 of 10")}${page()}</div>` + tabbar);
+set("b-chat", stackHead("Diary", "bad") + `<div class="scr"><div class="button bad">Write a page</div><span class="textbtn bad">‹ Diaries</span>${pnav("Max · Oct 26", "Page 10 of 10")}${page()}</div>`);
+set("b-fix", stackHead("Max's diary", "mark", "mark") + `<div class="scr">${dnav("Mon, Oct 26")}${byline("Chloe", "6:40 PM", "mark")}${page()}${decorate("mark")}</div>`);
+
+// 4 · Under the page
+const under = (fix) => `<div class="scr" style="justify-content:flex-end">${page({ img: "", words: "Quiet morning, home safe at pick-up.", day: "Saturday, Sep 19" })}`;
+set("c-live", tabHead() + under() + `<div class="acts"><span>Decorate</span><span>${I.share}Share</span></div><span class="meta bad" style="align-self:flex-start">From Chloe</span>
+  <div class="bad" style="display:flex;flex-direction:column;gap:2px"><span class="plain">✓ Breakfast</span><span class="plain">✓ Walk</span><span class="plain">✗ Pill in a treat · missed</span></div><span class="danger bad">Hide page</span></div>` + tabbar);
+set("c-fix", stackHead("Max's diary", "", "mark") + `<div class="scr" style="justify-content:flex-end">${dnav("Sat, Sep 19")}${byline("Chloe", "5:10 PM", "mark")}${page({ img: "", words: "Quiet morning, home safe at pick-up.", day: "Saturday, Sep 19" })}${decorate()}
+  <div class="card mark"><span class="ct">What Chloe did</span><div class="check"><span class="cbox">${I.check}</span>Breakfast<span class="end">8:12 AM</span></div><div class="check"><span class="cbox">${I.check}</span>Walk<span class="end">9:40 AM</span></div><div class="check"><span class="cbox miss"></span>Pill in a treat<span class="end">Missed</span></div></div></div>`);
+set("c-menu", stackHead("Max's diary", "", "plain") + `<div class="scr">${dnav("Sat, Sep 19")}${byline("Chloe", "5:10 PM")}${page({ img: "mumu_pink_jacket_bed", words: "Quiet morning, home safe at pick-up.", day: "Saturday, Sep 19" })}</div>
+  <div class="sheetwrap"><div class="scrim"></div><div class="sheet menu"><span class="grab"></span><div class="row red">${I.eye}Hide page<span class="meta" style="margin-left:auto">Chloe keeps hers</span></div><div class="row">${I.x}Cancel</div></div></div>`);
+
+// 5 · Decorate
+const tray = ["g_heart", "g_star", "g_sun", "g_paw", "g_bone", "g_ball", "g_zzz", "g_best_day", "mumu_lake_walk", "mumu_white_table"].map((s) => `<span><img src="${STK(s)}" alt=""></span>`).join("");
+set("d-live", tabHead() + `<div class="scr" style="justify-content:flex-end">${page({ img: "", words: "Max learned to wait at the door. A treat after every walk." })}<span class="meta">Add a sticker, then drag it anywhere on the page.</span><span class="label">Goldito stickers</span><div class="tray">${tray}</div><div class="button primary">Save stickers</div><span class="textbtn">Cancel</span><span class="danger bad">Delete page</span></div>` + tabbar);
+const placed = `<img class="stk" src="${STK("g_heart")}" alt="" style="right:14px;top:96px"><img class="stk" src="${STK("g_best_day")}" alt="" style="left:34px;top:30px;width:60px;height:60px">`;
+// Max's own stickers first (newest first, with Make a sticker), Goldito's set on the other tab.
+const mine = ["mumu_lake_walk", "mumu_white_table", "mumu_window_nap"].map((st) => `<span><img src="${STK(st)}" alt=""></span>`).join("");
+set("d-fix", stackHead("Max's diary") + `<div class="scr">${page({ stickers: placed })}</div>
+  <div class="sheetwrap"><div class="scrim light"></div><div class="sheet mark"><span class="grab"></span><div class="sh"><span class="textbtn" style="align-self:auto">Cancel</span><h4>Decorate</h4><span class="textbtn" style="align-self:auto;font-weight:700">Save</span></div>
+  <div class="seg counts"><span class="on">Max's<small>3</small></span><span>Goldito<small>8</small></span></div>
+  <div class="tray four"><span class="make">${I.plus}New</span>${mine}</div><p class="hint">Drag one onto the page. Tap a sticker on the page to resize or remove it.</p></div></div>`);
+
+// 6 · Write a page
+const newPage = (fix) => tabHead() + `<div class="scr"></div>` + tabbar + `<div class="sheetwrap"><div class="scrim"></div><div class="sheet"><span class="grab"></span><div class="sh"><h4>New page</h4><span class="textbtn" style="align-self:auto">Close</span></div><div class="seg"><span class="on">Max</span><span>Mochi</span></div>
+  <div class="page"><span class="pt"><span>Monday, Oct 26</span><span>Max's day</span></span>${fix ? `<div class="empty add mark">${I.imgplus}Add a photo</div>` : '<div class="empty bad">🖍️</div>'}<div class="words ph1">Dear diary, today…</div></div><div class="button" style="background:var(--c-track);border-color:var(--c-track);color:var(--c-muted)">Save page</div></div></div>`;
+set("e-live", newPage(false));
+set("e-fix", newPage(true));
+</script></body></html>
