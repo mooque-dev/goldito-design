@@ -71,9 +71,13 @@ pre{font-size:12px;background:var(--bg);border-radius:10px;padding:10px;overflow
 .start .breeds{max-height:196px}
 .start .breeds h3{margin:8px 0 4px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-.cols{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
-.stage{position:sticky;top:max(12px, env(safe-area-inset-top, 0px));align-self:start}
-@media (max-width:900px){.stage{position:static}}
+@media (min-width:901px){.cols{grid-template-columns:minmax(0,380px) minmax(0,1fr)}.stage{position:sticky;top:max(12px, env(safe-area-inset-top, 0px));align-self:start}}
+.hint span{display:block}
+.drop .hint .touch,.touch{display:none}
+.phone-label{display:none}
+@media (hover:none),(pointer:coarse){.drop .hint .desk,.desk{display:none}.drop .hint .touch,.touch{display:block}}
+.drop{cursor:pointer}
+}
 .stage .drop{min-height:160px}
 .stage .drop canvas{max-height:230px}
 .pickhint{position:absolute;left:8px;bottom:8px;background:var(--card);color:var(--ink);border-radius:999px;padding:3px 10px;font-size:12px;box-shadow:0 1px 3px rgba(0,0,0,.2);pointer-events:none}
@@ -121,6 +125,31 @@ th{color:var(--muted);font-weight:600}
 td{font-variant-numeric:tabular-nums}
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:5}
 .toast.on{opacity:1}
+/* Phones: one column, the pet pinned on top while the options scroll, Undo / Start over / Save in a bottom bar. */
+@media (max-width:900px){
+  .site-nav{position:static!important} /* the site bar scrolls away here, so only the pet stays pinned */
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .stage{display:contents}
+  .petcard{order:0;position:sticky;top:env(safe-area-inset-top, 0px);z-index:3;margin:0 -4px;padding:10px 12px;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+  .photocard{order:1}
+  .controls{order:2}
+  .name{font-size:16px;margin-bottom:6px;padding-bottom:4px}
+  .hero{height:128px}
+  .hero img{width:120px;height:120px}
+  .strip{gap:3px}
+  .moods{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .moods::-webkit-scrollbar{display:none}
+  .actions{position:fixed;left:0;right:0;bottom:0;z-index:4;margin:0;justify-content:center;gap:8px;background:var(--card);border-top:1px solid var(--line);
+    padding:10px max(12px, env(safe-area-inset-right, 0px)) calc(10px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px))}
+  .actions .btn{flex:1;justify-content:center;padding:10px 8px}
+  .desk-label{display:none}.phone-label{display:inline}
+  main{padding-bottom:calc(84px + env(safe-area-inset-bottom, 0px))}
+  .stage .drop{min-height:120px}
+  .stage .drop canvas{max-height:200px}
+  .chips button,.tabs button{min-height:40px}
+  .bgrid{grid-template-columns:repeat(auto-fill,minmax(84px,1fr))}
+  .starts{gap:10px}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom, 0px))}
 </style></head><body><main>
 <h1>Pet maker</h1>
 <p class="lead">Paste a photo of your dog or cat, make the pet, then adjust anything. The photo stays in your browser.</p>
@@ -133,22 +162,22 @@ td{font-variant-numeric:tabular-nums}
 
 <div class="cols">
   <aside class="stage">
-    <div class="card">
-      <div class="drop" id="drop" tabindex="0" aria-label="Photo. Paste, drop or choose a photo">
-        <div class="hint" id="hint"><b>Paste a photo</b>⌘V or Ctrl+V, or drop it here</div>
+    <div class="card photocard">
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Photo. Paste, drop or choose a photo">
+        <div class="hint" id="hint"><b class="desk">Paste a photo</b><span class="desk">⌘V or Ctrl+V, or drop it here</span><b class="touch">Tap to add a photo</b><span class="touch">Camera or library</span></div>
         <canvas id="photo" hidden></canvas>
         <span class="pickhint" id="pickhint" hidden>Click to set: <b id="pickname">Coat</b></span>
       </div>
       <div class="row"><label class="btn" for="file">Choose photo</label><input type="file" id="file" accept="image/*" hidden><span class="swatches" id="auto"></span></div>
     </div>
-    <div class="card">
+    <div class="card petcard">
       <label class="sr" for="pname">Pet name</label>
       <input type="text" id="pname" class="name" placeholder="Your pet" maxlength="24" autocomplete="off">
       <div class="hero" id="herobox"><img id="hero" alt="Your pet"><span id="herolabel">Turn</span></div>
       <div class="strip" id="views" role="group" aria-label="Pose"></div>
       <div class="moods" id="moods" role="group" aria-label="Expression"></div>
-      <div class="row">
-        <button type="button" class="btn primary" id="save">Save sprite sheet</button>
+      <div class="row actions">
+        <button type="button" class="btn primary" id="save"><span class="desk-label">Save sprite sheet</span><span class="phone-label">Save</span></button>
         <button type="button" class="btn" id="undo" disabled>Undo</button>
         <button type="button" class="btn" id="reset">Start over</button>
       </div>
@@ -654,21 +683,25 @@ export function petRows(recipe, pose, facing = "right") {
     const idle = earOps(P, frontRaw(P, "idle"), "front");
     const raw = face === "blink" ? earOps(P, frontRaw(P, "blink"), "front").rows : idle.rows;
     const t = tokens(raw);
-    faceOps(P, t, "front", eyesOf(idle.rows), skullTop(idle.rows));
-    return { t, dy: idle.dy };
+    const eyes = eyesOf(idle.rows);
+    faceOps(P, t, "front", eyes, skullTop(idle.rows));
+    return { t, dy: idle.dy, eyeRow: eyes.length ? eyes[0][1] : 9 + idle.dy, center: 12 };
   }
   function headBack(P) {
     const o = earOps(P, frontRaw(P, "idle"), "front");
     const raw = backRaw(P, o.rows), t = tokens(raw);
     faceOps(P, t, "back", [], skullTop(o.rows));
-    return { t, dy: o.dy };
+    const eyes = eyesOf(o.rows);
+    return { t, dy: o.dy, eyeRow: eyes.length ? eyes[0][1] : 9 + o.dy, center: 12 };
   }
   function headSide(P, eyes) {
     const s = sideRaw(P, eyes), o = earOps(P, s.rows, "side");
     const t = tokens(o.rows, sideMap(P));
     const ey = [[s.eye[0], s.eye[1] + o.dy]];
-    faceOps(P, t, "side", ey, skullTop(o.rows));
-    return { t, dy: o.dy };
+    const top = skullTop(o.rows);
+    faceOps(P, t, "side", ey, top);
+    const xs = o.rows[top].map((c, x) => (c !== "." ? x : -1)).filter((x) => x >= 0);
+    return { t, dy: o.dy, eyeRow: ey[0][1], center: xs.length ? (xs[0] + xs[xs.length - 1]) / 2 : 8 };
   }
 
   // ---------- side body ----------
@@ -800,12 +833,14 @@ export function petRows(recipe, pose, facing = "right") {
       bodyOps(g, pm, P, view);
       const mood = recipe.mood || "idle", open = ["idle", "perk", "surprised", "shy", "teary", "love"].includes(mood);
       const h = headFront(P, f === 0 || !open ? mood : mood === "idle" ? "blink" : mood);
+      g.head = { view, x: 4, y: hy0 + (f % 2) - h.dy, eyeRow: h.eyeRow, center: h.center };
       head = () => put(g, h.t, 4, hy0 + (f % 2) - h.dy);
     } else if (view === "back") {
       stampBody(g, Object.fromEntries(Object.entries(rows).map(([y, r]) => [y, r.replace(/M/g, "F").replace(/p/g, "s")])), pm, top);
       paintMarksFront(g, P);
       bodyOps(g, pm, P, view);
       const h = headBack(P);
+      g.head = { view, x: 4, y: hy0 + (f % 2) - h.dy, eyeRow: h.eyeRow, center: h.center };
       put(g, h.t, 4, hy0 + (f % 2) - h.dy);
       const tail = tailRows(0);
       if (tail.length) {
@@ -822,6 +857,7 @@ export function petRows(recipe, pose, facing = "right") {
       const MOOD_EYES = { sleep: "closed", content: "closed", calm: "closed", excited: "happy", love: "happy", perk: "happy", wink: "happy" };
       const eyes = s.eyes === "open" && recipe.mood ? MOOD_EYES[recipe.mood] || "open" : s.eyes;
       const h = headSide(P, eyes);
+      g.head = { view, x: s.hx, y: s.hy - h.dy, eyeRow: h.eyeRow, center: h.center };
       head = () => {
         h.t.forEach((r, dy) => r.forEach((c, dx) => { const x = s.hx + dx, y = s.hy - h.dy + dy; if (c !== "." && inb(x, y)) g[y][x] = c; }));
         sideCollar(g, P, s.hx, s.hy);
@@ -1224,6 +1260,8 @@ export function petRows(recipe, pose, facing = "right") {
     for (var i = 0; i < items.length; i++) if (items[i].type.indexOf("image") === 0) { loadFile(items[i].getAsFile()); e.preventDefault(); return; }
   });
   var drop = $("drop");
+  drop.addEventListener("click", function (e) { if (photo.hidden || e.target === drop || e.target.closest("#hint")) { if (photo.hidden) $("file").click(); } });
+  drop.addEventListener("keydown", function (e) { if ((e.key === "Enter" || e.key === " ") && photo.hidden) { e.preventDefault(); $("file").click(); } });
   drop.addEventListener("dragover", function (e) { e.preventDefault(); drop.classList.add("over"); });
   drop.addEventListener("dragleave", function () { drop.classList.remove("over"); });
   drop.addEventListener("drop", function (e) { e.preventDefault(); drop.classList.remove("over"); loadFile(e.dataTransfer.files[0]); });
