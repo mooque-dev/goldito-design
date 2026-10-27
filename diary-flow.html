@@ -1,0 +1,528 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diary Flow</title>
+<meta name="description" content="Play the fixed owner Diary end to end (Today, Book, a page from chat, Decorate, Hide, Write a page), with a switch between only the app's existing patterns and the proposed new ones, each new one listed with its case.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Gaegu:wght@400;700&family=Inter:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="ds.css">
+<style>
+*{box-sizing:border-box}
+html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+.wrap{max-width:76rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+h1{font:700 2.2rem/1.1 var(--font-display);margin:0;text-wrap:balance} h2{font:600 1.3rem/1.2 var(--font-display);margin:0}
+p{margin:0;max-width:68ch} .lede{font-size:1.05rem;color:var(--color-text-muted)}
+.eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.stage{display:flex;flex-wrap:wrap;gap:2rem;align-items:flex-start;justify-content:center}
+.side{flex:1 1 26rem;min-width:0;display:flex;flex-direction:column;gap:1rem;max-width:40rem}
+.switch{display:inline-grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:var(--color-track);max-width:100%}
+.switch button{min-height:44px;border:0;border-radius:999px;background:none;font:600 14px/20px var(--font-ui);color:var(--color-text-muted);cursor:pointer;padding:0 1rem}
+.switch button[aria-pressed=true]{background:var(--color-surface);color:var(--color-text)}
+.tries{display:flex;flex-wrap:wrap;gap:.4rem} .tries button{min-height:40px;border-radius:999px;border:1.5px solid var(--color-border);background:var(--color-surface);color:var(--color-text);font:600 13px/18px var(--font-ui);padding:0 .9rem;cursor:pointer}
+.pat{display:flex;flex-direction:column;gap:.5rem}
+.prow{display:grid;grid-template-columns:auto 1fr;gap:.25rem .75rem;padding:.85rem 1rem;border-radius:14px;background:var(--color-surface);align-items:start}
+.prow .k{grid-row:span 2;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:3px 9px;white-space:nowrap}
+.k.have{background:var(--color-success-surface,#ECFDF3);color:var(--color-success,#067647)} .k.new{background:var(--color-warning-surface,#FFFAEB);color:var(--color-warning,#B54708)} .k.mix{background:var(--color-track);color:var(--color-text-muted)}
+.prow b{font-weight:700} .prow span.d{color:var(--color-text-muted);font-size:14px}
+.prow .go{justify-self:start;border:0;background:none;padding:0;font:600 13px/18px var(--font-ui);color:var(--color-text);text-decoration:underline;cursor:pointer;grid-column:2}
+.verdict{font-size:13px;font-weight:600}
+
+/* ---------- the phone (app tokens, Expressive skin) ---------- */
+.ph{--c-bg:#FBF6EA;--c-surface:#FFFFFF;--c-text:#1B4332;--c-muted:#6B5D4A;--c-border:#E8DCC4;--c-border-strong:#7F6F58;--c-accent:#D8F3DC;--c-track:#E8DCC4;--c-danger:#B42318;--c-ruled:#D9E6DE;--c-success:#067647;
+  --s-xs:4px;--s-sm:8px;--s-md:16px;--s-lg:24px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-pill:999px;--touch:44px;--btn-h:52px;--ui:'Plus Jakarta Sans',system-ui,sans-serif;--display:Fredoka,var(--ui);--hand:Gaegu,"Comic Sans MS",system-ui,sans-serif;
+  width:360px;max-width:100%;height:740px;border-radius:44px;border:10px solid #1A1A1A;overflow:hidden;background:var(--c-bg);color:var(--c-text);font:400 16px/22px var(--ui);display:flex;flex-direction:column;color-scheme:light;position:relative;box-shadow:0 18px 40px rgba(26,26,26,.18);flex:none}
+.ph svg{width:22px;height:22px;flex:none}
+.ph button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.ph button:focus-visible{outline:2px solid var(--c-text);outline-offset:2px}
+.sb{display:flex;justify-content:space-between;padding:12px 22px 4px;font-weight:700;font-size:13px;flex:none}
+.hdr{display:flex;align-items:center;gap:var(--s-sm);padding:var(--s-xs) var(--s-md) var(--s-sm);flex:none} .hdr .t{flex:1} .hdr h3{margin:0;font:600 24px/30px var(--display)} .hdr small{display:block;font:600 14px/20px var(--ui);color:var(--c-muted)}
+.av{width:40px;height:40px;border-radius:50%;background:var(--c-accent);display:grid;place-items:center;font:700 14px/1 var(--ui);flex:none}
+.stack{display:flex;align-items:center;gap:var(--s-xs);padding:0 var(--s-sm);min-height:var(--touch);flex:none} .stack h3{flex:1;margin:0;font:600 21px/26px var(--display)}
+.ib{width:var(--touch);height:var(--touch);display:grid;place-items:center;flex:none;color:var(--c-text)} .stack .ib.back svg{width:28px;height:28px}
+.vt{display:flex;align-items:center;gap:var(--s-lg);margin:0 var(--s-md);border-bottom:1px solid var(--c-border);flex:none} .vt>button{padding:var(--s-sm) 2px;font:600 16px/22px var(--ui);color:var(--c-muted)} .vt>button.on{color:var(--c-text);box-shadow:inset 0 -2px var(--c-text)}
+.scr{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:var(--s-md);display:flex;flex-direction:column;gap:12px;scrollbar-width:none} .scr::-webkit-scrollbar{display:none} .scr>*{flex:none}
+.tabbar{flex:none;height:60px;display:grid;grid-template-columns:repeat(5,1fr);align-items:center;border-top:1px solid var(--c-border);background:var(--c-surface)}
+.tabbar button{display:flex;flex-direction:column;align-items:center;gap:var(--s-xs);font:700 11.5px/16px var(--ui);color:var(--c-muted)} .tabbar button.on{color:var(--c-text)}
+.button{min-height:var(--btn-h);border-radius:var(--r-pill);border:2px solid var(--c-text) !important;background:var(--c-surface) !important;font:700 16px/22px var(--ui) !important;display:flex !important;align-items:center;justify-content:center;gap:var(--s-sm);width:100%}
+.button.primary{background:var(--c-text) !important;color:#fff !important} .button svg{width:18px;height:18px} .button:disabled{opacity:.4}
+.textbtn{min-height:var(--touch);display:inline-flex;align-items:center;gap:var(--s-xs);font:600 14px/20px var(--ui) !important;padding:0 var(--s-sm) !important} .textbtn.danger{color:var(--c-danger) !important}
+.segc{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-xs);padding:var(--s-xs);border-radius:var(--r-pill);background:var(--c-track)}
+.segc button{min-height:36px;border-radius:var(--r-pill);font:600 14px/20px var(--ui) !important;color:var(--c-muted) !important} .segc button.on{background:var(--c-surface) !important;color:var(--c-text) !important}
+.picker{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:var(--touch);padding:0 var(--s-md) 0 6px !important;border-radius:var(--r-pill);border:1.5px solid var(--c-border-strong) !important;background:var(--c-surface) !important;font:600 14px/20px var(--ui) !important}
+.faces{display:flex} .faces img{width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid #fff;margin-left:-8px} .faces img:first-child{margin-left:0}
+.covers{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-md)}
+.cover{position:relative;border:4px solid var(--c-text) !important;border-radius:var(--r-md);background:var(--c-text) !important;padding:4px !important;display:flex;flex-direction:column;gap:4px;margin-left:12px;text-align:center}
+.cover img{width:100%;aspect-ratio:1.05;object-fit:cover;border-radius:6px;display:block}
+.cover .lab{background:var(--c-surface);border-radius:6px;padding:4px 0} .cover .lab b{display:block;font:700 15px/18px var(--hand)} .cover .lab small{font:400 12px/16px var(--ui);color:var(--c-muted)}
+.cover::before{content:"";position:absolute;left:-16px;top:8px;bottom:8px;width:14px;background:repeating-linear-gradient(var(--c-bg) 0 6px,transparent 6px 7px,var(--c-border-strong) 7px 9px,transparent 9px 14px)}
+.pnav{display:flex;align-items:center;gap:var(--s-sm)} .pnav .mid{flex:1;min-width:0;text-align:center;font:700 16px/22px var(--ui)}
+.circ{width:var(--touch);height:var(--touch);border-radius:50%;background:var(--c-surface) !important;display:grid;place-items:center;flex:none} .circ:disabled{opacity:.35;cursor:default}
+.dayhead{font:600 21px/26px var(--display);margin-top:var(--s-xs)}
+.meta{font:400 14px/20px var(--ui);color:var(--c-muted)}
+.byline{display:flex;align-items:center;gap:var(--s-sm);font:600 14px/20px var(--ui)} .byline .mini{width:24px;height:24px;border-radius:50%;background:#FAD6CB;display:grid;place-items:center;font:700 11px/1 var(--ui)} .byline .w{font-weight:400;color:var(--c-muted)}
+.ph .page{background:var(--c-surface);border-radius:var(--r-md);padding:var(--s-sm) var(--s-sm) var(--s-md) 28px;position:relative;display:flex;flex-direction:column;gap:6px;text-align:left;width:100%;touch-action:none}
+.page::before{content:"";position:absolute;left:-6px;top:12px;bottom:12px;width:20px;background:repeating-linear-gradient(transparent 0 6px,var(--c-border-strong) 6px 8px,transparent 8px 14px);border-radius:4px}
+.page .pt{display:flex;justify-content:space-between;font:700 13px/18px var(--hand)}
+.page .pic{width:100%;aspect-ratio:1.75;object-fit:cover;border:2px solid var(--c-text);border-radius:8px;display:block}
+.page .box{width:100%;aspect-ratio:1.75;border:2px solid var(--c-text);border-radius:8px;background:#DCF0E0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s-xs);font:600 14px/20px var(--ui);color:var(--c-text)} .page .box svg{width:28px;height:28px} .page .box.muted{color:var(--c-muted)}
+.page .words{font:400 17px/24px var(--hand);background:repeating-linear-gradient(transparent 0 23px,var(--c-ruled) 23px 24px);min-height:72px;white-space:pre-wrap}
+.page textarea.words{border:0;resize:none;outline:0;width:100%;padding:0;color:var(--c-text)}
+.page.tap{cursor:pointer}
+.stk{position:absolute;width:56px;height:56px;transform:translate(-50%,-50%);touch-action:none} .stk img{width:100%;height:100%;object-fit:contain;pointer-events:none} .deco .stk{cursor:grab;outline:1.5px dashed var(--c-border-strong);border-radius:8px}
+.stk .rm{position:absolute;right:-10px;top:-10px;width:22px;height:22px;border-radius:50%;background:var(--c-text) !important;color:#fff !important;display:grid;place-items:center} .stk .rm svg{width:14px;height:14px}
+.acts{display:flex;align-items:center;gap:var(--s-xs);flex-wrap:wrap}
+.tasks{display:flex;flex-direction:column;gap:2px;padding:var(--s-xs) var(--s-xs) 0}
+.trow{display:flex;align-items:center;gap:var(--s-sm);font:400 14px/20px var(--ui)} .trow svg{width:18px;height:18px;color:var(--c-success)} .trow .miss{width:18px;height:18px;border-radius:50%;border:2px solid var(--c-border-strong);flex:none}
+.trow .end{margin-left:auto;font:600 13px/18px var(--ui);color:var(--c-muted)}
+.tcard{background:var(--c-surface);border-radius:var(--r-lg);overflow:hidden} .tcard .ct{display:block;padding:var(--s-sm) var(--s-md) 0;font:700 11px/14px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:var(--c-muted)}
+.check{display:flex;align-items:center;gap:var(--s-sm);min-height:var(--touch);padding:0 var(--s-md);border-top:1px solid var(--c-border);font:400 14px/20px var(--ui)} .check:first-of-type{border-top:0}
+.check .cb{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--c-success);color:#fff} .check .cb svg{width:14px;height:14px} .check .cb.miss{background:none;border:2px solid var(--c-border-strong)} .check .end{margin-left:auto;font:600 12.5px/17.5px var(--ui);color:var(--c-muted)}
+.chatmsg{align-self:flex-start;max-width:86%;background:var(--c-surface);border-radius:var(--r-lg);border-bottom-left-radius:4px;padding:12px 14px;font:400 16px/23px var(--ui)}
+.chatcard{align-self:flex-start;width:86%;background:var(--c-surface) !important;border-radius:var(--r-lg);overflow:hidden;text-align:left;display:flex;flex-direction:column}
+.chatcard img{width:100%;aspect-ratio:2;object-fit:cover;display:block} .chatcard span{padding:10px 14px;font:600 15px/21px var(--ui)} .chatcard small{display:block;font:400 13px/18px var(--ui);color:var(--c-muted)}
+.sheetwrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;z-index:5}
+.scrim{position:absolute;inset:0;background:rgba(26,26,26,.4)} .scrim.light{background:rgba(26,26,26,.1)}
+.sheet{position:relative;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;padding:var(--s-sm) var(--s-md) var(--s-md);display:flex;flex-direction:column;gap:12px;max-height:88%;overflow-y:auto}
+.sheet .grab{align-self:center;width:36px;height:4px;border-radius:var(--r-pill);background:var(--c-track)}
+.sheet .sh{display:flex;align-items:center;justify-content:space-between;gap:var(--s-sm)} .sheet .sh h4{margin:0;font:600 21px/26px var(--display)}
+.menu button.row{display:flex;align-items:center;gap:var(--s-sm);min-height:52px;border-top:1px solid var(--c-border) !important;font:600 16px/22px var(--ui) !important;width:100%;text-align:left} .menu button.row:first-of-type{border-top:0 !important} .menu .row.red{color:var(--c-danger) !important}
+/* One sideways row of 64 px tiles keeps the Decorate sheet short, so the page stays in view above it */
+.tray{display:flex;gap:var(--s-sm);overflow-x:auto;scrollbar-width:none;margin:0 calc(var(--s-md) * -1);padding:0 var(--s-md)} .tray::-webkit-scrollbar{display:none} .tray button{flex:none;width:64px}
+.tray button{aspect-ratio:1;border-radius:var(--r-md);background:var(--c-accent) !important;display:grid;place-items:center} .tray img{width:72%;height:auto;aspect-ratio:1;object-fit:contain}
+.tray .make{background:var(--c-surface) !important;border:1.5px dashed var(--c-border-strong) !important;display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:600 11px/14px var(--ui) !important}
+.label{font:600 14px/20px var(--ui);color:var(--c-muted)}
+.seg2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm)} .seg2 button{min-height:var(--touch);border-radius:var(--r-pill);border:2px solid var(--c-border-strong) !important;font:600 15px/20px var(--ui) !important} .seg2 button.on{background:var(--c-accent) !important;border-color:var(--c-text) !important}
+.toast{position:absolute;left:var(--s-md);right:var(--s-md);bottom:76px;background:var(--c-text);color:#fff;border-radius:var(--r-lg);padding:var(--s-sm) var(--s-md);font:600 14px/20px var(--ui);opacity:0;transform:translateY(8px);transition:opacity 240ms,transform 240ms;pointer-events:none;z-index:9}
+.toast.on{opacity:1;transform:none}
+.new{outline:2px dashed #D97706;outline-offset:2px;border-radius:10px}
+.ph.nomarks .new{outline:0}
+@media (prefers-reduced-motion:reduce){.ph *{transition:none!important}}
+
+/* ---------- Oct 27 rework ---------- */
+/* Pet chip at the right end of the Photos · Diary row (FeedBarRight + FeedPetPicker pill): face 28, 13 bold, 1 px outline */
+.vt .barright{margin-left:auto;padding-bottom:6px;position:relative}
+.pill{display:inline-flex !important;align-items:center;gap:6px;padding:6px 10px 6px 6px !important;border-radius:var(--r-pill);border:1px solid var(--c-border-strong) !important;background:var(--c-surface) !important;font:700 13px/18.2px var(--ui) !important;max-width:170px}
+.pill svg{width:16px;height:16px} .pill .faces img{width:28px;height:28px;margin-left:-10px} .pill .faces img:first-child{margin-left:0}
+.pmenu{position:absolute;min-width:200px;padding:var(--s-xs) 0;border-radius:var(--r-lg);border:1px solid var(--c-border);background:var(--c-surface);box-shadow:0 4px 12px rgba(27,67,50,.15);z-index:6}
+.pmenu button{display:flex;align-items:center;gap:var(--s-sm);width:100%;min-height:var(--touch);padding:0 var(--s-md) !important;font:600 15px/20px var(--ui) !important;text-align:left} .pmenu button.on{background:var(--c-accent) !important}
+.pmenu img{width:28px;height:28px;border-radius:50%;object-fit:cover}
+/* Screens slide in from the right; the tray and sheets slide up (motion.base 240, ease-out). */
+.enter-x{animation:inx 240ms cubic-bezier(.2,.8,.2,1)} .enter-y{animation:iny 240ms cubic-bezier(.2,.8,.2,1)}
+@keyframes inx{from{transform:translateX(100%)}to{transform:none}} @keyframes iny{from{transform:translateY(100%)}to{transform:none}}
+.fade{animation:fade 240ms ease-out} @keyframes fade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.enter-x,.enter-y,.fade{animation:none}}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--c-bg)}
+/* Composer: the sitter's write screen (picture box, ruled lines, Save pinned) */
+.footer{flex:none;padding:var(--s-sm) var(--s-md) var(--s-md);background:linear-gradient(rgba(251,246,234,0),var(--c-bg) 30%)}
+/* Decorate: the tray docks at the bottom instead of a modal sheet; the page stays live above it */
+.dock{flex:none;background:var(--c-surface);border-radius:var(--r-xl) var(--r-xl) 0 0;box-shadow:0 -6px 18px rgba(27,67,50,.12);padding:var(--s-sm) var(--s-md) var(--s-md);display:flex;flex-direction:column;gap:10px}
+.dock .grab{align-self:center;width:36px;height:4px;border-radius:var(--r-pill);background:var(--c-track)}
+.tray button{touch-action:pan-x;user-select:none;-webkit-user-select:none}
+.ghost{position:absolute;width:64px;height:64px;pointer-events:none;z-index:20;transform:translate(-50%,-50%) scale(1.1);filter:drop-shadow(0 6px 10px rgba(0,0,0,.25))} .ghost img{width:100%;height:100%;object-fit:contain}
+.page.over{outline:2px dashed var(--c-success);outline-offset:3px}
+.stk{width:var(--w,56px);height:var(--w,56px)}
+.deco .stk{outline:1.5px dashed var(--c-border-strong)}
+.stk .rs{position:absolute;right:-9px;bottom:-9px;width:20px;height:20px;border-radius:50%;background:var(--c-surface);border:2px solid var(--c-text);cursor:nwse-resize;touch-action:none}
+.deco .stk.sel{outline:2px solid var(--c-text)}
+.stack .act{min-height:var(--touch);padding:0 var(--s-sm) !important;font:600 15px/20px var(--ui) !important} .stack .act.save{font-weight:800 !important}
+.stack h3.center{text-align:center}
+/* Page footer: Decorate and Share as a pair, the tasks in a card, Hide page last */
+.pair2{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-sm)}
+.tcard .trow{min-height:var(--touch);padding:0 var(--s-md);border-top:1px solid var(--c-border)} .tcard .trow:first-of-type{border-top:0}
+.tcard .ct{padding-bottom:var(--s-xs)}
+.textbtn.center{align-self:center}
+/* Tray header: Cancel and a clear Done, where your eyes already are */
+.dtop{display:flex;align-items:center;justify-content:space-between;gap:var(--s-sm)} .dtop b{font:600 18px/24px var(--display)}
+.done{min-height:var(--touch);padding:0 var(--s-lg) !important;border-radius:var(--r-pill);background:var(--c-text) !important;color:#fff !important;font:700 15px/20px var(--ui) !important}
+/* Book: a shelf of notebooks (GoodNotes-like): cover, then title and pages under it */
+.shelf{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-lg) var(--s-md)}
+.shelfitem{display:flex;flex-direction:column;gap:2px;min-width:0}
+.shelfitem .nbt{font:700 15px/21px var(--ui);margin-top:var(--s-sm)} .shelfitem .textbtn{align-self:flex-start;padding:0 !important;min-height:36px}
+.nbbtn{display:block;width:100%}
+.nb{position:relative;aspect-ratio:3/4;border-radius:6px 14px 14px 6px;background-color:var(--cv);color:var(--ink);overflow:hidden;box-shadow:0 6px 14px rgba(27,67,50,.18);touch-action:none}
+.nb.dots{background-image:radial-gradient(color-mix(in srgb,var(--ink) 22%,transparent) 1.4px,transparent 1.6px);background-size:12px 12px}
+.nb.grid{background-image:linear-gradient(color-mix(in srgb,var(--ink) 14%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--ink) 14%,transparent) 1px,transparent 1px);background-size:14px 14px}
+.nb.stripes{background-image:repeating-linear-gradient(135deg,color-mix(in srgb,var(--ink) 12%,transparent) 0 6px,transparent 6px 14px)}
+.nb .spine{position:absolute;left:0;top:0;bottom:0;width:12%;background:linear-gradient(90deg,rgba(0,0,0,.18),rgba(0,0,0,.04))}
+.nb .strap{position:absolute;right:12%;top:0;bottom:0;width:6%;background:color-mix(in srgb,var(--ink) 80%,transparent)}
+.nb .win{position:absolute;left:22%;top:12%;width:56%;aspect-ratio:1;border-radius:50%;object-fit:cover;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.nb .plate{position:absolute;left:18%;right:24%;bottom:12%;background:#fff;color:var(--c-text);border-radius:6px;text-align:center;font:700 clamp(11px,4.2cqw,20px)/1.2 var(--hand);padding:4px 2px}
+.nb{container-type:inline-size} .nb .plate{font-size:clamp(11px,9cqw,22px)}
+.nb .stk{height:auto;aspect-ratio:1}
+.coverwrap{width:62%;align-self:center}
+.swatches{display:flex;gap:var(--s-sm);flex-wrap:wrap;padding:4px}
+.swatch{width:var(--touch);height:var(--touch);border-radius:50%;border:2px solid var(--c-border) !important} .swatch.on{outline:2px solid var(--c-text);outline-offset:2px}
+.pats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s-sm)} .pats button{display:flex;flex-direction:column;gap:4px;align-items:center;font:600 12px/16px var(--ui) !important;color:var(--c-muted) !important} .pats button.on{color:var(--c-text) !important}
+.pats .nb{width:100%;aspect-ratio:1;border-radius:8px;box-shadow:none;border:1.5px solid var(--c-border)} .pats button.on .nb{outline:2px solid var(--c-text);outline-offset:2px}
+.togrow{display:flex;align-items:center;justify-content:space-between;min-height:var(--touch);font:600 15px/20px var(--ui)}
+.tg{width:52px;height:32px;border-radius:var(--r-pill);background:var(--c-track) !important;position:relative} .tg::after{content:"";position:absolute;left:4px;top:4px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left 120ms} .tg.on{background:var(--c-success) !important} .tg.on::after{left:24px}
+/* The paper: one fixed size (PAPER_H), so stickers placed as a share of it never move. Ruled lines fill it. */
+.ph .page.paper{height:var(--paper-h);flex:none} .page.paper .words{flex:1}
+.page .cont{font:700 13px/18px var(--hand);color:var(--c-muted)}
+/* The feed's page: trimmed to its words (and never above its lowest sticker) */
+.ph .page.condensed .words{min-height:24px}
+.ph .page .words{overflow:hidden}
+.pagenote{display:flex;justify-content:space-between;align-items:center;font:600 13px/18px var(--ui);color:var(--c-muted);padding:0 var(--s-xs)}
+.pagenote.warn{color:var(--c-danger)}
+.readon{align-self:flex-start;display:inline-flex;align-items:center;gap:4px;min-height:var(--touch);font:600 14px/20px var(--ui) !important}
+.readon svg{width:18px;height:18px}
+#measure{position:absolute;left:-9999px;top:0;width:var(--text-w);font:400 17px/24px Gaegu,"Comic Sans MS",system-ui,sans-serif;white-space:pre-wrap;overflow-wrap:break-word;visibility:hidden}
+/* the base button reset must not wipe these grounds */
+.ph .scrim{background:rgba(26,26,26,.4)} .ph .box{background:#DCF0E0}
+</style>
+<script src="nav.js" defer></script><script src="series.js" defer></script></head><body>
+<div class="wrap">
+<header style="display:flex;flex-direction:column;gap:.6rem">
+  <span class="eyebrow">Diary · playable · Oct 27</span>
+  <h1><span class="en">Play the fixed Diary as Robert</span><span class="ko">로버트로 고친 다이어리 해 보기</span></h1>
+  <p class="lede"><span class="en">Everything in the phone works: Today and Book, turning pages, a page opened from chat, Decorate (drag stickers onto the page), Hide, and Write a page. The switch shows the same flow built only from patterns the app already has, or with the new ones I proposed in the audit. Dashed outlines mark what's new.</span><span class="ko">폰 안 전부 동작해요: 오늘과 책, 페이지 넘기기, 채팅에서 연 페이지, 꾸미기(스티커를 끌어 붙이기), 숨기기, 페이지 쓰기. 스위치로 앱에 이미 있는 패턴만 쓴 버전과, 감사에서 제안한 새 패턴을 쓴 버전을 비교해요. 점선이 새 패턴.</span></p>
+</header>
+
+<div class="stage">
+  <div class="ph" id="ph" data-cap="diary-flow" data-title="Diary flow · owner"></div>
+  <div class="side">
+    <div class="switch" role="group" aria-label="Patterns"><button type="button" data-mode="have" aria-pressed="true"><span class="en">Existing patterns only</span><span class="ko">기존 패턴만</span></button><button type="button" data-mode="new" aria-pressed="false"><span class="en">With new patterns</span><span class="ko">새 패턴 포함</span></button></div>
+    <div class="tries"><button type="button" data-try="today">Today</button><button type="button" data-try="book">Book</button><button type="button" data-try="page">A page</button><button type="button" data-try="chat">From chat</button><button type="button" data-try="decorate">Decorate</button><button type="button" data-try="write">Write a page</button><button type="button" data-try="cover">Edit a cover</button></div>
+    <h2><span class="en">Every pattern, and where it comes from</span><span class="ko">패턴마다 출처</span></h2>
+    <div class="pat" id="pat"></div>
+  </div>
+</div>
+</div>
+
+<script>
+const L = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const I = { prev: L('<path d="m15 18-6-6 6-6"/>'), next: L('<path d="m9 18 6-6-6-6"/>'), back: L('<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>'), share: L('<path d="M12 2v13"/><path d="m16 6-4-4-4 4"/><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>'),
+  more: L('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'), sticker: L('<path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v4a2 2 0 0 0 2 2h4"/><path d="M8 13h.01"/><path d="M16 13h.01"/><path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/>'),
+  check: L('<path d="M20 6 9 17l-5-5"/>'), eye: L('<path d="M10.7 5.1A10.7 10.7 0 0 1 21.9 11.6a1 1 0 0 1 0 .7 10.8 10.8 0 0 1-1.4 2.6"/><path d="M14.1 14.2a3 3 0 0 1-4.2-4.2"/><path d="M17.5 17.5A10.8 10.8 0 0 1 2.1 12.3a1 1 0 0 1 0-.7 10.8 10.8 0 0 1 4.4-5.1"/><path d="m2 2 20 20"/>'),
+  x: L('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>'), plus: L('<path d="M5 12h14"/><path d="M12 5v14"/>'), photo: L('<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>'),
+  down: L('<path d="m6 9 6 6 6-6"/>'), home: L('<path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+  cal: L('<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'), chat: L('<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>'), img: L('<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>'),
+  cam: L('<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/>') };
+const IMG = (n) => `assets/feed-trial/${n}.jpg`, STK = (n) => `assets/feed-trial/stickers/${n}.png`;
+const GOLDITO = ["g_heart", "g_star", "g_sun", "g_paw", "g_bone", "g_ball", "g_zzz", "g_best_day"];
+const MINE = { Max: ["mumu_lake_walk", "mumu_white_table", "mumu_window_nap"], Mochi: ["orange_cat_lying_relaxed"] };
+const FACE = { Max: IMG("mumu_stroller_hat"), Mochi: IMG("orange_cat_lying_relaxed") };
+const T = (done, title, at) => ({ title, done, at });
+let PAGES = [
+  { id: "m1", pet: "Max", day: "Saturday, Oct 24", short: "Sat, Oct 24", by: "Chloe", time: "6:12 PM", img: "mumu_lake_walk", words: "Spotted a squirrel and got so excited!", tasks: [T(1, "Breakfast", "8:05 AM"), T(1, "Walk", "9:30 AM")] },
+  { id: "m2", pet: "Max", day: "Sunday, Oct 25", short: "Sun, Oct 25", by: "Chloe", time: "6:30 PM", img: "mumu_green_toy", words: "Played tug with the green toy, then a long nap.", tasks: [T(1, "Breakfast", "8:10 AM"), T(1, "Walk", "9:45 AM"), T(1, "Pill in a treat", "2:00 PM")] },
+  { id: "m3", pet: "Max", day: "Monday, Oct 26", short: "Mon, Oct 26", by: "Chloe", time: "6:40 PM", img: "mumu_stroller_hat", words: "Max learned to wait at the door. A treat after every walk, and he was so proud of himself he did a little spin each time. We met a golden retriever called Biscuit at the park and they chased each other around the big oak until both of them flopped down in the grass. Lunch went down in about four seconds. In the afternoon he napped in the sunny spot by the window, snoring softly, then woke up and brought me his green toy for tug. The pill in a treat didn't happen: he found the pill and spat it out twice, so I'll try it hidden in cheese tomorrow and let you know. He's curled up on his blanket now, tired and happy.", tasks: [T(1, "Breakfast", "8:12 AM"), T(1, "Walk", "9:40 AM"), T(0, "Pill in a treat")] },
+  { id: "c1", pet: "Mochi", day: "Sunday, Oct 25", short: "Sun, Oct 25", by: "Chloe", time: "6:35 PM", img: "orange_cat_lying_relaxed", words: "Mochi came out for dinner and sat by the window.", tasks: [T(1, "Dinner", "6:00 PM")] },
+  { id: "c2", pet: "Mochi", day: "Monday, Oct 26", short: "Mon, Oct 26", by: "Chloe", time: "6:42 PM", img: "", words: "Hid under the bed until breakfast, then purred all evening.", tasks: [T(1, "Breakfast", "8:20 AM"), T(1, "Litter", "5:00 PM")] },
+];
+const TODAY = "Monday, Oct 26";
+const STK_ON = { "m3:0": [{ s: "g_heart", x: 82, y: 30 }] };
+/* The paper: fixed size. The first sheet of a day has the picture box, later ones are all lines. A day's words flow
+   across as many sheets as they need, up to MAX_SHEETS. */
+const PAPER_H = 440, LINE = 24, MAX_SHEETS = 4;
+const measurer = (() => { const m = document.createElement("div"); m.id = "measure"; document.body.appendChild(m); return m; })();
+const capacity = (first) => first ? 9 : 16; // lines: 440 px less the header, padding and (first) the 1.75:1 picture box
+function linesOf(text) { measurer.textContent = text || " "; return Math.round(measurer.getBoundingClientRect().height / LINE); }
+// Split words into sheets: the most words that fit each sheet's lines, the rest onto the next.
+function splitText(text, max = MAX_SHEETS) {
+  const out = []; let rest = text || "";
+  while (rest && out.length < max) {
+    const cap = capacity(out.length === 0);
+    if (linesOf(rest.trimEnd()) <= cap) { out.push(rest); rest = ""; break; }
+    const words = rest.split(/(\s+)/); let lo = 0, hi = words.length;
+    while (lo < hi) { const mid = Math.ceil((lo + hi) / 2); if (linesOf(words.slice(0, mid).join("")) <= cap) lo = mid; else hi = mid - 1; }
+    out.push(words.slice(0, lo).join("").trimEnd()); rest = words.slice(lo).join("").trimStart();
+  }
+  return { parts: out.length ? out : [""], over: !!rest.trim() };
+}
+// Every page of a pet's book as sheets, oldest first.
+const sheets = (pet) => shown(pet).flatMap((p) => { const { parts } = splitText(p.words); return parts.map((text, k) => ({ p, k, n: parts.length, text })); });
+// Each pet's notebook cover: colour (token blocks + ink), pattern, the pet's photo on it or not, and stickers (w in % of the cover).
+const COLORS = { mint: ["#D8F3DC", "#1B4332"], peach: ["#FDE2CC", "#7A3E1D"], butter: ["#FBEFC8", "#6B4E0A"], blush: ["#FAD6CB", "#7A2E1F"], ink: ["#1B4332", "#FBF6EA"] };
+const PATTERNS = [["plain", "Plain"], ["dots", "Dots"], ["grid", "Grid"], ["stripes", "Stripes"]];
+const COVERS = { Max: { color: "mint", pattern: "dots", photo: true, stickers: [{ s: "g_paw", x: 76, y: 70, w: 22 }] }, Mochi: { color: "peach", pattern: "plain", photo: true, stickers: [] } };
+
+/* State: the tab, the Diary view, the screen pushed over it (a book or the composer), an open sheet, Decorate, the pattern mode. */
+const S = { mode: "have", tab: "moments", view: "today", pet: "all", menu: false, push: null, sheet: null, deco: null, hidden: new Set(), enter: null, toastT: 0 };
+const ph = document.getElementById("ph");
+const shown = (pet) => PAGES.filter((p) => p.pet === pet && !S.hidden.has(p.id));
+const PETS = ["Max", "Mochi"];
+
+const sb = '<div class="sb"><span>6:50</span><span>●●●</span></div>';
+const tabHead = (title) => sb + `<div class="hdr"><span class="t"><h3>${title}</h3><small>Robert · Owner</small></span><span class="av">R</span></div>`;
+const tabbar = () => `<div class="tabbar">${[["home", "Home"], ["cal", "Bookings"], ["chat", "Chat"], ["img", "Moments"], ["cam", "Snap"]].map(([i, l]) => `<button type="button" class="${l.toLowerCase() === S.tab ? "on" : ""}" data-tab="${l.toLowerCase()}">${I[i]}${l}</button>`).join("")}</div>`;
+// The pet chip (FeedPetPicker's pill), placed where FeedBarRight puts it: the right end of the Photos · Diary row.
+const pill = (value, act) => { const pets = value === "all" ? PETS : [value];
+  return `<button type="button" class="pill" data-act="${act}" aria-haspopup="menu"><span class="faces">${pets.map((n) => `<img src="${FACE[n]}" alt="">`).join("")}</span>${value === "all" ? "All pets" : value}${I.down}</button>`; };
+const petMenu = (value, withAll) => `<div class="pmenu fade" role="menu">${(withAll ? ["all", ...PETS] : PETS).map((n) => `<button type="button" role="menuitem" class="${n === value ? "on" : ""}" data-pick="${n}">${n === "all" ? `<span class="faces">${PETS.map((m) => `<img src="${FACE[m]}" alt="">`).join("")}</span>All pets` : `<img src="${FACE[n]}" alt="">${n}`}</button>`).join("")}</div>`;
+
+// Who wrote it. Existing: the photo viewer's meta line (small, muted). New: Avatar 24 + name in text colour.
+const byline = (p) => S.mode === "new"
+  ? `<div class="byline new"><span class="mini">${p.mine ? "R" : p.by[0]}</span>${p.mine ? "Your page" : `From ${p.by}`}<span class="w">· ${p.time}</span></div>`
+  : `<div class="meta">${p.mine ? "Your page" : `From ${p.by}`} · ${p.time}</div>`;
+function stickers(items, editing, unit = "px") {
+  // On paper the top is in px of the full sheet (PAPER_H), so trimming the page in the feed never moves a sticker.
+  const top = (y) => (unit === "px" ? `${(y / 100) * PAPER_H}px` : `${y}%`);
+  return items.map((it, i) => `<span class="stk${editing && S.deco.sel === i ? " sel" : ""}" data-i="${i}" style="left:${it.x}%;top:${top(it.y)};--w:${it.w || 56}${unit};transform:translate(-50%,-50%) rotate(${it.r || 0}deg)"><img src="${STK(it.s)}" alt="">${editing ? `<button type="button" class="rm" data-rm="${i}" aria-label="Remove sticker">${I.x}</button><span class="rs" data-rs="${i}" aria-label="Drag to size and turn"></span>` : ""}</span>`).join("");
+}
+function pageHTML(p, { tap = false, k = 0, text = null, condensed = false } = {}) {
+  const key = `${p.id}:${k}`, editing = S.deco && S.deco.target === "page" && S.deco.page === key;
+  const items = editing ? S.deco.draft : (STK_ON[key] || []);
+  const words = text ?? splitText(p.words).parts[k];
+  const box = k > 0 ? "" : p.img ? `<img class="pic" src="${IMG(p.img)}" alt="">` : `<div class="box muted">${I.photo}</div>`;
+  // The feed trims to the words, but never above the lowest sticker.
+  const floor = condensed ? Math.max(0, ...items.map((it) => (it.y / 100) * PAPER_H + (it.w || 56) / 2 + 8)) : 0;
+  return `<${tap ? "button type=\"button\"" : "div"} class="page${tap ? " tap" : ""}${editing ? " deco" : ""}${condensed ? " condensed" : " paper"}" ${tap ? `data-open="${p.id}" aria-label="Open ${p.pet}'s page"` : 'id="livepage"'} style="${floor ? `min-height:${floor}px` : ""}">
+    <span class="pt"><span>${p.day}</span><span>${k > 0 ? `${p.pet}'s day, continued` : `${p.pet}'s day`}</span></span>${box}<div class="words">${words}</div>${stickers(items, editing)}</${tap ? "button" : "div"}>`;
+}
+// The day's tasks. Existing: TodayTasks' done list (check icon + text). New: filled circles in a card.
+function tasksHTML(p) {
+  if (p.mine || !p.tasks.length) return "";
+  const done = p.tasks.filter((t) => t.done).length, title = `What ${p.by} did · ${done} of ${p.tasks.length}`;
+  if (S.mode === "new") return `<div class="tcard new"><span class="ct">${title}</span>${p.tasks.map((t) => `<div class="check"><span class="cb${t.done ? "" : " miss"}">${t.done ? I.check : ""}</span>${t.title}<span class="end">${t.done ? t.at : "Missed"}</span></div>`).join("")}</div>`;
+  // Existing: TodayTasks' "Done today" card (a card, ✓ and the task, the time at the end).
+  return `<div class="tcard"><span class="ct">${title}</span>${p.tasks.map((t) => `<div class="trow">${t.done ? I.check : '<span class="miss"></span>'}${t.title}<span class="end">${t.done ? t.at : "Missed"}</span></div>`).join("")}</div>`;
+}
+// A notebook cover (GoodNotes-like): colour and pattern, spine, strap, the pet's photo, a label, stickers.
+function coverHTML(pet, { editing = false, look = null } = {}) {
+  const c = look || COVERS[pet], [bg, ink] = COLORS[c.color], items = editing ? S.deco.draft : c.stickers;
+  return `<div class="nb ${c.pattern}${editing ? " deco" : ""}" ${editing ? 'id="livepage"' : ""} style="--cv:${bg};--ink:${ink}"><span class="spine"></span>${c.photo ? `<img class="win" src="${FACE[pet]}" alt="">` : ""}<span class="strap"></span><span class="plate">${pet}'s diary</span>${stickers(items, editing, "%")}</div>`;
+}
+
+function momentsScreen() {
+  const vt = `<div class="vt"><button type="button" data-act="toast" data-msg="Photos is the other half of Moments.">Photos</button><button type="button" class="on">Diary</button>${S.view === "today" ? `<span class="barright">${pill(S.pet, "petmenu")}</span>` : ""}</div>`;
+  const seg = `<div class="segc"><button type="button" class="${S.view === "today" ? "on" : ""}" data-view="today">Today</button><button type="button" class="${S.view === "book" ? "on" : ""}" data-view="book">Book</button></div>`;
+  let body;
+  if (S.view === "today") {
+    const pets = S.pet === "all" ? PETS : [S.pet];
+    body = pets.map((n) => { const p = shown(n).find((x) => x.day === TODAY); if (!p) return ""; const { parts } = splitText(p.words);
+      return `<div class="dayhead">${n}'s day</div>${byline(p)}${pageHTML(p, { tap: true, condensed: true, text: parts[0] })}${parts.length > 1 ? `<button type="button" class="readon textbtn" data-open="${p.id}" data-k="1">Continues on page 2${I.next}</button>` : ""}`; }).join("")
+      + `<span class="meta" style="align-self:center">That's today. Tap a page to open it in the book.</span><button type="button" class="button" data-act="write">Write your own page</button>`;
+  } else body = `<div class="shelf">${PETS.map((n) => { const last = shown(n).at(-1);
+      return `<div class="shelfitem"><button type="button" class="nbbtn" data-cover="${n}" aria-label="Open ${n}'s diary">${coverHTML(n)}</button><b class="nbt">${n}'s diary</b><span class="meta">${shown(n).length} pages${last ? ` · ${last.short.split(", ")[1]}` : ""}</span><button type="button" class="textbtn new" data-editcover="${n}">Edit cover</button></div>`; }).join("")}</div>`;
+  return tabHead("Moments") + vt + `<div class="scr">${seg}${body}</div>` + tabbar() + (S.menu ? `<button type="button" class="scrim" style="background:none" data-act="closemenu" aria-label="Close"></button>${petMenu(S.pet, true)}` : "");
+}
+function bookScreen() {
+  const { pet, i } = S.push, list = sheets(pet), sh = list[i], p = sh.p, deco = !!S.deco;
+  const head = deco
+    ? `<div class="stack"><span class="ib"></span><h3 class="center">${pet}'s diary</h3><span class="ib"></span></div>`
+    : `<div class="stack"><button type="button" class="ib back" data-act="back" aria-label="Back">${I.back}</button><h3>${pet}'s diary</h3>${S.mode === "new" ? `<span class="new" style="display:flex"><button type="button" class="ib" data-act="share" aria-label="Share">${I.share}</button><button type="button" class="ib" data-act="more" aria-label="More">${I.more}</button></span>` : ""}</div>`;
+  const actions = S.mode === "new" ? `<button type="button" class="button new" data-act="decorate">${I.sticker}Decorate</button>`
+    : `<div class="pair2"><button type="button" class="button" data-act="decorate">${I.sticker}Decorate</button><button type="button" class="button" data-act="share">${I.share}Share</button></div>`;
+  const last = S.mode === "new" ? "" : `<button type="button" class="textbtn danger center" data-act="hide">${p.mine ? "Delete page" : "Hide page"}</button>`;
+  const nav = deco ? "" : `<div class="pnav"><button type="button" class="circ" data-turn="-1" aria-label="Previous page" ${i === 0 ? "disabled" : ""}>${I.prev}</button><span class="mid">${p.short}${sh.n > 1 ? ` · ${sh.k + 1} of ${sh.n}` : ""}</span><button type="button" class="circ" data-turn="1" aria-label="Next page" ${i === list.length - 1 ? "disabled" : ""}>${I.next}</button></div>`;
+    // The day's tasks and actions sit under the day's last sheet.
+  const lastSheet = sh.k === sh.n - 1;
+  return sb + head + `<div class="scr">${nav}${deco ? "" : byline(p)}${pageHTML(p, { k: sh.k, text: sh.text })}${deco ? "" : lastSheet ? actions + tasksHTML(p) + last : `<span class="meta" style="align-self:center">Continues on the next page ›</span>` + actions}</div>` + (deco ? dockHTML() : "");
+}
+// The tray works like the app's Sheet: the title and Close on top (Close asks before dropping changes, U2), Done the one
+// primary button at the bottom (U10). Esc is Close.
+const dockTop = (title) => `<div class="dtop"><b>${title}</b><button type="button" class="textbtn" style="padding-right:0!important" data-act="closedeco">Close</button></div>`;
+const dockDone = '<button type="button" class="button primary" data-act="save">Done</button>';
+// Decorate's tray, docked at the bottom like a keyboard: nothing dims, the page stays live above it.
+function dockHTML() {
+  const pet = S.push.pet, d = S.deco, set = d.set === "mine" ? MINE[pet] : GOLDITO;
+  const make = S.mode === "new" ? `<button type="button" class="make new" data-act="make">${I.plus}New</button>` : "";
+  return `<div class="dock${S.enter === "dock" ? " enter-y" : ""}">${dockTop("Decorate")}
+    <div class="segc"><button type="button" class="${d.set === "mine" ? "on" : ""}" data-set="mine">${pet}'s · ${MINE[pet].length}</button><button type="button" class="${d.set === "goldito" ? "on" : ""}" data-set="goldito">Goldito · ${GOLDITO.length}</button></div>
+    <div class="tray">${make}${set.map((s) => `<button type="button" data-add="${s}" aria-label="Add sticker"><img src="${STK(s)}" alt="" draggable="false"></button>`).join("")}</div>
+    ${S.mode === "new" ? "" : '<button type="button" class="textbtn" style="align-self:flex-start" data-act="make">+ Make a sticker from a photo</button>'}
+    <span class="meta${S.mode === "new" ? " new" : ""}">${S.mode === "new" ? "Drag a sticker onto the page. Its corner sizes and turns it." : "Tap a sticker to add it. Drag to move; its corner sizes and turns it."}</span>${dockDone}</div>`;
+}
+// Edit cover: the cover big, a tray for its colour, pattern and stickers (the same tray as Decorate).
+function coverScreen() {
+  const c = S.push, look = c.look, tab = c.tab;
+  let tools;
+  if (tab === "color") tools = `<div class="swatches">${Object.entries(COLORS).map(([k, [bg]]) => `<button type="button" class="swatch${look.color === k ? " on" : ""}" style="background:${bg}!important" data-color="${k}" aria-label="${k}"></button>`).join("")}</div>
+      <div class="togrow">${c.pet}'s photo on the cover<button type="button" class="tg${look.photo ? " on" : ""}" data-act="photo" role="switch" aria-checked="${look.photo}" aria-label="Photo on the cover"></button></div>`;
+  else if (tab === "pattern") tools = `<div class="pats">${PATTERNS.map(([k, l]) => `<button type="button" class="${look.pattern === k ? "on" : ""}" data-pattern="${k}"><span class="nb ${k}" style="--cv:${COLORS[look.color][0]};--ink:${COLORS[look.color][1]}"></span>${l}</button>`).join("")}</div>`;
+  else tools = `<div class="tray">${GOLDITO.concat(MINE[c.pet]).map((s) => `<button type="button" data-add="${s}" aria-label="Add sticker"><img src="${STK(s)}" alt="" draggable="false"></button>`).join("")}</div><span class="meta">Tap a sticker to add it, then drag it on the cover.</span>`;
+  return sb + `<div class="stack"><span class="ib"></span><h3 class="center">Edit cover</h3><span class="ib"></span></div>
+    <div class="scr"><div class="coverwrap">${coverHTML(c.pet, { editing: tab === "stickers", look })}</div></div>
+    <div class="dock${S.enter === "dock" ? " enter-y" : ""}">${dockTop(`${c.pet}'s diary`)}
+      <div class="segc" style="grid-template-columns:1fr 1fr 1fr">${[["color", "Colour"], ["pattern", "Pattern"], ["stickers", "Stickers"]].map(([k, l]) => `<button type="button" class="${tab === k ? "on" : ""}" data-ctab="${k}">${l}</button>`).join("")}</div>${tools}${dockDone}</div>`;
+}
+// Write your own page: the sitter's write screen (picture box, ruled lines, Save pinned), not a half sheet.
+function composeScreen() {
+  const c = S.push, { parts, over } = splitText(c.text), last = parts.length - 1;
+  const left = capacity(last === 0) - linesOf(parts[last]);
+  const sheet = (t, k) => `<div class="page paper"${k === c.focus ? ' id="livepage"' : ""}><span class="pt"><span>${TODAY}</span><span>${k > 0 ? `${c.pet}'s day, continued` : `${c.pet}'s day`}</span></span>${k > 0 ? "" : c.photo ? `<img class="pic" src="${IMG(c.photo)}" alt="">` : `<button type="button" class="box" data-act="addphoto">${I.photo}Add a photo</button>`}<textarea class="words" data-part="${k}" placeholder="${k ? "" : "Dear diary, today…"}" aria-label="Page ${k + 1}">${t}</textarea></div>
+    ${k < last ? `<div class="pagenote"><span>Page ${k + 1} of ${parts.length}</span><span>Continues on page ${k + 2}</span></div>` : ""}`;
+  const note = over ? `<div class="pagenote warn"><span>That's the most a day holds (${MAX_SHEETS} pages)</span></div>`
+    : `<div class="pagenote"><span>${parts.length > 1 ? `Page ${parts.length} of ${parts.length}` : ""}</span><span>${left <= 3 && c.text.trim() ? `${left} line${left === 1 ? "" : "s"} left${last + 1 < MAX_SHEETS ? `, then page ${last + 2}` : ""}` : ""}</span></div>`;
+  return sb + `<div class="stack"><button type="button" class="ib back" data-act="back" aria-label="Back">${I.back}</button><h3>New page</h3><span style="padding-right:var(--s-sm)">${pill(c.pet, "wpetmenu")}</span></div>
+    <div class="scr"><span class="meta">Only you see your own pages.</span>${parts.map(sheet).join("")}${note}</div>
+    <div class="footer"><button type="button" class="button primary" data-act="savepage" ${c.text.trim() ? "" : "disabled"}>Save page</button></div>
+    ${S.menu ? `<button type="button" class="scrim" style="background:none" data-act="closemenu" aria-label="Close"></button>${petMenu(c.pet, false)}` : ""}`;
+}
+function chatScreen() {
+  const p = PAGES.find((x) => x.id === "m3");
+  return sb + `<div class="stack"><button type="button" class="ib back" data-act="toast" data-msg="This is the chat with Chloe; the chat list sits behind it." aria-label="Back">${I.back}</button><h3>Chloe</h3></div>
+    <div class="scr"><div class="chatmsg">Max did great today! His page is up.</div><button type="button" class="chatcard" data-chatpage="m3"><img src="${IMG(p.img)}" alt=""><span>Max's page · Mon, Oct 26<small>From Chloe · 6:40 PM · tap to read</small></span></button></div>` + tabbar();
+}
+function sheetHTML() {
+  const sh = S.sheet; if (!sh) return "";
+  const cls = `sheet${S.enter === "sheet" ? " enter-y" : ""}`;
+  if (sh.k === "discard") return `<div class="sheetwrap"><button type="button" class="scrim fade" data-act="keep" aria-label="Keep editing"></button><div class="${cls}"><span class="grab"></span><div class="sh"><h4>Discard changes?</h4></div>
+      <p class="meta" style="margin:0">${S.push && S.push.kind === "cover" ? "The cover goes back to how it was." : "The stickers go back to how they were."}</p><button type="button" class="button primary" data-act="discard">Discard</button><button type="button" class="textbtn" style="align-self:center" data-act="keep">Keep editing</button></div></div>`;
+  if (sh.k === "menu") return `<div class="sheetwrap"><button type="button" class="scrim fade" data-act="close" aria-label="Close"></button><div class="${cls} menu"><span class="grab"></span>
+      <button type="button" class="row red" data-act="hide">${I.eye}Hide page<span class="meta" style="margin-left:auto">Chloe keeps hers</span></button><button type="button" class="row" data-act="close">${I.x}Cancel</button></div></div>`;
+  if (sh.k === "hide") { const p = sheets(S.push.pet)[S.push.i].p; return `<div class="sheetwrap"><button type="button" class="scrim fade" data-act="close" aria-label="Close"></button><div class="${cls}"><span class="grab"></span><div class="sh"><h4>${p.mine ? "Delete this page?" : "Hide this page?"}</h4></div>
+      <p class="meta" style="margin:0">${p.mine ? "It's gone for good." : "It leaves your book. Chloe keeps her copy."}</p><button type="button" class="button primary" data-act="dohide">${p.mine ? "Delete" : "Hide"}</button><button type="button" class="textbtn" style="align-self:center" data-act="close">Cancel</button></div></div>`; }
+  return "";
+}
+
+function render() {
+  const sc0 = ph.querySelector(".scr"), top = sc0 ? sc0.scrollTop : 0;
+  const key = S.push ? S.push.kind + (S.push.pet || "") : S.tab + S.view;
+  let base = S.tab === "chat" ? chatScreen() : momentsScreen();
+  let html = `<div class="screen">${base}</div>`;
+  if (S.push) html += `<div class="screen${S.enter === "push" ? " enter-x" : ""}">${S.push.kind === "book" ? bookScreen() : S.push.kind === "cover" ? coverScreen() : composeScreen()}</div>`;
+  ph.innerHTML = html + sheetHTML() + '<div class="toast" id="toast" role="status"></div>';
+  ph.classList.toggle("nomarks", S.mode !== "new");
+  const scs = ph.querySelectorAll(".scr"), sc = scs[scs.length - 1];
+  if (sc && render.key === key) sc.scrollTop = top;
+  // FeedPetPicker's menu drops right under its chip, right edges lined up.
+  const menu = ph.querySelector(".pmenu"), chips = ph.querySelectorAll(".pill"), chip = chips[chips.length - 1];
+  if (menu && chip) { const pr = ph.getBoundingClientRect(), cr = chip.getBoundingClientRect(), bw = ph.clientLeft; menu.style.top = cr.bottom - pr.top - bw + 4 + "px"; menu.style.right = pr.right - cr.right - bw + "px"; }
+  render.key = key; S.enter = null;
+  ph.querySelectorAll("textarea[data-part]").forEach((ta) => ta.addEventListener("input", onWrite));
+  ph.querySelectorAll("textarea[data-part]").forEach((ta) => ta.addEventListener("keydown", (e) => { const k = Number(ta.dataset.part); if (e.key === "Backspace" && k > 0 && ta.selectionStart === 0 && ta.selectionEnd === 0) { e.preventDefault(); focusPart(k - 1, Infinity); } }));
+}
+// One text for the whole day: edit any sheet, re-split, and follow the caret onto the next sheet when words move there.
+function onWrite(e) {
+  const ta = e.target, k = Number(ta.dataset.part), before = splitText(S.push.text).parts;
+  before[k] = ta.value; const caret = before.slice(0, k).join(" ").length + (k ? 1 : 0) + ta.selectionStart;
+  S.push.text = before.join(" ").replace(/ +$/, (m) => (ta.value.endsWith(" ") ? " " : ""));
+  const after = splitText(S.push.text).parts;
+  if (after.length === before.length && after[k] === ta.value) { const b = ph.querySelector('[data-act="savepage"]'); if (b) b.disabled = !S.push.text.trim(); updateNote(); return; }
+  render(); // words moved to another sheet: find where the caret now lives
+  let at = caret; for (let j = 0; j < after.length; j++) { const len = after[j].length + (j < after.length - 1 ? 1 : 0); if (at <= after[j].length || j === after.length - 1) { focusPart(j, at); if (j > k) ph.querySelectorAll(".page.paper")[j]?.scrollIntoView({ block: "nearest" }); return; } at -= len; }
+}
+function focusPart(j, at) { const t = ph.querySelector(`textarea[data-part="${j}"]`); if (!t) return; const pos = Math.min(at, t.value.length); t.focus({ preventScroll: true }); t.setSelectionRange(pos, pos); }
+function updateNote() { const c = S.push, { parts } = splitText(c.text), last = parts.length - 1, left = capacity(last === 0) - linesOf(parts[last]); const n = ph.querySelector(".scr > .pagenote:last-of-type span:last-child"); if (n) n.textContent = left <= 3 && c.text.trim() ? `${left} line${left === 1 ? "" : "s"} left${last + 1 < MAX_SHEETS ? `, then page ${last + 2}` : ""}` : ""; }
+function toast(msg) { const t = document.getElementById("toast"); if (!t) return; t.textContent = msg; t.classList.add("on"); clearTimeout(S.toastT); S.toastT = setTimeout(() => t.classList.remove("on"), 2200); }
+const openPage = (id, k = 0) => { const p = PAGES.find((x) => x.id === id); S.push = { kind: "book", pet: p.pet, i: sheets(p.pet).findIndex((x) => x.p.id === id && x.k === k) }; S.sheet = null; S.deco = null; S.enter = "push"; render(); };
+// While decorating, keep the whole page above the dock.
+const topScreen = () => { const all = ph.querySelectorAll(".screen"); return all[all.length - 1]; };
+function fitAboveDock() { const sc = topScreen()?.querySelector(".scr"), pg = document.getElementById("livepage"), dk = ph.querySelector(".dock"); if (!sc || !pg || !dk) return; const over = pg.getBoundingClientRect().bottom - dk.getBoundingClientRect().top + 8; if (over > 0) sc.scrollTop += over; }
+const snap = () => JSON.stringify([S.deco?.draft, S.push?.look]);
+function cancelDeco() { if (S.push && S.push.kind === "cover") { S.push = null; S.view = "book"; } S.deco = null; render(); }
+const dirty = () => S.deco && S.deco.orig !== snap();
+function addSticker(s, x = 50, y = 45) { S.deco.draft.push({ s, x, y, w: S.deco.target === "cover" ? 24 : 56 }); S.deco.sel = S.deco.draft.length - 1; render(); }
+
+ph.addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b || S.dragged) { S.dragged = false; return; }
+  const a = b.dataset.act;
+  if (b.dataset.tab) { if (b.dataset.tab === "moments" || b.dataset.tab === "chat") { S.tab = b.dataset.tab; S.push = null; S.menu = false; render(); } else toast(`${b.textContent.trim()} isn't part of this flow.`); return; }
+  if (b.dataset.view) { S.view = b.dataset.view; S.menu = false; render(); return; }
+  if (b.dataset.pick) { if (S.push && S.push.kind === "compose") S.push.pet = b.dataset.pick; else S.pet = b.dataset.pick; S.menu = false; render(); return; }
+  if (b.dataset.cover) { const n = b.dataset.cover; S.push = { kind: "book", pet: n, i: sheets(n).length - 1 }; S.enter = "push"; render(); return; }
+  if (b.dataset.open) { openPage(b.dataset.open, Number(b.dataset.k || 0)); return; }
+  if (b.dataset.chatpage) { openPage(b.dataset.chatpage); return; }
+  if (b.dataset.turn) { S.push.i += Number(b.dataset.turn); render(); return; }
+  if (b.dataset.set) { S.deco.set = b.dataset.set; render(); return; }
+  if (b.dataset.add) { addSticker(b.dataset.add); return; }
+  if (b.dataset.rm) { S.deco.draft.splice(Number(b.dataset.rm), 1); S.deco.sel = null; render(); return; }
+  if (a === "petmenu" || a === "wpetmenu") { S.menu = !S.menu; render(); return; }
+  if (a === "closemenu") { S.menu = false; render(); return; }
+  if (a === "back") { S.push = null; S.sheet = null; S.deco = null; S.menu = false; render(); return; }
+  if (a === "toast") { toast(b.dataset.msg); return; }
+  if (a === "share") { toast("Your phone's share sheet opens with the page as a picture."); return; }
+  if (a === "more") { S.sheet = { k: "menu" }; S.enter = "sheet"; render(); return; }
+  if (a === "hide") { S.sheet = { k: "hide" }; S.enter = "sheet"; render(); return; }
+  if (a === "close") { S.sheet = null; render(); return; }
+  if (a === "dohide") { const p = sheets(S.push.pet)[S.push.i].p; S.hidden.add(p.id); S.sheet = null; const left = sheets(S.push.pet).length; if (!left) S.push = null; else S.push.i = Math.min(S.push.i, left - 1); render(); toast(p.mine ? "Page deleted" : "Page hidden"); return; }
+  if (b.dataset.editcover) { const n = b.dataset.editcover, c = COVERS[n]; S.push = { kind: "cover", pet: n, tab: "color", look: { ...c } }; S.deco = { target: "cover", set: "goldito", sel: null, draft: c.stickers.map((x) => ({ ...x })) }; S.deco.orig = snap(); S.enter = "push"; render(); return; }
+  if (b.dataset.ctab) { S.push.tab = b.dataset.ctab; render(); return; }
+  if (b.dataset.color) { S.push.look.color = b.dataset.color; render(); return; }
+  if (b.dataset.pattern) { S.push.look.pattern = b.dataset.pattern; render(); return; }
+  if (a === "photo") { S.push.look.photo = !S.push.look.photo; render(); return; }
+  if (a === "decorate") { const sh = sheets(S.push.pet)[S.push.i], key = `${sh.p.id}:${sh.k}`; S.deco = { target: "page", page: key, set: "mine", sel: null, draft: (STK_ON[key] || []).map((x) => ({ w: 56, ...x })) }; S.deco.orig = snap(); S.enter = "dock"; render(); setTimeout(fitAboveDock, 260); return; }
+  if (a === "closedeco") { if (dirty()) { S.sheet = { k: "discard" }; S.enter = "sheet"; render(); } else cancelDeco(); return; }
+  if (a === "keep") { S.sheet = null; render(); return; }
+  if (a === "discard") { S.sheet = null; cancelDeco(); return; }
+  if (a === "cancel") { if (S.push && S.push.kind === "cover") { S.push = null; S.view = "book"; } S.deco = null; render(); return; }
+  if (a === "save") { if (S.push && S.push.kind === "cover") { COVERS[S.push.pet] = { ...S.push.look, stickers: S.deco.draft }; S.push = null; S.deco = null; S.view = "book"; render(); toast("Cover saved"); return; } STK_ON[S.deco.page] = S.deco.draft; S.deco = null; render(); toast("Stickers saved"); return; }
+  if (a === "make") { toast("Opens Snap's sticker maker on a photo; the new sticker comes back to this tray."); return; }
+  if (a === "write") { S.push = { kind: "compose", pet: S.pet === "Mochi" ? "Mochi" : "Max", photo: "", text: "" }; S.enter = "push"; S.menu = false; render(); setTimeout(() => focusPart(0, 0), 260); return; }
+  if (a === "addphoto") { S.push.photo = S.push.pet === "Max" ? "mumu_white_table" : "orange_cat_lying_relaxed"; render(); return; }
+  if (a === "savepage") { const c = S.push, id = "r" + PAGES.length, words = splitText(c.text).parts.join(" "); PAGES.push({ id, pet: c.pet, day: TODAY, short: "Mon, Oct 26", by: "Robert", mine: true, time: "7:05 PM", img: c.photo, words, tasks: [] }); openPage(id); toast("Page saved"); return; }
+});
+
+/* Decorate gestures: drag from the tray onto the page; move, resize (corner) and remove (×) on the page. */
+let g = null;
+const pageRect = () => document.getElementById("livepage")?.getBoundingClientRect();
+const paperTop = (y) => (S.deco && S.deco.target === "page" ? `${(y / 100) * PAPER_H}px` : `${y}%`);
+const pct = (r, x, y) => ({ x: Math.max(4, Math.min(96, ((x - r.left) / r.width) * 100)), y: Math.max(4, Math.min(96, ((y - r.top) / r.height) * 100)) });
+ph.addEventListener("pointerdown", (e) => {
+  if (!S.deco) return;
+  const rs = e.target.closest(".rs"), st = e.target.closest(".deco .stk"), tile = e.target.closest(".tray [data-add]");
+  if (rs) { const i = Number(rs.dataset.rs), el = rs.parentElement, r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    g = { kind: "twist", i, el, cx, cy, d0: Math.hypot(e.clientX - cx, e.clientY - cy), a0: Math.atan2(e.clientY - cy, e.clientX - cx), w0: S.deco.draft[i].w || (S.deco.target === "cover" ? 24 : 56), r0: S.deco.draft[i].r || 0 }; S.deco.sel = i; }
+  else if (st && !e.target.closest(".rm")) { const i = Number(st.dataset.i); g = { kind: "move", i, el: st, r: pageRect() }; S.deco.sel = i; st.classList.add("sel"); }
+  else if (tile) { if (S.mode !== "new") return; g = { kind: "tile", s: tile.dataset.add, x0: e.clientX, y0: e.clientY, ghost: null }; return; } // a tile only becomes a drag once it moves upward
+  else return;
+  e.target.setPointerCapture?.(e.pointerId); e.preventDefault();
+});
+ph.addEventListener("pointermove", (e) => {
+  if (!g) return;
+  if (g.kind === "tile") {
+    if (!g.ghost) { if (g.y0 - e.clientY < 10 || Math.abs(e.clientX - g.x0) > Math.abs(g.y0 - e.clientY)) return; // sideways = scroll the row
+      g.ghost = document.createElement("span"); g.ghost.className = "ghost"; g.ghost.innerHTML = `<img src="${STK(g.s)}" alt="">`; ph.appendChild(g.ghost); }
+    const pr = ph.getBoundingClientRect(); g.ghost.style.left = e.clientX - pr.left + "px"; g.ghost.style.top = e.clientY - pr.top + "px";
+    const r = pageRect(), over = r && e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom; document.getElementById("livepage")?.classList.toggle("over", !!over); e.preventDefault(); return;
+  }
+  if (g.kind === "move") { const p = pct(g.r, e.clientX, e.clientY); g.el.style.left = p.x + "%"; g.el.style.top = paperTop(p.y); S.deco.draft[g.i].x = p.x; S.deco.draft[g.i].y = p.y; }
+  // Like the live corner handle (StickerCanvas): away from the centre grows it, around the centre turns it.
+  if (g.kind === "twist") { const cover = S.deco.target === "cover", k = Math.hypot(e.clientX - g.cx, e.clientY - g.cy) / g.d0;
+    const w = cover ? Math.max(10, Math.min(60, g.w0 * k)) : Math.max(32, Math.min(140, g.w0 * k));
+    const r = g.r0 + ((Math.atan2(e.clientY - g.cy, e.clientX - g.cx) - g.a0) * 180) / Math.PI;
+    g.el.style.setProperty("--w", w + (cover ? "%" : "px")); g.el.style.transform = `translate(-50%,-50%) rotate(${r}deg)`; S.deco.draft[g.i].w = w; S.deco.draft[g.i].r = r; }
+});
+ph.addEventListener("pointerup", (e) => {
+  if (!g) return;
+  // The click that follows a drag must not add a second sticker; clear the guard once that click has passed.
+  if (g.kind === "tile" && g.ghost) { g.ghost.remove(); const r = pageRect(); document.getElementById("livepage")?.classList.remove("over"); S.dragged = true; setTimeout(() => { S.dragged = false; }, 0);
+    if (r && e.clientX > r.left && e.clientX < r.right && e.clientY > r.top && e.clientY < r.bottom) { const p = pct(r, e.clientX, e.clientY); addSticker(g.s, p.x, p.y); } }
+  g = null;
+});
+
+/* The patterns: what the app already has, and what the audit added. */
+const PAT = [
+  { k: "have", t: "Pet chip at the end of the tabs", d: "FeedBarRight with FeedPetPicker's pill: the right end of the Photos · Diary row, as Photos and the sitter's Diary do. Its menu drops down under it.", go: "today" },
+  { k: "have", t: "Today | Book", d: "SegmentedControl, as in Bookings, the pet form and the booking sheets.", go: "today" },
+  { k: "have", t: "A book is its own screen with ←", d: "The stack screen a chat card already opens (/owner/diary/&lt;page&gt;), with the same header.", go: "page" },
+  { k: "have", t: "Write your own page as a screen", d: "The sitter's write screen (#398): picture box, ruled lines, Save pinned at the bottom. The live half sheet is cramped once the keyboard is up.", go: "write" },
+  { k: "have", t: "Stickers: move, size and turn from the corner, × to remove", d: "What the live Decorate already does (#386, #369): the corner handle grows a sticker as you drag away from its centre and turns it as you drag around it; two fingers pinch.", go: "decorate" },
+  { k: "mix", t: "Decorate tray docked at the bottom", d: "The live tray, moved under the page like a keyboard so the page and the stickers are on screen together. Closing follows Sheet: title and Close on top (with changes, Close asks Discard changes?, U2), Done the full-width primary button at the bottom (U10); Esc is Close.", go: "decorate" },
+  { k: "have", t: "Page footer: Decorate and Share, tasks card, Hide page last", d: "Two secondary Buttons; the tasks in a card like TodayTasks' \"Done today\"; Hide page as the danger TextButton PageActions already uses.", go: "page" },
+  { k: "mix", t: "Book as a shelf of notebooks", d: "The covers live already has (DiaryCover), drawn as notebooks with the title, page count and last day under each, the way GoodNotes shows its library. Same data, same tap to open.", go: "book" },
+  { k: "new", t: "Fixed paper; a long day continues on page 2", d: "Live: the page grows with the words (6 lines up to 2,000 characters), and stickers are saved as a share of the paper's width and height, so a page that grows after decorating moves every sticker. Case for new: a fixed sheet keeps stickers put and feels like a notebook. Writing shows the whole sheet, a counter says how many lines are left, and words flow onto page 2 by themselves (up to 4 a day). The book turns through them (\"1 of 2\"); the feed trims a page to its words, never above its lowest sticker, and links to page 2.", go: "write" },
+  { k: "new", t: "Edit cover: colour, pattern, photo, stickers", d: "Case for new: each pet's book becomes the owner's own (GoodNotes lets you pick a cover), and it costs little: the colours are our block tokens, and the stickers use the same tray as Decorate. Could wait until after the freeze.", go: "cover" },
+  { k: "new", t: "Drag a sticker from the tray onto the page", d: "Live: tap adds it, then you move it. Case for new: the tray and the page are finally on screen together, so the obvious move (drag it where you want it) works. Tap still works.", go: "decorate" },
+  { k: "new", t: "Byline with an avatar", d: "Existing instead: the photo viewer's meta line, \"From Chloe · 6:40 PM\" in small muted text. Case for new is weak; I'd use the existing line.", go: "page" },
+  { k: "new", t: "Tasks as filled circles in a card", d: "Existing instead: TodayTasks' done list, a green ✓ and the task. No strong case.", go: "page" },
+  { k: "new", t: "Share and ⋯ in the header", d: "Existing instead: an action row under the item, like the photo viewer's Hide · Edit · Delete. The icon set has no ⋯, and the menu would hold one item. I'd keep the row.", go: "page" },
+  { k: "new", t: "\"New\" tile in the sticker tray", d: "Existing instead: a text button, \"+ Make a sticker from a photo\". Case for new: decided Oct 25 (make it and use it in one go, Minsik); Snap already has the maker.", go: "decorate" },
+];
+function patterns() {
+  document.getElementById("pat").innerHTML = PAT.map((p) => `<div class="prow"><span class="k ${p.k}">${p.k === "have" ? "In the app" : p.k === "mix" ? "Moved" : "New"}</span><b>${p.t}</b><span class="d">${p.d}</span><button type="button" class="go" data-try="${p.go}">Show me</button></div>`).join("")
+    + `<p class="verdict"><span class="en">Verdict: the flow ships on what the app has, with two things moved (the tray docks under the page; the covers become a shelf). Worth adding: drag from the tray, the New tile (already decided) and, after the freeze, Edit cover. The other three new patterns have existing equivalents.</span><span class="ko">결론: 앱에 있는 것으로 가능, 하나만 위치 이동(트레이가 페이지 아래 고정). 더할 가치: 트레이에서 끌어오기, New 타일(이미 결정). 나머지 셋은 기존 대체가 있어요.</span></p>`;
+}
+const TRY = {
+  today: () => { S.push = null; S.sheet = null; S.deco = null; S.menu = false; S.tab = "moments"; S.view = "today"; },
+  book: () => { TRY.today(); S.view = "book"; },
+  page: () => { TRY.today(); S.push = { kind: "book", pet: "Max", i: sheets("Max").findIndex((x) => x.p.id === "m3") }; S.enter = "push"; },
+  chat: () => { TRY.today(); S.tab = "chat"; },
+  decorate: () => { TRY.page(); S.enter = "dock"; const key = "m3:0"; S.deco = { target: "page", page: key, set: "mine", sel: null, draft: (STK_ON[key] || []).map((x) => ({ w: 56, ...x })) }; S.deco.orig = snap(); setTimeout(fitAboveDock, 260); },
+  write: () => { TRY.today(); S.push = { kind: "compose", pet: "Max", photo: "", text: "" }; S.enter = "push"; },
+  cover: () => { TRY.book(); const c = COVERS.Max; S.push = { kind: "cover", pet: "Max", tab: "color", look: { ...c } }; S.deco = { target: "cover", set: "goldito", sel: null, draft: c.stickers.map((x) => ({ ...x })) }; S.deco.orig = snap(); S.enter = "push"; },
+};
+document.addEventListener("click", (e) => {
+  const m = e.target.closest("[data-mode]"); if (m) { S.mode = m.dataset.mode; document.querySelectorAll("[data-mode]").forEach((x) => x.setAttribute("aria-pressed", x === m)); if (S.sheet && S.sheet.k === "menu" && S.mode === "have") S.sheet = null; render(); return; }
+  const t = e.target.closest("[data-try]"); if (t && !t.closest("#ph")) { TRY[t.dataset.try](); render(); ph.scrollIntoView({ block: "nearest", behavior: "smooth" }); }
+});
+document.addEventListener("keydown", (e) => { if (e.key !== "Escape") return; if (S.sheet) ph.querySelector('[data-act="keep"], [data-act="close"]')?.click(); else if (S.deco) ph.querySelector('[data-act="closedeco"]')?.click(); });
+ph.style.setProperty("--paper-h", PAPER_H + "px"); document.documentElement.style.setProperty("--text-w", "272px");
+if (document.fonts) document.fonts.load("17px Gaegu").then(() => render());
+patterns(); render();
+
+/* For the Figma plugin: the flow's main stops in both modes (no motion: captured after it settles). */
+window.__ticket = { id: "diary-flow", title: "Diary flow (owner), existing patterns vs new", issue: "#443", workbench: "https://mooque-dev.github.io/goldito-design/diary-flow.html", design: "Mook", code: "Minsik",
+  decisions: PAT.map((p) => ({ q: p.t, a: `${p.k === "have" ? "In the app" : p.k === "mix" ? "Moved" : "New"}: ${p.d.replace(/&lt;/g, "<").replace(/&gt;/g, ">")}` })), spec: [], specLinks: [] };
+window.__ticketStates = ["today", "book", "page", "chat", "decorate", "write"].flatMap((k) => ["have", "new"].map((m) => ({ cap: `diary-flow-${k}-${m}`, on: "diary-flow", title: `Diary flow · ${k} · ${m === "have" ? "existing" : "new"} patterns`, go: () => { S.mode = m; TRY[k](); render(); } })));
+</script></body></html>
