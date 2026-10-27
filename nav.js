@@ -185,6 +185,7 @@
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [
       ["judge-panel.html", "Judge panel", "심사위원 패널", "Goldito in two minutes", "2분 안에 보는 Goldito"],
+      ["judge-map.html", "Feature map", "기능 지도", "Search or filter every feature, or pick a tour", "모든 기능을 검색하거나 걸러 보기, 또는 투어 고르기"],
       ["demo-run-sheet.html", "Demo run sheet", "데모 진행표", "What to click, in order", "순서대로 누를 것"],
       ["video.html", "Video plan", "영상 계획", "The #116 shot list", "#116 샷 리스트"],
       ["chat.html", "Chat booking", "채팅 예약", "The booking chat prototype", "예약 채팅 프로토타입"]]],
