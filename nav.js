@@ -190,6 +190,7 @@
       ["judge-map.html", "Feature map", "기능 지도", "Search or filter every feature, or pick a tour", "모든 기능을 검색하거나 걸러 보기, 또는 투어 고르기"],
       ["demo-run-sheet.html", "Demo run sheet", "데모 진행표", "What to click, in order", "순서대로 누를 것"],
       ["video.html", "Video plan", "영상 계획", "The #116 shot list", "#116 샷 리스트"],
+      ["sketch-sitter-time.html", "Video: the 40 minutes", "영상: 40분", "0:10 to 0:13 sketches of the four sitter jobs, with a brief to hand off", "0:10–0:13 시터의 네 가지 일 스케치와 전달용 브리프"],
       ["chat.html", "Chat booking", "채팅 예약", "The booking chat prototype", "예약 채팅 프로토타입"]]],
     ["Tickets", "티켓", [
       ["ticket-147.html", "#147 Home header", "#147 홈 헤더", "Workbench", "워크벤치"],
