@@ -1542,7 +1542,7 @@ const Journey = (() => {
     if (t.phase === "checking")
       return `<div class="jr-typing"><span class="jr-dots"><i></i><i></i><i></i></span>Checking the handoff photo…</div>`;
     return `<div class="jr-card"><div class="jr-photo"><img src="${A.photo()}" alt="Handoff photo of ${esc(n)}">
-        <div class="jr-pass"><span>✓ ${esc(n)} is in the photo</span><span>✓ Crate secured in the car</span><span class="jr-p">Checked by MiniCPM-V</span></div></div></div>
+        <div class="jr-pass"><span>✓ ${esc(n)} is in the photo</span><span>✓ Crate secured in the car</span><span class="jr-p">Checked by Nemotron Super VL</span></div></div></div>
       <p class="jr-ok">Pick-up complete. Care has started · photo verified</p>
       <div class="jr-stack"><span class="jr-label">While ${esc(n)} is with ${SITTER}</span>
         ${secondaryBtn("Open today's updates", "go-home")}
@@ -1876,7 +1876,7 @@ const Journey = (() => {
     d.innerHTML = `<div class="jr-danger-head"><b>⚠️ DANGER</b><h2>Don't feed this treat to ${esc(n)}</h2></div>
       <div class="jr-danger-body jr"><p class="jr-p" style="font-size:1rem;color:var(--text)">"Chewy Chompers" contains <b>${esc(bad)}</b>, and ${ALLERGY ? `${esc(n)} is allergic (from ${esc(n)}'s profile)` : `toxic to ${isDog() ? "dogs" : "cats"}`}.</p>
         <div class="tags"><span>${esc(bad)}</span>${ALLERGY === "chicken" ? "<span>animal fat (may contain chicken)</span>" : ""}</div>
-        <p class="jr-p">Read from the label photo by MiniCPM-V, checked by Nemotron Ultra. ${OWNER} has been notified.</p></div>
+        <p class="jr-p">Read from the label photo by Nemotron Super VL, checked by Nemotron Ultra. ${OWNER} has been notified.</p></div>
       <div class="jr-danger-foot"><button type="button" class="btn btn-primary btn-danger" data-jr="danger-ok">I understand, don't feed</button></div>`;
     d.hidden = false;
     notify(`Blocked a risky treat for ${n} ⚠️`, "Sat 3:10 PM");

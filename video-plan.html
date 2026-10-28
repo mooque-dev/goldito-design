@@ -155,8 +155,8 @@
   <section>
     <div class="sh"><span class="eyebrow"><span class="en">Required audio</span><span class="ko">필수 음성</span></span><h2><span class="en">The model lines, word for word</span><span class="ko">모델 설명, 그대로</span></h2><p><span class="en">About 25 seconds. Every version uses it: over the AI shots in A and B, as its own scene in C. Model names are exactly as in the README.</span><span class="ko">약 25초. 모든 버전에 들어가요: A와 B는 AI 장면 위에, C는 따로 한 장면으로. 모델 이름은 README 그대로.</span></p></div>
     <div class="say">
-      <p><b>"Every AI call in Goldito runs on Nebius Token Factory, from our backend.</b> NVIDIA Nemotron does the thinking and the writing: <code>Nemotron 3 Nano</code> drafts the sitter's reply in about three seconds, <code>Nemotron 3 Super</code> turns a care note into a timed checklist, writes the daily note and the pet's Life Record, and <code>Nemotron 3 Ultra</code> checks treat labels for allergens, because safety gets the strongest model. A vision model on Token Factory, <code>MiniCPM-V 4.5</code>, reads the photos, and <code>Qwen3 Embedding</code> lets the next sitter's reply remember the pet. Prices, dates and entry codes never come from a model: the server supplies them."</p>
-      <p style="font-size:13.5px">Model IDs, for the on-screen card: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B · nvidia/nemotron-3-super-120b-a12b · nvidia/Nemotron-3-Ultra-550b-a55b · openbmb/MiniCPM-V-4_5 · Qwen/Qwen3-Embedding-8B</p>
+      <p><b>"Every AI call in Goldito runs on Nebius Token Factory, from our backend.</b> NVIDIA Nemotron does the thinking and the writing: <code>Nemotron 3 Nano</code> drafts the sitter's reply in about three seconds, <code>Nemotron 3 Super</code> turns a care note into a timed checklist, writes the daily note and the pet's Life Record, and <code>Nemotron 3 Ultra</code> checks treat labels for allergens, because safety gets the strongest model. NVIDIA's vision model on Token Factory, <code>Nemotron 3.5 Super VL</code>, reads the photos, and <code>Qwen3 Embedding</code> lets the next sitter's reply remember the pet. Prices, dates and entry codes never come from a model: the server supplies them."</p>
+      <p style="font-size:13.5px">Model IDs, for the on-screen card: nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B · nvidia/nemotron-3-super-120b-a12b · nvidia/Nemotron-3-Ultra-550b-a55b · nvidia/Nemotron-3.5-Super-VL · Qwen/Qwen3-Embedding-8B</p>
     </div>
   </section>
 
@@ -212,7 +212,7 @@ const S = {
   danger: sk(`<div class="t">Snap · treat check</div><div class="danger">DANGER<br>Contains chicken. Max is allergic.</div><div class="b">Don't give this treat.</div><div class="btn" style="background:#B42318">I understand</div>`),
   home: live("home-safe"),
   next: live("record"),
-  models: sk(`<div class="t">Under the hood</div><div class="b">Nebius Token Factory</div><div class="b">Nemotron 3 Nano · reply</div><div class="b">Nemotron 3 Super · checklist, note, record</div><div class="b">Nemotron 3 Ultra · treat check</div><div class="b">MiniCPM-V 4.5 · photos</div><div class="b">Qwen3 Embedding · memory</div>`),
+  models: sk(`<div class="t">Under the hood</div><div class="b">Nebius Token Factory</div><div class="b">Nemotron 3 Nano · reply</div><div class="b">Nemotron 3 Super · checklist, note, record</div><div class="b">Nemotron 3 Ultra · treat check</div><div class="b">Nemotron 3.5 Super VL · photos</div><div class="b">Qwen3 Embedding · memory</div>`),
   end: sk(`<div class="card-big" style="font-size:22px">Leave your pet.<br>Keep your peace of mind.</div><div class="card-big" style="font-size:13px">goldito-petcare.vercel.app<br>NVIDIA Nemotron on Nebius Token Factory</div>`),
   split: (l, r) => `<div class="sk"><div class="split"><div><b>Robert</b>${l}</div><div><b>Chloe</b>${r}</div></div></div>`,
   ownerHome: live("owner-home"),

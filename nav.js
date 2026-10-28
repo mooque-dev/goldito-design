@@ -151,6 +151,7 @@
       ["pet-360.html", "Pets 360", "펫 360", "Every pet with a body: front, back, side, walk, lie, eat, poop", "모든 펫의 몸: 앞, 뒤, 옆, 걷기, 눕기, 먹기, 응가"],
       ["pet-maker.html", "Pet maker", "펫 메이커", "Paste a photo of your pet, get its Goldito pet", "펫 사진을 붙여 넣으면 Goldito 펫이 나와요"]]],
     ["Updates", "업데이트", [
+      ["update-2026-10-28.html", "Oct 28 handoff", "10월 28일 인수인계", "Freeze day: what shipped, what is left before the submission, who owns design after Oct 29", "프리즈: 나간 것, 제출 전 남은 것, 10/29 이후 디자인 담당"],
       ["update-2026-10-25.html", "Oct 25 update", "10월 25일 업데이트", "Moments merged; photo viewer, Diary views, pet tone and dark mode, playful words, little delights", "모먼츠 머지; 사진 보기, 다이어리 보기, 펫 톤과 다크 모드, 재치 있는 말, 작은 즐거움"],
       ["rundown-2026-10-25.html", "Oct 25 rundown", "10월 25일 한눈에 보기", "Links to everything from Oct 25, what is held, and the decisions checklist", "10월 25일의 모든 링크, 보류한 것, 결정 체크리스트"],
       ["update-2026-10-24.html", "Oct 24 update", "10월 24일 업데이트", "Feed trial (all pets, stickers, Decorate), View tabs, five stages, two PRs in review", "피드 시안 (모든 펫, 스티커, 꾸미기), 뷰 탭, 다섯 단계, PR 둘 리뷰"],
@@ -181,6 +182,7 @@
       ["tone-trial.html", "Pet tone trial", "펫 톤 시안", "Colors from the pet's photo or Goldito green, light and dark, and Max's room; playable", "펫 사진의 색 또는 골디토 그린, 라이트와 다크, 맥스의 방; 체험 가능"],
       ["home-flip.html", "Home flip", "홈 뒤집기", "Finding the pet room instead of the refresh icon: Today | Pet room tabs, Max peeks in with news", "새로고침 아이콘 대신 펫 방 찾기: Today | Pet room 탭, 소식이 있으면 Max가 살짝"],
       ["room-trial.html", "Pet room trial", "펫 방 시안", "Max's room with life: the room, one sentence, stat tiles, wardrobe, sitter notes; playable at any text size", "생기 있는 Max의 방: 방, 한 문장, 숫자 타일, 옷장, 시터 메모; 모든 글자 크기에서 체험 가능"],
+      ["room-play.html", "Pet room play", "펫 방 놀이", "Six Tamagotchi ideas, playable: pat, pixel furniture, the latest photo, a thought bubble, medals, a ball", "다마고치 아이디어 여섯 가지, 체험 가능: 쓰다듬기, 픽셀 가구, 최신 사진, 말풍선, 메달, 공"],
       ["feed-trial.html", "Feed trial", "피드 시안", "Feed and Diary: all pets first, View tabs, stickers from any photo; playable", "피드와 다이어리: 모든 펫 먼저, 뷰 탭, 사진으로 스티커; 체험 가능"],
       ["booking-flow.html", "Booking flow", "예약 흐름", "Step-by-step booking request, playable, for the product call", "단계별 예약 요청, 체험 가능, 제품 결정용"]]],
     ["Demo and judges", "데모와 심사", [

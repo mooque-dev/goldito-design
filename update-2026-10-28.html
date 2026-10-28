@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Design Handoff Oct 28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="ds.css">
+<script>
+  (() => { let v = "en"; try { v = localStorage.getItem("goldito-lang") === "ko" ? "ko" : "en"; } catch (e) {}
+    document.documentElement.dataset.lang = v; document.documentElement.lang = v; })();
+</script>
+<style>
+  /* Freeze day handoff (Oct 28): what shipped Oct 26 to 28, what is open before the Oct 30 submission, and who owns
+     design after Mook leaves on Oct 29. */
+  *{box-sizing:border-box}
+  html[data-lang="ko"] .en{display:none !important} html:not([data-lang="ko"]) .ko{display:none !important}
+  body{margin:0;background:var(--color-background);color:var(--color-text);font:15px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 4rem}
+  .wrap{max-width:56rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+  .wrap>*,section{min-width:0}
+  h1,h2,h3{margin:0;text-wrap:balance}
+  h1{font:700 clamp(1.875rem,4.4vw,2.4rem)/1.1 var(--font-display)}
+  h2{font:600 1.25rem/1.2 var(--font-display)} h3{font:600 1rem/1.25 var(--font-display)}
+  p{margin:0;max-width:68ch}
+  a{color:var(--color-primary);font-weight:600}
+  section{display:flex;flex-direction:column;gap:.7rem;scroll-margin-top:8rem}
+  .eyebrow{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+  .lede{color:var(--color-text-muted);font-size:1.02rem}
+  .glance{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,9.5rem),1fr));gap:.6rem}
+  .gl{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.75rem .875rem;display:flex;flex-direction:column;gap:.15rem;min-width:0}
+  .gl b{font:700 2rem/1 var(--font-display);color:var(--color-primary);font-variant-numeric:tabular-nums}
+  .gl span{font-size:.8125rem;color:var(--color-text-muted)}
+  .gl.warn b{color:var(--color-error)}
+  .jump{position:sticky;top:4.25rem;z-index:5;display:flex;flex-wrap:wrap;gap:.35rem;padding:.35rem;border-radius:999px;background:var(--color-surface);border:1px solid var(--color-border);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  .jump a{display:inline-flex;align-items:center;min-height:40px;padding:0 .875rem;border-radius:999px;text-decoration:none;font-weight:700;font-size:.875rem;color:var(--color-text)}
+  .jump a:hover,.jump a:focus-visible{background:var(--color-accent)}
+  .tw{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;font-size:.92rem}
+  th,td{text-align:left;padding:.6rem .8rem;border-top:1px solid var(--color-border);vertical-align:top}
+  th{font-size:.75rem;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-muted);border-top:0;background:var(--color-background)}
+  td.n{font-weight:700;width:2rem;color:var(--color-text-muted)}
+  .pill{display:inline-block;font-size:.75rem;font-weight:700;border-radius:999px;padding:.1rem .6rem;white-space:nowrap}
+  .pill.bad{background:var(--color-error-surface);color:var(--color-error)}
+  .pill.now{background:var(--color-warning-surface);color:var(--color-warning)}
+  .pill.ok{background:var(--color-success-surface);color:var(--color-success)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,16rem),1fr));gap:.7rem}
+  .cd{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.8rem .9rem;display:flex;flex-direction:column;gap:.4rem;min-width:0}
+  .cd ul{margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:.25rem;font-size:.9rem}
+  .cd .who{font-size:.8rem;color:var(--color-text-muted);font-weight:600}
+  .dec{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:.4rem}
+  .dec li{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:.6rem .85rem;font-size:.92rem}
+  .dec b.d{display:inline-block;min-width:2.6rem;color:var(--color-primary)}
+  footer{font-size:.8125rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
+  html[data-lang="ko"] :is(p,span,li,b,td){word-break:keep-all}
+</style>
+<script src="nav.js" defer></script>
+</head>
+<body>
+<main class="wrap">
+  <header style="display:flex;flex-direction:column;gap:.6rem">
+    <span class="eyebrow"><span class="en">Goldito · Design handoff · Oct 28, freeze day</span><span class="ko">Goldito · 디자인 인수인계 · 10월 28일, 프리즈</span></span>
+    <h1><span class="en">Handoff: what shipped, what's left, who owns it</span><span class="ko">인수인계: 나간 것, 남은 것, 맡을 사람</span></h1>
+    <p class="lede"><span class="en">Mook leaves on Oct 29. After that Minsik approves UI on his own, from DESIGN.md (decisions D18 to D28) and the Figma Dev reference page. Submission closes Oct 30, 10:00 AM PT.</span><span class="ko">묵은 10월 29일에 떠납니다. 그 뒤 UI 승인은 민식이 DESIGN.md(결정 D18–D28)와 Figma Dev reference 페이지를 기준으로 합니다. 제출 마감은 10월 30일 오전 10시(PT).</span></p>
+  </header>
+
+  <div class="glance">
+    <div class="gl"><b>60</b><span class="en">PRs merged Oct 26 to 28</span><span class="ko">10/26–28 머지된 PR</span></div>
+    <div class="gl"><b>29</b><span class="en">of them design and frontend from Mook</span><span class="ko">그중 묵의 디자인·프론트</span></div>
+    <div class="gl"><b>6</b><span class="en">decisions logged (D23 to D28)</span><span class="ko">기록한 결정 (D23–D28)</span></div>
+    <div class="gl warn"><b>1</b><span class="en">bug blocking the demo</span><span class="ko">데모를 막는 버그</span></div>
+  </div>
+
+  <nav class="jump" aria-label="Jump to">
+    <a href="#before"><span class="en">Before submission</span><span class="ko">제출 전</span></a>
+    <a href="#after"><span class="en">After Oct 29</span><span class="ko">10/29 이후</span></a>
+    <a href="#decided"><span class="en">Decided</span><span class="ko">결정</span></a>
+    <a href="#shipped"><span class="en">Shipped</span><span class="ko">나간 것</span></a>
+  </nav>
+
+  <section id="before" aria-labelledby="before-h">
+    <h2 id="before-h"><span class="en">Before submission, most important first</span><span class="ko">제출 전, 중요한 순서</span></h2>
+    <div class="tw"><table>
+      <thead><tr><th></th><th><span class="en">What</span><span class="ko">무엇</span></th><th><span class="en">Who</span><span class="ko">누가</span></th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="n">1</td><td><b class="en">The Chat tab says "No chats yet" for both demo accounts.</b><b class="ko">두 데모 계정 모두 채팅 탭이 "No chats yet".</b> <span class="en">The chats exist and open directly; the list function returns nothing, likely since #456. The judge e2e tests pass, so it only shows against the real database.</span><span class="ko">채팅은 있고 직접 열면 열립니다. 목록 함수가 비어 있으며 #456 이후로 보입니다. 심사 e2e는 통과하므로 실제 DB에서만 보입니다.</span></td><td>Minsik, Beomgu</td><td><span class="pill bad">blocks demo</span></td></tr>
+        <tr><td class="n">2</td><td><b class="en">Feedback log lines for Nemotron 3.5 Super VL and Qwen3 Embedding</b><b class="ko">Nemotron 3.5 Super VL, Qwen3 Embedding 피드백 한 줄씩</b> <span class="en">in the team's own words ("would we build with it again, and why"). Feedback is a required part of the submission.</span><span class="ko">팀의 말로("다시 쓸지, 왜"). 제출 필수 항목입니다.</span></td><td>Team</td><td><span class="pill now">required</span></td></tr>
+        <tr><td class="n">3</td><td><b class="en">Demo video, under 3 minutes, public on YouTube</b><b class="ko">데모 영상, 3분 이내, YouTube 공개</b> <span class="en">with spoken audio on Token Factory and Nemotron. The shot list now names Nemotron 3.5 Super VL for vision.</span><span class="ko">Token Factory와 Nemotron을 말로 설명. 샷 리스트의 비전 모델은 Nemotron 3.5 Super VL로 고쳤습니다.</span> <a href="video-plan.html">video plan</a> · <a href="https://github.com/minsikpaul92/Goldito/issues/414">#414</a> · <a href="https://github.com/minsikpaul92/Goldito/issues/116">#116</a></td><td>Minsik, Mook</td><td><span class="pill now">required</span></td></tr>
+        <tr><td class="n">4</td><td><b class="en">Anonymization review</b><b class="ko">익명화 점검</b> <span class="en">of the conversation data before the repo goes public. No real personal data is allowed.</span><span class="ko">공개 전 대화 데이터. 실제 개인정보는 허용되지 않습니다.</span> <a href="https://github.com/minsikpaul92/Goldito/issues/405">#405</a></td><td>Seulgi</td><td><span class="pill now">required</span></td></tr>
+        <tr><td class="n">5</td><td><b class="en">Stale demo data</b><b class="ko">오래된 데모 데이터</b> <span class="en">Chloe's two old booking requests, a cancelled chat whose quote says Confirmed, and a seeded meeting place with an em dash.</span><span class="ko">클로이의 옛 예약 요청 2건, 취소된 채팅의 "Confirmed" 견적, 대시가 들어간 만남 장소.</span></td><td>Minsik</td><td><span class="pill now">demo reset</span></td></tr>
+        <tr><td class="n">6</td><td><b class="en">Polish batches A, B, C and the copy fixes</b><b class="ko">다듬기 A, B, C와 문구 수정</b> <span class="en">Headers and the 44 px back arrow; status rows, Save bar, welcome spacing; empty states and accessibility; buttons without emoji. Each is its own PR with before and after shots.</span><span class="ko">헤더와 44px 뒤로가기; 상태 줄, 저장 바, 웰컴 간격; 빈 화면과 접근성; 이모지 없는 버튼. 각각 전후 스크린샷이 있는 PR.</span></td><td><span class="en">Mook reviews, Minsik merges</span><span class="ko">묵 확인, 민식 머지</span></td><td><span class="pill now">today</span></td></tr>
+        <tr><td class="n">7</td><td><b class="en">Keep the demo up until Dec 15</b><b class="ko">12월 15일까지 데모 유지</b> <span class="en">The backend answers health checks now; the Supabase daily ping is still open.</span><span class="ko">백엔드 헬스체크는 응답 중이고, Supabase 매일 핑은 남아 있습니다.</span> <a href="https://github.com/minsikpaul92/Goldito/issues/429">#429</a></td><td>Minsik</td><td><span class="pill ok">mostly done</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="after" aria-labelledby="after-h">
+    <h2 id="after-h"><span class="en">After Oct 29: where things live</span><span class="ko">10/29 이후: 어디에 있나</span></h2>
+    <div class="cards">
+      <div class="cd"><h3><span class="en">UI approval</span><span class="ko">UI 승인</span></h3><span class="who">Minsik</span><ul><li><span class="en">Rules and decisions: <a href="https://github.com/minsikpaul92/Goldito/blob/main/DESIGN.md">DESIGN.md</a>, D18 to D28.</span><span class="ko">규칙과 결정: <a href="https://github.com/minsikpaul92/Goldito/blob/main/DESIGN.md">DESIGN.md</a>, D18–D28.</span></li><li><span class="en">One primary action per screen, 44 px targets, 4.5:1 contrast, no emoji on buttons, no em dashes in copy.</span><span class="ko">화면당 주요 행동 하나, 44px 터치, 대비 4.5:1, 버튼에 이모지 없음, 문구에 대시 없음.</span></li></ul></div>
+      <div class="cd"><h3>Figma</h3><span class="who">Mook, before leaving</span><ul><li><span class="en">Run the plugin once (Capture, then Build) so this week's screens and the Dev reference page are current. The plugin is synced and names Nemotron Super VL for vision.</span><span class="ko">플러그인을 한 번 실행(Capture → Build)해 이번 주 화면과 Dev reference를 최신으로. 플러그인은 동기화됐고 비전 모델을 Nemotron Super VL로 표시합니다.</span></li></ul></div>
+      <div class="cd"><h3><span class="en">For judges</span><span class="ko">심사위원용</span></h3><span class="who">Team</span><ul><li><a href="judge-map.html"><span class="en">Feature map</span><span class="ko">기능 지도</span></a><span class="en">: search, tours, where to find each feature and the panel scene that sets it up.</span><span class="ko">: 검색, 투어, 기능 위치와 준비해 주는 패널 장면.</span></li><li><span class="en">The judge panel in the app: Tutorial, five scenes, Jump to.</span><span class="ko">앱의 심사 패널: 튜토리얼, 다섯 장면, Jump to.</span></li></ul></div>
+      <div class="cd"><h3><span class="en">After the hackathon</span><span class="ko">해커톤 이후</span></h3><span class="who">Backlog</span><ul><li><span class="en">Draw the Sad, Anxious, Curious and Angry faces (they borrow others today); make the four look-alike faces differ more.</span><span class="ko">슬픔, 불안, 호기심, 화남 얼굴 그리기(지금은 빌려 씀); 비슷한 네 얼굴 차별화.</span></li><li><span class="en">The Mood "face a day" collection (B), pet tone and dark mode, Diary calendar view.</span><span class="ko">기분 "하루 한 얼굴" 모음(B), 펫 톤과 다크 모드, 다이어리 캘린더.</span></li></ul></div>
+    </div>
+  </section>
+
+  <section id="decided" aria-labelledby="decided-h">
+    <h2 id="decided-h"><span class="en">Decided Oct 27, built and in DESIGN.md</span><span class="ko">10/27 결정, 구현, DESIGN.md 기록</span></h2>
+    <ul class="dec">
+      <li><b class="d">D23</b><span class="en">Booking stepper: Skipped is a dashed circle with »; the line into the step under way is dashed and moves toward it; Reduce motion keeps it still. (#440)</span><span class="ko">예약 단계: 건너뜀은 »가 있는 점선 원, 진행 중인 단계로 들어가는 선은 점선이 흐름, 동작 줄이기에선 정지. (#440)</span></li>
+      <li><b class="d">D24</b><span class="en">Meet is the one word; Meet &amp; Greet only where it is explained (How it works, Terms, the calendar invite). (#440)</span><span class="ko">Meet 한 단어; Meet &amp; Greet은 설명하는 곳에서만. (#440)</span></li>
+      <li><b class="d">D25</b><span class="en">Back is the ← arrow alone (renumbered from a duplicate D20).</span><span class="ko">뒤로가기는 ← 화살표만 (중복된 D20에서 번호 변경).</span></li>
+      <li><b class="d">D26</b><span class="en">The 5-second check folds answered groups, picks the mood on the pet's pixel faces, and keeps Send docked. (#442)</span><span class="ko">5초 체크: 답한 그룹은 접고, 기분은 펫 픽셀 얼굴로, 보내기는 고정. (#442)</span></li>
+      <li><b class="d">D27</b><span class="en">Notifications are day cards with room between rows, drawn icons and folded check-ins. (#441)</span><span class="ko">알림은 날짜 카드, 줄 간격, 그린 아이콘, 접힌 체크인. (#441)</span></li>
+      <li><b class="d">D28</b><span class="en">The Mood page leads with the answer: the face, one sentence, three bars. (#442)</span><span class="ko">기분 페이지는 답 먼저: 얼굴, 한 문장, 막대 셋. (#442)</span></li>
+    </ul>
+  </section>
+
+  <section id="shipped" aria-labelledby="shipped-h">
+    <h2 id="shipped-h"><span class="en">Shipped Oct 26 to 28</span><span class="ko">10/26–28에 나간 것</span></h2>
+    <div class="cards">
+      <div class="cd"><h3><span class="en">First minute</span><span class="ko">첫 1분</span></h3><ul><li>Try the demo, How it works, three-step sign-up, paw-walk boot (#384, #388)</li><li>Next everywhere, Privacy and Terms (#391, #388)</li><li>The 12 UX calls built (#393, #395)</li></ul></div>
+      <div class="cd"><h3><span class="en">Judge demo</span><span class="ko">심사 데모</span></h3><ul><li>Judge seats and panel (#421), scenes that play themselves (#453, #463)</li><li>Panel cleanup: Tutorial, Jump to (#462)</li><li>Desktop frame keeps the phone shape (#444)</li></ul></div>
+      <div class="cd"><h3><span class="en">The stay</span><span class="ko">스테이</span></h3><ul><li>Chat as the booking request (#376), stepper Skipped and dashes (#440)</li><li>Trip screen with the pet on the pin (#438, #458)</li><li>5-second check, Mood, notifications (#400, #441, #442)</li><li>Diary: byline, Decorate and Share, the rework (#443, #452, #462)</li></ul></div>
+      <div class="cd"><h3><span class="en">Pets</span><span class="ko">펫</span></h3><ul><li>Pet maker and Look screen (#401, #428)</li><li>Pet room redesign, play, calmer room (#445, #457, #464)</li><li>8-bit pet in sign-up (#432)</li></ul></div>
+      <div class="cd"><h3><span class="en">AI and docs</span><span class="ko">AI와 문서</span></h3><ul><li>Vision on Nemotron 3.5 Super VL (#450)</li><li>README: models, feedback log, checklist, Devpost gallery (#449, #455, #459)</li><li>DESIGN.md: UX patterns and D18 to D24 (#390, #394, #440)</li></ul></div>
+    </div>
+  </section>
+
+  <footer><span class="en">Earlier days: <a href="updates.html">all updates</a>. Audit sources: the live 56-screen pass (MUST HAVE session) and the freeze-day audit (judge path tests on main 58 of 58, model claims, copy rules, handoff, submission).</span><span class="ko">이전: <a href="updates.html">모든 업데이트</a>. 감사 출처: 라이브 56화면 점검과 프리즈 날 감사(main 심사 경로 테스트 58/58, 모델 표기, 문구 규칙, 인수인계, 제출).</span></footer>
+</main>
+</body>
+</html>

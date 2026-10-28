@@ -9,90 +9,100 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="ds.css">
 <style>
-/* Draft (Oct 27): a searchable map of the whole app for judges, with preset tours that match the judge panel's scenes (#421). */
+/* A searchable map of the whole app for judges (Oct 27, usability pass Oct 28): tours, a sticky search and filter bar,
+   plain "where to find it" directions, the judge panel scene that sets each one up, and Previous / Next through a tour. */
 *{box-sizing:border-box}
+:root{--navh:4.5rem}
 body{margin:0;background:var(--color-background);color:var(--color-text);font:15.5px/1.55 var(--font-ui);padding-inline:1rem;padding-block:0 5rem}
-.wrap{max-width:74rem;margin:0 auto;display:flex;flex-direction:column;gap:2rem;padding-top:2rem}
+.wrap{max-width:74rem;margin:0 auto;display:flex;flex-direction:column;gap:1.6rem;padding-top:2rem}
 h1,h2,h3{margin:0;font-family:var(--font-display);text-wrap:balance}
-h1{font-size:clamp(1.9rem,4.4vw,2.7rem);line-height:1.1} h2{font-size:1.35rem;line-height:1.2} h3{font-size:1.05rem;line-height:1.25}
+h1{font-size:clamp(1.9rem,4.4vw,2.6rem);line-height:1.1} h2{font-size:1.3rem;line-height:1.2} h3{font-size:1rem;line-height:1.25}
 p{margin:0;max-width:68ch}
 button{font:inherit;color:inherit}
 .eyebrow{font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-muted)}
 .lede{color:var(--color-text-muted);font-size:1.05rem}
 .mut{color:var(--color-text-muted)}
-.draft{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;padding:.8rem 1rem;border-radius:1rem;background:var(--color-warning-surface);font-size:.92rem}
-.draft b{font-weight:700}
-/* Search */
-.search{display:flex;flex-direction:column;gap:.7rem}
-.field{display:flex;align-items:center;gap:.6rem;background:var(--color-surface);border:2px solid var(--color-border-strong);border-radius:999px;padding:0 1rem;min-height:3.4rem}
-.field:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 22%,transparent)}
-.field svg{flex:none;color:var(--color-text-muted)}
-.field input{flex:1;min-width:0;border:0;background:transparent;font:500 1.05rem var(--font-ui);color:var(--color-text);outline:none;padding:.8rem 0}
-.field .x{border:0;background:none;min-width:44px;min-height:44px;border-radius:999px;cursor:pointer;color:var(--color-text-muted)}
-.sugg{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
-.chip{display:inline-flex;align-items:center;gap:.35rem;min-height:2.25rem;padding:.3rem .85rem;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);cursor:pointer;font-weight:600;font-size:.9rem}
-.chip:hover{border-color:var(--color-primary)}
-.chip[aria-pressed=true]{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-primary-text)}
-.chip .c{font-weight:700;opacity:.7;font-size:.8rem}
+/* How to use: three steps */
+.how{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.6rem;counter-reset:h}
+.how li{counter-increment:h;display:flex;gap:.6rem;align-items:flex-start;padding:.7rem .85rem;border-radius:1rem;background:var(--color-surface);border:1px solid var(--color-border);font-size:.92rem}
+.how li::before{content:counter(h);flex:none;width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center;background:var(--color-accent);font:700 .78rem var(--font-ui)}
+.how a{color:inherit;font-weight:700}
 /* Tours */
-.tours{display:grid;grid-template-columns:repeat(auto-fill,minmax(14.5rem,1fr));gap:.8rem}
-.tour{display:flex;flex-direction:column;gap:.45rem;text-align:left;padding:1rem;border-radius:1.25rem;border:2px solid var(--color-border);background:var(--color-surface);cursor:pointer;min-width:0}
+.tours{display:grid;grid-template-columns:repeat(auto-fill,minmax(12.5rem,1fr));gap:.6rem}
+.tour{display:flex;flex-direction:column;gap:.25rem;text-align:left;padding:.75rem .9rem;border-radius:1.1rem;border:2px solid var(--color-border);background:var(--color-surface);cursor:pointer;min-width:0;min-height:44px}
 .tour:hover{border-color:var(--color-border-strong)}
 .tour[aria-pressed=true]{border-color:var(--color-primary);background:var(--color-accent)}
-.tour .meta{display:flex;gap:.4rem;flex-wrap:wrap;font-size:.8rem;font-weight:700;color:var(--color-text-muted)}
-.tour .meta span{background:var(--color-background);border-radius:999px;padding:.05rem .55rem}
-.tour[aria-pressed=true] .meta span{background:var(--color-surface)}
-.tour p{font-size:.9rem;color:var(--color-text-muted)}
-.panel{display:flex;flex-direction:column;gap:1rem;padding:1.2rem;border-radius:1.5rem;background:var(--color-surface);border:2px solid var(--color-primary)}
+.tour .meta{font-size:.8rem;font-weight:700;color:var(--color-text-muted)}
+.tour p{font-size:.85rem;color:var(--color-text-muted)}
+.panel{display:flex;flex-direction:column;gap:.9rem;padding:1.1rem;border-radius:1.4rem;background:var(--color-surface);border:2px solid var(--color-primary)}
 .panel-h{display:flex;gap:1rem;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));gap:.6rem;counter-reset:s}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(12.5rem,1fr));gap:.5rem;counter-reset:s}
 .steps li{counter-increment:s}
-.steps button{width:100%;display:flex;gap:.6rem;align-items:flex-start;text-align:left;padding:.6rem .7rem;border-radius:1rem;border:1.5px solid var(--color-border);background:var(--color-background);cursor:pointer;min-height:44px}
+.steps button{width:100%;display:flex;gap:.55rem;align-items:flex-start;text-align:left;padding:.55rem .65rem;border-radius:.9rem;border:1.5px solid var(--color-border);background:var(--color-background);cursor:pointer;min-height:44px}
 .steps button:hover{border-color:var(--color-primary)}
-.steps button::before{content:counter(s);flex:none;width:1.6rem;height:1.6rem;border-radius:50%;display:grid;place-items:center;background:var(--color-primary);color:var(--color-primary-text);font:700 .8rem var(--font-ui)}
-.steps .sc{display:block;font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
-.steps b{font-size:.92rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:.6rem 1.2rem;border-radius:999px;border:0;background:var(--color-primary);color:var(--color-primary-text);font-weight:700;cursor:pointer;text-decoration:none}
+.steps button::before{content:counter(s);flex:none;width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center;background:var(--color-primary);color:var(--color-primary-text);font:700 .78rem var(--font-ui)}
+.steps .sc{display:block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-muted)}
+.steps b{font-size:.9rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;min-height:2.9rem;padding:.6rem 1.15rem;border-radius:999px;border:0;background:var(--color-primary);color:var(--color-primary-text);font-weight:700;cursor:pointer;text-decoration:none}
 .btn.sec{background:transparent;color:var(--color-text);border:1.5px solid var(--color-border-strong)}
-/* Filters */
-.filters{display:flex;flex-direction:column;gap:.6rem}
-.frow{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
-.frow .lab{font-size:.8rem;font-weight:700;color:var(--color-text-muted);min-width:3.6rem}
-.count{font-weight:700}
+.btn[disabled]{opacity:.45;cursor:default}
+/* The sticky bar: search, who, AI, stage jumps */
+.bar{position:sticky;top:var(--navh);z-index:5;display:flex;flex-direction:column;gap:.55rem;padding-block:.7rem;margin-inline:-1rem;padding-inline:1rem;background:var(--color-background);border-bottom:1px solid var(--color-border)}
+.field{display:flex;align-items:center;gap:.5rem;background:var(--color-surface);border:2px solid var(--color-border-strong);border-radius:999px;padding:0 .4rem 0 1rem;min-height:3.1rem}
+.field:focus-within{border-color:var(--color-primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 22%,transparent)}
+.field svg{flex:none;color:var(--color-text-muted)}
+.field input{flex:1;min-width:0;border:0;background:transparent;font:500 1rem var(--font-ui);color:var(--color-text);outline:none;padding:.7rem 0}
+.field .x{border:0;background:none;min-width:44px;min-height:44px;border-radius:999px;cursor:pointer;color:var(--color-text-muted);font-size:1rem}
+.row{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.jump{display:flex;gap:.4rem;overflow-x:auto;scrollbar-width:none;padding-bottom:.1rem}
+.jump::-webkit-scrollbar{display:none}
+.chip{display:inline-flex;align-items:center;gap:.35rem;min-height:2.4rem;padding:.3rem .85rem;border-radius:999px;border:1.5px solid var(--color-border-strong);background:var(--color-surface);cursor:pointer;font-weight:600;font-size:.88rem;white-space:nowrap;text-decoration:none;color:inherit}
+.chip:hover{border-color:var(--color-primary)}
+.chip[aria-pressed=true]{background:var(--color-primary);border-color:var(--color-primary);color:var(--color-primary-text)}
+.chip .c{font-weight:700;opacity:.65;font-size:.78rem}
+.chip.flat{border-color:transparent;background:var(--color-surface)}
+.count{margin-left:auto;font-size:.88rem;color:var(--color-text-muted)}
+.count b{color:var(--color-text)}
 /* Map */
-.stage{display:flex;flex-direction:column;gap:.8rem;scroll-margin-top:5rem}
+.stage{display:flex;flex-direction:column;gap:.75rem;scroll-margin-top:calc(var(--navh) + 11rem)}
 .stage-h{display:flex;gap:.7rem;align-items:center}
-.stage-h .n{width:2.2rem;height:2.2rem;border-radius:50%;display:grid;place-items:center;background:var(--color-accent);font:700 .95rem var(--font-ui);flex:none}
-.stage-h .sub{color:var(--color-text-muted);font-size:.9rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.8rem}
-.card{display:flex;gap:.8rem;align-items:stretch;text-align:left;padding:.7rem;border-radius:1.15rem;border:1.5px solid var(--color-border);background:var(--color-surface);cursor:pointer;min-width:0;min-height:6.5rem}
+.stage-h .n{width:2.1rem;height:2.1rem;border-radius:50%;display:grid;place-items:center;background:var(--color-accent);font:700 .9rem var(--font-ui);flex:none}
+.stage-h .sub{color:var(--color-text-muted);font-size:.88rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.7rem}
+.card{display:flex;gap:.8rem;align-items:stretch;text-align:left;padding:.65rem;border-radius:1.1rem;border:1.5px solid var(--color-border);background:var(--color-surface);cursor:pointer;min-width:0}
 .card:hover{border-color:var(--color-border-strong)}
 .card.on{border-color:var(--color-primary);border-width:2px;box-shadow:0 0 0 3px color-mix(in srgb,var(--color-primary) 16%,transparent)}
-.card .th{flex:none;width:3.6rem;border-radius:.6rem;overflow:hidden;background:var(--color-background);display:grid;place-items:center;aspect-ratio:402/600;align-self:flex-start}
-.card .th img{width:100%;height:100%;object-fit:cover;object-position:top}
-.card .th svg{color:var(--color-text-muted)}
-.card .tx{display:flex;flex-direction:column;gap:.3rem;min-width:0}
-.card .tx p{font-size:.86rem;color:var(--color-text-muted)}
-.card .stepno{font:700 .72rem var(--font-ui);color:var(--color-primary-text);background:var(--color-primary);border-radius:999px;padding:.05rem .5rem;align-self:flex-start}
+.th{flex:none;width:3.5rem;border-radius:.6rem;overflow:hidden;background:var(--color-background);display:grid;place-items:center;aspect-ratio:402/600;align-self:flex-start}
+.th img{width:100%;height:100%;object-fit:cover;object-position:top}
+.th.ph{background:var(--ph);color:#3D3428;font:700 1.05rem var(--font-display)}
+.tx{display:flex;flex-direction:column;gap:.28rem;min-width:0}
+.tx p{font-size:.85rem;color:var(--color-text-muted)}
+.stepno{font:700 .72rem var(--font-ui);color:var(--color-primary-text);background:var(--color-primary);border-radius:999px;padding:.05rem .5rem;align-self:flex-start}
 .tags{display:flex;flex-wrap:wrap;gap:.3rem}
 .tag{font-size:.72rem;font-weight:700;border-radius:999px;padding:.08rem .5rem;background:var(--color-background);color:var(--color-text-muted)}
 .tag.ai{background:var(--color-success-surface);color:var(--color-success)}
 .tag.o{background:#FDE8DF;color:#8A3B1E} .tag.s{background:#E3EEFB;color:#1F4E86}
 .empty{padding:2rem 1rem;text-align:center;border-radius:1.25rem;background:var(--color-surface);color:var(--color-text-muted)}
+.empty button{margin-top:.8rem}
 mark{background:#FBEFC8;color:inherit;border-radius:.2rem;padding:0 .1rem}
+.foot{font-size:.85rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);padding-top:1rem}
 /* Detail */
-dialog{border:0;padding:0;border-radius:1.5rem;max-width:min(46rem,calc(100vw - 2rem));width:100%;background:var(--color-surface);color:var(--color-text);box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog{border:0;padding:0;border-radius:1.5rem;max-width:min(46rem,calc(100vw - 2rem));width:100%;max-height:calc(100dvh - 2rem);background:var(--color-surface);color:var(--color-text);box-shadow:0 20px 60px rgba(0,0,0,.25)}
 dialog::backdrop{background:rgba(20,30,25,.45)}
-.dlg{display:grid;grid-template-columns:minmax(0,15rem) minmax(0,1fr);gap:1.4rem;padding:1.4rem}
-.dlg .phone{border-radius:1.6rem;overflow:hidden;border:6px solid #1B2A22;background:var(--color-background);aspect-ratio:402/760;display:grid;place-items:center}
+.dlg{display:grid;grid-template-columns:minmax(0,14rem) minmax(0,1fr);gap:1.3rem;padding:1.3rem}
+.dlg .phone{border-radius:1.6rem;overflow:hidden;border:6px solid #1B2A22;background:var(--color-background);aspect-ratio:402/760;display:grid;place-items:center;text-align:center}
 .dlg .phone img{width:100%;height:100%;object-fit:cover;object-position:top}
 .dlg .phone.wide{aspect-ratio:auto;border-width:3px;border-radius:.8rem}
-.dlg .info{display:flex;flex-direction:column;gap:.9rem;min-width:0}
-dialog .close{position:absolute;top:.6rem;right:.6rem;z-index:1;min-width:44px;min-height:44px;border-radius:999px;border:0;background:var(--color-background);cursor:pointer;font-size:1.2rem}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:.35rem .8rem;font-size:.9rem}
+.dlg .phone.ph{background:var(--ph);color:#3D3428;padding:1rem;font-size:.9rem}
+.dlg .info{display:flex;flex-direction:column;gap:.8rem;min-width:0}
+dialog .close{position:absolute;top:.6rem;right:.6rem;z-index:1;min-width:44px;min-height:44px;border-radius:999px;border:0;background:var(--color-background);cursor:pointer;font-size:1.1rem}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:.4rem .9rem;font-size:.9rem;margin:0}
 .kv dt{font-weight:700;color:var(--color-text-muted)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
-code{font-size:.85em;background:var(--color-background);border-radius:.3rem;padding:.05rem .35rem}
-@media (max-width:640px){.dlg{grid-template-columns:1fr}.dlg .phone{max-width:14rem;margin:0 auto}}
+.scene{display:inline-flex;align-items:center;gap:.3rem;font-weight:700;background:var(--color-accent);border-radius:999px;padding:.05rem .6rem}
+.nav{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;border-top:1px solid var(--color-border);padding:.8rem 1.3rem}
+.nav .where{font-weight:700;font-size:.88rem;margin-right:auto}
+/* On a phone the menu above is already tall: the bar scrolls with the page there, and tours swipe sideways. */
+@media (max-width:640px){.tours{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.3rem}.tour{flex:0 0 78%;scroll-snap-align:start}.bar{position:static;margin-inline:0;padding-inline:0;border-bottom:0}.dlg{grid-template-columns:1fr}.dlg .phone{max-width:12rem;margin:0 auto}.count{margin-left:0;width:100%}}
 @media (prefers-reduced-motion:no-preference){.card,.tour,.chip{transition:border-color .15s,background .15s}}
 :focus-visible{outline:3px solid var(--color-primary);outline-offset:2px}
 </style>
@@ -102,187 +112,188 @@ code{font-size:.85em;background:var(--color-background);border-radius:.3rem;padd
 <body>
 <main class="wrap">
   <header style="display:flex;flex-direction:column;gap:.6rem">
-    <span class="eyebrow">Goldito · For judges · Draft Oct 27</span>
+    <span class="eyebrow">Goldito · For judges</span>
     <h1>Find anything in Goldito</h1>
-    <p class="lede" id="lede">Every feature across the five stages of a stay. Pick a tour, type what you want to try, or filter by owner, sitter or AI. Each card opens the screen in the demo.</p>
+    <p class="lede" id="lede"></p>
   </header>
 
-  <div class="draft" role="note"><b>Draft.</b><span>Decided Oct 27: <b>both</b>. A Map tab in the judge panel next to the phone (on top of #421; scene cards run their scene) and this page on the design site, linked from Devpost and the README. Links here open the demo's start; in the panel each card opens its own screen. Screens are the live app on Oct 27, except the check-in, Mood and Notifications (from #442 and #441, waiting to merge) and the treat result (Oct 21). Fifteen cards have no screen yet: they need a stay in the right state.</span></div>
+  <ol class="how" aria-label="How to use this page">
+    <li><span>Open <a href="https://goldito-petcare.vercel.app" target="_blank" rel="noopener">the demo</a> on a computer and press <b>Try the demo</b>. The judge panel sits left of the phone.</span></li>
+    <li><span>Pick a <b>tour</b> below, or search for what you want to try.</span></li>
+    <li><span>Each card says <b>where to find it</b> and which <b>panel scene</b> sets it up for you.</span></li>
+  </ol>
 
-  <section class="search" aria-label="Search">
-    <label class="field">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" autocomplete="off" placeholder="What do you want to try? e.g. treat, live trip, medication" aria-label="Search features and tours">
-      <button class="x" id="qx" type="button" aria-label="Clear search" hidden>✕</button>
-    </label>
-    <div class="sugg"><span class="mut" style="font-size:.85rem">Try</span><span id="sugg" class="sugg"></span></div>
-  </section>
-
-  <section style="display:flex;flex-direction:column;gap:.8rem" aria-labelledby="tours-h">
-    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap"><h2 id="tours-h">Tours</h2><span class="mut" style="font-size:.9rem">Preset paths through the app. Pick one to see its steps.</span></div>
+  <section style="display:flex;flex-direction:column;gap:.7rem" aria-labelledby="tours-h">
+    <h2 id="tours-h">Tours</h2>
     <div class="tours" id="tours"></div>
     <div id="tourPanel" hidden></div>
   </section>
 
-  <section class="filters" aria-label="Filters">
-    <div class="frow" role="group" aria-label="Who"><span class="lab">Who</span><span id="fWho" class="frow"></span></div>
-    <div class="frow" role="group" aria-label="Stage"><span class="lab">Stage</span><span id="fStage" class="frow"></span></div>
-    <div class="frow" role="group" aria-label="AI"><span class="lab">AI</span><span id="fAi" class="frow"></span></div>
-    <p class="mut" role="status" id="count"></p>
+  <section class="bar" id="bar" aria-label="Search and filters">
+    <label class="field">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="What do you want to try? treat, live trip, meds… (Enter opens the best match)" aria-label="Search features and tours" aria-describedby="count">
+      <button class="x" id="qx" type="button" aria-label="Clear search" hidden>✕</button>
+    </label>
+    <div class="row">
+      <span class="row" role="group" aria-label="Who" id="fWho"></span>
+      <span class="row" id="fAi"></span>
+      <span class="count" role="status" id="count"></span>
+    </div>
+    <nav class="jump" id="jump" aria-label="Jump to a stage"></nav>
   </section>
 
-  <section id="map" style="display:flex;flex-direction:column;gap:2rem" aria-label="Feature map"></section>
+  <section id="map" style="display:flex;flex-direction:column;gap:1.8rem" aria-label="Feature map"></section>
+
+  <p class="foot">For the team: the same list was a Map tab in the judge panel (#447) until #462 folded the panel into Tutorial and Jump to. Screens are the live app on Oct 27; cards without one need a stay in the right state. Models follow the panel's tags (vision on Nemotron Super VL since #450).</p>
 </main>
 
-<dialog id="dlg" aria-labelledby="dlgTitle"><div style="position:relative"><button class="close" type="button" id="dlgClose" aria-label="Close">✕</button><div class="dlg" id="dlgBody"></div></div></dialog>
+<dialog id="dlg" aria-labelledby="dlgTitle"><div style="position:relative"><button class="close" type="button" id="dlgClose" aria-label="Close">✕</button><div class="dlg" id="dlgBody"></div><div class="nav" id="dlgNav"></div></div></dialog>
 
 <script>
 const DEMO = "https://goldito-petcare.vercel.app";
 const IMG = (k) => `assets/judge-map/${k}.jpg`;
+// id, number, name, line, placeholder tint
 const STAGES = [
-  ["start", "0", "Start", "Welcome, sign-up, pets and sitters set up"],
-  ["ask", "1", "Ask", "Find a sitter and get a quote"],
-  ["meet", "2", "Meet", "Care notes become a checklist; meet first"],
-  ["book", "3", "Book", "Sign, pay, entry on time"],
-  ["care", "4", "Care", "Live trips, taps, photos, the Diary"],
-  ["home", "5", "Home safe", "Back home, reviews, the pet's record"],
-  ["snap", "+", "Snap", "Treat check, mood and stickers, any day"],
+  ["start", "0", "Start", "Welcome, sign-up, pets and sitters set up", "#FCE9C8"],
+  ["ask", "1", "Ask", "Find a sitter and get a quote", "#FAD9CC"],
+  ["meet", "2", "Meet", "Care notes become a checklist; meet first", "#D8F0DD"],
+  ["book", "3", "Book", "Sign, pay, entry on time", "#DCE8F7"],
+  ["care", "4", "Care", "Live trips, taps, photos, the Diary", "#FBEFC8"],
+  ["home", "5", "Home safe", "Back home, reviews, the pet's record", "#E9E1F5"],
+  ["snap", "+", "Snap", "Treat check, mood and stickers, any day", "#FDE2CC"],
 ];
-const MODELS = { nem: "Nemotron", nano: "Nemotron Nano", super: "Nemotron Super", ultra: "Nemotron Ultra", vis: "MiniCPM-V", emb: "Qwen3 Embedding", whisper: "Groq Whisper", tav: "Tavily", rule: "Rule table", mp: "MediaPipe" };
-/** Where each model runs, for the detail sheet. */
-const HOST = { nem: "NVIDIA Nemotron on Nebius Token Factory", nano: "NVIDIA Nemotron Nano on Nebius Token Factory", super: "NVIDIA Nemotron Super on Nebius Token Factory", ultra: "NVIDIA Nemotron Ultra on Nebius Token Factory", vis: "MiniCPM-V (OpenBMB) on Nebius Token Factory", emb: "Qwen3 Embedding on Nebius Token Factory", whisper: "Groq Whisper (speech to text)", tav: "Tavily (web sources)", rule: "A rule table of unsafe ingredients (no model)", mp: "MediaPipe, in the browser" };
-// who: o owner, s sitter, b both. ai: model keys. kw: extra words people might type.
+const MODELS = { nano: "Nemotron Nano", super: "Nemotron Super", ultra: "Nemotron Ultra", vis: "Nemotron Super VL", emb: "Qwen3 Embedding", whisper: "Groq Whisper", tav: "Tavily", rule: "Rule table", mp: "MediaPipe" };
+const HOST = { nano: "NVIDIA Nemotron Nano on Nebius Token Factory", super: "NVIDIA Nemotron Super on Nebius Token Factory", ultra: "NVIDIA Nemotron Ultra on Nebius Token Factory", vis: "NVIDIA Nemotron Super VL (vision) on Nebius Token Factory", emb: "Qwen3 Embedding on Nebius Token Factory", whisper: "Groq Whisper (speech to text)", tav: "Tavily (web sources)", rule: "A rule table of unsafe ingredients (no model)", mp: "MediaPipe, in the browser" };
+const NOT_AI = ["rule"];
+// The judge panel's buttons (frontend/components/shell/judgeScenes.ts on main).
+const SCENE = { meet: "Meet the pet", treat: "Treat check", chat: "Book in chat", care: "A day of care", home: "Home safe", mood: "Mood", trip: "Live trip", sticker: "Sticker", tutorial: "Tutorial" };
+// id, stage, who (o owner, s sitter, b both), title, line, where to find it, panel scene, models, picture, extra words
 const F = [
-  ["welcome", "start", "b", "Welcome and Try the demo", "One main button takes a judge seat with Robert (owner) and Chloe (sitter) ready to go.", "/welcome", [], "welcome", "demo seat judge start login"],
-  ["how", "start", "b", "How it works", "Three short pages: the problem, the two sides, and one stay from ask to home safe.", "/welcome/how", [], "how", "intro onboarding explain meet greet"],
-  ["split", "start", "b", "Both phones side by side", "On a computer the owner's and the sitter's phones run next to each other, so you watch each update land.", "/", [], "split", "desktop split view two phones computer mouse"],
-  ["signup", "start", "b", "Sign up in three steps", "One question a step: who you are, your name, then your pet or your sitter profile.", "/signup", [], "signup", "register account create"],
-  ["addpet", "start", "o", "Add a pet by voice or photo", "Say or snap your pet; breed, coat and breed needs fill in, with sources you can open.", "/owner-onboarding?add=1", ["whisper", "nano", "vis", "tav"], "addpet", "pet profile breed voice speak photo"],
-  ["pixel", "start", "o", "Your pet's 8-bit twin", "Every pet gets a pixel look drawn from its breed, coat and weight, with a room to live in.", "/owner/pets/:id/look", [], "room", "tamagotchi pixel room look avatar sprite"],
-  ["sitteronb", "start", "s", "Sitter setup", "Rates, policies and the profile owners will see, filled in step by step.", "/sitter-onboarding", [], "sitter-onb", "rates policy profile onboarding"],
+  ["welcome", "start", "b", "Welcome and Try the demo", "One main button takes a judge seat with Robert (owner) and Chloe (sitter) ready to go.", "The first screen of the demo", null, [], "welcome", "demo seat judge start login"],
+  ["how", "start", "b", "How it works", "Three short pages: the problem, the two sides, and one stay from ask to home safe.", "Welcome → How it works", null, [], "how", "intro onboarding explain meet greet"],
+  ["split", "start", "b", "Both phones side by side", "On a computer the owner's and the sitter's phones run next to each other, so you watch each update land.", "Under the phone → Show both phones", null, [], "split", "desktop split view two phones computer mouse"],
+  ["signup", "start", "b", "Sign up in three steps", "One question a step: who you are, your name, then your pet or your sitter profile.", "Welcome → Sign up with email", null, [], "signup", "register account create"],
+  ["addpet", "start", "o", "Add a pet by voice or photo", "Say or snap your pet; breed, coat and breed needs fill in, with sources you can open.", "Home → Your pets → Add pet", "meet", ["whisper", "nano", "vis", "tav"], "addpet", "pet profile breed voice speak photo"],
+  ["pixel", "start", "o", "Your pet's 8-bit room", "Every pet gets a pixel twin drawn from its breed, coat and weight, with a room and a wardrobe.", "Home → Pet room", "tutorial", [], "room", "tamagotchi pixel room look avatar sprite wardrobe"],
+  ["sitteronb", "start", "s", "Sitter setup", "Rates, policies and the profile owners will see, filled in step by step.", "Sign up → I'm a pet sitter", null, [], "sitter-onb", "rates policy profile onboarding"],
+  ["whatsnew", "start", "b", "What's new", "Every change to the app, newest first.", "Your picture, top right → What's new", null, [], "whatsnew", "changelog updates"],
+  ["settings", "start", "b", "Settings and playful words", "Turn puns off, change the look, log out.", "Your picture, top right → Settings", null, [], "settings", "preferences account"],
 
-  ["profile", "ask", "o", "Sitter profile and openings", "Reviews, policies, home and the next open dates in one scroll.", "/owner/sitters/:id", [], null, "find sitter search calendar rates"],
-  ["ask", "ask", "o", "Ask before booking", "Pick dates and pets, write one line, and the chat opens with your request.", "/owner/bookings/new", [], null, "inquiry request dates book"],
-  ["reply", "ask", "b", "An AI reply with a quote", "The sitter's assistant answers from her schedule, rates, policies and your pet's record. Prices come from the server, never the model.", "/chat/:id", ["super", "nano", "emb"], "chat", "inquiry auto reply rag chat price"],
-  ["chips", "ask", "s", "One-tap replies for sitters", "Suggested answers and a draft in the sitter's voice; she taps, edits or sends.", "/chat/:id", ["super", "nano"], null, "chat draft suggest reply chips"],
-  ["quote", "ask", "b", "Final quote", "Nights, an extra pet and holiday lines add up to a total in CAD.", "/chat/:id", [], null, "price cost total"],
+  ["profile", "ask", "o", "Sitter profile and openings", "Reviews, policies, home and the next open dates in one scroll.", "Bookings → Favorites → Chloe", null, [], null, "find sitter search calendar rates"],
+  ["ask", "ask", "o", "Ask before booking", "Pick dates and pets, write one line, and the chat opens with your request.", "Bookings → Book care", "chat", [], null, "inquiry request dates book"],
+  ["reply", "ask", "b", "AI replies in the chat", "Chips and a draft in your own words; the sitter's assistant answers from her schedule, rates and policies. Prices come from the server, never the model.", "Chat → Chloe", "chat", ["super", "nano", "emb"], "chat", "inquiry auto reply rag chat chips draft"],
+  ["quote", "ask", "b", "Final quote", "Nights, an extra pet and holiday lines add up to a total in CAD.", "Chat → the quote card", "chat", [], null, "price cost total"],
 
-  ["care", "meet", "o", "Care notes to checklist", "Write how your pet is cared for; it becomes a checklist with meds and heads-ups.", "/owner/pets/:id/care-request", ["nem"], null, "care plan medication checklist heads up"],
-  ["meet", "meet", "b", "Meet in person or by video", "Pick a time and place, or get a Google Meet link; or both agree to skip.", "/chat/:id", [], null, "meet greet video google meet skip"],
-  ["steps", "meet", "b", "The booking steps", "Five circles follow the booking: Request, Meet, Confirm, Pay, Care. Skipped and under way read at a glance.", "/owner/bookings/:id", [], "booking", "stepper progress stage status"],
-  ["requests", "meet", "s", "The sitter's requests", "New asks, held dates and what waits on her, in one list.", "/sitter/bookings", [], "requests", "bookings inbox requests"],
+  ["care", "meet", "o", "Care notes to checklist", "Write how your pet is cared for; it becomes a checklist with meds and heads-ups.", "Max's profile → Write a care checklist", null, ["super"], null, "care plan medication checklist heads up"],
+  ["meet", "meet", "b", "Meet in person or by video", "Pick a time and place, or get a Google Meet link; or both agree to skip.", "Chat → the Meet card", "chat", [], null, "meet greet video google meet skip"],
+  ["steps", "meet", "b", "The booking steps", "Five circles follow the booking: Request, Meet, Confirm, Pay, Care. Skipped and under way read at a glance.", "Top of the chat, and each booking", "chat", [], "booking", "stepper progress stage status"],
+  ["requests", "meet", "s", "The sitter's requests", "New asks, held dates and what waits on her, in one list.", "Chloe: Bookings → Requests", null, [], "requests", "bookings inbox requests"],
 
-  ["bookings", "book", "b", "Bookings", "Every stay with its step and whose turn it is.", "/owner/bookings", [], "bookings", "booking list status"],
-  ["checkout", "book", "o", "Sign and pay (demo)", "Five consent cards, a typed name and a demo payment.", "/owner/bookings/:id/checkout", [], null, "payment consent agreement checkout pay"],
-  ["entry", "book", "b", "Entry info that unlocks on time", "The door code opens for the sitter two hours before drop-off and hides again after ten seconds.", "/owner/home-access", [], "entry", "door code key lock safety home access"],
-  ["schedule", "book", "s", "Sitter schedule and rules", "Open days, blocked days and booking rules the AI quotes from.", "/sitter/schedule", [], "schedule", "calendar availability rules"],
+  ["bookings", "book", "b", "Bookings", "Every stay with its step and whose turn it is.", "Bookings tab", "tutorial", [], "bookings", "booking list status"],
+  ["checkout", "book", "o", "Sign and pay (demo)", "Five consent cards, a typed name and a demo payment.", "Booking → Finish booking", "chat", [], null, "payment consent agreement checkout pay"],
+  ["entry", "book", "o", "Entry info that unlocks on time", "The door code opens for the sitter two hours before drop-off and hides again after ten seconds.", "Your picture → You → Entry info", null, [], "entry", "door code key lock safety home access"],
+  ["schedule", "book", "s", "Sitter schedule and rules", "Open days, blocked days and booking rules the AI quotes from.", "Chloe: your picture → Schedule", null, [], "schedule", "calendar availability rules"],
 
-  ["trip", "care", "b", "Live trip with ETA", "Start the trip; the other phone watches the car move and gets the arrival.", "/owner/bookings/:id/trip", [], null, "map uber drive transport eta location"],
-  ["handoff", "care", "s", "Handoff photo check", "One photo at drop-off; the AI checks the pet is there and the crate is secured.", "/sitter/bookings/:id/trip", ["vis"], null, "photo check crate seatbelt drop off safety"],
-  ["received", "care", "b", "Received and Returned", "The pets change hands with one tap in the chat, and the stay starts.", "/chat/:id", [], null, "handoff drop off pick up"],
-  ["today", "care", "s", "The sitter's Today", "Pets in care, heads-ups and what is due next.", "/sitter", [], "today", "home sitter dashboard"],
-  ["checkin", "care", "s", "5-second check", "Tap meal, potty, walk and mood on the pet's own faces. No typing.", "/sitter/checkin/:petId", [], "checkin", "check in meal potty walk mood quick"],
-  ["meds", "care", "s", "Meds and tasks", "Tick each med on time; the owner sees it right away.", "/sitter/tasks", [], null, "medication pill task checklist"],
-  ["moments", "care", "b", "Moments: photos by day", "Photos with a one-line caption and a category, sorted by day.", "/owner/feed", ["vis"], "feed", "photo album feed caption gallery"],
-  ["photoreq", "care", "o", "Ask for a photo", "One tap; the sitter is pointed at the camera and the photo comes back to you.", "/chat/:id", [], null, "photo request picture"],
-  ["diary", "care", "b", "The Diary page", "The sitter's taps and photos become a warm page; she edits and sends it.", "/owner/diary", ["super", "vis"], "diary", "daily report page journal"],
-  ["incare", "care", "o", "Home during a stay", "Where your pet is, what it ate and its mood today, without asking.", "/owner", [], "incare", "owner home dashboard"],
-  ["notif", "care", "b", "Notifications by day", "Day cards like Today · Day 2 of 4 with Chloe, with room to read each update.", "/owner/notifications", [], "notif", "alerts updates bell"],
+  ["trip", "care", "b", "Live trip with ETA", "Start the trip; the other phone watches the car move and gets the arrival.", "Chat → Start trip", "trip", [], null, "map uber drive transport eta location"],
+  ["received", "care", "b", "Received and Returned", "The pets change hands with one tap in the chat, and the stay starts.", "Chloe: Chat → Received", "home", [], null, "handoff drop off pick up"],
+  ["today", "care", "s", "The sitter's Today", "Pets in care, heads-ups and what is due next.", "Chloe: Home", "care", [], "today", "home sitter dashboard"],
+  ["checkin", "care", "s", "5-second check", "Tap meal, potty, walk and mood on the pet's own faces. No typing.", "Chloe: Home → 5-second check", "care", [], "checkin", "check in meal potty walk mood quick"],
+  ["meds", "care", "s", "Meds and tasks", "Tick each med on time; the owner sees it right away.", "Chloe: Home → All tasks", "care", [], null, "medication pill task checklist"],
+  ["moments", "care", "b", "Moments: photos by day", "Photos with a one-line caption and a category, sorted by day.", "Moments tab → Photos", "care", ["vis"], "feed", "photo album feed caption gallery"],
+  ["photoreq", "care", "o", "Ask for a photo", "One tap; the sitter is pointed at the camera and the photo comes back to you.", "Chat → + → Photo request", null, [], null, "photo request picture"],
+  ["diary", "care", "b", "The Diary", "The sitter's taps and photos become a warm page with stickers; she edits and sends it.", "Moments tab → Diary", "care", ["super", "vis"], "diary", "daily report page journal stickers"],
+  ["incare", "care", "o", "Home during a stay", "Where your pet is, what it ate and its mood today, without asking.", "Home → Today", "care", [], "incare", "owner home dashboard"],
+  ["notif", "care", "b", "Notifications by day", "Day cards like Today · Day 2 of 4 with Chloe, with room to read each update.", "The bell, top right", null, [], "notif", "alerts updates bell"],
 
-  ["homesafe", "home", "b", "Home safe", "The drive home, then a photo at the door.", "/chat/:id", [], null, "return pick up end of stay"],
-  ["review", "home", "b", "Reviews both ways", "The owner reviews the sitter; the sitter reviews each pet and keeps a private note.", "/owner/bookings/:id/review", [], null, "rating stars review"],
-  ["record", "home", "o", "Pet Life Record", "The stay becomes your pet's record: eats, meds, behaviour, sitter tips, each with its source. The next inquiry reads it.", "/owner/pets/:id/record", ["super", "emb"], null, "life record memory history rag"],
-  ["history", "home", "b", "History", "Every past stay and what the sitter did.", "/owner/history", [], "history", "past stays"],
+  ["homesafe", "home", "b", "Home safe", "Returned in the chat, then Home safe for the owner.", "Chloe: Chat → Returned", "home", [], null, "return pick up end of stay"],
+  ["review", "home", "b", "Reviews both ways", "The owner reviews the sitter; the sitter gives each pet a medal and a review.", "Chat, after Home safe", "home", [], null, "rating stars review medal"],
+  ["record", "home", "o", "Pet Life Record", "The stay becomes each pet's record: eats, meds, behaviour, sitter tips, with sources. The next inquiry reads it.", "Max's profile → Life Record", "home", ["super", "emb"], null, "life record memory history rag"],
+  ["history", "home", "b", "Today's updates and history", "Everything the sitter did, by day.", "Home → See today's updates", null, [], "history", "past stays history"],
 
-  ["treat", "snap", "b", "Treat check", "Snap a label: chicken jerky for Max shows a red DANGER screen with sources.", "/owner/snap/treat", ["vis", "rule", "tav", "ultra"], "danger", "safety allergy food ingredient scan label danger"],
-  ["mood", "snap", "b", "Mood from a photo", "A face and one sentence: Max seems relaxed and a little sleepy.", "/owner/snap/mood", ["vis", "nano"], "mood", "emotion feeling photo"],
-  ["sticker", "snap", "b", "Stickers", "Cut your pet out of a photo and decorate the Diary page.", "/owner/snap/sticker", ["mp"], "snap", "decorate cutout sticker fun"],
-  ["whatsnew", "start", "b", "What's new", "Every change to the app, newest first.", "/whats-new", [], "whatsnew", "changelog updates"],
-  ["settings", "start", "b", "Settings and playful words", "Turn puns off, change the look, log out.", "/settings", [], "settings", "preferences account"],
+  ["treat", "snap", "b", "Treat check", "Snap a label: chicken jerky for Max shows a red DANGER screen with sources.", "Snap tab → Treat check", "treat", ["vis", "rule", "tav", "ultra"], "danger", "safety allergy food ingredient scan label danger"],
+  ["mood", "snap", "b", "Mood from a photo", "A face and one sentence: Max seems relaxed and a little sleepy.", "Snap tab → Mood", "mood", ["vis", "nano"], "mood", "emotion feeling photo"],
+  ["sticker", "snap", "b", "Stickers", "Cut your pet out of a photo, right in the browser.", "Snap tab → Sticker", "sticker", ["mp"], "snap", "decorate cutout sticker fun"],
 ];
+// id, name, line, time, steps [scene label, feature id]
 const T = [
-  ["stay", "A stay with Goldito", "The judge panel's five scenes, from a new pet to home safe.", "10 min", [["Meet the pet", "addpet"], ["Treat check", "treat"], ["Book in chat", "reply"], ["Book in chat", "quote"], ["Book in chat", "checkout"], ["A day of care", "trip"], ["A day of care", "checkin"], ["A day of care", "diary"], ["Home safe", "homesafe"], ["Home safe", "review"], ["Home safe", "record"]]],
+  ["stay", "A stay with Goldito", "The judge panel's five scenes, from a new pet to home safe.", "10 min", [["Meet the pet", "addpet"], ["Treat check", "treat"], ["Book in chat", "reply"], ["Book in chat", "meet"], ["Book in chat", "checkout"], ["A day of care", "checkin"], ["A day of care", "moments"], ["A day of care", "diary"], ["Home safe", "homesafe"], ["Home safe", "review"], ["Home safe", "record"]]],
   ["quick", "Two minutes", "If you only have a coffee's worth of time.", "2 min", [["", "split"], ["", "treat"], ["", "checkin"], ["", "diary"]]],
-  ["ai", "Every AI feature", "Each place a model works, and which one.", "8 min", [["", "addpet"], ["", "reply"], ["", "chips"], ["", "care"], ["", "handoff"], ["", "moments"], ["", "diary"], ["", "record"], ["", "treat"], ["", "mood"]]],
-  ["sitter", "A sitter's day", "Care, snap, tap: no report to type.", "5 min", [["", "today"], ["", "trip"], ["", "handoff"], ["", "checkin"], ["", "meds"], ["", "moments"], ["", "diary"]]],
+  ["ai", "Every AI feature", "Each place a model works, and which one.", "8 min", [["", "addpet"], ["", "reply"], ["", "care"], ["", "moments"], ["", "diary"], ["", "record"], ["", "treat"], ["", "mood"], ["", "sticker"]]],
+  ["sitter", "A sitter's day", "Care, snap, tap: no report to type.", "5 min", [["", "today"], ["", "trip"], ["", "checkin"], ["", "meds"], ["", "moments"], ["", "diary"]]],
   ["owner", "Learn without asking", "What an owner sees during a stay, without sending one text.", "4 min", [["", "incare"], ["", "notif"], ["", "moments"], ["", "diary"], ["", "photoreq"]]],
-  ["safety", "Safety first", "The checks that keep the pet and the home safe.", "4 min", [["", "treat"], ["", "entry"], ["", "handoff"], ["", "trip"]]],
+  ["safety", "Safety first", "The checks that keep the pet and the home safe.", "3 min", [["", "treat"], ["", "entry"], ["", "trip"]]],
   ["first", "The first minute", "What a new owner sees before Home.", "3 min", [["", "welcome"], ["", "how"], ["", "signup"], ["", "addpet"], ["", "pixel"]]],
 ];
-const SUGG = ["treat", "live trip", "medication", "Diary", "AI", "sitter", "photo", "safety"];
 
-const byId = Object.fromEntries(F.map((f) => [f[0], f]));
-const st = { q: "", who: "all", stage: "all", ai: false, tour: null, open: null };
+const K = { id: 0, stage: 1, who: 2, title: 3, line: 4, where: 5, scene: 6, ai: 7, img: 8, kw: 9 };
+const byId = Object.fromEntries(F.map((f) => [f[K.id], f]));
+const st = { q: "", who: "all", ai: false, tour: null, open: null };
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 const norm = (s) => s.toLowerCase();
-const WHO = { o: "Owner", s: "Sitter", b: "Owner + sitter" };
+const WHO = { o: "Owner (Robert)", s: "Sitter (Chloe)", b: "Owner and sitter" };
+const isAi = (f) => f[K.ai].some((k) => !NOT_AI.includes(k));
+const stageOf = (f) => STAGES.find((s) => s[0] === f[K.stage]);
+const words = () => norm(st.q).trim().split(/\s+/).filter(Boolean);
 const hl = (text) => {
   const t = esc(text);
-  const words = st.q.trim().split(/\s+/).filter((w) => w.length > 1);
-  if (!words.length) return t;
-  const re = new RegExp("(" + words.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi");
-  return t.replace(re, "<mark>$1</mark>");
+  const w = words().filter((x) => x.length > 1);
+  if (!w.length) return t;
+  return t.replace(new RegExp("(" + w.map((x) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "gi"), "<mark>$1</mark>");
 };
-const hay = (f) => norm([f[3], f[4], f[8], WHO[f[2]], f[6].map((k) => MODELS[k]).join(" "), f[6].length ? "ai model nvidia" : "", STAGES.find((s) => s[0] === f[1])[2]].join(" "));
-const matchQ = (f) => {
-  const words = norm(st.q).trim().split(/\s+/).filter(Boolean);
-  if (!words.length) return true;
-  const h = hay(f);
-  return words.every((w) => h.includes(w));
-};
-const visible = (f) =>
-  matchQ(f) &&
-  (st.who === "all" || f[2] === "b" || f[2] === st.who) &&
-  (st.stage === "all" || f[1] === st.stage) &&
-  (!st.ai || f[6].length > 0);
+const hay = (f) => norm([f[K.title], f[K.line], f[K.where], f[K.kw], WHO[f[K.who]], f[K.ai].map((k) => MODELS[k]).join(" "), isAi(f) ? "ai model nvidia" : "", stageOf(f)[2], f[K.scene] ? SCENE[f[K.scene]] : ""].join(" "));
+const matchQ = (f) => words().every((w) => hay(f).includes(w));
+const visible = (f) => matchQ(f) && (st.who === "all" || f[K.who] === "b" || f[K.who] === st.who) && (!st.ai || isAi(f));
+const tourOf = (id) => T.find((t) => t[0] === id);
+const tourIds = () => (st.tour ? tourOf(st.tour)[4].map(([, f]) => f) : []);
 
-const ICON_PH = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg>';
 const tagsFor = (f) =>
-  `<span class="tags">${f[2] === "s" ? '<span class="tag s">Sitter</span>' : f[2] === "o" ? '<span class="tag o">Owner</span>' : '<span class="tag o">Owner</span><span class="tag s">Sitter</span>'}${f[6].map((k) => `<span class="tag ai">${MODELS[k]}</span>`).join("")}</span>`;
+  `<span class="tags">${f[K.who] === "s" ? '<span class="tag s">Sitter</span>' : f[K.who] === "o" ? '<span class="tag o">Owner</span>' : '<span class="tag o">Owner</span><span class="tag s">Sitter</span>'}${f[K.ai].map((k) => `<span class="tag${NOT_AI.includes(k) ? "" : " ai"}">${MODELS[k]}</span>`).join("")}</span>`;
+const thumb = (f, cls = "th") => {
+  const s = stageOf(f);
+  return f[K.img] ? `<span class="${cls}"><img src="${IMG(f[K.img])}" alt="" loading="lazy"></span>` : `<span class="${cls} ph" style="--ph:${s[4]}" aria-hidden="true">${s[1]}</span>`;
+};
 
-function drawSugg() {
-  document.getElementById("sugg").innerHTML = SUGG.map((s) => `<button type="button" class="chip" data-s="${esc(s)}">${esc(s)}</button>`).join("");
-}
 function drawTours() {
-  const words = norm(st.q).trim();
-  // With a search, show the tours whose name matches or that pass through a matching feature.
-  const tours = words ? T.filter(([id, name, line, , steps]) => id === st.tour || norm(name + " " + line).includes(words) || steps.some(([, f]) => matchQ(byId[f]))) : T;
-  document.getElementById("tours").innerHTML = tours.length ? tours.map(([id, name, line, time, steps]) => {
-    const models = [...new Set(steps.flatMap(([, f]) => byId[f][6]))].length;
-    const hits = words ? steps.filter(([, f]) => matchQ(byId[f])).length : 0;
-    return `<button type="button" class="tour" data-tour="${id}" aria-pressed="${st.tour === id}"><h3>${hl(name)}</h3><p>${hl(line)}</p><span class="meta"><span>${time}</span><span>${steps.length} steps</span>${models ? `<span>${models} AI models</span>` : ""}${hits ? `<span>${hits} match</span>` : ""}</span></button>`;
-  }).join("") : `<p class="mut">No tour goes through “${esc(st.q)}”. The features below still match.</p>`;
+  const w = norm(st.q).trim();
+  const list = w ? T.filter(([id, name, line, , steps]) => id === st.tour || norm(name + " " + line).includes(w) || steps.some(([, f]) => matchQ(byId[f]))) : T;
+  document.getElementById("tours").innerHTML = list.length
+    ? list.map(([id, name, line, time, steps]) => `<button type="button" class="tour" data-tour="${id}" aria-pressed="${st.tour === id}"><h3>${hl(name)}</h3><p>${hl(line)}</p><span class="meta">${time} · ${steps.length} steps</span></button>`).join("")
+    : `<p class="mut">No tour goes through “${esc(st.q)}”. The features below still match.</p>`;
   const panel = document.getElementById("tourPanel");
-  const t = T.find((x) => x[0] === st.tour);
+  const t = tourOf(st.tour);
   panel.hidden = !t;
   if (!t) return;
   panel.className = "panel";
-  panel.innerHTML = `<div class="panel-h"><div style="display:flex;flex-direction:column;gap:.3rem"><span class="eyebrow">Tour · ${t[3]}</span><h2>${esc(t[1])}</h2><p class="mut">${esc(t[2])} The steps are marked on the map below.</p></div><div style="display:flex;gap:.5rem;flex-wrap:wrap"><a class="btn" href="${DEMO}" target="_blank" rel="noopener">Start in the demo</a><button type="button" class="btn sec" data-endtour>Close tour</button></div></div><ol class="steps">${t[4].map(([scene, fid]) => `<li><button type="button" data-open="${fid}"><span>${scene ? `<span class="sc">${esc(scene)}</span>` : ""}<b>${esc(byId[fid][3])}</b></span></button></li>`).join("")}</ol>`;
+  panel.innerHTML = `<div class="panel-h"><div style="display:flex;flex-direction:column;gap:.25rem"><span class="eyebrow">Tour · ${t[3]} · ${t[4].length} steps</span><h2>${esc(t[1])}</h2><p class="mut">${esc(t[2])} The steps are marked on the map too.</p></div><div class="row"><button type="button" class="btn" data-open="${t[4][0][1]}">Start with step 1</button><button type="button" class="btn sec" data-endtour>Close tour</button></div></div><ol class="steps">${t[4].map(([scene, fid]) => `<li><button type="button" data-open="${fid}"><span>${scene ? `<span class="sc">${esc(scene)}</span>` : ""}<b>${esc(byId[fid][K.title])}</b></span></button></li>`).join("")}</ol>`;
 }
-function chipRow(el, opts, key) {
-  document.getElementById(el).innerHTML = opts.map(([v, label, n]) => `<button type="button" class="chip" data-f="${key}" data-v="${v}" aria-pressed="${String(st[key]) === String(v)}">${label}${n != null ? ` <span class="c">${n}</span>` : ""}</button>`).join("");
-}
-function drawFilters() {
-  const base = F.filter((f) => matchQ(f) && (st.who === "all" || f[2] === "b" || f[2] === st.who) && (!st.ai || f[6].length));
-  chipRow("fWho", [["all", "Everyone"], ["o", "Owner"], ["s", "Sitter"]], "who");
-  chipRow("fStage", [["all", "All stages", base.length], ...STAGES.map(([id, n, name]) => [id, `${n === "+" || n === "0" ? "" : n + " "}${name}`, base.filter((f) => f[1] === id).length])], "stage");
-  chipRow("fAi", [[false, "Everything"], [true, "Uses AI"]], "ai");
+function drawBar() {
+  const opts = [["all", "Everyone"], ["o", "Owner"], ["s", "Sitter"]];
+  document.getElementById("fWho").innerHTML = opts.map(([v, l]) => `<button type="button" class="chip" data-who="${v}" aria-pressed="${st.who === v}">${l}</button>`).join("");
+  document.getElementById("fAi").innerHTML = `<button type="button" class="chip" data-ai aria-pressed="${st.ai}">Uses AI</button>`;
+  const shown = F.filter(visible);
+  document.getElementById("count").innerHTML = `<b>${shown.length}</b> of ${F.length}${st.q ? ` for “${esc(st.q)}”` : " features"}`;
+  document.getElementById("jump").innerHTML = STAGES.map(([id, n, name]) => {
+    const c = shown.filter((f) => f[K.stage] === id).length;
+    return c ? `<a class="chip flat" href="#stage-${id}" data-jump="${id}">${n === "+" || n === "0" ? "" : n + " "}${name} <span class="c">${c}</span></a>` : "";
+  }).join("");
+  document.getElementById("qx").hidden = !st.q;
 }
 function drawMap() {
-  const tourIds = st.tour ? T.find((x) => x[0] === st.tour)[4].map(([, f]) => f) : [];
+  const ids = tourIds();
   const shown = F.filter(visible);
-  document.getElementById("count").innerHTML = `<span class="count">${shown.length}</span> of ${F.length} features${st.q ? ` match “${esc(st.q)}”` : ""}`;
+  const map = document.getElementById("map");
   if (!shown.length) {
-    document.getElementById("map").innerHTML = `<div class="empty">Nothing matches “${esc(st.q)}” here. Try <b>treat</b>, <b>medication</b> or <b>live trip</b>, or clear the filters.</div>`;
+    map.innerHTML = `<div class="empty">Nothing matches “${esc(st.q)}”${st.who !== "all" || st.ai ? " with these filters" : ""}. Try <b>treat</b>, <b>meds</b> or <b>live trip</b>.<br><button type="button" class="btn sec" data-resetall>Clear search and filters</button></div>`;
     return;
   }
-  document.getElementById("map").innerHTML = STAGES.map(([id, n, name, sub]) => {
-    const list = shown.filter((f) => f[1] === id);
+  map.innerHTML = STAGES.map(([id, n, name, sub]) => {
+    const list = shown.filter((f) => f[K.stage] === id);
     if (!list.length) return "";
     return `<div class="stage" id="stage-${id}"><div class="stage-h"><span class="n">${n}</span><div><h2>${name}</h2><span class="sub">${sub}</span></div></div><div class="cards">${list
       .map((f) => {
-        const k = tourIds.indexOf(f[0]);
-        return `<button type="button" class="card${k >= 0 ? " on" : ""}" data-open="${f[0]}"><span class="th">${f[7] ? `<img src="${IMG(f[7])}" alt="" loading="lazy">` : ICON_PH}</span><span class="tx">${k >= 0 ? `<span class="stepno">Step ${k + 1}</span>` : ""}<h3>${hl(f[3])}</h3><p>${hl(f[4])}</p>${tagsFor(f)}</span></button>`;
+        const k = ids.indexOf(f[K.id]);
+        return `<button type="button" class="card${k >= 0 ? " on" : ""}" data-open="${f[K.id]}">${thumb(f)}<span class="tx">${k >= 0 ? `<span class="stepno">Step ${k + 1}</span>` : ""}<h3>${hl(f[K.title])}</h3><p>${hl(f[K.line])}</p>${tagsFor(f)}</span></button>`;
       })
       .join("")}</div></div>`;
   }).join("");
@@ -290,49 +301,96 @@ function drawMap() {
 function openDetail(id) {
   const f = byId[id];
   if (!f) return;
+  st.open = id;
+  const s = stageOf(f);
   const inTours = T.filter((t) => t[4].some(([, x]) => x === id));
-  const stage = STAGES.find((s) => s[0] === f[1]);
-  document.getElementById("dlgBody").innerHTML = `<div class="phone${f[7] === "split" ? " wide" : ""}">${f[7] ? `<img src="${IMG(f[7])}" alt="${esc(f[3])} in the app">` : `<span class="mut" style="padding:1rem;text-align:center;font-size:.9rem">Open it in the demo to see this screen</span>`}</div><div class="info"><span class="eyebrow">${stage[1] === "+" || stage[1] === "0" ? "" : "Stage " + stage[1] + " · "}${stage[2]}</span><h2 id="dlgTitle">${esc(f[3])}</h2><p>${esc(f[4])}</p>${tagsFor(f)}<dl class="kv"><dt>Who</dt><dd>${WHO[f[2]]}</dd><dt>Screen</dt><dd><code>${esc(f[5])}</code></dd>${f[6].length ? `<dt>AI</dt><dd>${f[6].map((k) => HOST[k]).join("<br>")}</dd>` : ""}${inTours.length ? `<dt>In tours</dt><dd>${inTours.map((t) => `<button type="button" class="chip" data-tour="${t[0]}" style="margin:0 .3rem .3rem 0">${esc(t[1])}</button>`).join("")}</dd>` : ""}</dl><div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:auto"><a class="btn" href="${DEMO}" target="_blank" rel="noopener">Open in the demo</a></div></div>`;
+  const phone = f[K.img]
+    ? `<div class="phone${f[K.img] === "split" ? " wide" : ""}"><img src="${IMG(f[K.img])}" alt="${esc(f[K.title])} in the app"></div>`
+    : `<div class="phone ph" style="--ph:${s[4]}">Open it in the demo: ${esc(f[K.where])}</div>`;
+  document.getElementById("dlgBody").innerHTML = `${phone}<div class="info"><span class="eyebrow">${s[1] === "+" || s[1] === "0" ? "" : "Stage " + s[1] + " · "}${s[2]}</span><h2 id="dlgTitle">${esc(f[K.title])}</h2><p>${esc(f[K.line])}</p>${tagsFor(f)}<dl class="kv"><dt>Where</dt><dd>${esc(f[K.where])}</dd>${f[K.scene] ? `<dt>Set it up</dt><dd>Judge panel → <span class="scene">${SCENE[f[K.scene]]}</span>${f[K.scene] === "tutorial" ? "" : " gets the stay ready and opens it"}</dd>` : ""}<dt>Who</dt><dd>${WHO[f[K.who]]}</dd>${f[K.ai].length ? `<dt>AI</dt><dd>${f[K.ai].map((k) => HOST[k]).join("<br>")}</dd>` : ""}${inTours.length ? `<dt>Tours</dt><dd class="row">${inTours.map((t) => `<button type="button" class="chip" data-tour="${t[0]}" data-from="${id}">${esc(t[1])}</button>`).join("")}</dd>` : ""}</dl></div>`;
+  // Previous / Next while a tour is open and this card is in it.
+  const ids = tourIds();
+  const k = ids.indexOf(id);
+  const nav = document.getElementById("dlgNav");
+  nav.innerHTML =
+    k >= 0
+      ? `<span class="where">${esc(tourOf(st.tour)[1])} · step ${k + 1} of ${ids.length}</span><button type="button" class="btn sec" data-step="-1" ${k === 0 ? "disabled" : ""}>Previous</button><button type="button" class="btn" data-step="1" ${k === ids.length - 1 ? "disabled" : ""}>Next step</button>`
+      : `<span class="where mut">Esc or ✕ to close</span><a class="btn" href="${DEMO}" target="_blank" rel="noopener">Open the demo</a>`;
   const d = document.getElementById("dlg");
   if (!d.open) d.showModal();
+  d.querySelector(".dlg").scrollTop = 0;
+}
+function step(dir) {
+  const ids = tourIds();
+  const k = ids.indexOf(st.open);
+  if (k < 0) return;
+  const n = k + dir;
+  if (n >= 0 && n < ids.length) openDetail(ids[n]);
 }
 function draw() {
-  document.getElementById("qx").hidden = !st.q;
   drawTours();
-  drawFilters();
+  drawBar();
   drawMap();
+}
+function setTour(id) {
+  st.tour = id;
+  if (id) { st.q = q.value = ""; st.who = "all"; st.ai = false; }
+  draw();
+  try { history.replaceState(null, "", id ? "#tour-" + id : location.pathname); } catch (err) {}
 }
 
 const q = document.getElementById("q");
 q.addEventListener("input", () => { st.q = q.value; draw(); });
+q.addEventListener("keydown", (e) => {
+  // Enter opens the best match: a title match first, then the rest in map order.
+  if (e.key === "Enter") {
+    const list = F.filter(visible);
+    const best = list.find((f) => words().every((w) => norm(f[K.title]).includes(w))) || list[0];
+    if (best) { e.preventDefault(); openDetail(best[K.id]); }
+  }
+  if (e.key === "Escape" && q.value) { st.q = q.value = ""; draw(); }
+});
 document.getElementById("qx").addEventListener("click", () => { st.q = q.value = ""; draw(); q.focus(); });
+const dlg = document.getElementById("dlg");
 document.addEventListener("click", (e) => {
-  const b = e.target.closest("button");
+  const b = e.target.closest("button,a[data-jump]");
   if (!b) return;
-  if (b.dataset.s) { st.q = q.value = b.dataset.s; draw(); return; }
-  if (b.dataset.f) { const v = b.dataset.v; st[b.dataset.f] = v === "true" ? true : v === "false" ? false : v; draw(); return; }
-  if (b.dataset.tour) {
-    const was = st.tour === b.dataset.tour && !b.closest("dialog");
-    st.tour = was ? null : b.dataset.tour;
-    if (st.tour) { st.q = q.value = ""; st.stage = "all"; st.who = "all"; st.ai = false; }
-    document.getElementById("dlg").close();
-    draw();
-    try { history.replaceState(null, "", st.tour ? "#tour-" + st.tour : location.pathname); } catch (err) {}
-    if (st.tour) document.getElementById("tourPanel").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+  if (b.dataset.jump) {
+    e.preventDefault();
+    document.getElementById("stage-" + b.dataset.jump)?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
     return;
   }
-  if ("endtour" in b.dataset) { st.tour = null; draw(); try { history.replaceState(null, "", location.pathname); } catch (err) {} return; }
+  if (b.dataset.who) { st.who = b.dataset.who; draw(); return; }
+  if ("ai" in b.dataset) { st.ai = !st.ai; draw(); return; }
+  if ("resetall" in b.dataset) { st.q = q.value = ""; st.who = "all"; st.ai = false; draw(); q.focus(); return; }
+  if (b.dataset.step) { step(Number(b.dataset.step)); return; }
+  if (b.dataset.tour) {
+    const from = b.dataset.from;
+    const same = st.tour === b.dataset.tour && !from;
+    setTour(same ? null : b.dataset.tour);
+    if (from) openDetail(from); // stay on this card, now with Previous / Next
+    else if (st.tour) document.getElementById("tourPanel").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+    return;
+  }
+  if ("endtour" in b.dataset) { setTour(null); return; }
   if (b.dataset.open) { openDetail(b.dataset.open); return; }
 });
-const dlg = document.getElementById("dlg");
 document.getElementById("dlgClose").addEventListener("click", () => dlg.close());
 dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+dlg.addEventListener("keydown", (e) => {
+  if (e.key === "ArrowRight") step(1);
+  if (e.key === "ArrowLeft") step(-1);
+});
+dlg.addEventListener("close", () => { const c = document.querySelector(`.card[data-open="${st.open}"]`); if (c) c.focus({ preventScroll: true }); });
+// The bar sticks under the site menu, whatever its height.
+const fitBar = () => { const n = document.querySelector(".site-nav"); if (n && n.getBoundingClientRect().height) document.documentElement.style.setProperty("--navh", Math.round(n.getBoundingClientRect().height) + "px"); };
+addEventListener("load", fitBar); addEventListener("resize", fitBar); setTimeout(fitBar, 400);
+
 const m = location.hash.match(/^#tour-(\w+)$/);
-if (m && T.some((t) => t[0] === m[1])) st.tour = m[1];
-document.getElementById("lede").textContent = `${F.length} features across the five stages of a stay, ${F.filter((f) => f[6].length).length} of them with AI. Pick a tour, type what you want to try, or filter by owner, sitter or AI. Each card opens the screen and where to find it in the demo.`;
-drawSugg();
+if (m && tourOf(m[1])) st.tour = m[1];
+document.getElementById("lede").textContent = `${F.length} features across the five stages of a stay, ${F.filter(isAi).length} with AI. Pick a tour or search, and each card tells you where to find it in the demo.`;
 draw();
-window.__ticket = { id: "judge-map", title: "Feature map for judges (draft)" };
+window.__ticket = { id: "judge-map", title: "Feature map for judges" };
 </script>
 </body>
 </html>
